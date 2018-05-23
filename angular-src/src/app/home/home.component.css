@@ -1,0 +1,110 @@
+/* -------  Cover image --------- */
+#bg-img{
+    background-image: url('/assets/images/header.png');
+     /* Full height */
+     height: 100vh; 
+
+     /* Center and scale the image nicely */
+     background-position: center;
+     background-repeat: no-repeat;
+     background-size: cover;
+}
+
+.cover .info-text{
+    width: 549px;
+    padding-top: 266px;
+    padding-left: 180px;
+
+}
+.cover .info-text .title {
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    font-size: 72px;
+    font-weight: bold;
+}
+.cover .info-text .subtitle{
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    font-size: 26px;
+    font-weight: 100;
+    margin-top: 20px;   
+
+}
+
+/* ---- Responsiveness ---- */
+@media (max-width: 960px){
+
+}
+
+@media (max-width: 768px){
+    .cover .info-text {
+        width: 544px;
+        padding-top: 266px;
+        padding-left: 180px;
+    }
+}
+
+@media (max-width: 640px) and (orientation:  portrait){
+    .cover .info-text {
+        width: 549px;
+        padding-top: 266px;
+        padding-left: 105px;
+    }
+}
+
+@media (max-width: 480px){
+   .cover .info-text{
+        width: 419px;
+        padding-top: 266px;
+        padding-left: 42px;
+   }
+
+   .cover .info-text .title{
+        color: #fff;
+        font-family: 'Roboto', sans-serif;
+        font-size: 61px;
+        font-weight: bold;
+   }
+}
+
+@media (max-width: 375px){
+    .cover .info-text{
+        width: 374px;
+        padding-top: 266px;
+        padding-left: 28px;
+   }
+
+   .cover .info-text .title{
+        color: #fff;
+        font-family: 'Roboto', sans-serif;
+        font-size: 57px;
+        font-weight: bold;
+    }
+}
+
+@media (max-width: 320px){
+   .cover .info-text {
+        width: 321px;
+        padding-top: 266px;
+        padding-left: 28px;
+   }
+
+   .cover .info-text .title{
+        color: #fff;
+        font-family: 'Roboto', sans-serif;
+        font-size: 46px;
+        font-weight: bold;
+   }
+
+   .cover .info-text .subtitle{
+        color: #fff;
+        font-family: 'Roboto', sans-serif;
+        font-size: 23px;
+        font-weight: 100;
+        margin-top: 20px;
+   }
+}
+
+/* ---- /Responsiveness ---- */
+
+/* -------  /Cover image --------- */

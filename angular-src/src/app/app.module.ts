@@ -17,6 +17,7 @@ import { AboutUsComponent } from './about-us/about-us.component';
 
 
 
+
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'register', component: RegisterComponent },
