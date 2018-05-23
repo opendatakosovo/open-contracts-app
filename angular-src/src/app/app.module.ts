@@ -9,15 +9,23 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
+import { VisualisationsComponent } from './visualisations/visualisations.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProfileComponent } from './profile/profile.component';
+import { DataSetComponent } from './data-set/data-set.component';
+import { AboutUsComponent } from './about-us/about-us.component';
+
+
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'profile', component: ProfileComponent }
+  { path: 'profile', component: ProfileComponent },
+  { path: 'visualizations' , component: VisualisationsComponent}, 
+  { path: 'dataSet' , component: DataSetComponent},
+  { path: 'aboutUs' , component: AboutUsComponent}
 ]
 
 @NgModule({
@@ -28,7 +36,10 @@ const appRoutes: Routes = [
     RegisterComponent,
     HomeComponent,
     DashboardComponent,
-    ProfileComponent
+    ProfileComponent,
+    VisualisationsComponent,
+    DataSetComponent,
+    AboutUsComponent,
   ],
   imports: [
     BrowserModule,

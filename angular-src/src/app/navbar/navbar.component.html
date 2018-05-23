@@ -1,4 +1,5 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+
+<nav class="navbar navbar-expand-lg">
   <a class="navbar-brand" href="#">MEAN AUTH</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault"
     aria-expanded="false" aria-label="Toggle navigation">
@@ -7,18 +8,31 @@
 
   <div class="collapse navbar-collapse" id="navbarsExampleDefault">
     <ul class="navbar-nav mr-auto navbar-left">
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/']">Home</a>
+      <li class="nav-item" [routerLinkActive]="['active']">
+        <a class="nav-link" [routerLink]="['']" (click)="onClick('home')">BALLINA</a>
+        <div class="underline" [ngStyle]="{'width':'60px'}" *ngIf="click1"></div>
+      </li>
+      <li class="nav-item" [routerLinkActive]="['active']">
+        <a class="nav-link " [routerLink]="['/visualizations']" (click)="onClick('visualizations')">VIZUALIZIMET</a>
+        <div class="underline" [ngStyle]="{'width':'105px'}" *ngIf="click2"></div>
+      </li>
+      <li class="nav-item" [routerLinkActive]="['active']">
+        <a class="nav-link" [routerLink]="['/dataSet']" (click)="onClick('dataSet')">SETI I TË DHËNAVE</a>
+        <div class="underline" [ngStyle]="{'width':'145px'}" *ngIf="click3"></div>
+      </li>
+      <li class="nav-item" [routerLinkActive]="['active']">
+        <a class="nav-link" [routerLink]="['/aboutUs']" (click)="onClick('aboutUs')">RRETH NESH</a>
+        <div class="underline" [ngStyle]="{'width':'95px'}" *ngIf="click4"></div>
       </li>
     </ul>
 
-
-    <ul class="navbar-nav mr-auto navbar-right">
+    <ul class="navbar-nav navbar-right">
       <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/Login']">Login</a>
+        <a class="nav-link" [routerLink]="['/albanian']" >SHQ</a>
       </li>
+      <li style="margin-top:8px">|</li>
       <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/register']">Register</a>
+        <a class="nav-link" [routerLink]="['/english']" >ENG</a>
       </li>
     </ul>
   </div>
