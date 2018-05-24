@@ -1,4 +1,4 @@
-<app-navbar></app-navbar>
-<div class="containe-fluid">
+<app-navbar *ngIf="navCondition()"></app-navbar>
+<div class="container-fluid">
   <router-outlet></router-outlet>
 </div>
