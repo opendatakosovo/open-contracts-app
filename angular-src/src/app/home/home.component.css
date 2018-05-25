@@ -192,6 +192,7 @@
 
         .contracts-filter-form .form-button:hover{
             background-color:#2c96ac;
+            box-shadow: 0px 0 7px 5px rgba(0, 0, 0, 0.144);
         }
 
         .table{
