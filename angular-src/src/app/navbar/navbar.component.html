@@ -8,21 +8,21 @@
 
   <div class="collapse navbar-collapse" id="navbarsExampleDefault">
     <ul class="navbar-nav mr-auto navbar-left">
-      <li class="nav-item" [routerLinkActive]="['active']">
-        <a class="nav-link" [routerLink]="['']" (click)="onClick('home')">BALLINA</a>
-        <div class="underline" [ngStyle]="{'width':'60px'}" *ngIf="click1"></div>
+      <li class="nav-item " routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="nav-link" [routerLink]="['']" (click)="onClick()">BALLINA</a>
+        <div class="underline" [ngStyle]="{'width':'60px'}"routerLinkActive="active"></div>
       </li>
-      <li class="nav-item" [routerLinkActive]="['active']">
-        <a class="nav-link " [routerLink]="['/visualizations']" (click)="onClick('visualizations')">VIZUALIZIMET</a>
-        <div class="underline" [ngStyle]="{'width':'105px'}" *ngIf="click2"></div>
+      <li class="nav-item"routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="nav-link " [routerLink]="['/visualizations']" (click)="onClick()">VIZUALIZIMET</a>
+        <div class="underline" [ngStyle]="{'width':'105px'}" routerLinkActive="active"></div>
       </li>
-      <li class="nav-item" [routerLinkActive]="['active']">
-        <a class="nav-link" [routerLink]="['/dataSet']" (click)="onClick('dataSet')">SETI I TË DHËNAVE</a>
-        <div class="underline" [ngStyle]="{'width':'145px'}" *ngIf="click3"></div>
+      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="nav-link" [routerLink]="['/dataSet']" (click)="onClick()">SETI I TË DHËNAVE</a>
+        <div class="underline" [ngStyle]="{'width':'145px'}"routerLinkActive="active"></div>
       </li>
-      <li class="nav-item" [routerLinkActive]="['active']">
-        <a class="nav-link" [routerLink]="['/aboutUs']" (click)="onClick('aboutUs')">RRETH NESH</a>
-        <div class="underline" [ngStyle]="{'width':'95px'}" *ngIf="click4"></div>
+      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="nav-link" [routerLink]="['/aboutUs']" (click)="onClick()">RRETH NESH</a>
+        <div class="underline" [ngStyle]="{'width':'90px'}" routerLinkActive="active"></div>
       </li>
     </ul>
 
