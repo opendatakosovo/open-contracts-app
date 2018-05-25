@@ -1,7 +1,7 @@
 /* About Us Header Style */
 .header-img{
     background-image:url("/assets/images/about-us-header.jpg");
-    background-size:100%;
+    background-size:cover;
     background-repeat: no-repeat;
  }
  .header{
@@ -16,8 +16,7 @@
    color:white;
    margin-left:65px;
    width: 434px;
-   position: absolute;
-   top: 61%;
+   top: 45%;
 }
 .company-header #title {
    width: 201px;
@@ -28,7 +27,7 @@
 
 /* About Project Style */
 .project-img{
-    margin-left: 65px;
+    margin-left: 51px;
     margin-right: 0;
     width: 100%;
     max-width: 45%;
@@ -45,15 +44,20 @@
     font-weight: 600;
 }
 #project-description {
-    position: absolute;
     color:black;
-    width: 548px;
+    width: 596px;
     height: 405px;
-    margin-left: 724px;
     margin-bottom: 0;
     bottom: 1px;
     top: 56px;
+    font-family: 'Roboto', sans-serif;
 }
+.project-details{
+    font-family: 'Roboto', sans-serif;
+    width: 1252px;
+    margin-left: 49px;
+}
+
 /* Technologies Style */
 #technologies-title {
     font-family: 'Roboto', sans-serif;
@@ -65,23 +69,13 @@
 }
 .technologies-imgs{
     margin-left: 51px;
-    width: 1236px;
+    width: 1290px;
     margin-bottom: 124px;
+} 
+.angular-js{
+    top: 9px;
 }
-#mongo-db{
-    position: absolute;
-    right: 325px;
+.express-js{
+    top: 29px;
 }
-#angular-js{
-    position: absolute;
-    right: 1px;
-    top: 8px;
-}
-#express-js{
-    position: absolute;
-    left: 341px;
-    top: 26px;
-}
-#project-img{
-    margin-left: 51px;
-}
+
