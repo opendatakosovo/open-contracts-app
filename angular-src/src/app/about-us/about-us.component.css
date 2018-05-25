@@ -50,6 +50,7 @@
     font-weight: 600;
 }
 #project-description {
+
     color:black;
     width: 596px;
     height: 405px;
@@ -75,6 +76,7 @@
 }
 .technologies-imgs{
     margin-left: 51px;
+
     width: 1290px;
     margin-bottom: 124px;
 } 
@@ -84,4 +86,5 @@
 .express-js{
     top: 29px;
 }
+
 

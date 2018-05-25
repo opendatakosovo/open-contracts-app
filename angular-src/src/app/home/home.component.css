@@ -5,7 +5,6 @@
      /* Full height */
      height: 851px; 
      max-height: 851px;
-    
      /* Center and scale the image nicely */
      background-position: center;
      background-repeat: no-repeat;
@@ -192,6 +191,7 @@
 
         .contracts-filter-form .form-button:hover{
             background-color:#2c96ac;
+            box-shadow: 0px 0 7px 5px rgba(0, 0, 0, 0.144);
         }
 
         .table{
@@ -202,6 +202,7 @@
 
     /* -------- /Public contracts form ------*/
 /* ------- /Public contrats ------- */
+
 
 /*---- Data set -----*/
         #cover-image{
@@ -259,3 +260,4 @@
         }
                 
 /*---- /Data set ----*/
+
