@@ -1,8 +1,14 @@
 /* About Us Header Style */
-.header-img{
+#bg-img{
     background-image:url("/assets/images/about-us-header.jpg");
-    background-size:cover;
+    /* Full height */
+    height: 1071px; 
+    max-height: 1071px;
+   
+    /* Center and scale the image nicely */
+    background-position: center;
     background-repeat: no-repeat;
+    background-size: cover;
  }
  .header{
     margin-left:0;
@@ -16,7 +22,7 @@
    color:white;
    margin-left:65px;
    width: 434px;
-   top: 45%;
+   top: 58%;
 }
 .company-header #title {
    width: 201px;
@@ -33,7 +39,7 @@
     max-width: 45%;
     height: 406px;
 }
-.project-header{
+.project-header-title{
     font-family: 'Roboto', sans-serif;
 }
 #project-title {
