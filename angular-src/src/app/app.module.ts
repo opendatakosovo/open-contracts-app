@@ -18,6 +18,7 @@ import { FooterComponent } from './footer/footer.component';
 
 
 
+
 const appRoutes: Routes = [
   { path: '', component: HomeComponent, runGuardsAndResolvers: 'always' },
   { path: 'register', component: RegisterComponent, runGuardsAndResolvers: 'always' },
