@@ -18,14 +18,14 @@ import { AboutUsComponent } from './about-us/about-us.component';
 
 
 const appRoutes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'profile', component: ProfileComponent },
-  { path: 'visualizations' , component: VisualisationsComponent}, 
-  { path: 'dataSet' , component: DataSetComponent},
-  { path: 'aboutUs' , component: AboutUsComponent}
+  { path: '', component: HomeComponent, runGuardsAndResolvers: 'always' },
+  { path: 'register', component: RegisterComponent, runGuardsAndResolvers: 'always' },
+  { path: 'login', component: LoginComponent, runGuardsAndResolvers: 'always' },
+  { path: 'dashboard', component: DashboardComponent, runGuardsAndResolvers: 'always' },
+  { path: 'profile', component: ProfileComponent, runGuardsAndResolvers: 'always' },
+  { path: 'visualizations' , component: VisualisationsComponent , runGuardsAndResolvers: 'always'}, 
+  { path: 'dataSet' , component: DataSetComponent, runGuardsAndResolvers: 'always'},
+  { path: 'aboutUs' , component: AboutUsComponent , runGuardsAndResolvers: 'always'}
 ]
 
 @NgModule({

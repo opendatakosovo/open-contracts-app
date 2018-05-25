@@ -10,17 +10,15 @@
     margin-top: 0;
     margin-left: 14px;
 }
-.nav-item.active .nav-link{
-    color:#32a6bd;
-}
 .nav-item{
     color:black;
 }
-.nav-item.active {
-    margin-bottom: 0;
-}
+
 .nav-link {
     font-size: 19px;
     color:black;
     padding-bottom: 0;
+}
+.nav-item.active .nav-link{
+    color:#32a6bd;
 }
