@@ -15,7 +15,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { DataSetComponent } from './data-set/data-set.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { FooterComponent } from './footer/footer.component';
-
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -42,13 +42,14 @@ const appRoutes: Routes = [
     VisualisationsComponent,
     DataSetComponent,
     AboutUsComponent,
-    FooterComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    NgbModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
