@@ -14,8 +14,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProfileComponent } from './profile/profile.component';
 import { DataSetComponent } from './data-set/data-set.component';
 import { AboutUsComponent } from './about-us/about-us.component';
-
-
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 const appRoutes: Routes = [
@@ -23,6 +22,7 @@ const appRoutes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent },
+  { path: 'profile', component: ProfileComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'visualizations' , component: VisualisationsComponent}, 
   { path: 'dataSet' , component: DataSetComponent},
@@ -40,13 +40,14 @@ const appRoutes: Routes = [
     ProfileComponent,
     VisualisationsComponent,
     DataSetComponent,
-    AboutUsComponent,
+    AboutUsComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    NgbModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
