@@ -5,7 +5,6 @@
      /* Full height */
      height: 851px; 
      max-height: 851px;
-    
      /* Center and scale the image nicely */
      background-position: center;
      background-repeat: no-repeat;
@@ -203,6 +202,7 @@
     /* -------- /Public contracts form ------*/
 /* ------- /Public contrats ------- */
 
+
 /*---- Data set -----*/
         #cover-image{
             background-image: url('/assets/images/background-2.png');
@@ -259,3 +259,4 @@
         }
                 
 /*---- /Data set ----*/
+
