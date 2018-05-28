@@ -7,8 +7,6 @@ node {
         stage('Build') {
             sh '''rm -rf node_modules
             npm install
-            cd angular-src && npm install
-            ng build
             '''
         }
         // stage('Deploy') {
