@@ -62,7 +62,8 @@
 .project-details{
     font-family: 'Roboto', sans-serif;
     width: 1252px;
-    margin-left: 49px;
+    margin:auto;
+    padding: 0;
 }
 
 /* Technologies Style */
@@ -75,13 +76,16 @@
     margin-bottom: 33px;
 }
 .technologies-imgs{
-    margin-left: 51px;
-
+    margin: auto;
     width: 1290px;
     margin-bottom: 124px;
 } 
+.node-js{
+    padding-left: 29px;
+}
 .angular-js{
     top: 9px;
+    padding-left: 42px;
 }
 .express-js{
     top: 29px;
