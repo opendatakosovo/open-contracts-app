@@ -1,6 +1,6 @@
 
 <nav class="navbar navbar-expand-lg">
-  <a class="navbar-brand" href="#">MEAN AUTH</a>
+  <a class="navbar-brand" href="#">LOGO</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault"
     aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -8,29 +8,33 @@
 
   <div class="collapse navbar-collapse" id="navbarsExampleDefault">
     <ul class="navbar-nav mr-auto navbar-left">
-      <li class="nav-item " routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-        <a class="nav-link" [routerLink]="['']" (click)="onClick()">BALLINA</a>
-        <div class="underline" [ngStyle]="{'width':'60px'}"routerLinkActive="active"></div>
+      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="nav-link" [routerLink]="['']" >BALLINA</a>
+        <div class="underline" [ngStyle]="{'width':'42px'}"routerLinkActive="active"></div>
       </li>
       <li class="nav-item"routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-        <a class="nav-link " [routerLink]="['/visualizations']" (click)="onClick()">VIZUALIZIMET</a>
-        <div class="underline" [ngStyle]="{'width':'105px'}" routerLinkActive="active"></div>
+        <a class="nav-link " [routerLink]="['/visualizations']" >VIZUALIZIMET</a>
+        <div class="underline" [ngStyle]="{'width':'85px'}" routerLinkActive="active"></div>
       </li>
       <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-        <a class="nav-link" [routerLink]="['/dataSet']" (click)="onClick()">SETI I TË DHËNAVE</a>
-        <div class="underline" [ngStyle]="{'width':'145px'}"routerLinkActive="active"></div>
+        <a class="nav-link" [routerLink]="['/dataSet']">SETI I TË DHËNAVE</a>
+        <div class="underline" [ngStyle]="{'width':'126px'}"routerLinkActive="active"></div>
       </li>
       <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-        <a class="nav-link" [routerLink]="['/aboutUs']" (click)="onClick()">RRETH NESH</a>
-        <div class="underline" [ngStyle]="{'width':'90px'}" routerLinkActive="active"></div>
+        <a class="nav-link" [routerLink]="['/aboutUs']">RRETH NESH</a>
+        <div class="underline" [ngStyle]="{'width':'75px'}" routerLinkActive="active"></div>
+      </li>
+      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="nav-link" href="http://biznesetehapura.com/sq" (click)="onClick()">BIZNESET E HAPURA</a>
+        <div class="underline" [ngStyle]="{'width':'75px'}" routerLinkActive="active"></div>
       </li>
     </ul>
 
-    <ul class="navbar-nav navbar-right">
-      <li class="nav-item">
+    <ul class="navbar-nav navbar-right text-dark">
+      <li class="nav-item active" routerLinkActive="active">
         <a class="nav-link" [routerLink]="['/albanian']" >SHQ</a>
       </li>
-      <li style="margin-top:8px">|</li>
+      <li style="margin-top:8px ; color:#7f7f7f;">|</li>
       <li class="nav-item">
         <a class="nav-link" [routerLink]="['/english']" >ENG</a>
       </li>
