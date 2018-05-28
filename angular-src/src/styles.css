@@ -1,4 +1,11 @@
+
+@import "~bootstrap/dist/css/bootstrap.css";
 @import url('https://fonts.googleapis.com/css?family=Roboto:100,400,500,700');
+html, body{
+    margin: 0;
+    padding: 0;
+}
+
 .my-container{
    
 }
