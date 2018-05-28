@@ -1,0 +1,194 @@
+/* -------  Cover image --------- */
+
+#bg-img{
+    background-image: url('/assets/images/header2.png');
+     /* Full height */
+     height: 851px; 
+
+     /* Center and scale the image nicely */
+     background-position: center;
+     background-repeat: no-repeat;
+     background-size: cover;
+}
+
+.cover-image{
+    padding: 0;
+}
+
+.cover .info-text{
+    width: 549px;
+    padding-top: 266px;
+    padding-left: 180px;
+
+}
+.cover .info-text .title {
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    font-size: 72px;
+    font-weight: bold;
+}
+.cover .info-text .subtitle{
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    font-size: 26px;
+    font-weight: 100;
+    margin-top: 20px;   
+
+}
+
+/* ---- Responsiveness ---- */
+@media (max-width: 960px){
+
+}
+
+@media (max-width: 768px){
+    .cover .info-text {
+        width: 544px;
+        padding-top: 266px;
+        padding-left: 180px;
+    }
+}
+
+@media (max-width: 640px) and (orientation:  portrait){
+    .cover .info-text {
+        width: 549px;
+        padding-top: 266px;
+        padding-left: 105px;
+    }
+}
+
+@media (max-width: 480px){
+   .cover .info-text{
+        width: 419px;
+        padding-top: 266px;
+        padding-left: 42px;
+   }
+
+   .cover .info-text .title{
+        color: #fff;
+        font-family: 'Roboto', sans-serif;
+        font-size: 61px;
+        font-weight: bold;
+   }
+}
+
+@media (max-width: 375px){
+    .cover .info-text{
+        width: 374px;
+        padding-top: 266px;
+        padding-left: 28px;
+   }
+
+   .cover .info-text .title{
+        color: #fff;
+        font-family: 'Roboto', sans-serif;
+        font-size: 57px;
+        font-weight: bold;
+    }
+}
+
+@media (max-width: 320px){
+   .cover .info-text {
+        width: 321px;
+        padding-top: 266px;
+        padding-left: 28px;
+   }
+
+   .cover .info-text .title{
+        color: #fff;
+        font-family: 'Roboto', sans-serif;
+        font-size: 46px;
+        font-weight: bold;
+   }
+
+   .cover .info-text .subtitle{
+        color: #fff;
+        font-family: 'Roboto', sans-serif;
+        font-size: 23px;
+        font-weight: 100;
+        margin-top: 20px;
+   }
+}
+
+/* ---- /Responsiveness ---- */
+
+/* -------  /Cover image --------- */
+
+/* ------- Public contrats ------- */
+.public-contracts .title {
+    margin-top: 80px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 30px;
+    color: #32a6bd;
+}
+
+    /* -------- Public contracts form -------*/
+        .contracts-filter-form{
+            margin-top: 40px;
+            margin-left: 0;
+            margin-top: 30px;
+        }
+        .contracts-filter-form .form-input {
+            margin-right: 10px;
+            border: 1px #32a6bd solid;
+            border-radius: 25px;
+            width: 300px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 20px;
+            font-weight: 100;
+
+        }
+
+        .contracts-filter-form .form-input:focus {
+            font-weight: 400;
+            color: #32a6bd;
+            outline: none;
+        }
+        .contracts-filter-form .form-input:focus::placeholder {
+            font-weight: 400;
+            color: #32a6bd;
+            outline: none;
+        }
+
+        .contracts-filter-form .form-select {
+            margin-right: 10px;
+            border: 1px #32a6bd solid;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            border-radius: 25px ;
+            width: 150px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 20px;
+            font-weight: 100;
+            background: url('/assets/images/down-arrow-black.png') white no-repeat calc(100% - 10px) !important; 
+            padding-top: 6px;
+            padding-bottom: 6px;
+            height: 44px;
+
+        }
+
+        .contracts-filter-form .form-select:focus {
+            font-weight: 400;
+            color: #32a6bd;
+            outline: none;
+            background: url('/assets/images/down-arrow-blue.png') white no-repeat calc(100% - 10px) !important; 
+        }
+        .contracts-filter-form .form-button{
+            background-color:#32a6bd;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 5px 15px;
+            font-size: 20px
+        }
+
+        .table{
+            margin-top: 150px;
+            margin-bottom: 350px;
+        }
+
+
+    /* -------- /Public contracts form ------*/
+/* ------- /Public contrats ------- */
+
