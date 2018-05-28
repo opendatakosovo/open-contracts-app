@@ -1,24 +1,35 @@
 
 .navbar{
     background-color: white;
-    padding-left: 100px;
-    padding-right: 100px;
+    padding:  15px 100px 15px 100px;
+    box-shadow: 0 8px 20px -15px black;
 }
 
 .nav-item.active .underline{
     border-bottom: 3px solid #32a6bd;
     margin-top: 0;
-    margin-left: 14px;
+    margin-left: 23px;
 }
 .nav-item{
     color:black;
 }
 
 .nav-link {
-    font-size: 19px;
-    color:black;
+    font-size: 18px;
+    color: #333;
     padding-bottom: 0;
 }
 .nav-item.active .nav-link{
     color:#32a6bd;
+    font-weight: 500;
+    
+}a {
+    font-family: 'Roboto', sans-serif;
 }
+.navbar-brand {
+    font-size: 30px;
+    color:#32a6bd;
+    font-weight: 600;
+
+}
+
