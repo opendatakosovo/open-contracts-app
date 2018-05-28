@@ -265,7 +265,7 @@
 /*---- Contracts Announcements ----*/
 .contracts-announcement .title {
     padding-top: 120px;
-    margin-bottom: 60px;
+    padding-bottom: 60px;
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
     font-size: 30px;
@@ -279,15 +279,15 @@
     width: 141px; 
     text-align: center;
     margin: auto;
-    margin-top: 30px;
-    margin-bottom: 78px;
+    padding-top: 30px;
+    padding-bottom: 78px;
 }
 #announcements-title-2 {
     width: 231px;
 }
 #announcements-title-4{
     width: 188px;
-    margin-bottom: 130px;
+    padding-bottom: 130px;
 }
 #announcements-title-5{
     width: 210px;
