@@ -27,7 +27,8 @@ const appRoutes: Routes = [
   { path: 'profile', component: ProfileComponent, runGuardsAndResolvers: 'always' },
   { path: 'visualizations' , component: VisualisationsComponent , runGuardsAndResolvers: 'always'}, 
   { path: 'dataSet' , component: DataSetComponent, runGuardsAndResolvers: 'always'},
-  { path: 'aboutUs' , component: AboutUsComponent , runGuardsAndResolvers: 'always'}
+  { path: 'aboutUs' , component: AboutUsComponent , runGuardsAndResolvers: 'always'},
+  
 ]
 
 @NgModule({

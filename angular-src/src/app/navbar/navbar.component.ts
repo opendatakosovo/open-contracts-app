@@ -14,6 +14,8 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
   }
   
-  
+  onClick(){
+    window.location.href = 'http://biznesetehapura.com/sq';
+  }
 }
 
