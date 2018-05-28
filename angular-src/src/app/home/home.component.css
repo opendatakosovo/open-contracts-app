@@ -261,3 +261,55 @@
                 
 /*---- /Data set ----*/
 
+
+/*---- Contracts Announcements ----*/
+.contracts-announcement .title {
+    padding-top: 120px;
+    padding-bottom: 60px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 30px;
+    color: #32a6bd;
+}
+.contracts-announcement-titles h1 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 24px;
+    color: #32a6bd;
+    width: 141px; 
+    text-align: center;
+    margin: auto;
+    padding-top: 30px;
+    padding-bottom: 78px;
+}
+#announcements-title-2 {
+    width: 231px;
+}
+#announcements-title-4{
+    width: 188px;
+    padding-bottom: 130px;
+}
+#announcements-title-5{
+    width: 210px;
+}
+#announcements-title-6{
+    width: 274px;
+}
+.announcements-buttons{
+    text-align: center;
+}
+#bg-img-contracts{
+    background-image: url('/assets/images/background-prishtina-online.jpg');
+     /* Full height */
+     height: 851px; 
+     max-height: 851px;
+     /* Center and scale the image nicely */
+     background-position: center;
+     background-repeat: no-repeat;
+     background-size: cover;
+     padding: 0;
+}
+.contracts-announcement{
+    padding: 0;
+}
+

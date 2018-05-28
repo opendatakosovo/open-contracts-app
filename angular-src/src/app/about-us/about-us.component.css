@@ -1,9 +1,14 @@
 /* About Us Header Style */
-.header-img{
-    background-image:url("/assets/images/about-us-header.jpg");
-    background-size:100%;
-    background-size:cover;
+#bg-img{
+    background-image:url("/assets/images/about-us-header.png");
+    /* Full height */
+    height: 851px; 
+    max-height: 851px;
+   
+    /* Center and scale the image nicely */
+    background-position: center;
     background-repeat: no-repeat;
+    background-size: cover;
  }
  .header{
     margin-left:0;
@@ -17,7 +22,8 @@
    color:white;
    margin-left:65px;
    width: 434px;
-   top: 45%;
+   max-width: 100%;
+   top: 27%;
 }
 .company-header #title {
    width: 201px;
@@ -34,7 +40,7 @@
     max-width: 45%;
     height: 406px;
 }
-.project-header{
+.project-header-title{
     font-family: 'Roboto', sans-serif;
 }
 #project-title {
@@ -44,39 +50,42 @@
     margin-bottom: 33px;
     font-weight: 600;
 }
+.project-details{
+    font-family: 'Roboto', sans-serif;
+    max-width: 100%;
+    margin: auto;
+    padding: 0;
+    text-align: center;
+}
 #project-description {
-
+    text-align: left;
     color:black;
-    width: 596px;
+    width: 617px;
+    max-width: 100%;
     height: 405px;
     margin-bottom: 0;
     bottom: 1px;
     top: 56px;
     font-family: 'Roboto', sans-serif;
 }
-.project-details{
-    font-family: 'Roboto', sans-serif;
-    width: 1252px;
-    margin-left: 49px;
-}
-
 /* Technologies Style */
 #technologies-title {
     font-family: 'Roboto', sans-serif;
     font-weight: 600;
     text-align: center;
     color:#32a6bd;
-    margin-top:84px;
-    margin-bottom: 33px;
+    padding-top:84px;
+    padding-bottom: 33px;
 }
 .technologies-imgs{
-    margin-left: 51px;
-
-    width: 1290px;
-    margin-bottom: 124px;
+    text-align: center;
+    margin: auto;
+    max-width: 100%;
+    padding-bottom: 124px;
 } 
 .angular-js{
     top: 9px;
+    padding-left: 42px;
 }
 .express-js{
     top: 29px;
