@@ -13,16 +13,16 @@
         <div class="underline" id="underlineHome" routerLinkActive="active"></div>
       </li>
       <li class="nav-item"routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-        <a class="nav-link " [routerLink]="['/visualizations']" >VIZUALIZIMET</a>
-        <div class="underline" id="underlineVisualizations" routerLinkActive="active"></div>
+        <a class="nav-link " [routerLink]="['/visualisations']" >VIZUALIZIMET</a>
+        <div class="underline" [ngStyle]="{'width':'85px'}" routerLinkActive="active"></div>
       </li>
       <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-        <a class="nav-link" [routerLink]="['/dataSet']">SETI I TË DHËNAVE</a>
-        <div class="underline" id="underlineDataSet" routerLinkActive="active"></div>
+        <a class="nav-link" [routerLink]="['/data-set']">SETI I TË DHËNAVE</a>
+        <div class="underline" [ngStyle]="{'width':'126px'}"routerLinkActive="active"></div>
       </li>
       <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-        <a class="nav-link" [routerLink]="['/aboutUs']">RRETH NESH</a>
-        <div class="underline" id="underlineAbout" routerLinkActive="active"></div>
+        <a class="nav-link" [routerLink]="['/about-us']">RRETH NESH</a>
+        <div class="underline" [ngStyle]="{'width':'75px'}" routerLinkActive="active"></div>
       </li>
       <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <a class="nav-link" href="http://biznesetehapura.com/sq" target="_blank">BIZNESET E HAPURA</a>
