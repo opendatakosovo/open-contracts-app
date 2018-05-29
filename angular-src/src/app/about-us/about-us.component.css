@@ -33,11 +33,11 @@
 }
 
 /* About Project Style */
-.project-img{
-    margin-left: 51px;
+#project-img{
+    margin-left: 52px;
     margin-right: 0;
-    width: 100%;
-    max-width: 45%;
+    width: 81%;
+    max-width: 81%;
     height: 406px;
 }
 .project-header-title{
@@ -60,15 +60,14 @@
 #project-description {
     text-align: left;
     color:black;
-    width: 617px;
-    max-width: 100%;
+    width: 80%;
+    max-width: 80%;
     height: 405px;
     margin-bottom: 0;
     bottom: 1px;
     top: 56px;
     font-family: 'Roboto', sans-serif;
 }
-
 /* Technologies Style */
 #technologies-title {
     font-family: 'Roboto', sans-serif;
@@ -81,9 +80,13 @@
 .technologies-imgs{
     text-align: center;
     margin: auto;
-    max-width: 100%;
+    width: 87%;
+    max-width: 87%;
     padding-bottom: 124px;
 } 
+.node-js{
+    text-align: left;
+}
 .angular-js{
     top: 9px;
     padding-left: 42px;

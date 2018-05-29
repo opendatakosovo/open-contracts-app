@@ -28,7 +28,11 @@ app.use(bodyParser.json());
 
 // Index Route
 app.get("/", (req, res) => {
-  res.send("Message");
+  res.send("Invalid");
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
 app.listen(port, () => {
