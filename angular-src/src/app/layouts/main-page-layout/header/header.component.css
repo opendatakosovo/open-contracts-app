@@ -1,0 +1,170 @@
+
+.navbar{
+    background-color: white;
+    padding:  15px 100px 15px 100px;
+    box-shadow: 0 8px 20px -15px black;
+}
+
+.nav-item.active .underline{
+    border-bottom: 3px solid #32a6bd;
+    margin-top: 0;
+    margin-left: 25px;
+}
+.nav-item{
+    color:black;
+}
+
+.nav-link {
+    font-size: 18px;
+    color: #333;
+    padding-bottom: 0;
+}
+.nav-item.active .nav-link{
+    color:#32a6bd;
+    font-weight: 500;
+    
+}a {
+    font-family: 'Roboto', sans-serif;
+}
+.navbar-brand {
+    font-size: 30px;
+    color:#32a6bd;
+    font-weight: 600;
+
+}
+#underlineHome {
+    width:42px;
+}
+#underlineVisualizations {
+    width:85px;
+}
+#underlineDataSet {
+    width:124px;
+}
+#underlineAbout {
+    width:73px;
+}
+.navbar-nav span{
+    margin-top:7px ;
+    color:#333;
+}
+
+ /* ---- /Responsiveness ---- */
+@media (max-width: 1150px){
+    
+    .nav-link {
+        font-size: 16px;
+        
+    }
+    #underlineHome {
+        width:32px;
+    }
+    #underlineVisualizations {
+        width:72px;
+    }
+    #underlineDataSet {
+        width:107px;
+    }
+    #underlineAbout {
+        width:61px;
+    }
+    
+    
+ }
+ @media (max-width: 1100px){
+    
+    .nav-link {
+        font-size: 15px;
+        
+    }
+    #underlineHome {
+        width:28px;
+    }
+    #underlineVisualizations {
+        width:66px;
+    }
+    #underlineDataSet {
+        width:98px;
+    }
+    #underlineAbout {
+        width:55px;
+    }
+
+    
+ }
+ 
+@media (max-width: 1010px){
+    .nav-link {
+        font-size: 14px;
+        
+}
+    .nav-item.active .underline{
+        margin-left: 15px;
+ }
+    #underlineDataSet {
+        width:92px;
+ }
+    #underlineVisualizations {
+        width:62px;
+ }
+    #underlineAbout {
+        width:52px;
+}
+    .navbar-nav span{
+        display: none;
+    }
+ }
+@media (max-width: 380px){
+   .navbar-brand{
+       font-size: 20px 
+   }
+   .nav-link {
+    font-size: 14px;
+}
+   .nav-item.active .underline{
+    border-bottom: 2px solid #32a6bd;
+    margin-top: 0;
+    margin-left: 10px;
+}
+    #underlineHome {
+        width:35px;
+    }
+    #underlineVisualizations {
+        width:72px;
+    }
+    #underlineDataSet {
+        width:100px;
+    }
+    #underlineAbout {
+        width:65px;
+    }
+}
+@media (max-width: 336px){
+    .navbar-brand{
+        font-size: 15px 
+    }
+    .nav-link {
+        font-size: 12px;
+        color: #333;
+        padding-bottom: 0;
+    }
+       .nav-item.active .underline{
+        border-bottom: 1px solid #32a6bd;
+        margin-top: 0;
+        margin-left: 5px;
+    }
+    #underlineHome {
+        width:35px;
+    }
+    #underlineVisualizations {
+        width:67px;
+    }
+    #underlineDataSet {
+        width:92px;
+    }
+    #underlineAbout {
+        width:58px;
+    }
+    
+ }
+/* ---- /Responsiveness ---- */
