@@ -9,9 +9,9 @@ node {
             npm install
             '''
         }
-        // stage('Deploy') {
-        //     sh '''./jenkinscd/deploy.sh'''
-        // }
+        stage('Deploy') {
+            sh '''./deploy/deploy.sh'''
+        }
   } catch (e) {
     // If there was an exception thrown, the build failed
     currentBuild.result = "FAILED"
