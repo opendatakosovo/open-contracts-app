@@ -1,8 +1,14 @@
 /* About Us Header Style */
-.header-img{
-    background-image:url("/assets/images/about-us-header.jpg");
-    background-size:100%;
+#bg-img{
+    background-image:url("/assets/images/about-us-header.png");
+    /* Full height */
+    height: 851px; 
+    max-height: 851px;
+   
+    /* Center and scale the image nicely */
+    background-position: center;
     background-repeat: no-repeat;
+    background-size: cover;
  }
  .header{
     margin-left:0;
@@ -16,8 +22,8 @@
    color:white;
    margin-left:65px;
    width: 434px;
-   position: absolute;
-   top: 61%;
+   max-width: 100%;
+   top: 27%;
 }
 .company-header #title {
    width: 201px;
@@ -27,14 +33,14 @@
 }
 
 /* About Project Style */
-.project-img{
-    margin-left: 65px;
+#project-img{
+    margin-left: 52px;
     margin-right: 0;
-    width: 100%;
-    max-width: 45%;
+    width: 81%;
+    max-width: 81%;
     height: 406px;
 }
-.project-header{
+.project-header-title{
     font-family: 'Roboto', sans-serif;
 }
 #project-title {
@@ -44,15 +50,23 @@
     margin-bottom: 33px;
     font-weight: 600;
 }
+.project-details{
+    font-family: 'Roboto', sans-serif;
+    max-width: 100%;
+    margin: auto;
+    padding: 0;
+    text-align: center;
+}
 #project-description {
-    position: absolute;
+    text-align: left;
     color:black;
-    width: 548px;
+    width: 80%;
+    max-width: 80%;
     height: 405px;
-    margin-left: 724px;
     margin-bottom: 0;
     bottom: 1px;
     top: 56px;
+    font-family: 'Roboto', sans-serif;
 }
 /* Technologies Style */
 #technologies-title {
@@ -60,28 +74,25 @@
     font-weight: 600;
     text-align: center;
     color:#32a6bd;
-    margin-top:84px;
-    margin-bottom: 33px;
+    padding-top:84px;
+    padding-bottom: 33px;
 }
 .technologies-imgs{
-    margin-left: 51px;
-    width: 1236px;
-    margin-bottom: 124px;
+    text-align: center;
+    margin: auto;
+    width: 87%;
+    max-width: 87%;
+    padding-bottom: 124px;
+} 
+.node-js{
+    text-align: left;
 }
-#mongo-db{
-    position: absolute;
-    right: 325px;
+.angular-js{
+    top: 9px;
+    padding-left: 42px;
 }
-#angular-js{
-    position: absolute;
-    right: 1px;
-    top: 8px;
+.express-js{
+    top: 29px;
 }
-#express-js{
-    position: absolute;
-    left: 341px;
-    top: 26px;
-}
-#project-img{
-    margin-left: 51px;
-}
+
+

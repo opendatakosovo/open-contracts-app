@@ -14,19 +14,21 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProfileComponent } from './profile/profile.component';
 import { DataSetComponent } from './data-set/data-set.component';
 import { AboutUsComponent } from './about-us/about-us.component';
-
+import { FooterComponent } from './footer/footer.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
 const appRoutes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'profile', component: ProfileComponent },
-  { path: 'visualizations' , component: VisualisationsComponent}, 
-  { path: 'dataSet' , component: DataSetComponent},
-  { path: 'aboutUs' , component: AboutUsComponent}
+  { path: '', component: HomeComponent, runGuardsAndResolvers: 'always' },
+  { path: 'register', component: RegisterComponent, runGuardsAndResolvers: 'always' },
+  { path: 'login', component: LoginComponent, runGuardsAndResolvers: 'always' },
+  { path: 'dashboard', component: DashboardComponent, runGuardsAndResolvers: 'always' },
+  { path: 'profile', component: ProfileComponent, runGuardsAndResolvers: 'always' },
+  { path: 'visualizations' , component: VisualisationsComponent , runGuardsAndResolvers: 'always'}, 
+  { path: 'dataSet' , component: DataSetComponent, runGuardsAndResolvers: 'always'},
+  { path: 'aboutUs' , component: AboutUsComponent , runGuardsAndResolvers: 'always'},
+  
 ]
 
 @NgModule({
@@ -41,12 +43,14 @@ const appRoutes: Routes = [
     VisualisationsComponent,
     DataSetComponent,
     AboutUsComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    NgbModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
