@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule,NO_ERRORS_SCHEMA } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -20,7 +20,6 @@ import { LayoutComponent } from './layouts/main-page-layout/layout/layout.compon
 import { DashboardLayoutComponent } from './layouts/dashboard-page-layout/dashboard-layout/dashboard-layout.component';
 import { DashboardHeaderComponent } from './layouts/dashboard-page-layout/dashboard-header/dashboard-header.component';
 import { DashboardFooterComponent } from './layouts/dashboard-page-layout/dashboard-footer/dashboard-footer.component';
-import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
 
 
@@ -70,10 +69,7 @@ const appRoutes: Routes = [
     FormsModule,
     HttpModule,
     RouterModule.forRoot(appRoutes),
-    MDBBootstrapModule.forRoot()
-  ],
-  schemas:[
-    NO_ERRORS_SCHEMA
+    NgbModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
