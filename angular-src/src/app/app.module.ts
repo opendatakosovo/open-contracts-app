@@ -9,7 +9,6 @@ import { LoginComponent } from './main/login/login.component';
 import { RegisterComponent } from './admin/register/register.component';
 import { HomeComponent } from './main/home/home.component';
 import { VisualisationsComponent } from './main/visualisations/visualisations.component';
-import { DashboardComponent } from './layouts/dashboard-page-layout/dashboard/dashboard.component';
 import { ProfileComponent } from './admin/profile/profile.component';
 import { DataSetComponent } from './main/data-set/data-set.component';
 import { AboutUsComponent } from './main/about-us/about-us.component';
@@ -18,8 +17,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HeaderComponent } from './layouts/main-page-layout/header/header.component';
 import { LayoutComponent } from './layouts/main-page-layout/layout/layout.component';
 import { DashboardLayoutComponent } from './layouts/dashboard-page-layout/dashboard-layout/dashboard-layout.component';
-import { DashboardHeaderComponent } from './layouts/dashboard-page-layout/dashboard-header/dashboard-header.component';
 import { DashboardFooterComponent } from './layouts/dashboard-page-layout/dashboard-footer/dashboard-footer.component';
+import { DashboardComponent } from './admin/dashboard/dashboard.component';
 
 
 
@@ -61,7 +60,6 @@ const appRoutes: Routes = [
     HeaderComponent,
     LayoutComponent,
     DashboardLayoutComponent,
-    DashboardHeaderComponent,
     DashboardFooterComponent
   ],
   imports: [
