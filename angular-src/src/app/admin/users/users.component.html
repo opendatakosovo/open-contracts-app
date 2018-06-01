@@ -1,0 +1,84 @@
+<div class="container-fluid">
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="/dashboard">Dashboard</a>
+      </li>
+      <li class="breadcrumb-item active">Users</li>
+    </ol>
+    <div class="row">
+      <div class="col-6">
+        <h1>Përdoruesit</h1>
+      </div>
+      <div class="col-6">
+        <a  data-toggle="modal" data-target="#add-user-modal" class="float-right add-btn"><i class="fa fa-plus">   </i>   Shto përdorues</a>
+      </div>
+    </div>
+
+  <!-- Modal for adding a user or admin -->
+<div class="modal fade" id="add-user-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Shto përdoruesin</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="" class="form-i">
+        <div class="modal-body">
+            <div class="form-group">
+              <label for="first-name">Emri</label>
+              <input type="text" class="form-control" id="first-name" name="first-name">
+            </div>
+            <div class="form-group">
+                <label for="last-name">Mbiemri</label>
+                <input type="text" class="form-control" id="last-name" name="last-name">
+            </div>
+            <div class="form-check form-check-inline">
+              <input type="text" class="form-check-input" type="radio" id="male" name="gender" value="male" checked> 
+              <label for="male" class="form-check-label">Mashkull</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input type="text" class="form-check-input" type="radio" id="female" name="gender" value="female"> 
+                <label for="female" class="form-check-label">Femër</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input type="text" class="form-check-input" type="radio" id="other" name="gender" value="other"> 
+                <label for="other" class="form-check-label">Tjetër</label>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email">
+            </div>
+            <div class="form-group">
+                <label for="password">Fjalëkalimi</label>
+                <input type="password" class="form-control" id="password" name="password">
+            </div>
+            <div class="my-form-control">
+                <div class="form-check form-check-inline">
+                    <input type="text" class="form-check-input" [(ngModel)]= 'type' type="radio" id="admin" name="type" value="admin" checked> 
+                    <label for="admin" class="form-check-label">Administrator</label>
+                  </div>
+                <div class="form-check form-check-inline">
+                    <input type="text" class="form-check-input" [(ngModel)]= 'type' type="radio" id="user" name="type" value="user"> 
+                    <label for="user" class="form-check-label">Pëdorues</label>
+                </div>
+            </div>
+            <div class="form-group" [hidden]= "type == 'admin'">
+                <label for="email">Drejtoritë</label>
+               <select name="departments" id="departments" class="form-control">
+                 <option value="">Zhgjedhe drejtorinë</option>
+               </select>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+   <!-- /Modal for adding a user or admin -->
+  </div>
