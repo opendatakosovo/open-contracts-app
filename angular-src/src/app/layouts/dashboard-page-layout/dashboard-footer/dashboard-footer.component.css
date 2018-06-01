@@ -28,7 +28,7 @@ body.sticky-footer .content-wrapper {
   }
   
   @media (min-width: 992px) {
-    body.sidenav-toggled footer.sticky-footer {
+    footer.sticky-footer {
       width: calc(100% - 55px);
     }
   }

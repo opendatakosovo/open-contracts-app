@@ -404,7 +404,7 @@ html {
       color: #212529;
     }
     #mainNav.navbar-dark .navbar-collapse .navbar-sidenav > .nav-item > .nav-link:hover {
-      color: #fff;
+      color: white;
     }
   }
   
