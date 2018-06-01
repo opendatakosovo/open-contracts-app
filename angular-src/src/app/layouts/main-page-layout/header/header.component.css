@@ -1,10 +1,11 @@
-
 .navbar{
     background-color: white;
     padding:  15px 100px 15px 100px;
     box-shadow: 0 8px 20px -15px black;
 }
-
+.fa {
+    color: #32a6bd;
+}
 .nav-item.active .underline{
     border-bottom: 3px solid #32a6bd;
     margin-top: 0;
@@ -15,7 +16,7 @@
 }
 
 .nav-link {
-    font-size: 18px;
+    font-size: 17px;
     color: #333;
     padding-bottom: 0;
 }
@@ -23,7 +24,19 @@
     color:#32a6bd;
     font-weight: 500;
     
-}a {
+}
+#mainNav .navbar-collapse {
+
+    top: 0;
+    left: 0;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    margin-top: 56px;
+    overflow: visible;
+
+  }
+a {
     font-family: 'Roboto', sans-serif;
 }
 .navbar-brand {
@@ -31,6 +44,12 @@
     color:#32a6bd;
     font-weight: 600;
 
+}
+#dataSet{
+    width:180px   
+}
+#about{
+    width: 127px
 }
 #underlineHome {
     width:42px;
@@ -48,13 +67,15 @@
     margin-top:7px ;
     color:#333;
 }
-
+#language {
+    padding-left: 400px
+}
  /* ---- /Responsiveness ---- */
-@media (max-width: 1150px){
+
+@media (max-width: 1485px){
     
     .nav-link {
-        font-size: 16px;
-        
+        font-size: 15px;   
     }
     #underlineHome {
         width:32px;
@@ -68,9 +89,22 @@
     #underlineAbout {
         width:61px;
     }
-    
-    
+    #language {
+        padding-left: 400px
+    } 
  }
+ @media(max-width:1281px){
+     #dataSet{
+         width: 160px
+     }
+     #underlineVisualizations {
+        width:62px;
+    }
+     #about{
+         width: 117px
+     }
+ }
+ 
  @media (max-width: 1100px){
     
     .nav-link {
@@ -88,18 +122,19 @@
     }
     #underlineAbout {
         width:55px;
-    }
-
-    
+    } 
  }
  
-@media (max-width: 1010px){
-    .nav-link {
-        font-size: 14px;
-        
+@media (max-width: 1024px){
+
+   .nav-link{
+    font-size: 14px
+}
+    #languge {
+        padding-left: 90px;
 }
     .nav-item.active .underline{
-        margin-left: 15px;
+        margin-left: 25px;
  }
     #underlineDataSet {
         width:92px;
@@ -113,6 +148,23 @@
     .navbar-nav span{
         display: none;
     }
+    #language{
+        padding-left: 0px;
+    }
+ }
+ @media(max-width: 980px){
+    .nav-item.active .underline{
+        margin-left: 16px;
+ }
+    #underlineAbout {
+        width:58px;
+}
+ }
+
+ @media(max-width: 769px){
+    .nav-item.active .underline{
+        margin-left: 16px;
+ }
  }
 @media (max-width: 380px){
    .navbar-brand{
