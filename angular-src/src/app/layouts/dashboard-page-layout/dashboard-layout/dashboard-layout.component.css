@@ -37,6 +37,14 @@ html {
     border-color: #212529;
   }
   
+  .active i {
+    color: #39a6bd;
+  }
+
+  .active span {
+    color: #39a6bd;
+  }
+  
   #mainNav {
     font-family: 'Roboto', sans-serif;
   }
@@ -93,6 +101,9 @@ html {
     display: none;
   } */
   
+  /* #mainNav.navbar-dark .navbar-collapse .navbar-sidenav > .nav-item > .nav-link i:active {
+    color: #39a6bd;
+} */
   #mainNav .navbar-collapse .navbar-nav > .nav-item.dropdown > .nav-link {
     position: relative;
     min-width: 45px;

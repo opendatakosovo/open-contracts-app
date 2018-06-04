@@ -1,18 +1,63 @@
 <div class="container-fluid">
     <!-- Breadcrumbs-->
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item">
-        <a href="/dashboard">Dashboard</a>
-      </li>
-      <li class="breadcrumb-item active">Users</li>
-    </ol>
     <div class="row">
       <div class="col-6">
-        <h1>Përdoruesit</h1>
+        <h1 class="title">Përdoruesit</h1>
       </div>
-      <div class="col-6">
+      <div class="col-6" id="add-user-btn">
         <button  data-toggle="modal" data-target="#add-user-modal" class="float-right btn-primary add-btn"><i class="fa fa-plus">   </i>   Shto përdorues</button>
       </div>
+    </div>
+    <div class="row col-12" id="table-row">
+        <table class="table">
+            <tbody>
+              <tr>
+                <td class="img-col">
+                    <img src="/assets/images/zyrtari.png" class="img-fluid"> 
+                </td>
+                <td class="user-info">
+                  <p class="name">John Doe</p>
+                  <p class="position">Pozita</p>
+                </td>
+                <td class="edit-ico">
+                    <span><a data-toggle="modal" data-target="#exampleModal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></span>
+                </td>
+                <td class="edit">
+                    <a data-toggle="modal" data-target="#exampleModal"><p>Edito</p></a>
+                </td>
+              </tr>
+              <tr>
+                <td class="img-col">
+                  <img src="/assets/images/administratori.png" class="img-fluid"> 
+                </td>
+                <td class="user-info">
+                  <p class="name">Mary Moe</p>
+                  <p class="position">Pozita</p>
+                </td>
+                <td class="edit-ico">
+                    <span><a data-toggle="modal" data-target="#exampleModal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></span>
+                </td>
+                <td class="edit">
+                    <a data-toggle="modal" data-target="#exampleModal"><p>Edito</p></a>
+                </td>
+              </tr>
+              <tr>
+                <td class="img-col">
+                  <img src="/assets/images/zyrtari.png" class="img-fluid"> 
+                </td>
+                <td class="user-info">
+                  <p class="name">July Cold</p>
+                  <p class="position">Pozita</p>
+                </td>
+                <td class="edit-ico">
+                    <span><a data-toggle="modal" data-target="#exampleModal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></span>
+                </td>
+                <td class="edit">
+                    <a data-toggle="modal" data-target="#exampleModal"><p>Edito</p></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
     </div>
 
   <!-- Modal for adding a user or admin -->

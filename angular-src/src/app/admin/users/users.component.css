@@ -8,7 +8,6 @@
   padding: 5px 10px;
   margin-right: 10px;
 }
-
 .add-btn:hover{
     box-shadow: 0px 0 7px 5px rgba(0, 0, 0, 0.144);
     cursor: pointer;
@@ -29,9 +28,63 @@
 #add-user-modal .modal-footer {
     background-color: #e9ecef;
 }
+#add-user-btn{
+    padding-right: 67px;
+}
 .form-i{
     margin-bottom: 0;
 }
 .my-form-control{
     margin: 10px 0;
+}
+.title{
+    font-size: 26px;
+    color: black;
+    padding-left: 25px;
+    padding-bottom: 25px;
+    padding-top: 25px;
+}
+.table {
+    width:100%;
+}
+#table-row{
+    text-align: center;
+    padding-left: 81px;
+    padding-right: 50px;
+    padding-bottom: 50px;
+}
+.img-fluid {
+    max-width: 100%;
+}
+.img-col {
+    width: 65px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.name{
+    font-weight: 500;
+    color: #39a6bd;
+    margin-bottom: 0;
+    font-size: 17px;
+}
+.position{
+    color: #868e96;
+    font-size: 13px;
+    margin-bottom: 0;
+}
+.edit-ico {
+    color: #868e96;
+    width: 17px;
+    padding-right: 0;
+    padding-top: 31px;
+}
+.edit{
+    color: #868e96;
+    padding-left: 8px;
+    padding-top: 30px;
+    width: 50px;
+}
+.user-info{
+    padding-bottom: 0;
+    padding-top: 28px;
 }
