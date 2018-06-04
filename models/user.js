@@ -1,13 +1,16 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const config = require("../config/database");
+const skipEmpty = require("mongoose-skip-empty");
 
 // User Schema
 const UserSchema = mongoose.Schema({
-  name: String,
+  first_name: {type: String, required:true},
+  last_name: {type: String, required:true},
   email: { type: String, required: true },
   username: { type: String, required: true },
-  password: { type: String, required: true }
+  password: { type: String, required: true },
+  department: {type: String, set: skipEmpty}
 });
 
 const User = (module.exports = mongoose.model("User", UserSchema));

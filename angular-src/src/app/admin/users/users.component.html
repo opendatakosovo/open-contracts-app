@@ -5,7 +5,7 @@
         <h1 class="title">Përdoruesit</h1>
       </div>
       <div class="col-6">
-        <a  data-toggle="modal" data-target="#add-user-modal" class="float-right add-btn"><i class="fa fa-plus">   </i>   Shto përdorues</a>
+        <button  data-toggle="modal" data-target="#add-user-modal" class="float-right btn-primary add-btn"><i class="fa fa-plus">   </i>   Shto përdorues</button>
       </div>
     </div>
     <div class="row col-12" id="table-row">
@@ -113,13 +113,13 @@
             <div class="form-group" [hidden]= "type == 'admin'">
                 <label for="email">Drejtoritë</label>
                <select name="departments" id="departments" class="form-control">
-                 <option value="">Zhgjedhe drejtorinë</option>
+                 <option value="">Zgjedh drejtorinë</option>
                </select>
             </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Mbyll</button>
+          <button type="button" class="btn btn-primary">Ruaj</button>
         </div>
         </form>
       </div>
