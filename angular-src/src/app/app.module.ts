@@ -5,48 +5,76 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './navbar/navbar.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { HomeComponent } from './home/home.component';
-import { VisualisationsComponent } from './visualisations/visualisations.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { ProfileComponent } from './profile/profile.component';
-import { DataSetComponent } from './data-set/data-set.component';
-import { AboutUsComponent } from './about-us/about-us.component';
-
+import { LoginComponent } from './main/login/login.component';
+import { HomeComponent } from './main/home/home.component';
+import { VisualisationsComponent } from './main/visualisations/visualisations.component';
+import { ProfileComponent } from './admin/profile/profile.component';
+import { DataSetComponent } from './main/data-set/data-set.component';
+import { AboutUsComponent } from './main/about-us/about-us.component';
+import { FooterComponent } from './layouts/main-page-layout/footer/footer.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HeaderComponent } from './layouts/main-page-layout/header/header.component';
+import { LayoutComponent } from './layouts/main-page-layout/layout/layout.component';
+import { DashboardLayoutComponent } from './layouts/dashboard-page-layout/dashboard-layout/dashboard-layout.component';
+import { DashboardFooterComponent } from './layouts/dashboard-page-layout/dashboard-footer/dashboard-footer.component';
+import { DashboardComponent } from './admin/dashboard/dashboard.component';
+import { UsersComponent } from './admin/users/users.component';
+import { DataComponent } from './admin/data/data.component';
+import { TablesComponent } from './admin/tables/tables.component';
 
 
 
 const appRoutes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'profile', component: ProfileComponent },
-  { path: 'visualizations' , component: VisualisationsComponent}, 
-  { path: 'dataSet' , component: DataSetComponent},
-  { path: 'aboutUs' , component: AboutUsComponent}
+  //Main page layouts routes
+  {
+    path: "",
+    component: LayoutComponent,
+    children:[
+      {path:"", component: HomeComponent},
+      { path: 'visualisations' , component: VisualisationsComponent }, 
+      { path: 'data-set' , component: DataSetComponent},
+      { path: 'about-us' , component: AboutUsComponent },
+    ]
+  },
+  {path:'login', component:LoginComponent},
+  {
+    path:'',
+    component: DashboardLayoutComponent,
+    children:[
+      {path:'dashboard', component:DashboardComponent},
+      {path:'dashboard/users', component:UsersComponent},
+      {path:'dashboard/data', component:DataComponent},
+      {path:'dashboard/tables', component:TablesComponent}
+    ]
+  }
+  
 ]
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent,
     LoginComponent,
-    RegisterComponent,
     HomeComponent,
     DashboardComponent,
     ProfileComponent,
     VisualisationsComponent,
     DataSetComponent,
     AboutUsComponent,
+    FooterComponent,
+    HeaderComponent,
+    LayoutComponent,
+    DashboardLayoutComponent,
+    DashboardFooterComponent,
+    UsersComponent,
+    DataComponent,
+    TablesComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    NgbModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

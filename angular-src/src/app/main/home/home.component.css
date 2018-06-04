@@ -1,0 +1,316 @@
+/* -------  Cover image --------- */
+
+#bg-img{
+    background-image: url('/assets/images/header2.png');
+     /* Full height */
+     height: 851px; 
+     max-height: 851px;
+     /* Center and scale the image nicely */
+     background-position: center;
+     background-repeat: no-repeat;
+     background-size: cover;
+}
+
+.cover-image{
+    padding: 0;
+}
+
+.cover .info-text{
+    width: 549px;
+    padding-top: 266px;
+    padding-left: 180px;
+
+}
+.cover .info-text .title {
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    font-size: 72px;
+    font-weight: bold;
+}
+.cover .info-text .subtitle{
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    font-size: 26px;
+    font-weight: 100;
+    margin-top: 20px;   
+
+}
+
+.cover-col{
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* ---- Responsiveness ---- */
+@media (max-width: 960px){
+
+}
+
+@media (max-width: 768px){
+    .cover .info-text {
+        width: 544px;
+        padding-top: 266px;
+        padding-left: 180px;
+    }
+}
+
+@media (max-width: 640px) and (orientation:  portrait){
+    .cover .info-text {
+        width: 549px;
+        padding-top: 266px;
+        padding-left: 105px;
+    }
+}
+
+@media (max-width: 480px){
+   .cover .info-text{
+        width: 419px;
+        padding-top: 266px;
+        padding-left: 42px;
+   }
+
+   .cover .info-text .title{
+        color: #fff;
+        font-family: 'Roboto', sans-serif;
+        font-size: 61px;
+        font-weight: bold;
+   }
+}
+
+@media (max-width: 375px){
+    .cover .info-text{
+        width: 374px;
+        padding-top: 266px;
+        padding-left: 28px;
+   }
+
+   .cover .info-text .title{
+        color: #fff;
+        font-family: 'Roboto', sans-serif;
+        font-size: 57px;
+        font-weight: bold;
+    }
+}
+
+@media (max-width: 320px){
+   .cover .info-text {
+        width: 321px;
+        padding-top: 266px;
+        padding-left: 28px;
+   }
+
+   .cover .info-text .title{
+        color: #fff;
+        font-family: 'Roboto', sans-serif;
+        font-size: 46px;
+        font-weight: bold;
+   }
+
+   .cover .info-text .subtitle{
+        color: #fff;
+        font-family: 'Roboto', sans-serif;
+        font-size: 23px;
+        font-weight: 100;
+        margin-top: 20px;
+   }
+}
+
+/* ---- /Responsiveness ---- */
+
+/* -------  /Cover image --------- */
+
+/* ------- Public contrats ------- */
+.public-contracts .title {
+    margin-top: 80px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 30px;
+    color: #32a6bd;
+}
+
+    /* -------- Public contracts form -------*/
+        .contracts-filter-form{
+            margin-top: 40px;
+            margin-left: 0;
+            margin-top: 30px;
+        }
+        .contracts-filter-form .form-input {
+            margin-right: 20px;
+            border: 1px #32a6bd solid;
+            border-radius: 25px;
+            width: 352px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 20px;
+            font-weight: 100;
+            height: 50px;
+
+        }
+
+        .contracts-filter-form .form-input:focus {
+            font-weight: 400;
+            color: #32a6bd;
+            outline: none;
+        }
+        .contracts-filter-form .form-input:focus::placeholder {
+            font-weight: 400;
+            color: #32a6bd;
+            outline: none;
+        }
+
+        .contracts-filter-form .form-select {
+            margin-right: 20px;
+            border: 1px #32a6bd solid;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            border-radius: 25px ;
+            width: 250px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 20px;
+            font-weight: 100;
+            background: url('/assets/images/down-arrow-black.png') white no-repeat calc(100% - 10px) !important; 
+            padding-top: 6px;
+            padding-bottom: 6px;
+            height: 50px;
+
+        }
+
+        .contracts-filter-form .form-select:focus {
+            font-weight: 400;
+            color: #32a6bd;
+            outline: none;
+            background: url('/assets/images/down-arrow-blue.png') white no-repeat calc(100% - 10px) !important; 
+        }
+        .contracts-filter-form .form-button{
+            background-color:#32a6bd;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 15px;
+            font-size: 20px;
+        }
+
+        .contracts-filter-form .form-button:hover{
+            background-color:#2c96ac;
+            box-shadow: 0px 0 7px 5px rgba(0, 0, 0, 0.144);
+        }
+
+        .table{
+            margin-top: 150px;
+            margin-bottom: 350px;
+        }
+
+
+    /* -------- /Public contracts form ------*/
+/* ------- /Public contrats ------- */
+
+
+/*---- Data set -----*/
+        #cover-image{
+            background-image: url('/assets/images/background-2.png');
+            /* Full height */
+            height: 346px; 
+            max-height: 346px;
+           
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .data-set .title{
+            font-family: 'Roboto', sans-serif;
+            font-size: 30px;
+            font-weight: 500;
+            color: #fff;
+            margin-top: 40px;
+            margin-bottom: 90px;
+        } 
+        .data-set .form-select {
+            margin-right: 20px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            border-radius: 25px ;
+            width: 350px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 25px;
+            font-weight: 100;
+            background: url('/assets/images/down-arrow-black.png') white no-repeat calc(100% - 10px) !important; 
+            padding-top: 6px;
+            padding-bottom: 6px;
+            height: 50px;
+            border-color: transparent;
+            padding-left: 25px;
+           
+        }
+
+        .data-set .data-set-form{
+            margin-left: 283PX;
+        }
+
+        .data-set .form-button{
+            background-color:#32a6bd;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 15px;
+            font-size: 16px;
+            border: 1px solid #fff;
+        }
+
+        .data-set .form-button:hover{
+            box-shadow: 0px 0 7px 5px rgba(0, 0, 0, 0.144);
+        }
+                
+/*---- /Data set ----*/
+
+
+/*---- Contracts Announcements ----*/
+.contracts-announcement .title {
+    padding-top: 120px;
+    padding-bottom: 60px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 30px;
+    color: #32a6bd;
+}
+.announcements-buttons h1 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 24px;
+    color: #32a6bd;
+    width: 141px; 
+    text-align: center;
+    margin: auto;
+    padding-top: 30px;
+    padding-bottom: 78px;
+}
+#announcements-title-2 {
+    width: 231px;
+}
+#announcements-title-4{
+    width: 188px;
+    padding-bottom: 130px;
+}
+#announcements-title-5{
+    width: 210px;
+}
+#announcements-title-6{
+    width: 274px;
+}
+.announcements-buttons{
+    text-align: center;
+}
+#bg-img-contracts{
+    background-image: url('/assets/images/background-prishtina-online.jpg');
+     /* Full height */
+     height: 851px; 
+     max-height: 851px;
+     /* Center and scale the image nicely */
+     background-position: center;
+     background-repeat: no-repeat;
+     background-size: cover;
+     padding: 0;
+}
+.contracts-announcement{
+    padding: 0;
+}
+

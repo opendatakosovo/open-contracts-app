@@ -1,0 +1,44 @@
+
+<nav class="navbar navbar-expand-lg navbar-light fixed-top">
+  <a class="navbar-brand" href="#">LOGO</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNav" aria-controls="mainNav"
+    aria-expanded="false" aria-label="Toggle navigation">
+    <span ><i class="fa fa-bars" aria-hidden="true"></i></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="mainNav">
+    <ul class="navbar-nav navbar-left">
+      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="nav-link" id="home" [routerLink]="['']" >BALLINA</a>
+        <div class="underline" id="underlineHome" routerLinkActive="active"></div>
+      </li>
+      <li class="nav-item"routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="nav-link" id="visualisations" [routerLink]="['/visualisations']" >VIZUALIZIMET</a>
+        <div class="underline" id="underlineVisualizations" routerLinkActive="active"></div>
+      </li>
+      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="nav-link" id="dataSet" [routerLink]="['/data-set']">SETI I TË DHËNAVE</a>
+        <div class="underline" id="underlineDataSet" routerLinkActive="active"></div>
+      </li>
+      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="nav-link" id="about" [routerLink]="['/about-us']" >RRETH NESH</a>
+        <div class="underline" id="underlineAbout" routerLinkActive="active"></div>
+      </li>
+      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="nav-link" href="http://biznesetehapura.com/sq" target="_blank" style="width: 192px;">BIZNESET E HAPURA</a>
+    
+      </li>
+    </ul>
+    <div id="language">
+      <ul class="navbar-nav navbar-right">
+        <li class="nav-item active" routerLinkActive="active">
+          <a class="nav-link" [routerLink]="['/albanian']">SHQ</a> 
+        </li>
+        <span>|</span>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/serbian']" >SRB</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

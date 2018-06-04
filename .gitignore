@@ -16,9 +16,12 @@ app/tests/coverage/
 .idea/
 coverage/
 .coveralls.yml
+package-lock.json
+angular-src/package-lock.json
 
 # MEAN.js app and assets
 # ======================
+public
 public/dist/
 uploads
 modules/users/client/img/profile/uploads
