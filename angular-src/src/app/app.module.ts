@@ -19,8 +19,8 @@ import { DashboardLayoutComponent } from './layouts/dashboard-page-layout/dashbo
 import { DashboardFooterComponent } from './layouts/dashboard-page-layout/dashboard-footer/dashboard-footer.component';
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { UsersComponent } from './admin/users/users.component';
-import { DataComponent } from './admin/data/data.component';
 import { TablesComponent } from './admin/tables/tables.component';
+import { DataDashboardComponent } from './admin/data-dashboard/data-dashboard.component';
 
 
 
@@ -43,7 +43,7 @@ const appRoutes: Routes = [
     children:[
       {path:'dashboard', component:DashboardComponent},
       {path:'dashboard/users', component:UsersComponent},
-      {path:'dashboard/data', component:DataComponent},
+      {path:'dashboard/data', component:DataDashboardComponent},
       {path:'dashboard/tables', component:TablesComponent}
     ]
   }
@@ -66,8 +66,8 @@ const appRoutes: Routes = [
     DashboardLayoutComponent,
     DashboardFooterComponent,
     UsersComponent,
-    DataComponent,
-    TablesComponent
+    TablesComponent,
+    DataDashboardComponent
   ],
   imports: [
     BrowserModule,
