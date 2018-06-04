@@ -15,6 +15,7 @@
     "express": "*",
     "jsonwebtoken": "*",
     "mongoose": "*",
+    "mongoose-skip-empty": "^1.0.0",
     "passport": "*",
     "passport-jwt": "*"
   },
