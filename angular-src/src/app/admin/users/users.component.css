@@ -2,7 +2,6 @@
   color: #39a6bd !important;
   font-family: 'Roboto', sans-serif;
   margin-top: 10px;
-  padding-right: 65px;
   background-color: transparent !important;
   border: 1px solid #39a6bd;
   border-radius: 15px;
@@ -28,6 +27,9 @@
 
 #add-user-modal .modal-footer {
     background-color: #e9ecef;
+}
+#add-user-btn{
+    padding-right: 67px;
 }
 .form-i{
     margin-bottom: 0;
