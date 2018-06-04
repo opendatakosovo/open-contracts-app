@@ -1,8 +1,10 @@
+
 #footerImage {
     background-image: url('/assets/images/footer.png');
     height: 377px;
     background-repeat: no-repeat;
     background-size: cover;
+    position: relative;
 }
 .footerImage {
     padding: 0;

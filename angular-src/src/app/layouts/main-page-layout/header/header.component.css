@@ -2,10 +2,17 @@
     background-color: white;
     padding:  15px 100px 15px 100px;
     box-shadow: 0 8px 20px -15px black;
+    transition: 0.5s
 }
 .fa {
     color: #32a6bd;
 }
+.scroll{
+    padding-top: 0px;
+    padding-bottom: 0px;
+    transition: 0.5s;
+}
+
 .nav-item.active .underline{
     border-bottom: 3px solid #32a6bd;
     margin-top: 0;
@@ -45,32 +52,23 @@ a {
     font-weight: 600;
 
 }
-#dataSet{
-    width:180px   
-}
-#about{
-    width: 127px
-}
+
 #underlineHome {
-    width:42px;
+    width:36px;
 }
 #underlineVisualizations {
-    width:85px;
+    width:80px;
 }
 #underlineDataSet {
-    width:124px;
+    width:116px;
 }
 #underlineAbout {
-    width:73px;
+    width:69px;
 }
 .navbar-nav span{
     margin-top:7px ;
     color:#333;
 }
-#language {
-    padding-left: 400px
-}
- /* ---- /Responsiveness ---- */
 
 @media (max-width: 1485px){
     
@@ -89,27 +87,46 @@ a {
     #underlineAbout {
         width:61px;
     }
-    #language {
-        padding-left: 400px
-    } 
  }
- @media(max-width:1281px){
-     #dataSet{
-         width: 160px
+ @media (max-width: 1480px){
+    .nav-item.active .underline{
+        margin-left: 18px;
+    }
+    .navbar{
+        padding:  14px 100px 14px 100px;
+    }
+    #underlineHome {
+        width:33px;
+    }
+    #underlineVisualizations {
+        width:71px;
+    }
+    #underlineDataSet {
+        width:104px;
+    }
+    #underlineAbout {
+        width:59px;
+    }
+ }
+ @media(max-width:1280px){
+    .nav-item.active .underline{
+        margin-left: 24px;
+    }
+    .navbar{
+        padding:  13px 100px 13px 100px;
+    }
+     .nav-link {
+        font-size: 15px;
      }
      #underlineVisualizations {
         width:62px;
     }
-     #about{
-         width: 117px
-     }
+   
  }
  
- @media (max-width: 1100px){
-    
-    .nav-link {
-        font-size: 15px;
-        
+ @media (max-width: 1111px){
+    .navbar{
+        padding:  12px 100px 12px 100px;
     }
     #underlineHome {
         width:28px;
@@ -125,26 +142,23 @@ a {
     } 
  }
  
-@media (max-width: 1024px){
+@media (max-width: 1040px){
 
    .nav-link{
     font-size: 14px
-}
-    #languge {
-        padding-left: 90px;
-}
+    }
     .nav-item.active .underline{
-        margin-left: 25px;
- }
+        margin-left: 22px;
+    }
     #underlineDataSet {
         width:92px;
- }
+    }
     #underlineVisualizations {
         width:62px;
- }
+    }
     #underlineAbout {
         width:52px;
-}
+    }
     .navbar-nav span{
         display: none;
     }
@@ -152,18 +166,33 @@ a {
         padding-left: 0px;
     }
  }
- @media(max-width: 980px){
-    .nav-item.active .underline{
-        margin-left: 16px;
+ @media(max-width:1010px){
+    .nav-link{
+        font-size: 13.5px
+    }
+
  }
+ @media(max-width: 985px){
+    .nav-item.active .underline{
+        margin-left: 11px;
+ }
+    #underlineHome {
+        width:34px;
+}
+    #underlineVisualizations {
+        width:67px;
+}   
+    #underlineDataSet {
+        width:97px;
+}
     #underlineAbout {
         width:58px;
 }
  }
 
- @media(max-width: 769px){
+ @media(max-width: 781px){
     .nav-item.active .underline{
-        margin-left: 16px;
+        margin-left: 9px;
  }
  }
 @media (max-width: 380px){
