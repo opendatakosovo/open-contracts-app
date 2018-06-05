@@ -91,3 +91,6 @@
     padding-bottom: 0;
     padding-top: 28px;
 }
+.error-msg{
+    color: red;
+}

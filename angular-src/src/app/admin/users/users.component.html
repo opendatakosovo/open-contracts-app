@@ -70,15 +70,18 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form action="" class="form-i">
+        <form action="" class="form-i" novalidate #f="ngForm" (ngSubmit)="onSubmit(f)">
         <div class="modal-body">
             <div class="form-group">
               <label for="first-name">Emri</label>
-              <input type="text" class="form-control" id="first-name" name="first-name">
+              <input type="text" class="form-control" [(ngModel)]="user.firstName" id="first-name" name="first-name" #userName="ngModel" 
+               required [style.border-color]="userName.errors?.required && userName.touched ? 'red' : '#ced4da'">             
+              <div *ngIf="userName.errors?.required && userName.touched" class="error-msg">Emri duhet plotësuar!</div>
             </div>
             <div class="form-group">
                 <label for="last-name">Mbiemri</label>
-                <input type="text" class="form-control" id="last-name" name="last-name">
+                <input type="text" class="form-control" id="last-name" name="last-name" [(ngModel)]="user.lastName" #userLastName="ngModel" required [style.border-color]="userLastName.errors?.required && userLastName.touched ? 'red' : '#ced4da'">
+                <div *ngIf="userLastName.errors?.required && userLastName.touched" class="error-msg">Mbiemri duhet plotësuar!</div>
             </div>
             <div class="form-check form-check-inline">
               <input type="text" class="form-check-input" type="radio" id="male" name="gender" value="male" checked> 
@@ -94,11 +97,19 @@
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" class="form-control" id="email" name="email" required>
+                <input type="email" class="form-control" id="email" name="email" [(ngModel)]="user.email" #userEmail="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required [style.border-color]="userEmail.errors?.required && userEmail.touched ? 'red' : '#ced4da'" [style.border-color]="userEmail.errors?.pattern && userEmail.touched ? 'red' : '#ced4da'">
+                <div *ngIf="userEmail.errors?.required && userEmail.touched;else error_email" class="error-msg">Email duhet plotësuar!</div>
+                <ng-template #error_email>
+                  <div *ngIf="userEmail.errors?.pattern && userPassword.touched" class="error-msg">Email duhet të jetë valid!</div>
+                </ng-template>
             </div>
             <div class="form-group">
                 <label for="password">Fjalëkalimi</label>
-                <input type="password" class="form-control" id="password" name="password">
+                <input type="password" class="form-control" id="password" name="password" [(ngModel)]="user.password" #userPassword="ngModel" minlength="6" required [style.border-color]="userPassword.errors?.required && userPassword.touched ? 'red' : '#ced4da'" [style.border-color]="userPassword.errors?.minlength && userPassword.touched ? 'red' : '#ced4da'">
+                <div *ngIf="userPassword.errors?.required && userPassword.touched;else error_length" class="error-msg">Fjalëkalimi duhet plotësuar!</div>
+                <ng-template #error_length>
+                  <div *ngIf="userPassword.errors?.minlength && userPassword.touched" class="error-msg">Fjalëkalimi duhet të jetë më i gjatë se 6 karaktere!</div>
+                </ng-template>
             </div>
             <div class="my-form-control">
                 <div class="form-check form-check-inline">
@@ -119,7 +130,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Mbyll</button>
-          <button type="button" class="btn btn-primary">Ruaj</button>
+          <button type="button" class="btn btn-primary" value="Submit">Ruaj</button>
         </div>
         </form>
       </div>
