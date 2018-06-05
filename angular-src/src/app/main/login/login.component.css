@@ -66,3 +66,14 @@
 label{
     color:black;
 }
+.modal-header{
+    font-weight: bold;
+    font-family: 'Robot', sans-serif;
+    color: #fff;
+    background: #39a6bd;
+}
+.modal-body{
+    color: black;
+    font-family: 'Robot', sans-serif;
+    font-size: 20px;
+}
