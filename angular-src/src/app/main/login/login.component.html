@@ -11,7 +11,27 @@
       <label>Më mbaj mend</label>
     <button type="button" class="btn btn-primary" id="login-button">Kyçu</button>
     <div class="password-link">
-        <a href="" id="password-changer">Keni harruar fjalëkalimin?</a>
+        <a data-toggle="modal" data-target="#passwordRecovery" id="password-changer">Keni harruar fjalëkalimin?</a>
+        <!-- Modal -->
+        <div class="modal fade" id="passwordRecovery" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Rigjenerimi i fjalëkalimit</h5>
+                <button style="background-color: #39a6bd"type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                Kontaktoni administratorin në  <i class="text-info"><u>someone@example.com</u></i> për rigjenerim të fjalëkalimit të ri!
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
     </div>
   </form>
 </div>
