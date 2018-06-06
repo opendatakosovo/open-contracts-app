@@ -16,7 +16,6 @@
     "jsonwebtoken": "*",
     "mongoose": "*",
     "mongoose-skip-empty": "^1.0.0",
-    "npm": "^6.1.0",
     "passport": "*",
     "passport-jwt": "*"
   },

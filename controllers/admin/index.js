@@ -1,5 +1,5 @@
-let router = require("express").Router();
-let userRESTController = require("./user");
+const router = require("express").Router();
+const userRESTController = require("./user");
 
 
 router.use('/user', userRESTController);
