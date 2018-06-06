@@ -94,7 +94,6 @@
     padding-bottom: 0;
     padding-top: 28px;
 }
-
 #save {
     background: #32a6bd !important;
     color: white !important;
@@ -103,4 +102,3 @@
 .error-msg{
     color: red;
 }
-
