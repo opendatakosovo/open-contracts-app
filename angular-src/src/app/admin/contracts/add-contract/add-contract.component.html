@@ -1,0 +1,102 @@
+<div class="container-fluid">
+  <div class ="row">
+    <div class="col-6"></div>
+    <div class="col-6" id="addContractButton">
+      <button type="button" class="btn btn-outline-primary" id="add-button" data-toggle="modal" data-target="#addContract" >
+        <span class="fa fa-plus"></span> Shto Kontratë
+      </button>
+    </div>
+  </div>
+
+
+<div class="modal fade bd-example-modal-lg" id="addContract" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Shto kontratë të re</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12 form-group">
+              <label for="activityTitle">Titulli i aktivitetit të prokurimit</label>
+              <input type="text" id="activityTitle" class="form-control">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 form-group">
+              <label for="publicationDate">Data e publikimit të njoftimit për kontratë</label>
+              <input type="date" id="publicationDate" value="" class="form-control">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6 form-group">
+              <label for="noOfDownloads">Nr. i OE që kanë shkarkuar dosjen e tenderit</label>
+              <input type="text" id="noOfDownloads" class="form-control">
+            </div>
+            <div class="col-6 form-group">
+                <label for="noOfOffers">Nr. i OE që kanë dorëzuar ofertat</label>
+                <input type="text" id="noOfOffers" class="form-control">
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-6 form-group">
+              <label for="dateOfGivenContractPublication">Data e publikimit të njoftimit për dhënie të kontratës </label>
+              <input type="date" id="dateOfGivenContractPublication" class="form-control">
+            </div>
+            <div class="col-6 form-group">
+                <label for="dateOfNoticeCancellations">Data e publikimit të anulimit të njoftimit </label>
+                <input type="date" id="dateOfNoticeCancellations" class="form-control">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 form-group">
+              <label for="">Emri i OE të cilit i është dhënë kontrata </label>
+              <input type="text" id="publicationDate" class="form-control">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6 form-group" >
+              <label for="signingDate">Data e nënshkrimit të kontratës </label>
+              <input type="date" id="signingDate" class="form-control">
+            </div>
+            <div class="col-6 form-group">
+              <label for="startDateOfImplemetation">Data e fillimit të implementimit të kontratës </label>
+              <input type="date" id="startDateOfImplemetation" class="form-control">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 form-group">
+              <label for="contractClosingDate">Data e mbylljes se kontrates  </label>
+              <input type="date" id="contractClosingDate" class="form-control">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6 form-group" >
+              <label for="predictedContractAmount">Vlera e parashikuar e kontratës</label>
+              <input type="text" id="predictedContractAmount" class="form-control">
+            </div>
+            <div class="col-6 form-group">
+              <label for="totalAmount">Vlera totale e kontratës, duke përfshirë të gjitha taksat</label>
+              <input type="text" id="totalAmount" class="form-control">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 form-group">
+              <label for="department">Drejtoria</label>
+              <input type="text" id="department" class="form-control">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" id="add-contract-button">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
