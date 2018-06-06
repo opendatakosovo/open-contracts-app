@@ -31,6 +31,8 @@ app.get("/", (req, res) => {
   res.send("Invalid");
 });
 
+//Registering all controllers
+app.use(require('./controllers'));
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/index.html'));
 });
