@@ -16,6 +16,7 @@
     "jsonwebtoken": "*",
     "mongoose": "*",
     "mongoose-skip-empty": "^1.0.0",
+    "nodemon": "^1.17.5",
     "passport": "*",
     "passport-jwt": "*"
   },
