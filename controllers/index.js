@@ -1,5 +1,5 @@
-var router = require("express").Router();
-var adminController = require('./admin');
+let router = require("express").Router();
+let adminController = require('./admin');
 
 //Admin Controller
 router.use(adminController);
