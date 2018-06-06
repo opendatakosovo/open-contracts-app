@@ -15,15 +15,17 @@ const UserSchema = mongoose.Schema({
 
 const User = (module.exports = mongoose.model("User", UserSchema));
 
+//Function for get a user by id
 module.exports.getUserById = (id, callback) => {
   User.findById(id, callback);
 };
 
-module.exports.getUserByUsername = (username, callback) => {
-  const query = { username: username };
-  User.findOne(query, callback);
-};
+//Function for getting all users
+module.exports.getAllUsers = callback => {
+  User.find(callback);
+}
 
+//Function for adding user
 module.exports.addUser = (newUser, callback) => {
   bcrypt.genSalt(10, (err, salt) => {
     bcrypt.hash(newUser.password, salt, (err, hash) => {
@@ -34,6 +36,7 @@ module.exports.addUser = (newUser, callback) => {
   });
 }
 
+//Function for comoparing passwords
 module.exports.comparePassword = (candidatePassword, hash, callback) => {
   bcrypt.compare(candidatePassword, hash, (err, isMatch) => {
     if (err) throw err;

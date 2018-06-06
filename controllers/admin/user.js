@@ -26,4 +26,19 @@ router.post('/', (req, res) => {
     });
 });
 
+router.get('/', (req, res) => {
+    User.getAllUsers((err, users) => {
+        if (!err) {
+            res.json({
+                "msg": "Users has been retrived sucessfully",
+                "users": users
+            });
+        } else {
+            res.json({
+                "err": err
+            });
+        }
+    });
+});
+
 module.exports = router;
