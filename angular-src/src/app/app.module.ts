@@ -26,6 +26,7 @@ import { UserService } from './service/user.service';
 import { RegistrationFormComponent } from './admin/registration-form/registration-form.component';
 import { ContractsComponent } from './admin/contracts/contracts.component';
 import { AddContractComponent } from './admin/contracts/add-contract/add-contract.component';
+import { ChangePasswordFormComponent } from './admin/change-password-form/change-password-form.component';
 
 
 
@@ -76,7 +77,8 @@ const appRoutes: Routes = [
     DataDashboardComponent,
     RegistrationFormComponent,
     ContractsComponent,
-    AddContractComponent
+    AddContractComponent,
+    ChangePasswordFormComponent
   ],
   imports: [
     BrowserModule,
