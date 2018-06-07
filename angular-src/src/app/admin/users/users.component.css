@@ -21,28 +21,7 @@
 .add-btn:active{
     outline: transparent;
 }
-#add-user-modal {
-    border: none;
-}
-#add-user-modal .modal-header {
-    background-color: #39a6bd;
-    color: #fff;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 500;
-}
 
-#add-user-modal .modal-footer {
-    background-color: #e9ecef;
-}
-#add-user-btn{
-    padding-right: 67px;
-}
-.form-i{
-    margin-bottom: 0;
-}
-.my-form-control{
-    margin: 10px 0;
-}
 .title{
     font-size: 26px;
     color: black;
@@ -94,13 +73,8 @@
     padding-bottom: 0;
     padding-top: 28px;
 }
-
 #save {
     background: #32a6bd !important;
     color: white !important;
 
 }
-.error-msg{
-    color: red;
-}
-
