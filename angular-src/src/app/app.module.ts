@@ -24,6 +24,8 @@ import { TablesComponent } from './admin/tables/tables.component';
 import { DataDashboardComponent } from './admin/data-dashboard/data-dashboard.component';
 import { UserService } from './service/user.service';
 import { RegistrationFormComponent } from './admin/registration-form/registration-form.component';
+import { ContractsComponent } from './admin/contracts/contracts.component';
+import { AddContractComponent } from './admin/contracts/add-contract/add-contract.component';
 
 
 
@@ -47,7 +49,8 @@ const appRoutes: Routes = [
       {path:'dashboard', component:DashboardComponent},
       {path:'dashboard/users', component:UsersComponent},
       {path:'dashboard/data', component:DataDashboardComponent},
-      {path:'dashboard/tables', component:TablesComponent}
+      {path:'dashboard/tables', component:TablesComponent},
+      {path:'dashboard/contracts', component:ContractsComponent}
     ]
   }
   
@@ -71,7 +74,9 @@ const appRoutes: Routes = [
     UsersComponent,
     TablesComponent,
     DataDashboardComponent,
-    RegistrationFormComponent
+    RegistrationFormComponent,
+    ContractsComponent,
+    AddContractComponent
   ],
   imports: [
     BrowserModule,

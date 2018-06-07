@@ -8,6 +8,9 @@
   padding: 5px 10px;
   margin-right: 10px;
 }
+.btn:focus {
+    box-shadow: 0px 0px 0px 0px rgb(0, 0, 0) !important;
+}
 .add-btn:hover{
   
     cursor: pointer;
@@ -90,6 +93,11 @@
 .user-info{
     padding-bottom: 0;
     padding-top: 28px;
+}
+#save {
+    background: #32a6bd !important;
+    color: white !important;
+
 }
 .error-msg{
     color: red;
