@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { trigger,style,transition,animate,keyframes,query,stagger } from '@angular/animations';
+import { HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -7,12 +7,12 @@ import { trigger,style,transition,animate,keyframes,query,stagger } from '@angul
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
-
+width = window.innerWidth;
   constructor() { }
+  ngOnInit() { }
 
-  ngOnInit() {
-
-
+  onResize(){
+    this.width=window.innerWidth;
   }
 
 }

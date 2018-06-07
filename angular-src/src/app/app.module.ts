@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule,FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { HostListener } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './main/login/login.component';
@@ -87,7 +88,9 @@ const appRoutes: Routes = [
     HttpModule,
     ReactiveFormsModule,
     RouterModule.forRoot(appRoutes),
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    
+    
   ],
   providers: [
     UserService
