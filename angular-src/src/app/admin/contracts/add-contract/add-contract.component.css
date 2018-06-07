@@ -41,3 +41,7 @@ label {
     width: 66.15px;
     height: 38px;
 }
+.error-msg{
+    color: red;
+    font-size: 14px;
+}

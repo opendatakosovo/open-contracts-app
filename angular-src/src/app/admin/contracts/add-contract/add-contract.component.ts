@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Contract } from '../../../models/contract';
 
 @Component({
   selector: 'app-add-contract',
@@ -7,9 +8,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddContractComponent implements OnInit {
 
-  constructor() { }
+  contracts: Contract[];
+  
 
-  ngOnInit() {
+  ngOnInit() { 
   }
+
+  contract:Contract = { 
+    activityTitle: "",
+    publicationDate: "",
+    noOfDownloads: "",
+    noOfOffers: "",
+    dateOfGivenContractPublication: "",
+    dateOfNoticeCancellations: "",
+    nameOfOE: "",
+    signingDate: "",
+    startDateOfImplemetation: "",
+    contractClosingDate: "",
+    predictedContractAmount: "",
+    totalAmount: "",
+ };
 
 }

@@ -9,94 +9,127 @@
   </div>
 
 
-<div class="modal fade bd-example-modal-lg" id="addContract" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Shto kontratë të re</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">×</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-12 form-group">
-              <label for="activityTitle">Titulli i aktivitetit tëgit prokurimit</label>
-              <input type="text" id="activityTitle" class="form-control">
-            </div>
+  <div class="modal fade bd-example-modal-lg" id="addContract" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Shto kontratë të re</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
           </div>
-          <div class="row">
-            <div class="col-12 form-group">
-              <label for="publicationDate">Data e publikimit të njoftimit për kontratë</label>
-              <input type="date" id="publicationDate" value="" class="form-control">
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-6 form-group">
-              <label for="noOfDownloads">Nr. i OE që kanë shkarkuar dosjen e tenderit</label>
-              <input type="text" id="noOfDownloads" class="form-control">
-            </div>
-            <div class="col-6 form-group">
-                <label for="noOfOffers">Nr. i OE që kanë dorëzuar ofertat</label>
-                <input type="text" id="noOfOffers" class="form-control">
+          <form action="" class="form-i" novalidate #contractForm="ngForm" (ngSubmit)="onSubmit(contractForm)">
+            <div class="modal-body">
+              <div class="container-fluid">
+                <div class="row">
+                <div class="col-12 form-group">
+                  <label for="activityTitle">Titulli i aktivitetit të prokurimit</label>
+                  <input type="text" name="activityTitle" id="activityTitle" class="form-control" [(ngModel)]="contract.activityTitle" #contractActivityTitle="ngModel" 
+                  required [style.border-color]="contractActivityTitle.errors?.required && contractActivityTitle.touched ? 'red' : '#ced4da'">
+                  <div *ngIf="contractActivityTitle.errors?.required && contractActivityTitle.touched" class="error-msg">Duhet plotësuar!</div>
+                </div>
               </div>
+              <div class="row">
+                <div class="col-12 form-group">
+                  <label for="publicationDate">Data e publikimit të njoftimit për kontratë</label>
+                  <input type="date" name="publicationDate" id="publicationDate" value="" class="form-control" [(ngModel)]="contract.publicationDate" #contractPublicationDate="ngModel" 
+                  required [style.border-color]="contractPublicationDate.errors?.required && contractPublicationDate.touched ? 'red' : '#ced4da'">
+                  <div *ngIf="contractPublicationDate.errors?.required && contractPublicationDate.touched" class="error-msg">Duhet plotësuar!</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6 form-group">
+                  <label for="noOfDownloads">Nr. i OE që kanë shkarkuar dosjen e tenderit</label>
+                  <input type="number" name="noOfDownloads" id="noOfDownloads" class="form-control" [(ngModel)]="contract.noOfDownloads" #contractNoOfDownloads="ngModel" 
+                  required [style.border-color]="contractNoOfDownloads.errors?.required && contractNoOfDownloads.touched ? 'red' : '#ced4da'">
+                  <div *ngIf="contractNoOfDownloads.errors?.required && contractNoOfDownloads.touched" class="error-msg">Duhet plotësuar!</div>
+                </div>
+                <div class="col-6 form-group">
+                    <label for="noOfOffers">Nr. i OE që kanë dorëzuar ofertat</label>
+                    <input type="number" name="noOfOffers" id="noOfOffers" class="form-control" [(ngModel)]="contract.noOfOffers" #contractNoOfOffers="ngModel" 
+                    required [style.border-color]="contractNoOfOffers.errors?.required && contractNoOfOffers.touched ? 'red' : '#ced4da'">
+                    <div *ngIf="contractNoOfOffers.errors?.required && contractNoOfOffers.touched" class="error-msg">Duhet plotësuar!</div>
+                  </div>
+              </div>
+              <div class="row">
+                <div class="col-6 form-group">
+                  <label for="dateOfGivenContractPublication">Data e publikimit të njoftimit për dhënie të kontratës </label>
+                  <input type="date" name="dateOfGivenContractPublication" id="dateOfGivenContractPublication" class="form-control" [(ngModel)]="contract.dateOfGivenContractPublication" #contractDateOfGivenContractPublication="ngModel" 
+                  required [style.border-color]="contractDateOfGivenContractPublication.errors?.required && contractDateOfGivenContractPublication.touched ? 'red' : '#ced4da'">
+                  <div *ngIf="contractDateOfGivenContractPublication.errors?.required && contractDateOfGivenContractPublication.touched" class="error-msg">Duhet plotësuar!</div>
+                </div>
+                <div class="col-6 form-group">
+                    <label for="dateOfNoticeCancellations">Data e publikimit të anulimit të njoftimit </label>
+                    <input type="date" name="dateOfNoticeCancellations" id="dateOfNoticeCancellations" class="form-control" [(ngModel)]="contract.dateOfNoticeCancellations" #contractDateOfNoticeCancellations="ngModel" 
+                    required [style.border-color]="contractDateOfNoticeCancellations.errors?.required && contractDateOfNoticeCancellations.touched ? 'red' : '#ced4da'">
+                    <div *ngIf="contractDateOfNoticeCancellations.errors?.required && contractDateOfNoticeCancellations.touched" class="error-msg">Duhet plotësuar!</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 form-group">
+                  <label for="nameOfOE">Emri i OE të cilit i është dhënë kontrata </label>
+                  <input type="text" name="nameOfOE" id="nameOfOE" class="form-control" [(ngModel)]="contract.nameOfOE" #contractNameOfOE="ngModel" 
+                  required [style.border-color]="contractNameOfOE.errors?.required && contractNameOfOE.touched ? 'red' : '#ced4da'">
+                  <div *ngIf="contractNameOfOE.errors?.required && contractNameOfOE.touched" class="error-msg">Duhet plotësuar!</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6 form-group" >
+                  <label for="signingDate">Data e nënshkrimit të kontratës </label>
+                  <input type="date" name="signingDate" id="signingDate" class="form-control" [(ngModel)]="contract.signingDate" #contractSigningDate="ngModel" 
+                  required [style.border-color]="contractSigningDate.errors?.required && contractSigningDate.touched ? 'red' : '#ced4da'">
+                  <div *ngIf="contractSigningDate.errors?.required && contractSigningDate.touched" class="error-msg">Duhet plotësuar!</div>
+                </div>
+                <div class="col-6 form-group">
+                  <label for="startDateOfImplemetation">Data e fillimit të implementimit të kontratës </label>
+                  <input type="date" name="startDateOfImplemetation" id="startDateOfImplemetation" class="form-control" [(ngModel)]="contract.startDateOfImplemetation" #contractStartDateOfImplemetation="ngModel" 
+                  required [style.border-color]="contractStartDateOfImplemetation.errors?.required && contractStartDateOfImplemetation.touched ? 'red' : '#ced4da'">
+                  <div *ngIf="contractStartDateOfImplemetation.errors?.required && contractStartDateOfImplemetation.touched" class="error-msg">Duhet plotësuar!</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 form-group">
+                  <label for="contractClosingDate">Data e mbylljes se kontrates  </label>
+                  <input type="date" name="contractClosingDate" id="contractClosingDate" class="form-control" [(ngModel)]="contract.contractClosingDate" #contractContractClosingDate="ngModel" 
+                  required [style.border-color]="contractContractClosingDate.errors?.required && contractContractClosingDate.touched ? 'red' : '#ced4da'">
+                  <div *ngIf="contractContractClosingDate.errors?.required && contractContractClosingDate.touched" class="error-msg">Duhet plotësuar!</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6 form-group" >
+                  <label for="predictedContractAmount">Vlera e parashikuar e kontratës</label>
+                  <input type="number" name="predictedContractAmount" id="predictedContractAmount" class="form-control" [(ngModel)]="contract.predictedContractAmount" #contractPredictedContractAmount="ngModel" 
+                  required [style.border-color]="contractPredictedContractAmount.errors?.required && contractPredictedContractAmount.touched ? 'red' : '#ced4da'">
+                  <div *ngIf="contractPredictedContractAmount.errors?.required && contractPredictedContractAmount.touched" class="error-msg">Duhet plotësuar!</div>
+                </div>
+                <div class="col-6 form-group">
+                  <label for="totalAmount">Vlera totale e kontratës, duke përfshirë të gjitha taksat</label>
+                  <input type="number" name="totalAmount" id="totalAmount" class="form-control" [(ngModel)]="contract.totalAmount" #contractTotalAmount="ngModel" 
+                  required [style.border-color]="contractTotalAmount.errors?.required && contractTotalAmount.touched ? 'red' : '#ced4da'">
+                  <div *ngIf="contractTotalAmount.errors?.required && contractTotalAmount.touched" class="error-msg">Duhet plotësuar!</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 form-group">
+                  <div class="form-group" >
+                    <label for="email">Drejtoritë</label>
+                   <select name="departments" id="departments" placeholder="Zgjedh" class="form-control" [(ngModel)]="contract.departments" #contractDepartments="ngModel" 
+                   required [style.border-color]="contractDepartments.errors?.required && contractDepartments.touched ? 'red' : '#ced4da'">
+                     <option [ngValue]="undefined" selected>Zgjedh drejtorinë</option>
+                     <option value="drejtoria1">Drejtoria 1</option>
+                   </select>
+                   <div *ngIf="contractDepartments.errors?.required && contractDepartments.touched" class="error-msg">Duhet plotësuar!</div>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>        
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Mbyll</button>
+            <button type="button" class="btn btn-secondary" id="add-contract-button" [disabled]="!contractForm.valid">Shto</button>
           </div>
-          <div class="row">
-            <div class="col-6 form-group">
-              <label for="dateOfGivenContractPublication">Data e publikimit të njoftimit për dhënie të kontratës </label>
-              <input type="date" id="dateOfGivenContractPublication" class="form-control">
-            </div>
-            <div class="col-6 form-group">
-                <label for="dateOfNoticeCancellations">Data e publikimit të anulimit të njoftimit </label>
-                <input type="date" id="dateOfNoticeCancellations" class="form-control">
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-12 form-group">
-              <label for="publicationDate">Emri i OE të cilit i është dhënë kontrata </label>
-              <input type="text" id="publicationDate" class="form-control">
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-6 form-group" >
-              <label for="signingDate">Data e nënshkrimit të kontratës </label>
-              <input type="date" id="signingDate" class="form-control">
-            </div>
-            <div class="col-6 form-group">
-              <label for="startDateOfImplemetation">Data e fillimit të implementimit të kontratës </label>
-              <input type="date" id="startDateOfImplemetation" class="form-control">
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-12 form-group">
-              <label for="contractClosingDate">Data e mbylljes se kontrates  </label>
-              <input type="date" id="contractClosingDate" class="form-control">
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-6 form-group" >
-              <label for="predictedContractAmount">Vlera e parashikuar e kontratës</label>
-              <input type="text" id="predictedContractAmount" class="form-control">
-            </div>
-            <div class="col-6 form-group">
-              <label for="totalAmount">Vlera totale e kontratës, duke përfshirë të gjitha taksat</label>
-              <input type="text" id="totalAmount" class="form-control">
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-12 form-group">
-              <label for="department">Drejtoria</label>
-              <input type="text" id="department" class="form-control">
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Mbyll</button>
-        <button type="button" class="btn btn-secondary" id="add-contract-button">Shto</button>
+        </form>
       </div>
     </div>
   </div>
-</div>
 </div>

@@ -63,12 +63,6 @@
     padding-right: 0;
     padding-top: 31px;
 }
-.edit{
-    color: #868e96;
-    padding-left: 8px;
-    padding-top: 30px;
-    width: 50px;
-}
 .user-info{
     padding-bottom: 0;
     padding-top: 28px;
@@ -77,4 +71,16 @@
     background: #32a6bd !important;
     color: white !important;
 
+}
+.delete-ico {
+    color: #868e96;
+    width: 17px;
+    padding-right: 20px;
+    padding-top: 30px;
+}
+.view-ico {
+    color: #868e96;
+    width: 17px;
+    padding-right: 0;
+    padding-top: 31px;
 }
