@@ -1,8 +1,5 @@
-
-
-    $(document).ready(() => {
-
-
+$(document).ready(() => {
+    // navbar transition
     $(window).scroll(function () {
       var height = $(window).scrollTop();
     
@@ -13,4 +10,4 @@
 
       }
   });
-    })
+})
