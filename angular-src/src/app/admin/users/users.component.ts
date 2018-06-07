@@ -10,14 +10,7 @@ import { User } from '../../models/user';
 })
 export class UsersComponent implements OnInit {
 
-  user = {
-    firstName: '',
-    lastName:'',
-    password:'',
-    email:''
-  }
-   users:User[];
-   private type:string = "admin";
+  users:User[];
 
   constructor(public userService : UserService) { 
     this.userService.getUsers().subscribe(data => {
