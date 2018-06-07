@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-
-import { Contract } from '../../../../../../models/contract';
+import { Contract } from '../../../models/contract';
 
 @Component({
   selector: 'app-add-contract',
@@ -9,24 +8,25 @@ import { Contract } from '../../../../../../models/contract';
 })
 export class AddContractComponent implements OnInit {
 
-  @Input('contract') contract: Contract;
+  contracts: Contract[];
   
 
-  constructor() { }
-
-  ngOnInit() {
-    let activityTitle = this.contract.activityTitle;
-    this.contract.publicationDate = '';
-    this.contract.noOfDownloads = '';
-    this.contract.noOfOffers = '';
-    this.contract.dateOfGivenContractPublication = '';
-    this.contract.dateOfNoticeCancellations = '';
-    this.contract.nameOfOE = '';
-    this.contract.signingDate = '';
-    this.contract.startDateOfImplemetation = '';
-    this.contract.contractClosingDate = '';
-    this.contract.predictedContractAmount = '';
-    this.contract.totalAmount = '';
+  ngOnInit() { 
   }
+
+  contract:Contract = { 
+    activityTitle: "",
+    publicationDate: "",
+    noOfDownloads: "",
+    noOfOffers: "",
+    dateOfGivenContractPublication: "",
+    dateOfNoticeCancellations: "",
+    nameOfOE: "",
+    signingDate: "",
+    startDateOfImplemetation: "",
+    contractClosingDate: "",
+    predictedContractAmount: "",
+    totalAmount: "",
+ };
 
 }
