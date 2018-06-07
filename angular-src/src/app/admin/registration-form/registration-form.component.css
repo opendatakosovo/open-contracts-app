@@ -1,0 +1,26 @@
+.error-msg{
+    color: red;
+}
+
+#add-user-modal {
+    border: none;
+}
+#add-user-modal .modal-header {
+    background-color: #39a6bd;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+}
+
+#add-user-modal .modal-footer {
+    background-color: #e9ecef;
+}
+#add-user-btn{
+    padding-right: 67px;
+}
+.form-i{
+    margin-bottom: 0;
+}
+.my-form-control{
+    margin: 10px 0;
+}

@@ -22,6 +22,8 @@ import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { UsersComponent } from './admin/users/users.component';
 import { TablesComponent } from './admin/tables/tables.component';
 import { DataDashboardComponent } from './admin/data-dashboard/data-dashboard.component';
+import { UserService } from './service/user.service';
+import { RegistrationFormComponent } from './admin/registration-form/registration-form.component';
 import { ContractsComponent } from './admin/contracts/contracts.component';
 import { AddContractComponent } from './admin/contracts/add-contract/add-contract.component';
 
@@ -72,6 +74,7 @@ const appRoutes: Routes = [
     UsersComponent,
     TablesComponent,
     DataDashboardComponent,
+    RegistrationFormComponent,
     ContractsComponent,
     AddContractComponent
   ],
@@ -84,7 +87,9 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     NgbModule.forRoot()
   ],
-  providers: [],
+  providers: [
+    UserService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
