@@ -1,5 +1,4 @@
-
-<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="navbar-1">
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="navbar-1" (window:resize)="onResize()">
 
   <a class="navbar-brand" href="#">LOGO</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNav" aria-controls="mainNav"
@@ -30,15 +29,29 @@
     
       </li>
     </ul>
-    <div id="language">
-      <ul class="navbar-nav navbar-right">
+    <div *ngIf="width>991">
+      <ul class="navbar-nav navbar-right text-dark">
         <li class="nav-item active" routerLinkActive="active">
           <a class="nav-link" [routerLink]="['/albanian']">SHQ</a> 
         </li>
-        <span>|</span>
+        <span id="horizontalLine">|</span>
         <li class="nav-item">
           <a class="nav-link" [routerLink]="['/serbian']" >SRB</a>
         </li>
+      </ul>
+    </div>
+    <div *ngIf="991>=width">
+      <ul class="navbar-nav navbar-right dropdown">
+              <button id="lang-select" class="btn btn-outline-info dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <span class="caret"></span>SHQ</button>
+              <ul class="dropdown-menu">
+                  <li class="nav-item active" routerLinkActive="active">
+                    <a class="nav-link" [routerLink]="['/albanian']">SHQ</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/serbian']" >SRB</a>
+                  </li>
+              </ul>
       </ul>
     </div>
   </div>
