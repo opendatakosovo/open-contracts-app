@@ -31,23 +31,17 @@
               </a>
             </li>
             <li class="nav-item" data-toggle="tooltip" data-placement="right" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-              <a class="nav-link" [routerLink]="['/dashboard/tables']">
-                <i class="fa fa-fw fa-table"></i>
-                <span class="nav-link-text">Tabelat</span>
+              <a class="nav-link" [routerLink]="['/dashboard/contracts']">
+                <i class="fa fa-file-text-o" style="padding-left: 4px"></i>
+                <span class="nav-link-text" style="padding-left: 4px"> Kontratat</span>
               </a>
-            </li>
+            </li> 
             <li class="nav-item" data-toggle="tooltip" data-placement="right" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
                 <a class="nav-link" [routerLink]="['/dashboard/users']">
                   <i class="fa fa-fw fa-user"></i>
                   <span class="nav-link-text">Përdoruesit</span>
                 </a>
-            </li>  
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-              <a class="nav-link" [routerLink]="['/dashboard/contracts']">
-                <i class="fa fa-file-text-o" style="padding-left: 4px"></i>
-                <span class="nav-link-text" style="padding-left: 4px"> Kontratat</span>
-              </a>
-          </li>           
+            </li>           
           </ul>
           <ul class="navbar-nav sidenav-toggler">
             <li class="nav-item">
@@ -57,18 +51,6 @@
             </li>
           </ul>
           <ul class="navbar-nav ml-auto">          
-            <li class="nav-item">
-              <form class="form-inline my-2 my-lg-0 mr-lg-2">
-                <div class="input-group">
-                  <input class="form-control" type="text" placeholder="Kërko">
-                  <span class="input-group-append">
-                    <button class="btn btn-primary" type="button">
-                      <i class="fa fa-search"></i>
-                    </button>
-                  </span>
-                </div>
-              </form>
-            </li>
             <li class="nav-item">
               <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
                 <i class="fa fa-fw fa-sign-out"></i>Çkyqu</a>
