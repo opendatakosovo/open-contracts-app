@@ -32,7 +32,8 @@
         "../node_modules/popper.js/dist/umd/popper.min.js",
         "../node_modules/bootstrap/dist/js/bootstrap.js",
         "./assets/js/sb-admin.js",
-        "./assets/js/navbar.js"
+        "./assets/js/navbar.js",
+        "./assets/js/bootstrap-filestyle.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
