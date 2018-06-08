@@ -123,13 +123,15 @@
                 </div>
               </div>
               <div class="form-group" id="upload-contract">
-                <input type="file" name="example" class="filestyle">
+                <input type="file" name="contract-file" id="contract-file" class="filestyle" [(ngModel)]="contract.contract-file" #contractContractFile="ngModel" 
+                required [style.border-color]="contractContractFile.errors?.required && contractContractFile.touched ? 'red' : '#ced4da'">
+                <div *ngIf="contractContractFile.errors?.required && contractContractFile.touched" class="error-msg">Duhet plotësuar!</div>
               </div>
             </div>
           </div>        
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Mbyll</button>
-            <button type="button" class="btn btn-secondary" id="add-contract-button" [disabled]="!contractForm.valid" (onchange)="Validate(this)">Shto</button>
+            <button type="button" class="btn btn-secondary" id="add-contract-button" [disabled]="!contractForm.valid">Shto</button>
           </div>
         </form>
       </div>
