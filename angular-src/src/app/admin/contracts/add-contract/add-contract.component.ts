@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Contract } from '../../../models/contract';
-import {FormGroup, FormBuilder, FormControl, Validators} from '@angular/forms';
 import { ValidatorFn } from '@angular/forms/src/directives/validators';
 
 @Component({
@@ -16,6 +15,12 @@ export class AddContractComponent implements OnInit {
   
 
   ngOnInit() { 
+    function checkFile(file) {
+      var extension = file.substr((file.lastIndexOf('.') +1));
+      if (!/(pdf|zip|doc)$/ig.test(extension)) {
+        alert("Invalid file type: "+extension+".  Please use DOC, PDF or Zip.");
+      }
+    }
   }
 
   contract:Contract = { 
@@ -33,24 +38,5 @@ export class AddContractComponent implements OnInit {
     totalAmount: "",
  };
 
- private upload() {
-  const fileBrowser = this.fileInput.nativeElement;
-  if (fileBrowser.files && fileBrowser.files[0]) {
-    const formData = new FormData();
-    formData.append('files', fileBrowser.files[0]);
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', '/api/Data/UploadFiles', true);
-    xhr.onload = function () {
-      if (this['status'] === 200) {
-          const responseText = this['responseText'];
-          const files = JSON.parse(responseText);
-          //todo: emit event
-      } else {
-        //todo: error handling
-      }
-    };
-    xhr.send(formData);
-  }
-}
 
 }
