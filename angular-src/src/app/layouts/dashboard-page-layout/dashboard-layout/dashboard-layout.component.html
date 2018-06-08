@@ -19,6 +19,12 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
             <li class="nav-item" data-toggle="tooltip" data-placement="right" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                <a class="nav-link" [routerLink]="['/dashboard/profile']">
+                  <i class="fa fa-fw fa-user"></i>
+                  <span class="nav-link-text">Profili</span>
+                </a>
+            </li>
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
               <a class="nav-link" [routerLink]="['/dashboard']">
                 <i class="fa fa-fw fa-dashboard"></i>
                 <span class="nav-link-text">Paneli Kryesor</span>
@@ -38,7 +44,7 @@
             </li>
             <li class="nav-item" data-toggle="tooltip" data-placement="right" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
                 <a class="nav-link" [routerLink]="['/dashboard/users']">
-                  <i class="fa fa-fw fa-user"></i>
+                  <i class="fa fa-users"></i>
                   <span class="nav-link-text">Përdoruesit</span>
                 </a>
             </li>  
@@ -47,7 +53,7 @@
                 <i class="fa fa-file-text-o" style="padding-left: 4px"></i>
                 <span class="nav-link-text" style="padding-left: 4px"> Kontratat</span>
               </a>
-          </li>           
+            </li>           
           </ul>
           <ul class="navbar-nav sidenav-toggler">
             <li class="nav-item">
