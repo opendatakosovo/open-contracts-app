@@ -1,0 +1,12 @@
+#profileHeader{
+    background-color: #32a6bd;
+    text-align: center;
+    color: white;
+    font-size: 20px;
+    font-weight: 400;
+}
+#changePasswordBtn{
+    background: #32a6bd;
+    color: white;
+    border-color: #32a6bd;
+}
