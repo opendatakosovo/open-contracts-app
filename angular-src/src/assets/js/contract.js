@@ -33,7 +33,7 @@
 
 $(function() {
     $(document).ready(() => {
-    $('#contract-file').checkFileType({
+    $('#contractFile').checkFileType({
         allowedExtensions: ['pdf'],
         success: function() {
             $("div #upload-contract #message").hide();
@@ -41,9 +41,11 @@ $(function() {
         error: function() {
             $("div #upload-contract #message").hide();
             $("div #upload-contract").append(`
-                <div id="message" style="color: red; font-size: 14px;">Duhet ngarkuar pdf file!</div>
+                <div id="message" style="color: red; font-size: 14px;">Duhet ngarkuar në formatin pdf!</div>
             `);
+            $(this).val('');
         }
     });
+    $('.buttonText').text('Ngarko kontratën');
     });
 });

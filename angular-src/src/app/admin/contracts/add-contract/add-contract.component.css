@@ -45,11 +45,7 @@ label {
     color: red;
     font-size: 14px;
 }
-.info-msg{
-    font-size: 10px;
-    font-weight: bold;
-    color: #007bff;
+.btn-primary:not(:disabled):not(.disabled):active{
+    background-color: red;
 }
-#upload-contract label{
-    background-color: #39a6bd !important; 
-}
+
