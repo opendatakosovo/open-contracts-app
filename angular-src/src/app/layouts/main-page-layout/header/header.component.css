@@ -1,4 +1,4 @@
-.navbar{
+.navbar {
     background-color: white;
     padding:  15px 100px 15px 100px;
     box-shadow: 0 8px 20px -15px black;
@@ -7,18 +7,20 @@
 .fa {
     color: #32a6bd;
 }
-.scroll{
+nav#navbar-1 {
+    width: 100%;
+}
+.scroll {
     padding-top: 5px !important;
     padding-bottom: 5px !important;
     transition: 0.5s !important;
 }
-
-.nav-item.active .underline{
+.nav-item.active .underline {
     border-bottom: 3px solid #32a6bd;
     margin-top: 0;
     margin-left: 25px;
 }
-.nav-item{
+.nav-item {
     color:black;
 }
 
@@ -27,13 +29,14 @@
     color: #333;
     padding-bottom: 0;
 }
-.nav-item.active .nav-link{
+.nav-item.active .nav-link {
     color:#32a6bd;
     font-weight: 500;
-    
+}
+#lang-select {
+    display: inherit;
 }
 #mainNav .navbar-collapse {
-
     top: 0;
     left: 0;
     -webkit-flex-direction: column;
@@ -41,8 +44,7 @@
     flex-direction: column;
     margin-top: 56px;
     overflow: visible;
-
-  }
+}
 a {
     font-family: 'Roboto', sans-serif;
 }
@@ -50,9 +52,11 @@ a {
     font-size: 30px;
     color:#32a6bd;
     font-weight: 600;
-
 }
-
+#dropdownMenu {
+    list-style-type: none;
+    display: inherit;
+}
 #underlineHome {
     width:36px;
 }
@@ -65,13 +69,32 @@ a {
 #underlineAbout {
     width:69px;
 }
-.navbar-nav span{
+#horizontalLine {
     margin-top:7px ;
     color:#333;
 }
-
-@media (max-width: 1485px){
+#lang-select {
+    background-color: white;
+    color: rgba(0,0,0,.5);
+    padding-left: 0;
+    border:none;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500
+}
+.dropdown-toggle::after {
+    margin-top: 11px;
+}
+.dropdown-menu a.nav-link {
+    padding-left: 6px;
+    padding-top: 1px;
+    padding-bottom: 3px;
+}
+.dropdown-menu a.nav-link:hover {
+    background-color: #f2f2f2 !important;
+    cursor:pointer;
     
+}
+@media (max-width: 1485px) {
     .nav-link {
         font-size: 15px;   
     }
@@ -89,10 +112,10 @@ a {
     }
  }
  @media (max-width: 1480px){
-    .nav-item.active .underline{
+    .nav-item.active .underline {
         margin-left: 18px;
     }
-    .navbar{
+    .navbar {
         padding:  14px 100px 14px 100px;
     }
     #underlineHome {
@@ -108,11 +131,11 @@ a {
         width:59px;
     }
  }
- @media(max-width:1280px){
-    .nav-item.active .underline{
+ @media(max-width:1280px) {
+    .nav-item.active .underline {
         margin-left: 24px;
     }
-    .navbar{
+    .navbar {
         padding:  13px 100px 13px 100px;
     }
      .nav-link {
@@ -124,8 +147,8 @@ a {
    
  }
  
- @media (max-width: 1111px){
-    .navbar{
+ @media (max-width: 1111px) {
+    .navbar {
         padding:  12px 100px 12px 100px;
     }
     #underlineHome {
@@ -142,12 +165,14 @@ a {
     } 
  }
  
-@media (max-width: 1040px){
-
-   .nav-link{
+@media (max-width: 1040px) {
+   .nav-link {
     font-size: 14px
     }
-    .nav-item.active .underline{
+    #lang-select{
+        font-size: 14px
+    }
+    .nav-item.active .underline {
         margin-left: 22px;
     }
     #underlineDataSet {
@@ -159,54 +184,55 @@ a {
     #underlineAbout {
         width:52px;
     }
-    .navbar-nav span{
-        display: none;
-    }
-    #language{
-        padding-left: 0px;
-    }
  }
- @media(max-width:1010px){
-    .nav-link{
+ @media(max-width:1010px) {
+    .nav-link {
+        font-size: 13.5px;
+    }
+    #lang-select{
         font-size: 13.5px
     }
 
  }
- @media(max-width: 985px){
-    .nav-item.active .underline{
+ @media(max-width: 992px) {
+   
+    .nav-item.active .underline {
         margin-left: 11px;
- }
+    }
     #underlineHome {
         width:34px;
-}
+    }
     #underlineVisualizations {
         width:67px;
-}   
+    }   
     #underlineDataSet {
         width:97px;
-}
+    }
     #underlineAbout {
         width:58px;
+    }
 }
- }
-
- @media(max-width: 781px){
-    .nav-item.active .underline{
+ @media(max-width: 781px) {
+    .nav-item.active .underline {
         margin-left: 9px;
+    }
+    nav#navbar-1 {
+        width: 100%
+    }
  }
- }
-@media (max-width: 380px){
-   .navbar-brand{
+@media (max-width: 380px) { 
+   .navbar-brand {
        font-size: 20px 
    }
    .nav-link {
-    font-size: 14px;
-}
-   .nav-item.active .underline{
-    border-bottom: 2px solid #32a6bd;
-    margin-top: 0;
-    margin-left: 10px;
-}
+        font-size: 14px;
+    }
+    #lang-select{
+        font-size: 14px
+    }
+   .nav-item.active .underline {
+        margin-left: 10px;
+    }
     #underlineHome {
         width:35px;
     }
@@ -220,18 +246,17 @@ a {
         width:65px;
     }
 }
-@media (max-width: 336px){
-    .navbar-brand{
+@media (max-width: 336px) {
+    .navbar-brand {
         font-size: 15px 
     }
     .nav-link {
         font-size: 12px;
-        color: #333;
-        padding-bottom: 0;
     }
-       .nav-item.active .underline{
-        border-bottom: 1px solid #32a6bd;
-        margin-top: 0;
+    #lang-select{
+        font-size: 12px
+    }
+    .nav-item.active .underline {
         margin-left: 5px;
     }
     #underlineHome {

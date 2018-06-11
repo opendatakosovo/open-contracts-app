@@ -1,3 +1,47 @@
-<p>
-  profile works!
-</p>
+<div class="row mt-4">
+    <div class="col-10 offset-1">
+        <table class="table profile table-hover">
+            <thead>
+                <th id="profileHeader" colspan="2"><span id="tableHeadText">Të dhënat e profilit</span>
+                    <span data-toggle="modal" data-target="#editAdmin">
+                        <i data-toggle="tooltip" title="Ndrysho profilin" class="fa float-right fa-pencil-square-o actions" id="editAdminProfile" aria-hidden="true"></i>                    
+                    </span>
+                </th>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>Emri</th>
+                    <td>John</td>
+                </tr>
+                <tr>
+                    <th>Mbiemri</th>
+                    <td>Doe</td>
+                </tr>
+                <tr>
+                    <th>Gjinia</th>
+                    <td>Male</td>
+                </tr>
+                <tr>
+                    <th>Email Adresa</th>
+                    <td>johnDoe@gmail.com</td>
+                </tr>
+                <tr>
+                    <th>Roli</th>
+                    <td>Administrator</td>
+                </tr>
+                <tr>
+                    <th>Drejtoria</th>
+                    <td>Opsionale</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="col-md-12 change-btns">
+            <button class='btn btn-primary' id="changePasswordBtn" data-toggle="modal" style='margin-top: 10px;' data-target="#changePasswordModal">
+                Ndrysho fjalëkalimin
+            </button>
+        </div>
+    </div>
+</div>
+
+<app-edit-profile></app-edit-profile>
+<app-change-password></app-change-password>

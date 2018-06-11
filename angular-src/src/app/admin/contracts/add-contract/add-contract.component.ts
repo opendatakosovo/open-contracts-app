@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Contract } from '../../../models/contract';
+import { ValidatorFn } from '@angular/forms/src/directives/validators';
 
 @Component({
   selector: 'app-add-contract',
@@ -7,9 +9,34 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddContractComponent implements OnInit {
 
-  constructor() { }
+  contracts: Contract[];
 
-  ngOnInit() {
+  @ViewChild('fileInput') fileInput;
+  
+
+  ngOnInit() { 
+    function checkFile(file) {
+      var extension = file.substr((file.lastIndexOf('.') +1));
+      if (!/(pdf|zip|doc)$/ig.test(extension)) {
+        alert("Invalid file type: "+extension+".  Please use DOC, PDF or Zip.");
+      }
+    }
   }
+
+  contract:Contract = { 
+    activityTitle: "",
+    publicationDate: "",
+    noOfDownloads: "",
+    noOfOffers: "",
+    dateOfGivenContractPublication: "",
+    dateOfNoticeCancellations: "",
+    nameOfOE: "",
+    signingDate: "",
+    startDateOfImplemetation: "",
+    contractClosingDate: "",
+    predictedContractAmount: "",
+    totalAmount: "",
+ };
+  
 
 }
