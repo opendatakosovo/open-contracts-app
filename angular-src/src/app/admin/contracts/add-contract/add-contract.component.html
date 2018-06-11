@@ -123,9 +123,7 @@
                 </div>
               </div>
               <div class="form-group" id="upload-contract">
-                <input type="file" name="contractFile" id="contractFile" class="filestyle my-style" [(ngModel)]="contract.contractFile" #contractContractFile="ngModel" 
-                required [style.border-color]="contractContractFile.errors?.required && contractContractFile.touched ? 'red' : '#ced4da'">
-                <div *ngIf="contractContractFile.errors?.required && contractContractFile.touched" class="error-msg">Duhet plotësuar!</div>
+                <input type="file" name="contractFile" id="contractFile" class="filestyle my-style" [(ngModel)]="contract.contractFile" #contractContractFile="ngModel">
               </div>
             </div>
           </div>        

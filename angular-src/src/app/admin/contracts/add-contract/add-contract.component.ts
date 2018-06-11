@@ -36,7 +36,6 @@ export class AddContractComponent implements OnInit {
     contractClosingDate: "",
     predictedContractAmount: "",
     totalAmount: "",
-    contractFile: "",
  };
 
 
