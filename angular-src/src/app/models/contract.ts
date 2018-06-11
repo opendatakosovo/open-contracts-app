@@ -12,4 +12,5 @@ export interface Contract {
     predictedContractAmount: string;
     totalAmount: string;
     department? : string;
+    contractFile? : string;
 }
