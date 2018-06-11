@@ -5,6 +5,7 @@ const cors = require("cors");
 const passport = require("passport");
 const mongoose = require("mongoose");
 const config = require("./config/database");
+const morgan =  require('morgan');
 
 // DB connection
 mongoose.connect(config.database);
@@ -31,8 +32,12 @@ app.get("/", (req, res) => {
   res.send("Invalid");
 });
 
-//Registering all controllers
+// Log every request into console
+app.use(morgan('dev'));
+
+// Registering all controllers
 app.use(require('./controllers'));
+
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/index.html'));
 });

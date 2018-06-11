@@ -14,7 +14,6 @@ import { ProfileComponent } from './admin/profile/profile.component';
 import { DataSetComponent } from './main/data-set/data-set.component';
 import { AboutUsComponent } from './main/about-us/about-us.component';
 import { FooterComponent } from './layouts/main-page-layout/footer/footer.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HeaderComponent } from './layouts/main-page-layout/header/header.component';
 import { LayoutComponent } from './layouts/main-page-layout/layout/layout.component';
 import { DashboardLayoutComponent } from './layouts/dashboard-page-layout/dashboard-layout/dashboard-layout.component';
@@ -26,6 +25,7 @@ import { UserService } from './service/user.service';
 import { RegistrationFormComponent } from './admin/registration-form/registration-form.component';
 import { ContractsComponent } from './admin/contracts/contracts.component';
 import { AddContractComponent } from './admin/contracts/add-contract/add-contract.component';
+import { ModalModule } from 'ngx-bootstrap';
 import { ChangePasswordFormComponent } from './admin/change-password-form/change-password-form.component';
 import { EditProfileComponent } from './admin/profile/edit-profile/edit-profile.component';
 import { ChangePasswordComponent } from './admin/profile/change-password/change-password.component';
@@ -92,10 +92,9 @@ const appRoutes: Routes = [
     HttpModule,
     ReactiveFormsModule,
     RouterModule.forRoot(appRoutes),
-    NgbModule.forRoot(),
-    
-    
+    ModalModule.forRoot()
   ],
+  entryComponents:[RegistrationFormComponent],
   providers: [
     UserService
   ],

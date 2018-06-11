@@ -7,7 +7,7 @@ ssh jenkins@46.101.135.45 <<EOF
  npm --unsafe-perm --verbose install
  cd angular-src
  npm --unsafe-perm --verbose install
- ng build
+ ng b -prod
  pm2 restart app
  exit
 EOF
