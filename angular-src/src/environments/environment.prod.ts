@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl:"http://test.opendatakosovo.org:3000"
+  apiUrl: 'https://test.opendatakosovo.org'
 };
