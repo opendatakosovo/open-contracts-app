@@ -55,6 +55,7 @@ const appRoutes: Routes = [
       {path:'dashboard/data', component:DataDashboardComponent},
       {path:'dashboard/contracts', component:ContractsComponent},
       {path:'dashboard/profile', component:ProfileComponent}
+
     ]
   }
   

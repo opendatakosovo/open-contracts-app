@@ -33,7 +33,8 @@
         "../node_modules/bootstrap/dist/js/bootstrap.js",
         "./assets/js/sb-admin.js",
         "./assets/js/navbar.js",
-        "./assets/js/bootstrap-filestyle.js"
+        "./assets/js/bootstrap-filestyle.js",
+        "./assets/js/contract.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
