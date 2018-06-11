@@ -9,14 +9,14 @@
       </div>
     </div>
     <div class="row col-12" id="table-row">
-        <table class="table">
+        <table class="table" *ngFor="let user of users">
             <tbody>
               <tr>
                 <td class="img-col">
                     <img src="/assets/images/zyrtari.png" class="img-fluid"> 
                 </td>
                 <td class="user-info">
-                  <p class="name">John Doe</p>
+                  <p class="name">{{ user.firstName }} {{ user.lastName }} </p>
                   <p class="position">Pozita</p>
                 </td>
                 <td class="view-ico">
@@ -29,49 +29,8 @@
                     <span><a data-toggle="modal" data-target="#exampleModal"><i class="fa fa-trash" aria-hidden="true"></i></a></span>
                 </td>
               </tr>
-              <tr>
-                <td class="img-col">
-                  <img src="/assets/images/administratori.png" class="img-fluid"> 
-                </td>
-                <td class="user-info">
-                  <p class="name">Mary Moe</p>
-                  <p class="position">Pozita</p>
-                </td>
-                <td class="view-ico">
-                  <span><a data-toggle="modal" data-target="#exampleModal"><i class="fa fa-user" aria-hidden="true"></i></a></span>
-                </td>
-                <td class="edit-ico">
-                  <span><a data-toggle="modal" data-target="#exampleModal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></span>
-                </td>
-                <td class="delete-ico">
-                    <span><a data-toggle="modal" data-target="#exampleModal"><i class="fa fa-trash" aria-hidden="true"></i></a></span>
-                </td>
-              </tr>
-              <tr>
-                <td class="img-col">
-                  <img src="/assets/images/zyrtari.png" class="img-fluid"> 
-                </td>
-                <td class="user-info">
-                  <p class="name">July Cold</p>
-                  <p class="position">Pozita</p>
-                </td>
-                <td class="view-ico">
-                  <span><a data-toggle="modal" data-target="#exampleModal"><i class="fa fa-user" aria-hidden="true"></i></a></span>
-                </td>
-                <td class="edit-ico">
-                  <span><a data-toggle="modal" data-target="#exampleModal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></span>
-                </td>
-                <td class="delete-ico">
-                    <span><a data-toggle="modal" data-target="#exampleModal"><i class="fa fa-trash" aria-hidden="true"></i></a></span>
-                </td>
-              </tr>
             </tbody>
           </table>
-          <div class="col-md-12 change-btns">
-            <button class='btn btn-primary' id="change-password-btn" data-toggle="modal" style='margin-top: 10px;' data-target="#change-password-modal">
-                Ndrysho fjalëkalimin
-            </button>
-          </div>
     </div>
 
     <app-registration-form></app-registration-form>
