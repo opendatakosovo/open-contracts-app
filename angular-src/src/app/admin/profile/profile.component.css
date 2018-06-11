@@ -10,3 +10,15 @@
     color: white;
     border-color: #32a6bd;
 }
+.change-btns {
+    padding-left: 0px
+}
+tr {
+    height: 65px;
+}  
+th , td {
+    padding-top: 20px;
+}
+th#profileHeader {
+    padding-bottom: 20px;
+}

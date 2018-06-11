@@ -37,6 +37,6 @@ export class AddContractComponent implements OnInit {
     predictedContractAmount: "",
     totalAmount: "",
  };
-
+  
 
 }

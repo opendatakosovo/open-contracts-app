@@ -36,7 +36,12 @@ html {
     background-color: #212529;
     border-color: #212529;
   }
-  
+  .profile.active i  {
+    color:rgba(255,255,255,.9)
+  }
+  .profile.active span  {
+    color:rgba(255,255,255,.9)
+  }
   .active i {
     color: #39a6bd;
   }

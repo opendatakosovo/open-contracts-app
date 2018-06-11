@@ -123,13 +123,13 @@
                 </div>
               </div>
               <div class="form-group" id="upload-contract">
-                <input type="file" name="contractFile" id="contractFile" class="filestyle my-style" [(ngModel)]="contract.contractFile" #contractContractFile="ngModel">
+                 <input type="file" name="contractFile" id="contractFile" class="filestyle my-style" [(ngModel)]="contract.contractFile" #contractContractFile="ngModel">
               </div>
             </div>
           </div>        
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Mbyll</button>
-            <button type="button" class="btn btn-secondary" id="add-contract-button" [disabled]="!contractForm.valid">Shto</button>
+            <button type="button" class="btn btn-secondary" id="add-contract-button" [disabled]="!contractForm.valid" (onchange)="Validate(this)">Shto</button>
           </div>
         </form>
       </div>
