@@ -18,17 +18,20 @@ export class LoginComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+      if (this.userService.loggedIn()) {
+        this.router.navigate(['/dashboard']);
+      } else {
+        this.router.navigate(['/login']);
+      }
     }
 
     onLoginSubmit() {
-      console.log('submit');
       const user = {
         email: this.email,
         password: this.password
       };
       this.userService.authUser(user)
         .subscribe(data => {
-          console.log(data);
           if (data.success) {
             this.userService.storeUserData(data.token, data.user);
             this.router.navigate(['/dashboard']);

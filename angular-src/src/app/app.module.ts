@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { FormsModule,FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormsModule, FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { HostListener } from '@angular/core';
 
@@ -29,37 +29,34 @@ import { ModalModule } from 'ngx-bootstrap';
 import { ChangePasswordFormComponent } from './admin/change-password-form/change-password-form.component';
 import { EditProfileComponent } from './admin/profile/edit-profile/edit-profile.component';
 import { ChangePasswordComponent } from './admin/profile/change-password/change-password.component';
-
-
-
+import { AuthGuard } from './guards/auth.guard';
 
 const appRoutes: Routes = [
-  //Main page layouts routes
+  // Main page layouts routes
   {
-    path: "",
+    path: '',
     component: LayoutComponent,
-    children:[
-      {path:"", component: HomeComponent},
-      { path: 'visualisations' , component: VisualisationsComponent }, 
+    children: [
+      {path: '', component: HomeComponent},
+      { path: 'visualisations' , component: VisualisationsComponent },
       { path: 'data-set' , component: DataSetComponent},
       { path: 'about-us' , component: AboutUsComponent },
     ]
   },
-  {path:'login', component:LoginComponent},
+  {path: 'login', component: LoginComponent},
   {
-    path:'',
+    path: '',
     component: DashboardLayoutComponent,
-    children:[
-      {path:'dashboard', component:DashboardComponent},
-      {path:'dashboard/users', component:UsersComponent},
-      {path:'dashboard/data', component:DataDashboardComponent},
-      {path:'dashboard/contracts', component:ContractsComponent},
-      {path:'dashboard/profile', component:ProfileComponent}
+    children: [
+      {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
+      {path: 'dashboard/users', component: UsersComponent, canActivate: [AuthGuard]},
+      {path: 'dashboard/data', component: DataDashboardComponent, canActivate: [AuthGuard]},
+      {path: 'dashboard/contracts', component: ContractsComponent, canActivate: [AuthGuard]},
+      {path: 'dashboard/profile', component: ProfileComponent, canActivate: [AuthGuard]}
 
     ]
   }
-  
-]
+];
 
 @NgModule({
   declarations: [
@@ -94,9 +91,10 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     ModalModule.forRoot()
   ],
-  entryComponents:[RegistrationFormComponent],
+  entryComponents: [RegistrationFormComponent],
   providers: [
-    UserService
+    UserService,
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })
