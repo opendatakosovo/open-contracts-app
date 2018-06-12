@@ -1,24 +1,21 @@
-#profileHeader{
+#profileHeader {
     background-color: #32a6bd;
     text-align: center;
     color: white;
     font-size: 20px;
     font-weight: 400;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
-#changePasswordBtn{
+#change-password-btn {
     background: #32a6bd;
     color: white;
     border-color: #32a6bd;
+    margin-left: 20px;
+    margin-bottom: 20px;
 }
-.change-btns {
-    padding-left: 0px
-}
-tr {
-    height: 65px;
-}  
-th , td {
+.data-information {
     padding-top: 20px;
-}
-th#profileHeader {
     padding-bottom: 20px;
+    padding-left: 25px;
 }

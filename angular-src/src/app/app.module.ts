@@ -31,6 +31,7 @@ import { EditProfileComponent } from './admin/profile/edit-profile/edit-profile.
 import { ChangePasswordComponent } from './admin/profile/change-password/change-password.component';
 import { DirectoratesComponent } from './admin/directorates/directorates.component';
 import { AddDirectoratesComponent } from './admin/directorates/add-directorates/add-directorates.component';
+import { UserProfileComponent } from './admin/users/user-profile/user-profile.component';
 
 
 
@@ -59,7 +60,7 @@ const appRoutes: Routes = [
       {path:'dashboard/users', component:UsersComponent},
       {path:'dashboard/data', component:DataDashboardComponent},
       {path:'dashboard/contracts', component:ContractsComponent},
-      {path:'dashboard/profile', component:ProfileComponent}
+      {path:'dashboard/profile', component:ProfileComponent},
       {path:'dashboard/directorates', component:DirectoratesComponent}
     ]
   }
@@ -90,6 +91,7 @@ const appRoutes: Routes = [
     ChangePasswordComponent,
     DirectoratesComponent,
     AddDirectoratesComponent,
+    UserProfileComponent,
   ],
   imports: [
     BrowserModule,
