@@ -38,7 +38,7 @@ export class RegistrationFormComponent implements OnInit {
   private role: string = "admin";
 
 
-  addStudent(event) {
+  addUser(event) {
     this.userService.addUser(this.user).subscribe(res => {
       if (res.err) {
         Swal("Gabim!", "Pëdoruesi nuk u shtua.", "error");
