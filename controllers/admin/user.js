@@ -41,7 +41,10 @@ router.post('/', (req, res) => {
                 });
             }
         } else {
-
+            res.json({
+                "err": err,
+                "success": false
+            });
         }
     });
 });
