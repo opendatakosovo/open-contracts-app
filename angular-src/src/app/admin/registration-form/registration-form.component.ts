@@ -16,30 +16,25 @@ import Swal from 'sweetalert2';
   styleUrls: ['./registration-form.component.css']
 })
 export class RegistrationFormComponent implements OnInit {
-
   user: User = {
     firstName: '',
     lastName: '',
-    gender: 'male',
+    gender: '',
     email: '',
     password: '',
     role: 'admin',
     department: ''
   };
 
-  private role: string = 'admin';
-
   constructor(public bsModalRef: BsModalRef, public userService: UserService) { }
+
+
 
 
   ngOnInit() {
   }
 
-
-
-
-
-  addStudent(event) {
+  addUser(event) {
     this.userService.addUser(this.user).subscribe(res => {
       if (res.err) {
         Swal('Gabim!', 'Pëdoruesi nuk u shtua.', 'error');
