@@ -38,6 +38,7 @@ import { UserProfileComponent } from './admin/users/user-profile/user-profile.co
 
 import { AuthGuard } from './guards/auth.guard';
 
+
 const appRoutes: Routes = [
   // Main page layouts routes
   {
@@ -55,12 +56,12 @@ const appRoutes: Routes = [
     path: '',
     component: DashboardLayoutComponent,
     children: [
-      {path: 'dashboard', component: DashboardComponent},
-      {path: 'dashboard/users', component: UsersComponent},
-      {path: 'dashboard/data', component: DataDashboardComponent},
-      {path: 'dashboard/contracts', component: ContractsComponent},
-      {path: 'dashboard/profile', component: ProfileComponent},
-      {path: 'dashboard/directorates', component: DirectoratesComponent}
+      {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
+      {path: 'dashboard/users', component: UsersComponent, canActivate: [AuthGuard]},
+      {path: 'dashboard/data', component: DataDashboardComponent, canActivate: [AuthGuard]},
+      {path: 'dashboard/contracts', component: ContractsComponent, canActivate: [AuthGuard]},
+      {path: 'dashboard/profile', component: ProfileComponent, canActivate: [AuthGuard]},
+      {path: 'dashboard/directorates', component: DirectoratesComponent, canActivate: [AuthGuard]}
     ]
   }
 ];

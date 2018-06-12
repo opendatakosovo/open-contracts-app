@@ -19,33 +19,30 @@ export class RegistrationFormComponent implements OnInit {
   user: User = {
     firstName: '',
     lastName: '',
-    gender: 'male',
+    gender: '',
     email: '',
     password: '',
     role: 'admin',
     department: ''
   };
 
-  private role: string = 'admin';
-
   constructor(public bsModalRef: BsModalRef, public userService: UserService) { }
+
+
 
 
   ngOnInit() {
   }
 
-
-
-
-  addStudent(event) {
+  addUser(event) {
     this.userService.addUser(this.user).subscribe(res => {
       if (res.err) {
-        Swal("Gabim!", "Pëdoruesi nuk u shtua.", "error");
+        Swal('Gabim!', 'Pëdoruesi nuk u shtua.', 'error');
       } else if (res.exists) {
-        Swal("Kujdes!", "Pëdoruesi eksizton.", "warning");
+        Swal('Kujdes!', 'Pëdoruesi eksizton.', 'warning');
       } else {
         this.bsModalRef.hide();
-        Swal("Sukses!", "Pëdoruesi u shtua me sukses.", "success");
+        Swal('Sukses!', 'Pëdoruesi u shtua me sukses.', 'success');
         this.user.firstName = '';
         this.user.lastName = '';
         this.user.gender = 'male';
