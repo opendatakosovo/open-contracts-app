@@ -41,7 +41,13 @@
                   <i class="fa fa-users"></i>
                   <span class="nav-link-text">Përdoruesit</span>
                 </a>
-            </li>           
+            </li> 
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                <a class="nav-link" [routerLink]="['/dashboard/directorates']">
+                  <i class="fa fa-university" aria-hidden="true"></i>
+                  <span class="nav-link-text" style="padding-left: 4px">Drejtoritë</span>
+                </a>
+              </li>           
           </ul>
           <ul class="navbar-nav sidenav-toggler">
             <li class="nav-item">

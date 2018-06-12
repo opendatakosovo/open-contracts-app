@@ -29,6 +29,8 @@ import { AddContractComponent } from './admin/contracts/add-contract/add-contrac
 import { ChangePasswordFormComponent } from './admin/change-password-form/change-password-form.component';
 import { EditProfileComponent } from './admin/profile/edit-profile/edit-profile.component';
 import { ChangePasswordComponent } from './admin/profile/change-password/change-password.component';
+import { DirectoratesComponent } from './admin/directorates/directorates.component';
+import { AddDirectoratesComponent } from './admin/directorates/add-directorates/add-directorates.component';
 
 
 
@@ -55,6 +57,7 @@ const appRoutes: Routes = [
       {path:'dashboard/data', component:DataDashboardComponent},
       {path:'dashboard/contracts', component:ContractsComponent},
       {path:'dashboard/profile', component:ProfileComponent}
+      {path:'dashboard/directorates', component:DirectoratesComponent}
     ]
   }
   
@@ -83,6 +86,8 @@ const appRoutes: Routes = [
     ChangePasswordFormComponent,
     EditProfileComponent,
     ChangePasswordComponent,
+    DirectoratesComponent,
+    AddDirectoratesComponent,
   ],
   imports: [
     BrowserModule,
