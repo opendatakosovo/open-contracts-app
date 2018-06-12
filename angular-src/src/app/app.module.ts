@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { FormsModule,FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormsModule, FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { HostListener } from '@angular/core';
 
@@ -14,7 +14,6 @@ import { ProfileComponent } from './admin/profile/profile.component';
 import { DataSetComponent } from './main/data-set/data-set.component';
 import { AboutUsComponent } from './main/about-us/about-us.component';
 import { FooterComponent } from './layouts/main-page-layout/footer/footer.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HeaderComponent } from './layouts/main-page-layout/header/header.component';
 import { LayoutComponent } from './layouts/main-page-layout/layout/layout.component';
 import { DashboardLayoutComponent } from './layouts/dashboard-page-layout/dashboard-layout/dashboard-layout.component';
@@ -26,6 +25,7 @@ import { UserService } from './service/user.service';
 import { RegistrationFormComponent } from './admin/registration-form/registration-form.component';
 import { ContractsComponent } from './admin/contracts/contracts.component';
 import { AddContractComponent } from './admin/contracts/add-contract/add-contract.component';
+import { ModalModule } from 'ngx-bootstrap';
 import { ChangePasswordFormComponent } from './admin/change-password-form/change-password-form.component';
 import { EditProfileComponent } from './admin/profile/edit-profile/edit-profile.component';
 import { ChangePasswordComponent } from './admin/profile/change-password/change-password.component';
@@ -33,34 +33,34 @@ import { UserProfileComponent } from './admin/users/user-profile/user-profile.co
 
 
 
+import { AuthGuard } from './guards/auth.guard';
 
 const appRoutes: Routes = [
-  //Main page layouts routes
+  // Main page layouts routes
   {
-    path: "",
+    path: '',
     component: LayoutComponent,
-    children:[
-      {path:"", component: HomeComponent},
-      { path: 'visualisations' , component: VisualisationsComponent }, 
+    children: [
+      {path: '', component: HomeComponent},
+      { path: 'visualisations' , component: VisualisationsComponent },
       { path: 'data-set' , component: DataSetComponent},
       { path: 'about-us' , component: AboutUsComponent },
     ]
   },
-  {path:'login', component:LoginComponent},
+  {path: 'login', component: LoginComponent},
   {
-    path:'',
+    path: '',
     component: DashboardLayoutComponent,
-    children:[
-      {path:'dashboard', component:DashboardComponent},
-      {path:'dashboard/users', component:UsersComponent},
-      {path:'dashboard/data', component:DataDashboardComponent},
-      {path:'dashboard/contracts', component:ContractsComponent},
-      {path:'dashboard/profile', component:ProfileComponent}
+    children: [
+      {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
+      {path: 'dashboard/users', component: UsersComponent, canActivate: [AuthGuard]},
+      {path: 'dashboard/data', component: DataDashboardComponent, canActivate: [AuthGuard]},
+      {path: 'dashboard/contracts', component: ContractsComponent, canActivate: [AuthGuard]},
+      {path: 'dashboard/profile', component: ProfileComponent, canActivate: [AuthGuard]}
 
     ]
   }
-  
-]
+];
 
 @NgModule({
   declarations: [
@@ -94,12 +94,12 @@ const appRoutes: Routes = [
     HttpModule,
     ReactiveFormsModule,
     RouterModule.forRoot(appRoutes),
-    NgbModule.forRoot(),
-    
-    
+    ModalModule.forRoot()
   ],
+  entryComponents: [RegistrationFormComponent],
   providers: [
-    UserService
+    UserService,
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })

@@ -7,6 +7,9 @@
 .fa {
     color: #32a6bd;
 }
+nav#navbar-1 {
+    width: 100%;
+}
 .scroll {
     padding-top: 5px !important;
     padding-bottom: 5px !important;
@@ -209,10 +212,12 @@ a {
         width:58px;
     }
 }
-
  @media(max-width: 781px) {
     .nav-item.active .underline {
         margin-left: 9px;
+    }
+    nav#navbar-1 {
+        width: 100%
     }
  }
 @media (max-width: 380px) { 

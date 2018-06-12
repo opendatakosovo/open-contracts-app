@@ -1,15 +1,17 @@
-<div class="container col-md-12 login-box vertical-middle-align"> 
-  <form class="form-control" id="login-form" method="post" action="#">
+<div class="container col-md-12 login-box vertical-middle-align">
+  <form (submit)="onLoginSubmit()" class="form-control" id="login-form" >
     <div class="login-header">
       <h4>Kyçu</h4>
-    </div> 
+    </div>
     <label for="username">Përdoruesi</label>
-    <input type="text" class="form-control" name="login" id="username" placeholder="Përdoruesi" required/>
+    <input type="text" [(ngModel)]="email" name="email" class="form-control" id="username" placeholder="Përdoruesi" required/>
     <label for="password">Fjalëkalimi</label>
-    <input type="password" class="form-control" name="password" id="password" placeholder="Fjalëkalimi" required/>
+    <input type="password" class="form-control" [(ngModel)]="password" name="password" id="password" placeholder="Fjalëkalimi" required/>
     <input class="remember" type="checkbox">
       <label>Më mbaj mend</label>
-    <button type="button" class="btn btn-primary" id="login-button">Kyçu</button>
+
+    <button type="submit" class="btn btn-primary" id="login-button">Kyçu</button>
+
     <div class="password-link">
         <a data-toggle="modal" data-target="#passwordRecovery" id="password-changer">Keni harruar fjalëkalimin?</a>
         <!-- Modal -->

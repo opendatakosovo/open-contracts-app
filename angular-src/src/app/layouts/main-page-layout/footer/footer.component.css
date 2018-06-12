@@ -46,3 +46,6 @@ img {
     padding-top: 20px;
     height: 105px;
 }
+.container-fluid {
+    width: 100%
+}

@@ -5,7 +5,7 @@
         <h1 class="title">Përdoruesit</h1>
       </div>
       <div class="col-6" id="add-user-btn">
-        <button  data-toggle="modal" data-target="#add-user-modal" class="float-right btn btn-outline-primary add-btn"><i class="fa fa-plus">   </i>   Shto përdorues</button>
+        <button  data-toggle="modal" (click)="openModal()" class="float-right btn btn-outline-primary add-btn"><i class="fa fa-plus">   </i>   Shto përdorues</button>
       </div>
     </div>
     <div class="row col-12" id="table-row">
@@ -32,9 +32,13 @@
               </tr>
             </tbody>
           </table>
+          <div class="col-md-12 change-btns">
+            <button class='btn btn-primary' id="change-password-btn" data-toggle="modal" style='margin-top: 10px;' data-target="#change-password-modal">
+                Ndrysho fjalëkalimin
+            </button>
+          </div>
     </div>
 
-    <app-registration-form></app-registration-form>
     <app-change-password-form></app-change-password-form>
     <app-user-profile></app-user-profile>
    <!-- /Modal for adding a user or admin -->
