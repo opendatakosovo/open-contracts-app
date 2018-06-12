@@ -18,7 +18,7 @@
               <span aria-hidden="true">×</span>
             </button>
           </div>
-          <form action="" class="form-i" novalidate #contractForm="ngForm" (ngSubmit)="onSubmit(contractForm)">
+          <form action="" class="form-i" novalidate #contractForm="ngForm">
             <div class="modal-body">
               <div class="container-fluid">
                 <div class="row">
@@ -113,7 +113,7 @@
                 <div class="col-12 form-group">
                   <div class="form-group" >
                     <label for="email">Drejtoritë</label>
-                   <select name="departments" id="departments" placeholder="Zgjedh" class="form-control" [(ngModel)]="contract.departments" #contractDepartments="ngModel" 
+                   <select name="department" id="departments" placeholder="Zgjedh" class="form-control" [(ngModel)]="contract.department" #contractDepartments="ngModel" 
                    required [style.border-color]="contractDepartments.errors?.required && contractDepartments.touched ? 'red' : '#ced4da'">
                      <option [ngValue]="undefined" selected>Zgjedh drejtorinë</option>
                      <option value="drejtoria1">Drejtoria 1</option>
@@ -123,13 +123,13 @@
                 </div>
               </div>
               <div class="form-group" id="upload-contract">
-                <input type="file" name="example" class="filestyle">
+                 <input type="file" name="contractFile" id="contractFile" class="filestyle my-style" [(ngModel)]="contract.contractFile" #contractContractFile="ngModel">
               </div>
             </div>
           </div>        
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Mbyll</button>
-            <button type="button" class="btn btn-secondary" id="add-contract-button" [disabled]="!contractForm.valid" (onchange)="Validate(this)">Shto</button>
+            <button type="button" class="btn btn-secondary" id="add-contract-button" [disabled]="!contractForm.valid">Shto</button>
           </div>
         </form>
       </div>
