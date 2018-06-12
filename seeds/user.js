@@ -1,11 +1,18 @@
 const mongoose = require('mongoose');
 const User = require('../models/user');
-const config = require("../config/database");
 
-mongoose.connect(config.database);
-mongoose.connection.on("connected", () => {
-  console.log("Connected to database!");
-});
+
+// Loading Configuration
+require('dotenv').config();
+
+// Connecting to database
+mongoose.Promise = global.Promise;
+mongoose.connect(`mongodb://${process.env.DB_USER}${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}`)
+    .then(() => {
+        console.log("Connected to database");
+    }).catch(err => {
+        console.log("Error while database connection: " + err);
+    });
 // Filling the user object with superadmin values
 var newUser = new User({
     firstName: "Prishtina municipality",
