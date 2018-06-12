@@ -16,45 +16,41 @@ import Swal from 'sweetalert2';
   styleUrls: ['./registration-form.component.css']
 })
 export class RegistrationFormComponent implements OnInit {
+  user: User = {
+    firstName: '',
+    lastName: '',
+    gender: '',
+    email: '',
+    password: '',
+    role: 'admin',
+    department: ''
+  };
 
-  constructor(public bsModalRef: BsModalRef,public userService: UserService) { }
+  constructor(public bsModalRef: BsModalRef, public userService: UserService) { }
 
-  
-  
+
+
 
   ngOnInit() {
   }
 
-  user: User = {
-    firstName: "",
-    lastName: "",
-    gender: "male",
-    email: "",
-    password: "",
-    role: "admin",
-    department: ""
-  };
-
-  private role: string = "admin";
-
-
   addUser(event) {
     this.userService.addUser(this.user).subscribe(res => {
       if (res.err) {
-        Swal("Gabim!", "Pëdoruesi nuk u shtua.", "error");
+        Swal('Gabim!', 'Pëdoruesi nuk u shtua.', 'error');
       } else if (res.exists) {
-        Swal("Kujdes!", "Pëdoruesi eksizton.", "warning");
+        Swal('Kujdes!', 'Pëdoruesi eksizton.', 'warning');
       } else {
         this.bsModalRef.hide();
-        Swal("Sukses!", "Pëdoruesi u shtua me sukses.", "success");
-        this.user.firstName = '';  
+        Swal('Sukses!', 'Pëdoruesi u shtua me sukses.', 'success');
+        this.user.firstName = '';
         this.user.lastName = '';
         this.user.gender = 'male';
         this.user.password = '';
         this.user.role = 'admin';
         this.user.department = '';
         this.user.email = '';
-      } 
-    })
+      }
+    });
   }
 }
