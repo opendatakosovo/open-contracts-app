@@ -14,10 +14,12 @@
     "dotenv": "^5.0.1",
     "express": "*",
     "jsonwebtoken": "*",
-    "mongoose": "*",
+    "mongoose": "^5.1.4",
     "mongoose-skip-empty": "^1.0.0",
+    "morgan": "^1.9.0",
     "passport": "*",
-    "passport-jwt": "*"
+    "passport-jwt": "*",
+    "sweetalert2": "^7.22.0"
   },
   "author": "Arianit H. Hetemi",
   "license": "ISC"
