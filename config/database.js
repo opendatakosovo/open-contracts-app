@@ -1,4 +1,5 @@
+require('dotenv').config();
 module.exports = {
-  database: "mongodb://localhost:27017/opencontrats",
+  database: `mongodb://${process.env.DB_HOST}:27017/${process.env.DB_NAME}`,
   secret: "itsmyverysecretthing"
 };

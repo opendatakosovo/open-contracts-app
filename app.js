@@ -7,6 +7,9 @@ const mongoose = require("mongoose");
 const config = require("./config/database");
 const morgan =  require('morgan');
 
+require('dotenv').config();
+
+console.log(process.env.DB_HOST+" - "+process.env.DB_NAME);
 // DB connection
 mongoose.connect(config.database);
 mongoose.connection.on("connected", () => {
