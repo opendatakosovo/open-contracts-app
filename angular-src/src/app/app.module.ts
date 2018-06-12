@@ -29,6 +29,10 @@ import { ModalModule } from 'ngx-bootstrap';
 import { ChangePasswordFormComponent } from './admin/change-password-form/change-password-form.component';
 import { EditProfileComponent } from './admin/profile/edit-profile/edit-profile.component';
 import { ChangePasswordComponent } from './admin/profile/change-password/change-password.component';
+import { UserProfileComponent } from './admin/users/user-profile/user-profile.component';
+
+
+
 import { AuthGuard } from './guards/auth.guard';
 
 const appRoutes: Routes = [
@@ -81,6 +85,7 @@ const appRoutes: Routes = [
     ChangePasswordFormComponent,
     EditProfileComponent,
     ChangePasswordComponent,
+    UserProfileComponent,
   ],
   imports: [
     BrowserModule,
