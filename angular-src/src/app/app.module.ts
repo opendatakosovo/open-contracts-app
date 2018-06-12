@@ -55,13 +55,13 @@ const appRoutes: Routes = [
   {
     path: '',
     component: DashboardLayoutComponent,
-    children:[
-      {path:'dashboard', component:DashboardComponent},
-      {path:'dashboard/users', component:UsersComponent},
-      {path:'dashboard/data', component:DataDashboardComponent},
-      {path:'dashboard/contracts', component:ContractsComponent},
-      {path:'dashboard/profile', component:ProfileComponent},
-      {path:'dashboard/directorates', component:DirectoratesComponent}
+    children: [
+      {path: 'dashboard', component: DashboardComponent},
+      {path: 'dashboard/users', component: UsersComponent},
+      {path: 'dashboard/data', component: DataDashboardComponent},
+      {path: 'dashboard/contracts', component: ContractsComponent},
+      {path: 'dashboard/profile', component: ProfileComponent},
+      {path: 'dashboard/directorates', component: DirectoratesComponent}
     ]
   }
 ];

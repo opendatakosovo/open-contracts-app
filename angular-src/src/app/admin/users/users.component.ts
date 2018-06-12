@@ -14,34 +14,32 @@ import { RegistrationFormComponent } from '../registration-form/registration-for
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
-  modalRef:BsModalRef;
+  modalRef: BsModalRef;
   users: User[];
 
-  constructor(public userService: UserService,private modalService: BsModalService) {
+  constructor(public userService: UserService, private modalService: BsModalService) {
     this.userService.getUsers().subscribe(data => {
       this.users = data;
       console.log(this.users);
-    })
+    });
   }
 
-  ngOnInit() {
-   
-  }
+  ngOnInit() { }
 
-  openModal(){
+  openModal() {
     this.modalRef = this.modalService.show(RegistrationFormComponent);
   }
 
   addUser(user: User) {
     this.userService.addUser(user).subscribe(res => {
       if (res.err) {
-        Swal("Gabim!", "Pëdoruesi nuk u shtua.", "error");
+        Swal('Gabim!', 'Pëdoruesi nuk u shtua.', 'error');
       } else if (res.exists) {
-        Swal("Kujdes!", "Pëdoruesi eksizton.", "warning");
+        Swal('Kujdes!', 'Pëdoruesi eksizton.', 'warning');
       } else {
-        Swal("Sukses!", "Pëdoruesi u shtua me sukses.", "success");
-      } 
-    })
+        Swal('Sukses!', 'Pëdoruesi u shtua me sukses.', 'success');
+      }
+    });
   }
 
 }
