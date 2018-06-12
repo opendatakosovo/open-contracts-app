@@ -22,6 +22,7 @@ import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { UsersComponent } from './admin/users/users.component';
 import { DataDashboardComponent } from './admin/data-dashboard/data-dashboard.component';
 import { UserService } from './service/user.service';
+import { DirectorateService } from './service/directorate.service';
 import { RegistrationFormComponent } from './admin/registration-form/registration-form.component';
 import { ContractsComponent } from './admin/contracts/contracts.component';
 import { AddContractComponent } from './admin/contracts/add-contract/add-contract.component';
@@ -32,7 +33,6 @@ import { ChangePasswordComponent } from './admin/profile/change-password/change-
 import { DirectoratesComponent } from './admin/directorates/directorates.component';
 import { AddDirectoratesComponent } from './admin/directorates/add-directorates/add-directorates.component';
 import { UserProfileComponent } from './admin/users/user-profile/user-profile.component';
-
 
 
 
@@ -102,10 +102,13 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     ModalModule.forRoot()
   ],
-  entryComponents: [RegistrationFormComponent],
+  entryComponents: [RegistrationFormComponent,
+                   AddDirectoratesComponent
+  ],
   providers: [
     UserService,
-    AuthGuard
+    AuthGuard,
+    DirectorateService
   ],
   bootstrap: [AppComponent]
 })
