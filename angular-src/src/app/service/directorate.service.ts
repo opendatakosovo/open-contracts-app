@@ -10,5 +10,4 @@ export class DirectorateService {
   getDirectorates() {
     return this.http.get('http://localhost:300/directorate').map(res => res.json().users);
   }
-
 }

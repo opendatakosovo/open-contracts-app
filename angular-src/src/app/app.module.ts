@@ -22,6 +22,7 @@ import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { UsersComponent } from './admin/users/users.component';
 import { DataDashboardComponent } from './admin/data-dashboard/data-dashboard.component';
 import { UserService } from './service/user.service';
+import { DirectorateService } from './service/directorate.service';
 import { RegistrationFormComponent } from './admin/registration-form/registration-form.component';
 import { ContractsComponent } from './admin/contracts/contracts.component';
 import { AddContractComponent } from './admin/contracts/add-contract/add-contract.component';
@@ -31,6 +32,7 @@ import { EditProfileComponent } from './admin/profile/edit-profile/edit-profile.
 import { ChangePasswordComponent } from './admin/profile/change-password/change-password.component';
 import { DirectoratesComponent } from './admin/directorates/directorates.component';
 import { AddDirectoratesComponent } from './admin/directorates/add-directorates/add-directorates.component';
+import { UserProfileComponent } from './admin/users/user-profile/user-profile.component';
 
 
 
@@ -52,13 +54,13 @@ const appRoutes: Routes = [
   {
     path: '',
     component: DashboardLayoutComponent,
-    children:[
-      {path:'dashboard', component:DashboardComponent},
-      {path:'dashboard/users', component:UsersComponent},
-      {path:'dashboard/data', component:DataDashboardComponent},
-      {path:'dashboard/contracts', component:ContractsComponent},
-      {path:'dashboard/profile', component:ProfileComponent},
-      {path:'dashboard/directorates', component:DirectoratesComponent}
+    children: [
+      {path: 'dashboard', component: DashboardComponent},
+      {path: 'dashboard/users', component: UsersComponent},
+      {path: 'dashboard/data', component: DataDashboardComponent},
+      {path: 'dashboard/contracts', component: ContractsComponent},
+      {path: 'dashboard/profile', component: ProfileComponent},
+      {path: 'dashboard/directorates', component: DirectoratesComponent}
     ]
   }
 ];
@@ -88,6 +90,7 @@ const appRoutes: Routes = [
     ChangePasswordComponent,
     DirectoratesComponent,
     AddDirectoratesComponent,
+    UserProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -98,10 +101,13 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     ModalModule.forRoot()
   ],
-  entryComponents: [RegistrationFormComponent],
+  entryComponents: [RegistrationFormComponent,
+                   AddDirectoratesComponent
+  ],
   providers: [
     UserService,
-    AuthGuard
+    AuthGuard,
+    DirectorateService
   ],
   bootstrap: [AppComponent]
 })
