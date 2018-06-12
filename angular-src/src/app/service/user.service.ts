@@ -13,7 +13,7 @@ export class UserService {
   constructor(public http: Http) { }
 
   getUsers() {
-    return this.http.get(`${this.APIUrl}/user`).map(res => res.json());
+    return this.http.get(`${this.APIUrl}/user`).map(res => res.json().users);
   }
 
   addUser(user) {
