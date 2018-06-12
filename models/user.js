@@ -42,8 +42,6 @@ module.exports.getAllUsers = callback => {
   User.find(callback);
 }
 
-
-
 // Function for adding user
 module.exports.addUser = (newUser, callback) => {
   bcrypt.genSalt(10, (err, salt) => {
@@ -55,12 +53,9 @@ module.exports.addUser = (newUser, callback) => {
   });
 }
 
-
-
 module.exports.findUserByEmail = (email, callback) => {
   User.findOne({"email": email}, callback);
 }
-
 
 //Function for comoparing passwords
 module.exports.comparePassword = (candidatePassword, hash, callback) => {
