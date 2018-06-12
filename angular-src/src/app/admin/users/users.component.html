@@ -18,17 +18,17 @@
                 </td>                             
                 <td class="user-info">
                   <p class="name">{{ user.firstName }} {{ user.lastName }} </p>
-                  <div *ngIf="user.role == 'user'"><p class="position">Përdorues</p></div>
+                  <div *ngIf="user.role == 'user'"><p class="position">Përdorues - {{ user.department }}</p></div>
                   <div *ngIf="user.role == 'admin'"><p class="position">Administrator</p></div>
                 </td>
                 <td class="view-ico">
-                  <span><a data-toggle="modal" data-target="#user-profile-modal"  (click)="user._id"><i class="fa fa-user" aria-hidden="true"></i></a></span>
+                  <span><a data-toggle="modal" data-target="#user-profile-modal"><i class="fa fa-user"  data-id="<%= users._id %>" aria-hidden="true"></i></a></span>
                 </td>
                 <td class="edit-ico">
                   <span><a data-toggle="modal" data-target="#change-password-modal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></span>
                 </td>
                 <td class="delete-ico">
-                    <span><a data-toggle="modal" data-target="#exampleModal"><i class="fa fa-trash" data-id="<%= user.id %>" aria-hidden="true"></i></a></span>
+                    <span><a data-toggle="modal" data-target="#exampleModal"><i class="fa fa-trash" aria-hidden="true"></i></a></span>
                 </td>
               </tr>
             </tbody>
