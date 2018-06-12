@@ -9,6 +9,8 @@ export class UserService {
 
 
   getUsers() {
-    return this.http.get('http://localhost:3000/user').map(res => res.json().users);
+  
+    return this.http.get('http://localhost:3000/directorates').map(res => res.json().users);
+  
   }
 }

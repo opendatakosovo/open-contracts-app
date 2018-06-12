@@ -3,7 +3,7 @@ const User = require('../../models/user');
 
 //Route for creating a user
 router.post('/', (req, res) => {
-    var user = new User({
+    let user = new User({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
