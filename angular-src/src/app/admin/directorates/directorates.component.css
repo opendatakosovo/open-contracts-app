@@ -1,0 +1,16 @@
+#add-button{
+    border-color: #39a6bd !important;
+    color: #39a6bd !important;
+    float: right;
+    margin-right: 67px;
+    margin-top: 22px;
+}
+
+#add-button:hover {
+    background-color: #39a6bd !important; 
+    color: white !important;
+    border-color: #39a6bd !important;   
+}
+.btn:focus {
+    box-shadow: 0px 0px 0px 0px rgb(0, 0, 0) !important;
+}
