@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Directorates } from  '../../../models/directorates';
+import { Directorates } from '../../../models/directorates';
 
 
 @Component({
@@ -9,12 +9,16 @@ import { Directorates } from  '../../../models/directorates';
 })
 export class AddDirectoratesComponent implements OnInit {
 
+  directorate: Directorates = {
+    directorate: ''
+  };
+
   constructor() { }
 
   ngOnInit() {
   }
-  
-  directorate:Directorates = {
-    directorate: ""
+
+  addDirectorate() {
+    return;
   }
 }
