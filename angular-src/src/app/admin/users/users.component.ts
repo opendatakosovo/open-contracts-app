@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../../service/user.service';
 import { User } from '../../models/user';
@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { RegistrationFormComponent } from '../registration-form/registration-form.component';
+import { UserProfileComponent } from '../users/user-profile/user-profile.component';
 
 
 @Component({
@@ -14,8 +15,9 @@ import { RegistrationFormComponent } from '../registration-form/registration-for
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
+  @Input() users: User;
   modalRef: BsModalRef;
-  users: User[];
+  bsModalRef: BsModalRef;
 
   constructor(public userService: UserService, private modalService: BsModalService) {
     this.userService.getUsers().subscribe(data => {
@@ -26,9 +28,11 @@ export class UsersComponent implements OnInit {
 
   ngOnInit() { }
 
-  openModal() {
-    this.modalRef = this.modalService.show(RegistrationFormComponent);
-  }
+  // openModal() {
+  //   this.modalRef = this.modalService.show(RegistrationFormComponent);
+  // }
+
+
 
   addUser(user: User) {
     this.userService.addUser(user).subscribe(res => {
@@ -42,4 +46,13 @@ export class UsersComponent implements OnInit {
     });
   }
 
+  showUser(event) {
+    const state = {
+      id: event.target.dataset.id
+    };
+
+    this.bsModalRef = this.modalService.show(UserProfileComponent);
+
+  }
 }
+

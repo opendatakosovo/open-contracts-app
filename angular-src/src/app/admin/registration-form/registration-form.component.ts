@@ -17,6 +17,7 @@ import Swal from 'sweetalert2';
 })
 export class RegistrationFormComponent implements OnInit {
   user: User = {
+    _id: '',
     firstName: '',
     lastName: '',
     gender: '',
@@ -35,6 +36,7 @@ export class RegistrationFormComponent implements OnInit {
   }
 
   addUser(event) {
+    console.log(this.user._id);
     this.userService.addUser(this.user).subscribe(res => {
       if (res.err) {
         Swal('Gabim!', 'Pëdoruesi nuk u shtua.', 'error');
@@ -43,6 +45,7 @@ export class RegistrationFormComponent implements OnInit {
       } else {
         this.bsModalRef.hide();
         Swal('Sukses!', 'Pëdoruesi u shtua me sukses.', 'success');
+        this.user._id = '';
         this.user.firstName = '';
         this.user.lastName = '';
         this.user.gender = 'male';

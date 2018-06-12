@@ -37,6 +37,7 @@ import { UserProfileComponent } from './admin/users/user-profile/user-profile.co
 
 
 import { AuthGuard } from './guards/auth.guard';
+import { UsersListComponent } from './admin/users/users-list/users-list.component';
 
 
 const appRoutes: Routes = [
@@ -92,6 +93,7 @@ const appRoutes: Routes = [
     DirectoratesComponent,
     AddDirectoratesComponent,
     UserProfileComponent,
+    UsersListComponent,
   ],
   imports: [
     BrowserModule,
