@@ -2,8 +2,6 @@ const mongoose = require('mongoose');
 const User = require('../models/user');
 const config = require("../config/database");
 
-
-
 mongoose.connect(config.database);
 mongoose.connection.on("connected", () => {
   console.log("Connected to database!");
@@ -12,7 +10,7 @@ mongoose.connection.on("connected", () => {
 var newUser = new User({
     firstName: "Prishtina municipality",
     lastName: "staff",
-    email: "staff@prinshtina.com",
+    email: "staff@prishtina.com",
     gender: "male",
     password: "superadmin",
     role: "superadmin"
