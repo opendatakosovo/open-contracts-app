@@ -29,11 +29,15 @@ import { ModalModule } from 'ngx-bootstrap';
 import { ChangePasswordFormComponent } from './admin/change-password-form/change-password-form.component';
 import { EditProfileComponent } from './admin/profile/edit-profile/edit-profile.component';
 import { ChangePasswordComponent } from './admin/profile/change-password/change-password.component';
+import { DirectoratesComponent } from './admin/directorates/directorates.component';
+import { AddDirectoratesComponent } from './admin/directorates/add-directorates/add-directorates.component';
 import { UserProfileComponent } from './admin/users/user-profile/user-profile.component';
 
 
 
+
 import { AuthGuard } from './guards/auth.guard';
+
 
 const appRoutes: Routes = [
   // Main page layouts routes
@@ -51,13 +55,13 @@ const appRoutes: Routes = [
   {
     path: '',
     component: DashboardLayoutComponent,
-    children: [
-      {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
-      {path: 'dashboard/users', component: UsersComponent, canActivate: [AuthGuard]},
-      {path: 'dashboard/data', component: DataDashboardComponent, canActivate: [AuthGuard]},
-      {path: 'dashboard/contracts', component: ContractsComponent, canActivate: [AuthGuard]},
-      {path: 'dashboard/profile', component: ProfileComponent, canActivate: [AuthGuard]}
-
+    children:[
+      {path:'dashboard', component:DashboardComponent},
+      {path:'dashboard/users', component:UsersComponent},
+      {path:'dashboard/data', component:DataDashboardComponent},
+      {path:'dashboard/contracts', component:ContractsComponent},
+      {path:'dashboard/profile', component:ProfileComponent},
+      {path:'dashboard/directorates', component:DirectoratesComponent}
     ]
   }
 ];
@@ -85,6 +89,8 @@ const appRoutes: Routes = [
     ChangePasswordFormComponent,
     EditProfileComponent,
     ChangePasswordComponent,
+    DirectoratesComponent,
+    AddDirectoratesComponent,
     UserProfileComponent,
   ],
   imports: [
