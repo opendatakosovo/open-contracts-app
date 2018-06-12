@@ -38,6 +38,7 @@ import { UserProfileComponent } from './admin/users/user-profile/user-profile.co
 
 import { AuthGuard } from './guards/auth.guard';
 
+
 const appRoutes: Routes = [
   // Main page layouts routes
   {
