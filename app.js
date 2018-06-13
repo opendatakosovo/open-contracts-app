@@ -7,6 +7,9 @@ const mongoose = require("mongoose");
 const config = require("./config/database");
 const morgan =  require('morgan');
 
+require('dotenv').config();
+
+
 // DB connection
 mongoose.connect(config.database);
 mongoose.connection.on("connected", () => {

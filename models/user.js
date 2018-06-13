@@ -26,6 +26,25 @@ UserSchema.options.toJSON = {
   }
 }
 
+
+UserSchema.pre('save', function (next){
+  var user = this;
+	var SALT_FACTOR = 10;
+
+	// if password field is not changed go next and skip bcrypt
+	if(!user.isModified('password')) return next();
+
+	bcrypt.genSalt(SALT_FACTOR, function (err, salt) {
+		if (err) return next(err);
+
+		bcrypt.hash(user.password, salt, function (err, hash) {
+			if (err) return next(err);
+			user.password = hash;
+			next();
+		});
+	});
+});
+
 const User = (module.exports = mongoose.model("User", UserSchema));
 
 module.exports.deleteUserById = (id, callback) => {
@@ -41,6 +60,8 @@ module.exports.getUserById = (id, callback) => {
 module.exports.getAllUsers = callback => {
   User.find(callback);
 }
+
+
 
 // Function for adding user
 module.exports.addUser = (newUser, callback) => {
