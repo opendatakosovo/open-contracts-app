@@ -11,6 +11,6 @@ export interface Contract {
     contractClosingDate: string;
     predictedContractAmount: string;
     totalAmount: string;
-    department? : string;
-    contractFile? : string;
+    department?: string;
+    contractFile?: string;
 }
