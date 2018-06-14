@@ -1,4 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { UserService } from '../../service/user.service';
+import { User } from '../../models/user';
 
 @Component({
   selector: 'app-profile',
@@ -6,10 +8,19 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
+  currentUser = {
+    id: '',
+    email: ''
+  };
+  user: User;
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor(private userService: UserService) {
+    this.currentUser = JSON.parse(localStorage.getItem('user'));
+    console.log(this.currentUser.id);
   }
 
-}
+  ngOnInit() {
+    this.userService.getUserByID(this.currentUser.id).subscribe(data => {
+      this.user = data;
+    });
+  }}

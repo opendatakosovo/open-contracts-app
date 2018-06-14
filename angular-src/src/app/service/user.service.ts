@@ -45,4 +45,9 @@ export class UserService {
     this.user = null;
     localStorage.clear();
   }
+
+  getUserByID (id) {
+    return this.http.get(`${this.APIUrl}/user/` + id).map(res => res.json().user);
+  }
+
 }

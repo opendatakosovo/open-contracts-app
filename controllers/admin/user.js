@@ -53,7 +53,6 @@ router.post('/', userValidation, (req, res) => {
 // Route for getting all users
 router.get('/', (req, res) => {
     User.getAllUsers((err, users) => {
-        console.log(users);
         if (!err) {
             res.json({
                 "msg": "Users has been retrived successfully",
