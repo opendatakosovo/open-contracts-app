@@ -7,6 +7,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { RegistrationFormComponent } from '../registration-form/registration-form.component';
 import { UserProfileComponent } from '../users/user-profile/user-profile.component';
+import { INTERNAL_BROWSER_DYNAMIC_PLATFORM_PROVIDERS } from '@angular/platform-browser-dynamic/src/platform_providers';
 
 
 @Component({
@@ -28,23 +29,10 @@ export class UsersComponent implements OnInit {
 
   ngOnInit() { }
 
-  // openModal() {
-  //   this.modalRef = this.modalService.show(RegistrationFormComponent);
-  // }
-
-
-
-  addUser(user: User) {
-    this.userService.addUser(user).subscribe(res => {
-      if (res.err) {
-        Swal('Gabim!', 'Pëdoruesi nuk u shtua.', 'error');
-      } else if (res.exists) {
-        Swal('Kujdes!', 'Pëdoruesi eksizton.', 'warning');
-      } else {
-        Swal('Sukses!', 'Pëdoruesi u shtua me sukses.', 'success');
-      }
-    });
+  openModal() {
+    this.modalRef = this.modalService.show(RegistrationFormComponent);
   }
+
 
   showUser(event) {
     const state = {

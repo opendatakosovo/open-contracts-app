@@ -20,7 +20,7 @@ export class RegistrationFormComponent implements OnInit {
     _id: '',
     firstName: '',
     lastName: '',
-    gender: '',
+    gender: 'male',
     email: '',
     password: '',
     role: 'admin',
@@ -36,12 +36,26 @@ export class RegistrationFormComponent implements OnInit {
   }
 
   addUser(event) {
-    console.log(this.user._id);
     this.userService.addUser(this.user).subscribe(res => {
       if (res.err) {
         Swal('Gabim!', 'Pëdoruesi nuk u shtua.', 'error');
       } else if (res.exists) {
         Swal('Kujdes!', 'Pëdoruesi eksizton.', 'warning');
+      } else if (res.errVld) {
+        let errList = '';
+        res.errVld.map(error => {
+            errList += `<li>${error.msg}</li>`;
+        });
+
+        const htmlData = `<div style="text-align: center;">${errList}</div>`;
+
+        Swal({
+            title: 'Kujdes!',
+            html: htmlData,
+            width: 750,
+            type: 'info',
+            confirmButtonText: 'Kthehu te forma'
+        });
       } else {
         this.bsModalRef.hide();
         Swal('Sukses!', 'Pëdoruesi u shtua me sukses.', 'success');

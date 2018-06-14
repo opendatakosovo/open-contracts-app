@@ -1,12 +1,13 @@
 const router = require("express").Router();
 const User = require('../../models/user');
+const userValidation = require("../../middlewares/user_validation");
 
 /*
  * ENDPOINTS PREFIX: /user
  */
 
 // Route for creating a user
-router.post('/', (req, res) => {
+router.post('/', userValidation, (req, res) => {
     let user = new User({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
