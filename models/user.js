@@ -86,3 +86,9 @@ module.exports.comparePassword = (candidatePassword, hash, callback) => {
   });
 }
 
+module.exports.changePassword = (id, newPassword, callback) => {
+  User.findByIdAndUpdate(id, { $set: {
+      password: bcrypt.hashSync(newPassword, bcrypt.genSaltSync(10), null)}
+      },{new: true}, callback);
+}
+

@@ -1,10 +1,16 @@
 const router = require("express").Router();
 const User = require('../../models/user');
+const mailTransporter = require('../../utils/mail-transporter');
+const passwordGenerator = require('../../utils/generate-password');
+    
 const userValidation = require("../../middlewares/user_validation");
 
 /*
  * ENDPOINTS PREFIX: /user
  */
+
+
+
 
 // Route for creating a user
 router.post('/', userValidation, (req, res) => {
@@ -95,6 +101,48 @@ router.delete('/:id',(req, res) => {
                 "user": user,
                 "success": true
             });
+        } else {
+            res.json({
+                "err": err,
+                "success": false
+            });
+        }
+    });
+});
+
+// Route for generate  password for a user
+router.put('/generate-password/:id',(req, res) => {
+    let password = passwordGenerator.generate();
+    User.changePassword(req.params.id,password , (err, user) => {
+        if(!err){
+            console.log(user.email);
+            const mail = {
+                to: user.email,
+                from: "support@prishtina.com",
+                subject: "Ju është ndryshuar fjalëkalimi nga adminstruesi",
+                html: `I/e nderuar
+                        <br>
+                        Adminstruesi e ka ndryshuar fjalëkalimin e juaj me sukses.<br>
+                        Fjalekalimi i juaj është:<br>
+                        <h3 style"color:green"><b>${password}</b></h3> 
+                        <br>
+                        Me nderime<br>
+                        Ekipi menaxhues`
+            }
+            mailTransporter.sendMail(mail, err => {
+                if(!err){
+                    res.json({
+                        "msg": "User's password changed and mail has been sent successfully",
+                        "user": user,
+                        "success": true
+                    });
+                } else {
+                    res.json({
+                        "err": ` Mail hasn't been sent successfully  | error: ${err}`,
+                        "success": false
+                    });
+                }
+            })
         } else {
             res.json({
                 "err": err,
