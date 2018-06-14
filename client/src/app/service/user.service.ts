@@ -50,4 +50,8 @@ export class UserService {
     return this.http.get(`${this.APIUrl}/user/` + id).map(res => res.json().user);
   }
 
+  generatePassword (id) {
+    return this.http.get(`${this.APIUrl}/generate-password/${id}`).map(res => res.json());
+  }
+
 }
