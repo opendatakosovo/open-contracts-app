@@ -11,32 +11,31 @@ export class AddContractComponent implements OnInit {
 
   contracts: Contract[];
 
-  @ViewChild('fileInput') fileInput;
-  
+  contract: Contract = {
+    activityTitle: '',
+    publicationDate: '',
+    noOfDownloads: '',
+    noOfOffers: '',
+    dateOfGivenContractPublication: '',
+    dateOfNoticeCancellations: '',
+    nameOfOE: '',
+    signingDate: '',
+    startDateOfImplemetation: '',
+    contractClosingDate: '',
+    predictedContractAmount: '',
+    totalAmount: '',
+ };
 
-  ngOnInit() { 
+  @ViewChild('fileInput') fileInput;
+
+  ngOnInit() {
     function checkFile(file) {
-      var extension = file.substr((file.lastIndexOf('.') +1));
+      const extension = file.substr((file.lastIndexOf('.') + 1));
       if (!/(pdf|zip|doc)$/ig.test(extension)) {
-        alert("Invalid file type: "+extension+".  Please use DOC, PDF or Zip.");
+        alert('Invalid file type: ' + extension + '.  Please use DOC, PDF or Zip.');
       }
     }
   }
 
-  contract:Contract = { 
-    activityTitle: "",
-    publicationDate: "",
-    noOfDownloads: "",
-    noOfOffers: "",
-    dateOfGivenContractPublication: "",
-    dateOfNoticeCancellations: "",
-    nameOfOE: "",
-    signingDate: "",
-    startDateOfImplemetation: "",
-    contractClosingDate: "",
-    predictedContractAmount: "",
-    totalAmount: "",
- };
-  
 
 }

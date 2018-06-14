@@ -10,16 +10,13 @@
         <div class="modal-body">
             <div class="form-group">
               <label for="first-name">Emri</label>
-              <input type="text" class="form-control" [(ngModel)]="user.firstName" id="first-name" name="first-name" #userName="ngModel" 
-               required [style.border-color]="userName.errors?.required && userName.touched ? 'red' : '#ced4da'">             
-              <div *ngIf="userName.errors?.required && userName.touched" class="error-msg">Emri duhet plotësuar!</div>
+              <input type="text" class="form-control" [(ngModel)]="user.firstName" id="first-name" name="first-name" #userName="ngModel">
             </div>
             <div class="form-group">
                 <label for="last-name">Mbiemri</label>
-                <input type="text" class="form-control" id="last-name" name="last-name" [(ngModel)]="user.lastName" #userLastName="ngModel" required [style.border-color]="userLastName.errors?.required && userLastName.touched ? 'red' : '#ced4da'">
-                <div *ngIf="userLastName.errors?.required && userLastName.touched" class="error-msg">Mbiemri duhet plotësuar!</div>
+                <input type="text" class="form-control" id="last-name" name="last-name" [(ngModel)]="user.lastName" #userLastName="ngModel">
             </div>
-            <label for="email">Gjinia</label>
+            <label for="gender">Gjinia</label>
             <br>
             <div class="form-check form-check-inline">
               <input type="text" class="form-check-input" [(ngModel)]='user.gender' type="radio" id="male" name="gender" value="male" checked> 
@@ -35,19 +32,11 @@
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" class="form-control" id="email" name="email" [(ngModel)]="user.email" #userEmail="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required [style.border-color]="userEmail.errors?.required && userEmail.touched ? 'red' : '#ced4da'" [style.border-color]="userEmail.errors?.pattern && userEmail.touched ? 'red' : '#ced4da'">
-                <div *ngIf="userEmail.errors?.required && userEmail.touched;else error_email" class="error-msg">Email duhet plotësuar!</div>
-                <ng-template #error_email>
-                  <div *ngIf="userEmail.errors?.pattern && userPassword.touched" class="error-msg">Email duhet të jetë valid!</div>
-                </ng-template>
+                <input type="email" class="form-control" id="email" name="email" [(ngModel)]="user.email" #userEmail="ngModel">
             </div>
             <div class="form-group">
                 <label for="password">Fjalëkalimi</label>
-                <input type="password" class="form-control" id="password" name="password" [(ngModel)]="user.password" #userPassword="ngModel" minlength="6" required [style.border-color]="userPassword.errors?.required && userPassword.touched ? 'red' : '#ced4da'" [style.border-color]="userPassword.errors?.minlength && userPassword.touched ? 'red' : '#ced4da'">
-                <div *ngIf="userPassword.errors?.required && userPassword.touched;else error_length" class="error-msg">Fjalëkalimi duhet plotësuar!</div>
-                <ng-template #error_length>
-                  <div *ngIf="userPassword.errors?.minlength && userPassword.touched" class="error-msg">Fjalëkalimi duhet të jetë më i gjatë se 6 karaktere!</div>
-                </ng-template>
+                <input type="password" class="form-control" id="password" name="password" [(ngModel)]="user.password">
             </div>
             <div class="my-form-control">
                 <div class="form-check form-check-inline">
