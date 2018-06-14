@@ -3,6 +3,8 @@ const User = require('../../models/user');
 const mailTransporter = require('../../utils/mail-transporter');
 const passwordGenerator = require('../../utils/generate-password');
     
+const userValidation = require("../../middlewares/user_validation");
+
 /*
  * ENDPOINTS PREFIX: /user
  */
@@ -11,7 +13,7 @@ const passwordGenerator = require('../../utils/generate-password');
 
 
 // Route for creating a user
-router.post('/', (req, res) => {
+router.post('/', userValidation, (req, res) => {
     let user = new User({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
