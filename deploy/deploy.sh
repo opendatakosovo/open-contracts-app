@@ -5,7 +5,7 @@ ssh jenkins@46.101.135.45 <<EOF
  sudo su
  git pull
  npm --unsafe-perm --verbose install
- cd angular-src
+ cd client
  npm --unsafe-perm --verbose install
  ng b -prod --extract-css=false
  pm2 restart app

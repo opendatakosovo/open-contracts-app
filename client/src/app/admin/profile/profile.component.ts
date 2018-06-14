@@ -13,14 +13,19 @@ export class ProfileComponent implements OnInit {
     email: ''
   };
   user: User;
+  check = false;
 
   constructor(private userService: UserService) {
     this.currentUser = JSON.parse(localStorage.getItem('user'));
     console.log(this.currentUser.id);
+
   }
 
   ngOnInit() {
     this.userService.getUserByID(this.currentUser.id).subscribe(data => {
       this.user = data;
     });
+    if (this.user.role === 'user') {
+      this.check = true ;
+    }
   }}

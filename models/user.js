@@ -65,13 +65,7 @@ module.exports.getAllUsers = callback => {
 
 // Function for adding user
 module.exports.addUser = (newUser, callback) => {
-  bcrypt.genSalt(10, (err, salt) => {
-    bcrypt.hash(newUser.password, salt, (err, hash) => {
-      if (err) throw err;
-      newUser.password = hash;
-      newUser.save(callback);
-    });
-  });
+    newUser.save(callback);
 }
 
 module.exports.findUserByEmail = (email, callback) => {
@@ -84,5 +78,11 @@ module.exports.comparePassword = (candidatePassword, hash, callback) => {
     if (err) throw err;
     callback(null, isMatch);
   });
+}
+
+module.exports.changePassword = (id, newPassword, callback) => {
+  User.findByIdAndUpdate(id, { $set: {
+      password: bcrypt.hashSync(newPassword, bcrypt.genSaltSync(10), null)}
+      },{new: true}, callback);
 }
 
