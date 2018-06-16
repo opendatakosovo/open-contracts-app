@@ -1,7 +1,7 @@
 <div class="row col-12" id="table-row">
   <table class="table" *ngFor="let user of users">
     <tbody>
-      <tr>
+      <tr [hidden]= "user.role == 'superadmin'">
         <td class="img-col">
             <div *ngIf="user.role == 'user'"><img src="/assets/images/zyrtari.png" class="img-fluid"></div>
             <div *ngIf="user.role == 'admin'"><img src="/assets/images/administratori.png" class="img-fluid"></div> 
