@@ -24,8 +24,21 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     this.userService.getUserByID(this.currentUser.id).subscribe(data => {
       this.user = data;
+      if (this.user.role === 'user') {
+        this.check = true ;
+        this.user.role = 'Përdorues';
+      } else if (this.user.role === 'admin') {
+        this.user.role = 'Admin';
+      } else {
+        this.user.role = 'Super Admin';
+      }
+      if (this.user.gender === 'male') {
+        this.user.gender = 'Mashkull';
+      } else if (this.user.gender === 'female') {
+        this.user.gender = 'Femër';
+      } else {
+        this.user.gender = 'Tjetër';
+      }
     });
-    if (this.user.role === 'user') {
-      this.check = true ;
-    }
-  }}
+  }
+}

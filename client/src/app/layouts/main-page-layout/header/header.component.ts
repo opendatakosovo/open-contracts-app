@@ -11,8 +11,8 @@ width = window.innerWidth;
   constructor() { }
   ngOnInit() { }
 
-  onResize(){
-    this.width=window.innerWidth;
+  onResize() {
+    this.width = window.innerWidth;
   }
 
 }
