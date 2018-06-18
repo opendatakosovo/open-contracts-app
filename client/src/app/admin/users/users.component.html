@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <!-- Breadcrumbs-->
-<div class="row">
+  <div class="row">
     <div class="col-6">
       <h1 class="title">Përdoruesit</h1>
     </div>
@@ -8,11 +8,9 @@
       <button  data-toggle="modal" (click)="openModal()" class="float-right btn btn-outline-primary add-btn"><i class="fa fa-plus">   </i>   Shto përdorues</button>
     </div>
   </div>
-  
-    
-    <app-users-list [users]="users"></app-users-list>
-  
-    <app-change-password-form></app-change-password-form>
-    <app-user-profile></app-user-profile>
+   
+  <app-users-list [users]="users"></app-users-list>
+  <app-change-password-form></app-change-password-form>
+  <app-user-profile></app-user-profile>
    <!-- /Modal for adding a user or admin -->
   </div>

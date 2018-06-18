@@ -8,6 +8,8 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { RegistrationFormComponent } from '../registration-form/registration-form.component';
 import { UserProfileComponent } from '../users/user-profile/user-profile.component';
 import { INTERNAL_BROWSER_DYNAMIC_PLATFORM_PROVIDERS } from '@angular/platform-browser-dynamic/src/platform_providers';
+import { Directorates } from '../../models/directorates';
+import { DirectorateService } from '../../service/directorate.service';
 
 
 @Component({
@@ -17,13 +19,16 @@ import { INTERNAL_BROWSER_DYNAMIC_PLATFORM_PROVIDERS } from '@angular/platform-b
 })
 export class UsersComponent implements OnInit {
   @Input() users: User;
+  @Input() directorates: Directorates;
   modalRef: BsModalRef;
   bsModalRef: BsModalRef;
 
-  constructor(public userService: UserService, private modalService: BsModalService) {
+  constructor(public userService: UserService, private modalService: BsModalService, public directorateService: DirectorateService) {
     this.userService.getUsers().subscribe(data => {
       this.users = data;
-      console.log(this.users);
+    });
+    this.directorateService.getDirectorates().subscribe(data => {
+      this.directorates = data;
     });
   }
 

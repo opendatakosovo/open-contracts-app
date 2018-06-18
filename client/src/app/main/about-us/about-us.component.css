@@ -1,5 +1,5 @@
 /* About Us Header Style */
-#bg-img{
+#bg-img {
     background-image:url("/assets/images/about-us-header.png");
     /* Full height */
     height: 851px; 
@@ -9,8 +9,8 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
- }
- .header{
+}
+.header {
     margin-left:0;
     margin-right:0;
     width: 100%;
@@ -33,14 +33,14 @@
 }
 
 /* About Project Style */
-#project-img{
+#project-img {
     margin-left: 52px;
     margin-right: 0;
     width: 81%;
     max-width: 81%;
     height: 406px;
 }
-.project-header-title{
+.project-header-title {
     font-family: 'Roboto', sans-serif;
 }
 #project-title {
@@ -50,7 +50,7 @@
     margin-bottom: 33px;
     font-weight: 600;
 }
-.project-details{
+.project-details {
     font-family: 'Roboto', sans-serif;
     max-width: 100%;
     margin: auto;
@@ -77,22 +77,20 @@
     padding-top:84px;
     padding-bottom: 33px;
 }
-.technologies-imgs{
+.technologies-imgs {
     text-align: center;
     margin: auto;
     width: 87%;
     max-width: 87%;
     padding-bottom: 124px;
 } 
-.node-js{
+.node-js {
     text-align: left;
 }
-.angular-js{
+.angular-js {
     top: 9px;
     padding-left: 42px;
 }
-.express-js{
+.express-js {
     top: 29px;
 }
-
-

@@ -1,4 +1,4 @@
-.error-msg{
+.error-msg {
     color: red;
 }
 
@@ -15,12 +15,12 @@
 #add-user-modal .modal-footer {
     background-color: #e9ecef;
 }
-#add-user-btn{
+#add-user-btn {
     padding-right: 67px;
 }
-.form-i{
+.form-i {
     margin-bottom: 0;
 }
-.my-form-control{
+.my-form-control {
     margin: 10px 0;
 }

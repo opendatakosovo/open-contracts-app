@@ -96,7 +96,7 @@ a {
 } 
 /*--------Responsive--------*/
 
-@media (max-width: 1480px){
+@media (max-width: 1480px) {
     .nav-link, #lang-select {
         font-size: 15px;   
     }
@@ -180,7 +180,6 @@ a {
 }
 
 @media (max-width: 580px) { 
-
     nav.navbar {
         padding:  12px 65px 12px 65px;
     }

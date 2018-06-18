@@ -61,9 +61,8 @@
         <div class="form-group" *ngIf="user.role == 'user'">
             <label for="email">Drejtoritë</label>
            <select name="departments" id="departments" [(ngModel)]="user.department" class="form-control" #userDepartments="ngModel" required [style.border-color]="userDepartments.errors?.required && userDepartments.touched ? 'red' : '#ced4da'">
-             <option value="" selected>Zgjedh drejtorinë</option>
-             <option value="option1">Option 1</option>
-             <option value="option2">Option 2</option>
+             <option value="" selected>Zgjedh Drejtorinë</option>
+             <option *ngFor="let directorate of directorates" [ngValue]="directorate.name">{{ directorate.name }}</option>
            </select>
            <div *ngIf="userDepartments.errors?.required && userDepartments.touched" class="error-msg">Duhet zgjedhur!</div>
         </div>
