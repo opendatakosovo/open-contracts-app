@@ -28,7 +28,7 @@ export class AddDirectoratesComponent implements OnInit {
         Swal('Kujdes!', 'Drejtoria ekziston.', 'warning');
       } else {
         this.bsModalRef.hide();
-        Swal('Sukses!', 'Pëdoruesi u shtua me sukses.', 'success');
+        Swal('Sukses!', 'Drejtoria u shtua me sukses.', 'success');
         this.directorate.directorate = '';
       }
     });
