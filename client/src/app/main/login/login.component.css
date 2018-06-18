@@ -1,13 +1,13 @@
-.login-box{
+.login-box {
     font-family: 'Robot', sans-serif;
     width: 402px;
     margin: 0 auto;
     padding: 0;
 }
-.form-control{
+.form-control {
     border: 1px solid #e6e5e5;
 }
-#login-form{   
+#login-form {   
     box-shadow: 15px 15px 94px -6px hsl(0, 0%, 87%);
 }
 .vertical-middle-align {
@@ -28,7 +28,7 @@
     margin-right: -13px;
     margin-top: -6px;
 }
-.login-header h4{
+.login-header h4 {
     margin-left: 12px;
     line-height: 41px;  
     font-size: 17px;
@@ -39,40 +39,40 @@
     width: 375px;
     height: 34px;
 }
-.login-box label{
+.login-box label {
     margin-top: 17px;
 }
-.remember{
+.remember {
     margin-top: 17px;
     margin-bottom: 17px;
 }
-#password-changer{
+#password-changer {
     font-size: 14px;
     color: #32a6bd;
     text-decoration: none;
 }
-.password-link{
+.password-link {
     margin-top: 17px;
     margin-bottom: 17px;
     text-align: center;
     width: 346px;
 }
-#password{
+#password {
     border: 1px solid #e8e8e8;
 }
 #username{
     border: 1px solid #e8e8e8;
 }
-label{
+label {
     color:black;
 }
-.modal-header{
+.modal-header {
     font-weight: bold;
     font-family: 'Robot', sans-serif;
     color: #fff;
     background: #39a6bd;
 }
-.modal-body{
+.modal-body {
     color: black;
     font-family: 'Robot', sans-serif;
     font-size: 20px;

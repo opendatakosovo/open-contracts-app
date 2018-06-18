@@ -1,10 +1,12 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { User } from '../../models/user';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { UsersComponent } from '../users/users.component';
 import { UserService } from '../../service/user.service';
 import Swal from 'sweetalert2';
+import { Directorates } from '../../models/directorates';
+import { DirectorateService } from '../../service/directorate.service';
 
 
 
@@ -16,6 +18,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./registration-form.component.css']
 })
 export class RegistrationFormComponent implements OnInit {
+  @Input() directorates: Directorates;
   user: User = {
     _id: '',
     firstName: '',
@@ -27,7 +30,11 @@ export class RegistrationFormComponent implements OnInit {
     department: ''
   };
 
-  constructor(public bsModalRef: BsModalRef, public userService: UserService) { }
+  constructor(public bsModalRef: BsModalRef, public userService: UserService, public directorateService: DirectorateService) {
+    this.directorateService.getDirectorates().subscribe(data => {
+      this.directorates = data;
+    });
+  }
 
 
 

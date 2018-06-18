@@ -1,4 +1,3 @@
-
 #footerImage {
     background-image: url('/assets/images/footer.png');
     height: 377px;
@@ -9,7 +8,7 @@
 .footerImage {
     padding: 0;
 }
-.footerImage .komunaPrishtines{
+.footerImage .komunaPrishtines {
     float:  left;
     padding-top: 110px;
     padding-left: 130px; 
@@ -18,18 +17,18 @@
 .footerImage .komunaPrishtines img {
     padding-left: 70px;
 }
-.footerImage .reservedRights{
+.footerImage .reservedRights {
     float: left;
     padding-top: 200px;
     padding-left: 150px; 
 }
-.footerImage .reservedRights p:nth-of-type(1){
+.footerImage .reservedRights p:nth-of-type(1) {
     margin-bottom: 0px;
 }
 .footerImage .reservedRights p:nth-of-type(2) {
     padding-left:50px; 
 }
-.footerImage .dashboard{
+.footerImage .dashboard {
     float: left;
     padding-top: 110px;
     padding-left: 70px;
