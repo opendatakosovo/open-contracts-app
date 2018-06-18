@@ -1,65 +1,76 @@
   <!-- Modal for adding a user or admin -->
   <div id="add-user-modal">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Shto përdoruesin</h5>
-          <button type="button" (click)="bsModalRef.hide()" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Shto përdoruesin</h5>
+      <button type="button" (click)="bsModalRef.hide()" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <form action=""  class="form-i" novalidate #f="ngForm" (submit)="addUser($event)">
+    <div class="modal-body">
+        <div class="form-group">
+          <label for="first-name">Emri</label>
+          <input type="text" class="form-control" [(ngModel)]="user.firstName" id="first-name" name="first-name" #userName="ngModel" required [style.border-color]="userName.errors?.required && userName.touched ? 'red' : '#ced4da'"> 
+          <div *ngIf="userName.errors?.required && userName.touched" class="error-msg">Emri duhet plotësuar!</div>
         </div>
-        <form action=""  class="form-i" novalidate #f="ngForm" (submit)="addUser($event)">
-        <div class="modal-body">
-            <div class="form-group">
-              <label for="first-name">Emri</label>
-              <input type="text" class="form-control" [(ngModel)]="user.firstName" id="first-name" name="first-name" #userName="ngModel">
-            </div>
-            <div class="form-group">
-                <label for="last-name">Mbiemri</label>
-                <input type="text" class="form-control" id="last-name" name="last-name" [(ngModel)]="user.lastName" #userLastName="ngModel">
-            </div>
-            <label for="gender">Gjinia</label>
-            <br>
+        <div class="form-group">
+            <label for="last-name">Mbiemri</label>
+            <input type="text" class="form-control" id="last-name" name="last-name" [(ngModel)]="user.lastName" #userLastName="ngModel" required [style.border-color]="userLastName.errors?.required && userLastName.touched ? 'red' : '#ced4da'">
+            <div *ngIf="userLastName.errors?.required && userLastName.touched" class="error-msg">Mbiemri duhet plotësuar!</div>
+        </div>
+        <label for="gender">Gjinia</label>
+        <br>
+        <div class="form-check form-check-inline">
+          <input type="text" class="form-check-input" [(ngModel)]='user.gender' type="radio" id="male" name="gender" value="male" checked> 
+          <label for="male" class="form-check-label">Mashkull</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input type="text" class="form-check-input" [(ngModel)]='user.gender' type="radio" id="female" name="gender" value="female"> 
+            <label for="female" class="form-check-label">Femër</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input type="text" class="form-check-input" [(ngModel)]='user.gender' type="radio" id="other" name="gender" value="other"> 
+            <label for="other" class="form-check-label">Tjetër</label>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" [(ngModel)]="user.email" #userEmail="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required [style.border-color]="userEmail.errors?.required && userEmail.touched ? 'red' : '#ced4da'" [style.border-color]="userEmail.errors?.pattern && userEmail.touched ? 'red' : '#ced4da'">
+            <div *ngIf="userEmail.errors?.required && userEmail.touched;else error_email" class="error-msg">Email duhet plotësuar!</div>
+            <ng-template #error_email>
+              <div *ngIf="userEmail.errors?.pattern && userPassword.touched" class="error-msg">Email duhet të jetë valid!</div>
+            </ng-template>
+        </div>
+        <div class="form-group">
+            <label for="password">Fjalëkalimi</label>
+            <input type="password" class="form-control" id="password" name="password" [(ngModel)]="user.password" #userPassword="ngModel" minlength="6" required [style.border-color]="userPassword.errors?.required && userPassword.touched ? 'red' : '#ced4da'" [style.border-color]="userPassword.errors?.minlength && userPassword.touched ? 'red' : '#ced4da'">
+            <div *ngIf="userPassword.errors?.required && userPassword.touched;else error_length" class="error-msg">Fjalëkalimi duhet plotësuar!</div>
+            <ng-template #error_length>
+              <div *ngIf="userPassword.errors?.minlength && userPassword.touched" class="error-msg">Fjalëkalimi duhet të jetë më i gjatë se 6 karaktere!</div>
+            </ng-template>
+        </div>
+        <div class="my-form-control">
             <div class="form-check form-check-inline">
-              <input type="text" class="form-check-input" [(ngModel)]='user.gender' type="radio" id="male" name="gender" value="male" checked> 
-              <label for="male" class="form-check-label">Mashkull</label>
-            </div>
+                <input type="text" class="form-check-input" [(ngModel)]= 'user.role' type="radio" id="admin" name="type" value="admin" checked> 
+                <label for="admin" class="form-check-label">Administrator</label>
+              </div>
             <div class="form-check form-check-inline">
-                <input type="text" class="form-check-input" [(ngModel)]='user.gender' type="radio" id="female" name="gender" value="female"> 
-                <label for="female" class="form-check-label">Femër</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input type="text" class="form-check-input" [(ngModel)]='user.gender' type="radio" id="other" name="gender" value="other"> 
-                <label for="other" class="form-check-label">Tjetër</label>
-            </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" class="form-control" id="email" name="email" [(ngModel)]="user.email" #userEmail="ngModel">
-            </div>
-            <div class="form-group">
-                <label for="password">Fjalëkalimi</label>
-                <input type="password" class="form-control" id="password" name="password" [(ngModel)]="user.password">
-            </div>
-            <div class="my-form-control">
-                <div class="form-check form-check-inline">
-                    <input type="text" class="form-check-input" [(ngModel)]= 'user.role' type="radio" id="admin" name="type" value="admin" checked> 
-                    <label for="admin" class="form-check-label">Administrator</label>
-                  </div>
-                <div class="form-check form-check-inline">
-                    <input type="text" class="form-check-input" [(ngModel)]= 'user.role' type="radio" id="user" name="type" value="user"> 
-                    <label for="user" class="form-check-label">Përdorues</label>
-                </div>
-            </div>
-            <div class="form-group" [hidden]= "user.role == 'admin'">
-                <label for="email">Drejtoritë</label>
-               <select name="departments" id="departments" [(ngModel)]="user.department" class="form-control">
-                 <option value="">Zgjedh drejtorinë</option>
-                 <option value="option 1">Option 1</option>
-                 <option value="option 2">Option 2</option>
-               </select>
+                <input type="text" class="form-check-input" [(ngModel)]= 'user.role' type="radio" id="user" name="type" value="user"> 
+                <label for="user" class="form-check-label">Përdorues</label>
             </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" (click)="bsModalRef.hide()" data-dismiss="modal">Mbyll</button>
-          <button type="submit"  class="btn btn-primary" id="save" value="Submit" [disabled]="!f.valid">Ruaj</button>
+        <div class="form-group" [hidden]= "user.role == 'admin'">
+            <label for="email">Drejtoritë</label>
+           <select name="departments" id="departments" [(ngModel)]="user.department" class="form-control" #userDepartments="ngModel" required [style.border-color]="userDepartments.errors?.required && userDepartments.touched ? 'red' : '#ced4da'">
+             <option value="" selected>Zgjedh drejtorinë</option>
+             <option value="option1">Option 1</option>
+             <option value="option2">Option 2</option>
+           </select>
+           <div *ngIf="userDepartments.errors?.required && userDepartments.touched" class="error-msg">Duhet zgjedhur!</div>
         </div>
-        </form>
-      </div>  
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="bsModalRef.hide()" data-dismiss="modal">Mbyll</button>
+      <button type="submit"  class="btn btn-primary" id="save" value="Submit" [disabled]="!f.valid">Ruaj</button>
+    </div>
+    </form>
+  </div>  
