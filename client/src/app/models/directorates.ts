@@ -1,5 +1,3 @@
 export interface Directorates {
-
-    directorate : string;
-    
+    name: string;
 }

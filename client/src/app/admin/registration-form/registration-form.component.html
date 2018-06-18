@@ -58,7 +58,7 @@
                 <label for="user" class="form-check-label">Përdorues</label>
             </div>
         </div>
-        <div class="form-group" [hidden]= "user.role == 'admin'">
+        <div class="form-group" *ngIf="user.role == 'user'">
             <label for="email">Drejtoritë</label>
            <select name="departments" id="departments" [(ngModel)]="user.department" class="form-control" #userDepartments="ngModel" required [style.border-color]="userDepartments.errors?.required && userDepartments.touched ? 'red' : '#ced4da'">
              <option value="" selected>Zgjedh drejtorinë</option>
