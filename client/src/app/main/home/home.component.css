@@ -5,8 +5,7 @@
     position: relative;
 }
 
-/* -------  Cover image --------- */
-#bg-img{
+#bg-img {
     background-image: url('/assets/images/header2.png');
      /* Full height */
      height: 851px; 
@@ -17,11 +16,11 @@
      background-size: cover; 
 }
 
-.cover-image{
+.cover-image {
     padding: 0;
 }
 
-.cover .info-text{
+.cover .info-text {
     width: 549px;
     padding-top: 266px;
     padding-left: 100px;
@@ -33,7 +32,7 @@
     font-size: 72px;
     font-weight: bold;
 }
-.cover .info-text .subtitle{
+.cover .info-text .subtitle {
     color: #fff;
     font-family: 'Roboto', sans-serif;
     font-size: 26px;
@@ -42,7 +41,7 @@
 
 }
 
-.cover-col{
+.cover-col {
     padding-left: 0;
     padding-right: 0;
 }
@@ -67,18 +66,10 @@
         font-size: 24px;
     }
 }
-/* @media(max-width:820px) {
-    #bg-img {
-        width: 120%;
-    }
-} */
 @media (max-width: 760px) {
     .cover .info-text {
         padding-left: 75px;
     }
-    /* #bg-img {
-        height: 790px;
-    } */
 }
 @media(max-width: 580px) {
     .cover .info-text .title {
@@ -87,9 +78,6 @@
     .cover .info-text {
         padding-left: 65px;
     }
-    /* #bg-img {
-        width: 140%;
-    } */
 }
 @media (max-width: 470px) {
     .cover .info-text .title {
@@ -99,17 +87,10 @@
     .cover .info-text {
         padding-left: 40px;
     }
-    /* #bg-img {
-        width: 180%;
-    } */
     
 }
 @media(max-width:350px) {
-    /* #bg-img {
-        width: 200%;
-        height: 700px;
-    } */
-    .cover .info-text .title{
+    .cover .info-text .title {
         font-size: 38px;
 
     }
@@ -128,7 +109,7 @@
 }
 
     /* -------- Public contracts form -------*/
-        .contracts-filter-form{
+        .contracts-filter-form {
             margin-top: 40px;
             margin-left: 0;
             margin-top: 30px;
@@ -179,7 +160,7 @@
             outline: none;
             background: url('/assets/images/down-arrow-blue.png') white no-repeat calc(100% - 10px) !important; 
         }
-        .contracts-filter-form .form-button{
+        .contracts-filter-form .form-button {
             background-color:#32a6bd;
             color: white;
             border: none;
@@ -188,12 +169,12 @@
             font-size: 20px;
         }
 
-        .contracts-filter-form .form-button:hover{
+        .contracts-filter-form .form-button:hover {
             background-color:#2c96ac;
             box-shadow: 0px 0 7px 5px rgba(0, 0, 0, 0.144);
         }
 
-        .table{
+        .table {
             margin-top: 150px;
             margin-bottom: 350px;
         }
@@ -334,7 +315,7 @@
 
 
 /*---- Data set -----*/
-        #cover-image{
+        #cover-image {
             background-image: url('/assets/images/background-2.png');
             /* Full height */
             height: 346px; 
@@ -346,7 +327,7 @@
             background-size: cover;
             width: 100%;
         }
-        .data-set .title{
+        .data-set .title {
             font-family: 'Roboto', sans-serif;
             font-size: 30px;
             font-weight: 500;
@@ -372,11 +353,11 @@
            
         }
 
-        .data-set .data-set-form{
+        .data-set .data-set-form {
             margin-left: 283px;
         }
 
-        .data-set .form-button{
+        .data-set .form-button {
             background-color:#32a6bd;
             color: white;
             border: none;
@@ -386,7 +367,7 @@
             border: 1px solid #fff;
         }
 
-        .data-set .form-button:hover{
+        .data-set .form-button:hover {
             box-shadow: 0px 0 7px 5px rgba(0, 0, 0, 0.144);
         }
         /*--------Responsiveness--------*/
@@ -486,19 +467,19 @@
 #announcements-title-2 {
     width: 231px;
 }
-#announcements-title-4{
+#announcements-title-4 {
     width: 188px;
 }
-#announcements-title-5{
+#announcements-title-5 {
     width: 210px;
 }
-#announcements-title-6{
+#announcements-title-6 {
     width: 274px;
 }
-.announcements-buttons{
+.announcements-buttons {
     text-align: center;
 }
-#bg-img-contracts{
+#bg-img-contracts {
     background-image: url('/assets/images/background-prishtina-online.jpg');
      /* Full height */
      height: 851px; 
@@ -509,7 +490,7 @@
      background-size: cover;
      padding: 0;
 }
-.contracts-announcement{
+.contracts-announcement {
     padding: 0;
 }
 @media(max-width: 767px) {
