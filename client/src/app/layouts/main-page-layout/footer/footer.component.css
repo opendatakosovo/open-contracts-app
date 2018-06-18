@@ -3,38 +3,43 @@
     height: 377px;
     background-repeat: no-repeat;
     background-size: cover;
+    width: 100%;
+}
+.footer {
+    bottom: 0;
+    left: 0;
     position: relative;
+}
+.container-fluid {
+    padding: 0;
 }
 .footerImage {
     padding: 0;
 }
 .footerImage .komunaPrishtines {
-    float:  left;
     padding-top: 110px;
     padding-left: 130px; 
     
 }
 .footerImage .komunaPrishtines img {
-    padding-left: 70px;
+    padding-left: 55px;
 }
 .footerImage .reservedRights {
-    float: left;
-    padding-top: 200px;
-    padding-left: 150px; 
+    padding-top: 80px;
+    padding-left: 72px; 
 }
 .footerImage .reservedRights p:nth-of-type(1) {
     margin-bottom: 0px;
 }
 .footerImage .reservedRights p:nth-of-type(2) {
-    padding-left:50px; 
+    padding-left:45px; 
 }
 .footerImage .dashboard {
-    float: left;
     padding-top: 110px;
-    padding-left: 70px;
+    padding-left: 73px;
 }
 .footerImage .dashboard img {
-    padding-left:45px; 
+    padding-left:35px; 
 }
 .text {
     color: #fff;
@@ -45,6 +50,61 @@ img {
     padding-top: 20px;
     height: 105px;
 }
-.container-fluid {
-    width: 100%
+
+
+@media(max-width: 1200px) {
+    .text {
+        font-size: 17px;
+    }
+    .footerImage .komunaPrishtines {
+        padding-left: 80px;
+    }
+    .footerImage .reservedRights {
+        padding-left: 45px;
+    }
+    .footerImage .dashboard {
+        padding-left: 50px
+    }
+    .footerImage .dashboard img {
+        padding-left:23px; 
+    }
 }
+ @media(max-width: 767px) {
+     #footerImage {
+        height: 555px;
+     }
+     .footerImage .komunaPrishtines {
+        padding-top: 90px;
+        padding-left: 0;
+        text-align: center;
+     }
+     .footerImage .komunaPrishtines img {
+        padding-top: 5px;
+        padding-left: 5px;
+        padding-right: 10px;
+    }
+     .footerImage .reservedRights {
+        padding-top: 30px;
+        padding-left: 8px;
+        text-align: center;
+    }
+    .footerImage .reservedRights p:nth-of-type(2) {
+        padding-left:5px; 
+        padding-top: 0;
+    }
+    .footerImage .dashboard {
+        padding-top: 43px;
+        padding-left: 0;
+        text-align: center;
+    }
+    .footerImage .dashboard img {
+        padding-left: 5px;
+        padding-top: 5px; 
+        padding-bottom: 20px;
+    }
+    img {
+        padding-top: 20px;
+        height: 85px;
+    }
+    
+ }

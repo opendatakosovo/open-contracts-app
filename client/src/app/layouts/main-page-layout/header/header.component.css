@@ -2,14 +2,12 @@
     background-color: white;
     padding:  15px 100px 15px 100px;
     box-shadow: 0 8px 20px -15px black;
-    transition: 0.5s
+    transition: 0.5s;
 }
 .fa {
     color: #32a6bd;
 }
-nav {
-    width: 100% !important;
-}
+
 .scroll {
     padding-top: 5px !important;
     padding-bottom: 5px !important;
@@ -118,6 +116,9 @@ a {
     #underlineAbout {
         width:65px;
     }
+    nav#navbar-1 {
+        width: 100%
+    }
 }
 @media(max-width:1280px) {
     .nav-item.active .underline {
@@ -125,6 +126,9 @@ a {
     }
     .navbar {
         padding:  13px 100px 13px 100px;
+    }
+    nav#navbar-1 {
+        width: 100%;
     }
     
 }
@@ -148,6 +152,10 @@ a {
     }
     #underlineVisualizations {
         width:74px;
+    }
+    nav#navbar-1 {
+        width: 100%;
+        max-width: 100%;
     }
 }
 @media(max-width: 985px) {
