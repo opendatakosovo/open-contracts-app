@@ -14,4 +14,8 @@ export class DirectorateService {
   addDirectorate(directorate) {
     return this.http.post(`${this.APIUrl}/directorates` , directorate).map(res => res.json());
   }
+  getDirectorates() {
+    return this.http.get(`${this.APIUrl}/directorates`).map(res => res.json().directorates);
+  }
+
 }

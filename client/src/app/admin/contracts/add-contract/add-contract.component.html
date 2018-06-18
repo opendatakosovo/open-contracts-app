@@ -117,8 +117,9 @@
                    required [style.border-color]="contractDepartments.errors?.required && contractDepartments.touched ? 'red' : '#ced4da'">
                      <option [ngValue]="undefined" selected>Zgjedh drejtorinë</option>
                      <option value="drejtoria1">Drejtoria 1</option>
+                     <option value="drejtoria2">Drejtoria 2</option>
                    </select>
-                   <div *ngIf="contractDepartments.errors?.required && contractDepartments.touched" class="error-msg">Duhet plotësuar!</div>
+                   <div *ngIf="contractDepartments.errors?.required && contractDepartments.touched" class="error-msg">Duhet zgjedhur!</div>
                 </div>
                 </div>
               </div>
