@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
 })
 export class AddDirectoratesComponent implements OnInit {
   directorate: Directorates = {
-    directorate: ''
+    name: ''
   };
 
   constructor(public bsModalRef: BsModalRef , public directorateService: DirectorateService) { }
@@ -29,7 +29,7 @@ export class AddDirectoratesComponent implements OnInit {
       } else {
         this.bsModalRef.hide();
         Swal('Sukses!', 'Drejtoria u shtua me sukses.', 'success');
-        this.directorate.directorate = '';
+        this.directorate.name = '';
       }
     });
   }
