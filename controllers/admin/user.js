@@ -120,14 +120,17 @@ router.put('/generate-password/:id',(req, res) => {
                 to: user.email,
                 from: "support@prishtina.com",
                 subject: "Ju është ndryshuar fjalëkalimi nga adminstruesi",
-                html: `I/e nderuar
+                html: `I/e nderuar,
                         <br>
-                        Adminstruesi e ka ndryshuar fjalëkalimin e juaj me sukses.<br>
-                        Fjalekalimi i juaj është:<br>
-                        <h3 style"color:green"><b>${password}</b></h3> 
+                        Adminstratori i platformës e ka ndryshuar fjalëkalimin e juaj me sukses. <br>
+                        </br>
+                        Fjalëkalimi i juaj i përkohshëm është: <br/>
+                        <h3><b>${password}</b></h3> 
                         <br>
-                        Me nderime<br>
-                        Ekipi menaxhues`
+                        Ju lutem ndryshoni fjalëkalimin pas kyçjes së parë!<br>
+                        <br>
+                        Me Respekt,<br>
+                        Administratori`
             }
             mailTransporter.sendMail(mail, err => {
                 if(!err){

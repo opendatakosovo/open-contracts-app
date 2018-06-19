@@ -17,8 +17,6 @@ export class ProfileComponent implements OnInit {
 
   constructor(private userService: UserService) {
     this.currentUser = JSON.parse(localStorage.getItem('user'));
-    console.log(this.currentUser.id);
-
   }
 
   ngOnInit() {
