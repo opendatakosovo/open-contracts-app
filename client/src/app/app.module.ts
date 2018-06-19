@@ -32,12 +32,11 @@ import { EditProfileComponent } from './admin/profile/edit-profile/edit-profile.
 import { ChangePasswordComponent } from './admin/profile/change-password/change-password.component';
 import { DirectoratesComponent } from './admin/directorates/directorates.component';
 import { AddDirectoratesComponent } from './admin/directorates/add-directorates/add-directorates.component';
-import { UserProfileComponent } from './admin/users/user-profile/user-profile.component';
+
 
 
 
 import { AuthGuard } from './guards/auth.guard';
-import { UsersListComponent } from './admin/users/users-list/users-list.component';
 import { DirectoratesListComponent } from './admin/directorates/directorates-list/directorates-list.component';
 
 
@@ -93,9 +92,7 @@ const appRoutes: Routes = [
     ChangePasswordComponent,
     DirectoratesComponent,
     AddDirectoratesComponent,
-    UserProfileComponent,
-    UsersListComponent,
-    DirectoratesListComponent,
+    DirectoratesListComponent
   ],
   imports: [
     BrowserModule,
