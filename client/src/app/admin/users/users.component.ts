@@ -5,8 +5,6 @@ import { User } from '../../models/user';
 import Swal from 'sweetalert2';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import { RegistrationFormComponent } from '../registration-form/registration-form.component';
-import { INTERNAL_BROWSER_DYNAMIC_PLATFORM_PROVIDERS } from '@angular/platform-browser-dynamic/src/platform_providers';
 import { Directorates } from '../../models/directorates';
 import { DirectorateService } from '../../service/directorate.service';
 
@@ -51,8 +49,7 @@ export class UsersComponent implements OnInit {
     department: ''
   };
   directorates: Directorates[];
-  modalRef: BsModalRef;
-  bsModalRef: BsModalRef;
+
 
   constructor(public userService: UserService, private modalService: BsModalService, public directorateService: DirectorateService) {
     this.userService.getUsers().subscribe(data => {
@@ -118,7 +115,7 @@ export class UsersComponent implements OnInit {
         });
       } else {
         this.modalRef.hide();
-        this.users.unshift(res.user);    
+        this.users.unshift(res.user);
         Swal('Sukses!', 'Pëdoruesi u shtua me sukses.', 'success');
         this.user._id = '';
         this.user.firstName = '';
