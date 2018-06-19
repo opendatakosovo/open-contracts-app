@@ -18,7 +18,8 @@ import { DirectorateService } from '../../service/directorate.service';
   styleUrls: ['./registration-form.component.css']
 })
 export class RegistrationFormComponent implements OnInit {
-  @Input() directorates: Directorates;
+  directorates: Directorates;
+  public getUser: EventEmitter<User> = new EventEmitter();
   user: User = {
     _id: '',
     firstName: '',
@@ -30,7 +31,7 @@ export class RegistrationFormComponent implements OnInit {
     department: ''
   };
 
-  constructor(public bsModalRef: BsModalRef, public userService: UserService, public directorateService: DirectorateService) {
+  constructor(public bsModalRef: BsModalRef, public directorateService: DirectorateService) {
     this.directorateService.getDirectorates().subscribe(data => {
       this.directorates = data;
     });
