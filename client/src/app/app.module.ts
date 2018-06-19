@@ -23,7 +23,6 @@ import { UsersComponent } from './admin/users/users.component';
 import { DataDashboardComponent } from './admin/data-dashboard/data-dashboard.component';
 import { UserService } from './service/user.service';
 import { DirectorateService } from './service/directorate.service';
-import { RegistrationFormComponent } from './admin/registration-form/registration-form.component';
 import { ContractsComponent } from './admin/contracts/contracts.component';
 import { AddContractComponent } from './admin/contracts/add-contract/add-contract.component';
 import { ModalModule } from 'ngx-bootstrap';
@@ -84,7 +83,6 @@ const appRoutes: Routes = [
     DashboardFooterComponent,
     UsersComponent,
     DataDashboardComponent,
-    RegistrationFormComponent,
     ContractsComponent,
     AddContractComponent,
     ChangePasswordFormComponent,
@@ -103,9 +101,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     ModalModule.forRoot()
   ],
-  entryComponents: [RegistrationFormComponent,
-                   AddDirectoratesComponent
-  ],
+  entryComponents: [AddDirectoratesComponent],
   providers: [
     UserService,
     AuthGuard,

@@ -58,7 +58,9 @@ module.exports.getUserById = (id, callback) => {
 
 // Function for getting all users
 module.exports.getAllUsers = callback => {
-  User.find(callback);
+  User.find({})
+  .sort([['createdAt',-1]])
+  .exec(callback);
 }
 
 

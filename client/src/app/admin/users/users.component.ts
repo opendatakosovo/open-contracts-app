@@ -5,8 +5,6 @@ import { User } from '../../models/user';
 import Swal from 'sweetalert2';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import { RegistrationFormComponent } from '../registration-form/registration-form.component';
-import { INTERNAL_BROWSER_DYNAMIC_PLATFORM_PROVIDERS } from '@angular/platform-browser-dynamic/src/platform_providers';
 import { Directorates } from '../../models/directorates';
 import { DirectorateService } from '../../service/directorate.service';
 
@@ -17,7 +15,19 @@ import { DirectorateService } from '../../service/directorate.service';
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
+  modalRef: BsModalRef;
   users: User[];
+  userModal: User = {
+    _id: '',
+    firstName: '',
+    lastName: '',
+    gender: 'male',
+    email: '',
+    password: '',
+    role: 'admin',
+    department: ''
+  };
+
   user: User = {
     _id: '',
     firstName: '',
@@ -39,8 +49,7 @@ export class UsersComponent implements OnInit {
     department: ''
   };
   directorates: Directorates[];
-  modalRef: BsModalRef;
-  bsModalRef: BsModalRef;
+
 
   constructor(public userService: UserService, private modalService: BsModalService, public directorateService: DirectorateService) {
     this.userService.getUsers().subscribe(data => {
@@ -54,15 +63,14 @@ export class UsersComponent implements OnInit {
 
   ngOnInit() { }
 
-  openModal() {
-    this.modalRef = this.modalService.show(RegistrationFormComponent);
+ openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
   }
-
 
   showUser(event) {
     const id = event.target.dataset.id;
     this.userService.getUserByID(id).subscribe(user => {
-      this.user = user;
+      this.userModal = user;
     });
   }
 
@@ -83,5 +91,43 @@ export class UsersComponent implements OnInit {
       }
     });
   }
+
+  addUser(event) {
+    this.userService.addUser(this.user).subscribe(res => {
+      if (res.err) {
+        Swal('Gabim!', 'Pëdoruesi nuk u shtua.', 'error');
+      } else if (res.exists) {
+        Swal('Kujdes!', 'Pëdoruesi eksizton.', 'warning');
+      } else if (res.errVld) {
+        let errList = '';
+        res.errVld.map(error => {
+            errList += `<li>${error.msg}</li>`;
+        });
+
+        const htmlData = `<div style="text-align: center;">${errList}</div>`;
+
+        Swal({
+            title: 'Kujdes!',
+            html: htmlData,
+            width: 750,
+            type: 'info',
+            confirmButtonText: 'Kthehu te forma'
+        });
+      } else {
+        this.modalRef.hide();
+        this.users.unshift(res.user);
+        Swal('Sukses!', 'Pëdoruesi u shtua me sukses.', 'success');
+        this.user._id = '';
+        this.user.firstName = '';
+        this.user.lastName = '';
+        this.user.gender = 'male';
+        this.user.password = '';
+        this.user.role = 'admin';
+        this.user.department = '';
+        this.user.email = '';
+      }
+    });
+  }
+
 }
 
