@@ -51,7 +51,7 @@ export class UserService {
   }
 
   generatePassword (id) {
-    return this.http.get(`${this.APIUrl}/generate-password/${id}`).map(res => res.json());
+    return this.http.put(`${this.APIUrl}/user/generate-password/` + id, {}).map(res => res.json());
   }
 
 }
