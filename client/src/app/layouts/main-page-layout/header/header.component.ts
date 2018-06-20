@@ -8,11 +8,11 @@ import { HostListener } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 width = window.innerWidth;
+
   constructor() { }
   ngOnInit() { }
 
   onResize() {
     this.width = window.innerWidth;
   }
-
 }
