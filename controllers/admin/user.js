@@ -89,7 +89,7 @@ router.get('/:id', passport.authenticate('jwt', {session: false}), (req, res) =>
 });
 
 // Route for deleting a user by id
-router.delete('/:id',passport.authenticate('jwt', {session: false}), (req, res) => {
+router.delete('/:id', passport.authenticate('jwt', {session: false}), (req, res) => {
     User.deleteUserById(req.params.id, (err, user) => {
         if(!err){
             res.json({
