@@ -54,4 +54,8 @@ export class UserService {
     return this.http.put(`${this.APIUrl}/user/generate-password/` + id, {}).map(res => res.json());
   }
 
+  editUser(id, editedUser) {
+    return this.http.put(`${this.APIUrl}/user/edit-user/` + id, editedUser).map(res => res.json());
+  }
+
 }

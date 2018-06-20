@@ -155,4 +155,24 @@ router.put('/generate-password/:id',(req, res) => {
     });
 });
 
+// UPDATE USER DATA BY ID
+router.put('/edit-user/:id', (req, res) => {
+    const userId = req.params.id;
+
+    User.updateUser(userId, req.body, (err, user) => {
+        if (!err) {
+            res.json({
+                "msg": "User has been updated successfully",
+                "user": user,
+                "success": true
+            });
+        } else {
+            res.json({
+                "err": err,
+                "success": false
+            });
+        }
+    });
+});
+
 module.exports = router;

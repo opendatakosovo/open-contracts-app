@@ -38,6 +38,7 @@ export class UsersComponent implements OnInit {
     role: 'admin',
     department: ''
   };
+
   directorates: Directorates[];
   modalRef: BsModalRef;
   bsModalRef: BsModalRef;
@@ -54,8 +55,8 @@ export class UsersComponent implements OnInit {
 
   ngOnInit() { }
 
-  openModal() {
-    this.modalRef = this.modalService.show(RegistrationFormComponent);
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
   }
 
 
@@ -80,6 +81,43 @@ export class UsersComponent implements OnInit {
         Swal('Sukses!', 'Pëdoruesit ju rigjenerua fjalëkalimi dhe ju dërgua me sukses.', 'success');
       } else {
         Swal('Gabim!', `Përdoruesit nuk u rigjenerua fjalëkalimi me sukses arsyja: ${result.err}`, 'success');
+      }
+    });
+  }
+
+  editUser(event) {
+    const id = event.target.dataset.id;
+    this.userService.editUser(id, this.user).subscribe(res => {
+      if (res.err) {
+        Swal('Gabim!', 'Pëdoruesi nuk u ndryshua.', 'error');
+      } else if (res.exists) {
+        Swal('Kujdes!', 'Pëdoruesi eksizton.', 'warning');
+      } else if (res.errVld) {
+        let errList = '';
+        res.errVld.map(error => {
+            errList += `<li>${error.msg}</li>`;
+        });
+
+        const htmlData = `<div style="text-align: center;">${errList}</div>`;
+
+        Swal({
+            title: 'Kujdes!',
+            html: htmlData,
+            width: 750,
+            type: 'info',
+            confirmButtonText: 'Kthehu te forma'
+        });
+      } else {
+        this.modalRef.hide();
+        Swal('Sukses!', 'Pëdoruesi u ndryshua me sukses.', 'success');
+        this.user._id = '';
+        this.user.firstName = '';
+        this.user.lastName = '';
+        this.user.gender = 'male';
+        this.user.password = '';
+        this.user.role = 'admin';
+        this.user.department = '';
+        this.user.email = '';
       }
     });
   }
