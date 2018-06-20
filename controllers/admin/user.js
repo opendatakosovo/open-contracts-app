@@ -2,18 +2,14 @@ const router = require("express").Router();
 const User = require('../../models/user');
 const mailTransporter = require('../../utils/mail-transporter');
 const passwordGenerator = require('../../utils/generate-password');
-    
+const passport = require("passport");
 const userValidation = require("../../middlewares/user_validation");
 
 /*
  * ENDPOINTS PREFIX: /user
  */
-
-
-
-
 // Route for creating a user
-router.post('/', userValidation, (req, res) => {
+router.post('/', passport.authenticate('jwt', {session: false}), userValidation, (req, res) => {
     let user = new User({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
@@ -57,7 +53,7 @@ router.post('/', userValidation, (req, res) => {
 });
 
 // Route for getting all users
-router.get('/', (req, res) => {
+router.get('/', passport.authenticate('jwt', {session: false}), (req, res) => {
     User.getAllUsers((err, users) => {
         if (!err) {
             res.json({
@@ -75,7 +71,7 @@ router.get('/', (req, res) => {
 });
 
 // Route for getting a user by id
-router.get('/:id', (req, res) => {
+router.get('/:id', passport.authenticate('jwt', {session: false}), (req, res) => {
     User.getUserById(req.params.id, (err, user) => {
         if(!err){
             res.json({
@@ -93,7 +89,7 @@ router.get('/:id', (req, res) => {
 });
 
 // Route for deleting a user by id
-router.delete('/:id',(req, res) => {
+router.delete('/:id',passport.authenticate('jwt', {session: false}), (req, res) => {
     User.deleteUserById(req.params.id, (err, user) => {
         if(!err){
             res.json({
@@ -111,7 +107,7 @@ router.delete('/:id',(req, res) => {
 });
 
 // Route for generate  password for a user
-router.put('/generate-password/:id',(req, res) => {
+router.put('/generate-password/:id', passport.authenticate('jwt', {session: false}), (req, res) => {
     let password = passwordGenerator.generate();
     User.changePassword(req.params.id,password , (err, user) => {
         if(!err){

@@ -1,8 +1,12 @@
 const router = require("express").Router();
 const Directorates  = require('../../models/directorates');
+const passport = require("passport");
+/*
+ * ENDPOINTS PREFIX: /directorates
+ */
 
 //Route for creating a user
-router.post('/', (req, res) => {
+router.post('/', passport.authenticate('jwt', {session: false}), (req, res) => {
     let directorate = new Directorates({
         name: req.body.name,
     });
@@ -40,7 +44,7 @@ router.post('/', (req, res) => {
  
 });
 
-router.get('/', (req, res) => {
+router.get('/', passport.authenticate('jwt', {session: false}), (req, res) => {
     Directorates.getAllDirectorates((err, directorates) => {
         if (!err) {
             res.json({
