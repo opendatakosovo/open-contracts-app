@@ -1,23 +1,27 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
-import {environment} from '../../environments/environment';
+import { environment } from '../../environments/environment';
 import { tokenNotExpired } from 'angular2-jwt';
+import { Auth } from '../utils/auth';
 
 @Injectable()
 export class UserService {
   APIUrl: string = environment.apiUrl;
   token: any;
   user: any;
+  authHeaders: Headers;
 
-  constructor(public http: Http) { }
+  constructor(public http: Http) {
+    this.authHeaders = Auth.loadToken();
+  }
 
   getUsers() {
-    return this.http.get(`${this.APIUrl}/user`).map(res => res.json().users);
+    return this.http.get(`${this.APIUrl}/user`, { headers: this.authHeaders }).map(res => res.json().users);
   }
 
   addUser(user) {
-    return this.http.post(`${this.APIUrl}/user`, user).map(res => res.json());
+    return this.http.post(`${this.APIUrl}/user`, user, { headers: this.authHeaders }).map(res => res.json());
   }
 
   authUser(user) {
@@ -46,12 +50,12 @@ export class UserService {
     localStorage.clear();
   }
 
-  getUserByID (id) {
-    return this.http.get(`${this.APIUrl}/user/` + id).map(res => res.json().user);
+  getUserByID(id) {
+    return this.http.get(`${this.APIUrl}/user/` + id, { headers: this.authHeaders }).map(res => res.json().user);
   }
 
-  generatePassword (id) {
-    return this.http.put(`${this.APIUrl}/user/generate-password/` + id, {}).map(res => res.json());
+  generatePassword(id) {
+    return this.http.put(`${this.APIUrl}/user/generate-password/` + id, {}, { headers: this.authHeaders }).map(res => res.json());
   }
 
   editUser(id, editedUser) {

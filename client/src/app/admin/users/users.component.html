@@ -5,7 +5,7 @@
       <h1 class="title">Përdoruesit</h1>
     </div>
     <div class="col-6" id="add-user-btn">
-      <button data-toggle="modal" (click)="openModal()" class="float-right btn btn-outline-primary add-btn">
+      <button data-toggle="modal" (click)="openModal(modalAddUser)" class="float-right btn btn-outline-primary add-btn">
         <i class="fa fa-plus"> </i> Shto përdorues</button>
     </div>
   </div>
@@ -75,30 +75,31 @@
           <tbody id="profile-information">
             <tr>
               <th class="data-information">Emri: </th>
-              <td class="data-information">{{ user.firstName }}</td>
+              <td class="data-information">{{ userModal.firstName }}</td>
             </tr>
             <tr>
               <th class="data-information">Mbiemri:</th>
-              <td class="data-information">{{ user.lastName }}</td>
+              <td class="data-information">{{ userModal.lastName }}</td>
             </tr>
             <tr>
               <th class="data-information">Gjinia:</th>
-              <td class="data-information" *ngIf="user.gender == 'male'">Mashkull</td>
-              <td class="data-information" *ngIf="user.gender == 'female'">Femër</td>
-              <td class="data-information" *ngIf="user.gender == 'other'">Tjetër</td>
+              <td class="data-information" *ngIf="userModal.gender == 'male'">Mashkull</td>
+              <td class="data-information" *ngIf="userModal.gender == 'female'">Femër</td>
+              <td class="data-information" *ngIf="userModal.gender == 'other'">Tjetër</td>
             </tr>
             <tr>
               <th class="data-information">Email Adresa:</th>
-              <td class="data-information">{{ user.email }}</td>
+              <td class="data-information">{{ userModal.email }}</td>
             </tr>
             <tr>
               <th class="data-information">Roli:</th>
-              <td class="data-information">{{ user.role == "admin" ? 'Administrator' : 'Përdorues' }}</td>
+              <td class="data-information">{{ userModal.role == "admin" ? 'Administrator' : "Përdorues" }}</td>
             </tr>
           </tbody>
         </table>
         <div class="change-btns">
-          <button class='btn btn-primary' id="generate-password-btn" data-toggle="modal" style='margin-top: 10px;' [attr.data-id]="user._id"  (click)="generatePassword($event)">
+          <button class='btn btn-primary' id="generate-password-btn" data-toggle="modal" style='margin-top: 10px;' [attr.data-id]="user._id"
+            (click)="generatePassword($event)">
             Rigjenero fjalëkalimin
           </button>
         </div>
@@ -174,4 +175,82 @@
       </div>
     </div> 
   <!-- /Modal for editing a user or admin-->
+  <ng-template #modalAddUser>
+    <div id="add-user-modal">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Shto përdoruesin</h5>
+      <button type="button" (click)="modalRef.hide()" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <form action=""  class="form-i" novalidate #f="ngForm" (submit)="addUser($event)">
+    <div class="modal-body">
+        <div class="form-group">
+          <label for="first-name">Emri</label>
+          <input type="text" class="form-control" [(ngModel)]="user.firstName" id="first-name" name="first-name" #userName="ngModel" required [style.border-color]="userName.errors?.required && userName.touched ? 'red' : '#ced4da'"> 
+          <div *ngIf="userName.errors?.required && userName.touched" class="error-msg">Emri duhet plotësuar!</div>
+        </div>
+        <div class="form-group">
+            <label for="last-name">Mbiemri</label>
+            <input type="text" class="form-control" id="last-name" name="last-name" [(ngModel)]="user.lastName" #userLastName="ngModel" required [style.border-color]="userLastName.errors?.required && userLastName.touched ? 'red' : '#ced4da'">
+            <div *ngIf="userLastName.errors?.required && userLastName.touched" class="error-msg">Mbiemri duhet plotësuar!</div>
+        </div>
+        <label for="gender">Gjinia</label>
+        <br>
+        <div class="form-check form-check-inline">
+          <input type="text" class="form-check-input" [(ngModel)]='user.gender' type="radio" id="male" name="gender" value="male" checked> 
+          <label for="male" class="form-check-label">Mashkull</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input type="text" class="form-check-input" [(ngModel)]='user.gender' type="radio" id="female" name="gender" value="female"> 
+            <label for="female" class="form-check-label">Femër</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input type="text" class="form-check-input" [(ngModel)]='user.gender' type="radio" id="other" name="gender" value="other"> 
+            <label for="other" class="form-check-label">Tjetër</label>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" [(ngModel)]="user.email" #userEmail="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required [style.border-color]="userEmail.errors?.required && userEmail.touched ? 'red' : '#ced4da'" [style.border-color]="userEmail.errors?.pattern && userEmail.touched ? 'red' : '#ced4da'">
+            <div *ngIf="userEmail.errors?.required && userEmail.touched;else error_email" class="error-msg">Email duhet plotësuar!</div>
+            <ng-template #error_email>
+              <div *ngIf="userEmail.errors?.pattern && userPassword.touched" class="error-msg">Email duhet të jetë valid!</div>
+            </ng-template>
+        </div>
+        <div class="form-group">
+            <label for="password">Fjalëkalimi</label>
+            <input type="password" class="form-control" id="password" name="password" [(ngModel)]="user.password" #userPassword="ngModel" minlength="6" required [style.border-color]="userPassword.errors?.required && userPassword.touched ? 'red' : '#ced4da'" [style.border-color]="userPassword.errors?.minlength && userPassword.touched ? 'red' : '#ced4da'">
+            <div *ngIf="userPassword.errors?.required && userPassword.touched;else error_length" class="error-msg">Fjalëkalimi duhet plotësuar!</div>
+            <ng-template #error_length>
+              <div *ngIf="userPassword.errors?.minlength && userPassword.touched" class="error-msg">Fjalëkalimi duhet të jetë më i gjatë se 6 karaktere!</div>
+            </ng-template>
+        </div>
+        <div class="my-form-control">
+          <label for="type">Roli</label>
+          <br>
+            <div class="form-check form-check-inline">
+                <input type="text" class="form-check-input" [(ngModel)]= 'user.role' type="radio" id="admin" name="type" value="admin" checked> 
+                <label for="admin" class="form-check-label">Administrator</label>
+              </div>
+            <div class="form-check form-check-inline">
+                <input type="text" class="form-check-input" [(ngModel)]= 'user.role' type="radio" id="user" name="type" value="user"> 
+                <label for="user" class="form-check-label">Përdorues</label>
+            </div>
+        </div>
+        <div class="form-group" *ngIf="user.role == 'user'">
+            <label for="email">Drejtoritë</label>
+           <select name="departments" id="departments" [(ngModel)]="user.department" class="form-control" #userDepartments="ngModel" required [style.border-color]="userDepartments.errors?.required && userDepartments.touched ? 'red' : '#ced4da'">
+             <option value="" selected>Zgjedh Drejtorinë</option>
+             <option *ngFor="let directorate of directorates" [ngValue]="directorate.name">{{ directorate.name }}</option>
+           </select>
+           <div *ngIf="userDepartments.errors?.required && userDepartments.touched" class="error-msg">Duhet zgjedhur!</div>
+        </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modalRef.hide()" data-dismiss="modal">Mbyll</button>
+      <button type="submit"  class="btn btn-primary" id="save" value="Submit" [disabled]="!f.valid">Ruaj</button>
+    </div>
+    </form>
+  </div>  
+  </ng-template>
 </div>
