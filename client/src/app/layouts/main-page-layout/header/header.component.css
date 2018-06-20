@@ -4,6 +4,12 @@
     box-shadow: 0 8px 20px -15px black;
     transition: 0.5s;
 }
+.navbar-brand img{
+    width: 120px;
+}
+.navbar-nav.navbar-left {
+    padding-left: 25px;
+}
 .fa {
     color: #32a6bd;
 }
@@ -119,6 +125,9 @@ a {
     nav#navbar-1 {
         width: 100%
     }
+    .navbar-brand img{
+        width: 140px;
+    }
 }
 @media(max-width:1280px) {
     .nav-item.active .underline {
@@ -127,9 +136,7 @@ a {
     .navbar {
         padding:  13px 100px 13px 100px;
     }
-    nav#navbar-1 {
-        width: 100%;
-    }
+    
     
 }
 
@@ -137,10 +144,13 @@ a {
     .navbar {
         padding:  12px 100px 12px 100px;
     }
+    .navbar-brand img{
+        width: 110px;
+    }
     
 }
 
-@media (max-width: 1040px) {
+@media (max-width: 1080px) {
     .nav-link, #lang-select {
     font-size: 13.9px;
     }
@@ -153,9 +163,16 @@ a {
     #underlineVisualizations {
         width:74px;
     }
-    nav#navbar-1 {
-        width: 100%;
-        max-width: 100%;
+    .navbar-brand img{
+        width: 87px;
+    }
+}
+@media (max-width: 1024px) {
+    .navbar-brand img{
+        width: 88px;
+    }
+    .nav-link, #lang-select {
+        font-size: 13px;
     }
 }
 @media(max-width: 985px) {
@@ -187,6 +204,7 @@ a {
     }
 }
 
+
 @media (max-width: 580px) { 
     nav.navbar {
         padding:  12px 65px 12px 65px;
@@ -209,11 +227,15 @@ a {
     #underlineAbout {
         width: 73px;
     }
+    
 }
 
 @media (max-width: 470px) {
     nav.navbar {
         padding:  12px 40px 12px 40px;
-    }  
+    } 
+    .navbar-brand img{
+        width: 90px;
+    } 
 }
 /* ---- /Responsiveness ---- */
