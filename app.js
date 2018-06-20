@@ -18,6 +18,9 @@ mongoose.connection.on("connected", () => {
 
 const app = express();
 
+// Passing Passport module to configure authentication middleware
+require('./config/passport')(passport); // pass passport for configuration
+
 // Port number
 const port = 3000;
 
