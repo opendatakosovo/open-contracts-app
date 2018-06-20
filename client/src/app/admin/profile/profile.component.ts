@@ -13,7 +13,7 @@ export class ProfileComponent implements OnInit {
     email: ''
   };
   user: User;
-  check = false;
+  check: Boolean = false;
 
   constructor(private userService: UserService) {
     this.currentUser = JSON.parse(localStorage.getItem('user'));

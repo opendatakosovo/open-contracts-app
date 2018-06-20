@@ -7,7 +7,7 @@ import { HostListener } from '@angular/core';
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
-width = window.innerWidth;
+width: number = window.innerWidth;
 
   constructor() { }
   ngOnInit() { }
