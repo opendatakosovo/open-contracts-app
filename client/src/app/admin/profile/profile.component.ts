@@ -12,7 +12,16 @@ export class ProfileComponent implements OnInit {
     id: '',
     email: ''
   };
-  user: User;
+  user: User = {
+    _id: '',
+    firstName: '',
+    lastName: '',
+    gender: 'male',
+    email: '',
+    password: '',
+    role: 'admin',
+    department: ''
+  };
   check: Boolean = false;
 
   constructor(private userService: UserService) {

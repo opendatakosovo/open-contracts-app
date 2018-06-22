@@ -37,6 +37,7 @@ import { AddDirectoratesComponent } from './admin/directorates/add-directorates/
 
 import { AuthGuard } from './guards/auth.guard';
 import { DirectoratesListComponent } from './admin/directorates/directorates-list/directorates-list.component';
+import { InstallmentComponent } from './admin/contracts/installment/installment.component';
 
 
 const appRoutes: Routes = [
@@ -60,6 +61,7 @@ const appRoutes: Routes = [
       {path: 'dashboard/users', component: UsersComponent, canActivate: [AuthGuard]},
       {path: 'dashboard/data', component: DataDashboardComponent, canActivate: [AuthGuard]},
       {path: 'dashboard/contracts', component: ContractsComponent, canActivate: [AuthGuard]},
+      {path: 'dashboard/contracts/add-contract', component: AddContractComponent, canActivate: [AuthGuard]},
       {path: 'dashboard/profile', component: ProfileComponent, canActivate: [AuthGuard]},
       {path: 'dashboard/directorates', component: DirectoratesComponent, canActivate: [AuthGuard]}
     ]
@@ -90,7 +92,8 @@ const appRoutes: Routes = [
     ChangePasswordComponent,
     DirectoratesComponent,
     AddDirectoratesComponent,
-    DirectoratesListComponent
+    DirectoratesListComponent,
+    InstallmentComponent
   ],
   imports: [
     BrowserModule,
