@@ -1,9 +1,14 @@
 <div class="container-fluid">
   <div>
-    <div>
+   <div class="row">
+    <div class="col-md-6">
       <h1 class="text-primary dispaly-1">
         Shto Kontratë të re
       </h1>
+    </div>
+    <div class="col-md-6" >
+        <a  style="float:right" class="btn btn-outline-primary buttons" [routerLink]="['/dashboard/contracts']">Kthehu tek kontratat</a>
+    </div>
     </div>
     <form action="" class="form-i" novalidate #contractForm="ngForm">
               <div class="container-fluid">
@@ -434,10 +439,10 @@
               </div><div class="row">
                   <div class="col-md-6">
                       <br>
-                      <button type="button" data-toggle="tooltip" title="Shto Situacion" class="btn btn-outline-primary installmentButtons" (click)="addInstallments()">
+                      <button type="button" data-toggle="tooltip" title="Shto Situacion" class="btn btn-outline-primary buttons" (click)="addInstallments()">
                         <span class="fa fa-plus"></span>
                       </button>
-                      <button type="button" data-toggle="tooltip" title="Fshij Situacion" class="btn btn-outline-primary installmentButtons" (click)="removeInstallment()">
+                      <button type="button" data-toggle="tooltip" title="Fshij Situacion" class="btn btn-outline-primary buttons" (click)="removeInstallment()">
                           <span class="fa fa-minus"></span>
                         </button>
                   </div>

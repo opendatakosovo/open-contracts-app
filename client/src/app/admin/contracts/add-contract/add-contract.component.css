@@ -44,11 +44,11 @@ label {
     padding-left: 15px;
     padding-bottom: 6px;
 }
-.installmentButtons {
+.buttons {
     border-color: #39a6bd !important;
     color: #39a6bd !important;
 }
-.installmentButtons:hover {
+.buttons:hover {
     background-color: #39a6bd !important; 
     color: white !important;
     border-color: #39a6bd !important;  
