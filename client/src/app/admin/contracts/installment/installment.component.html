@@ -1,0 +1,16 @@
+<div class="row" (counterEvent)="receiveCounter($event)">
+    <div class="col-md-5">
+      <label for="firstInstallmendPayDate">Data e pagesës së situacionit {{counter}}</label>
+      <input type="date" name="installmendPayDate{{counter}}" id="installmendPayDate{{counter}}" class="form-control">
+    </div>
+    <div class="col-md-5">
+      <label for="firstInstallmendAmount">Shuma e pagesës së situacionit {{counter}}</label>
+      <input type="text" name="'installmentAmoun{{counter}}'" id="installmentAmoun{{counter}}" class="form-control">
+  </div>  
+  <div class="col-md-2">
+    <br>
+    <button type="button" class="btn btn-outline-primary" id="add-button" (click)="removeInstallment()">
+      <span class="fa fa-minus"></span>
+    </button>
+  </div>
+</div>
