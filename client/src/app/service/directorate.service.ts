@@ -11,12 +11,12 @@ export class DirectorateService {
   directorate: any;
   authHeaders: Headers;
 
-  constructor(public http: Http) { 
+  constructor(public http: Http) {
     this.authHeaders = Auth.loadToken();
   }
 
   addDirectorate(directorate) {
-    return this.http.post(`${this.APIUrl}/directorates` , directorate, { headers: this.authHeaders }).map(res => res.json());
+    return this.http.post(`${this.APIUrl}/directorates`, directorate, { headers: this.authHeaders }).map(res => res.json());
   }
   getDirectorates() {
     return this.http.get(`${this.APIUrl}/directorates`, { headers: this.authHeaders }).map(res => res.json().directorates);

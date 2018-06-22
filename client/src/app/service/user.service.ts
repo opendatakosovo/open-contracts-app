@@ -56,6 +56,10 @@ export class UserService {
 
   generatePassword(id) {
     return this.http.put(`${this.APIUrl}/user/generate-password/` + id, {}, { headers: this.authHeaders }).map(res => res.json());
+  } ß
+
+  changePassword(user) {
+    return this.http.put(`${this.APIUrl}/user/change-password/`, user, { headers: this.authHeaders }).map(res => res.json());
   }
 
 }
