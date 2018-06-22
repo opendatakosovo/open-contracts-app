@@ -153,6 +153,27 @@ router.put('/generate-password/:id', passport.authenticate('jwt', { session: fal
     });
 });
 
+// UPDATE USER DATA BY ID
+router.put('/edit-user/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
+    const userId = req.params.id;
+
+    User.updateUser(userId, req.body, (err, user) => {
+        if (!err) {
+            res.json({
+                "msg": "User has been updated successfully",
+                "user": user,
+                "success": true
+            });
+        } else {
+            res.json({
+                "err": err,
+                "success": false
+            });
+        }
+    });
+});
+
+// Change password  for logged in user 
 router.put('/change-password', passport.authenticate('jwt', { session: false }), changePasswordValidation, checkCurrentPassword, (req, res) => {
     User.changePassword(req.user._id, req.body.newPassword, (err, user) => {
         if (!err) {

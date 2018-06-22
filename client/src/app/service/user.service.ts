@@ -62,4 +62,8 @@ export class UserService {
     return this.http.put(`${this.APIUrl}/user/change-password/`, user, { headers: this.authHeaders }).map(res => res.json());
   }
 
+  editUser(id, editedUser) {
+    return this.http.put(`${this.APIUrl}/user/edit-user/` + id, editedUser, {headers: this.authHeaders}).map(res => res.json());
+  }
+
 }

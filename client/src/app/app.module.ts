@@ -34,7 +34,6 @@ import { AddDirectoratesComponent } from './admin/directorates/add-directorates/
 
 
 
-
 import { AuthGuard } from './guards/auth.guard';
 import { DirectoratesListComponent } from './admin/directorates/directorates-list/directorates-list.component';
 
