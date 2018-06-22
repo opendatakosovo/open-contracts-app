@@ -83,7 +83,6 @@ export class UsersComponent implements OnInit {
     });
   }
 
-
   generatePassword(event) {
     const id = event.target.dataset.id;
     Swal({
@@ -91,7 +90,7 @@ export class UsersComponent implements OnInit {
       onOpen: () => {
           Swal.showLoading();
       }
-  });
+    });
     this.userService.generatePassword(id).subscribe(result => {
       if (!result.err) {
         Swal('Sukses!', 'Pëdoruesit ju rigjenerua fjalëkalimi dhe ju dërgua me sukses.', 'success');
@@ -112,9 +111,7 @@ export class UsersComponent implements OnInit {
         res.errVld.map(error => {
             errList += `<li>${error.msg}</li>`;
         });
-
         const htmlData = `<div style="text-align: center;">${errList}</div>`;
-
         Swal({
             title: 'Kujdes!',
             html: htmlData,
@@ -146,16 +143,13 @@ export class UsersComponent implements OnInit {
     this.userService.editUser(id, this.userModal).subscribe(res => {
       if (res.err) {
         Swal('Gabim!', 'Pëdoruesi nuk u ndryshua.', 'error');
-        alert('1');
         return false;
       } else if (res.errVld) {
         let errList = '';
         res.errVld.map(error => {
             errList += `<li>${error.msg}</li>`;
         });
-
         const htmlData = `<div style="text-align: center;">${errList}</div>`;
-
         Swal({
             title: 'Kujdes!',
             html: htmlData,
@@ -169,7 +163,6 @@ export class UsersComponent implements OnInit {
            if (this.userModal.role === 'user') {
           if (this.userModal.department === null || this.userModal.department === undefined || this.userModal.department === '') {
             Swal('Gabim!', 'Pëdoruesi nuk u ndryshua.', 'error');
-            alert('3');
             return false;
           } else {
             firstAndLastName.textContent = this.userModal.firstName + ' ' + this.userModal.lastName;
@@ -180,7 +173,6 @@ export class UsersComponent implements OnInit {
           }
         } else if (res.err) {
           Swal('Gabim!', 'Pëdoruesi nuk u ndryshua.', 'error');
-          alert('4');
           return false;
         } else {
           firstAndLastName.textContent = this.userModal.firstName + ' ' + this.userModal.lastName;
