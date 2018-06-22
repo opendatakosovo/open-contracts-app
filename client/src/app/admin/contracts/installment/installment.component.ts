@@ -7,15 +7,9 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class InstallmentComponent implements OnInit {
   @Input() counter: number;
-  @Input() iterates: Array<number>;
   constructor() {
-    console.log(this.iterates);
-  }
 
+  }
   ngOnInit() {
   }
-  // removeInstallment() {
-  //     this.iterates.pop();
-  // }
-
 }

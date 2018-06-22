@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Contract } from '../../../models/contract';
 import { ValidatorFn } from '@angular/forms/src/directives/validators';
 import { InstallmentComponent } from '../installment/installment.component';
@@ -9,7 +9,6 @@ import { InstallmentComponent } from '../installment/installment.component';
   styleUrls: ['./add-contract.component.css']
 })
 export class AddContractComponent implements OnInit {
-  @ViewChild( 'InstallmentComponent' ) installment: InstallmentComponent;
   counter: number;
   contracts: Contract[];
   iterates: Array<number> = [];
@@ -43,5 +42,9 @@ export class AddContractComponent implements OnInit {
     this.iterates.push(this.counter);
     ++this.counter;
     console.log(this.iterates);
+  }
+  removeInstallment() {
+    this.iterates.pop();
+    --this.counter;
   }
 }
