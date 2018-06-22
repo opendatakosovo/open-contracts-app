@@ -59,7 +59,7 @@ export class UserService {
   }
 
   editUser(id, editedUser) {
-    return this.http.put(`${this.APIUrl}/user/edit-user/` + id, editedUser).map(res => res.json());
+    return this.http.put(`${this.APIUrl}/user/edit-user/` + id, editedUser, {headers: this.authHeaders}).map(res => res.json());
   }
 
 }

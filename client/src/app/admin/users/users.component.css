@@ -120,7 +120,6 @@
 .error-msg {
     color: red;
 }
-
 #add-user-modal {
     border: none;
 }
@@ -130,7 +129,6 @@
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
 }
-
 #add-user-modal .modal-footer {
     background-color: #e9ecef;
 }
@@ -146,4 +144,7 @@
 #save {
     background-color: #39a6bd;
     border-color: #39a6bd;
+}
+#edit-user-modal {
+    padding-left: 0 !important;
 }
