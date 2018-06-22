@@ -48,6 +48,7 @@ export class UsersComponent implements OnInit {
     role: 'admin',
     department: ''
   };
+
   directorates: Directorates[];
 
 
@@ -63,7 +64,15 @@ export class UsersComponent implements OnInit {
 
   ngOnInit() { }
 
- openModal(template: TemplateRef<any>) {
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
+
+  editModal(template: TemplateRef<any>, event) {
+    const id = event.target.dataset.id;
+    this.userService.getUserByID(id).subscribe(user => {
+      this.userModal = user;
+    });
     this.modalRef = this.modalService.show(template);
   }
 
@@ -129,5 +138,67 @@ export class UsersComponent implements OnInit {
     });
   }
 
+  editUser(event) {
+    const id = event.target.dataset.id;
+    const firstAndLastName = document.getElementById(`${id}`).querySelector('.user-info .name a');
+    const position = document.getElementById(`${id}`).querySelector('.user-info .position');
+    const positionImg = document.getElementById(`${id}`).querySelector('.img-col');
+    this.userService.editUser(id, this.userModal).subscribe(res => {
+      if (res.err) {
+        Swal('Gabim!', 'Pëdoruesi nuk u ndryshua.', 'error');
+        alert('1');
+        return false;
+      } else if (res.errVld) {
+        let errList = '';
+        res.errVld.map(error => {
+            errList += `<li>${error.msg}</li>`;
+        });
+
+        const htmlData = `<div style="text-align: center;">${errList}</div>`;
+
+        Swal({
+            title: 'Kujdes!',
+            html: htmlData,
+            width: 750,
+            type: 'info',
+            confirmButtonText: 'Kthehu te forma'
+        });
+      } else if (this.userModal.firstName === '' || this.userModal.lastName === '') {
+          Swal('Gabim!', 'Pëdoruesi nuk u ndryshua.', 'error');
+      } else {
+           if (this.userModal.role === 'user') {
+          if (this.userModal.department === null || this.userModal.department === undefined || this.userModal.department === '') {
+            Swal('Gabim!', 'Pëdoruesi nuk u ndryshua.', 'error');
+            alert('3');
+            return false;
+          } else {
+            firstAndLastName.textContent = this.userModal.firstName + ' ' + this.userModal.lastName;
+            position.textContent = 'Përdorues - ' + this.userModal.department;
+            positionImg.innerHTML = `<img src="/assets/images/zyrtari.png" class="img-fluid">`;
+            Swal('Sukses!', 'Pëdoruesi u ndryshua me sukses.', 'success');
+            this.modalRef.hide();
+          }
+        } else if (res.err) {
+          Swal('Gabim!', 'Pëdoruesi nuk u ndryshua.', 'error');
+          alert('4');
+          return false;
+        } else {
+          firstAndLastName.textContent = this.userModal.firstName + ' ' + this.userModal.lastName;
+          position.textContent = 'Administrator';
+          positionImg.innerHTML = `<img src="/assets/images/administratori.png" class="img-fluid">`;
+          Swal('Sukses!', 'Pëdoruesi u ndryshua me sukses.', 'success');
+          this.modalRef.hide();
+        }
+        this.userModal._id = '';
+        this.userModal.firstName = '';
+        this.userModal.lastName = '';
+        this.userModal.gender = 'male';
+        this.userModal.password = '';
+        this.userModal.role = 'admin';
+        this.userModal.department = '';
+        this.userModal.email = '';
+      }
+    });
+  }
 }
 

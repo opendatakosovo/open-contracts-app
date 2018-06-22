@@ -63,7 +63,10 @@ module.exports.getAllUsers = callback => {
   .exec(callback);
 }
 
-
+// Updating user information
+module.exports.updateUser = (id, user, callback) => {
+	User.findByIdAndUpdate(id, { $set: user }, { new: true }, callback);
+}
 
 // Function for adding user
 module.exports.addUser = (newUser, callback) => {

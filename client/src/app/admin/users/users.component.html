@@ -10,10 +10,11 @@
     </div>
   </div>
 
+  <!-- Modal for displaying a user or admin -->
   <div class="row col-12" id="table-row">
     <table class="table">
       <tbody>
-        <tr *ngFor="let user of users" [hidden]="user.role == 'superadmin' || currentUser.email == user.email">
+        <tr *ngFor="let user of users"  [id]="user._id" [hidden]="user.role == 'superadmin' || currentUser.email == user.email">
           <td class="img-col">
             <div *ngIf="user.role == 'user'">
               <img src="/assets/images/zyrtari.png" class="img-fluid">
@@ -24,7 +25,7 @@
           </td>
           <td class="user-info">
             <p class="name">
-              <a data-toggle="modal" data-target="#user-profile-modal">{{ user.firstName }} {{ user.lastName }}</a>
+              <a data-toggle="modal"   data-target="#user-profile-modal">{{ user.firstName }} {{ user.lastName }}</a>
             </p>
             <div *ngIf="user.role == 'user'">
               <p class="position">Përdorues - {{ user.department }}</p>
@@ -42,8 +43,8 @@
           </td>
           <td class="edit-ico">
             <span>
-              <a data-toggle="modal" data-target="#change-password-modal" [attr.data-id]="user._id">
-                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+              <a data-toggle="modal" (click)="editModal(modalEditUser, $event)" [attr.data-id]="user._id">
+                <i class="fa fa-pencil-square-o" aria-hidden="true" [attr.data-id]="user._id"></i>
               </a>
             </span>
           </td>
@@ -58,7 +59,9 @@
       </tbody>
     </table>
   </div>
+  <!-- /Modal for displaying a user or admin -->
 
+  <!-- Modal for viewing a user or admin profile -->
   <div class="modal fade" id="user-profile-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -103,6 +106,73 @@
       </div>
     </div>
   </div>
+  <!-- /Modal for viewing a user or admin profile -->
+
+  <!-- Modal for editing a user or admin-->
+  <ng-template #modalEditUser>
+    <div id="edit-user-modal">
+          <div class="modal-header my-modal-header">
+            <h5 class="modal-title">Ndrysho {{ userModal.role == "admin" ? 'administratorin' : "përdoruesin" }}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form action="" id="edit-admin-form" novalidate #edit="ngForm">
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="first-name">Emri</label>
+                <input type="text" class="form-control" [(ngModel)]="userModal.firstName" id="firstName" name="first-name" #userName="ngModel" required [style.border-color]="userName.errors?.required && userName.touched ? 'red' : '#ced4da'"> 
+                <div *ngIf="userName.errors?.required && userName.touched" class="error-msg">Emri duhet plotësuar!</div> 
+              </div>
+              <div class="form-group">
+                <label for="last-name">Mbiemri</label>
+                <input type="text" class="form-control" id="editLastName" name="last-name" [(ngModel)]="userModal.lastName" #userLastName="ngModel" required [style.border-color]="userLastName.errors?.required && userLastName.touched ? 'red' : '#ced4da'">
+                <div *ngIf="userLastName.errors?.required && userLastName.touched" class="error-msg">Mbiemri duhet plotësuar!</div>
+              </div>
+              <label for="gender">Gjinia</label>
+              <br>
+              <div class="form-check form-check-inline">
+                <input type="text" class="form-check-input" [(ngModel)]='userModal.gender' type="radio" id="editMale" name="gender" value="male" checked> 
+                <label for="male" class="form-check-label">Mashkull</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input type="text" class="form-check-input" [(ngModel)]='userModal.gender' type="radio" id="editFemale" name="gender" value="female"> 
+                <label for="female" class="form-check-label">Femër</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input type="text" class="form-check-input" [(ngModel)]='userModal.gender' type="radio" id="editOther" name="gender" value="other"> 
+                <label for="other" class="form-check-label">Tjetër</label>
+              </div>
+              <div class="my-form-control" id="editRole">
+                <label for="type">Roli</label>
+                <br>
+                <div class="form-check form-check-inline">
+                  <input type="text" class="form-check-input" [(ngModel)]= 'userModal.role' type="radio" id="editAdmin" name="type" value="admin">
+                  <label for="admin" class="form-check-label">Administrator</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input type="text" class="form-check-input" [(ngModel)]= 'userModal.role' type="radio" id="editUser" name="type" value="user">
+                  <label for="user" class="form-check-label">Përdorues</label>
+                </div>
+              </div>
+              <div class="form-group" *ngIf="userModal.role == 'user'">
+              <label for="email">Drejtoritë</label>
+              <select name="departments" id="editDepartments" [(ngModel)]="userModal.department" class="form-control" #userDepartments="ngModel" required [style.border-color]="userDepartments.errors?.required && userDepartments.touched ? 'red' : '#ced4da'">
+                <option [value]="undefined" selected>Zgjedh Drejtorinë</option>
+                <option *ngFor="let directorate of directorates" [value]="directorate.name">{{ directorate.name }}</option>
+              </select>
+            <div *ngIf="userDepartments.errors?.required && userDepartments.touched" class="error-msg">Duhet zgjedhur!</div>
+          </div>
+        </div>
+        <div class="modal-footer my-modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="modalRef.hide()" data-dismiss="modal">Mbyll</button>
+          <button type="submit" value="Submit" id="save-changes" class="btn btn-primary" [disabled]="!edit.valid" [attr.data-id]="userModal._id" (click)="editUser($event)">Ruaj ndryshimet</button>
+        </div>
+      </form>
+    </div> 
+  </ng-template>
+  
+  <!-- /Modal for editing a user or admin-->
   <ng-template #modalAddUser>
     <div id="add-user-modal">
     <div class="modal-header">
