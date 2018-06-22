@@ -100,7 +100,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     ModalModule.forRoot()
   ],
-  entryComponents: [AddDirectoratesComponent],
+  entryComponents: [AddDirectoratesComponent, ChangePasswordComponent],
   providers: [
     UserService,
     AuthGuard,
