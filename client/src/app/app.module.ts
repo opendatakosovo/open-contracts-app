@@ -37,7 +37,6 @@ import { AddDirectoratesComponent } from './admin/directorates/add-directorates/
 
 import { AuthGuard } from './guards/auth.guard';
 import { DirectoratesListComponent } from './admin/directorates/directorates-list/directorates-list.component';
-import { InstallmentComponent } from './admin/contracts/installment/installment.component';
 
 
 const appRoutes: Routes = [
@@ -93,7 +92,6 @@ const appRoutes: Routes = [
     DirectoratesComponent,
     AddDirectoratesComponent,
     DirectoratesListComponent,
-    InstallmentComponent
   ],
   imports: [
     BrowserModule,
