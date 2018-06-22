@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Contract } from '../../../models/contract';
 import { ValidatorFn } from '@angular/forms/src/directives/validators';
-import { InstallmentComponent } from '../installment/installment.component';
 
 @Component({
   selector: 'app-add-contract',

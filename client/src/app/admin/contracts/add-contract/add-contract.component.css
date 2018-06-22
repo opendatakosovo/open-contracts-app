@@ -8,7 +8,7 @@ h1 {
 label {
     font-size: 14px;
 }
-.error-msg{
+.error-msg {
     color: red;
     font-size: 14px;
 }
@@ -43,4 +43,13 @@ label {
     border-radius: 5.5px;
     padding-left: 15px;
     padding-bottom: 6px;
+}
+.installmentButtons {
+    border-color: #39a6bd !important;
+    color: #39a6bd !important;
+}
+.installmentButtons:hover {
+    background-color: #39a6bd !important; 
+    color: white !important;
+    border-color: #39a6bd !important;  
 }

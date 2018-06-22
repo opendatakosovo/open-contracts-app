@@ -424,27 +424,36 @@
               <h4>Situacionet</h4>
               <div class="row">
                   <div class="col-md-6">
-                    <label for="firstInstallmendPayDate">Data e pagesës së situacionit 1</label>
-                    <input type="date" name="firstInstallmendPayDate" id="firstInstallmendPayDate" class="form-control">
+                    <label for="installmentPayDate1">Data e pagesës së situacionit 1</label>
+                    <input type="date" name="installmentPayDate1" id="installmentPayDate1" class="form-control">
                   </div>
                   <div class="col-md-6">
-                    <label for="firstInstallmendAmount">Shuma e pagesës së situacionit 2</label>
-                    <input type="text" name="number" id="number" class="form-control">
+                    <label for="installmendAmount1">Shuma e pagesës së situacionit 2</label>
+                    <input type="text" name="installmentAmount1" id="installmentAmount1" class="form-control">
                   </div>
               </div><div class="row">
                   <div class="col-md-6">
                       <br>
-                      <button type="button" class="btn btn-outline-primary" id="add-button" (click)="addInstallments()">
+                      <button type="button" data-toggle="tooltip" title="Shto Situacion" class="btn btn-outline-primary installmentButtons" (click)="addInstallments()">
                         <span class="fa fa-plus"></span>
                       </button>
-                      <button type="button" class="btn btn-outline-primary" id="add-button" (click)="removeInstallment()">
+                      <button type="button" data-toggle="tooltip" title="Fshij Situacion" class="btn btn-outline-primary installmentButtons" (click)="removeInstallment()">
                           <span class="fa fa-minus"></span>
                         </button>
                   </div>
                   <div class="col-md-6"></div>
               </div>
-              <div *ngFor="let iterate of iterates">
-                <app-installment [counter]="counter"></app-installment>
+              <div *ngFor="let iterate of iterates; let i = index">
+                  <div class="row">
+                      <div class="col-md-6">
+                        <label for="installmentPayDate{{i+2}}">Data e pagesës së situacionit {{i+2}}</label>
+                        <input type="date" name="installmentPayDate{{i+2}}" id="installmentPayDate{{i+2}}" class="form-control">
+                      </div>
+                      <div class="col-md-6">
+                        <label for="installmentAmount{{i+2}}">Shuma e pagesës së situacionit {{i+2}}</label>
+                        <input type="text" name="installmentAmount{{i+2}}" id="installmentAmount{{i+2}}" class="form-control">
+                    </div>  
+                  </div>
               </div>
               <h4>Situacioni i fundit</h4>
               <div class="row">
