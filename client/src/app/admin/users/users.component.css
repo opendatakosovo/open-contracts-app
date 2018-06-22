@@ -105,11 +105,21 @@
     padding-bottom: 20px;
     padding-left: 25px;
 }
-
+#editRole{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+#edit-user-modal .my-modal-header {
+    background-color: #39a6bd;
+    color: white;
+}
+#save-changes {
+    background-color: #39a6bd;
+    border-color: #39a6bd;
+}
 .error-msg {
     color: red;
 }
-
 #add-user-modal {
     border: none;
 }
@@ -119,7 +129,6 @@
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
 }
-
 #add-user-modal .modal-footer {
     background-color: #e9ecef;
 }
@@ -135,4 +144,7 @@
 #save {
     background-color: #39a6bd;
     border-color: #39a6bd;
+}
+#edit-user-modal {
+    padding-left: 0 !important;
 }
