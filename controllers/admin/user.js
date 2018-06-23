@@ -4,12 +4,14 @@ const mailTransporter = require('../../utils/mail-transporter');
 const passwordGenerator = require('../../utils/generate-password');
 const passport = require("passport");
 const userValidation = require("../../middlewares/user_validation");
+const checkCurrentPassword = require('../../middlewares/check_current_password');
+const changePasswordValidation = require('../../middlewares/change_password_validation');
 
 /*
  * ENDPOINTS PREFIX: /user
  */
 // Route for creating a user
-router.post('/', passport.authenticate('jwt', {session: false}), userValidation, (req, res) => {
+router.post('/', passport.authenticate('jwt', { session: false }), userValidation, (req, res) => {
     let user = new User({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
@@ -21,10 +23,10 @@ router.post('/', passport.authenticate('jwt', {session: false}), userValidation,
     });
 
     User.findUserByEmail(user.email, (err, userExists) => {
-        if(!err) {
-            if(userExists) {
+        if (!err) {
+            if (userExists) {
                 res.json({
-                    "msg":"This is user exist",
+                    "msg": "This is user exist",
                     "exists": true
                 });
             } else {
@@ -53,7 +55,7 @@ router.post('/', passport.authenticate('jwt', {session: false}), userValidation,
 });
 
 // Route for getting all users
-router.get('/', passport.authenticate('jwt', {session: false}), (req, res) => {
+router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => {
     User.getAllUsers((err, users) => {
         if (!err) {
             res.json({
@@ -71,9 +73,9 @@ router.get('/', passport.authenticate('jwt', {session: false}), (req, res) => {
 });
 
 // Route for getting a user by id
-router.get('/:id', passport.authenticate('jwt', {session: false}), (req, res) => {
+router.get('/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
     User.getUserById(req.params.id, (err, user) => {
-        if(!err){
+        if (!err) {
             res.json({
                 "msg": "User by id has been retrived successfully",
                 "user": user,
@@ -89,9 +91,9 @@ router.get('/:id', passport.authenticate('jwt', {session: false}), (req, res) =>
 });
 
 // Route for deleting a user by id
-router.delete('/:id', passport.authenticate('jwt', {session: false}), (req, res) => {
+router.delete('/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
     User.deleteUserById(req.params.id, (err, user) => {
-        if(!err){
+        if (!err) {
             res.json({
                 "msg": "User has been deleted successfully",
                 "user": user,
@@ -107,10 +109,10 @@ router.delete('/:id', passport.authenticate('jwt', {session: false}), (req, res)
 });
 
 // Route for generate  password for a user
-router.put('/generate-password/:id', passport.authenticate('jwt', {session: false}), (req, res) => {
+router.put('/generate-password/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
     let password = passwordGenerator.generate();
-    User.changePassword(req.params.id,password , (err, user) => {
-        if(!err){
+    User.changePassword(req.params.id, password, (err, user) => {
+        if (!err) {
             console.log(user.email);
             const mail = {
                 to: user.email,
@@ -129,7 +131,7 @@ router.put('/generate-password/:id', passport.authenticate('jwt', {session: fals
                         Administratori`
             }
             mailTransporter.sendMail(mail, err => {
-                if(!err){
+                if (!err) {
                     res.json({
                         "msg": "User's password changed and mail has been sent successfully",
                         "user": user,
@@ -152,13 +154,31 @@ router.put('/generate-password/:id', passport.authenticate('jwt', {session: fals
 });
 
 // UPDATE USER DATA BY ID
-router.put('/edit-user/:id', (req, res) => {
+router.put('/edit-user/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
     const userId = req.params.id;
 
     User.updateUser(userId, req.body, (err, user) => {
         if (!err) {
             res.json({
                 "msg": "User has been updated successfully",
+                "user": user,
+                "success": true
+            });
+        } else {
+            res.json({
+                "err": err,
+                "success": false
+            });
+        }
+    });
+});
+
+// Change password  for logged in user 
+router.put('/change-password', passport.authenticate('jwt', { session: false }), changePasswordValidation, checkCurrentPassword, (req, res) => {
+    User.changePassword(req.user._id, req.body.newPassword, (err, user) => {
+        if (!err) {
+            res.json({
+                "msg": "Your password has been changed successfully",
                 "user": user,
                 "success": true
             });

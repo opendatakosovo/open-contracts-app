@@ -1,6 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserService } from '../../service/user.service';
 import { User } from '../../models/user';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { ChangePasswordComponent } from './change-password/change-password.component';
+
 
 @Component({
   selector: 'app-profile',
@@ -23,8 +27,10 @@ export class ProfileComponent implements OnInit {
     department: ''
   };
   check: Boolean = false;
+  bsModalRef: BsModalRef;
 
-  constructor(private userService: UserService) {
+
+  constructor(private userService: UserService, private modalService: BsModalService) {
     this.currentUser = JSON.parse(localStorage.getItem('user'));
   }
 
@@ -32,7 +38,7 @@ export class ProfileComponent implements OnInit {
     this.userService.getUserByID(this.currentUser.id).subscribe(data => {
       this.user = data;
       if (this.user.role === 'user') {
-        this.check = true ;
+        this.check = true;
         this.user.role = 'Përdorues';
       } else if (this.user.role === 'admin') {
         this.user.role = 'Admin';
@@ -47,5 +53,9 @@ export class ProfileComponent implements OnInit {
         this.user.gender = 'Tjetër';
       }
     });
+  }
+
+  openModalWithComponent(event) {
+    this.bsModalRef = this.modalService.show(ChangePasswordComponent);
   }
 }
