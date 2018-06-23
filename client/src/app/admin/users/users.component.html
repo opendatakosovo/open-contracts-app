@@ -14,7 +14,7 @@
   <div class="row col-12" id="table-row">
     <table class="table">
       <tbody>
-        <tr *ngFor="let user of users"  [id]="user._id" [hidden]="user.role == 'superadmin' || currentUser.email == user.email">
+        <tr *ngFor="let user of users" [id]="user._id" [hidden]="user.role == 'superadmin' || currentUser.email == user.email">
           <td class="img-col">
             <div *ngIf="user.role == 'user'">
               <img src="/assets/images/zyrtari.png" class="img-fluid">
@@ -50,8 +50,8 @@
           </td>
           <td class="delete-ico">
             <span>
-              <a data-toggle="modal" data-target="#exampleModal" [attr.data-id]="user._id">
-                <i class="fa fa-trash" aria-hidden="true"></i>
+              <a data-toggle="modal" (click)="deleteModal(modalDeleteUser, $event)" [attr.data-id]="user._id">
+                <i class="fa fa-trash" aria-hidden="true" [attr.data-id]="user._id"></i>
               </a>
             </span>
           </td>
@@ -117,7 +117,7 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <form action="" id="edit-admin-form" novalidate #edit="ngForm">
+          <form action="" id="edit-user-form" novalidate #edit="ngForm">
             <div class="modal-body">
               <div class="form-group">
                 <label for="first-name">Emri</label>
@@ -169,7 +169,7 @@
           <button type="submit" value="Submit" id="save-changes" class="btn btn-primary" [disabled]="!edit.valid" [attr.data-id]="userModal._id" (click)="editUser($event)">Ruaj ndryshimet</button>
         </div>
       </form>
-    </div> 
+    </div>
   </ng-template>
   
   <!-- /Modal for editing a user or admin-->
@@ -256,5 +256,26 @@
         </div>
       </form>
     </div>
+  </ng-template>
+
+  <!-- Delete user or admin modal-->
+  <ng-template #modalDeleteUser>
+      <div id="delete-user-modal">
+        <div class="modal-header delete-modal-header">       
+          <h4 class="modal-title">A jeni i sigurt?</h4>  
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+        <form action="" id="delete-user-form">
+          <div class="modal-body">
+            <div class="modal-body">
+            <p>Përdoruesi nuk ka mundësi të kthehet!</p>
+        </div>
+      </div>
+      <div class="modal-footer my-modal-footer">
+        <button type="button" class="btn btn-info" data-dismiss="modal">Anuloje</button>
+          <button type="button" class="btn btn-danger">Fshije</button>
+      </div>
+    </form>
+    </div>      
   </ng-template>
 </div>

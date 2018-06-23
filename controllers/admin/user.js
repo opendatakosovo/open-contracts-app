@@ -191,4 +191,25 @@ router.put('/change-password', passport.authenticate('jwt', { session: false }),
     });
 });
 
+// DELETE USER BY ID
+router.delete('/delete-user/:id', (req, res) => {
+    const userId = req.params.id;
+
+    User.findByIdAndRemove(userId, (err, user) => {
+        if (!err) {
+            res.json({ 
+                "msg": "User has been deleted successfully",
+                "user": user,
+                "success": true
+                
+            });
+        } else {
+            res.json({
+                "err": err,
+                "success": false
+            });
+        }
+    });
+});
+
 module.exports = router;

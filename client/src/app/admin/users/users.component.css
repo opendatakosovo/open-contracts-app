@@ -148,3 +148,7 @@
 #edit-user-modal {
     padding-left: 0 !important;
 }
+.delete-modal-header {
+    background-color: #39a6bd;
+    color: white;
+}
