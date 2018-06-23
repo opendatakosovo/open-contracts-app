@@ -76,6 +76,14 @@ export class UsersComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
+  deleteModal(template: TemplateRef<any>, event) {
+    const id = event.target.dataset.id;
+    this.userService.getUserByID(id).subscribe(user => {
+      this.userModal = user;
+    });
+    this.modalRef = this.modalService.show(template);
+  }
+
   showUser(event) {
     const id = event.target.dataset.id;
     this.userService.getUserByID(id).subscribe(user => {
@@ -192,5 +200,15 @@ export class UsersComponent implements OnInit {
       }
     });
   }
-}
 
+  deleteUser(event) {
+    const id = event.target.dataset.id;
+    this.userService.deleteUser(id).subscribe(res => {
+      if (res.err) {
+        Swal('Sukses!', 'Përdoruesi u fshi me sukses.', 'success');
+      } else {
+        Swal('Gabim!', 'Perdoruesi nuk u fshi.', 'error');
+      }
+    });
+  }
+}

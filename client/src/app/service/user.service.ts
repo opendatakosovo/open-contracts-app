@@ -62,4 +62,8 @@ export class UserService {
     return this.http.put(`${this.APIUrl}/user/edit-user/` + id, editedUser, {headers: this.authHeaders}).map(res => res.json());
   }
 
+  deleteUser(id) {
+    return this.http.delete(`${this.APIUrl}/user/delete-user/` + id, {headers: this.authHeaders }).map(res => res.json());
+  }
+
 }

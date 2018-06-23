@@ -1,14 +1,22 @@
 <div class="container col-md-12 login-box vertical-middle-align">
-  <form (submit)="onLoginSubmit()" class="form-control" id="login-form" >
+  <form (submit)="onLoginSubmit()" class="form-control" id="login-form" novalidate #login="ngForm">
     <div class="login-header">
       <h4>Kyçu</h4>
     </div>
-    <label for="username">Përdoruesi</label>
-    <input type="text" [(ngModel)]="email" name="email" class="form-control" id="username" placeholder="Përdoruesi" required/>
+    <label for="email">Email</label>
+    <input type="email" class="form-control" id="email" name="email" placeholder="Email" [(ngModel)]="email" #loginEmail="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required [style.border-color]="loginEmail.errors?.required && loginEmail.touched ? 'red' : '#ced4da'" [style.border-color]="loginEmail.errors?.pattern && loginEmail.touched ? 'red' : '#ced4da'">
+    <div *ngIf="loginEmail.errors?.required && loginEmail.touched;else error_email" class="error-msg">Email duhet plotësuar!</div>
+    <ng-template #error_email>
+      <div *ngIf="loginEmail.errors?.pattern && loginEmail.touched" class="error-msg">Email duhet të jetë valid!</div>
+    </ng-template>
     <label for="password">Fjalëkalimi</label>
-    <input type="password" class="form-control" [(ngModel)]="password" name="password" id="password" placeholder="Fjalëkalimi" required/>
+    <input type="password" class="form-control" id="password" name="password" placeholder="Fjalëkalimi" [(ngModel)]="password" #loginPassword="ngModel" minlength="6" required [style.border-color]="loginPassword.errors?.required && loginPassword.touched ? 'red' : '#ced4da'" [style.border-color]="loginPassword.errors?.minlength && loginPassword.touched ? 'red' : '#ced4da'">
+    <div *ngIf="loginPassword.errors?.required && loginPassword.touched;else error_length" class="error-msg">Fjalëkalimi duhet plotësuar!</div>
+    <ng-template #error_length>
+      <div *ngIf="loginPassword.errors?.minlength && loginPassword.touched" class="error-msg">Fjalëkalimi duhet të jetë më i gjatë se 6 karaktere!</div>
+    </ng-template>
     <br/>
-    <button type="submit" class="btn btn-primary" id="login-button">Kyçu</button>
+    <button type="submit" class="btn btn-primary" id="login-button" [disabled]="!login.valid">Kyçu</button>
 
     <div class="password-link">
         <a data-toggle="modal" data-target="#passwordRecovery" id="password-changer">Keni harruar fjalëkalimin?</a>
