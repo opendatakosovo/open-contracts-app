@@ -59,6 +59,7 @@ const appRoutes: Routes = [
       {path: 'dashboard/users', component: UsersComponent, canActivate: [AuthGuard]},
       {path: 'dashboard/data', component: DataDashboardComponent, canActivate: [AuthGuard]},
       {path: 'dashboard/contracts', component: ContractsComponent, canActivate: [AuthGuard]},
+      {path: 'dashboard/contracts/add-contract', component: AddContractComponent, canActivate: [AuthGuard]},
       {path: 'dashboard/profile', component: ProfileComponent, canActivate: [AuthGuard]},
       {path: 'dashboard/directorates', component: DirectoratesComponent, canActivate: [AuthGuard]}
     ]
@@ -89,7 +90,7 @@ const appRoutes: Routes = [
     ChangePasswordComponent,
     DirectoratesComponent,
     AddDirectoratesComponent,
-    DirectoratesListComponent
+    DirectoratesListComponent,
   ],
   imports: [
     BrowserModule,

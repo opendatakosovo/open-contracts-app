@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-contracts',
@@ -6,10 +6,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./contracts.component.css']
 })
 export class ContractsComponent implements OnInit {
-
   constructor() { }
 
   ngOnInit() {
   }
 
+  addInstallments() {
+  }
+  removeInstallment() {
+  }
 }

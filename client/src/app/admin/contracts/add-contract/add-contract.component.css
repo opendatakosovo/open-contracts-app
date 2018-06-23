@@ -1,46 +1,14 @@
-#add-button {
-    border-color: #39a6bd !important;
-    color: #39a6bd !important;
-    float: right;
+.row {
+    padding-left: 20px;
+    padding-right: 20px;
 }
-.modal-header {
-    font-weight: bold;
-    font-family: 'Robot', sans-serif;
-    color: #39a6bd;
-    background: #39a6bd;
-}
-.modal-body {
-    color: black;
-    font-family: 'Robot', sans-serif;
-    font-size: 20px;
-}
-#add-button:hover {
-    background-color: #39a6bd !important; 
-    color: white !important;
-    border-color: #39a6bd !important;
-    
-}
-.btn:focus {
-    box-shadow: 0px 0px 0px 0px rgb(0, 0, 0) !important;
-}
-#addContractButton {
-    padding-right: 67px;
-    padding-top: 22px;
-}
-.modal-title {
-    color: white !important;
+h1 {
+    padding-bottom: 20px;
 }
 label {
     font-size: 14px;
 }
-#add-contract-button {
-    background: #32a6bd !important;
-    border: none;
-    color: white !important;
-    width: 66.15px;
-    height: 38px;
-}
-.error-msg{
+.error-msg {
     color: red;
     font-size: 14px;
 }
@@ -54,4 +22,34 @@ label {
 }
 .btn-primary:not(:disabled):not(.disabled):active {
     background-color: red;
+}
+#buttons {
+    margin-bottom: 60px;
+}
+#buttons button {
+    float: right;
+    margin-right: 15px;
+}
+.form-check {
+    display: inline;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.radioButtonLabel {
+    margin-bottom: 15px;
+}
+.radioButtons {
+    border: 0.5px solid #89cced;
+    border-radius: 5.5px;
+    padding-left: 15px;
+    padding-bottom: 6px;
+}
+.buttons {
+    border-color: #39a6bd !important;
+    color: #39a6bd !important;
+}
+.buttons:hover {
+    background-color: #39a6bd !important; 
+    color: white !important;
+    border-color: #39a6bd !important;  
 }

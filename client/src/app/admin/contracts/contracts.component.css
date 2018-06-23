@@ -1,0 +1,27 @@
+#add-button {
+    border-color: #39a6bd !important;
+    color: #39a6bd !important;
+    float: right;
+}
+.btn:focus {
+    box-shadow: 0px 0px 0px 0px rgb(0, 0, 0) !important;
+}
+#addContractButton {
+    padding-right: 67px;
+    padding-top: 22px;
+}
+#add-contract-button {
+    background: #32a6bd !important;
+    border: none;
+    color: white !important;
+    width: 66.15px;
+    height: 38px;
+}
+#add-button:hover {
+    background-color: #39a6bd !important; 
+    color: white !important;
+    border-color: #39a6bd !important;  
+}
+span {
+    display: inline
+}

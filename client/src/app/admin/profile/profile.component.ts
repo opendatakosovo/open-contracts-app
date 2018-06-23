@@ -26,7 +26,7 @@ export class ProfileComponent implements OnInit {
     role: 'admin',
     department: ''
   };
-  check = false;
+  check: Boolean = false;
   bsModalRef: BsModalRef;
 
 

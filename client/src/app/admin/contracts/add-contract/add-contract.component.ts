@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Contract } from '../../../models/contract';
 import { ValidatorFn } from '@angular/forms/src/directives/validators';
 
@@ -8,9 +8,9 @@ import { ValidatorFn } from '@angular/forms/src/directives/validators';
   styleUrls: ['./add-contract.component.css']
 })
 export class AddContractComponent implements OnInit {
-
+  counter: number;
   contracts: Contract[];
-
+  iterates: Array<number> = [];
   contract: Contract = {
     activityTitle: '',
     publicationDate: '',
@@ -25,9 +25,10 @@ export class AddContractComponent implements OnInit {
     predictedContractAmount: '',
     totalAmount: '',
  };
-
+  constructor() {
+    this.counter = 1;
+   }
   @ViewChild('fileInput') fileInput;
-
   ngOnInit() {
     function checkFile(file) {
       const extension = file.substr((file.lastIndexOf('.') + 1));
@@ -36,6 +37,13 @@ export class AddContractComponent implements OnInit {
       }
     }
   }
-
-
+  addInstallments() {
+    this.iterates.push(this.counter);
+    ++this.counter;
+    console.log(this.iterates);
+  }
+  removeInstallment() {
+    this.iterates.pop();
+    --this.counter;
+  }
 }
