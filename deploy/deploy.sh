@@ -7,7 +7,7 @@ ssh jenkins@46.101.135.45 <<EOF
  npm --unsafe-perm --verbose install
  cd client
  npm --unsafe-perm --verbose install
- ng build --prod --extract-css=false
+ ng b -prod --extract-css=false
  pm2 restart app
  exit
 EOF
