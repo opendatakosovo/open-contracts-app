@@ -36,7 +36,7 @@
             </tbody>
         </table>
         <div class="col-md-12 change-btns">
-            <button class='btn btn-primary' id="changePasswordBtn" data-toggle="modal" style='margin-top: 10px;' data-target="#changePasswordModal">
+            <button class='btn btn-primary' id="changePasswordBtn" style='margin-top: 10px;' (click)="openModalWithComponent($event)" >
                 Ndrysho fjalëkalimin
             </button>
         </div>
@@ -44,4 +44,3 @@
 </div>
 
 <app-edit-profile></app-edit-profile>
-<app-change-password></app-change-password>
