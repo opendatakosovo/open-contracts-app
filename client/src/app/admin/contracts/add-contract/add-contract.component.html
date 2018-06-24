@@ -7,7 +7,7 @@
       </h1>
     </div>
     <div class="col-md-6" >
-        <a  style="float:right" class="btn btn-outline-primary buttons" [routerLink]="['/dashboard/contracts']">Kthehu tek kontratat</a>
+        <a  style="float:right" class="btn btn-outline-primary buttons" id="contracts-buttons" [routerLink]="['/dashboard/contracts']">Kthehu tek kontratat</a>
     </div>
     </div>
     <form action="" class="form-i" novalidate #contractForm="ngForm">
@@ -511,10 +511,8 @@
             </div>
           </div>
           <div class="row" id="buttons">
-            <div class="col-6"></div>
-            <div class="col-6">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Mbyll</button>
-            <button type="button" class="btn btn-secondary" id="add-contract-button" [disabled]="!contractForm.valid">Shto</button>
+            <div class="col-md-12">
+            <button type="button" class="btn btn-outline-primary buttons" id="add-contract-button" [disabled]="!contractForm.valid">Shto</button>
             </div>
           </div>
           </div>
