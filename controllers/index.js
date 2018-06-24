@@ -26,19 +26,19 @@ router.post('/login', (req, res) => {
                 return res.json({ success: false, msg: 'Something went wrong!', error: err });
             }
             if (!isMached) {
-                return res.json({ success: false, msg: 'Fjalëkalimi i gabuar!'});
+                return res.json({ success: false, msg: 'Fjalëkalimi i gabuar!' });
             }
 
-            const token = jwt.sign(user.toJSON(), config.secret, { expiresIn: 604800 });
+            const token = jwt.sign(user.toJSON(), config.secret, { expiresIn: 86400 });
 
             res.json({
                 success: true,
                 token: 'JWT ' + token,
                 user: {
-                  id: user._id,
-                  name: user.name,
-                  username: user.username,
-                  email: user.email
+                    id: user._id,
+                    name: user.name,
+                    username: user.username,
+                    email: user.email
                 }
             });
         });
