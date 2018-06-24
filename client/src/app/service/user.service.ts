@@ -4,6 +4,8 @@ import 'rxjs/add/operator/map';
 import { environment } from '../../environments/environment';
 import { tokenNotExpired } from 'angular2-jwt';
 import { Auth } from '../utils/auth';
+import { HttpClientService } from './http-client.service';
+
 
 @Injectable()
 export class UserService {
@@ -12,16 +14,26 @@ export class UserService {
   user: any;
   authHeaders: Headers;
 
-  constructor(public http: Http) {
-    this.authHeaders = Auth.loadToken();
+  constructor(public http: HttpClientService) {
+    this.http = http;
+    this.authHeaders = this.loadToken();
+  }
+
+  loadToken() {
+    this.token = localStorage.getItem('id_token');
+    this.authHeaders = new Headers();
+    this.authHeaders.append('Authorization', this.token);
+    this.authHeaders.append('Content-Type', 'application/json');
+    return this.authHeaders;
   }
 
   getUsers() {
-    return this.http.get(`${this.APIUrl}/user`, { headers: this.authHeaders }).map(res => res.json().users);
+    return this.http.getWithAuth(`${this.APIUrl}/user`).map(res => res.json().users);
   }
 
+
   addUser(user) {
-    return this.http.post(`${this.APIUrl}/user`, user, { headers: this.authHeaders }).map(res => res.json());
+    return this.http.postWithAuth(`${this.APIUrl}/user`, user).map(res => res.json());
   }
 
   authUser(user) {
@@ -35,10 +47,6 @@ export class UserService {
     this.user = user;
   }
 
-  loadToken() {
-    const token = localStorage.getItem('id_token');
-    this.token = token;
-  }
 
   loggedIn() {
     return tokenNotExpired('id_token');
@@ -51,23 +59,23 @@ export class UserService {
   }
 
   getUserByID(id) {
-    return this.http.get(`${this.APIUrl}/user/` + id, { headers: this.authHeaders }).map(res => res.json().user);
+    return this.http.getWithAuth(`${this.APIUrl}/user/` + id).map(res => res.json().user);
   }
 
   generatePassword(id) {
-    return this.http.put(`${this.APIUrl}/user/generate-password/` + id, {}, { headers: this.authHeaders }).map(res => res.json());
+    return this.http.putWithAuth(`${this.APIUrl}/user/generate-password/` + id, {}).map(res => res.json());
   } ß
 
   changePassword(user) {
-    return this.http.put(`${this.APIUrl}/user/change-password/`, user, { headers: this.authHeaders }).map(res => res.json());
+    return this.http.putWithAuth(`${this.APIUrl}/user/change-password/`, user).map(res => res.json());
   }
 
   editUser(id, editedUser) {
-    return this.http.put(`${this.APIUrl}/user/edit-user/` + id, editedUser, {headers: this.authHeaders}).map(res => res.json());
+    return this.http.putWithAuth(`${this.APIUrl}/user/edit-user/` + id, editedUser).map(res => res.json());
   }
 
   deleteUser(id) {
-    return this.http.delete(`${this.APIUrl}/user/delete-user/` + id, {headers: this.authHeaders }).map(res => res.json());
+    return this.http.deleteWithAuth(`${this.APIUrl}/user/delete-user/` + id).map(res => res.json());
   }
 
 }
