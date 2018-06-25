@@ -25,7 +25,8 @@ export class UsersComponent implements OnInit {
     email: '',
     password: '',
     role: 'admin',
-    department: ''
+    department: '',
+    isActive: true
   };
 
   user: User = {
@@ -36,7 +37,8 @@ export class UsersComponent implements OnInit {
     email: '',
     password: '',
     role: 'admin',
-    department: ''
+    department: '',
+    isActive: true
   };
   currentUser: User = {
     _id: '',
@@ -46,7 +48,8 @@ export class UsersComponent implements OnInit {
     email: '',
     password: '',
     role: 'admin',
-    department: ''
+    department: '',
+    isActive: true
   };
 
   directorates: Directorates[];
@@ -139,6 +142,7 @@ export class UsersComponent implements OnInit {
         this.user.role = 'admin';
         this.user.department = '';
         this.user.email = '';
+        this.user.isActive = true;
       }
     });
   }
@@ -197,6 +201,7 @@ export class UsersComponent implements OnInit {
         this.userModal.role = 'admin';
         this.userModal.department = '';
         this.userModal.email = '';
+        this.userModal.isActive = true;
       }
     });
   }
@@ -205,9 +210,11 @@ export class UsersComponent implements OnInit {
     const id = event.target.dataset.id;
     this.userService.deleteUser(id).subscribe(res => {
       if (res.err) {
-        Swal('Sukses!', 'Përdoruesi u fshi me sukses.', 'success');
-      } else {
         Swal('Gabim!', 'Perdoruesi nuk u fshi.', 'error');
+      } else {
+        this.modalRef.hide();
+        document.getElementById(`${id}`).style.display = 'none';
+        Swal('Sukses!', 'Përdoruesi u fshi me sukses.', 'success');
       }
     });
   }

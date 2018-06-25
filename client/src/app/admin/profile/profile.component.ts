@@ -24,7 +24,8 @@ export class ProfileComponent implements OnInit {
     email: '',
     password: '',
     role: 'admin',
-    department: ''
+    department: '',
+    isActive: true
   };
   check: Boolean = false;
   bsModalRef: BsModalRef;

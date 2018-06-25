@@ -20,7 +20,8 @@ var newUser = new User({
     email: "staff@prishtina.com",
     gender: "male",
     password: "superadmin",
-    role: "superadmin"
+    role: "superadmin",
+    isActive: true
 });
 
 // Checking if user exists, if not create and save the user in database
