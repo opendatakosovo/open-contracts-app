@@ -7,4 +7,5 @@ export interface User {
         password: string;
         role: string;
         department?: string;
+        isActive: boolean;
 }

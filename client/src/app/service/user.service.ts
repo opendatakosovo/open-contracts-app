@@ -64,7 +64,7 @@ export class UserService {
 
   generatePassword(id) {
     return this.http.putWithAuth(`${this.APIUrl}/user/generate-password/` + id, {}).map(res => res.json());
-  } ß
+  }
 
   changePassword(user) {
     return this.http.putWithAuth(`${this.APIUrl}/user/change-password/`, user).map(res => res.json());
@@ -74,8 +74,8 @@ export class UserService {
     return this.http.putWithAuth(`${this.APIUrl}/user/edit-user/` + id, editedUser).map(res => res.json());
   }
 
-  deleteUser(id) {
-    return this.http.deleteWithAuth(`${this.APIUrl}/user/delete-user/` + id).map(res => res.json());
+  deleteUser(id, deletedUser) {
+    return this.http.putWithAuth(`${this.APIUrl}/user/delete-user/` + id, deletedUser).map(res => res.json());
   }
 
 }

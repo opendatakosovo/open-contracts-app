@@ -17,7 +17,8 @@ const UserSchema = mongoose.Schema({
   email: { type: String, required: true },
   password: { type: String, required: true },
   role: { type: String, required: true },
-  department: { type: String, set: skipEmpty }
+  department: { type: String, set: skipEmpty },
+  isActive: { type: Boolean, required: true}
 }, schemaOptions);
 
 UserSchema.options.toJSON = {
@@ -65,7 +66,7 @@ module.exports.getAllUsers = callback => {
 
 // Updating user information
 module.exports.updateUser = (id, user, callback) => {
-	User.findByIdAndUpdate(id, { $set: user }, { new: true }, callback);
+	User.findByIdAndUpdate(id, { $set: user, isActive: true }, { new: true }, callback);
 }
 
 // Function for adding user
@@ -73,11 +74,12 @@ module.exports.addUser = (newUser, callback) => {
     newUser.save(callback);
 }
 
+// Function for getting user by email
 module.exports.findUserByEmail = (email, callback) => {
   User.findOne({"email": email}, callback);
 }
 
-//Function for comoparing passwords
+// Function for comparing passwords
 module.exports.comparePassword = (candidatePassword, hash, callback) => {
   bcrypt.compare(candidatePassword, hash, (err, isMatch) => {
     if (err) throw err;
@@ -85,9 +87,14 @@ module.exports.comparePassword = (candidatePassword, hash, callback) => {
   });
 }
 
+// Function for changing password
 module.exports.changePassword = (id, newPassword, callback) => {
   User.findByIdAndUpdate(id, { $set: {
       password: bcrypt.hashSync(newPassword, bcrypt.genSaltSync(10), null)}
       },{new: true}, callback);
 }
 
+// Function for deleting a user or admin
+module.exports.deleteUser = (id, callback) => {
+  User.findByIdAndUpdate(id, { $set: { isActive: false }}, {new: true}, callback); 
+} 
