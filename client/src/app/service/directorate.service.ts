@@ -3,6 +3,7 @@ import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { environment } from '../../environments/environment';
 import { tokenNotExpired } from 'angular2-jwt';
+import { HttpClientService } from './http-client.service';
 import { Auth } from '../utils/auth';
 
 @Injectable()
@@ -11,15 +12,15 @@ export class DirectorateService {
   directorate: any;
   authHeaders: Headers;
 
-  constructor(public http: Http) {
-    this.authHeaders = Auth.loadToken();
+  constructor(public http: HttpClientService) {
+    this.http = http;
   }
 
   addDirectorate(directorate) {
-    return this.http.post(`${this.APIUrl}/directorates`, directorate, { headers: this.authHeaders }).map(res => res.json());
+    return this.http.postWithAuth(`${this.APIUrl}/directorates`, directorate).map(res => res.json());
   }
   getDirectorates() {
-    return this.http.get(`${this.APIUrl}/directorates`, { headers: this.authHeaders }).map(res => res.json().directorates);
+    return this.http.getWithAuth(`${this.APIUrl}/directorates`).map(res => res.json().directorates);
   }
 
 }

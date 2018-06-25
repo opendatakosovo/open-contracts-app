@@ -19,14 +19,15 @@ router.post('/', passport.authenticate('jwt', { session: false }), userValidatio
         gender: req.body.gender,
         password: req.body.password,
         role: req.body.role,
-        department: req.body.department
+        department: req.body.department,
+        isActive: req.body.isActive
     });
 
     User.findUserByEmail(user.email, (err, userExists) => {
         if (!err) {
             if (userExists) {
                 res.json({
-                    "msg": "This is user exist",
+                    "msg": "This user exist",
                     "exists": true
                 });
             } else {
@@ -192,16 +193,15 @@ router.put('/change-password', passport.authenticate('jwt', { session: false }),
 });
 
 // DELETE USER BY ID
-router.delete('/delete-user/:id', (req, res) => {
+router.put('/delete-user/:id', (req, res) => {
     const userId = req.params.id;
 
-    User.findByIdAndRemove(userId, (err, user) => {
+    User.deleteUser(userId, (err, user) => {
         if (!err) {
-            res.json({ 
+            res.json({
                 "msg": "User has been deleted successfully",
                 "user": user,
                 "success": true
-                
             });
         } else {
             res.json({

@@ -14,8 +14,8 @@
   <div class="row col-12" id="table-row">
     <table class="table">
       <tbody>
-        <tr *ngFor="let user of users" [id]="user._id" [hidden]="user.role == 'superadmin' || currentUser.email == user.email">
-          <td class="img-col">
+        <tr *ngFor="let user of users" class="user-information" [id]="user._id" [hidden]="user.role == 'superadmin' || currentUser.email == user.email || user.isActive == false">
+          <td class="img-col" id="image-col">
             <div *ngIf="user.role == 'user'">
               <img src="/assets/images/zyrtari.png" class="img-fluid">
             </div>
@@ -108,7 +108,7 @@
   </div>
   <!-- /Modal for viewing a user or admin profile -->
 
-  <!-- Modal for editing a user or admin-->
+  <!-- Modal for editing a user or admin -->
   <ng-template #modalEditUser>
     <div id="edit-user-modal">
           <div class="modal-header my-modal-header">
@@ -170,9 +170,10 @@
         </div>
       </form>
     </div>
-  </ng-template>
-  
-  <!-- /Modal for editing a user or admin-->
+  </ng-template> 
+  <!-- /Modal for editing a user or admin -->
+
+  <!-- Modal for adding a user or admin -->
   <ng-template #modalAddUser>
     <div id="add-user-modal">
       <div class="modal-header">
@@ -252,18 +253,19 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" (click)="modalRef.hide()" data-dismiss="modal">Mbyll</button>
-          <button type="submit" class="btn btn-primary" id="save" value="Submit" [disabled]="!f.valid">Ruaj</button>
+          <button type="submit" class="btn btn-primary" id="save" value="Submit" [attr.data-id]="userModal._id" [disabled]="!f.valid">Ruaj</button>
         </div>
       </form>
     </div>
   </ng-template>
-
-  <!-- Delete user or admin modal-->
+ <!-- /Modal for adding a user or admin -->
+  
+  <!-- Modal for deleting a user or admin -->
   <ng-template #modalDeleteUser>
       <div id="delete-user-modal">
         <div class="modal-header delete-modal-header">       
           <h4 class="modal-title">A jeni i sigurt?</h4>  
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">&times;</button>
         </div>
         <form action="" id="delete-user-form">
           <div class="modal-body">
@@ -272,10 +274,11 @@
         </div>
       </div>
       <div class="modal-footer my-modal-footer">
-        <button type="button" class="btn btn-info" data-dismiss="modal">Anuloje</button>
-          <button type="button" class="btn btn-danger">Fshije</button>
+        <button type="button" class="btn btn-info" (click)="modalRef.hide()">Anuloje</button>
+          <button type="button" class="btn btn-danger delete-btn" id="delete-button" [attr.data-id]="userModal._id" (click)="deleteUser($event)">Fshije</button>
       </div>
     </form>
     </div>      
   </ng-template>
+  <!-- /Modal for deleting a user or admin -->
 </div>
