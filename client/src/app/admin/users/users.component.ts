@@ -208,7 +208,7 @@ export class UsersComponent implements OnInit {
 
   deleteUser(event) {
     const id = event.target.dataset.id;
-    this.userService.deleteUser(id).subscribe(res => {
+    this.userService.deleteUser(id, this.userModal).subscribe(res => {
       if (res.err) {
         Swal('Gabim!', 'Perdoruesi nuk u fshi.', 'error');
       } else {
