@@ -1,14 +1,9 @@
 .container-fluid {
     min-height: 200px;
 }
-.homePage {
-    position: relative;
-}
-
 #bg-img {
     background-image: url('/assets/images/header2.png');
      /* Full height */
-     width: 100%;
      height: 851px; 
      max-height: 851px;
      /* Center and scale the image nicely */
@@ -78,22 +73,38 @@
     }
     .cover .info-text {
         padding-left: 65px;
+        width: 470px;
+    }
+}
+@media(max-width: 535px) {
+    .cover .info-text .title {
+        font-size: 50px;
     }
 }
 @media (max-width: 470px) {
     .cover .info-text .title {
         font-size: 44px;
-        width: 330px;
+    }
+    .cover .info-text .subtitle {
+        font-size:20px;
+        width:270px;
     }
     .cover .info-text {
         padding-left: 40px;
+        width: 370px;
     }
     
 }
-@media(max-width:350px) {
+@media(max-width:375px) {
+    .cover .info-text {
+        width: 250px;
+    }
     .cover .info-text .title {
         font-size: 38px;
-
+    }
+    .cover .info-text .subtitle {
+        font-size:17px;
+        width:200px;
     }
 }
 /* ---- /Responsiveness ---- */
@@ -110,17 +121,22 @@
 }
 
     /* -------- Public contracts form -------*/
+    .search {
+        width: 100%;
+    }
         .contracts-filter-form {
             margin-top: 40px;
             margin-left: 0;
             margin-top: 30px;
             padding-left: 100px;
+            padding-right: 100px;
+            width: 100%;
         }
         .contracts-filter-form .form-input {
             margin-right: 20px;
             border: 1px #32a6bd solid;
             border-radius: 25px;
-            width: 352px;
+            width: 25%;
             font-family: 'Roboto', sans-serif;
             font-size: 20px;
             font-weight: 100;
@@ -145,7 +161,7 @@
             -webkit-appearance: none;
             -moz-appearance: none;
             border-radius: 25px ;
-            width: 250px;
+            width: 20%;
             font-family: 'Roboto', sans-serif;
             font-size: 20px;
             font-weight: 100;
@@ -153,7 +169,6 @@
             padding-top: 6px;
             padding-bottom: 6px;
             height: 50px;
-
         }
 
         .contracts-filter-form .form-select:focus {
@@ -180,137 +195,36 @@
             margin-top: 150px;
             margin-bottom: 350px;
         }
-        .search {
-            width:100%;
-        }
             /*--------------Responsiveness--------------*/
-            @media(max-width:1250px) {
-                .contracts-filter-form .form-input {
-                    width: 265px !important;
-                }
-                .contracts-filter-form .form-select {
-                    width: 265px !important;
-                }
+          @media(max-width: 1060px) {
+            .contracts-filter-form .form-button {
+                width: 190px;
+                margin-top: 10px;
+                margin-left: 300px;
             }
-            @media(max-width:1210px) {
-                .contracts-filter-form .form-input {
-                    width: 245px !important;
-                }
-                .contracts-filter-form .form-select {
-                    width: 245px !important;
-                }
+          }
+          @media(max-width: 950px) {
+            .contracts-filter-form .form-button {
+              margin-left: 250px;
             }
-            @media(max-width:1124px) {
-                .contracts-filter-form .form-input {
-                    width: 225px !important;
-                    height: 45px !important;
-                }
-                .contracts-filter-form .form-select {
-                    width: 225px !important;
-                    height: 45px !important;
-                }
+        }
+          @media(max-width: 860px) {
+            .contracts-filter-form .form-button {
+                width: 100%;
+                margin-left: 0px;
             }
-            @media(max-width:1050px) {
-                .contracts-filter-form .form-input {
-                    width: 200px !important;
-                    height: 45px !important;
-                }
-                .contracts-filter-form .form-select {
-                    width: 200px !important;
-                    height: 45px !important;
-                }
+            .contracts-filter-form .form-input {
+                width: 100%;
             }
-            @media(max-width:945px) {
-                .contracts-filter-form {
-                    padding-left: 125px 
-                }
-                .contracts-filter-form .form-input {
-                    width: 300px !important;
-                    height: 45px !important;
-                    margin-bottom: 10px;
-                    
-                }
-                .contracts-filter-form .form-select {
-                    width: 300px !important;
-                    height: 45px !important;
-                    margin-bottom: 10px;
-                }
+            .contracts-filter-form .form-select {
+                width: 100%;
+                margin-top: 10px;
             }
-            @media(max-width: 860px) {
-                .contracts-filter-form {
-                    padding-left: 15px;
-                }
+            .contracts-filter-form {
+                padding-left: 25px;
+                padding-right: 25px;
             }
-            @media(max-width: 820px) {
-                .contracts-filter-form {
-                    padding-left: 250px;
-                    width: 825px;
-                }
-                .contracts-filter-form .form-input {
-                    width: 315px !important;
-                    height: 48px !important;
-                    margin-bottom: 10px;
-                }
-                .contracts-filter-form .form-select {
-                    width: 315px !important;
-                    height: 48px !important;
-                    margin-bottom: 10px;
-                }
-                .contracts-filter-form .form-button {
-                    width: 355px ;
-                } 
-
-            }
-            @media(max-width:776px) {
-                .contracts-filter-form .form-input {
-                    width: 360px !important;
-                    height: 42px !important;
-                    margin-bottom: 10px;
-                }
-                .contracts-filter-form .form-select {
-                    width: 360px !important;
-                    height: 42px !important;
-                    margin-bottom: 10px;
-                }                
-            }
-            @media (max-width: 581px) {
-                .contracts-filter-form .form-input {
-                    width: 320px !important;
-                    height: 38px !important;
-                    margin-bottom: 10px;
-                }
-                .contracts-filter-form .form-select {
-                    width: 320px !important;
-                    height: 38px !important;
-                    margin-bottom: 10px;
-                }
-                .contracts-filter-form .form-button {
-                    width: 320px ;
-                }
-            }
-            @media (max-width: 422px) {
-                .contracts-filter-form .form-input {
-                    width: 270px !important;
-                    height: 36px !important;
-                    margin-bottom: 10px;
-                }
-                .contracts-filter-form .form-select {
-                    width: 270px !important;
-                    height: 36px !important;
-                    margin-bottom: 10px;
-                }
-                .contracts-filter-form .form-button {
-                    width: 270px ;
-                    height: 36px ;
-                }
-            }
-            @media (max-width: 395px) {
-                .contracts-filter-form  {
-                    padding-left: 10px;
-                    display: initial;
-                }
-               
-            } 
+          }
     /* -------- /Public contracts form ------*/
 /* ------- /Public contrats ------- */
 
@@ -341,14 +255,14 @@
             -webkit-appearance: none;
             -moz-appearance: none;
             border-radius: 25px ;
-            width: 320px;
+            width: 350px;
             font-family: 'Roboto', sans-serif;
-            font-size: 21px;
+            font-size: 25px;
             font-weight: 100;
             background: url('/assets/images/down-arrow-black.png') white no-repeat calc(100% - 10px) !important; 
             padding-top: 6px;
             padding-bottom: 6px;
-            height: 40px;
+            height: 50px;
             border-color: transparent;
             padding-left: 25px;
            
@@ -363,66 +277,60 @@
             color: white;
             border: none;
             border-radius: 25px;
-            padding: 6px 15px;
+            padding: 10px 15px;
             font-size: 16px;
             border: 1px solid #fff;
-            width: 320px;
-            height: 40px;
-            font-size: 21px;
         }
 
         .data-set .form-button:hover {
             box-shadow: 0px 0 7px 5px rgba(0, 0, 0, 0.144);
         }
         /*--------Responsiveness--------*/
-            @media(max-width: 1283px) {
-                .data-set .form-button {
-                    margin-top: 10px;
-                }
-                .data-set .data-set-form {
-                    margin-left: 245px;
-                }
-            }
             @media(max-width: 1260px) {
                 .data-set .data-set-form {
-                    margin-left: 230px;
+                    margin-left: 250px;
                 }
             }
-            @media(max-width: 1230px) {
+            @media(max-width: 1180px) {
                 .data-set .data-set-form {
-                    margin-left: 200px;
+                    margin-left: 210px;
                 }
             }
-            @media(max-width: 1210px) {
+            @media(max-width: 1130px) {
                 .data-set .data-set-form {
-                    margin-left: 275px;
+                    margin-left: 150px;
                 }
-                .data-set .form-button {
-                    margin-left: 170px;
+            }
+            @media(max-width: 1160px) {
+                .data-set .data-set-form {
+                    margin-left: 120px;
                 }
             }
             @media(max-width: 1030px) {
                 .data-set .data-set-form {
-                    margin-left: 200px;
+                    margin-left: 90px;
                 }
             }
-            @media(max-width: 975px) {
+            @media(max-width: 965px) {
                 .data-set .data-set-form {
-                    margin-left: 160px;
+                    margin-left: 50px;
                 }
             }
-            @media(max-width: 880px) {
+            @media(max-width: 925px) {
                 .data-set .data-set-form {
-                    margin-left: 24px;
+                    margin-left: 20px;
                 }
+            }
+            @media(max-width: 860px) {
                 .form-inline {
                     display: inline-grid;
                 }
                 .data-set .form-select {
                     margin-bottom: 10px;
+                    width: 100%;
                 }
-                .data-set .form-button {
-                    margin-left: 0px;
+                .data-set-form .btn {
+                    width: 350px;
                 }
                 
             }
@@ -430,9 +338,15 @@
                 .data-set .form-select {
                     width: 320px;
                 }
+                .data-set-form .btn {
+                    width: 320px;
+                }
             }
             @media(max-width: 350px) {
                 .data-set .form-select {
+                    width: 280px;
+                }
+                .data-set-form .btn {
                     width: 280px;
                 }
                 .data-set .title {

@@ -8,9 +8,11 @@ import { ValidatorFn } from '@angular/forms/src/directives/validators';
   styleUrls: ['./add-contract.component.css']
 })
 export class AddContractComponent implements OnInit {
-  counter: number;
+  countInstallment: number;
+  countAnnex: number;
   contracts: Contract[];
-  iterates: Array<number> = [];
+  installments: Array<number> = [];
+  annexes: Array<number> = [];
   contract: Contract = {
     activityTitle: '',
     publicationDate: '',
@@ -26,7 +28,8 @@ export class AddContractComponent implements OnInit {
     totalAmount: '',
  };
   constructor() {
-    this.counter = 1;
+    this.countInstallment = 1;
+    this.countAnnex = 1;
    }
   @ViewChild('fileInput') fileInput;
   ngOnInit() {
@@ -38,12 +41,19 @@ export class AddContractComponent implements OnInit {
     }
   }
   addInstallments() {
-    this.iterates.push(this.counter);
-    ++this.counter;
-    console.log(this.iterates);
+    this.installments.push(this.countInstallment);
+    ++this.countInstallment;
   }
   removeInstallment() {
-    this.iterates.pop();
-    --this.counter;
+    this.installments.pop();
+    --this.countInstallment;
+  }
+  addAnnex() {
+    this.annexes.push(this.countAnnex);
+    ++this.countAnnex;
+  }
+  removeAnnex() {
+    this.annexes.pop();
+    --this.countAnnex;
   }
 }
