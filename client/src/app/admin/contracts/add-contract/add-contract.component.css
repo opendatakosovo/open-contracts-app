@@ -47,6 +47,7 @@ label {
 .buttons {
     border-color: #39a6bd !important;
     color: #39a6bd !important;
+    margin-bottom: 10px;
 }
 .buttons:hover {
     background-color: #39a6bd !important; 

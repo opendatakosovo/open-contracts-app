@@ -1,3 +1,6 @@
+.row {
+    width: 100%;
+}
 #footerImage {
     background-image: url('/assets/images/footer.png');
     height: 377px;

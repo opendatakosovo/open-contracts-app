@@ -171,7 +171,7 @@
               </div>
               <div class="row">
                 <div class="col-md-3">
-                  <label for="startOfEvaluationDate">Data e fillimit dhe përfundimit të vlersimit</label>
+                  <label for="startOfEvaluationDate" style="width:270px">Data e fillimit dhe përfundimit të vlersimit</label>
                   <input type="date" name="startOfEvaluationDate" id="startOfEvaluationDate" class="form-control" placeholder="Data e fillimit">
                 </div>
                 <div class="col-md-3" style="padding-top: 29px;">
@@ -391,7 +391,7 @@
               </div>
               <div class="row">
                  <div class="col-sm-3 form-group">
-                  <label for="firstImplementationDeadline">Afatet për implementimin e kontratës</label>	
+                  <label for="firstImplementationDeadline" style="width:270px;">Afatet për implementimin e kontratës</label>	
                    <input type="date" name="firstImplementationDeadline" id="firstImplementationDeadline" class="form-control">
                   </div>
                   <div class="col-sm-3 form-group" style="padding-top: 29px;">	
@@ -406,11 +406,9 @@
              </div>
                 <div class="row">
                 <div class="col-6 form-group">
-                  <label for="totalAmount">Vlera totale e kontratës, duke përfshirë të gjitha taksat</label>
-                  <input type="number" name="totalAmount" id="totalAmount" class="form-control" [(ngModel)]="contract.totalAmount" #contractTotalAmount="ngModel" 
-                  required [style.border-color]="contractTotalAmount.errors?.required && contractTotalAmount.touched ? 'red' : '#ced4da'">
-                  <div *ngIf="contractTotalAmount.errors?.required && contractTotalAmount.touched" class="error-msg">Duhet plotësuar!</div>
-                </div>
+                    <label for="noOfPaymentInstallments">Numri i përgjithshëm i situacioneve për pagesë, sipas kontratës</label>
+                    <input type="number" name="noOfPaymentInstallments" id="noOfPaymentInstallments" class="form-control">
+                    </div>
                 <div class="col-md-6">
                     <label for="totalAmountOfAnnexContractIncludingAnnexTaxes">Vlera totale e kontratës, duke përfshirë të gjitha anekset dhe të gjitha taksat etj.</label>
                     <input type="text" name="totalAmountOfAnnexContractIncludingAnnexTaxes" id="totalAmountOfAnnexContractIncludingAnnexTaxes" class="form-control">
@@ -418,22 +416,46 @@
               </div>
               <div class="row">
                 <div class="col-md-6">
-                  <label for="noOfPaymentInstallments">Numri i përgjithshëm i situacioneve për pagesë, sipas kontratë</label>
-                  <input type="number" name="noOfPaymentInstallments" id="noOfPaymentInstallments" class="form-control">
+                    <label for="noOfPaymentInstallments">Vlera totale e Aneks kontratës duke përfshirë të gjitha taksat (1)</label>
+                    <input type="number" name="noOfPaymentInstallments" id="noOfPaymentInstallments" class="form-control">
                 </div>
                 <div class="col-md-6">
-                  <label for="annexContractSigningDate">Data e nënshkrimit të Aneks kontratës</label>
+                  <label for="annexContractSigningDate">Data e nënshkrimit të Aneks kontratës (1)</label>
                   <input type="date" name="annexContractSigningDate" id="annexContractSigningDate" class="form-control">
+                </div>
+              </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <br>
+                    <button type="button" data-toggle="tooltip" title="Shto Aneks Kontratë" class="btn btn-outline-primary buttons" (click)="addAnnex()">
+                      <span class="fa fa-plus"></span>
+                    </button>
+                    <button  type="button" data-toggle="tooltip" title="Fshij Aneks Kontratë" class="btn btn-outline-primary buttons" (click)="removeAnnex()" *ngIf="countAnnex>1">
+                        <span class="fa fa-minus"></span>
+                      </button>
+                </div>
+                <div class="col-md-6"></div>
+            </div>
+              <div *ngFor="let annex of annexes; let i = index">
+              <div class="row">
+                  <div class="col-md-6">
+                      <label for="noOfPaymentInstallments{{i+2}}">Vlera totale e Aneks kontratës duke përfshirë të gjitha taksat ({{i+2}})</label>
+                      <input type="number" name="noOfPaymentInstallments{{i+2}}" id="noOfPaymentInstallments{{i+2}}" class="form-control">
+                  </div>
+                  <div class="col-md-6">
+                    <label for="annexContractSigningDate{{i+2}}">Data e nënshkrimit të Aneks kontratës ({{i+2}})</label>
+                    <input type="date" name="annexContractSigningDate{{i+2}}" id="annexContractSigningDate{{i+2}}" class="form-control">
+                  </div>
                 </div>
               </div>
               <h4>Situacionet</h4>
               <div class="row">
                   <div class="col-md-6">
-                    <label for="installmentPayDate1">Data e pagesës së situacionit 1</label>
+                    <label for="installmentPayDate1">Data e pagesës së situacionit (1)</label>
                     <input type="date" name="installmentPayDate1" id="installmentPayDate1" class="form-control">
                   </div>
                   <div class="col-md-6">
-                    <label for="installmendAmount1">Shuma e pagesës së situacionit 2</label>
+                    <label for="installmendAmount1">Shuma e pagesës së situacionit (1)</label>
                     <input type="text" name="installmentAmount1" id="installmentAmount1" class="form-control">
                   </div>
               </div><div class="row">
@@ -442,20 +464,20 @@
                       <button type="button" data-toggle="tooltip" title="Shto Situacion" class="btn btn-outline-primary buttons" (click)="addInstallments()">
                         <span class="fa fa-plus"></span>
                       </button>
-                      <button type="button" data-toggle="tooltip" title="Fshij Situacion" class="btn btn-outline-primary buttons" (click)="removeInstallment()">
+                      <button  type="button" data-toggle="tooltip" title="Fshij Situacion" class="btn btn-outline-primary buttons" (click)="removeInstallment()" *ngIf="countInstallment>1">
                           <span class="fa fa-minus"></span>
                         </button>
                   </div>
                   <div class="col-md-6"></div>
               </div>
-              <div *ngFor="let iterate of iterates; let i = index">
+              <div *ngFor="let installment of installments; let i = index">
                   <div class="row">
                       <div class="col-md-6">
-                        <label for="installmentPayDate{{i+2}}">Data e pagesës së situacionit {{i+2}}</label>
+                        <label for="installmentPayDate{{i+2}}">Data e pagesës së situacionit ({{i+2}})</label>
                         <input type="date" name="installmentPayDate{{i+2}}" id="installmentPayDate{{i+2}}" class="form-control">
                       </div>
                       <div class="col-md-6">
-                        <label for="installmentAmount{{i+2}}">Shuma e pagesës së situacionit {{i+2}}</label>
+                        <label for="installmentAmount{{i+2}}">Shuma e pagesës së situacionit ({{i+2}})</label>
                         <input type="text" name="installmentAmount{{i+2}}" id="installmentAmount{{i+2}}" class="form-control">
                     </div>  
                   </div>
