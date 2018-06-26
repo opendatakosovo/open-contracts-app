@@ -72,7 +72,12 @@ img {
         padding-left:23px; 
     }
 }
- @media(max-width: 767px) {
+@media(max-width: 824px) {
+    .text {
+        width: 200px;
+    }
+}
+@media(max-width: 767px) {
      #footerImage {
         height: 555px;
      }
@@ -109,5 +114,7 @@ img {
         padding-top: 20px;
         height: 85px;
     }
-    
+    .text {
+        width: auto;
+    }
  }

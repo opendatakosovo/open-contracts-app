@@ -4,8 +4,8 @@
 #bg-img {
     background-image: url('/assets/images/header2.png');
      /* Full height */
-     height: 851px; 
-     max-height: 851px;
+     height: 678px; 
+     max-height: 678px;
      /* Center and scale the image nicely */
      background-position: center;
      background-repeat: no-repeat;
@@ -18,7 +18,7 @@
 
 .cover .info-text {
     width: 549px;
-    padding-top: 266px;
+    padding-top: 180px;
     padding-left: 100px;
 
 }
@@ -75,6 +75,12 @@
         padding-left: 65px;
         width: 470px;
     }
+    #bg-img {
+        height: 550px;
+    }
+    .cover .info-text {
+        padding-top: 100px;    
+    }
 }
 @media(max-width: 535px) {
     .cover .info-text .title {
@@ -121,9 +127,9 @@
 }
 
     /* -------- Public contracts form -------*/
-    .search {
-        width: 100%;
-    }
+        .search {
+            width: 100%;
+        }
         .contracts-filter-form {
             margin-top: 40px;
             margin-left: 0;
@@ -210,36 +216,89 @@
         }
           @media(max-width: 860px) {
             .contracts-filter-form .form-button {
-                width: 100%;
+                width: 80%;
                 margin-left: 0px;
+                height: 45px;
             }
             .contracts-filter-form .form-input {
-                width: 100%;
+                width: 80%;
+                height: 45px;
             }
             .contracts-filter-form .form-select {
-                width: 100%;
+                width: 80%; 
                 margin-top: 10px;
+                height: 45px;
             }
             .contracts-filter-form {
-                padding-left: 25px;
-                padding-right: 25px;
+                padding-left: 200px;
+                padding-right: 95px;
+            }
+            .public-contracts .title {
+                font-size: 27px;
             }
           }
+          @media(max-width: 750px) {
+              .contracts-filter-form {
+                  padding-left: 170px;
+              }
+          }
+          @media(max-width: 600px) {
+            .contracts-filter-form {
+                padding-left: 135px;
+                padding-right: 45px;
+            }
+            .public-contracts .title {
+                font-size: 25px;    
+            }
+            .contracts-filter-form .form-select, .contracts-filter-form .form-input, .contracts-filter-form .form-button {
+                height: 40px;
+                margin-right: 0px;
+            }
+          }
+          @media(max-width: 500px) {
+            .contracts-filter-form {
+                padding-left: 95px;
+            }
+          }
+          @media(max-width: 450px) { 
+            .contracts-filter-form {
+                padding-left: 45px;
+                padding-right: 0px;
+            }
+            .contracts-filter-form .form-select, .contracts-filter-form .form-input, .contracts-filter-form .form-button {
+                width: 90%;
+            }
+            .public-contracts .title {
+                font-size: 22px;
+            }
+          }
+          @media(max-width: 360px) {
+              .contracts-filter-form {
+                  padding-left: 25px;
+              }
+          }
+        
     /* -------- /Public contracts form ------*/
 /* ------- /Public contrats ------- */
 
 
 /*---- Data set -----*/
+        .data-set-title {
+            height: 135px;
+        }
         #cover-image {
             background-image: url('/assets/images/background-2.png');
             /* Full height */
-            height: 346px; 
-            max-height: 346px;
+            height: 280px; 
+            max-height: 280px;
            
             /* Center and scale the image nicely */
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
+            width: 100%;
+        }
+        .data-set .data-set-form {
             width: 100%;
         }
         .data-set .title {
@@ -255,105 +314,104 @@
             -webkit-appearance: none;
             -moz-appearance: none;
             border-radius: 25px ;
-            width: 350px;
+            width: 40%;
             font-family: 'Roboto', sans-serif;
-            font-size: 25px;
+            font-size: 20px;
             font-weight: 100;
             background: url('/assets/images/down-arrow-black.png') white no-repeat calc(100% - 10px) !important; 
             padding-top: 6px;
             padding-bottom: 6px;
-            height: 50px;
+            height: 40px;
             border-color: transparent;
-            padding-left: 25px;
-           
+            padding-left: 25px;  
         }
-
-        .data-set .data-set-form {
-            margin-left: 283px;
-        }
-
         .data-set .form-button {
             background-color:#32a6bd;
             color: white;
             border: none;
             border-radius: 25px;
             padding: 10px 15px;
-            font-size: 16px;
+            font-size: 18px;
             border: 1px solid #fff;
+            height: 40px;
         }
-
         .data-set .form-button:hover {
             box-shadow: 0px 0 7px 5px rgba(0, 0, 0, 0.144);
         }
-        /*--------Responsiveness--------*/
-            @media(max-width: 1260px) {
-                .data-set .data-set-form {
-                    margin-left: 250px;
-                }
+        /*----------Responsiveness------------*/
+        @media(max-width: 1106px) {
+            .data-set .form-button {
+                margin-left: 250px;
+                margin-top: 10px;
             }
-            @media(max-width: 1180px) {
-                .data-set .data-set-form {
-                    margin-left: 210px;
-                }
+        }
+        @media(max-width: 1024px) {
+            .data-set .form-button {
+                margin-left: 200px;
             }
-            @media(max-width: 1130px) {
-                .data-set .data-set-form {
-                    margin-left: 150px;
-                }
+            #cover-image {
+                background-image: url('/assets/images/background-2-2.png');
             }
-            @media(max-width: 1160px) {
-                .data-set .data-set-form {
-                    margin-left: 120px;
-                }
+        }
+        @media (max-width: 888px) {
+            #cover-image {
+                background-image: url('/assets/images/background-2-3.png');
             }
-            @media(max-width: 1030px) {
-                .data-set .data-set-form {
-                    margin-left: 90px;
-                }
+        }
+        @media (max-width: 820px){
+            .data-set .form-button {
+                margin-left: 130px;
             }
-            @media(max-width: 965px) {
-                .data-set .data-set-form {
-                    margin-left: 50px;
-                }
+        }
+        @media (max-width: 767px) {
+            .data-set .form-button {
+                margin-left: 150px;
             }
-            @media(max-width: 925px) {
-                .data-set .data-set-form {
-                    margin-left: 20px;
-                }
+            .data-set-form {
+                padding-left: 50px;
             }
-            @media(max-width: 860px) {
-                .form-inline {
-                    display: inline-grid;
-                }
-                .data-set .form-select {
-                    margin-bottom: 10px;
-                    width: 100%;
-                }
-                .data-set-form .btn {
-                    width: 350px;
-                }
-                
+            .data-set .title {
+                font-size: 27px;
             }
-            @media(max-width: 410px) {
-                .data-set .form-select {
-                    width: 320px;
-                }
-                .data-set-form .btn {
-                    width: 320px;
-                }
+        }
+        @media(max-width: 640px) {
+            .data-set-title {
+                height: 90px;
             }
-            @media(max-width: 350px) {
-                .data-set .form-select {
-                    width: 280px;
-                }
-                .data-set-form .btn {
-                    width: 280px;
-                }
-                .data-set .title {
-                    font-size: 25px;
-                }
+            .data-set .data-set-form {
+                padding-left: 90px;
+                padding-right: 50px;
             }
-                
+            .data-set .form-button {
+                margin: 0;
+            }
+            .data-set .data-set-form form {
+                display: grid;
+            }
+            .data-set .form-select {
+                width: 90%;
+                margin-bottom: 5px;
+                font-size: 20px
+            }
+            .data-set .form-button {
+                width: 90%;
+                font-size: 20px;
+            }
+            .data-set .title {
+                font-size: 25px;
+            }
+        }
+        @media(max-width: 500px) {
+            .data-set .data-set-form {
+                padding-left: 25px;
+                padding-right: 0px;
+            }
+            .data-set .title {
+                font-size: 22px;
+            }
+        }
+        
+        
 /*---- /Data set ----*/
 
 
@@ -409,11 +467,24 @@
 .contracts-announcement {
     padding: 0;
 }
-@media(max-width: 767px) {
-    #bg-img-contracts{
-        background-image: url('/assets/images/background-prishtina-online - mobile.jpg');
-         /* Full height */
-         height:2000px;
-         max-height: 2000px;
+/*---------Responsiveness----------*/
+    @media(max-width: 887px) {
+        #announcements-title-6 {
+            width: 256px;
+        }
     }
-}
+    @media(max-width: 767px) {
+        #bg-img-contracts{
+            background-image: url('/assets/images/background-prishtina-online - mobile.jpg');
+            /* Full height */
+            height:2000px;
+            max-height: 2000px;
+        }
+        #announcements-title-6 {
+            width: 266px;
+        }
+        .contracts-announcement .title {
+            font-size: 27px;
+        }
+    }
+    
