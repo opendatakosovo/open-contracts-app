@@ -8,11 +8,14 @@
         <form action="" class="form-i" id="addDirectorates" (submit)="addDirectorate($event)">
           <div class="modal-body">
             <div class="form-group">
-                <label for="currentpassword">Drejtoria</label>
-                <input type="text" class="form-control" id="addDirectorates" name="directorate" [(ngModel)]="directorate.name">
-            </div> 
+                <label for="directorateName">Drejtoria</label>
+                <input type="text" class="form-control" id="directorateName" name="directorateName" [(ngModel)]="directorate.directorateName">
+            </div>
+            <div class="form-group">
+                <label for="thePersonInCharge">Përgjegjësi</label>
+                <input type="text" class="form-control" id="thePersonInCharge" name="thePersonInCharge" [(ngModel)]="directorate.thePersonInCharge">
+            </div>  
           </div>
-     
         <div class="modal-footer">
           <button type="button" (click)="bsModalRef.hide()" class="btn btn-secondary" data-dismiss="modal">Mbyll</button>
           <button type="submit" class="btn btn-primary" id="addDirectoratesButton">Shto</button>

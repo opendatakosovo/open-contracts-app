@@ -5,7 +5,8 @@ const skipEmpty = require("mongoose-skip-empty");
 
 // Directorate Schema
 const DirectorateSchema = mongoose.Schema({
-  name: { type: String, required: true },
+  directorateName: { type: String },
+  thePersonInCharge: { type: String }
 });
 const Directorate = (module.exports = mongoose.model("Directorate", DirectorateSchema));
 

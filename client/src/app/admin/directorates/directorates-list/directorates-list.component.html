@@ -3,13 +3,16 @@
     <tbody>
       <tr>                           
         <td class="directorate-info">
-          <p class="name">{{ directorate.name }}</p>
+          <p class="name">{{ directorate.directorateName }}</p>
+          <div>
+            <p class="thePersonInCharge">{{ directorate.thePersonInCharge }}</p>
+          </div>
         </td>
         <td class="edit-ico">
           <span><a data-toggle="modal" data-target="#exampleModal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></span>
         </td>
         <td class="delete-ico">
-              <span><a data-toggle="modal" data-target="#exampleModal"><i class="fa fa-trash" aria-hidden="true"></i></a></span>
+          <span><a data-toggle="modal" data-target="#exampleModal"><i class="fa fa-trash" aria-hidden="true"></i></a></span>
         </td>
       </tr>
     </tbody>
