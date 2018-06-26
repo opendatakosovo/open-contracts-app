@@ -15,7 +15,6 @@ export class DirectorateService {
   constructor(public http: HttpClientService) {
     this.http = http;
   }
-
   addDirectorate(directorate) {
     return this.http.postWithAuth(`${this.APIUrl}/directorates`, directorate).map(res => res.json());
   }

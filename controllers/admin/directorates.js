@@ -8,10 +8,11 @@ const passport = require("passport");
 //Route for creating a user
 router.post('/', passport.authenticate('jwt', {session: false}), (req, res) => {
     let directorate = new Directorates({
-        name: req.body.name,
+        directorateName: req.body.directorateName,
+        thePersonInCharge: req.body.thePersonInCharge
     });
    
-    Directorates.findDirectorate (directorate.name, (err, directorateExists) => {
+    Directorates.findDirectorate (directorate.directorateName, (err, directorateExists) => {
         if(!err){
             if(directorateExists) {
                 res.json({

@@ -12,7 +12,8 @@ import Swal from 'sweetalert2';
 })
 export class AddDirectoratesComponent implements OnInit {
   directorate: Directorates = {
-    name: ''
+    directorateName: '',
+    thePersonInCharge: '',
   };
 
   constructor(public bsModalRef: BsModalRef , public directorateService: DirectorateService) { }
@@ -29,7 +30,7 @@ export class AddDirectoratesComponent implements OnInit {
       } else {
         this.bsModalRef.hide();
         Swal('Sukses!', 'Drejtoria u shtua me sukses.', 'success');
-        this.directorate.name = '';
+        this.directorate.directorateName = '';
       }
     });
   }

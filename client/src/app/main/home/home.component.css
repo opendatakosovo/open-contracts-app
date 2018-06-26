@@ -11,11 +11,9 @@
      background-repeat: no-repeat;
      background-size: cover; 
 }
-
 .cover-image {
     padding: 0;
 }
-
 .cover .info-text {
     width: 549px;
     padding-top: 180px;
@@ -36,12 +34,10 @@
     margin-top: 20px;   
 
 }
-
 .cover-col {
     padding-left: 0;
     padding-right: 0;
 }
-
 /* ---- Responsiveness ---- */
 @media(max-width:1125px) {
     .cover .info-text .title {
@@ -330,7 +326,7 @@
             color: white;
             border: none;
             border-radius: 25px;
-            padding: 10px 15px;
+            padding: 0px 15px;
             font-size: 18px;
             border: 1px solid #fff;
             height: 40px;
@@ -360,13 +356,10 @@
         }
         @media (max-width: 820px){
             .data-set .form-button {
-                margin-left: 130px;
+                margin-left: 170px;
             }
         }
         @media (max-width: 767px) {
-            .data-set .form-button {
-                margin-left: 150px;
-            }
             .data-set-form {
                 padding-left: 50px;
             }
@@ -485,6 +478,31 @@
         }
         .contracts-announcement .title {
             font-size: 27px;
+        }
+        .announcements-buttons h1 {
+            padding-bottom: 60px;
+        }
+    }
+    @media(max-width: 640px) {
+        .contracts-announcement .title {
+            font-size: 25px;
+        }
+        #announcements-title-1, #announcements-title-2, #announcements-title-3, #announcements-title-4, #announcements-title-5, #announcements-title-6 {
+            font-size: 22px;
+        }
+    }
+    @media(max-width: 500px) {
+        .contracts-announcement .title {
+            font-size: 22px;
+        }
+        #announcements-title-1, #announcements-title-2, #announcements-title-3, #announcements-title-4, #announcements-title-5, #announcements-title-6 {
+            font-size: 19px;
+        }
+        .announcements-buttons img {
+            width: 95px;
+        }
+        .announcements-buttons h1 {
+            padding-bottom: 40px;
         }
     }
     
