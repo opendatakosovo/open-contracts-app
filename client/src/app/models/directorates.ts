@@ -1,3 +1,5 @@
 export interface Directorates {
-    name: string;
+    directorateName: string;
+    thePersonInCharge: string;
+    isActive: boolean;
 }

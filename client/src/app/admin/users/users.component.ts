@@ -128,7 +128,7 @@ export class UsersComponent implements OnInit {
       } else if (res.errVld) {
         let errList = '';
         res.errVld.map(error => {
-            errList += `<li>${error.msg}</li>`;
+            errList += `<p>${error.msg}</p>`;
         });
         const htmlData = `<div style="text-align: center;">${errList}</div>`;
         Swal({

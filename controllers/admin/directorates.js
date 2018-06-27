@@ -1,17 +1,20 @@
 const router = require("express").Router();
 const Directorates  = require('../../models/directorates');
 const passport = require("passport");
+const directorateValidation = require("../../middlewares/directorate_validation");
 /*
  * ENDPOINTS PREFIX: /directorates
  */
 
 //Route for creating a user
-router.post('/', passport.authenticate('jwt', {session: false}), (req, res) => {
+router.post('/', passport.authenticate('jwt', {session: false}), directorateValidation, (req, res) => {
     let directorate = new Directorates({
-        name: req.body.name,
+        directorateName: req.body.directorateName,
+        thePersonInCharge: req.body.thePersonInCharge, 
+        isActive: req.body.isActive
     });
    
-    Directorates.findDirectorate (directorate.name, (err, directorateExists) => {
+    Directorates.findDirectorate (directorate.directorateName, (err, directorateExists) => {
         if(!err){
             if(directorateExists) {
                 res.json({

@@ -10,7 +10,7 @@ export class HttpClientService {
   private createAuthorizationHeader(headers: Headers) {
       const token = localStorage.getItem('id_token');
       headers.append('Authorization', token);
-      headers.append('Content-Type', 'application/json');  
+      headers.append('Content-Type', 'application/json');
   }
 
   get(url) {
@@ -38,19 +38,19 @@ export class HttpClientService {
   postWithAuth(url, body) {
     const headers = new Headers();
     this.createAuthorizationHeader(headers);
-    return this.http.post(url, body, { headers: headers})
+    return this.http.post(url, body, { headers: headers});
   }
 
   putWithAuth(url, body) {
     const headers = new Headers();
     this.createAuthorizationHeader(headers);
-    return this.http.put(url, body, { headers: headers})
+    return this.http.put(url, body, { headers: headers});
   }
 
   deleteWithAuth(url) {
     const headers = new Headers();
     this.createAuthorizationHeader(headers);
-    return this.http.delete(url, { headers: headers})
+    return this.http.delete(url, { headers: headers});
   }
 
 }
