@@ -10,7 +10,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 export class EditProfileComponent implements OnInit {
   constructor() { }
 
-  
+
   ngOnInit() {
   }
 

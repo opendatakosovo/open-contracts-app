@@ -78,4 +78,8 @@ export class UserService {
     return this.http.putWithAuth(`${this.APIUrl}/user/delete-user/` + id, deletedUser).map(res => res.json());
   }
 
+  activateUser(id, activatedUser) {
+    return this.http.putWithAuth(`${this.APIUrl}/user/activate-user/` + id, activatedUser).map(res => res.json());
+  }
+
 }

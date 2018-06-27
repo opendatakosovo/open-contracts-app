@@ -87,6 +87,14 @@ export class UsersComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
+  activateModal(template: TemplateRef<any>, event) {
+    const id = event.target.dataset.id;
+    this.userService.getUserByID(id).subscribe(user => {
+      this.userModal = user;
+    });
+    this.modalRef = this.modalService.show(template);
+  }
+
   showUser(event) {
     const id = event.target.dataset.id;
     this.userService.getUserByID(id).subscribe(user => {
@@ -129,6 +137,12 @@ export class UsersComponent implements OnInit {
             width: 750,
             type: 'info',
             confirmButtonText: 'Kthehu te forma'
+        });
+      } else if (res.usr_err) {
+        Swal({
+          title: 'Perdoruesi ekziston por eshte joaktiv',
+          type: 'warning',
+          confirmButtonText: 'Kthehu',
         });
       } else {
         this.modalRef.hide();
@@ -210,11 +224,28 @@ export class UsersComponent implements OnInit {
     const id = event.target.dataset.id;
     this.userService.deleteUser(id, this.userModal).subscribe(res => {
       if (res.err) {
-        Swal('Gabim!', 'Perdoruesi nuk u fshi.', 'error');
+        Swal('Gabim!', 'Përdoruesi nuk u deaktivizua.', 'error');
       } else {
         this.modalRef.hide();
-        document.getElementById(`${id}`).style.display = 'none';
-        Swal('Sukses!', 'Përdoruesi u fshi me sukses.', 'success');
+        this.userService.getUsers().subscribe(data => {
+          this.users = data;
+        });
+        Swal('Sukses!', 'Përdoruesi u deaktivizua me sukses.', 'success');
+      }
+    });
+  }
+
+  activateUser(event) {
+    const id = event.target.dataset.id;
+    this.userService.activateUser(id, this.userModal).subscribe(res => {
+      if (res.err) {
+        Swal('Gabim!', 'Përdoruesi nuk u aktivizua.', 'error');
+      } else {
+        this.modalRef.hide();
+        this.userService.getUsers().subscribe(data => {
+          this.users = data;
+        });
+        Swal('Sukses!', 'Përdoruesi u aktivizua me sukses.', 'success');
       }
     });
   }
