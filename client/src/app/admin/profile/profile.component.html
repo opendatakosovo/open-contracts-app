@@ -33,6 +33,7 @@
                     <th>Roli</th>
                     <td *ngIf="user.role == 'user'">Perdorues</td>
                     <td *ngIf="user.role == 'admin'">Administrator</td>
+                    <td *ngIf="user.role == 'superadmin'">Super Administrator</td>
                 </tr>
                 <tr *ngIf="user.role == 'user'">
                     <th>Drejtoria</th>
