@@ -10,23 +10,38 @@
     </div>
   </div>
 
-  <!-- Modal for displaying a user or admin -->
+  <!-- Displaying a user or admin -->
   <div class="row col-12" id="table-row">
     <table class="table">
       <tbody>
-        <tr *ngFor="let user of users" class="user-information" [id]="user._id" [hidden]="user.role == 'superadmin' || currentUser.email == user.email || user.isActive == false">
+        <tr *ngFor="let user of users" class="user-information" [id]="user._id" [hidden]="user.role == 'superadmin' || currentUser.email == user.email">
           <td class="img-col" id="image-col">
-            <div *ngIf="user.role == 'user'">
+            <div *ngIf="user.role == 'user' && user.isActive == true">
               <img src="/assets/images/zyrtari.png" class="img-fluid">
+              <p class="active-text">Aktiv</p>
             </div>
-            <div *ngIf="user.role == 'admin'">
+            <div *ngIf="user.role == 'admin' && user.isActive == true">
               <img src="/assets/images/administratori.png" class="img-fluid">
+              <p class="active-text">Aktiv</p>
+            </div>
+            <div *ngIf="user.role == 'user' && user.isActive == false">
+              <img src="/assets/images/zyrtariInactive.png" class="img-fluid">
+              <p class="inactive-text">Jo-aktiv</p>
+            </div>
+            <div *ngIf="user.role == 'admin' && user.isActive == false">
+              <img src="/assets/images/administratorInactive.png" class="img-fluid">
+              <p class="inactive-text">Jo-aktiv</p>
             </div>
           </td>
-          <td class="user-info">
-            <p class="name">
-              <a data-toggle="modal"   data-target="#user-profile-modal">{{ user.firstName }} {{ user.lastName }}</a>
-            </p>
+          <td class="user-info">  
+              <div *ngIf="user.isActive == false">
+                  <p class="nameIsFalse">{{ user.firstName }} {{ user.lastName }}</p>
+              </div>
+              <div *ngIf="user.isActive == true">
+                  <p class="name">
+                    <a data-toggle="modal" data-target="#user-profile-modal">{{ user.firstName }} {{ user.lastName }}</a>
+                  </p>
+              </div>
             <div *ngIf="user.role == 'user'">
               <p class="position">Përdorues - {{ user.department }}</p>
             </div>
@@ -34,27 +49,52 @@
               <p class="position">Administrator</p>
             </div>
           </td>
-          <td class="view-ico">
-            <span>
-              <a data-toggle="modal" data-target="#user-profile-modal" (click)="showUser($event)" [attr.data-id]="user._id">
-                <i class="fa fa-user" aria-hidden="true" [attr.data-id]="user._id"></i>
-              </a>
-            </span>
-          </td>
-          <td class="edit-ico">
-            <span>
-              <a data-toggle="modal" (click)="editModal(modalEditUser, $event)" [attr.data-id]="user._id">
-                <i class="fa fa-pencil-square-o" aria-hidden="true" [attr.data-id]="user._id"></i>
-              </a>
-            </span>
-          </td>
-          <td class="delete-ico">
-            <span>
-              <a data-toggle="modal" (click)="deleteModal(modalDeleteUser, $event)" [attr.data-id]="user._id">
-                <i class="fa fa-trash" aria-hidden="true" [attr.data-id]="user._id"></i>
-              </a>
-            </span>
-          </td>
+          <div *ngIf="user.isActive == true" id="icons">
+            <td class="view-icon">
+              <span>
+                <a data-toggle="modal" class="view-icon" data-target="#user-profile-modal" (click)="showUser($event)" [attr.data-id]="user._id">
+                  <i class="fa fa-user" aria-hidden="true" [attr.data-id]="user._id"></i>
+                </a>
+              </span>
+            </td>
+            <td class="edit-icon">
+              <span>
+                <a data-toggle="modal" (click)="editModal(modalEditUser, $event)" [attr.data-id]="user._id">
+                  <i class="fa fa-pencil-square-o" aria-hidden="true" [attr.data-id]="user._id"></i>
+                </a>
+              </span>
+            </td>
+            <td class="delete-icon">
+              <span>
+                <a data-toggle="modal" (click)="deleteModal(modalDeleteUser, $event)" [attr.data-id]="user._id">
+                  <i class="fa fa-times" aria-hidden="true" [attr.data-id]="user._id"></i>
+                </a>
+              </span>
+            </td>
+          </div>
+          <div *ngIf="user.isActive == false">
+            <td class="blank-div">
+              <span>
+                <a>
+                  <i aria-hidden="true"></i>
+                </a>
+              </span>
+            </td>
+            <td class="blank-div">
+              <span>
+                <a>
+                  <i aria-hidden="true"></i>
+                </a>
+              </span>
+            </td>
+            <td class="activate-icon">
+              <span>
+                <a data-toggle="modal" (click)="activateModal(modalActivateUser, $event)" [attr.data-id]="user._id">
+                  <i class="fa fa-check" aria-hidden="true" [attr.data-id]="user._id"></i>
+                </a>
+              </span>
+            </td>
+          </div>
         </tr>
       </tbody>
     </table>
@@ -253,7 +293,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" (click)="modalRef.hide()" data-dismiss="modal">Mbyll</button>
-          <button type="submit" class="btn btn-primary" id="save" value="Submit" [attr.data-id]="userModal._id" [disabled]="!f.valid">Ruaj</button>
+          <button type="submit" class="btn btn-primary" id="save" value="Submit" [attr.data-id]="user._id" [disabled]="!f.valid">Ruaj</button>
         </div>
       </form>
     </div>
@@ -264,18 +304,40 @@
   <ng-template #modalDeleteUser>
       <div id="delete-user-modal">
         <div class="modal-header delete-modal-header">       
-          <h4 class="modal-title">A jeni i sigurt?</h4>  
+          <h4 class="modal-title">Deaktivizo përdoruesin</h4>  
           <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">&times;</button>
         </div>
         <form action="" id="delete-user-form">
           <div class="modal-body">
             <div class="modal-body">
-            <p>Përdoruesi nuk ka mundësi të kthehet!</p>
+            <p>A jeni i sigurt që dëshironi të deaktivizoni përdoruesin?</p>
         </div>
       </div>
       <div class="modal-footer my-modal-footer">
         <button type="button" class="btn btn-info" (click)="modalRef.hide()">Anuloje</button>
-          <button type="button" class="btn btn-danger delete-btn" id="delete-button" [attr.data-id]="userModal._id" (click)="deleteUser($event)">Fshije</button>
+          <button type="button" class="btn btn-danger delete-btn" id="delete-button" [attr.data-id]="userModal._id" (click)="deleteUser($event)">Deaktivizo</button>
+      </div>
+    </form>
+    </div>      
+  </ng-template>
+  <!-- /Modal for deleting a user or admin -->
+
+   <!-- Modal for activating a user or admin -->
+   <ng-template #modalActivateUser>
+      <div id="activate-user-modal">
+        <div class="modal-header activate-modal-header">       
+          <h4 class="modal-title">Aktivizo përdoruesin</h4>  
+          <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">&times;</button>
+        </div>
+        <form action="" id="activate-user-form">
+          <div class="modal-body">
+            <div class="modal-body">
+            <p>A jeni i sigurt që dëshironi të aktivizoni përdoruesin?</p>
+        </div>
+      </div>
+      <div class="modal-footer my-modal-footer">
+        <button type="button" class="btn btn-info" (click)="modalRef.hide()">Anuloje</button>
+          <button type="button" class="btn btn-success activate-btn" id="activate-button" [attr.data-id]="userModal._id" (click)="activateUser($event)">Aktivizo</button>
       </div>
     </form>
     </div>      

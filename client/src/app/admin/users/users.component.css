@@ -21,7 +21,6 @@
 .add-btn:active {
     outline: transparent;
 }
-
 .title {
     font-size: 26px;
     color: black;
@@ -57,31 +56,31 @@
     font-size: 13px;
     margin-bottom: 0;
 }
-.edit-ico {
+.edit-icon {
     color: #868e96;
     width: 17px;
-    padding-right: 0;
-    padding-top: 31px;
+    padding-right: 1%;
+    padding-top: 48%;
 }
 .user-info {
     padding-bottom: 0;
     padding-top: 28px;
+    padding-right: 58%;
 }
 #save {
     background: #32a6bd !important;
     color: white !important;  
 }
-.delete-ico {
+.delete-icon {
     color: #868e96;
     width: 17px;
-    padding-right: 20px;
-    padding-top: 30px;
+    padding-top: 47%;
 }
-.view-ico {
+.view-icon {
     color: #868e96;
     width: 17px;
-    padding-right: 0;
-    padding-top: 31px;
+    padding-right: 1%;
+    padding-top: 47%;
 }
 
 #profileHeader {
@@ -151,4 +150,32 @@
 .delete-modal-header {
     background-color: #39a6bd;
     color: white;
+}
+.nameIsFalse {
+    font-weight: 500;
+    color: gray;
+    margin-bottom: 0;
+    font-size: 17px;
+}
+.activate-icon {
+    color: #868e96;
+    width: 17px;
+    padding-top: 47%;
+}
+.active-text {
+    margin-bottom: 0;
+    color: green;
+    font-size: 14px;
+    text-align: center;
+}
+.inactive-text {
+    width: 51px;
+    margin-bottom: 0;
+    color: red;
+    font-size: 14px;
+}
+.blank-div {
+    width: 17px;
+    padding-right: 15px;
+    padding-top: 47%;
 }
