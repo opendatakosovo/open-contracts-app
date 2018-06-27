@@ -1,542 +1,546 @@
 <div class="container-fluid">
   <div>
-   <div class="row">
-    <div class="col-md-6">
-      <h1 class="text-primary dispaly-1">
-        Shto Kontratë të re
-      </h1>
-    </div>
-    <div class="col-md-6" >
-        <a  style="float:right" class="btn btn-outline-primary buttons" id="contracts-buttons" [routerLink]="['/dashboard/contracts']">Kthehu tek kontratat</a>
-    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <h1 class="text-primary dispaly-1">
+          Shto Kontratë të re
+        </h1>
+      </div>
+      <div class="col-md-6">
+        <a style="float:right" class="btn btn-outline-primary buttons" id="contracts-buttons" [routerLink]="['/dashboard/contracts']">Kthehu tek kontratat</a>
+      </div>
     </div>
     <form action="" class="form-i" novalidate #contractForm="ngForm">
-              <div class="container-fluid">
-                <div class="row">
-                <div class="col-12 form-group">
-                  <label for="activityTitle">Titulli i aktivitetit të prokurimit</label>
-                  <input type="text" name="activityTitle" id="activityTitle" class="form-control" [(ngModel)]="contract.activityTitle" #contractActivityTitle="ngModel" 
-                  required [style.border-color]="contractActivityTitle.errors?.required && contractActivityTitle.touched ? 'red' : '#ced4da'">
-                  <div *ngIf="contractActivityTitle.errors?.required && contractActivityTitle.touched" class="error-msg">Duhet plotësuar!</div>
-                </div>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12 form-group">
+            <label for="activityTitle">Titulli i aktivitetit të prokurimit</label>
+            <input type="text" name="activityTitle" id="activityTitle" class="form-control" [(ngModel)]="contract.activityTitle" #contractActivityTitle="ngModel"
+              required [style.border-color]="contractActivityTitle.errors?.required && contractActivityTitle.touched ? 'red' : '#ced4da'">
+            <div *ngIf="contractActivityTitle.errors?.required && contractActivityTitle.touched" class="error-msg">Duhet plotësuar!</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3 form-group">
+            <label>Nr. rendor i prokurimit</label>
+            <input type="number" name="procurementNo" id="procurementNo" class="form-control">
+          </div>
+          <div class="col-md-3 form-group">
+            <label>Lloji i prokurimit</label>
+            <input type="text" name="procurementType" id="procurementType" class="form-control">
+          </div>
+          <div class="col-md-3 form-group">
+            <label>Vlera e prokurimit</label>
+            <input type="text" name="procurementValue" id="procurementValue" class="form-control">
+          </div>
+          <div class="col-md-3 form-group">
+            <label>Procedura prokurimit</label>
+            <input type="text" name="procurementProcedure" id="procurementProcedure" class="form-control">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 form-group">
+            <label>Klasifikimi (2 shifrat e para të FPP)</label>
+            <input type="text" name="clasification" id="clasification" class="form-control">
+          </div>
+          <div class="col-md-2 form-group">
+            <div class="radioButtons">
+              <label class="radioButtonLabel">Planifikuar:</label>
+              <br>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="planning" id="yes" value="yes" checked>
+                <label class="form-check-label" for="yes">
+                  Po
+                </label>
               </div>
-              <div class="row">
-                <div class="col-md-3 form-group">
-                  <label>Nr. rendor i prokurimit</label>
-                  <input type="number" name="procurementNo" id="procurementNo" class="form-control">
-                </div>
-                <div class="col-md-3 form-group">
-                  <label>Lloji i prokurimit</label>
-                  <input type="text" name="procurementType" id="procurementType" class="form-control">
-                </div>
-                <div class="col-md-3 form-group">
-                  <label>Vlera e prokurimit</label>
-                  <input type="text" name="procurementValue" id="procurementValue" class="form-control">
-                </div>
-                <div class="col-md-3 form-group">
-                  <label>Procedura prokurimit</label>
-                  <input type="text" name="procurementProcedure" id="procurementProcedure" class="form-control">
-                </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="planning" id="no" value="yes">
+                <label class="form-check-label" for="no">
+                  Jo
+                </label>
               </div>
-              <div class="row">
-                <div class="col-md-4 form-group">
-                  <label>Klasifikimi (2 shifrat e para të FPP)</label>
-                  <input type="text" name="clasification" id="clasification" class="form-control">
-                </div>
-                <div class="col-md-2 form-group">
-                    <div class="radioButtons">
-                    <label class="radioButtonLabel">Planifikuar:</label>
-                    <br>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="planning" id="yes" value="yes" checked>
-                        <label class="form-check-label" for="yes">
-                          Po
-                        </label>
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="planning" id="no" value="yes">
-                        <label class="form-check-label" for="no">
-                          Jo
-                        </label>
-                      </div>
-                    </div>
-                </div>
-                <div class="col-md-6 form-group">
-                  <div class="radioButtons">
-                  <label class="radioButtonLabel">Buxheti</label>
+            </div>
+          </div>
+          <div class="col-md-6 form-group">
+            <div class="radioButtons">
+              <label class="radioButtonLabel">Buxheti</label>
+              <br>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="budget" id="ownSources" value="ownSources" checked>
+                <label class="form-check-label" for="ownSources">
+                  Të hyra vetanake
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="budget" id="kosovoBudget" value="kosovoBudget">
+                <label class="form-check-label" for="no">
+                  Buxh. i Kons. i Kosovës
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="budget" id="donation" value="donation">
+                <label class="form-check-label" for="donation">
+                  Donacion
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 form-group">
+            <label for="iniciationDate">Data e inicimit të aktivitetit të prokurimit (data e pranimit të kërkesës)</label>
+            <input type="date" name="iniciationDate" id="iniciationDate" class="form-control">
+          </div>
+          <div class="col-md-6 form-group">
+            <label>Data e aprovimit të deklaratës së nevojave dhe disponueshmërisë së mjeteve</label>
+            <input type="date" name="approvalDate" id="approvalDate" class="form-control">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 form-group">
+            <label>Data e pranimit të specifikimit teknik (TOR)</label>
+            <input type="date" name="torDate" id="torDate" class="form-control">
+          </div>
+          <div class="col-md-6 form-group">
+            <label for="publicationDate">Data e publikimit të njoftimit për kontratë</label>
+            <input type="date" name="publicationDate" id="publicationDate" value="" class="form-control" [(ngModel)]="contract.publicationDate"
+              #contractPublicationDate="ngModel" required [style.border-color]="contractPublicationDate.errors?.required && contractPublicationDate.touched ? 'red' : '#ced4da'">
+            <div *ngIf="contractPublicationDate.errors?.required && contractPublicationDate.touched" class="error-msg">Duhet plotësuar!</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="radioButtons">
+              <label class="radioButtonLabel">Ankesat në autoritet:</label>
+              <br>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="complaints" id="negative" value="negative" checked>
+                <label class="form-check-label" for="negative">
+                  Negative
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="complaints" id="positive" value="positive">
+                <label class="form-check-label" for="positive">
+                  Pozitive
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="radioButtons">
+              <label class="radioButtonLabel">Ankesat në OSHP:</label>
+              <br>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="oshpComplaints" id="negativeOshp" value="negative" checked>
+                <label class="form-check-label" for="negativeOshp">
+                  Negative
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="oshpComplaints" id="positiveOshp" value="positive">
+                <label class="form-check-label" for="positiveOshp">
+                  Pozitive
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <br>
+            <label>Data dhe koha e hapjes së ofertave</label>
+            <input type="datetime-local" name="bidOpeningDatetime" id="bidOpeningDatetime" class="form-control">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 form-group">
+            <br>
+            <label for="noOfDownloads">Nr. i OE që kanë shkarkuar dosjen e tenderit</label>
+            <input type="number" name="noOfDownloads" id="noOfDownloads" class="form-control" [(ngModel)]="contract.noOfDownloads" #contractNoOfDownloads="ngModel"
+              required [style.border-color]="contractNoOfDownloads.errors?.required && contractNoOfDownloads.touched ? 'red' : '#ced4da'">
+            <div *ngIf="contractNoOfDownloads.errors?.required && contractNoOfDownloads.touched" class="error-msg">Duhet plotësuar!</div>
+          </div>
+          <div class="col-6 form-group">
+            <br>
+            <label for="noOfOffers">Nr. i OE që kanë dorëzuar ofertat</label>
+            <input type="number" name="noOfOffers" id="noOfOffers" class="form-control" [(ngModel)]="contract.noOfOffers" #contractNoOfOffers="ngModel"
+              required [style.border-color]="contractNoOfOffers.errors?.required && contractNoOfOffers.touched ? 'red' : '#ced4da'">
+            <div *ngIf="contractNoOfOffers.errors?.required && contractNoOfOffers.touched" class="error-msg">Duhet plotësuar!</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3">
+            <label for="startOfEvaluationDate" style="width:270px">Data e fillimit dhe përfundimit të vlersimit</label>
+            <input type="date" name="startOfEvaluationDate" id="startOfEvaluationDate" class="form-control" placeholder="Data e fillimit">
+          </div>
+          <div class="col-md-3" style="padding-top: 29px;">
+            <input type="date" name="endOfEvaluationDate" id="endOfEvaluationDate" class="form-control" placeholder="Data e përfundimit">
+          </div>
+          <div class="col-md-6">
+            <label>Numri i ofertave të refuzuara</label>
+            <input type="number" name="noOfRefusedBids" id="noOfRefusedBids" class="form-control">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <br>
+            <label>Data e aprovimit të Deklaratës së nevojave dhe disponueshmërisë së mjeteve - rikonfirmimi</label>
+            <input type="date" name="reapprovalDate" id="reapprovalDate" class="form-control">
+          </div>
+          <div class="col-md-6">
+            <br>
+            <label>Letrat Standarde për OE</label>
+            <input type="date" name="standardeDocumentsForOe" id="standardeDocumentsForOe" class="form-control">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 form-group">
+            <label for="dateOfGivenContractPublication">Data e publikimit të njoftimit për dhënie të kontratës </label>
+            <input type="date" name="dateOfGivenContractPublication" id="dateOfGivenContractPublication" class="form-control" [(ngModel)]="contract.dateOfGivenContractPublication"
+              #contractDateOfGivenContractPublication="ngModel" required [style.border-color]="contractDateOfGivenContractPublication.errors?.required && contractDateOfGivenContractPublication.touched ? 'red' : '#ced4da'">
+            <div *ngIf="contractDateOfGivenContractPublication.errors?.required && contractDateOfGivenContractPublication.touched" class="error-msg">Duhet plotësuar!</div>
+          </div>
+          <div class="col-6 form-group">
+            <label for="dateOfNoticeCancellations">Data e publikimit të anulimit të njoftimit </label>
+            <input type="date" name="dateOfNoticeCancellations" id="dateOfNoticeCancellations" class="form-control" [(ngModel)]="contract.dateOfNoticeCancellations"
+              #contractDateOfNoticeCancellations="ngModel" required [style.border-color]="contractDateOfNoticeCancellations.errors?.required && contractDateOfNoticeCancellations.touched ? 'red' : '#ced4da'">
+            <div *ngIf="contractDateOfNoticeCancellations.errors?.required && contractDateOfNoticeCancellations.touched" class="error-msg">Duhet plotësuar!</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="radioButtons">
+              <label class="radioButtonLabel">Ankesat në autoritet:</label>
+              <br>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="complaints" id="none" value="none" checked>
+                <label class="form-check-label" for="none">
+                  Nuk ka
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="complaints" id="negative1" value="negative">
+                <label class="form-check-label" for="negative1">
+                  Negative
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="complaints" id="positive1" value="positive">
+                <label class="form-check-label" for="positive1">
+                  Pozitive
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="radioButtons">
+              <label class="radioButtonLabel">Ankesat në OSHP:</label>
+              <br>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="oshpComplaints" id="noneOshp" value="none" checked>
+                <label class="form-check-label" for="noneOshp">
+                  Nuk ka
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="oshpComplaints" id="negativeOshp1" value="negative">
+                <label class="form-check-label" for="negativeOshp1">
+                  Negative
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="oshpComplaints" id="positiveOshp1" value="positive">
+                <label class="form-check-label" for="positiveOshp1">
+                  Pozitive
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 form-group">
+            <br>
+            <label for="predictedContractAmount">Vlera e parashikuar e kontratës</label>
+            <input type="number" name="predictedContractAmount" id="predictedContractAmount" class="form-control" [(ngModel)]="contract.predictedContractAmount"
+              #contractPredictedContractAmount="ngModel" required [style.border-color]="contractPredictedContractAmount.errors?.required && contractPredictedContractAmount.touched ? 'red' : '#ced4da'">
+            <div *ngIf="contractPredictedContractAmount.errors?.required && contractPredictedContractAmount.touched" class="error-msg">Duhet plotësuar!</div>
+          </div>
+          <div class="col-md-6" style="padding-top: 21px;">
+            <div class="radioButtons">
+              <label class="radioButtonLabel">OE:</label>
+              <br>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="oe" id="local" value="local" checked>
+                <label class="form-check-label" for="local">
+                  Vendore
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="oe" id="notLocal" value="notLocal">
+                <label class="form-check-label" for="notLocal">
+                  Jo vendore
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="radioButtons">
+              <label class="radioButtonLabel">Afati kohor për pranimin e tenderëve:</label>
+              <br>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="applicationDeadline" id="normal" value="normal" checked>
+                <label class="form-check-label" for="normal">
+                  Afati kohor normal
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="applicationDeadline" id="shortened" value="shortened">
+                <label class="form-check-label" for="shortened">
+                  Afati kohor i shkurtuar
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="radioButtons">
+              <label class="radioButtonLabel">Kriteret për dhënie të kontratës:</label>
+              <br>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="contractCriteria" id="lowPrice" value="Low price" checked>
+                <label class="form-check-label" for="lowPrice">
+                  Çmimi më i ulët
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="contractCriteria" id="economicallyFavorable" value="Economically favorable">
+                <label class="form-check-label" for="economicallyFavorable">
+                  Tenderi ekonomikisht më i favorshëm
+                </label>
+              </div>
+              <div class="form-check">
                 <br>
-                  <div class="form-check">
-                        <input class="form-check-input" type="radio" name="budget" id="ownSources" value="ownSources" checked>
-                        <label class="form-check-label" for="ownSources">
-                          Të hyra vetanake
-                        </label>
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="budget" id="kosovoBudget" value="kosovoBudget">
-                        <label class="form-check-label" for="no">
-                          Buxh. i Kons. i Kosovës
-                        </label>
-                      </div>
-                      <div class="form-check">
-                          <input class="form-check-input" type="radio" name="budget" id="donation" value="donation">
-                          <label class="form-check-label" for="donation">
-                            Donacion
-                          </label>
-                        </div>
-                    </div>
-                </div>
+                <input class="form-check-input" type="radio" name="contractCriteria" id="pointPriceLower" value="Point price lower">
+                <label class="form-check-label" for="pointPriceLower">
+                  Çmimi më i ulët me poentim
+                </label>
               </div>
-              <div class="row">
-                <div class="col-md-6 form-group">
-                  <label for="iniciationDate">Data e inicimit të aktivitetit të prokurimit (data e pranimit të kërkesës)</label>
-                  <input type="date" name="iniciationDate" id="iniciationDate" class="form-control">
-                </div>
-                <div class="col-md-6 form-group">
-                  <label>Data e aprovimit të deklaratës së nevojave dhe disponueshmërisë së mjeteve</label>
-                  <input type="date" name="approvalDate" id="approvalDate" class="form-control">
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-6 form-group">
-                  <label>Data e pranimit të specifikimit teknik (TOR)</label>
-                  <input type="date" name="torDate" id="torDate" class="form-control">
-                </div>
-                <div class="col-md-6 form-group">
-                  <label for="publicationDate">Data e publikimit të njoftimit për kontratë</label>
-                  <input type="date" name="publicationDate" id="publicationDate" value="" class="form-control" [(ngModel)]="contract.publicationDate" #contractPublicationDate="ngModel" 
-                  required [style.border-color]="contractPublicationDate.errors?.required && contractPublicationDate.touched ? 'red' : '#ced4da'">
-                  <div *ngIf="contractPublicationDate.errors?.required && contractPublicationDate.touched" class="error-msg">Duhet plotësuar!</div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="radioButtons">
-                    <label class="radioButtonLabel">Ankesat në autoritet:</label>
-                    <br>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="complaints" id="negative" value="negative" checked>
-                        <label class="form-check-label" for="negative">
-                          Negative
-                        </label>
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="complaints" id="positive" value="positive">
-                        <label class="form-check-label" for="positive">
-                          Pozitive
-                        </label>
-                      </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="radioButtons">
-                    <label class="radioButtonLabel">Ankesat në OSHP:</label>
-                    <br>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="oshpComplaints" id="negativeOshp" value="negative" checked>
-                        <label class="form-check-label" for="negativeOshp">
-                          Negative
-                        </label>
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="oshpComplaints" id="positiveOshp" value="positive">
-                        <label class="form-check-label" for="positiveOshp">
-                          Pozitive
-                        </label>
-                      </div>
-                    </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-12">
-                  <br>
-                  <label>Data dhe koha e hapjes së ofertave</label>
-                  <input type="datetime-local" name="bidOpeningDatetime" id="bidOpeningDatetime" class="form-control">
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-6 form-group">
-                  <br>
-                  <label for="noOfDownloads">Nr. i OE që kanë shkarkuar dosjen e tenderit</label>
-                  <input type="number" name="noOfDownloads" id="noOfDownloads" class="form-control" [(ngModel)]="contract.noOfDownloads" #contractNoOfDownloads="ngModel" 
-                  required [style.border-color]="contractNoOfDownloads.errors?.required && contractNoOfDownloads.touched ? 'red' : '#ced4da'">
-                  <div *ngIf="contractNoOfDownloads.errors?.required && contractNoOfDownloads.touched" class="error-msg">Duhet plotësuar!</div>
-                </div>
-                <div class="col-6 form-group">
-                  <br>
-                    <label for="noOfOffers">Nr. i OE që kanë dorëzuar ofertat</label>
-                    <input type="number" name="noOfOffers" id="noOfOffers" class="form-control" [(ngModel)]="contract.noOfOffers" #contractNoOfOffers="ngModel" 
-                    required [style.border-color]="contractNoOfOffers.errors?.required && contractNoOfOffers.touched ? 'red' : '#ced4da'">
-                    <div *ngIf="contractNoOfOffers.errors?.required && contractNoOfOffers.touched" class="error-msg">Duhet plotësuar!</div>
-                  </div>
-              </div>
-              <div class="row">
-                <div class="col-md-3">
-                  <label for="startOfEvaluationDate" style="width:270px">Data e fillimit dhe përfundimit të vlersimit</label>
-                  <input type="date" name="startOfEvaluationDate" id="startOfEvaluationDate" class="form-control" placeholder="Data e fillimit">
-                </div>
-                <div class="col-md-3" style="padding-top: 29px;">
-                  <input type="date" name="endOfEvaluationDate" id="endOfEvaluationDate" class="form-control" placeholder="Data e përfundimit">
-                </div>
-                <div class="col-md-6">
-                  <label>Numri i ofertave të refuzuara</label>
-                  <input type="number" name="noOfRefusedBids" id="noOfRefusedBids" class="form-control">
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-6">
-                  <br>
-                  <label>Data e aprovimit të Deklaratës së nevojave dhe disponueshmërisë së mjeteve - rikonfirmimi</label>
-                  <input type="date" name="reapprovalDate" id="reapprovalDate" class="form-control">
-                </div>
-                <div class="col-md-6">
-                  <br>
-                    <label>Letrat Standarde për OE</label>
-                    <input type="date" name="standardeDocumentsForOe" id="standardeDocumentsForOe" class="form-control">
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-6 form-group">
-                  <label for="dateOfGivenContractPublication">Data e publikimit të njoftimit për dhënie të kontratës </label>
-                  <input type="date" name="dateOfGivenContractPublication" id="dateOfGivenContractPublication" class="form-control" [(ngModel)]="contract.dateOfGivenContractPublication" #contractDateOfGivenContractPublication="ngModel" 
-                  required [style.border-color]="contractDateOfGivenContractPublication.errors?.required && contractDateOfGivenContractPublication.touched ? 'red' : '#ced4da'">
-                  <div *ngIf="contractDateOfGivenContractPublication.errors?.required && contractDateOfGivenContractPublication.touched" class="error-msg">Duhet plotësuar!</div>
-                </div>
-                <div class="col-6 form-group">
-                    <label for="dateOfNoticeCancellations">Data e publikimit të anulimit të njoftimit </label>
-                    <input type="date" name="dateOfNoticeCancellations" id="dateOfNoticeCancellations" class="form-control" [(ngModel)]="contract.dateOfNoticeCancellations" #contractDateOfNoticeCancellations="ngModel" 
-                    required [style.border-color]="contractDateOfNoticeCancellations.errors?.required && contractDateOfNoticeCancellations.touched ? 'red' : '#ced4da'">
-                    <div *ngIf="contractDateOfNoticeCancellations.errors?.required && contractDateOfNoticeCancellations.touched" class="error-msg">Duhet plotësuar!</div>
-                </div>
-              </div>
-              <div class="row">
-                  <div class="col-md-6">
-                    <div class="radioButtons">
-                      <label class="radioButtonLabel">Ankesat në autoritet:</label>
-                      <br>
-                      <div class="form-check">
-                          <input class="form-check-input" type="radio" name="complaints" id="none" value="none" checked>
-                          <label class="form-check-label" for="none">
-                            Nuk ka
-                          </label>
-                        </div>
-                      <div class="form-check">
-                          <input class="form-check-input" type="radio" name="complaints" id="negative1" value="negative">
-                          <label class="form-check-label" for="negative1">
-                            Negative
-                          </label>
-                        </div>
-                        <div class="form-check">
-                          <input class="form-check-input" type="radio" name="complaints" id="positive1" value="positive">
-                          <label class="form-check-label" for="positive1">
-                            Pozitive
-                          </label>
-                        </div>
-                      </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="radioButtons">
-                      <label class="radioButtonLabel">Ankesat në OSHP:</label>
-                      <br>
-                      <div class="form-check">
-                          <input class="form-check-input" type="radio" name="oshpComplaints" id="noneOshp" value="none" checked>
-                          <label class="form-check-label" for="noneOshp">
-                            Nuk ka
-                          </label>
-                        </div>
-                      <div class="form-check">
-                          <input class="form-check-input" type="radio" name="oshpComplaints" id="negativeOshp1" value="negative">
-                          <label class="form-check-label" for="negativeOshp1">
-                            Negative
-                          </label>
-                        </div>
-                        <div class="form-check">
-                          <input class="form-check-input" type="radio" name="oshpComplaints" id="positiveOshp1" value="positive">
-                          <label class="form-check-label" for="positiveOshp1">
-                            Pozitive
-                          </label>
-                        </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                    <div class="col-6 form-group">
-                      <br>
-                        <label for="predictedContractAmount">Vlera e parashikuar e kontratës</label>
-                        <input type="number" name="predictedContractAmount" id="predictedContractAmount" class="form-control" [(ngModel)]="contract.predictedContractAmount" #contractPredictedContractAmount="ngModel" 
-                        required [style.border-color]="contractPredictedContractAmount.errors?.required && contractPredictedContractAmount.touched ? 'red' : '#ced4da'">
-                        <div *ngIf="contractPredictedContractAmount.errors?.required && contractPredictedContractAmount.touched" class="error-msg">Duhet plotësuar!</div>
-                    </div>
-                    <div class="col-md-6" style="padding-top: 21px;">
-                      <div class="radioButtons">
-                      <label class="radioButtonLabel">OE:</label>
-                      <br>
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="oe" id="local" value="local" checked>
-                        <label class="form-check-label" for="local">
-                          Vendore
-                        </label>
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="oe" id="notLocal" value="notLocal">
-                        <label class="form-check-label" for="notLocal">
-                          Jo vendore
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-              </div>
-              <div class="row">
-                  <div class="col-md-6">
-                    <div class="radioButtons">
-                      <label class="radioButtonLabel">Afati kohor për pranimin e tenderëve:</label>
-                      <br>
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="applicationDeadline" id="normal" value="normal" checked>
-                        <label class="form-check-label" for="normal">
-                          Afati kohor normal
-                        </label>
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="applicationDeadline" id="shortened" value="shortened">
-                        <label class="form-check-label" for="shortened">
-                          Afati kohor i shkurtuar
-                        </label>
-                      </div>
-                    </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="radioButtons">
-                        <label class="radioButtonLabel">Kriteret për dhënie të kontratës:</label>
-                        <br>
-                        <div class="form-check">
-                          <input class="form-check-input" type="radio" name="contractCriteria" id="lowPrice" value="Low price" checked>
-                          <label class="form-check-label" for="lowPrice">
-                            Çmimi më i ulët
-                          </label>
-                        </div>
-                        <div class="form-check">
-                          <input class="form-check-input" type="radio" name="contractCriteria" id="economicallyFavorable" value="Economically favorable">
-                          <label class="form-check-label" for="economicallyFavorable">
-                            Tenderi ekonomikisht më i favorshëm
-                          </label>
-                        </div>
-                        <div class="form-check">
-                          <br>
-                            <input class="form-check-input" type="radio" name="contractCriteria" id="pointPriceLower" value="Point price lower">
-                            <label class="form-check-label" for="pointPriceLower">
-                              Çmimi më i ulët me poentim
-                            </label>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              <div class="row">
-                <div class="col-md-6">
-                  <br>
-                  <label for="retender">Re-tenderimi</label>
-                  <input type="text" name="retender" id="retender" class="form-control">
-                </div>
-                <div class="col-md-6"  style="padding-top:22px;">
-                  <div class="radioButtons">
-                    <label class="radioButtonLabel">Statusi:</label>
-                    <br>
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" name="status" id="published" value="published" checked>
-                      <label class="form-check-label" for="published">
-                        Publikuar
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" name="status" id="evaluation" value="evaluation">
-                      <label class="form-check-label" for="evaluation">
-                        Vlerësim
-                      </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="status" id="evaluation" value="evaluation">
-                        <label class="form-check-label" for="evaluation">
-                          Anuluar
-                        </label>
-                      </div>
-                      <div class="form-check">
-                          <input class="form-check-input" type="radio" name="status" id="contracted" value="contracted">
-                          <label class="form-check-label" for="contracted">
-                            Kontraktuar
-                          </label>
-                        </div>
-                    </div>
-                  </div>
-              </div>
-              <div class="row">
-                <div class="col-12 form-group">
-                  <label for="nameOfOE">Emri i OE të cilit i është dhënë kontrata </label>
-                  <input type="text" name="nameOfOE" id="nameOfOE" class="form-control" [(ngModel)]="contract.nameOfOE" #contractNameOfOE="ngModel" 
-                  required [style.border-color]="contractNameOfOE.errors?.required && contractNameOfOE.touched ? 'red' : '#ced4da'">
-                  <div *ngIf="contractNameOfOE.errors?.required && contractNameOfOE.touched" class="error-msg">Duhet plotësuar!</div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-6 form-group" >
-                  <label for="signingDate">Data e nënshkrimit të kontratës </label>
-                  <input type="date" name="signingDate" id="signingDate" class="form-control" [(ngModel)]="contract.signingDate" #contractSigningDate="ngModel" 
-                  required [style.border-color]="contractSigningDate.errors?.required && contractSigningDate.touched ? 'red' : '#ced4da'">
-                  <div *ngIf="contractSigningDate.errors?.required && contractSigningDate.touched" class="error-msg">Duhet plotësuar!</div>
-                </div>
-                <div class="col-6 form-group">
-                  <label for="startDateOfImplemetation">Data e fillimit të implementimit të kontratës </label>
-                  <input type="date" name="startDateOfImplemetation" id="startDateOfImplemetation" class="form-control" [(ngModel)]="contract.startDateOfImplemetation" #contractStartDateOfImplemetation="ngModel" 
-                  required [style.border-color]="contractStartDateOfImplemetation.errors?.required && contractStartDateOfImplemetation.touched ? 'red' : '#ced4da'">
-                  <div *ngIf="contractStartDateOfImplemetation.errors?.required && contractStartDateOfImplemetation.touched" class="error-msg">Duhet plotësuar!</div>
-                </div>
-              </div>
-              <div class="row">
-                 <div class="col-sm-3 form-group">
-                  <label for="firstImplementationDeadline" style="width:270px;">Afatet për implementimin e kontratës</label>	
-                   <input type="date" name="firstImplementationDeadline" id="firstImplementationDeadline" class="form-control">
-                  </div>
-                  <div class="col-sm-3 form-group" style="padding-top: 29px;">	
-                    <input type="date" name="secondImplementationDeadline" id="secondImplementationDeadline" class="form-control">
-                   </div>
-                   <div class="col-6 form-group">
-                      <label for="contractClosingDate">Data e mbylljes se kontrates  </label>
-                      <input type="date" name="contractClosingDate" id="contractClosingDate" class="form-control" [(ngModel)]="contract.contractClosingDate" #contractContractClosingDate="ngModel" 
-                      required [style.border-color]="contractContractClosingDate.errors?.required && contractContractClosingDate.touched ? 'red' : '#ced4da'">
-                      <div *ngIf="contractContractClosingDate.errors?.required && contractContractClosingDate.touched" class="error-msg">Duhet plotësuar!</div>
-                    </div>      
-             </div>
-                <div class="row">
-                <div class="col-6 form-group">
-                    <label for="noOfPaymentInstallments">Numri i përgjithshëm i situacioneve për pagesë, sipas kontratës</label>
-                    <input type="number" name="noOfPaymentInstallments" id="noOfPaymentInstallments" class="form-control">
-                    </div>
-                <div class="col-md-6">
-                    <label for="totalAmountOfAnnexContractIncludingAnnexTaxes">Vlera totale e kontratës, duke përfshirë të gjitha anekset dhe të gjitha taksat etj.</label>
-                    <input type="text" name="totalAmountOfAnnexContractIncludingAnnexTaxes" id="totalAmountOfAnnexContractIncludingAnnexTaxes" class="form-control">
-                  </div>
-              </div>
-              <div class="row">
-                <div class="col-md-6">
-                    <label for="noOfPaymentInstallments">Vlera totale e Aneks kontratës duke përfshirë të gjitha taksat (1)</label>
-                    <input type="number" name="noOfPaymentInstallments" id="noOfPaymentInstallments" class="form-control">
-                </div>
-                <div class="col-md-6">
-                  <label for="annexContractSigningDate">Data e nënshkrimit të Aneks kontratës (1)</label>
-                  <input type="date" name="annexContractSigningDate" id="annexContractSigningDate" class="form-control">
-                </div>
-              </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <br>
-                    <button type="button" data-toggle="tooltip" title="Shto Aneks Kontratë" class="btn btn-outline-primary buttons" (click)="addAnnex()">
-                      <span class="fa fa-plus"></span>
-                    </button>
-                    <button  type="button" data-toggle="tooltip" title="Fshij Aneks Kontratë" class="btn btn-outline-primary buttons" (click)="removeAnnex()" *ngIf="countAnnex>1">
-                        <span class="fa fa-minus"></span>
-                      </button>
-                </div>
-                <div class="col-md-6"></div>
             </div>
-              <div *ngFor="let annex of annexes; let i = index">
-              <div class="row">
-                  <div class="col-md-6">
-                      <label for="noOfPaymentInstallments{{i+2}}">Vlera totale e Aneks kontratës duke përfshirë të gjitha taksat ({{i+2}})</label>
-                      <input type="number" name="noOfPaymentInstallments{{i+2}}" id="noOfPaymentInstallments{{i+2}}" class="form-control">
-                  </div>
-                  <div class="col-md-6">
-                    <label for="annexContractSigningDate{{i+2}}">Data e nënshkrimit të Aneks kontratës ({{i+2}})</label>
-                    <input type="date" name="annexContractSigningDate{{i+2}}" id="annexContractSigningDate{{i+2}}" class="form-control">
-                  </div>
-                </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <br>
+            <label for="retender">Re-tenderimi</label>
+            <input type="text" name="retender" id="retender" class="form-control">
+          </div>
+          <div class="col-md-6" style="padding-top:22px;">
+            <div class="radioButtons">
+              <label class="radioButtonLabel">Statusi:</label>
+              <br>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="status" id="published" value="published" checked>
+                <label class="form-check-label" for="published">
+                  Publikuar
+                </label>
               </div>
-              <h4>Situacionet</h4>
-              <div class="row">
-                  <div class="col-md-6">
-                    <label for="installmentPayDate1">Data e pagesës së situacionit (1)</label>
-                    <input type="date" name="installmentPayDate1" id="installmentPayDate1" class="form-control">
-                  </div>
-                  <div class="col-md-6">
-                    <label for="installmendAmount1">Shuma e pagesës së situacionit (1)</label>
-                    <input type="text" name="installmentAmount1" id="installmentAmount1" class="form-control">
-                  </div>
-              </div><div class="row">
-                  <div class="col-md-6">
-                      <br>
-                      <button type="button" data-toggle="tooltip" title="Shto Situacion" class="btn btn-outline-primary buttons" (click)="addInstallments()">
-                        <span class="fa fa-plus"></span>
-                      </button>
-                      <button  type="button" data-toggle="tooltip" title="Fshij Situacion" class="btn btn-outline-primary buttons" (click)="removeInstallment()" *ngIf="countInstallment>1">
-                          <span class="fa fa-minus"></span>
-                        </button>
-                  </div>
-                  <div class="col-md-6"></div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="status" id="evaluation" value="evaluation">
+                <label class="form-check-label" for="evaluation">
+                  Vlerësim
+                </label>
               </div>
-              <div *ngFor="let installment of installments; let i = index">
-                  <div class="row">
-                      <div class="col-md-6">
-                        <label for="installmentPayDate{{i+2}}">Data e pagesës së situacionit ({{i+2}})</label>
-                        <input type="date" name="installmentPayDate{{i+2}}" id="installmentPayDate{{i+2}}" class="form-control">
-                      </div>
-                      <div class="col-md-6">
-                        <label for="installmentAmount{{i+2}}">Shuma e pagesës së situacionit ({{i+2}})</label>
-                        <input type="text" name="installmentAmount{{i+2}}" id="installmentAmount{{i+2}}" class="form-control">
-                    </div>  
-                  </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="status" id="evaluation" value="evaluation">
+                <label class="form-check-label" for="evaluation">
+                  Anuluar
+                </label>
               </div>
-              <h4>Situacioni i fundit</h4>
-              <div class="row">
-                  <div class="col-md-6">
-                    <label for="lastInstallmendPayDate">Data e pagesës së situacionit të fundit</label>
-                    <input type="date" name="lastInstallmendPayDate" id="lastInstallmendPayDate" class="form-control">
-                  </div>
-                  <div class="col-md-6">
-                    <label for="lastInstallmendAmount">Shuma e pagesës së situacionit të fundit</label>
-                    <input type="text" name="lastInstallmendAmount" id="lastInstallmendAmount" class="form-control">
-                  </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="status" id="contracted" value="contracted">
+                <label class="form-check-label" for="contracted">
+                  Kontraktuar
+                </label>
               </div>
-              <div class="row">
-                  <div class="col-md-12">
-                    <label>Shuma e zbritjes nga kontrata për shkaqe të ndalesave</label>
-                    <input type="text" name="discountAmount" id="discountAmount" class="form-control">
-                  </div>
-              </div>
-              <div class="row">
-                <div class="col-md-12">
-                  <label for="totalAmount">Çmimi total i paguar për kontratën</label>
-                  <input type="text" name="totalAmount" id="totalAmount" class="form-control">
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-12 form-group">
-                  <div class="form-group" >
-                    <label for="email">Drejtoritë</label>
-                   <select name="department" id="departments" placeholder="Zgjedh" class="form-control" [(ngModel)]="contract.department" #contractDepartments="ngModel" 
-                   required [style.border-color]="contractDepartments.errors?.required && contractDepartments.touched ? 'red' : '#ced4da'">
-                     <option [ngValue]="undefined" selected>Zgjedh drejtorinë</option>
-                     <option value="drejtoria1">Drejtoria 1</option>
-                     <option value="drejtoria2">Drejtoria 2</option>
-                   </select>
-                   <div *ngIf="contractDepartments.errors?.required && contractDepartments.touched" class="error-msg">Duhet zgjedhur!</div>
-                </div>
-                </div>
-              </div>
-            <div class="row">
-              <div class="col-md-12">
-              <div class="form-group" id="upload-contract">
-                 <input type="file" name="contractFile" id="contractFile" class="filestyle my-style" [(ngModel)]="contract.contractFile" #contractContractFile="ngModel">
-              </div>
-            </div> 
-          </div> 
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 form-group">
+            <label for="nameOfOE">Emri i OE të cilit i është dhënë kontrata </label>
+            <input type="text" name="nameOfOE" id="nameOfOE" class="form-control" [(ngModel)]="contract.nameOfOE" #contractNameOfOE="ngModel"
+              required [style.border-color]="contractNameOfOE.errors?.required && contractNameOfOE.touched ? 'red' : '#ced4da'">
+            <div *ngIf="contractNameOfOE.errors?.required && contractNameOfOE.touched" class="error-msg">Duhet plotësuar!</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 form-group">
+            <label for="signingDate">Data e nënshkrimit të kontratës </label>
+            <input type="date" name="signingDate" id="signingDate" class="form-control" [(ngModel)]="contract.signingDate" #contractSigningDate="ngModel"
+              required [style.border-color]="contractSigningDate.errors?.required && contractSigningDate.touched ? 'red' : '#ced4da'">
+            <div *ngIf="contractSigningDate.errors?.required && contractSigningDate.touched" class="error-msg">Duhet plotësuar!</div>
+          </div>
+          <div class="col-6 form-group">
+            <label for="startDateOfImplemetation">Data e fillimit të implementimit të kontratës </label>
+            <input type="date" name="startDateOfImplemetation" id="startDateOfImplemetation" class="form-control" [(ngModel)]="contract.startDateOfImplemetation"
+              #contractStartDateOfImplemetation="ngModel" required [style.border-color]="contractStartDateOfImplemetation.errors?.required && contractStartDateOfImplemetation.touched ? 'red' : '#ced4da'">
+            <div *ngIf="contractStartDateOfImplemetation.errors?.required && contractStartDateOfImplemetation.touched" class="error-msg">Duhet plotësuar!</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-3 form-group">
+            <label for="firstImplementationDeadline" style="width:270px;">Afatet për implementimin e kontratës</label>
+            <input type="date" name="firstImplementationDeadline" id="firstImplementationDeadline" class="form-control">
+          </div>
+          <div class="col-sm-3 form-group" style="padding-top: 29px;">
+            <input type="date" name="secondImplementationDeadline" id="secondImplementationDeadline" class="form-control">
+          </div>
+          <div class="col-6 form-group">
+            <label for="contractClosingDate">Data e mbylljes se kontrates </label>
+            <input type="date" name="contractClosingDate" id="contractClosingDate" class="form-control" [(ngModel)]="contract.contractClosingDate"
+              #contractContractClosingDate="ngModel" required [style.border-color]="contractContractClosingDate.errors?.required && contractContractClosingDate.touched ? 'red' : '#ced4da'">
+            <div *ngIf="contractContractClosingDate.errors?.required && contractContractClosingDate.touched" class="error-msg">Duhet plotësuar!</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 form-group">
+            <label for="noOfPaymentInstallments">Numri i përgjithshëm i situacioneve për pagesë, sipas kontratës</label>
+            <input type="number" name="noOfPaymentInstallments" id="noOfPaymentInstallments" class="form-control">
+          </div>
+          <div class="col-md-6">
+            <label for="totalAmountOfAnnexContractIncludingAnnexTaxes">Vlera totale e kontratës, duke përfshirë të gjitha anekset dhe të gjitha taksat etj.</label>
+            <input type="text" name="totalAmountOfAnnexContractIncludingAnnexTaxes" id="totalAmountOfAnnexContractIncludingAnnexTaxes"
+              class="form-control">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label for="noOfPaymentInstallments">Vlera totale e Aneks kontratës duke përfshirë të gjitha taksat (1)</label>
+            <input type="number" name="noOfPaymentInstallments" id="noOfPaymentInstallments" class="form-control">
+          </div>
+          <div class="col-md-6">
+            <label for="annexContractSigningDate">Data e nënshkrimit të Aneks kontratës (1)</label>
+            <input type="date" name="annexContractSigningDate" id="annexContractSigningDate" class="form-control">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <br>
+            <button type="button" data-toggle="tooltip" title="Shto Aneks Kontratë" class="btn btn-outline-primary buttons" (click)="addAnnex()">
+              <span class="fa fa-plus"></span>
+            </button>
+            <button type="button" data-toggle="tooltip" title="Fshij Aneks Kontratë" class="btn btn-outline-primary buttons" (click)="removeAnnex()"
+              *ngIf="countAnnex>1">
+              <span class="fa fa-minus"></span>
+            </button>
+          </div>
+          <div class="col-md-6"></div>
+        </div>
+        <div *ngFor="let annex of annexes; let i = index">
           <div class="row">
-            <div class="col-md-12">
-              <label for="nameOfProdcurementOffical">Emri i zyrtarit të prokurimit</label>
-              <input type="text" name="nameOfProdcurementOffical" id="nameOfProdcurementOffical" class="form-control">
+            <div class="col-md-6">
+              <label for="noOfPaymentInstallments{{i+2}}">Vlera totale e Aneks kontratës duke përfshirë të gjitha taksat ({{i+2}})</label>
+              <input type="number" name="noOfPaymentInstallments{{i+2}}" id="noOfPaymentInstallments{{i+2}}" class="form-control">
+            </div>
+            <div class="col-md-6">
+              <label for="annexContractSigningDate{{i+2}}">Data e nënshkrimit të Aneks kontratës ({{i+2}})</label>
+              <input type="date" name="annexContractSigningDate{{i+2}}" id="annexContractSigningDate{{i+2}}" class="form-control">
             </div>
           </div>
-          <div class="row" id="buttons">
-            <div class="col-md-12">
+        </div>
+        <h4>Situacionet</h4>
+        <div class="row">
+          <div class="col-md-6">
+            <label for="installmentPayDate1">Data e pagesës së situacionit (1)</label>
+            <input type="date" name="installmentPayDate1" id="installmentPayDate1" class="form-control">
+          </div>
+          <div class="col-md-6">
+            <label for="installmendAmount1">Shuma e pagesës së situacionit (1)</label>
+            <input type="text" name="installmentAmount1" id="installmentAmount1" class="form-control">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <br>
+            <button type="button" data-toggle="tooltip" title="Shto Situacion" class="btn btn-outline-primary buttons" (click)="addInstallments()">
+              <span class="fa fa-plus"></span>
+            </button>
+            <button type="button" data-toggle="tooltip" title="Fshij Situacion" class="btn btn-outline-primary buttons" (click)="removeInstallment()"
+              *ngIf="countInstallment>1">
+              <span class="fa fa-minus"></span>
+            </button>
+          </div>
+          <div class="col-md-6"></div>
+        </div>
+        <div *ngFor="let installment of installments; let i = index">
+          <div class="row">
+            <div class="col-md-6">
+              <label for="installmentPayDate{{i+2}}">Data e pagesës së situacionit ({{i+2}})</label>
+              <input type="date" name="installmentPayDate{{i+2}}" id="installmentPayDate{{i+2}}" class="form-control">
+            </div>
+            <div class="col-md-6">
+              <label for="installmentAmount{{i+2}}">Shuma e pagesës së situacionit ({{i+2}})</label>
+              <input type="text" name="installmentAmount{{i+2}}" id="installmentAmount{{i+2}}" class="form-control">
+            </div>
+          </div>
+        </div>
+        <h4>Situacioni i fundit</h4>
+        <div class="row">
+          <div class="col-md-6">
+            <label for="lastInstallmendPayDate">Data e pagesës së situacionit të fundit</label>
+            <input type="date" name="lastInstallmendPayDate" id="lastInstallmendPayDate" class="form-control">
+          </div>
+          <div class="col-md-6">
+            <label for="lastInstallmendAmount">Shuma e pagesës së situacionit të fundit</label>
+            <input type="text" name="lastInstallmendAmount" id="lastInstallmendAmount" class="form-control">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <label>Shuma e zbritjes nga kontrata për shkaqe të ndalesave</label>
+            <input type="text" name="discountAmount" id="discountAmount" class="form-control">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <label for="totalAmount">Çmimi total i paguar për kontratën</label>
+            <input type="text" name="totalAmount" id="totalAmount" class="form-control">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 form-group">
+            <div class="form-group">
+              <label for="email">Drejtoritë</label>
+              <select name="department" id="departments" placeholder="Zgjedh" class="form-control" [(ngModel)]="contract.department" #contractDepartments="ngModel"
+                required [style.border-color]="contractDepartments.errors?.required && contractDepartments.touched ? 'red' : '#ced4da'">
+                <option [ngValue]="undefined" selected>Zgjedh drejtorinë</option>
+                <option value="drejtoria1">Drejtoria 1</option>
+                <option value="drejtoria2">Drejtoria 2</option>
+              </select>
+              <div *ngIf="contractDepartments.errors?.required && contractDepartments.touched" class="error-msg">Duhet zgjedhur!</div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group" id="upload-contract">
+              <input type="file" name="contractFile" id="contractFile" class="filestyle my-style" [(ngModel)]="contract.contractFile" #contractContractFile="ngModel">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <label for="nameOfProdcurementOffical">Emri i zyrtarit të prokurimit</label>
+            <input type="text" name="nameOfProdcurementOffical" id="nameOfProdcurementOffical" class="form-control">
+          </div>
+        </div>
+        <div class="row" id="buttons">
+          <div class="col-md-12">
             <button type="button" class="btn btn-outline-primary buttons" id="add-contract-button" [disabled]="!contractForm.valid">Shto</button>
-            </div>
           </div>
-          </div>
-        </form>
-</div>
+        </div>
+      </div>
+    </form>
+  </div>
