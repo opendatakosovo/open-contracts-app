@@ -13,6 +13,7 @@ import Swal from 'sweetalert2';
 export class AddDirectoratesComponent implements OnInit {
   directorates: Directorates[];
   directorate: Directorates = {
+    _id: '',
     directorateName: '',
     thePersonInCharge: '',
     isActive: true

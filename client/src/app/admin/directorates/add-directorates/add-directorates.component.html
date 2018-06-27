@@ -5,20 +5,22 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form action="" class="form-i" id="addDirectorates" (submit)="addDirectorate($event)">
+        <form class="form-i" #addDirectorate="ngForm" id="addDirectorates">
           <div class="modal-body">
             <div class="form-group">
-                <label for="directorateName">Drejtoria</label>
-                <input type="text" class="form-control" id="directorateName" name="directorateName" [(ngModel)]="directorate.directorateName">
+                <label for="directorate-name">Drejtoria</label>
+                <input type="text" class="form-control" id="directorate-name" name="directorateName" [(ngModel)]="directorate.directorateName" #directorateName="ngModel"
+                required [style.border-color]="directorateName.errors?.required && directorateName.touched ? 'red': '#ced4da'">
+                <div *ngIf="directorateName.errors?.required && directorateName.touched" class="error-msg">Drejtoria duhet plotësuar!</div>
             </div>
             <div class="form-group">
-                <label for="thePersonInCharge">Përgjegjësi</label>
-                <input type="text" class="form-control" id="thePersonInCharge" name="thePersonInCharge" [(ngModel)]="directorate.thePersonInCharge">
+                <label for="the-person-in-charge">Përgjegjësi</label>
+                <input type="text" class="form-control" id="the-person-in-charge" name="thePersonInCharge" [(ngModel)]="directorate.thePersonInCharge">
             </div>  
           </div>
         <div class="modal-footer">
           <button type="button" (click)="bsModalRef.hide()" class="btn btn-secondary" data-dismiss="modal">Mbyll</button>
-          <button type="submit" class="btn btn-primary" id="addDirectoratesButton">Shto</button>
+          <button type="submit" class="btn btn-primary" (click)="addDirectorate($event)" id="addDirectoratesButton" [attr.data-id]="directorate._id" [disabled]="!addDirectorate.valdi">Shto</button>
         </div>
       </form>
 </div>
