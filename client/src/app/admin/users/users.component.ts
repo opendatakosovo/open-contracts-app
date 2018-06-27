@@ -28,7 +28,6 @@ export class UsersComponent implements OnInit {
     department: '',
     isActive: true
   };
-
   user: User = {
     _id: '',
     firstName: '',

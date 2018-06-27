@@ -9,9 +9,10 @@
     background: #32a6bd;
     color: white;
     border-color: #32a6bd;
+    margin-bottom: 75px;
 }
 .change-btns {
-    padding-left: 0px
+    padding-left: 0px;
 }
 tr {
     height: 65px;
@@ -21,4 +22,22 @@ th , td {
 }
 th#profileHeader {
     padding-bottom: 20px;
+}
+.modal-header {
+    font-weight: bold;
+    font-family: 'Robot', sans-serif;
+    color: white;
+    background: #39a6bd;
+}
+#save {
+    background: #32a6bd;
+    color: white;
+    border-color:#32a6bd;
+}
+.error-msg {
+    color: red;
+}
+#save-changes {
+    background-color: #39a6bd;
+    border-color: #39a6bd;
 }
