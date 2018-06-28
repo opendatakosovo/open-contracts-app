@@ -30,13 +30,11 @@ import { ChangePasswordFormComponent } from './admin/change-password-form/change
 import { EditProfileComponent } from './admin/profile/edit-profile/edit-profile.component';
 import { ChangePasswordComponent } from './admin/profile/change-password/change-password.component';
 import { DirectoratesComponent } from './admin/directorates/directorates.component';
-import { AddDirectoratesComponent } from './admin/directorates/add-directorates/add-directorates.component';
 import { HttpClientService } from './service/http-client.service';
 
 
 
 import { AuthGuard } from './guards/auth.guard';
-import { DirectoratesListComponent } from './admin/directorates/directorates-list/directorates-list.component';
 
 
 const appRoutes: Routes = [
@@ -90,8 +88,6 @@ const appRoutes: Routes = [
     EditProfileComponent,
     ChangePasswordComponent,
     DirectoratesComponent,
-    AddDirectoratesComponent,
-    DirectoratesListComponent,
   ],
   imports: [
     BrowserModule,
@@ -102,7 +98,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     ModalModule.forRoot()
   ],
-  entryComponents: [AddDirectoratesComponent, ChangePasswordComponent],
+  entryComponents: [ChangePasswordComponent],
   providers: [
     UserService,
     AuthGuard,
