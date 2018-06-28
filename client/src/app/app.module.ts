@@ -27,7 +27,6 @@ import { ContractsComponent } from './admin/contracts/contracts.component';
 import { AddContractComponent } from './admin/contracts/add-contract/add-contract.component';
 import { ModalModule } from 'ngx-bootstrap';
 import { ChangePasswordFormComponent } from './admin/change-password-form/change-password-form.component';
-import { EditProfileComponent } from './admin/profile/edit-profile/edit-profile.component';
 import { ChangePasswordComponent } from './admin/profile/change-password/change-password.component';
 import { DirectoratesComponent } from './admin/directorates/directorates.component';
 import { HttpClientService } from './service/http-client.service';
@@ -85,7 +84,6 @@ const appRoutes: Routes = [
     ContractsComponent,
     AddContractComponent,
     ChangePasswordFormComponent,
-    EditProfileComponent,
     ChangePasswordComponent,
     DirectoratesComponent,
   ],

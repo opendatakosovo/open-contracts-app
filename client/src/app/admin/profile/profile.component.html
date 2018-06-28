@@ -2,9 +2,11 @@
     <div class="col-10 offset-1">
         <table class="table profile table-hover">
             <thead>
-                <th id="profileHeader" colspan="2"><span id="tableHeadText">Të dhënat e profilit</span>
-                    <span data-toggle="modal" data-target="#editAdmin">
-                        <i data-toggle="tooltip" title="Ndrysho profilin" class="fa float-right fa-pencil-square-o actions" id="editAdminProfile" aria-hidden="true"></i>                    
+                <th id="profileHeader" colspan="2">
+                    <span id="tableHeadText">Të dhënat e profilit</span>
+                    <span data-toggle="modal" (click)="editModal(editProfileModal, $event)" [attr.data-id]="user._id">
+                        <i data-toggle="tooltip" title="Ndrysho profilin" class="fa float-right fa-pencil-square-o actions" id="editAdminProfile"
+                            aria-hidden="true" [attr.data-id]="user._id"></i>
                     </span>
                 </th>
             </thead>
@@ -18,8 +20,10 @@
                     <td>{{user.lastName}}</td>
                 </tr>
                 <tr>
-                    <th>Gjinia</th>
-                    <td>{{user.gender}}</td>
+                    <th>Gjinia:</th>
+                    <td *ngIf="user.gender == 'male'">Mashkull</td>
+                    <td *ngIf="user.gender == 'female'">Femër</td>
+                    <td *ngIf="user.gender == 'other'">Tjetër</td>
                 </tr>
                 <tr>
                     <th>Email Adresa</th>
@@ -27,20 +31,68 @@
                 </tr>
                 <tr>
                     <th>Roli</th>
-                    <td>{{user.role}}</td>
+                    <td *ngIf="user.role == 'user'">Perdorues</td>
+                    <td *ngIf="user.role == 'admin'">Administrator</td>
+                    <td *ngIf="user.role == 'superadmin'">Super Administrator</td>
                 </tr>
-                <tr *ngIf="check">
+                <tr *ngIf="user.role == 'user'">
                     <th>Drejtoria</th>
                     <td>{{user.department}}</td>
                 </tr>
             </tbody>
         </table>
         <div class="col-md-12 change-btns">
-            <button class='btn btn-primary' id="changePasswordBtn" style='margin-top: 10px;' (click)="openModalWithComponent($event)" >
+            <button class='btn btn-primary' id="changePasswordBtn" style='margin-top: 10px;' (click)="openModalWithComponent($event)">
                 Ndrysho fjalëkalimin
             </button>
         </div>
     </div>
 </div>
 
-<app-edit-profile></app-edit-profile>
+<!-- Modal for editing profile -->
+<ng-template #editProfileModal>
+    <div id="editAdmin">
+        <div class="modal-header">
+            <h5 class="modal-title">Ndrysho të dhënat</h5>
+            <button type="button" class="close" (click)="bsModalRef.hide()" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <form action="" novalidate #edit="ngForm">
+            <div class="modal-body">
+          <div class="form-group">
+            <label for="first-name">Emri</label>
+            <input type="text" class="form-control" [(ngModel)]="userModal.firstName" id="firstName" name="first-name" #userName="ngModel"
+              required [style.border-color]="userName.errors?.required && userName.touched ? 'red' : '#ced4da'">
+            <div *ngIf="userName.errors?.required && userName.touched" class="error-msg">Emri duhet plotësuar!</div>
+          </div>
+          <div class="form-group">
+            <label for="last-name">Mbiemri</label>
+            <input type="text" class="form-control" id="editLastName" name="last-name" [(ngModel)]="userModal.lastName" #userLastName="ngModel"
+              required [style.border-color]="userLastName.errors?.required && userLastName.touched ? 'red' : '#ced4da'">
+            <div *ngIf="userLastName.errors?.required && userLastName.touched" class="error-msg">Mbiemri duhet plotësuar!</div>
+          </div>
+          <label for="gender">Gjinia</label>
+          <br>
+          <div class="form-check form-check-inline">
+            <input type="text" class="form-check-input" [(ngModel)]='userModal.gender' type="radio" id="editMale" name="gender" value="male"
+              checked>
+            <label for="male" class="form-check-label">Mashkull</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input type="text" class="form-check-input" [(ngModel)]='userModal.gender' type="radio" id="editFemale" name="gender" value="female">
+            <label for="female" class="form-check-label">Femër</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input type="text" class="form-check-input" [(ngModel)]='userModal.gender' type="radio" id="editOther" name="gender" value="other">
+            <label for="other" class="form-check-label">Tjetër</label>
+          </div>
+        </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="bsModalRef.hide()">Mbyll</button>
+                <button type="submit" value="Submit" id="save-changes" class="btn btn-primary" [disabled]="!edit.valid" [attr.data-id]="userModal._id"
+                    (click)="editProfile($event)">Ruaj ndryshimet</button>
+            </div>
+        </form>
+    </div>
+</ng-template>

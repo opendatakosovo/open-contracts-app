@@ -20,6 +20,9 @@ router.post('/login', (req, res) => {
         if (!user) {
             return res.json({ success: false, msg: 'Përdoruesi nuk u gjet!' });
         }
+        if (user.isActive == false) {
+            return res.json({ success: false, msg: 'Perdoruesi eshte joaktiv!' });
+        }
 
         User.comparePassword(password, user.password, (err, isMached) => {
             if (err) {

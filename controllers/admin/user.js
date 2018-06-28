@@ -6,12 +6,12 @@ const passport = require("passport");
 const userValidation = require("../../middlewares/user_validation");
 const checkCurrentPassword = require('../../middlewares/check_current_password');
 const changePasswordValidation = require('../../middlewares/change_password_validation');
-
+const  checkCurrentUser = require('../../middlewares/check_current_user');
 /*
  * ENDPOINTS PREFIX: /user
  */
 // Route for creating a user
-router.post('/', passport.authenticate('jwt', { session: false }), userValidation, (req, res) => {
+router.post('/', passport.authenticate('jwt', { session: false }), userValidation, checkCurrentUser, (req, res) => {
     let user = new User({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
@@ -20,7 +20,7 @@ router.post('/', passport.authenticate('jwt', { session: false }), userValidatio
         password: req.body.password,
         role: req.body.role,
         department: req.body.department,
-        isActive: req.body.isActive
+        isActive: true
     });
 
     User.findUserByEmail(user.email, (err, userExists) => {
@@ -193,13 +193,32 @@ router.put('/change-password', passport.authenticate('jwt', { session: false }),
 });
 
 // DELETE USER BY ID
-router.put('/delete-user/:id', (req, res) => {
+router.put('/delete-user/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
     const userId = req.params.id;
 
     User.deleteUser(userId, (err, user) => {
         if (!err) {
             res.json({
                 "msg": "User has been deleted successfully",
+                "user": user,
+                "success": true
+            });
+        } else {
+            res.json({
+                "err": err,
+                "success": false
+            });
+        }
+    });
+});
+
+// Activate user
+router.put('/activate-user/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
+
+    User.activateUser(req.params.id, (err, user) => {
+        if(!err) {
+            res.json({
+                "msg": "User has been activated successfully",
                 "user": user,
                 "success": true
             });

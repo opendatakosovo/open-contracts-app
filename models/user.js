@@ -66,7 +66,12 @@ module.exports.getAllUsers = callback => {
 
 // Updating user information
 module.exports.updateUser = (id, user, callback) => {
-	User.findByIdAndUpdate(id, { $set: user, isActive: true }, { new: true }, callback);
+	User.findByIdAndUpdate(id, { $set: user }, { new: true }, callback);
+}
+
+// Activate a user 
+module.exports.activateUser = (id, callback) => {
+  User.findByIdAndUpdate(id,{$set:{isActive: true}}, {new: true}, callback);
 }
 
 // Function for adding user
@@ -98,3 +103,4 @@ module.exports.changePassword = (id, newPassword, callback) => {
 module.exports.deleteUser = (id, callback) => {
   User.findByIdAndUpdate(id, { $set: { isActive: false }}, {new: true}, callback); 
 } 
+
