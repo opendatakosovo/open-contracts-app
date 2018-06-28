@@ -15,17 +15,25 @@
   <div class="row col-12" id="table-row">
     <table class="table table-hover">
       <tbody id="directorate-list">
-        <tr *ngFor="let directorate of directorates" [id]="directorate._id"> 
-          <td data-toggle="tooltip" title="Shfaq drejtorinë" data-toggle="modal" data-target="#directorate-modal" (click)="showDirectorate($event)" [attr.data-id]="directorate._id">
+        <tr *ngFor="let directorate of directorates" [id]="directorate._id">
+          <td class="directorate-info" data-toggle="tooltip" title="Shfaq drejtorinë" data-toggle="modal" data-target="#directorate-modal" 
+          (click)="showDirectorate($event)" [attr.data-id]="directorate._id">
             <p class="name" [attr.data-id]="directorate._id">{{ directorate.directorateName }}</p>
             <div>
               <p class="thePersonInCharge" [attr.data-id]="directorate._id">{{ directorate.thePersonInCharge }}</p>
             </div>
           </td>
+          <td class="edit-ico">
+            <span>
+              <a data-toggle="modal" (click)="editModal(editDirectorateModal, $event)" [attr.data-id]="directorate._id" >
+                <i class="fa fa-pencil-square-o" aria-hidden="true" [attr.data-id]="directorate._id"></i>
+              </a>
+            </span>
+          </td>
           <td class="delete-ico">
             <span>
-              <a data-toggle="modal" data-target="#view-directorate-modal">
-                <i class="fa fa-trash" aria-hidden="true"></i>
+              <a data-toggle="modal"  data-target="#view-directorate-modal">
+                <i class="fa fa-trash"aria-hidden="true"></i>
               </a>
             </span>
           </td>
@@ -70,32 +78,66 @@
 
   <!-- Show Directorate Infos Modal -->
   <div class="modal fade" id="directorate-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <table class="table directorate-table table-hover">
-            <thead>
-              <th id="directorate-header" colspan="2">
-                <span id="tableHeadText">Të dhënat e Drejtorisë</span>
-                <button type="button" name="close" class="close" data-dismiss="modal">&times;</button>
-              </th>
-            </thead>
-            <tbody id="directorate-information">
-              <tr>
-                <th class="data-information">Drejtoria: </th>
-                <td class="data-information">{{ directorateModal.directorateName }}</td>
-              </tr>
-              <tr>
-                <th class="data-information">Përgjegjësi:</th>
-                <td class="data-information">{{ directorateModal.thePersonInCharge }}</td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Mbyll</button>
-          </div>
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <table class="table directorate-table table-hover">
+          <thead>
+            <th id="directorate-header" colspan="2">
+              <span id="tableHeadText">Të dhënat e Drejtorisë</span>
+              <button type="button" name="close" class="close" data-dismiss="modal">&times;</button>
+            </th>
+          </thead>
+          <tbody id="directorate-information">
+            <tr>
+              <th class="data-information">Drejtoria: </th>
+              <td class="data-information">{{ directorateModal.directorateName }}</td>
+            </tr>
+            <tr>
+              <th class="data-information">Përgjegjësi:</th>
+              <td class="data-information">{{ directorateModal.thePersonInCharge }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Mbyll</button>
         </div>
       </div>
     </div>
+  </div>
 
   <!-- Show Directorate Infos Modal -->
+
+
+  <!-- Edit Directorate Modal -->
+  <ng-template #editDirectorateModal>
+    <div id="edit-directorate-modal">
+      <div class="modal-header my-modal-header">
+        <h5 class="modal-title">Ndrysho Drejtorinë</h5>
+        <button type="button" class="close" (click)="modalRef.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form class="form-i" #edit="ngForm" novalidate id="edit-directorate-form">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="directorate-name">Drejtoria</label>
+            <input type="text" class="form-control" [(ngModel)]="directorateModal.directorateName" id="directorate-name" name="directorateName"
+             #directorateName="ngModel" required [style.border-color]="directorateName.errors?.required && directorateName.touched ? 'red': '#ced4da'">
+            <div *ngIf="directorateName.errors?.required && directorateName.touched" class="error-msg">Drejtoria duhet plotësuar!</div>
+          </div>
+          <div class="form-group">
+            <label for="the-person-in-charge">Përgjegjësi</label>
+            <input type="text" class="form-control" id="the-person-in-charge" name="thePersonInCharge" [(ngModel)]="directorateModal.thePersonInCharge" >
+          </div>
+        </div>
+        <div class="modal-footer my-modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Mbyll</button>
+          <button type="submit" value="Submit" (click)="editDirectorate($event)" id="save-changes" class="btn btn-primary" [attr.data-id]="directorateModal._id"
+            [disabled]="!edit.valid">Ruaj ndryshimet</button>
+        </div>
+      </form>
+    </div>
+  </ng-template>
+
+  <!-- Edit Directorate Modal -->
 </div>

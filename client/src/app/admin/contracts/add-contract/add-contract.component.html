@@ -171,8 +171,7 @@
             <br>
             <label for="contractNoOfOffers">Nr. i OE që kanë dorëzuar ofertat</label>
             <input type="number" name="contractNoOfOffers" id="contractNoOfOffers" class="form-control" [(ngModel)]="contract.contractNoOfOffers"
-              #contractNoOfOffers="ngModel" required [style.border-color]="contractNoOfOffers.errors?.required && contractNoOfOffers.touched ? 'red' : '#ced4da'">
-            <div *ngIf="contractNoOfOffers.errors?.required && noOfOffersForContract.touched" class="error-msg">Duhet plotësuar!</div>
+              #contractNoOfOffers="ngModel">
           </div>
         </div>
         <div class="row">
