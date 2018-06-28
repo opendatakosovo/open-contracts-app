@@ -63,5 +63,20 @@ router.get('/', passport.authenticate('jwt', {session: false}), (req, res) => {
         }
     });
 });
-
+router.get('/:id', passport.authenticate('jwt', {session: false}), (req, res) => {
+    Directorates.getDirectorateById(req.params.id, (err, directorate) => {
+        if (!err) {
+            res.json({
+                "msg": "Directorate by id has been retrived successfully",
+                "directorate": directorate,
+                "success": true
+            });
+        } else {
+            res.json({
+                "err": err,
+                "success": false
+            });
+        }
+    });
+});
 module.exports = router;
