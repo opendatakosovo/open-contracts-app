@@ -35,7 +35,7 @@
           </td>
           <td class="user-info">
             <div *ngIf="user.isActive == false">
-              <p class="nameIsFalse">{{ user.firstName }} {{ user.lastName }}</p>
+              <p class="name-is-false">{{ user.firstName }} {{ user.lastName }}</p>
             </div>
             <div *ngIf="user.isActive == true">
               <p class="name">
@@ -66,7 +66,7 @@
             </td>
             <td class="delete-icon">
               <span>
-                <a data-toggle="modal" (click)="deleteModal(modalDeleteUser, $event)" [attr.data-id]="user._id">
+                <a data-toggle="modal" (click)="deactivateModal(modalDeactivateUser, $event)" [attr.data-id]="user._id">
                   <i class="fa fa-times" aria-hidden="true" [attr.data-id]="user._id"></i>
                 </a>
               </span>
@@ -107,7 +107,7 @@
       <div class="modal-content">
         <table class="table profile table-hover">
           <thead>
-            <th id="profileHeader" colspan="2">
+            <th id="profile-header" colspan="2">
               <span id="tableHeadText">Të dhënat e profilit</span>
               <button type="button" name="close" class="close" data-dismiss="modal">&times;</button>
             </th>
@@ -186,7 +186,7 @@
             <input type="text" class="form-check-input" [(ngModel)]='userModal.gender' type="radio" id="editOther" name="gender" value="other">
             <label for="other" class="form-check-label">Tjetër</label>
           </div>
-          <div class="my-form-control" id="editRole">
+          <div class="my-form-control" id="edit-role">
             <label for="type">Roli</label>
             <br>
             <div class="form-check form-check-inline">
@@ -306,7 +306,7 @@
   <!-- /Modal for adding a user or admin -->
 
   <!-- Modal for deleting a user or admin -->
-  <ng-template #modalDeleteUser>
+  <ng-template #modalDeactivateUser>
     <div id="delete-user-modal">
       <div class="modal-header delete-modal-header">
         <h4 class="modal-title">Deaktivizo përdoruesin</h4>
@@ -320,7 +320,7 @@
         </div>
         <div class="modal-footer my-modal-footer">
           <button type="button" class="btn btn-info" (click)="modalRef.hide()">Anuloje</button>
-          <button type="button" class="btn btn-danger delete-btn" id="delete-button" [attr.data-id]="userModal._id" (click)="deleteUser($event)">Deaktivizo</button>
+          <button type="button" class="btn btn-danger delete-btn" id="deactivate-button" [attr.data-id]="userModal._id" (click)="deactivateUser($event)">Deaktivizo</button>
         </div>
       </form>
     </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, Input } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../../service/user.service';
 import { User } from '../../models/user';
@@ -66,10 +66,12 @@ export class UsersComponent implements OnInit {
 
   ngOnInit() { }
 
+  // Function to open a modal
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
 
+  // Function to open edit modal
   editModal(template: TemplateRef<any>, event) {
     const id = event.target.dataset.id;
     this.userService.getUserByID(id).subscribe(user => {
@@ -78,7 +80,8 @@ export class UsersComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
-  deleteModal(template: TemplateRef<any>, event) {
+  // Function to open deactivate modal
+  deactivateModal(template: TemplateRef<any>, event) {
     const id = event.target.dataset.id;
     this.userService.getUserByID(id).subscribe(user => {
       this.userModal = user;
@@ -86,6 +89,7 @@ export class UsersComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
+  // Function to open activate modal
   activateModal(template: TemplateRef<any>, event) {
     const id = event.target.dataset.id;
     this.userService.getUserByID(id).subscribe(user => {
@@ -94,6 +98,7 @@ export class UsersComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
+  // Function to show a specific user or admin
   showUser(event) {
     const id = event.target.dataset.id;
     this.userService.getUserByID(id).subscribe(user => {
@@ -101,6 +106,7 @@ export class UsersComponent implements OnInit {
     });
   }
 
+  // Function to generate password for a user or admin
   generatePassword(event) {
     const id = event.target.dataset.id;
     Swal({
@@ -118,6 +124,7 @@ export class UsersComponent implements OnInit {
     });
   }
 
+  // Function to add a user or admin
   addUser(event) {
     this.userService.addUser(this.user).subscribe(res => {
       if (res.err) {
@@ -160,6 +167,7 @@ export class UsersComponent implements OnInit {
     });
   }
 
+  // Function to edit a specific user or admin
   editUser(event) {
     const id = event.target.dataset.id;
     const firstAndLastName = document.getElementById(`${id}`).querySelector('.user-info .name a');
@@ -190,9 +198,9 @@ export class UsersComponent implements OnInit {
             Swal('Gabim!', 'Pëdoruesi nuk u ndryshua.', 'error');
             return false;
           } else {
-            firstAndLastName.textContent = this.userModal.firstName + ' ' + this.userModal.lastName;
-            position.textContent = 'Përdorues - ' + this.userModal.department;
-            positionImg.innerHTML = `<img src="/assets/images/zyrtari.png" class="img-fluid">`;
+            this.userService.getUsers().subscribe(data => {
+              this.users = data;
+            });
             Swal('Sukses!', 'Pëdoruesi u ndryshua me sukses.', 'success');
             this.modalRef.hide();
           }
@@ -200,9 +208,9 @@ export class UsersComponent implements OnInit {
           Swal('Gabim!', 'Pëdoruesi nuk u ndryshua.', 'error');
           return false;
         } else {
-          firstAndLastName.textContent = this.userModal.firstName + ' ' + this.userModal.lastName;
-          position.textContent = 'Administrator';
-          positionImg.innerHTML = `<img src="/assets/images/administratori.png" class="img-fluid">`;
+          this.userService.getUsers().subscribe(data => {
+            this.users = data;
+          });
           Swal('Sukses!', 'Pëdoruesi u ndryshua me sukses.', 'success');
           this.modalRef.hide();
         }
@@ -219,9 +227,10 @@ export class UsersComponent implements OnInit {
     });
   }
 
-  deleteUser(event) {
+  // Function to deactivate a specific user or admin
+  deactivateUser(event) {
     const id = event.target.dataset.id;
-    this.userService.deleteUser(id, this.userModal).subscribe(res => {
+    this.userService.deactivateUser(id, this.userModal).subscribe(res => {
       if (res.err) {
         Swal('Gabim!', 'Përdoruesi nuk u deaktivizua.', 'error');
       } else {
@@ -234,6 +243,7 @@ export class UsersComponent implements OnInit {
     });
   }
 
+  // Function to activate a specific user or admin
   activateUser(event) {
     const id = event.target.dataset.id;
     this.userService.activateUser(id, this.userModal).subscribe(res => {

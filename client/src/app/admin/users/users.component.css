@@ -1,3 +1,4 @@
+/* Users list style */
 .add-btn {
     color: #39a6bd !important;
     font-family: 'Roboto', sans-serif;
@@ -67,10 +68,6 @@
     padding-top: 28px;
     padding-right: 58%;
 }
-#save {
-    background: #32a6bd !important;
-    color: white !important;  
-}
 .delete-icon {
     color: #868e96;
     width: 17px;
@@ -82,76 +79,10 @@
     padding-right: 1%;
     padding-top: 47%;
 }
-
-#profileHeader {
-    background-color: #32a6bd;
-    text-align: center;
-    color: white;
-    font-size: 20px;
-    font-weight: 400;
-    padding-top: 20px;
-    padding-bottom: 20px;
-}
-#generate-password-btn {
-    background: #32a6bd;
-    color: white;
-    border-color: #32a6bd;
-    margin-left: 20px;
-    margin-bottom: 20px;
-}
-.data-information {
-    padding-top: 20px;
-    padding-bottom: 20px;
-    padding-left: 25px;
-}
-#editRole{
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-#edit-user-modal .my-modal-header {
-    background-color: #39a6bd;
-    color: white;
-}
-#save-changes {
-    background-color: #39a6bd;
-    border-color: #39a6bd;
-}
-.error-msg {
-    color: red;
-}
-#add-user-modal {
-    border: none;
-}
-#add-user-modal .modal-header {
-    background-color: #39a6bd;
-    color: #fff;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 500;
-}
-#add-user-modal .modal-footer {
-    background-color: #e9ecef;
-}
-#add-user-btn {
-    padding-right: 67px;
-}
 .form-i {
     margin-bottom: 0;
 }
-.my-form-control {
-    margin: 10px 0;
-}
-#save {
-    background-color: #39a6bd;
-    border-color: #39a6bd;
-}
-#edit-user-modal {
-    padding-left: 0 !important;
-}
-.delete-modal-header {
-    background-color: #39a6bd;
-    color: white;
-}
-.nameIsFalse {
+.name-is-false {
     font-weight: 500;
     color: gray;
     margin-bottom: 0;
@@ -178,4 +109,78 @@
     width: 17px;
     padding-right: 15px;
     padding-top: 47%;
+}
+
+/* Add user style */
+#save {
+    background: #32a6bd !important;
+    color: white !important;
+    border-color: #39a6bd;  
+}
+.error-msg {
+    color: red;
+}
+#add-user-modal {
+    border: none;
+}
+#add-user-modal .modal-header {
+    background-color: #39a6bd;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+}
+#add-user-modal .modal-footer {
+    background-color: #e9ecef;
+}
+#add-user-btn {
+    padding-right: 67px;
+}
+.my-form-control {
+    margin: 10px 0;
+}
+
+/* View user style */
+#profile-header {
+    background-color: #32a6bd;
+    text-align: center;
+    color: white;
+    font-size: 20px;
+    font-weight: 400;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+#generate-password-btn {
+    background: #32a6bd;
+    color: white;
+    border-color: #32a6bd;
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+.data-information {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 25px;
+}
+
+/* Edit user style */
+#edit-user-modal {
+    padding-left: 0 !important;
+}
+#edit-role{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+#edit-user-modal .my-modal-header {
+    background-color: #39a6bd;
+    color: white;
+}
+#save-changes {
+    background-color: #39a6bd;
+    border-color: #39a6bd;
+}
+
+/* Delete user style */
+.delete-modal-header {
+    background-color: #39a6bd;
+    color: white;
 }

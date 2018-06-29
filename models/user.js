@@ -100,7 +100,7 @@ module.exports.changePassword = (id, newPassword, callback) => {
 }
 
 // Function for deleting a user or admin
-module.exports.deleteUser = (id, callback) => {
+module.exports.deactivateUser = (id, callback) => {
   User.findByIdAndUpdate(id, { $set: { isActive: false }}, {new: true}, callback); 
 } 
 
