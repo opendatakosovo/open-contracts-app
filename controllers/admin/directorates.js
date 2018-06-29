@@ -47,6 +47,7 @@ router.post('/', passport.authenticate('jwt', {session: false}), directorateVali
  
 });
 
+// Get all directorates 
 router.get('/', passport.authenticate('jwt', {session: false}), (req, res) => {
     Directorates.getAllDirectorates((err, directorates) => {
         if (!err) {
@@ -64,4 +65,39 @@ router.get('/', passport.authenticate('jwt', {session: false}), (req, res) => {
     });
 });
 
+// Get directorate by id 
+router.get('/:id', passport.authenticate('jwt', {session: false}), (req, res) => {
+    Directorates.getDirectorateById(req.params.id, (err, directorate) => {
+        if (!err) {
+            res.json({
+                "msg": "Directorate by id has been retrived successfully",
+                "directorate": directorate,
+                "success": true
+            });
+        } else {
+            res.json({
+                "err": err,
+                "success": false
+            });
+        }
+    });
+});
+router.put('/edit-directorate/:id', (req,res) => {
+    const directorateId = req.params.id;
+
+    Directorates.updateDirectorate(directorateId, req.body, (err, directorate) => {
+        if(!err) {
+            res.json({
+                "msg": "Directorate has been updated successfully",
+                "directorate": directorate, 
+                "success": true
+            });
+        } else {
+            res.json({
+                "err": err, 
+                "success": false
+            });
+        }
+    });
+});
 module.exports = router;

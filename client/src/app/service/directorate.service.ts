@@ -21,5 +21,10 @@ export class DirectorateService {
   getDirectorates() {
     return this.http.getWithAuth(`${this.APIUrl}/directorates`).map(res => res.json().directorates);
   }
-
+  getDirectorateByID(id) {
+    return this.http.getWithAuth(`${this.APIUrl}/directorates/` + id).map(res => res.json().directorate);
+  }
+  editDirectorate(id , editedDirectorate) {
+    return this.http.putWithAuth(`${this.APIUrl}/directorates/edit-directorate/` + id, editedDirectorate).map(res => res.json());
+  }
 }

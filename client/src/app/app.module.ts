@@ -29,13 +29,11 @@ import { ModalModule } from 'ngx-bootstrap';
 import { ChangePasswordFormComponent } from './admin/change-password-form/change-password-form.component';
 import { ChangePasswordComponent } from './admin/profile/change-password/change-password.component';
 import { DirectoratesComponent } from './admin/directorates/directorates.component';
-import { AddDirectoratesComponent } from './admin/directorates/add-directorates/add-directorates.component';
 import { HttpClientService } from './service/http-client.service';
 
 
 
 import { AuthGuard } from './guards/auth.guard';
-import { DirectoratesListComponent } from './admin/directorates/directorates-list/directorates-list.component';
 import { ContractInformationComponent } from './admin/contracts/contract-information/contract-information.component';
 
 
@@ -90,8 +88,6 @@ const appRoutes: Routes = [
     ChangePasswordFormComponent,
     ChangePasswordComponent,
     DirectoratesComponent,
-    AddDirectoratesComponent,
-    DirectoratesListComponent,
     ContractInformationComponent,
   ],
   imports: [
@@ -103,7 +99,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     ModalModule.forRoot()
   ],
-  entryComponents: [AddDirectoratesComponent, ChangePasswordComponent],
+  entryComponents: [ChangePasswordComponent],
   providers: [
     UserService,
     AuthGuard,
