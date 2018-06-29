@@ -1,0 +1,25 @@
+.row {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+h1 {
+    padding-bottom: 20px;
+}
+label {
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: underline;
+}
+#last-row {
+    margin-bottom: 45px;
+}
+.text-primary {
+    width: 540px;
+}
+.title {
+    font-size: 35px;
+    color: #32a6bd !important;
+}
+.title-situations {
+    color: #32a6bd;
+}

@@ -36,6 +36,7 @@ import { HttpClientService } from './service/http-client.service';
 
 import { AuthGuard } from './guards/auth.guard';
 import { DirectoratesListComponent } from './admin/directorates/directorates-list/directorates-list.component';
+import { ContractInformationComponent } from './admin/contracts/contract-information/contract-information.component';
 
 
 const appRoutes: Routes = [
@@ -61,7 +62,8 @@ const appRoutes: Routes = [
       { path: 'dashboard/contracts', component: ContractsComponent, canActivate: [AuthGuard] },
       { path: 'dashboard/contracts/add-contract', component: AddContractComponent, canActivate: [AuthGuard] },
       { path: 'dashboard/profile', component: ProfileComponent, canActivate: [AuthGuard] },
-      { path: 'dashboard/directorates', component: DirectoratesComponent, canActivate: [AuthGuard] }
+      { path: 'dashboard/directorates', component: DirectoratesComponent, canActivate: [AuthGuard] },
+      { path: 'dashboard/contracts/contract-information', component: ContractInformationComponent, canActivate: [AuthGuard] }
     ]
   }
 ];
@@ -90,6 +92,7 @@ const appRoutes: Routes = [
     DirectoratesComponent,
     AddDirectoratesComponent,
     DirectoratesListComponent,
+    ContractInformationComponent,
   ],
   imports: [
     BrowserModule,
