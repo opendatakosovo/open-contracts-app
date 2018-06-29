@@ -291,7 +291,7 @@
             <select name="departments" id="departments" [(ngModel)]="user.department" class="form-control" #userDepartments="ngModel"
               required [style.border-color]="userDepartments.errors?.required && userDepartments.touched ? 'red' : '#ced4da'">
               <option value="" selected>Zgjedh Drejtorinë</option>
-              <option *ngFor="let directorate of directorates" [ngValue]="directorate.name">{{ directorate.name }}</option>
+              <option *ngFor="let directorate of directorates" [ngValue]="directorate.directorateName">{{ directorate.directorateName }}</option>
             </select>
             <div *ngIf="userDepartments.errors?.required && userDepartments.touched" class="error-msg">Duhet zgjedhur!</div>
           </div>
@@ -347,5 +347,5 @@
       </form>
     </div>
   </ng-template>
-  <!-- /Modal for deleting a user or admin -->
+  <!-- Modal for activating a user or admin -->
 </div>
