@@ -60,6 +60,6 @@ const ContractSchema = mongoose.Schema({
 
 const Contract = (module.exports = mongoose.model('Contract', ContractSchema));
 
-module.exports.addContracts = (contract, callback) => {
+module.exports.addContract = (contract, callback) => {
     contract.save(callback);
 }
