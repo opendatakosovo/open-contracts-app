@@ -19,9 +19,17 @@ module.exports.addDirectorate = (newDirectorate, callback) => {
 }
 
 module.exports.findDirectorate = (directorate, callback) => {
-  Directorate.findOne({"directorate": directorate}, callback);
+  Directorate.findOne({"directorateName": directorate}, callback);
 }
 
 module.exports.getAllDirectorates = callback => {
   Directorate.find(callback);
+}
+
+module.exports.getDirectorateById = (id, callback) => {
+  Directorate.findById(id, callback);
+}
+
+module.exports.updateDirectorate = (id , directorate, callback ) => {
+  Directorate.findByIdAndUpdate(id, { $set: directorate } , {new: true }, callback);
 }
