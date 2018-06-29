@@ -135,7 +135,7 @@ export class AddContractComponent implements OnInit {
   addContract() {
     console.log(this.monDiff(this.startOfEvaluationDate, this.endOfEvaluationDate));
 
-    console.log(this.contract);
+    console.log(JSON.stringify(this.contract));
   }
 
 }
