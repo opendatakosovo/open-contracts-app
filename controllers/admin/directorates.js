@@ -82,7 +82,7 @@ router.get('/:id', passport.authenticate('jwt', {session: false}), (req, res) =>
         }
     });
 });
-router.put('/edit-directorate/:id', (req,res) => {
+router.put('/edit-directorate/:id', passport.authenticate('jwt', {session: false}), (req,res) => {
     const directorateId = req.params.id;
 
     Directorates.updateDirectorate(directorateId, req.body, (err, directorate) => {
@@ -100,4 +100,42 @@ router.put('/edit-directorate/:id', (req,res) => {
         }
     });
 });
+router.put('/deactivate-directorate/:id', (req,res) => {
+    const directorateID = req.params.id;
+
+    Directorates.deactivateDirectorate(directorateID , req.body, (err, directorate) => {
+        if(!err) {
+            res.json({
+                "msg": "Directorate has been deactivated succesfully", 
+                "directorate": directorate,
+                "success": true
+            })
+        } else {
+            res.json ({
+                "err": err, 
+                "success": false
+            });
+        }
+    });
+});
+
+router.put('/activate-directorate/:id', (req,res) => {
+    const directorateID = req.params.id;
+
+    Directorates.activateDirectorate(directorateID , req.body, (err, directorate) => {
+        if(!err) {
+            res.json({
+                "msg": "Directorate has been activated succesfully", 
+                "directorate": directorate,
+                "success": true
+            })
+        } else {
+            res.json ({
+                "err": err, 
+                "success": false
+            });
+        }
+    });
+});
+
 module.exports = router;

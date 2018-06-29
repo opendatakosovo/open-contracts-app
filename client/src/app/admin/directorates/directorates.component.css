@@ -64,6 +64,12 @@
     margin-bottom: 0;
     font-size: 17px;
 }
+.deactive {
+    font-weight: 500;
+    color: #868e96;
+    margin-bottom: 0;
+    font-size: 17px;
+}
 .position {
     color: #868e96;
     font-size: 13px;
