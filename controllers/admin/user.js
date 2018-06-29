@@ -192,14 +192,14 @@ router.put('/change-password', passport.authenticate('jwt', { session: false }),
     });
 });
 
-// DELETE USER BY ID
-router.put('/delete-user/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
+// Deactivate user by id
+router.put('/deactivate-user/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
     const userId = req.params.id;
 
-    User.deleteUser(userId, (err, user) => {
+    User.deactivateUser(userId, (err, user) => {
         if (!err) {
             res.json({
-                "msg": "User has been deleted successfully",
+                "msg": "User has been deactivated successfully",
                 "user": user,
                 "success": true
             });
@@ -212,7 +212,7 @@ router.put('/delete-user/:id', passport.authenticate('jwt', { session: false }),
     });
 });
 
-// Activate user
+// Activate user by id
 router.put('/activate-user/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
 
     User.activateUser(req.params.id, (err, user) => {
