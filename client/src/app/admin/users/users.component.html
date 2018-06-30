@@ -39,7 +39,7 @@
             </div>
             <div *ngIf="user.isActive == true">
               <p class="name">
-                <a data-toggle="modal" data-target="#user-profile-modal">{{ user.firstName }} {{ user.lastName }}</a>
+                <a data-toggle="modal" (click)="showUser(modalViewUser, $event)" [attr.data-id]="user._id">{{ user.firstName }} {{ user.lastName }}</a>
               </p>
             </div>
             <div *ngIf="user.role == 'user'">
@@ -52,7 +52,7 @@
           <div *ngIf="user.isActive == true" id="icons">
             <td class="view-icon">
               <span>
-                <a data-toggle="modal" class="view-icon" (click)="showUser($event)" [attr.data-id]="user._id">
+                <a data-toggle="modal" class="view-icon" (click)="showUser(modalViewUser, $event)" [attr.data-id]="user._id">
                   <i class="fa fa-user" aria-hidden="true" [attr.data-id]="user._id"></i>
                 </a>
               </span>
@@ -102,8 +102,8 @@
   <!-- / Displaying users or admins -->
 
   <!-- Modal for viewing a user or admin profile -->
-  <div class="modal fade" id="user-profile-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+  <ng-template #modalViewUser>
+    <div id="user-profile-modal">
       <div class="modal-content">
         <table class="table profile table-hover">
           <thead>
@@ -145,7 +145,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </ng-template>
   <!-- /Modal for viewing a user or admin profile -->
 
   <!-- Modal for editing a user or admin -->

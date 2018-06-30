@@ -99,11 +99,12 @@ export class UsersComponent implements OnInit {
   }
 
   // Function to show a specific user or admin
-  showUser(event) {
+  showUser(template: TemplateRef<any>, event) {
     const id = event.target.dataset.id;
     this.userService.getUserByID(id).subscribe(user => {
       this.userModal = user;
     });
+    this.modalRef = this.modalService.show(template);
   }
 
   // Function to generate password for a user or admin
@@ -112,7 +113,7 @@ export class UsersComponent implements OnInit {
     Swal({
       title: 'Duke procesuar',
       onOpen: () => {
-          Swal.showLoading();
+        Swal.showLoading();
       }
     });
     this.userService.generatePassword(id).subscribe(result => {
@@ -134,15 +135,15 @@ export class UsersComponent implements OnInit {
       } else if (res.errVld) {
         let errList = '';
         res.errVld.map(error => {
-            errList += `<p>${error.msg}</p>`;
+          errList += `<p>${error.msg}</p>`;
         });
         const htmlData = `<div style="text-align: center;">${errList}</div>`;
         Swal({
-            title: 'Kujdes!',
-            html: htmlData,
-            width: 750,
-            type: 'info',
-            confirmButtonText: 'Kthehu te forma'
+          title: 'Kujdes!',
+          html: htmlData,
+          width: 750,
+          type: 'info',
+          confirmButtonText: 'Kthehu te forma'
         });
       } else if (res.usr_err) {
         Swal({
@@ -180,20 +181,20 @@ export class UsersComponent implements OnInit {
       } else if (res.errVld) {
         let errList = '';
         res.errVld.map(error => {
-            errList += `<li>${error.msg}</li>`;
+          errList += `<li>${error.msg}</li>`;
         });
         const htmlData = `<div style="text-align: center;">${errList}</div>`;
         Swal({
-            title: 'Kujdes!',
-            html: htmlData,
-            width: 750,
-            type: 'info',
-            confirmButtonText: 'Kthehu te forma'
+          title: 'Kujdes!',
+          html: htmlData,
+          width: 750,
+          type: 'info',
+          confirmButtonText: 'Kthehu te forma'
         });
       } else if (this.userModal.firstName === '' || this.userModal.lastName === '') {
-          Swal('Gabim!', 'Pëdoruesi nuk u ndryshua.', 'error');
+        Swal('Gabim!', 'Pëdoruesi nuk u ndryshua.', 'error');
       } else {
-           if (this.userModal.role === 'user') {
+        if (this.userModal.role === 'user') {
           if (this.userModal.department === null || this.userModal.department === undefined || this.userModal.department === '') {
             Swal('Gabim!', 'Pëdoruesi nuk u ndryshua.', 'error');
             return false;
