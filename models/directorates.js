@@ -33,3 +33,10 @@ module.exports.getDirectorateById = (id, callback) => {
 module.exports.updateDirectorate = (id , directorate, callback ) => {
   Directorate.findByIdAndUpdate(id, { $set: directorate } , {new: true }, callback);
 }
+module.exports.deactivateDirectorate = (id , directorate, callback ) => {
+  Directorate.findByIdAndUpdate ( id , {$set: {isActive: false }}, {new: true }, callback);
+}
+
+module.exports.activateDirectorate = (id , directorate, callback ) => {
+  Directorate.findByIdAndUpdate ( id , {$set: {isActive: true }}, {new: true }, callback);
+}
