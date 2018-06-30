@@ -30,6 +30,7 @@ import { ChangePasswordFormComponent } from './admin/change-password-form/change
 import { ChangePasswordComponent } from './admin/profile/change-password/change-password.component';
 import { DirectoratesComponent } from './admin/directorates/directorates.component';
 import { HttpClientService } from './service/http-client.service';
+import { ContractsService } from './service/contracts.service';
 
 
 
@@ -104,7 +105,8 @@ const appRoutes: Routes = [
     UserService,
     AuthGuard,
     DirectorateService,
-    HttpClientService
+    HttpClientService,
+    ContractsService
   ],
   bootstrap: [AppComponent]
 })
