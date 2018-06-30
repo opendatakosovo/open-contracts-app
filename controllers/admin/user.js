@@ -6,7 +6,7 @@ const passport = require("passport");
 const userValidation = require("../../middlewares/user_validation");
 const checkCurrentPassword = require('../../middlewares/check_current_password');
 const changePasswordValidation = require('../../middlewares/change_password_validation');
-const  checkCurrentUser = require('../../middlewares/check_current_user');
+const checkCurrentUser = require('../../middlewares/check_current_user');
 /*
  * ENDPOINTS PREFIX: /user
  */
@@ -217,7 +217,7 @@ router.put('/deactivate-user/:id', passport.authenticate('jwt', { session: false
 router.put('/activate-user/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
 
     User.activateUser(req.params.id, (err, user) => {
-        if(!err) {
+        if (!err) {
             res.json({
                 "msg": "User has been activated successfully",
                 "user": user,
