@@ -108,6 +108,7 @@ export class AddContractComponent implements OnInit {
     this.contract.installments.push(installment);
     this.arrayInstallments.push(++this.countInstallment);
   }
+
   removeInstallment() {
     this.contract.installments.pop();
     this.arrayInstallments.pop();
@@ -129,7 +130,6 @@ export class AddContractComponent implements OnInit {
     --this.countAnnex;
   }
 
-
   monDiff(d1, d2): number {
     const date1 = moment(d1);
     const date2 = moment(d2);
@@ -143,11 +143,10 @@ export class AddContractComponent implements OnInit {
 
   addContract() {
     const formData = new FormData();
-    formData.append("file", this.filesToUpload[0], this.filesToUpload[0]['name']);
+    formData.append('file', this.filesToUpload[0], this.filesToUpload[0]['name']);
     formData.append('contract', JSON.stringify(this.contract));
     this.contractsService.addContract(formData).subscribe(res => {
       console.log(res);
     });
   }
-
 }

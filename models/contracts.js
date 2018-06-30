@@ -57,9 +57,14 @@ const ContractSchema = mongoose.Schema({
     nameOfProdcurementOffical: { type: String },
 });
 
+const Contract = module.exports = mongoose.model('Contract', ContractSchema);
 
-const Contract = (module.exports = mongoose.model('Contract', ContractSchema));
+module.exports.addContract = (contract, cb) => {
+    contract.save(cb);
+}
 
-module.exports.addContract = (contract, callback) => {
-    contract.save(callback);
+module.exports.getAllContracts = cb => Contract.find().exec(cb);
+
+module.exports.getContractById = (id, cb) => {
+    Contract.findById(id, cb);
 }
