@@ -10,6 +10,7 @@ const  checkCurrentUser = require('../../middlewares/check_current_user');
 /*
  * ENDPOINTS PREFIX: /user
  */
+
 // Route for creating a user
 router.post('/', passport.authenticate('jwt', { session: false }), userValidation, checkCurrentUser, (req, res) => {
     let user = new User({

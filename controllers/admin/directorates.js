@@ -2,6 +2,7 @@ const router = require("express").Router();
 const Directorates  = require('../../models/directorates');
 const passport = require("passport");
 const directorateValidation = require("../../middlewares/directorate_validation");
+
 /*
  * ENDPOINTS PREFIX: /directorates
  */

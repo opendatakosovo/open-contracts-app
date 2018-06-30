@@ -1,19 +1,27 @@
 const router = require('express').Router();
 const passport = require('passport');
+const upload = require('../../utils/storage');
 const Contract = require('../../models/contracts');
-const fs = require("fs");
-const multer = require('multer');
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './uploads/');
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.originalname);
-    }
+/*
+ * ENDPOINTS PREFIX: /contracts
+ */
+
+router.get("/", passport.authenticate('jwt', { session: false }), (req, res) => {
+    Contract.getAllContracts((err, contracts) => {
+        if (err) {
+            res.json({
+                "err": err,
+                "success": false
+            });
+        } else {
+            res.json({
+                "data": contracts,
+                "success": true
+            });
+        }
+    });
 });
-
-const upload = multer({ storage: storage });
 
 router.post("/", passport.authenticate('jwt', { session: false }), upload.single("file"), (req, res) => {
     const requestedContract = JSON.parse(req.body.contract);
@@ -79,6 +87,22 @@ router.post("/", passport.authenticate('jwt', { session: false }), upload.single
             res.json({
                 "err": err,
                 "success": false
+            });
+        }
+    });
+});
+
+router.get("/:id", passport.authenticate('jwt', { session: false }), (req, res) => {
+    Contract.getContractById(req.params.id, (err, contract) => {
+        if (err) {
+            res.json({
+                "err": err,
+                "success": false
+            });
+        } else {
+            res.json({
+                "data": contract,
+                "success": true,
             });
         }
     });
