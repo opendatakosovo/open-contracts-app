@@ -49,6 +49,5 @@ export interface Contract {
     discountAmount: Number;
     totalAmount?: String;
     department?: String;
-    contractFile?: String;
     nameOfProdcurementOffical?: String;
 }

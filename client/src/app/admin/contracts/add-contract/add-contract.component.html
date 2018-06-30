@@ -10,7 +10,7 @@
         <a style="float:right" class="btn btn-outline-primary buttons" id="contracts-buttons" [routerLink]="['/dashboard/contracts']">Kthehu tek kontratat</a>
       </div>
     </div>
-    <form action="" class="form-i" novalidate #contractForm="ngForm" (submit)="addContract()">
+    <form action="" class="form-i" novalidate #contractForm="ngForm" (submit)="addContract()" enctype="multipart/form-data">
       <div class="container-fluid">
         <div class="row">
           <div class="col-12 form-group">
@@ -540,7 +540,7 @@
         <div class="row">
           <div class="col-md-12">
             <div class="form-group" id="upload-contract">
-              <input type="file" name="contractFile" id="contractFile" class="filestyle my-style" [(ngModel)]="contract.contractFile" #contractContractFile="ngModel">
+              <input type="file" name="contractFile" id="contractFile" class="filestyle my-style" (change)="fileChangeEvent($event)">
             </div>
           </div>
         </div>

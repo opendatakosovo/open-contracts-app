@@ -5,7 +5,7 @@ const cors = require("cors");
 const passport = require("passport");
 const mongoose = require("mongoose");
 const config = require("./config/database");
-const morgan =  require('morgan');
+const morgan = require('morgan');
 
 require('dotenv').config();
 
@@ -48,11 +48,14 @@ app.use(morgan('dev'));
 // Registering all controllers
 app.use(require('./controllers'));
 
+// Route all upload files
+app.get('/uploads/:filename', (req, res) => {
+  res.sendFile(path.join(__dirname, `uploads/${req.params.filename}`));
+})
+
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/index.html'));
 });
-
-
 
 app.listen(port, () => {
   console.log("Server started on port:" + port);

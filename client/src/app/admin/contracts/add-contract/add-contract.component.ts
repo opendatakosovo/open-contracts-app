@@ -4,6 +4,7 @@ import { Annex } from '../../../models/annex';
 import { Installment } from '../../../models/installment';
 import { ValidatorFn } from '@angular/forms/src/directives/validators';
 import * as moment from 'moment';
+import { ContractsService } from '../../../service/contracts.service';
 
 @Component({
   selector: 'app-add-contract',
@@ -19,6 +20,7 @@ export class AddContractComponent implements OnInit {
   startImplementationDeadline: Date;
   endImplementationDeadline: Date;
   arrayInstallments: number[];
+  filesToUpload: Array<File>;
   contract: Contract = {
     activityTitle: '',
     procurementNo: 0,
@@ -66,10 +68,9 @@ export class AddContractComponent implements OnInit {
     discountAmount: 0,
     totalAmount: '',
     department: '',
-    contractFile: '',
     nameOfProdcurementOffical: ''
   };
-  constructor() {
+  constructor(public contractsService: ContractsService) {
     this.countInstallment = 1;
     this.countAnnex = 1;
     this.annexArray = [];
@@ -97,6 +98,7 @@ export class AddContractComponent implements OnInit {
       }
     }
   }
+
   addInstallments() {
     const installment: Installment = {
       installmentPayDate1: null,
@@ -111,6 +113,7 @@ export class AddContractComponent implements OnInit {
     this.arrayInstallments.pop();
     --this.countInstallment;
   }
+
   addAnnex() {
     const annex: Annex = {
       totalValueOfAnnexContract1: '',
@@ -119,6 +122,7 @@ export class AddContractComponent implements OnInit {
     this.contract.annexes.push(annex);
     this.annexArray.push(++this.countAnnex);
   }
+
   removeAnnex() {
     this.contract.annexes.pop();
     this.annexArray.pop();
@@ -132,10 +136,18 @@ export class AddContractComponent implements OnInit {
     return moment(d2).diff(d1, 'months') >= 1 ? moment(d2).diff(d1, 'months') : moment(d2).diff(d1, 'days');
   }
 
-  addContract() {
-    console.log(this.monDiff(this.startOfEvaluationDate, this.endOfEvaluationDate));
+  fileChangeEvent(event) {
+    this.filesToUpload = <Array<File>>event.target.files;
+    console.log(this.filesToUpload);
+  }
 
-    console.log(JSON.stringify(this.contract));
+  addContract() {
+    const formData = new FormData();
+    formData.append("file", this.filesToUpload[0], this.filesToUpload[0]['name']);
+    formData.append('contract', JSON.stringify(this.contract));
+    this.contractsService.addContract(formData).subscribe(res => {
+      console.log(res);
+    });
   }
 
 }
