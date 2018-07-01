@@ -5,7 +5,7 @@ import { OnInit } from '@angular/core';
 export class Contract {
     activityTitle?: String;
     procurementNo?: Number;
-    procurementType?: String;
+    procurementType?: Number;
     procurementValue?: Number;
     procurementProcedure?: Number;
     fppClassification?: Number;
@@ -31,16 +31,15 @@ export class Contract {
     status?: String;
     noOfPaymentInstallments?: Number;
     installments?: Installment[];
-    lastInstallmendPayDate?: Date;
-    lastInstallmendAmount?: String;
-    totalAmount?: Number;
+    lastInstallmentPayDate?: Date;
+    lastInstallmentAmount?: Number;
     directorates?: String;
     nameOfProcurementOffical?: String;
-    signingDate?: Date;
     contract: {
         predictedValue?: Number,
         totalAmountOfAllAnnexContractsIncludingTaxes?: Number,
-        price?: Number,
+        totalAmountOfContractsIncludingTaxes?: Number,
+        totalPayedPriceForContract?: Number,
         annexes?: Annex[]
         deadlineType?: Number,
         criteria?: String,
@@ -49,8 +48,9 @@ export class Contract {
         publicationDate?: Date,
         publicationDateOfGivenContract?: Date,
         closingDate?: Date,
-        discountAmountFromContract?: Number,
-        file?: String
+        discountAmount?: Number,
+        file?: String,
+        signingDate?: Date;
     };
     company: {
         name?: String,
@@ -60,7 +60,7 @@ export class Contract {
             slug?: String
         },
         type: String,
-        standardDocuments?: String
+        standardDocuments?: Date
     };
     year?: Number;
     flagStatus?: Number;
@@ -69,7 +69,7 @@ export class Contract {
     constructor() {
         this.activityTitle = '';
         this.procurementNo = 0;
-        this.procurementType = '';
+        this.procurementType = 0;
         this.procurementValue = 0;
         this.procurementProcedure = 0;
         this.planned = 0;
@@ -90,21 +90,20 @@ export class Contract {
         this.applicationDeadlineType = '';
         this.retender = '';
         this.status = '';
-        this.signingDate = new Date();
         this.noOfPaymentInstallments = 0;
         this.installments = [{
             installmentPayDate1: null,
-            installmentAmount1: ''
+            installmentAmount1: 0
         }];
-        this.lastInstallmendPayDate = new Date();
-        this.lastInstallmendAmount = '';
-        this.totalAmount = 0;
+        this.lastInstallmentPayDate = new Date();
+        this.lastInstallmentAmount = 0;
         this.directorates = '';
         this.nameOfProcurementOffical = '';
         this.contract = {
             predictedValue: 0,
             totalAmountOfAllAnnexContractsIncludingTaxes: 0,
-            price: 0,
+            totalAmountOfContractsIncludingTaxes: 0,
+            totalPayedPriceForContract: 0,
             annexes: [],
             deadlineType: 0,
             criteria: '',
@@ -113,8 +112,9 @@ export class Contract {
             publicationDate: new Date(),
             publicationDateOfGivenContract: new Date(),
             closingDate: new Date(),
-            discountAmountFromContract: 0,
-            file: ''
+            discountAmount: 0,
+            file: '',
+            signingDate: new Date()
         };
         this.year = 0;
         this.flagStatus = 0;

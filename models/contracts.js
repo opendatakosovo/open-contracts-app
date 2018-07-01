@@ -4,7 +4,7 @@ const ObjectId = require('mongoose').Types.ObjectId;
 const ContractSchema = mongoose.Schema({
     activityTitle: { type: String },
     procurementNo: { type: Number },
-    procurementType: { type: String },
+    procurementType: { type: Number },
     procurementValue: { type: Number },
     procurementProcedure: { type: Number },
     fppClassification: { type: Number },
@@ -29,24 +29,23 @@ const ContractSchema = mongoose.Schema({
     applicationDeadlineType: { type: String },
     retender: { type: String },
     status: { type: String },
-    signingDate: { type: Date },
     noOfPaymentInstallments: { type: Number },
     installments: [{
         installmentPayDate1: { type: Date },
-        installmentAmount1: { type: String }
+        installmentAmount1: { type: Number }
     }],
-    lastInstallmendPayDate: { type: Date },
-    lastInstallmendAmount: { type: String },
+    lastInstallmentPayDate: { type: Date },
+    lastInstallmentAmount: { type: Number },
     discountAmount: { type: String },
-    totalAmount: { type: String },
     directorates: { type: Schema.Types.ObjectId },
     nameOfProcurementOffical: { type: String },
     contract: {
         predictedValue: { type: Number },
         totalAmountOfAllAnnexContractsIncludingTaxes: { type: Number },
-        price: { type: Number },
+        totalAmountOfContractsIncludingTaxes: { type: Number },
+        totalPayedPriceForContract: { type: Number },
         annexes: [{
-            totalValueOfAnnexContract1: { type: String },
+            totalValueOfAnnexContract1: { type: Number },
             annexContractSigningDate1: { type: Date }
         }],
         deadlineType: { type: Number },
@@ -56,8 +55,9 @@ const ContractSchema = mongoose.Schema({
         publicationDate: { type: Date },
         publicationDateOfGivenContract: { type: Date },
         closingDate: { type: Date },
-        discountAmountFromContract: { type: Number },
-        file: { type: String }
+        discountAmount: { type: Number },
+        file: { type: String },
+        signingDate: { type: Date },
     },
     company: {
         name: { type: String },
@@ -68,11 +68,12 @@ const ContractSchema = mongoose.Schema({
         },
         type: { type: String },
         standardDocuments: {
-            type: String
+            type: Date
         },
-        year: { type: Number },
-        flagStatus: { type: Number }
-    }
+    },
+    year: { type: Number },
+    flagStatus: { type: Number }
+
 });
 
 const Contract = module.exports = mongoose.model('Contract', ContractSchema);
