@@ -2,6 +2,7 @@ const router = require('express').Router();
 const passport = require('passport');
 const upload = require('../../utils/storage');
 const Contract = require('../../models/contracts');
+const contractValidation = require("../../middlewares/contract_validation");
 
 /*
  * ENDPOINTS PREFIX: /contracts
@@ -23,7 +24,7 @@ router.get("/", passport.authenticate('jwt', { session: false }), (req, res) => 
     });
 });
 
-router.post("/", passport.authenticate('jwt', { session: false }), upload.single("file"), (req, res) => {
+router.post("/", passport.authenticate('jwt', { session: false }), upload.single("file"), contractValidation, (req, res) => {
     const requestedContract = JSON.parse(req.body.contract);
     const contract = new Contract({
         activityTitle: requestedContract.activityTitle,
