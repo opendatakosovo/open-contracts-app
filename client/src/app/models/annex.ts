@@ -1,4 +1,4 @@
 export interface Annex {
-    totalValueOfAnnexContract1: String;
+    totalValueOfAnnexContract1: Number;
     annexContractSigningDate1: Date;
 }
