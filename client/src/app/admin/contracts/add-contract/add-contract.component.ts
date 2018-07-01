@@ -82,8 +82,9 @@ export class AddContractComponent implements OnInit {
     console.log(this.filesToUpload.length);
   }
 
-  addContract(e) {
+  addContract(e, isValid) {
     e.preventDefault();
+    console.log(isValid);
     const formData = new FormData();
     formData.append('file', this.filesToUpload[0], this.filesToUpload[0]['name']);
     formData.append('contract', JSON.stringify(this.contract));
