@@ -37,7 +37,8 @@ const ContractSchema = mongoose.Schema({
     lastInstallmentPayDate: { type: Date },
     lastInstallmentAmount: { type: Number },
     discountAmount: { type: String },
-    directorates: { type: Schema.Types.ObjectId },
+    totalAmount: { type: String },
+    directorates: { type: mongoose.Schema.Types.ObjectId },
     nameOfProcurementOffical: { type: String },
     contract: {
         predictedValue: { type: Number },

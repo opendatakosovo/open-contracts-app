@@ -16,7 +16,7 @@ export class Contract {
     torDate?: Date;
     complaintsToAuthority1?: String;
     complaintsToOshp1?: String;
-    applicationDeadlineType?: String
+    applicationDeadlineType?: String;
     bidOpeningDateTime?: Date;
     NoOfCompaniesWhoDownloadedTenderDoc?: Number;
     NoOfCompaniesWhoSubmited?: Number;
@@ -54,7 +54,7 @@ export class Contract {
     };
     company: {
         name?: String,
-        slug?: { type: String },
+        slug?: String,
         headquarters?: {
             name?: String,
             slug?: String
@@ -97,6 +97,16 @@ export class Contract {
         }];
         this.lastInstallmentPayDate = new Date();
         this.lastInstallmentAmount = 0;
+        this.company = {
+            name: 'test test',
+            slug: '',
+            headquarters: {
+                name: '',
+                slug: ''
+            },
+            type: '',
+            standardDocuments: new Date()
+        };
         this.directorates = '';
         this.nameOfProcurementOffical = '';
         this.contract = {
