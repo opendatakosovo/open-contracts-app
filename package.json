@@ -13,7 +13,7 @@
     "cors": "*",
     "dotenv": "^5.0.1",
     "express": "*",
-    "express-validator": "^2.20.4",
+    "express-validator": "^5.2.0",
     "jsonwebtoken": "*",
     "mongoose": "^5.1.4",
     "mongoose-skip-empty": "^1.0.0",

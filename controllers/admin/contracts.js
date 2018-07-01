@@ -24,7 +24,7 @@ router.get("/", passport.authenticate('jwt', { session: false }), (req, res) => 
     });
 });
 
-router.post("/", contractValidation, upload.single("file"), (req, res) => {
+router.post("/", passport.authenticate('jwt', { session: false }), upload.single("file"), contractValidation, (req, res) => {
     const requestedContract = JSON.parse(req.body.contract);
     const contract = new Contract({
         activityTitle: requestedContract.activityTitle,
