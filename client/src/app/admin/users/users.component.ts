@@ -8,7 +8,6 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { Directorates } from '../../models/directorates';
 import { DirectorateService } from '../../service/directorate.service';
 
-
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -17,44 +16,15 @@ import { DirectorateService } from '../../service/directorate.service';
 export class UsersComponent implements OnInit {
   modalRef: BsModalRef;
   users: User[];
-  userModal: User = {
-    _id: '',
-    firstName: '',
-    lastName: '',
-    gender: 'male',
-    email: '',
-    password: '',
-    role: 'admin',
-    department: '',
-    isActive: true
-  };
-  user: User = {
-    _id: '',
-    firstName: '',
-    lastName: '',
-    gender: 'male',
-    email: '',
-    password: '',
-    role: 'admin',
-    department: '',
-    isActive: true
-  };
-  currentUser: User = {
-    _id: '',
-    firstName: '',
-    lastName: '',
-    gender: 'male',
-    email: '',
-    password: '',
-    role: 'admin',
-    department: '',
-    isActive: true
-  };
-
   directorates: Directorates[];
-
+  userModal: User;
+  user: User;
+  currentUser: User;
 
   constructor(public userService: UserService, private modalService: BsModalService, public directorateService: DirectorateService) {
+    this.userModal = new User();
+    this.user = new User();
+    this.currentUser = new User();
     this.userService.getUsers().subscribe(data => {
       this.users = data;
     });
@@ -143,27 +113,19 @@ export class UsersComponent implements OnInit {
           html: htmlData,
           width: 750,
           type: 'info',
-          confirmButtonText: 'Kthehu te forma'
+          confirmButtonText: 'Kthehu tek forma'
         });
       } else if (res.usr_err) {
         Swal({
-          title: 'Perdoruesi ekziston por eshte joaktiv',
+          title: 'Perdoruesi ekziston por është joaktiv',
           type: 'warning',
-          confirmButtonText: 'Kthehu',
+          confirmButtonText: 'Kthehu tek forma',
         });
       } else {
         this.modalRef.hide();
         this.users.unshift(res.user);
         Swal('Sukses!', 'Pëdoruesi u shtua me sukses.', 'success');
-        this.user._id = '';
-        this.user.firstName = '';
-        this.user.lastName = '';
-        this.user.gender = 'male';
-        this.user.password = '';
-        this.user.role = 'admin';
-        this.user.department = '';
-        this.user.email = '';
-        this.user.isActive = true;
+        this.user = new User();
       }
     });
   }
@@ -171,9 +133,6 @@ export class UsersComponent implements OnInit {
   // Function to edit a specific user or admin
   editUser(event) {
     const id = event.target.dataset.id;
-    const firstAndLastName = document.getElementById(`${id}`).querySelector('.user-info .name a');
-    const position = document.getElementById(`${id}`).querySelector('.user-info .position');
-    const positionImg = document.getElementById(`${id}`).querySelector('.img-col');
     this.userService.editUser(id, this.userModal).subscribe(res => {
       if (res.err) {
         Swal('Gabim!', 'Pëdoruesi nuk u ndryshua.', 'error');
@@ -215,15 +174,6 @@ export class UsersComponent implements OnInit {
           Swal('Sukses!', 'Pëdoruesi u ndryshua me sukses.', 'success');
           this.modalRef.hide();
         }
-        this.userModal._id = '';
-        this.userModal.firstName = '';
-        this.userModal.lastName = '';
-        this.userModal.gender = 'male';
-        this.userModal.password = '';
-        this.userModal.role = 'admin';
-        this.userModal.department = '';
-        this.userModal.email = '';
-        this.userModal.isActive = true;
       }
     });
   }
