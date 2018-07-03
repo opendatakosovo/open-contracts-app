@@ -9,19 +9,20 @@ export class Contract {
     procurementValue?: Number;
     procurementProcedure?: Number;
     fppClassification?: Number;
-    planned?: Number;
+    planned?: String;
     budget?: String[];
     initiationDate?: Date;
     approvalDateOfFunds?: Date;
     torDate?: Date;
     complaintsToAuthority1?: String;
     complaintsToOshp1?: String;
-    applicationDeadlineType?: String
-    bidOpeningDateTime?: Date;
-    NoOfCompaniesWhoDownloadedTenderDoc?: Number;
-    NoOfCompaniesWhoSubmited?: Number;
+    applicationDeadlineType?: String;
+    bidOpeningDate?: Date;
+    noOfCompaniesWhoDownloadedTenderDoc?: Number;
+    noOfCompaniesWhoSubmited?: Number;
     startingOfEvaluationDate?: Date;
     endingOfEvaluationDate?: Date;
+    startingAndEndingEvaluationDate?: String;
     noOfRefusedBids?: Number;
     reapprovalDate?: Date;
     cancellationNoticeDate?: Date;
@@ -41,10 +42,10 @@ export class Contract {
         totalAmountOfContractsIncludingTaxes?: Number,
         totalPayedPriceForContract?: Number,
         annexes?: Annex[]
-        deadlineType?: Number,
         criteria?: String,
         implementationDeadlineStartingDate?: Date,
         ImplementationDeadlineEndingDate?: Date,
+        implementationDeadlineStartingAndEndingDate?: String
         publicationDate?: Date,
         publicationDateOfGivenContract?: Date,
         closingDate?: Date,
