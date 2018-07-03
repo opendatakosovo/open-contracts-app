@@ -44,7 +44,7 @@ export class Contract {
         annexes?: Annex[]
         criteria?: String,
         implementationDeadlineStartingDate?: Date,
-        ImplementationDeadlineEndingDate?: Date,
+        implementationDeadlineEndingDate?: Date,
         implementationDeadlineStartingAndEndingDate?: String
         publicationDate?: Date,
         publicationDateOfGivenContract?: Date,
@@ -95,7 +95,7 @@ export class Contract {
         this.status = '';
         this.noOfPaymentInstallments = 0;
         this.installments = [{
-            installmentPayDate1: null,
+            installmentPayDate1: new Date(),
             installmentAmount1: 0
         }];
         this.lastInstallmentPayDate = new Date();
@@ -117,10 +117,13 @@ export class Contract {
             totalAmountOfAllAnnexContractsIncludingTaxes: 0,
             totalAmountOfContractsIncludingTaxes: 0,
             totalPayedPriceForContract: 0,
-            annexes: [],
+            annexes: [{
+                totalValueOfAnnexContract1: 0,
+                annexContractSigningDate1: new Date(),
+            }],
             criteria: '',
             implementationDeadlineStartingDate: new Date(),
-            ImplementationDeadlineEndingDate: new Date(),
+            implementationDeadlineEndingDate: new Date(),
             publicationDate: new Date(),
             publicationDateOfGivenContract: new Date(),
             closingDate: new Date(),

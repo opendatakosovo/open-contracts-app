@@ -38,7 +38,6 @@ const ContractSchema = mongoose.Schema({
     lastInstallmentPayDate: { type: Date },
     lastInstallmentAmount: { type: Number },
     discountAmount: { type: String },
-    totalAmount: { type: String },
     directorates: { type: mongoose.Schema.Types.ObjectId },
     nameOfProcurementOffical: { type: String },
     contract: {
@@ -52,7 +51,7 @@ const ContractSchema = mongoose.Schema({
         }],
         criteria: { type: String },
         implementationDeadlineStartingDate: { type: Date },
-        ImplementationDeadlineEndingDate: { type: Date },
+        implementationDeadlineEndingDate: { type: Date },
         implementationDeadlineStartingAndEndingDate: { type: String },
         publicationDate: { type: Date },
         publicationDateOfGivenContract: { type: Date },
