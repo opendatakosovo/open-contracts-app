@@ -43,7 +43,7 @@ export class AddContractComponent implements OnInit {
 
   addInstallments() {
     const installment: Installment = {
-      installmentPayDate1: null,
+      installmentPayDate1: new Date(),
       installmentAmount1: 0
     };
 
@@ -60,7 +60,7 @@ export class AddContractComponent implements OnInit {
   addAnnex() {
     const annex: Annex = {
       totalValueOfAnnexContract1: 0,
-      annexContractSigningDate1: null
+      annexContractSigningDate1: new Date()
     };
     this.contract.contract.annexes.push(annex);
     this.annexArray.push(++this.countAnnex);
