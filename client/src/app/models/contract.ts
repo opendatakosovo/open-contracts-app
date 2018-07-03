@@ -55,7 +55,7 @@ export class Contract {
     };
     company: {
         name?: String,
-        slug?: { type: String },
+        slug?: String,
         headquarters?: {
             name?: String,
             slug?: String
@@ -81,6 +81,8 @@ export class Contract {
         this.complaintsToAuthority1 = '';
         this.complaintsToOshp1 = '';
         this.bidOpeningDate = new Date();
+        this.noOfCompaniesWhoDownloadedTenderDoc = 0;
+        this.noOfCompaniesWhoSubmited = 0;
         this.startingOfEvaluationDate = new Date();
         this.endingOfEvaluationDate = new Date();
         this.noOfRefusedBids = 0;
@@ -98,6 +100,16 @@ export class Contract {
         }];
         this.lastInstallmentPayDate = new Date();
         this.lastInstallmentAmount = 0;
+        this.company = {
+            name: '',
+            slug: '',
+            headquarters: {
+                name: '',
+                slug: ''
+            },
+            type: '',
+            standardDocuments: new Date()
+        };
         this.directorates = '';
         this.nameOfProcurementOffical = '';
         this.contract = {

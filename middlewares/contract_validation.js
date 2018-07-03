@@ -27,7 +27,7 @@ module.exports = (req, res, next) => {
         errors.push('Procedura e prokurimit duhet plotësuar dhe nuk duhet të jetë zero!');
     }
     if (isEqualWithChars(requestedContract['fppClassification'])) {
-        errors.push('Klasifikimi duhet te permbaje 2 shifra!');
+        errors.push('Klasifikimi duhet të permbajë 2 shifra!');
     }
     if (isEqual(requestedContract['contractNoOfDownloads'], 0)) {
         errors.push('Numri i OE që kanë shkarkuar dosjen e tenderit nuk duhet të jetë zero!');
@@ -38,8 +38,9 @@ module.exports = (req, res, next) => {
     if (isEqual(requestedContract['predictedContractValue'], 0)) {
         errors.push('Vlera e parashikuar e kontratës nuk duhet të jetë zero!');
     }
-
-
+    if (isEqual(requestedContract['totalAmountOfAllAnnexContractsIncludingTaxes'], 0)) {
+        errors.push('Vlera totale e kontratës, duke përfshirë të gjitha anekset dhe të gjitha taksat nuk duhet të jetë zero!');
+    }
 
     // Function for checking if the input is equal to 0
     function isEqual(value, compareValue) {

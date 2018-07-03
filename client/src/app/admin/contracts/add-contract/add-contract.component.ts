@@ -29,6 +29,7 @@ export class AddContractComponent implements OnInit {
     this.annexArray = [];
     this.arrayInstallments = [];
     this.contract = new Contract();
+    console.log(this.contract);
   }
   @ViewChild('fileInput') fileInput;
   ngOnInit() {
@@ -43,7 +44,7 @@ export class AddContractComponent implements OnInit {
   addInstallments() {
     const installment: Installment = {
       installmentPayDate1: null,
-      installmentAmount1: ''
+      installmentAmount1: 0
     };
 
     this.contract.installments.push(installment);
@@ -58,15 +59,15 @@ export class AddContractComponent implements OnInit {
 
   addAnnex() {
     const annex: Annex = {
-      totalValueOfAnnexContract1: '',
+      totalValueOfAnnexContract1: 0,
       annexContractSigningDate1: null
     };
-    this.contract.annexes.push(annex);
+    this.contract.contract.annexes.push(annex);
     this.annexArray.push(++this.countAnnex);
   }
 
   removeAnnex() {
-    this.contract.annexes.pop();
+    this.contract.contract.annexes.pop();
     this.annexArray.pop();
     --this.countAnnex;
   }
@@ -82,30 +83,31 @@ export class AddContractComponent implements OnInit {
     console.log(this.filesToUpload.length);
   }
 
-  addContract(e) {
+  addContract(e, isValid) {
     e.preventDefault();
+    console.log(isValid);
     const formData = new FormData();
-    formData.append('file', this.filesToUpload[0], this.filesToUpload[0]['name']);
-    formData.append('contract', JSON.stringify(this.contract));
-    this.contractsService.addContract(formData).subscribe(res => {
-      if (res.err) {
-        Swal('Gabim!', 'Kontrata nuk u shtua.', 'error');
-      } else if (res.errVld) {
-        let errList = '';
-        for (const v of res.errVld) {
-          errList += `<li>${v}</li>`;
-        }
-        const htmlData = `<div style="text-align: center;">${errList}</div>`;
-        Swal({
-          title: 'Kujdes!',
-          html: htmlData,
-          width: 750,
-          type: 'info',
-          confirmButtonText: 'Kthehu te forma'
-        });
-      } else {
-        Swal('Sukses!', 'Kontrata u shtua me sukses.', 'success');
-      }
-    });
+    // formData.append('file', this.filesToUpload[0], this.filesToUpload[0]['name']);
+    // formData.append('contract', JSON.stringify(this.contract));
+    // this.contractsService.addContract(formData).subscribe(res => {
+    //   if (res.err) {
+    //     Swal('Gabim!', 'Kontrata nuk u shtua.', 'error');
+    //   } else if (res.errVld) {
+    //     let errList = '';
+    //     for (const v of res.errVld) {
+    //       errList += `<li>${v}</li>`;
+    //     }
+    //     const htmlData = `<div style="text-align: center;">${errList}</div>`;
+    //     Swal({
+    //       title: 'Kujdes!',
+    //       html: htmlData,
+    //       width: 750,
+    //       type: 'info',
+    //       confirmButtonText: 'Kthehu te forma'
+    //     });
+    //   } else {
+    //     Swal('Sukses!', 'Kontrata u shtua me sukses.', 'success');
+    //   }
+    // });
   }
 }

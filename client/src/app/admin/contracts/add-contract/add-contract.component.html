@@ -10,38 +10,88 @@
         <a style="float:right" class="btn btn-outline-primary buttons" id="contracts-buttons" [routerLink]="['/dashboard/contracts']">Kthehu tek kontratat</a>
       </div>
     </div>
-    <form action="" class="form-i" novalidate #contractForm="ngForm" (submit)="addContract($event)" enctype="multipart/form-data">
+    <form action="" class="form-i" novalidate #contractForm="ngForm" (submit)="addContract($event, contractForm.valid)" enctype="multipart/form-data">
       <div class="container-fluid">
         <div class="row">
           <div class="col-12 form-group">
             <label for="activityTitle">Titulli i aktivitetit të prokurimit</label>
             <input type="text" name="activityTitle" id="activityTitle" class="form-control" [(ngModel)]="contract.activityTitle" #contractActivityTitle="ngModel"
-              required [style.border-color]="contractActivityTitle.errors?.required && contractActivityTitle.touched ? 'red' : '#ced4da'">
-            <div *ngIf="contractActivityTitle.errors?.required && contractActivityTitle.touched" class="error-msg">Duhet plotësuar!</div>
+              required [style.border-color]="!contractActivityTitle.valid && (contractActivityTitle.touched || contractForm.submitted) ? 'red' : '#ced4da'">
+            <div [hidden]="contractActivityTitle.valid || (!contractActivityTitle.touched && !contractForm.submitted)">
+              <small class="text-danger">Duhet plotësuar!</small>
+            </div>
           </div>
         </div>
         <div class="row">
           <div class="col-md-3 form-group">
             <label>Nr. rendor i prokurimit</label>
-            <input type="number" name="procurementNo" id="procurementNo" [(ngModel)]="contract.procurementNo" class="form-control">
+            <input type="number" name="procurementNo" id="procurementNo" [(ngModel)]="contract.procurementNo" #contractProcurementNo="ngModel"
+              class="form-control" required [style.border-color]="(contractProcurementNo?.value == '0' && contractProcurementNo.touched || contractForm.submitted) || !contractProcurementNo.valid && (contractProcurementNo.touched || contractForm.submitted)
+              ? 'red' : '#ced4da'">
+            <div [hidden]="(!contractProcurementNo?.value == '0' || !contractProcurementNo.touched && !contractForm.submitted) && contractProcurementNo.valid || (!contractProcurementNo.touched && !contractForm.submitted)">
+              <small class="text-danger">Duhet plotësuar dhe nuk duhet të jetë zero!</small>
+            </div>
           </div>
           <div class="col-md-3 form-group">
             <label>Lloji i prokurimit</label>
-            <input type="number" name="procurementType" id="procurementType" [(ngModel)]="contract.procurementType" class="form-control">
+            <select name="procurementType" id="procurementType" placeholder="Zgjedh" class="form-control" [(ngModel)]="contract.procurementType"
+              #contractProcurementType="ngModel" required [style.border-color]="!contractProcurementType.valid && (contractProcurementType.touched || contractProcurementType.submitted) ? 'red'
+              : '#ced4da'">
+              <option value="" selected>Zgjedh llojin</option>
+              <option value="Procedura vlerës minimale">Furnizim</option>
+              <option value="Shërbime">Shërbime</option>
+              <option value="Shërbime këshillimi">Shërbime këshillimi</option>
+              <option value="Konkurs projektimi">Konkurs projektimi</option>
+              <option value="Punë">Punë</option>
+              <option value="Punë me koncesion">Punë me koncesion</option>
+              <option value="Pronë e palujtshme">Pronë e palujtshme</option>
+            </select>
+            <div [hidden]="contractProcurementType.valid || (!contractProcurementType.touched && !contractForm.submitted)">
+              <small class="text-danger">Duhet zgjedhur!</small>
+            </div>
           </div>
           <div class="col-md-3 form-group">
             <label>Vlera e prokurimit</label>
-            <input type="number" name="procurementValue" id="procurementValue" [(ngModel)]="contract.procurementValue" class="form-control">
+            <select name="procurementValue" id="procurementValue" placeholder="Zgjedh" class="form-control" [(ngModel)]="contract.procurementValue"
+              #contractProcurementValue="ngModel" required [style.border-color]="!contractProcurementValue.valid && (contractProcurementValue.touched || contractForm.submitted) ? 'red' : '#ced4da'">
+              <option value="" selected>Zgjedh vlerën</option>
+              <option value="Vlerë e madhe">Vlerë e madhe</option>
+              <option value="Vlerë e mesme">Vlerë e mesme</option>
+              <option value="Vlerë e vogël">Vlerë e vogël</option>
+              <option value="Vlerë minimale">Vlerë minimale</option>
+            </select>
+            <div [hidden]="contractProcurementValue.valid || (!contractProcurementValue.touched && !contractForm.submitted)">
+              <small class="text-danger">Duhet zgjedhur!</small>
+            </div>
           </div>
           <div class="col-md-3 form-group">
             <label>Procedura prokurimit</label>
-            <input type="number" name="procurementProcedure" id="procurementProcedure" [(ngModel)]="contract.procurementProcedure" class="form-control">
+            <select name="procurementProcedure" id="procurementProcedure" placeholder="Zgjedh" class="form-control" [(ngModel)]="contract.procurementProcedure"
+              #contractProcurementProcedure="ngModel" required [style.border-color]="!contractProcurementProcedure.valid && (contractProcurementProcedure.touched || contractForm.submitted) ? 'red' : '#ced4da'">
+              <option value="" selected>Zgjedh procedurën</option>
+              <option value="Procedura e hapur">Procedura e hapur</option>
+              <option value="Procedura e kufizuar">Procedura e kufizuar</option>
+              <option value="Konkurs projektimi">Konkurs projektimi</option>
+              <option value="Procedura e negociuar pas publikimit të njoftimit të kontratës">Procedura e negociuar pas publikimit të njoftimit të kontratës</option>
+              <option value="Procedura e negociuar pa publikim të njoftimit të kontratës">Procedura e negociuar pa publikim të njoftimit të kontratës</option>
+              <option value="Procedura e kuotimit të Çmimeve">Procedura e kuotimit të Çmimeve</option>
+              <option value="Procedura vlerës minimale">Procedura vlerës minimale</option>
+            </select>
+            <div [hidden]="contractProcurementProcedure.valid || (!contractProcurementProcedure.touched && !contractForm.submitted)">
+              <small class="text-danger">Duhet zgjedhur!</small>
+            </div>
           </div>
         </div>
         <div class="row">
           <div class="col-md-4 form-group">
             <label for="fppClassification">Klasifikimi (2 shifrat e para të FPP)</label>
-            <input type="text" name="fppClassification" id="fppClassification" [(ngModel)]='contract.fppClassification' class="form-control">
+            <!-- Dorron duhesh me konvertu tekstin ne numer ne databaz -->
+            <input type="text" name="fppClassification" id="fppClassification" class="form-control" [(ngModel)]="contract.fppClassification"
+              #contractFppClassification="ngModel" minlength="2" maxlength="2" [style.border-color]="!contractFppClassification.valid || contractForm.submitted
+              ? 'red' : '#ced4da'">
+            <div [hidden]="contractFppClassification.valid && (!contractFppClassification.touched || !contractForm.submitted)">
+              <small class="text-danger">Klasifikimi duhet të permbajë 2 shifra!</small>
+            </div>
           </div>
           <div class="col-md-2 form-group">
             <div class="radioButtons">
@@ -62,23 +112,23 @@
             </div>
           </div>
           <div class="col-md-6 form-group">
-            <div class="radioButtons">
-              <label class="radioButtonLabel">Buxheti</label>
+            <div class="checkbox-buttons">
+              <label class="checkbox-label">Buxheti</label>
               <br>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="budget" [(ngModel)]="contract.budget" id="ownSources" value="1" checked>
+                <input class="form-check-input" type="checkbox" name="budget" id="ownSources" value="1">
                 <label class="form-check-label" for="ownSources">
                   Të hyra vetanake
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="budget" id="kosovoBudget" [(ngModel)]="contract.budget" value="2">
+                <input class="form-check-input" type="checkbox" name="budget" id="kosovoBudget" value="2">
                 <label class="form-check-label" for="no">
                   Buxh. i Kons. i Kosovës
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="budget" [(ngModel)]="contract.budget" id="donation" value="3">
+                <input class="form-check-input" type="checkbox" name="budget" id="donation" value="3">
                 <label class="form-check-label" for="donation">
                   Donacion
                 </label>
@@ -104,9 +154,7 @@
           </div>
           <div class="col-md-6 form-group">
             <label for="contractPublicationDate">Data e publikimit të njoftimit për kontratë</label>
-            <input type="date" name="contractPublicationDate" id="contractPublicationDate" value="" class="form-control" [(ngModel)]="contract.contractPublicationDate"
-              #contractPublicationDate="ngModel" required [style.border-color]="contractPublicationDate.errors?.required && contractPublicationDate.touched ? 'red' : '#ced4da'">
-            <div *ngIf="contractPublicationDate.errors?.required && contractPublicationDate.touched" class="error-msg">Duhet plotësuar!</div>
+            <input type="date" name="publicationDate" id="publicationDate" value="" class="form-control" [(ngModel)]="contract.contract.publicationDate">
           </div>
         </div>
         <div class="row">
@@ -154,25 +202,29 @@
         <div class="row">
           <div class="col-md-12">
             <br>
-            <label>Data dhe koha e hapjes së ofertave</label>
-            <input type="datetime-local" name="bidOpeningDateTime" id="bidOpeningDateTime" [(ngModel)]="contract.bidOpeningDateTime"
-              class="form-control">
+            <label>Data e hapjes së ofertave</label>
+            <input type="date" name="bidOpeningDate" id="bidOpeningDate" [(ngModel)]="contract.bidOpeningDate" class="form-control">
           </div>
         </div>
         <div class="row">
           <div class="col-6 form-group">
             <br>
-            <label for="contractNoOfOffers">Nr. i OE që kanë shkarkuar dosjen e tenderit</label>
-            <input type="number" name="contractNoOfDownloads" id="contractNoOfDownloads" class="form-control" [(ngModel)]="contract.contractNoOfDownloads"
-              #contractNoOfDownloads="ngModel" required [style.border-color]="contractNoOfDownloads.errors?.required && contractNoOfDownloads.touched ? 'red' : '#ced4da'">
-            <div *ngIf="contractNoOfDownloads.errors?.required && contractNoOfDownloads.touched" class="error-msg">Duhet plotësuar!</div>
+            <label for="noOfCompaniesWhoDownloadedTenderDoc">Nr. i OE që kanë shkarkuar dosjen e tenderit</label>
+            <input type="number" name="noOfCompaniesWhoDownloadedTenderDoc" id="noOfCompaniesWhoDownloadedTenderDoc" class="form-control"
+              [(ngModel)]="contract.noOfCompaniesWhoDownloadedTenderDoc" #contractNoOfCompaniesWhoDownloadedTenderDoc="ngModel"
+              [style.border-color]="contractNoOfCompaniesWhoDownloadedTenderDoc.value == '0' && (contractNoOfCompaniesWhoDownloadedTenderDoc.touched || contractForm.submitted) ? 'red' : '#ced4da'">
+            <div [hidden]="!contractNoOfCompaniesWhoDownloadedTenderDoc.value == '0' || (!contractNoOfCompaniesWhoDownloadedTenderDoc.touched && !contractForm.submitted)">
+              <small class="text-danger">Nuk duhet të jetë zero!</small>
+            </div>
           </div>
           <div class="col-6 form-group">
             <br>
-            <label for="noOfOffersForContract">Nr. i OE që kanë dorëzuar ofertat</label>
-            <input type="number" name="noOfOffersForContract" id="noOfOffersForContract" class="form-control" [(ngModel)]="contract.noOfOffersForContract"
-              #noOfOffersForContract="ngModel" required [style.border-color]="noOfOffersForContract.errors?.required && noOfOffersForContract.touched ? 'red' : '#ced4da'">
-
+            <label for="noOfCompaniesWhoSubmited">Nr. i OE që kanë dorëzuar ofertat</label>
+            <input type="number" name="noOfCompaniesWhoSubmited" id="noOfCompaniesWhoSubmited" class="form-control" [(ngModel)]="contract.noOfCompaniesWhoSubmited"
+              #contractNoOfCompaniesWhoSubmited="ngModel" [style.border-color]="contractNoOfCompaniesWhoSubmited.value == '0' && (contractNoOfCompaniesWhoSubmited.touched || contractForm.submitted) ? 'red' : '#ced4da'">
+            <div [hidden]="!contractNoOfCompaniesWhoSubmited.value == '0' || (!contractNoOfCompaniesWhoSubmited.touched && !contractForm.submitted)">
+              <small class="text-danger">Nuk duhet të jetë zero!</small>
+            </div>
           </div>
         </div>
         <div class="row">
@@ -187,33 +239,38 @@
           </div>
           <div class="col-md-6">
             <label for="noOfRefusedBids">Numri i ofertave të refuzuara</label>
-            <input type="number" name="noOfRefusedBids" id="noOfRefusedBids" [(ngModel)]="contract.noOfRefusedBids" class="form-control">
+            <input type="number" name="noOfRefusedBids" id="noOfRefusedBids" [(ngModel)]="contract.noOfRefusedBids" class="form-control"
+              #contractNoOfRefusedBids="ngModel" [style.border-color]="contractNoOfRefusedBids.value == '0' && (contractNoOfRefusedBids.touched || contractForm.submitted)
+              ? 'red' : '#ced4da'">
+            <div [hidden]="!contractNoOfRefusedBids.value == '0' || (!contractNoOfRefusedBids.touched && !contractForm.submitted)">
+              <small class="text-danger">Nuk duhet të jetë zero!</small>
+            </div>
           </div>
         </div>
         <div class="row">
           <div class="col-md-6">
             <br>
             <label>Data e aprovimit të Deklaratës së nevojave dhe disponueshmërisë së mjeteve - rikonfirmimi</label>
-            <input type="date" name="reapprovalDate" id="reapprovalDate" [(ngModel)]="contract.reapprovalDate" class="form-control">
+            <input type="date" name="reapprovalDate" id="reapprovalDate" [(ngModel)]="contract.reapprovalDate" #contractReapprovalDate
+              class="form-control">
           </div>
           <div class="col-md-6">
             <br>
-            <label for="standardeDocumentsForOe">Letrat Standarde për OE</label>
-            <input type="date" name="standardeDocumentsForOe" id="standardeDocumentsForOe" [(ngModel)]="contract.standardeDocumentsForOe"
+            <label for="standardDocuments">Letrat Standarde për OE</label>
+            <input type="date" name="standardDocuments" id="standardDocuments" [(ngModel)]="contract.company.standardDocuments" #contractStandardDocuments
               class="form-control">
           </div>
         </div>
         <div class="row">
           <div class="col-6 form-group">
-            <label for="publicationDateOfGivenContract">Data e publikimit të njoftimit për dhënie të kontratës </label>
+            <label for="publicationDateOfGivenContract">Data e publikimit të njoftimit për dhënie të kontratës</label>
             <input type="date" name="publicationDateOfGivenContract" id="publicationDateOfGivenContract" [(ngModel)]="contract.publicationDateOfGivenContract"
-              class="form-control">
+              #contractPublicationDateOfGivenContract class="form-control">
           </div>
           <div class="col-6 form-group">
-            <label for="cancellationNoticeDate">Data e publikimit të anulimit të njoftimit </label>
+            <label for="cancellationNoticeDate">Data e publikimit të anulimit të njoftimit</label>
             <input type="date" name="cancellationNoticeDate" id="cancellationNoticeDate" class="form-control" [(ngModel)]="contract.cancellationNoticeDate"
-              #cancellationNoticeDate="ngModel" required [style.border-color]="cancellationNoticeDate.errors?.required && cancellationNoticeDate.touched ? 'red' : '#ced4da'">
-            <div *ngIf="cancellationNoticeDate.errors?.required && cancellationNoticeDate.touched" class="error-msg">Duhet plotësuar!</div>
+              #contractCancellationNoticeDate>
           </div>
         </div>
         <div class="row">
@@ -275,22 +332,26 @@
         <div class="row">
           <div class="col-6 form-group">
             <br>
-            <label for="predictedContractValue">Vlera e parashikuar e kontratës</label>
-            <input type="number" name="predictedContractValue" id="predictedContractValue" [(ngModel)]="contract.predictedContractValue"
-              class="form-control">
+            <label for="predictedValue">Vlera e parashikuar e kontratës</label>
+            <input type="number" name="predictedValue" id="predictedValue" [(ngModel)]="contract.contract.predictedValue" class="form-control"
+              #contractPredictedValue="ngModel" [style.border-color]="contractPredictedValue.value == '0' && (contractPredictedValue.touched || contractForm.submitted)
+              ? 'red' : '#ced4da'">
+            <div [hidden]="!contractPredictedValue.value == '0' || (!contractPredictedValue.touched && !contractForm.submitted)">
+              <small class="text-danger">Nuk duhet të jetë zero!</small>
+            </div>
           </div>
           <div class="col-md-6" style="padding-top: 21px;">
             <div class="radioButtons">
               <label class="radioButtonLabel">OE:</label>
               <br>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="oeType" [(ngModel)]="contract.oeType" id="local" value="1" checked>
+                <input class="form-check-input" type="radio" name="type" [(ngModel)]="contract.company.type" id="local" value="1" checked>
                 <label class="form-check-label" for="local">
                   Vendore
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="oeType" [(ngModel)]="contract.oeType" id="2" value="notLocal">
+                <input class="form-check-input" type="radio" name="type" [(ngModel)]="contract.company.type" id="2" value="notLocal">
                 <label class="form-check-label" for="notLocal">
                   Jo vendore
                 </label>
@@ -324,14 +385,14 @@
               <label class="radioButtonLabel">Kriteret për dhënie të kontratës:</label>
               <br>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="contractCriteria" [(ngModel)]="contract.contractCriteria" id="lowPrice"
-                  value="1" checked>
+                <input class="form-check-input" type="radio" name="criteria" [(ngModel)]="contract.contract.criteria" id="lowPrice" value="1"
+                  checked>
                 <label class="form-check-label" for="lowPrice">
                   Çmimi më i ulët
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="contractCriteria" [(ngModel)]="contract.contractCriteria" id="economicallyFavorable"
+                <input class="form-check-input" type="radio" name="criteria" [(ngModel)]="contract.contract.criteria" id="economicallyFavorable"
                   value="2">
                 <label class="form-check-label" for="economicallyFavorable">
                   Tenderi ekonomikisht më i favorshëm
@@ -339,7 +400,7 @@
               </div>
               <div class="form-check">
                 <br>
-                <input class="form-check-input" type="radio" name="contractCriteria" [(ngModel)]="contract.contractCriteria" id="pointPriceLower"
+                <input class="form-check-input" type="radio" name="criteria" [(ngModel)]="contract.contract.criteria" id="pointPriceLower"
                   value="3">
                 <label class="form-check-label" for="pointPriceLower">
                   Çmimi më i ulët me poentim
@@ -387,67 +448,71 @@
         </div>
         <div class="row">
           <div class="col-12 form-group">
-            <label for="nameOfContractedOe">Emri i OE të cilit i është dhënë kontrata </label>
-            <input type="text" name="nameOfContractedOe" id="nameOfContractedOe" [(ngModel)]="contract.nameOfContractedOe" class="form-control">
+            <label for="nameOfContractedOe">Emri i OE të cilit i është dhënë kontrata</label>
+            <input type="text" name="name" id="nameOfContractedOe" [(ngModel)]="contract.company.name" class="form-control">
           </div>
         </div>
         <div class="row">
           <div class="col-12 form-group">
-            <label for="signingDate">Data e nënshkrimit të kontratës </label>
-            <input type="date" name="signingDate" id="signingDate" class="form-control" [(ngModel)]="contract.signingDate" #contractSigningDate="ngModel"
-              required [style.border-color]="contractSigningDate.errors?.required && contractSigningDate.touched ? 'red' : '#ced4da'">
-            <div *ngIf="contractSigningDate.errors?.required && contractSigningDate.touched" class="error-msg">Duhet plotësuar!</div>
+            <label for="signingDate">Data e nënshkrimit të kontratës</label>
+            <input type="date" name="signingDate" id="signingDate" class="form-control" [(ngModel)]="contract.contract.signingDate">
           </div>
         </div>
         <div class="row">
           <div class="col-sm-3 form-group">
-            <label for="firstImplementationDeadline" style="width:270px;">Afatet për implementimin e kontratës</label>
-            <input type="date" name="firstImplementationDeadline" id="startImplementationDeadline" [(ngModel)]="contract.contractImplementationDeadlineStartingDate"
+            <label for="implementationDeadlineStartingDate" style="width:270px;">Afatet për implementimin e kontratës</label>
+            <input type="date" name="implementationDeadlineStartingDate" id="implementationDeadlineStartingDate" [(ngModel)]="contract.contract.implementationDeadlineStartingDate"
               class="form-control">
           </div>
           <div class="col-sm-3 form-group" style="padding-top: 29px;">
-            <input type="date" name="secondImplementationDeadline" id="endImplementationDeadline" [(ngModel)]="contract.contractImplementationDeadlineEndingDate"
+            <input type="date" name="ImplementationDeadlineEndingDate" id="ImplementationDeadlineEndingDate" [(ngModel)]="contract.contract.ImplementationDeadlineEndingDate"
               class="form-control">
           </div>
           <div class="col-6 form-group">
-            <label for="contractClosingDate">Data e mbylljes se kontrates </label>
-            <input type="date" name="contractClosingDate" id="contractClosingDate" class="form-control" [(ngModel)]="contract.contractClosingDate"
-              #contractContractClosingDate="ngModel" required [style.border-color]="contractContractClosingDate.errors?.required && contractContractClosingDate.touched ? 'red' : '#ced4da'">
-            <div *ngIf="contractContractClosingDate.errors?.required && contractContractClosingDate.touched" class="error-msg">Duhet plotësuar!</div>
+            <label for="implementationDeadlineStartingAndEndingDate">Data e mbylljes se kontrates</label>
+            <input type="date" name="implementationDeadlineStartingAndEndingDate" id="implementationDeadlineStartingAndEndingDate" class="form-control"
+              [(ngModel)]="contract.contract.implementationDeadlineStartingAndEndingDate">
           </div>
         </div>
         <div class="row">
           <div class="col-6 form-group">
             <label for="noOfPaymentInstallments">Numri i përgjithshëm i situacioneve për pagesë, sipas kontratës</label>
             <input type="number" name="noOfPaymentInstallments" id="noOfPaymentInstallments" [(ngModel)]="contract.noOfPaymentInstallments"
-              class="form-control">
+              class="form-control" #contractNoOfPaymentInstallments="ngModel" [style.border-color]="contractNoOfPaymentInstallments.value == '0' && (contractNoOfPaymentInstallments.touched || contractForm.submitted)
+              ? 'red' : '#ced4da'">
+            <div [hidden]="!contractNoOfPaymentInstallments.value == '0' || (!contractNoOfPaymentInstallments.touched && !contractForm.submitted)">
+              <small class="text-danger">Nuk duhet të jetë zero!</small>
+            </div>
           </div>
           <div class="col-md-6">
             <label for="totalAmountOfAllAnnexContractsIncludingTaxes">Vlera totale e kontratës, duke përfshirë të gjitha anekset dhe të gjitha taksat etj.</label>
-            <input type="text" name="totalAmountOfAllAnnexContractsIncludingTaxes" id="totalAmountOfAllAnnexContractsIncludingTaxes"
-              [(ngModel)]="contract.totalAmountOfAllAnnexContractsIncludingTaxes" class="form-control">
+            <input type="number" name="contract.totalAmountOfAllAnnexContractsIncludingTaxes" id="totalAmountOfAllAnnexContractsIncludingTaxes"
+              [(ngModel)]="contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes" class="form-control" #contractTotalAmountOfAllAnnexContractsIncludingTaxes="ngModel">
           </div>
         </div>
         <div class="row">
           <div class="col-md-6">
             <label for="totalValueOfAnnexContract1">Vlera totale e Aneks kontratës duke përfshirë të gjitha taksat (1)</label>
-            <input type="number" name="totalValueOfAnnexContract1" id="totalValueOfAnnexContract1" class="form-control" [(ngModel)]="contract.annexes[0].totalValueOfAnnexContract1">
+            <!-- <input type="number" name="totalValueOfAnnexContract1" id="totalValueOfAnnexContract1" class="form-control" [(ngModel)]="contract.annexes[0].totalValueOfAnnexContract1"
+              #contractTotalValueOfAnnexContract1="ngModel" [style.border-color]="contractTotalValueOfAnnexContract1?.value
+            == '0' && contractTotalValueOfAnnexContract1.touched ? 'red' : '#ced4da'">
+            <div *ngIf="contractTotalValueOfAnnexContract1?.value == '0' && contractTotalValueOfAnnexContract1.touched" class="error-msg">Nuk duhet të jetë zero!</div> -->
           </div>
           <div class="col-md-6">
             <label for="annexContractSigningDate1">Data e nënshkrimit të Aneks kontratës (1)</label>
-            <input type="date" name="annexContractSigningDate1" id="annexContractSigningDate1" class="form-control" [(ngModel)]="contract.annexes[0].annexContractSigningDate1">
+            <!-- <input type="date" name="annexContractSigningDate1" id="annexContractSigningDate1" class="form-control" [(ngModel)]="contract.annexes[0].annexContractSigningDate1"> -->
           </div>
         </div>
         <div class="row">
           <div class="col-md-12">
             <br>
-            <button type="button" data-toggle="tooltip" title="Shto Aneks Kontratë" class="btn btn-outline-primary buttons" (click)="addAnnex()">
+            <!-- <button type="button" data-toggle="tooltip" title="Shto Aneks Kontratë" class="btn btn-outline-primary buttons" (click)="addAnnex()">
               <span class="fa fa-plus"></span>
             </button>
             <button type="button" data-toggle="tooltip" title="Fshij Aneks Kontratë" class="btn btn-outline-primary buttons" (click)="removeAnnex()"
               *ngIf="countAnnex>1">
               <span class="fa fa-minus"></span>
-            </button>
+            </button> -->
           </div>
           <div class="col-md-6"></div>
         </div>
@@ -455,11 +520,11 @@
           <div class="row">
             <div class="col-md-6">
               <label for="noOfPaymentInstallments{{i+2}}">Vlera totale e Aneks kontratës duke përfshirë të gjitha taksat ({{i+2}})</label>
-              <input type="number" name="noOfPaymentInstallments{{i+1}}" id="noOfPaymentInstallments{{i+1}}" class="form-control" [(ngModel)]="contract.annexes[i+1].totalValueOfAnnexContract1">
+              <!-- <input type="number" name="noOfPaymentInstallments{{i+1}}" id="noOfPaymentInstallments{{i+1}}" class="form-control" [(ngModel)]="contract.annexes[i+1].totalValueOfAnnexContract1"> -->
             </div>
             <div class="col-md-6">
               <label for="annexContractSigningDate{{i+2}}">Data e nënshkrimit të Aneks kontratës ({{i+2}})</label>
-              <input type="date" name="annexContractSigningDate{{i}}" id="annexContractSigningDate{{i}}" class="form-control" [(ngModel)]="contract.annexes[i+1].annexContractSigningDate1">
+              <!-- <input type="date" name="annexContractSigningDate{{i}}" id="annexContractSigningDate{{i}}" class="form-control" [(ngModel)]="contract.annexes[i+1].annexContractSigningDate1"> -->
             </div>
           </div>
         </div>
@@ -467,23 +532,26 @@
         <div class="row">
           <div class="col-md-6">
             <label for="installmentPayDate1">Data e pagesës së situacionit (1)</label>
-            <input type="date" name="installmentPayDate1" id="installmentPayDate1" class="form-control" [(ngModel)]="contract.installments[0].installmentPayDate1">
+            <!-- <input type="date" name="installmentPayDate1" id="installmentPayDate1" class="form-control" [(ngModel)]="contract.installments[0].installmentPayDate1"> -->
           </div>
           <div class="col-md-6">
             <label for="installmendAmount1">Shuma e pagesës së situacionit (1)</label>
-            <input type="text" name="installmentAmount1" id="installmentAmount1" class="form-control" [(ngModel)]="contract.installments[0].installmentAmount1">
+            <!-- <input type="number" name="installmentAmount1" id="installmentAmount1" class="form-control" [(ngModel)]="contract.installments[0].installmentAmount1"
+              #contractInstallmentAmount1="ngModel" [style.border-color]="contractInstallmentAmount1?.value ==
+            '0' && contractInstallmentAmount1.touched ? 'red' : '#ced4da'">
+            <div *ngIf="contractInstallmentAmount1?.value == '0' && contractInstallmentAmount1.touched" class="error-msg">Nuk duhet të jetë zero!</div> -->
           </div>
         </div>
         <div class="row">
           <div class="col-md-6">
             <br>
-            <button type="button" data-toggle="tooltip" title="Shto Situacion" class="btn btn-outline-primary buttons" (click)="addInstallments()">
+            <!-- <button type="button" data-toggle="tooltip" title="Shto Situacion" class="btn btn-outline-primary buttons" (click)="addInstallments()">
               <span class="fa fa-plus"></span>
             </button>
             <button type="button" data-toggle="tooltip" title="Fshij Situacion" class="btn btn-outline-primary buttons" (click)="removeInstallment()"
               *ngIf="countInstallment>1">
               <span class="fa fa-minus"></span>
-            </button>
+            </button> -->
           </div>
           <div class="col-md-6"></div>
         </div>
@@ -491,11 +559,11 @@
           <div class="row">
             <div class="col-md-6">
               <label for="installmentPayDate{{i+1}}">Data e pagesës së situacionit ({{i+2}})</label>
-              <input type="date" name="installmentPayDate{{i+1}}}" id="installmentPayDate{{i+1}}" class="form-control" [(ngModel)]="contract.installments[i+1].installmentPayDate1">
+              <!-- <input type="date" name="installmentPayDate{{i+1}}}" id="installmentPayDate{{i+1}}" class="form-control" [(ngModel)]="contract.installments[i+1].installmentPayDate1"> -->
             </div>
             <div class="col-md-6">
               <label for="installmentAmount{{i+1}}">Shuma e pagesës së situacionit ({{i+2}})</label>
-              <input type="text" name="installmentAmount{{i+1}}" id="installmentAmount{{i+1}}" class="form-control" [(ngModel)]="contract.installments[i+1].installmentAmount1">
+              <!-- <input type="text" name="installmentAmount{{i+1}}" id="installmentAmount{{i+1}}" class="form-control" [(ngModel)]="contract.installments[i+1].installmentAmount1"> -->
             </div>
           </div>
         </div>
@@ -503,37 +571,46 @@
         <div class="row">
           <div class="col-md-6">
             <label for="lastInstallmendPayDate">Data e pagesës së situacionit të fundit</label>
-            <input type="date" name="lastInstallmendPayDate" id="lastInstallmendPayDate" [(ngModel)]="contract.lastInstallmendPayDate"
-              class="form-control">
+            <!-- <input type="date" name="lastInstallmendPayDate" id="lastInstallmendPayDate" [(ngModel)]="contract.lastInstallmendPayDate"
+              class="form-control"> -->
           </div>
           <div class="col-md-6">
             <label for="lastInstallmendAmount">Shuma e pagesës së situacionit të fundit</label>
-            <input type="text" name="lastInstallmendAmount" id="lastInstallmendAmount" [(ngModel)]="contract.lastInstallmendAmount" class="form-control">
+            <!-- <input type="number" name="lastInstallmendAmount" id="lastInstallmendAmount" [(ngModel)]="contract.lastInstallmendAmount"
+              class="form-control" #contractLastInstallmendAmount="ngModel" [style.border-color]="contractLastInstallmendAmount?.value == '0' && contractLastInstallmendAmount.touched
+            ? 'red' : '#ced4da'">
+            <div *ngIf="contractLastInstallmendAmount?.value == '0' && contractLastInstallmendAmount.touched" class="error-msg">Nuk duhet të jetë zero!</div> -->
           </div>
         </div>
         <div class="row">
           <div class="col-md-12">
             <label>Shuma e zbritjes nga kontrata për shkaqe të ndalesave</label>
-            <input type="text" name="discountAmount" id="discountAmount" [(ngModel)]="contract.discountAmount" class="form-control">
+            <!-- <input type="text" name="discountAmount" id="discountAmount" [(ngModel)]="contract.discountAmount" class="form-control" #contractDiscountAmount="ngModel"
+              [style.border-color]="contractDiscountAmount?.value == '0' && contractDiscountAmount.touched
+            ? 'red' : '#ced4da'">
+            <div *ngIf="contractDiscountAmount?.value == '0' && contractDiscountAmount.touched" class="error-msg">Nuk duhet të jetë zero!</div> -->
           </div>
         </div>
         <div class="row">
           <div class="col-md-12">
             <label for="totalAmount">Çmimi total i paguar për kontratën</label>
-            <input type="text" name="totalAmount" id="totalAmount" [(ngModel)]="contract.totalAmount" class="form-control">
+            <!-- <input type="number" name="totalAmount" id="totalAmount" [(ngModel)]="contract.totalAmount" class="form-control" #contractTotalAmount="ngModel"
+              [style.border-color]="contractTotalAmount?.value == '0' && contractTotalAmount.touched
+            ? 'red' : '#ced4da'">
+            <div *ngIf="contractTotalAmount?.value == '0' && contractTotalAmount.touched" class="error-msg">Nuk duhet të jetë zero!</div> -->
           </div>
         </div>
         <div class="row">
           <div class="col-12 form-group">
             <div class="form-group">
               <label for="email">Drejtoritë</label>
-              <select name="department" id="departments" placeholder="Zgjedh" class="form-control" [(ngModel)]="contract.department" #contractDepartments="ngModel"
+              <!-- <select name="department" id="departments" placeholder="Zgjedh" class="form-control" [(ngModel)]="contract.department" #contractDepartments="ngModel"
                 required [style.border-color]="contractDepartments.errors?.required && contractDepartments.touched ? 'red' : '#ced4da'">
-                <option [ngValue]="undefined" selected>Zgjedh drejtorinë</option>
+                <option value="" selected>Zgjedh drejtorinë</option>
                 <option value="drejtoria1">Drejtoria 1</option>
                 <option value="drejtoria2">Drejtoria 2</option>
               </select>
-              <div *ngIf="contractDepartments.errors?.required && contractDepartments.touched" class="error-msg">Duhet zgjedhur!</div>
+              <div *ngIf="contractDepartments.errors?.required && contractDepartments.touched" class="error-msg">Duhet zgjedhur!</div> -->
             </div>
           </div>
         </div>
@@ -547,14 +624,15 @@
         <div class="row">
           <div class="col-md-12">
             <label for="nameOfProdcurementOffical">Emri i zyrtarit të prokurimit</label>
-            <input type="text" name="nameOfProdcurementOffical" id="nameOfProdcurementOffical" [(ngModel)]="contract.nameOfProdcurementOffical"
-              class="form-control">
+            <!-- <input type="text" name="nameOfProdcurementOffical" id="nameOfProdcurementOffical" [(ngModel)]="contract.nameOfProdcurementOffical"
+              #contractNameOfProdcurementOffical="ngModel" class="form-control" required [style.border-color]="contractNameOfProdcurementOffical.errors?.required && contractNameOfProdcurementOffical.touched ? 'red' : '#ced4da'">
+            <div *ngIf="contractNameOfProdcurementOffical.errors?.required && contractNameOfProdcurementOffical.touched" class="error-msg">Duhet plotësuar!</div> -->
           </div>
         </div>
-        <div class="row" id="buttons">
-          <div class="col-md-12">
-            <button type="submit" class="btn btn-outline-primary buttons" id="add-contract-button">Shto</button>
-          </div>
+      </div>
+      <div class="row" id="buttons">
+        <div class="col-md-12">
+          <button type="submit" class="btn btn-outline-primary buttons" id="add-contract-button">Shto</button>
         </div>
       </div>
     </form>

@@ -49,7 +49,7 @@ label {
     color: #39a6bd !important;
     margin-bottom: 10px;
 }
-.buttons:hover {
+.buttons:hover:enabled {
     background-color: #39a6bd !important; 
     color: white !important;
     border-color: #39a6bd !important;  
@@ -61,4 +61,18 @@ label {
 #contracts-buttons {
     margin-top: 10px;
     margin-right: 15px;
+}
+button:disabled,
+button[disabled]{
+  background-color: rgb(206, 212, 218);
+  border-color: rgb(206, 212, 218) !important;
+}
+.checkbox-buttons {
+    border: 0.5px solid #89cced;
+    border-radius: 5.5px;
+    padding-left: 15px;
+    padding-bottom: 6px;
+}
+.checkbox-label {
+    margin-bottom: 15px;
 }
