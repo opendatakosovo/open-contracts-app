@@ -2,10 +2,11 @@ import { Component, OnInit, Input, TemplateRef } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { DirectorateService } from '../../service/directorate.service';
-import { Directorates } from '../../models/directorates';
+import { Directorate } from '../../models/directorates';
 import { User } from '../../models/user';
 import { UserService } from '../../service/user.service';
 import Swal from 'sweetalert2';
+import { findIndex } from 'rxjs/operators';
 
 @Component({
   selector: 'app-directorates',
@@ -14,28 +15,25 @@ import Swal from 'sweetalert2';
 })
 export class DirectoratesComponent implements OnInit {
   modalRef: BsModalRef;
-  directorates: Directorates[];
-  directorate: Directorates = {
-    _id: '',
-    directorateName: '',
-    thePersonInCharge: '',
-    isActive: true
-  };
-  directorateModal: Directorates = {
-    _id: '',
-    directorateName: '',
-    thePersonInCharge: '',
-    isActive: true
-  };
-  users: User[];
-
+  directorates: Directorate[];
+  directorate: Directorate;
+  directorateModal: Directorate;
+  directorateM = [{
+    directorate: Directorate,
+    personInCharge: User
+  }];
+  activeUsers: User[];
+  peopleInChargeIds: Array<string>;
   constructor(public directorateService: DirectorateService, private modalService: BsModalService, public userService: UserService) {
-    this.directorateService.getDirectorates().subscribe(data => {
-      this.directorates = data;
+    this.directorateService.directoratesAndTheirPeopleInCharge().subscribe(data => {
+      // console.log(data);
+      this.directorateM = data.result;
     });
-    this.userService.getUsers().subscribe(data => {
-      this.users = data;
-    });
+    this.userService.getActiveUsers().subscribe(data => {
+      // console.log(data);
+      this.activeUsers = data;
+      console.log(this.activeUsers);
+      });
   }
 
   ngOnInit() {
@@ -94,7 +92,7 @@ export class DirectoratesComponent implements OnInit {
         this.directorates.unshift(res.directorate);
         Swal('Sukses!', 'Drejtoria u shtua me sukses.', 'success');
         this.directorate.directorateName = '';
-        this.directorate.thePersonInCharge = '';
+        this.directorate.thePersonInChargeEmail = '';
         this.directorate.isActive = true;
       }
     });
@@ -128,13 +126,13 @@ export class DirectoratesComponent implements OnInit {
         return false;
       } else {
         directorateName.textContent = this.directorateModal.directorateName;
-        thePersonInCharge.textContent = this.directorateModal.thePersonInCharge;
+        thePersonInCharge.textContent = this.directorateModal.thePersonInChargeEmail;
         Swal('Sukses!', 'Pëdoruesi u ndryshua me sukses.', 'success');
         this.modalRef.hide();
       }
       this.directorateModal._id = '';
       this.directorateModal.directorateName = '';
-      this.directorateModal.thePersonInCharge = '';
+      this.directorateModal.thePersonInChargeEmail = '';
       this.directorateModal.isActive = true;
     });
   }
@@ -147,7 +145,7 @@ export class DirectoratesComponent implements OnInit {
         Swal('Gabim!', 'Drejtoria nuk është deaktivizuar!', 'error');
       } else {
         this.modalRef.hide();
-        this.directorateService.getDirectorates().subscribe(data => {
+        this.directorateService.directoratesAndTheirPeopleInCharge().subscribe(data => {
           this.directorates = data;
         });
         Swal('Sukses!', 'Drejtoria u deaktivizua me sukses.', 'success');

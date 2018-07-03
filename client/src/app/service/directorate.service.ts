@@ -34,4 +34,7 @@ export class DirectorateService {
     return this.http.putWithAuth(`${this.APIUrl}/directorates/deactivate-directorate/` + id,
      deactivatedDirectorate).map(res => res.json());
   }
+  directoratesAndTheirPeopleInCharge() {
+    return this.http.getWithAuth(`${this.APIUrl}/directorates/users`).map(res => res.json());
+  }
 }

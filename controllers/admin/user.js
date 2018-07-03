@@ -74,6 +74,23 @@ router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => 
     });
 });
 
+router.get('/active-users', (req, res) => {
+    User.activeUsers((err, users) => {
+        if(!err) {
+            res.json({
+                "msg": "Active users has been retrived succesfully",
+                "users": users, 
+                "success": true
+            })
+        } else {
+            res.json({
+                "err": err,
+                "success": true
+            });
+        }
+    });
+});
+
 // Route for getting a user by id
 router.get('/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
     User.getUserById(req.params.id, (err, user) => {

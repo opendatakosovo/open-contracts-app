@@ -2,16 +2,16 @@ const router = require("express").Router();
 const Directorates  = require('../../models/directorates');
 const passport = require("passport");
 const directorateValidation = require("../../middlewares/directorate_validation");
-
+const Users = require("../../models/user");
 /*
  * ENDPOINTS PREFIX: /directorates
  */
 
-//Route for creating a user
+//Route for creating a directorate
 router.post('/', passport.authenticate('jwt', {session: false}), directorateValidation, (req, res) => {
     let directorate = new Directorates({
         directorateName: req.body.directorateName,
-        thePersonInCharge: req.body.thePersonInCharge, 
+        thePersonInChargeEmail : req.body.thePersonInChargeEmail,
         isActive: req.body.isActive
     });
    
@@ -48,24 +48,40 @@ router.post('/', passport.authenticate('jwt', {session: false}), directorateVali
  
 });
 
-// Get all directorates 
-router.get('/', passport.authenticate('jwt', {session: false}), (req, res) => {
-    Directorates.getAllDirectorates((err, directorates) => {
-        if (!err) {
-            res.json({
-                "msg": "Directorate has been retrived successfully",
-                "directorates": directorates,
-                "success": true
+router.get('/', (req, res) => {
+    Directorates.getAllDirectoratesWithPersonInCharge((err, result) => {
+        if(!err) {
+            res.json ({
+                "msg": "Data has been retrived successfully",
+                "result": result,
+                "succes": true
             });
         } else {
             res.json({
                 "err": err,
-                "success": false
+                "msg": "ERRORRR",
+                "success": true
             });
         }
     });
 });
 
+router.get('/active-directorates', (req, res) => {
+    Directorates.activeDirectorates((err, directorates) => {
+        if(!err) {
+            res.json({
+                "msg": "Active users has been retrived succesfully",
+                "directorates": directorates, 
+                "success": true
+            })
+        } else {
+            res.json({
+                "err": err,
+                "success": true
+            });
+        }
+    });
+});
 // Get directorate by id 
 router.get('/:id', passport.authenticate('jwt', {session: false}), (req, res) => {
     Directorates.getDirectorateById(req.params.id, (err, directorate) => {

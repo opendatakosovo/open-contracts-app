@@ -15,17 +15,19 @@
   <div class="row col-12" id="table-row">
     <table class="table table-hover">
       <tbody id="directorate-list">
-        <tr *ngFor="let directorate of directorates" [id]="directorate._id">
+        <tr *ngFor="let directorate of directorateM; let i = index" [id]="directorate._id">
           <td class="directorate-info" style="cursor:pointer" data-toggle="tooltip" title="Shfaq drejtorinë" data-toggle="modal" data-target="#directorate-modal" 
           (click)="showDirectorate($event)" [attr.data-id]="directorate._id" *ngIf="directorate.isActive == true">
             <p class="name" [attr.data-id]="directorate._id">{{ directorate.directorateName }}</p>
             <div>
-              <p class="thePersonInCharge" [attr.data-id]="directorate._id">{{ directorate.thePersonInCharge }}</p>
+              <p class="thePersonInCharge" [attr.data-id]="directorate._id" *ngIf=""></p>
+              <p class="thePersonInCharge" [attr.data-id]="directorate._id">{{ directorate.peopleInCharge.firstName }} {{ directorate.peopleInCharge.lastName }}</p>
             </div>
           </td>
           <td *ngIf="directorate.isActive == false">
             <p class="deactive"> {{ directorate.directorateName }}</p>
             <p class="thePersonInCharge"> {{ directorate.thePersonInCharge }}</p>
+            <p class="text-danger"> Jo-Akttiv</p>
           </td>
           <td class="edit-ico"  *ngIf="directorate.isActive == true">
             <span>
@@ -36,8 +38,7 @@
           </td>
           <td class="delete-ico"  *ngIf="directorate.isActive == true">
             <span>
-              <a data-toggle="modal" (click)="deactivateModal(modalDactivateDirectorate, $event)"[attr.data-id]="directorate._id" 
-              data-target="#deactivate-directorate-modal">
+              <a data-toggle="modal" (click)="deactivateModal(modalDactivateDirectorate, $event)"[attr.data-id]="directorate._id">
                 <i class="fa fa-times" aria-hidden="true" [attr.data-id]="directorate._id"></i>
               </a>
             </span>
@@ -45,8 +46,7 @@
           <td  *ngIf="directorate.isActive == false"></td>
           <td class="delete-ico"  *ngIf="directorate.isActive == false">
             <span>
-              <a data-toggle="modal" (click)="activateModal(modalActivateDirectorate, $event)"[attr.data-id]="directorate._id" 
-              data-target="#activate-directorate-modal">
+              <a data-toggle="modal" (click)="activateModal(modalActivateDirectorate, $event)" [attr.data-id]="directorate._id" >
                 <i class="fa fa-check" aria-hidden="true" [attr.data-id]="directorate._id"></i>
               </a>
             </span>
@@ -67,7 +67,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form class="form-i" #add="ngForm" novalidate (submit)="addDirectorate($event)" id="addDirectorates">
+      <form class="form-i" #add="ngForm" novalidate  id="addDirectorates">
         <div class="modal-body">
           <div class="form-group">
             <label for="directorate-name">Drejtoria</label>
@@ -77,15 +77,16 @@
           </div>
           <div class="form-group">
             <label for="users">Përgjegjësi</label>
-            <select name="the-person-in-charge" id="users"[(ngModel)]="directorate.thePersonInCharge" class="form-control">
+            <select name="the-person-in-charge" id="users" [(ngModel)]="directorate.thePersonInChargeEmail" class="form-control">
               <option value="" selected>Zgjedh Përgjegjësin</option>
-              <option *ngFor="let user of users" [ngValue]="user.firstName+' '+user.lastName"> {{ user.firstName }} {{ user.lastName }}</option>
+              <option value="Nuk ka përgjegjës">Nuk ka përgjegjës</option>
+              <option *ngFor="let activeUser of activeUsers" [ngValue]="activeUser.email"> {{ activeUser.firstName }} {{ activeUser.lastName }} </option>
             </select>
           </div>
         </div>
         <div class="modal-footer">
           <button type="button" (click)="modalRef.hide()" class="btn btn-secondary" data-dismiss="modal">Mbyll</button>
-          <button type="submit" class="btn btn-primary" id="addDirectoratesButton" [attr.data-id]="directorate._id" [disabled]="!add.valid">Shto</button>
+          <button type="submit" class="btn btn-primary" id="addDirectoratesButton" (click)="addDirectorate($event)" [disabled]="!add.valid">Shto</button>
         </div>
       </form>
     </div>
@@ -144,9 +145,9 @@
           </div>
           <div class="form-group">
             <label for="users">Përgjegjësi</label>
-            <select name="the-person-in-charge" id="users"[(ngModel)]="directorateModal.thePersonInCharge" class="form-control">
-              <option value="" selected>Zgjedh Përgjegjësin</option>
-              <option *ngFor="let user of users" [ngValue]="user.firstName+' '+user.lastName"> {{ user.firstName }} {{ user.lastName }}</option>
+            <select name="the-person-in-charge" id="users" [(ngModel)]="directorateModal.thePersonInCharge" class="form-control">
+              <option value="">Nuk ka përgjegjës</option>
+              <option *ngFor="let activeUser of activeUsers" [ngValue]="activeUser.firstName+' '+activeUser.lastName"> {{ activeUser.firstName }} {{ activeUser.lastName }} </option>
             </select>
           </div>
         </div>

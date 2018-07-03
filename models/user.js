@@ -83,7 +83,10 @@ module.exports.addUser = (newUser, callback) => {
 module.exports.findUserByEmail = (email, callback) => {
   User.findOne({"email": email}, callback);
 }
-
+// Function for finding active users
+module.exports.activeUsers = (callback) => {
+  User.find({"isActive": true}, callback);
+}
 // Function for comparing passwords
 module.exports.comparePassword = (candidatePassword, hash, callback) => {
   bcrypt.compare(candidatePassword, hash, (err, isMatch) => {
