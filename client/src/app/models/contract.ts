@@ -9,7 +9,7 @@ export class Contract {
     procurementValue?: Number;
     procurementProcedure?: Number;
     fppClassification?: Number;
-    planned?: Number;
+    planned?: String;
     budget?: String[];
     initiationDate?: Date;
     approvalDateOfFunds?: Date;
@@ -17,11 +17,12 @@ export class Contract {
     complaintsToAuthority1?: String;
     complaintsToOshp1?: String;
     applicationDeadlineType?: String;
-    bidOpeningDateTime?: Date;
-    NoOfCompaniesWhoDownloadedTenderDoc?: Number;
-    NoOfCompaniesWhoSubmited?: Number;
+    bidOpeningDate?: Date;
+    noOfCompaniesWhoDownloadedTenderDoc?: Number;
+    noOfCompaniesWhoSubmited?: Number;
     startingOfEvaluationDate?: Date;
     endingOfEvaluationDate?: Date;
+    startingAndEndingEvaluationDate?: String;
     noOfRefusedBids?: Number;
     reapprovalDate?: Date;
     cancellationNoticeDate?: Date;
@@ -41,10 +42,10 @@ export class Contract {
         totalAmountOfContractsIncludingTaxes?: Number,
         totalPayedPriceForContract?: Number,
         annexes?: Annex[]
-        deadlineType?: Number,
         criteria?: String,
         implementationDeadlineStartingDate?: Date,
         ImplementationDeadlineEndingDate?: Date,
+        implementationDeadlineStartingAndEndingDate?: String
         publicationDate?: Date,
         publicationDateOfGivenContract?: Date,
         closingDate?: Date,
@@ -72,14 +73,14 @@ export class Contract {
         this.procurementType = 0;
         this.procurementValue = 0;
         this.procurementProcedure = 0;
-        this.planned = 0;
+        this.planned = '';
         this.budget = [];
         this.initiationDate = new Date();
         this.approvalDateOfFunds = new Date();
         this.torDate = new Date();
         this.complaintsToAuthority1 = '';
         this.complaintsToOshp1 = '';
-        this.bidOpeningDateTime = new Date();
+        this.bidOpeningDate = new Date();
         this.startingOfEvaluationDate = new Date();
         this.endingOfEvaluationDate = new Date();
         this.noOfRefusedBids = 0;
@@ -115,7 +116,6 @@ export class Contract {
             totalAmountOfContractsIncludingTaxes: 0,
             totalPayedPriceForContract: 0,
             annexes: [],
-            deadlineType: 0,
             criteria: '',
             implementationDeadlineStartingDate: new Date(),
             ImplementationDeadlineEndingDate: new Date(),
