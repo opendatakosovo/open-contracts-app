@@ -50,7 +50,6 @@ const ContractSchema = mongoose.Schema({
             totalValueOfAnnexContract1: { type: Number },
             annexContractSigningDate1: { type: Date }
         }],
-        deadlineType: { type: Number },
         criteria: { type: String },
         implementationDeadlineStartingDate: { type: Date },
         ImplementationDeadlineEndingDate: { type: Date },
