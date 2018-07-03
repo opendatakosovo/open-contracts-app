@@ -73,14 +73,14 @@ export class Contract {
         this.procurementType = 0;
         this.procurementValue = 0;
         this.procurementProcedure = 0;
-        this.planned = 0;
+        this.planned = '';
         this.budget = [];
         this.initiationDate = new Date();
         this.approvalDateOfFunds = new Date();
         this.torDate = new Date();
         this.complaintsToAuthority1 = '';
         this.complaintsToOshp1 = '';
-        this.bidOpeningDateTime = new Date();
+        this.bidOpeningDate = new Date();
         this.startingOfEvaluationDate = new Date();
         this.endingOfEvaluationDate = new Date();
         this.noOfRefusedBids = 0;
@@ -106,7 +106,6 @@ export class Contract {
             totalAmountOfContractsIncludingTaxes: 0,
             totalPayedPriceForContract: 0,
             annexes: [],
-            deadlineType: 0,
             criteria: '',
             implementationDeadlineStartingDate: new Date(),
             ImplementationDeadlineEndingDate: new Date(),
