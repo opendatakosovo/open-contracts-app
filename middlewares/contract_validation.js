@@ -32,6 +32,14 @@ module.exports = (req, res, next) => {
     if (isEqual(requestedContract['contractNoOfDownloads'], 0)) {
         errors.push('Numri i OE që kanë shkarkuar dosjen e tenderit nuk duhet të jetë zero!');
     }
+    if (isEqual(requestedContract['noOfOffersForContract'], 0)) {
+        errors.push('Numri i OE që kanë dorëzuar ofertat nuk duhet të jetë zero!');
+    }
+    if (isEqual(requestedContract['predictedContractValue'], 0)) {
+        errors.push('Vlera e parashikuar e kontratës nuk duhet të jetë zero!');
+    }
+
+
 
     // Function for checking if the input is equal to 0
     function isEqual(value, compareValue) {
