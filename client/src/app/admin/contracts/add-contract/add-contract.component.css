@@ -67,3 +67,12 @@ button[disabled]{
   background-color: rgb(206, 212, 218);
   border-color: rgb(206, 212, 218) !important;
 }
+.checkbox-buttons {
+    border: 0.5px solid #89cced;
+    border-radius: 5.5px;
+    padding-left: 15px;
+    padding-bottom: 6px;
+}
+.checkbox-label {
+    margin-bottom: 15px;
+}
