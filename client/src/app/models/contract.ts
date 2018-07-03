@@ -99,7 +99,7 @@ export class Contract {
         this.lastInstallmentPayDate = new Date();
         this.lastInstallmentAmount = 0;
         this.company = {
-            name: 'test test',
+            name: '',
             slug: '',
             headquarters: {
                 name: '',
