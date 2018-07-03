@@ -81,6 +81,8 @@ export class Contract {
         this.complaintsToAuthority1 = '';
         this.complaintsToOshp1 = '';
         this.bidOpeningDate = new Date();
+        this.noOfCompaniesWhoDownloadedTenderDoc = 0;
+        this.noOfCompaniesWhoSubmited = 0;
         this.startingOfEvaluationDate = new Date();
         this.endingOfEvaluationDate = new Date();
         this.noOfRefusedBids = 0;
