@@ -29,7 +29,6 @@ export class AddContractComponent implements OnInit {
     this.annexArray = [];
     this.arrayInstallments = [];
     this.contract = new Contract();
-    console.log(this.contract);
   }
   @ViewChild('fileInput') fileInput;
   ngOnInit() {
@@ -80,34 +79,35 @@ export class AddContractComponent implements OnInit {
 
   fileChangeEvent(event) {
     this.filesToUpload = <Array<File>>event.target.files;
-    console.log(this.filesToUpload.length);
   }
 
   addContract(e, isValid) {
     e.preventDefault();
-    console.log(isValid);
-    const formData = new FormData();
-    // formData.append('file', this.filesToUpload[0], this.filesToUpload[0]['name']);
-    // formData.append('contract', JSON.stringify(this.contract));
-    // this.contractsService.addContract(formData).subscribe(res => {
-    //   if (res.err) {
-    //     Swal('Gabim!', 'Kontrata nuk u shtua.', 'error');
-    //   } else if (res.errVld) {
-    //     let errList = '';
-    //     for (const v of res.errVld) {
-    //       errList += `<li>${v}</li>`;
-    //     }
-    //     const htmlData = `<div style="text-align: center;">${errList}</div>`;
-    //     Swal({
-    //       title: 'Kujdes!',
-    //       html: htmlData,
-    //       width: 750,
-    //       type: 'info',
-    //       confirmButtonText: 'Kthehu te forma'
-    //     });
-    //   } else {
-    //     Swal('Sukses!', 'Kontrata u shtua me sukses.', 'success');
-    //   }
-    // });
+    console.log(this.filesToUpload.length, isValid);
+    if (this.filesToUpload.length > 0 && isValid === true) {
+      const formData = new FormData();
+      formData.append('file', this.filesToUpload[0], this.filesToUpload[0]['name']);
+      formData.append('contract', JSON.stringify(this.contract));
+      this.contractsService.addContract(formData).subscribe(res => {
+        if (res.err) {
+          Swal('Gabim!', 'Kontrata nuk u shtua.', 'error');
+        } else if (res.errVld) {
+          let errList = '';
+          for (const v of res.errVld) {
+            errList += `<li>${v}</li>`;
+          }
+          const htmlData = `<div style="text-align: center;">${errList}</div>`;
+          Swal({
+            title: 'Kujdes!',
+            html: htmlData,
+            width: 750,
+            type: 'info',
+            confirmButtonText: 'Kthehu te forma'
+          });
+        } else {
+          Swal('Sukses!', 'Kontrata u shtua me sukses.', 'success');
+        }
+      });
+    }
   }
 }
