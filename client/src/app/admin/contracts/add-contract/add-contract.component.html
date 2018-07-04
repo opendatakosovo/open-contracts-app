@@ -16,7 +16,8 @@
           <div class="col-12 form-group">
             <label for="activityTitle">Titulli i aktivitetit të prokurimit</label>
             <input type="text" name="activityTitle" id="activityTitle" class="form-control" [(ngModel)]="contract.activityTitle" #contractActivityTitle="ngModel"
-              required [style.border-color]="!contractActivityTitle.valid && (contractActivityTitle.touched || contractForm.submitted) ? 'red' : '#ced4da'">
+              required [style.border-color]="!contractActivityTitle.valid && (contractActivityTitle.touched || contractForm.submitted)
+              ? 'red' : '#ced4da'">
             <div [hidden]="contractActivityTitle.valid || (!contractActivityTitle.touched && !contractForm.submitted)">
               <small class="text-danger">Duhet plotësuar!</small>
             </div>
@@ -494,7 +495,7 @@
         <div class="row">
           <div class="col-6 form-group">
             <label for="totalAmountOfContractsIncludingTaxes">Vlera totale e kontratës, duke përfshirë të gjitha taksat etj.</label>
-            <input type="number" name="totalAmountOfContractsIncludingTaxes" id="totalAmountOfContractsIncludingTaxes" [(ngModel)]="contract.noOfPaymentInstallments"
+            <input type="number" name="totalAmountOfContractsIncludingTaxes" id="totalAmountOfContractsIncludingTaxes" [(ngModel)]="contract.contract.totalAmountOfContractsIncludingTaxes"
               class="form-control" #contractTotalAmountOfContractsIncludingTaxes="ngModel" [style.border-color]="contractTotalAmountOfContractsIncludingTaxes.value
             == '0' && (contractTotalAmountOfContractsIncludingTaxes.touched || contractForm.submitted) ? 'red' : '#ced4da'">
             <div [hidden]="!contractTotalAmountOfContractsIncludingTaxes.value == '0' || (!contractTotalAmountOfContractsIncludingTaxes.touched && !contractForm.submitted)">
@@ -503,7 +504,7 @@
           </div>
           <div class="col-md-6">
             <label for="totalAmountOfAllAnnexContractsIncludingTaxes">Vlera totale e kontratës, duke përfshirë të gjitha anekset dhe të gjitha taksat etj.</label>
-            <input type="number" name="contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes" id="totalAmountOfAllAnnexContractsIncludingTaxes"
+            <input type="number" name="totalAmountOfAllAnnexContractsIncludingTaxes" id="totalAmountOfAllAnnexContractsIncludingTaxes"
               [(ngModel)]="contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes" class="form-control" #contractTotalAmountOfAllAnnexContractsIncludingTaxes="ngModel"
               [style.border-color]="contractTotalAmountOfAllAnnexContractsIncludingTaxes.value == '0' && (contractTotalAmountOfAllAnnexContractsIncludingTaxes.touched || contractForm.submitted)
               ? 'red' : '#ced4da'">
@@ -712,7 +713,7 @@
       </div>
       <div class="row" id="buttons">
         <div class="col-md-12">
-          <button type="submit" class="btn btn-outline-primary buttons" id="add-contract-button">Shto</button>
+          <button type="submit" value="Submit" class="btn btn-outline-primary buttons" id="add-contract-button">Shto</button>
         </div>
       </div>
     </form>
