@@ -5,7 +5,7 @@ import { User } from '../../models/user';
 import Swal from 'sweetalert2';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import { Directorates } from '../../models/directorates';
+import { Directorate } from '../../models/directorates';
 import { DirectorateService } from '../../service/directorate.service';
 
 @Component({
@@ -16,7 +16,7 @@ import { DirectorateService } from '../../service/directorate.service';
 export class UsersComponent implements OnInit {
   modalRef: BsModalRef;
   users: User[];
-  directorates: Directorates[];
+  directorates: Directorate[];
   userModal: User;
   user: User;
   currentUser: User;

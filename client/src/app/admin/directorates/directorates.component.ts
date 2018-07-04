@@ -17,23 +17,25 @@ export class DirectoratesComponent implements OnInit {
   modalRef: BsModalRef;
   directorates: Directorate[];
   directorate: Directorate;
-  directorateModal: Directorate;
-  directorateM = [{
-    directorate: Directorate,
-    personInCharge: User
-  }];
-  activeUsers: User[];
-  peopleInChargeIds: Array<string>;
+  directorateModal: Directorate[];
+  activeUsers = [] ;
+  emails = [];
+  test: boolean;
   constructor(public directorateService: DirectorateService, private modalService: BsModalService, public userService: UserService) {
-    this.directorateService.directoratesAndTheirPeopleInCharge().subscribe(data => {
-      // console.log(data);
-      this.directorateM = data.result;
+    this.directorate = new Directorate();
+    this.directorateService.directoratesAndTheirPeopleInCharge().subscribe ( data => {
+      this.directorates = data.result;
+      for (this.directorate of this.directorates) {
+        this.emails.push(this.directorate.thePersonInChargeEmail);
+      }
     });
     this.userService.getActiveUsers().subscribe(data => {
-      // console.log(data);
-      this.activeUsers = data;
-      console.log(this.activeUsers);
+      data.forEach(element1 => {
+        if (this.emails.includes(element1.email) === false) {
+          this.activeUsers.push(element1);
+        }
       });
+    });
   }
 
   ngOnInit() {
@@ -42,29 +44,32 @@ export class DirectoratesComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
   showDirectorate(event) {
-    const id = event.target.dataset.id;
-    this.directorateService.getDirectorateByID(id).subscribe(directorate => {
-      this.directorateModal = directorate;
+    const email = event.target.dataset.id;
+    console.log(email);
+    this.directorateService.getDirectorateByPersonInChargeEmail(email).subscribe ( data => {
+      console.log(data);
+      this.directorateModal = data.directorate;
     });
+    // console.log(this.directorateModal);
   }
   editModal(template: TemplateRef<any>, event) {
-    const id = event.target.dataset.id;
-    this.directorateService.getDirectorateByID(id).subscribe(directorate => {
-      this.directorateModal = directorate;
+    const email = event.target.dataset.id;
+    this.directorateService.getDirectorateByPersonInChargeEmail(email).subscribe ( data => {
+      this.directorateModal = data.directorate;
     });
     this.modalRef = this.modalService.show(template);
   }
   deactivateModal(template: TemplateRef<any>, event) {
-    const id = event.target.dataset.id;
-    this.directorateService.getDirectorateByID(id).subscribe(directorate => {
-      this.directorateModal = directorate;
+    const email = event.target.dataset.id;
+    this.directorateService.getDirectorateByPersonInChargeEmail(email).subscribe ( data => {
+      this.directorateModal = data.directorate;
     });
     this.modalRef = this.modalService.show(template);
   }
   activateModal (template: TemplateRef<any> , event) {
-    const id = event.target.dataset.id;
-    this.directorateService.getDirectorateByID(id).subscribe(directorate => {
-      this.directorateModal = directorate;
+    const email = event.target.dataset.id;
+    this.directorateService.getDirectorateByPersonInChargeEmail(email).subscribe ( data => {
+      this.directorateModal = data.directorate;
     });
     this.modalRef = this.modalService.show(template);
   }
@@ -89,82 +94,98 @@ export class DirectoratesComponent implements OnInit {
         });
       } else {
         this.modalRef.hide();
-        this.directorates.unshift(res.directorate);
+        this.directorateService.directoratesAndTheirPeopleInCharge().subscribe ( data => {
+          this.directorates = data.result;
+        });
+        this.userService.getActiveUsers().subscribe(data => {
+          data.forEach(element1 => {
+            if (this.emails.includes(element1.email) === false) {
+              this.activeUsers.push(element1);
+            }
+          });
+        });
         Swal('Sukses!', 'Drejtoria u shtua me sukses.', 'success');
         this.directorate.directorateName = '';
         this.directorate.thePersonInChargeEmail = '';
-        this.directorate.isActive = true;
+        this.directorate.directorateIsActive = true;
       }
     });
   }
 
-  editDirectorate(event) {
-    const id = event.target.dataset.id;
-    const directorateName = document.getElementById(`${id}`).querySelector('.directorate-info .name');
-    const thePersonInCharge = document.getElementById(`${id}`).querySelector('.directorate-info .thePersonInCharge');
-    this.directorateService.editDirectorate(id, this.directorateModal).subscribe(res => {
-      if (res.err) {
-        Swal('Gabim!', 'Drejtoria nuk u ndryshua.', 'error');
-        return false;
-      } else if (res.errVld) {
-        let errList = '';
-        res.errVld.map(error => {
-          errList += `<li>${error.msg}</li>`;
-        });
-        const htmlData = `<div style="text-align: center;">${errList}</div>`;
-        Swal({
-          title: 'Kujdes!',
-          html: htmlData,
-          width: 750,
-          type: 'info',
-          confirmButtonText: 'Kthehu te forma'
-        });
-      } else if (this.directorateModal.directorateName === '') {
-        Swal('Gabim!', 'Drejtoria nuk u ndryshua.', 'error');
-      } else if (res.err) {
-        Swal('Gabim!', 'Pëdoruesi nuk u ndryshua.', 'error');
-        return false;
-      } else {
-        directorateName.textContent = this.directorateModal.directorateName;
-        thePersonInCharge.textContent = this.directorateModal.thePersonInChargeEmail;
-        Swal('Sukses!', 'Pëdoruesi u ndryshua me sukses.', 'success');
-        this.modalRef.hide();
-      }
-      this.directorateModal._id = '';
-      this.directorateModal.directorateName = '';
-      this.directorateModal.thePersonInChargeEmail = '';
-      this.directorateModal.isActive = true;
-    });
-  }
+  // editDirectorate(event) {
+  //   const id = event.target.dataset.id;
+  //   const directorateName = document.getElementById(`${id}`).querySelector('.directorate-info .name');
+  //   const thePersonInCharge = document.getElementById(`${id}`).querySelector('.directorate-info .thePersonInCharge');
+  //   this.directorateService.editDirectorate(id, this.directorateModal).subscribe(res => {
+  //     if (res.err) {
+  //       Swal('Gabim!', 'Drejtoria nuk u ndryshua.', 'error');
+  //       return false;
+  //     } else if (res.errVld) {
+  //       let errList = '';
+  //       res.errVld.map(error => {
+  //         errList += `<li>${error.msg}</li>`;
+  //       });
+  //       const htmlData = `<div style="text-align: center;">${errList}</div>`;
+  //       Swal({
+  //         title: 'Kujdes!',
+  //         html: htmlData,
+  //         width: 750,
+  //         type: 'info',
+  //         confirmButtonText: 'Kthehu te forma'
+  //       });
+  //     } else if (this.directorateModal[0].directorateName === '') {
+  //       Swal('Gabim!', 'Drejtoria nuk u ndryshua.', 'error');
+  //     } else if (res.err) {
+  //       Swal('Gabim!', 'Pëdoruesi nuk u ndryshua.', 'error');
+  //       return false;
+  //     } else {
+  //       directorateName.textContent = this.directorateModal[0].directorateName;
+  //       thePersonInCharge.textContent = this.directorateModal[0].thePersonInChargeEmail;
+  //       this.userService.getActiveUsers().subscribe(data => {
+  //         data.forEach(element1 => {
+  //           if (this.emails.includes(element1.email) === false) {
+  //             this.activeUsers.push(element1);
+  //           }
+  //         });
+  //       });
+  //       Swal('Sukses!', 'Pëdoruesi u ndryshua me sukses.', 'success');
+  //       this.modalRef.hide();
+  //     }
+  //     this.directorateModal[0]._id = '';
+  //     this.directorateModal[0].directorateName = '';
+  //     this.directorateModal[0].thePersonInChargeEmail = '';
+  //     this.directorateModal[0].directorateIsActive = true;
+  //   });
+  // }
 
-  deactivateDirectorate(event) {
-    const id = event.target.dataset.id;
+  // deactivateDirectorate(event) {
+  //   const id = event.target.dataset.id;
 
-    this.directorateService.deactivateDirectorate(id, this.directorateModal).subscribe(res => {
-      if (res.err) {
-        Swal('Gabim!', 'Drejtoria nuk është deaktivizuar!', 'error');
-      } else {
-        this.modalRef.hide();
-        this.directorateService.directoratesAndTheirPeopleInCharge().subscribe(data => {
-          this.directorates = data;
-        });
-        Swal('Sukses!', 'Drejtoria u deaktivizua me sukses.', 'success');
-      }
-    });
-  }
-  activateDirectorate(event) {
-    const id = event.target.dataset.id;
+  //   this.directorateService.deactivateDirectorate(id, this.directorateModal).subscribe(res => {
+  //     if (res.err) {
+  //       Swal('Gabim!', 'Drejtoria nuk është deaktivizuar!', 'error');
+  //     } else {
+  //       this.modalRef.hide();
+  //       this.directorateService.directoratesAndTheirPeopleInCharge().subscribe ( data => {
+  //         this.directorates = data.result;
+  //       });
+  //       Swal('Sukses!', 'Drejtoria u deaktivizua me sukses.', 'success');
+  //     }
+  //   });
+  // }
+  // activateDirectorate(event) {
+  //   const id = event.target.dataset.id;
 
-    this.directorateService.activateDirectorate(id, this.directorateModal).subscribe(res => {
-      if (res.err) {
-        Swal('Gabim!', 'Drejtoria nuk është aktivizuar!', 'error');
-        } else {
-          this.modalRef.hide();
-          this.directorateService.getDirectorates().subscribe(data => {
-            this.directorates = data;
-          });
-        Swal ('Sukses!', 'Drejtoria u aktivizua me sukses!', 'success');
-        }
-    });
-  }
+  //   this.directorateService.activateDirectorate(id, this.directorateModal).subscribe(res => {
+  //     if (res.err) {
+  //       Swal('Gabim!', 'Drejtoria nuk është aktivizuar!', 'error');
+  //       } else {
+  //       this.modalRef.hide();
+  //       this.directorateService.directoratesAndTheirPeopleInCharge().subscribe ( data => {
+  //         this.directorates = data.result;
+  //       });
+  //       Swal ('Sukses!', 'Drejtoria u aktivizua me sukses!', 'success');
+  //       }
+  //   });
+  // }
 }

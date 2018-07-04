@@ -5,7 +5,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import Swal from 'sweetalert2';
-import { Directorates } from '../../models/directorates';
+import { Directorate } from '../../models/directorates';
 import { DirectorateService } from '../../service/directorate.service';
 
 @Component({
@@ -42,7 +42,7 @@ export class ProfileComponent implements OnInit {
   };
   check: Boolean = false;
   bsModalRef: BsModalRef;
-  directorates: Directorates[];
+  directorates: Directorate[];
 
   constructor(private userService: UserService, private modalService: BsModalService, public directorateService: DirectorateService) {
     this.directorateService.getDirectorates().subscribe(data => {
