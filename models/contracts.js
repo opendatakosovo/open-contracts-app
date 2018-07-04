@@ -4,9 +4,9 @@ const ObjectId = require('mongoose').Types.ObjectId;
 const ContractSchema = mongoose.Schema({
     activityTitle: { type: String },
     procurementNo: { type: Number },
-    procurementType: { type: Number },
-    procurementValue: { type: Number },
-    procurementProcedure: { type: Number },
+    procurementType: { type: String },
+    procurementValue: { type: String },
+    procurementProcedure: { type: String },
     fppClassification: { type: Number },
     planned: { type: String },
     budget: [{ type: String }],

@@ -5,9 +5,9 @@ import { OnInit } from '@angular/core';
 export class Contract {
     activityTitle?: String;
     procurementNo?: Number;
-    procurementType?: Number;
-    procurementValue?: Number;
-    procurementProcedure?: Number;
+    procurementType?: String;
+    procurementValue?: String;
+    procurementProcedure?: String;
     fppClassification?: Number;
     planned?: String;
     budget?: String[];
@@ -70,9 +70,9 @@ export class Contract {
     constructor() {
         this.activityTitle = '';
         this.procurementNo = 0;
-        this.procurementType = 0;
-        this.procurementValue = 0;
-        this.procurementProcedure = 0;
+        this.procurementType = '';
+        this.procurementValue = '';
+        this.procurementProcedure = '';
         this.planned = '';
         this.budget = [];
         this.initiationDate = new Date();
