@@ -16,7 +16,7 @@ import { DirectorateService } from '../../service/directorate.service';
 export class UsersComponent implements OnInit {
   modalRef: BsModalRef;
   users: User[];
-  directorates: Directorate[];
+  directorates: Directorate;
   userModal: User;
   user: User;
   currentUser: User;
@@ -25,18 +25,19 @@ export class UsersComponent implements OnInit {
     this.userModal = new User();
     this.user = new User();
     this.currentUser = new User();
+    this.directorates = new Directorate();
     this.userService.getUsers().subscribe(data => {
       this.users = data;
     });
-    this.directorateService.getDirectorates().subscribe(data => {
-      this.directorates = data;
+    this.directorateService.directoratesAndTheirPeopleInCharge().subscribe(data => {
+      this.directorates = data.result;
     });
     this.currentUser = JSON.parse(localStorage.getItem('user'));
   }
 
   ngOnInit() { }
 
-  // Function to open a modal
+  // Function to open add user modal
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
@@ -88,9 +89,9 @@ export class UsersComponent implements OnInit {
     });
     this.userService.generatePassword(id).subscribe(result => {
       if (!result.err) {
-        Swal('Sukses!', 'Pëdoruesit ju rigjenerua fjalëkalimi dhe ju dërgua me sukses.', 'success');
+        Swal('Sukses!', 'Përdoruesi ju rigjenerua fjalëkalimi dhe ju dërgua me sukses.', 'success');
       } else {
-        Swal('Gabim!', `Përdoruesit nuk u rigjenerua fjalëkalimi me sukses arsyja: ${result.err}`, 'success');
+        Swal('Gabim!', `Përdoruesi nuk u rigjenerua fjalëkalimi me sukses arsyja: ${result.err}`, 'success');
       }
     });
   }
@@ -99,9 +100,9 @@ export class UsersComponent implements OnInit {
   addUser(event) {
     this.userService.addUser(this.user).subscribe(res => {
       if (res.err) {
-        Swal('Gabim!', 'Pëdoruesi nuk u shtua.', 'error');
+        Swal('Gabim!', 'Përdoruesi nuk u shtua.', 'error');
       } else if (res.exists) {
-        Swal('Kujdes!', 'Pëdoruesi eksizton.', 'warning');
+        Swal('Kujdes!', 'Përdoruesi eksizton.', 'warning');
       } else if (res.errVld) {
         let errList = '';
         res.errVld.map(error => {
@@ -117,14 +118,14 @@ export class UsersComponent implements OnInit {
         });
       } else if (res.usr_err) {
         Swal({
-          title: 'Perdoruesi ekziston por është joaktiv',
+          title: 'Përdoruesi ekziston por është joaktiv',
           type: 'warning',
           confirmButtonText: 'Kthehu tek forma',
         });
       } else {
         this.modalRef.hide();
         this.users.unshift(res.user);
-        Swal('Sukses!', 'Pëdoruesi u shtua me sukses.', 'success');
+        Swal('Sukses!', 'Përdoruesi u shtua me sukses.', 'success');
         this.user = new User();
       }
     });
@@ -135,7 +136,7 @@ export class UsersComponent implements OnInit {
     const id = event.target.dataset.id;
     this.userService.editUser(id, this.userModal).subscribe(res => {
       if (res.err) {
-        Swal('Gabim!', 'Pëdoruesi nuk u ndryshua.', 'error');
+        Swal('Gabim!', 'Përdoruesi nuk u ndryshua.', 'error');
         return false;
       } else if (res.errVld) {
         let errList = '';
@@ -151,27 +152,27 @@ export class UsersComponent implements OnInit {
           confirmButtonText: 'Kthehu te forma'
         });
       } else if (this.userModal.firstName === '' || this.userModal.lastName === '') {
-        Swal('Gabim!', 'Pëdoruesi nuk u ndryshua.', 'error');
+        Swal('Gabim!', 'Përdoruesi nuk u ndryshua.', 'error');
       } else {
         if (this.userModal.role === 'user') {
           if (this.userModal.department === null || this.userModal.department === undefined || this.userModal.department === '') {
-            Swal('Gabim!', 'Pëdoruesi nuk u ndryshua.', 'error');
+            Swal('Gabim!', 'Përdoruesi nuk u ndryshua.', 'error');
             return false;
           } else {
             this.userService.getUsers().subscribe(data => {
               this.users = data;
             });
-            Swal('Sukses!', 'Pëdoruesi u ndryshua me sukses.', 'success');
+            Swal('Sukses!', 'Përdoruesi u ndryshua me sukses.', 'success');
             this.modalRef.hide();
           }
         } else if (res.err) {
-          Swal('Gabim!', 'Pëdoruesi nuk u ndryshua.', 'error');
+          Swal('Gabim!', 'Përdoruesi nuk u ndryshua.', 'error');
           return false;
         } else {
           this.userService.getUsers().subscribe(data => {
             this.users = data;
           });
-          Swal('Sukses!', 'Pëdoruesi u ndryshua me sukses.', 'success');
+          Swal('Sukses!', 'Përdoruesi u ndryshua me sukses.', 'success');
           this.modalRef.hide();
         }
       }

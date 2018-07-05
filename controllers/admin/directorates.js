@@ -47,23 +47,9 @@ router.post('/', passport.authenticate('jwt', {session: false}), directorateVali
     });
  
 });
+
+// Route for getting all directorates and their person in charge
 router.get('/', (req, res) => {
-    Directorates.getAllDirectorates((err, directorates) => {
-        if (!err) {
-            res.json({
-                "msg": "Directorates has been retrived successfully",
-                "directorates": directorates,
-                "success": true
-            });
-        } else {
-            res.json({
-                "err": err,
-                "success": false
-            });
-        }
-    });
-});
-router.get('/users', (req, res) => {
     Directorates.getAllDirectoratesWithPersonInCharge((err, result) => {
         if(!err) {
             res.json ({
@@ -74,12 +60,31 @@ router.get('/users', (req, res) => {
         } else {
             res.json({
                 "err": err,
-                "success": true
+                "success": false
             });
         }
     });
 });
 
+// Route for getting directorate by id
+router.get('/:id', (req,res) => {
+    Directorates.getDirectorateById(req.params.id , (err, directorate) => {
+        if(!err) {
+            res.json({
+                "msg": "Directorate has been retrived successfully",
+                "directorate": directorate,
+                "success": true
+            })
+        } else {
+            res.json({
+                "err": err,
+                "success": false
+            })
+        }
+    })
+});
+
+//Route for getting active directorates
 router.get('/active-directorates', (req, res) => {
     Directorates.activeDirectorates((err, directorates) => {
         if(!err) {
@@ -96,11 +101,10 @@ router.get('/active-directorates', (req, res) => {
         }
     });
 });
-// Get directorate by id 
-router.get('/:email', (req, res) => {
-    const email = req.body.thePersonInChargeEmail;
 
-    Directorates.getDirectorateByEmail(email ,(err, directorate) => {
+//Route for getting directorates by their person in charge email
+router.get('/user/:email', (req, res) => {
+    Directorates.getDirectorateByEmail(req.params.email ,(err, directorate) => {
         if(!err) {
             res.json ({
                 "msg": "Directorate has been retrived successfully",
@@ -113,13 +117,13 @@ router.get('/:email', (req, res) => {
                 "success": true
             });
         }
-    });
-        
+    });     
 });
-router.put('/edit-directorate/:id', passport.authenticate('jwt', {session: false}), (req,res) => {
-    const directorateId = req.params.id;
 
-    Directorates.updateDirectorate(directorateId, req.body, (err, directorate) => {
+//Route for editing directorate
+router.put('/edit-directorate/:id', (req,res) => {
+
+    Directorates.updateDirectorate(req.params.id, req.body, (err, directorate) => {
         if(!err) {
             res.json({
                 "msg": "Directorate has been updated successfully",
@@ -134,6 +138,8 @@ router.put('/edit-directorate/:id', passport.authenticate('jwt', {session: false
         }
     });
 });
+
+//Route for deactivating directorate
 router.put('/deactivate-directorate/:id', (req,res) => {
     const directorateID = req.params.id;
 
@@ -153,6 +159,7 @@ router.put('/deactivate-directorate/:id', (req,res) => {
     });
 });
 
+//Route for activating directorate
 router.put('/activate-directorate/:id', (req,res) => {
     const directorateID = req.params.id;
 

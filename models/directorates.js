@@ -17,11 +17,6 @@ module.exports = mongoose.model("Directorate", DirectorateSchema);
 module.exports.addDirectorate = (newDirectorate, callback) => {
   newDirectorate.save(callback);
 }
-module.exports.getAllDirectorates = callback => {
-  Directorate.find({})
-    .sort([['createdAt', -1]])
-    .exec(callback);
-}
 //Method for getting all directorates with persons in charge
 module.exports.getAllDirectoratesWithPersonInCharge = (callback) => {
   Directorate.aggregate([{
@@ -36,15 +31,20 @@ module.exports.getAllDirectoratesWithPersonInCharge = (callback) => {
     "$replaceRoot": { "newRoot": { "$mergeObjects": [{ "$arrayElemAt": ["$personInCharge", 0] }, "$$ROOT"] } }
   },
   { "$project": { "personInCharge": 0 } }
-  ], callback);
+  ]).sort({'createdAt': "desc"})
+  .exec(callback);;
 }
 //Method for finding directorate by name
 module.exports.findDirectorate = (directorate, callback) => {
   Directorate.findOne({ "directorateName": directorate }, callback);
 }
-
+//Method for finding directorate by id 
+module.exports.getDirectorateById = (id , callback) => {
+  Directorate.findById(id, callback);
+}
+//Method for getting directorate and its person in charge by users email
 module.exports.getDirectorateByEmail = ( email, callback) => {
-  Directorate.aggregate([{ "$match": { "thePersonInChargeEmail": "leutrim@prishtina.com" } },
+  Directorate.aggregate([{ "$match": { "thePersonInChargeEmail": email } },
   {
     "$lookup": {
       "from": "users",
@@ -59,9 +59,9 @@ module.exports.getDirectorateByEmail = ( email, callback) => {
   { "$project": { "personInCharge": 0 } }
   ], callback);
 }
-// Method for editin a directorate
+// Method for editing a directorate
 module.exports.updateDirectorate = (id, directorate, callback) => {
-  Directorate.findByIdAndUpdate(id, { $set: directorate }, { new: true }, callback);
+  Directorate.findByIdAndUpdate( id, { $set: directorate }, { new: true }, callback);
 }
 
 //Method for deactivating a directorate

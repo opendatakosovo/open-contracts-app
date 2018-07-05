@@ -18,34 +18,16 @@ export class ProfileComponent implements OnInit {
     id: '',
     email: ''
   };
-  user: User = {
-    _id: '',
-    firstName: '',
-    lastName: '',
-    gender: 'male',
-    email: '',
-    password: '',
-    role: 'admin',
-    department: '',
-    isActive: true
-  };
-  userModal: User = {
-    _id: '',
-    firstName: '',
-    lastName: '',
-    gender: 'male',
-    email: '',
-    password: '',
-    role: 'admin',
-    department: '',
-    isActive: true
-  };
+  user: User;
+  userModal: User;
   check: Boolean = false;
   bsModalRef: BsModalRef;
   directorates: Directorate[];
 
   constructor(private userService: UserService, private modalService: BsModalService, public directorateService: DirectorateService) {
-    this.directorateService.getDirectorates().subscribe(data => {
+    this.user = new User();
+    this.userModal = new User();
+    this.directorateService.directoratesAndTheirPeopleInCharge().subscribe(data => {
       this.directorates = data;
     });
     this.currentUser = JSON.parse(localStorage.getItem('user'));
@@ -68,7 +50,6 @@ export class ProfileComponent implements OnInit {
     });
     this.bsModalRef = this.modalService.show(template);
   }
-
 
   editProfile(event) {
     const id = event.target.dataset.id;
