@@ -43,8 +43,14 @@
               </p>
             </div>
             <div *ngIf="user.role == 'user'">
-              <p class="position">Përdorues - {{ user.department }}</p>
+                <p class="position"> Përdorues </p>
             </div>
+            <div *ngIf="user.directorateIsActive == true">
+                <p class="position"> {{ user.department }}</p>
+              </div>
+            <div *ngIf="user.directorateIsActive == false">
+                <p class="position">{{ user.department }} (Drejtoria juaj nuk është aktive)</p>
+              </div>
             <div *ngIf="user.role == 'admin'">
               <p class="position">Administrator</p>
             </div>
@@ -203,7 +209,7 @@
             <select name="departments" id="editDepartments" [(ngModel)]="userModal.department" class="form-control" #userDepartments="ngModel"
               required [style.border-color]="userDepartments.errors?.required && userDepartments.touched ? 'red' : '#ced4da'">
               <option [value]="undefined" selected>Zgjedh Drejtorinë</option>
-              <option *ngFor="let directorate of directorates" [value]="directorate.name">{{ directorate.name }}</option>
+              <option *ngFor="let directorate of directorates" [value]="directorate.directorateName">{{ directorate.directorateName }}</option>
             </select>
             <div *ngIf="userDepartments.errors?.required && userDepartments.touched" class="error-msg">Duhet zgjedhur!</div>
           </div>

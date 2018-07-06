@@ -81,5 +81,7 @@ export class UserService {
   activateUser(id, activatedUser) {
     return this.http.putWithAuth(`${this.APIUrl}/user/activate-user/` + id, activatedUser).map(res => res.json());
   }
-
+  getActiveUsers() {
+    return this.http.getWithAuth(`${this.APIUrl}/user/active-users`).map(res => res.json().users);
+  }
 }

@@ -1,6 +1,12 @@
-export interface Directorates {
+export class Directorate {
     _id ?: string;
     directorateName: string;
-    thePersonInCharge: string;
-    isActive: boolean;
+    thePersonInChargeEmail: string;
+    directorateIsActive: boolean;
+    constructor() {
+        this._id = '';
+        this.directorateName = '';
+        this.thePersonInChargeEmail = '';
+        this.directorateIsActive = true;
+    }
 }

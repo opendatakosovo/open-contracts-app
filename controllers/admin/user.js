@@ -57,7 +57,7 @@ router.post('/', passport.authenticate('jwt', { session: false }), userValidatio
 });
 
 // Route for getting all users
-router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.get('/', (req, res) => {
     User.getAllUsers((err, users) => {
         if (!err) {
             res.json({
@@ -74,8 +74,25 @@ router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => 
     });
 });
 
+router.get('/active-users', (req, res) => {
+    User.activeUsers((err, users) => {
+        if(!err) {
+            res.json({
+                "msg": "Active users has been retrived succesfully",
+                "users": users, 
+                "success": true
+            })
+        } else {
+            res.json({
+                "err": err,
+                "success": true
+            });
+        }
+    });
+});
+
 // Route for getting a user by id
-router.get('/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.get('/:id',(req, res) => {
     User.getUserById(req.params.id, (err, user) => {
         if (!err) {
             res.json({
