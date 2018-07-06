@@ -87,10 +87,10 @@
         <br>
         <div class="col-md-4">
           <label>Klasifikimi (2 shifrat e para të FPP)</label>
-          <div *ngIf="contract.fppClassification == ''">
+          <div *ngIf="!contract.fppClassification">
             <p>Nuk ka të dhëna!</p>
           </div>
-          <div *ngIf="contract.fppClassification != ''">
+          <div *ngIf="contract.fppClassification">
             <p>{{ contract.fppClassification }}</p>
           </div>
         </div>
@@ -105,10 +105,10 @@
         </div>
         <div class="col-md-6">
           <label>Buxheti</label>
-          <div *ngIf="contract.budget == ''">
+          <div *ngIf="!contract.budget">
             <p>Nuk ka të dhëna!</p>
           </div>
-          <div *ngIf="contract.budget != ''">
+          <div *ngIf="contract.budget">
             <p>{{ contract.budget }}</p>
           </div>
         </div>
@@ -168,19 +168,19 @@
         <br>
         <div class="col-6">
           <label>Nr. i OE që kanë shkarkuar dosjen e tenderit</label>
-          <div *ngIf="contract.noOfCompaniesWhoDownloadedTenderDoc == ''">
+          <div *ngIf="!contract.noOfCompaniesWhoDownloadedTenderDoc">
             <p>Nuk ka të dhëna!</p>
           </div>
-          <div *ngIf="contract.noOfCompaniesWhoDownloadedTenderDoc != ''">
+          <div *ngIf="contract.noOfCompaniesWhoDownloadedTenderDoc">
             <p>{{ contract.noOfCompaniesWhoDownloadedTenderDoc }}</p>
           </div>
         </div>
         <div class="col-6">
           <label>Nr. i OE që kanë dorëzuar ofertat</label>
-          <div *ngIf="contract.noOfCompaniesWhoSubmited == ''">
+          <div *ngIf="!contract.noOfCompaniesWhoSubmited">
             <p>Nuk ka të dhëna!</p>
           </div>
-          <div *ngIf="contract.noOfCompaniesWhoSubmited != ''">
+          <div *ngIf="contract.noOfCompaniesWhoSubmited">
             <p>{{ contract.noOfCompaniesWhoSubmited }}</p>
           </div>
         </div>
@@ -193,10 +193,10 @@
         </div>
         <div class="col-md-6">
           <label>Numri i ofertave të refuzuara</label>
-          <div *ngIf="contract.noOfRefusedBids == ''">
+          <div *ngIf="!contract.noOfRefusedBids">
             <p>Nuk ka të dhëna!</p>
           </div>
-          <div *ngIf="contract.noOfRefusedBids != ''">
+          <div *ngIf="contract.noOfRefusedBids">
             <p>{{ contract.noOfRefusedBids }}</p>
           </div>
         </div>
@@ -216,7 +216,7 @@
         <br>
         <div class="col-6">
           <label>Data e publikimit të njoftimit për dhënie të kontratës</label>
-          <p>{{ contract.publicationDateOfGivenContract | date: 'dd/MM/yyyy' }}</p>
+          <p>{{ contract.contract.publicationDateOfGivenContract | date: 'dd/MM/yyyy' }}</p>
         </div>
         <div class="col-6">
           <label>Data e publikimit të anulimit të njoftimit</label>
@@ -249,10 +249,10 @@
         <br>
         <div class="col-6">
           <label>Vlera e parashikuar e kontratës</label>
-          <div *ngIf="contract.contract.predictedValue == ''">
+          <div *ngIf="!contract.contract.predictedValue">
             <p>Nuk ka të dhëna!</p>
           </div>
-          <div *ngIf="contract.contract.predictedValue != ''">
+          <div *ngIf="contract.contract.predictedValue">
             <p>{{ contract.contract.predictedValue }}</p>
           </div>
         </div>
@@ -347,28 +347,28 @@
         <br>
         <div class="col-4">
           <label>Numri i përgjithshëm i situacioneve për pagesë, sipas kontratës</label>
-          <div *ngIf="contract.noOfPaymentInstallments == ''">
+          <div *ngIf="!contract.noOfPaymentInstallments">
             <p>Nuk ka të dhëna!</p>
           </div>
-          <div *ngIf="contract.noOfPaymentInstallments != ''">
+          <div *ngIf="contract.noOfPaymentInstallments">
             <p>{{ contract.noOfPaymentInstallments }}</p>
           </div>
         </div>
         <div class="col-md-4">
           <label>Vlera totale e kontratës, duke përfshirë të gjitha taksat etj.</label>
-          <div *ngIf="contract.contract.totalAmountOfContractsIncludingTaxes == ''">
+          <div *ngIf="!contract.contract.totalAmountOfContractsIncludingTaxes">
             <p>Nuk ka të dhëna!</p>
           </div>
-          <div *ngIf="contract.contract.totalAmountOfContractsIncludingTaxes != ''">
+          <div *ngIf="contract.contract.totalAmountOfContractsIncludingTaxes">
             <p>{{ contract.contract.totalAmountOfContractsIncludingTaxes }}</p>
           </div>
         </div>
         <div class="col-md-4">
           <label>Vlera totale e kontratës, duke përfshirë të gjitha anekset dhe të gjitha taksat etj.</label>
-          <div *ngIf="contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes == ''">
+          <div *ngIf="!contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes">
             <p>Nuk ka të dhëna!</p>
           </div>
-          <div *ngIf="contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes != ''">
+          <div *ngIf="contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes">
             <p>{{ contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes }}</p>
           </div>
         </div>
@@ -377,10 +377,10 @@
         <br>
         <div class="col-md-6">
           <label>Vlera totale e Aneks kontratës duke përfshirë të gjitha taksat (1)</label>
-          <div *ngIf="contract.contract.annexes[0].totalValueOfAnnexContract1 == ''">
+          <div *ngIf="!contract.contract.annexes[0].totalValueOfAnnexContract1">
             <p>Nuk ka të dhëna!</p>
           </div>
-          <div *ngIf="contract.contract.annexes[0].totalValueOfAnnexContract1 != ''">
+          <div *ngIf="contract.contract.annexes[0].totalValueOfAnnexContract1">
             <p>{{ contract.contract.annexes[0].totalValueOfAnnexContract1 }}</p>
           </div>
         </div>
@@ -415,10 +415,10 @@
         </div>
         <div class="col-md-6">
           <label>Shuma e pagesës së situacionit (1)</label>
-          <div *ngIf="contract.installments[0].installmentAmount1 == ''">
+          <div *ngIf="!contract.installments[0].installmentAmount1">
             <p>Nuk ka të dhëna!</p>
           </div>
-          <div *ngIf="contract.installments[0].installmentAmount1 != ''">
+          <div *ngIf="contract.installments[0].installmentAmount1">
             <p>{{ contract.installments[0].installmentAmount1 }}</p>
           </div>
         </div>
@@ -448,10 +448,10 @@
         </div>
         <div class="col-md-6">
           <label>Shuma e pagesës së situacionit të fundit</label>
-          <div *ngIf="contract.lastInstallmentAmount == ''">
+          <div *ngIf="!contract.lastInstallmentAmount">
             <p>Nuk ka të dhëna!</p>
           </div>
-          <div *ngIf="contract.lastInstallmentAmount != ''">
+          <div *ngIf="contract.lastInstallmentAmount">
             <p>{{ contract.lastInstallmentAmount }}</p>
           </div>
         </div>
@@ -460,10 +460,10 @@
         <br>
         <div class="col-md-12">
           <label>Shuma e zbritjes nga kontrata për shkaqe të ndalesave</label>
-          <div *ngIf="contract.contract.discountAmount == ''">
+          <div *ngIf="!contract.contract.discountAmount">
             <p>Nuk ka të dhëna!</p>
           </div>
-          <div *ngIf="contract.contract.discountAmount != ''">
+          <div *ngIf="contract.contract.discountAmount">
             <p>{{ contract.contract.discountAmount}}</p>
           </div>
         </div>
@@ -472,19 +472,19 @@
         <br>
         <div class="col-md-6">
           <label>Çmimi total i paguar për kontratën</label>
-          <div *ngIf="contract.contract.totalPayedPriceForContract == ''">
+          <div *ngIf="!contract.contract.totalPayedPriceForContract">
             <p>Nuk ka të dhëna!</p>
           </div>
-          <div *ngIf="contract.contract.totalPayedPriceForContract != ''">
+          <div *ngIf="contract.contract.totalPayedPriceForContract">
             <p>{{ contract.contract.totalPayedPriceForContract}}</p>
           </div>
         </div>
         <div class="col-md-6">
           <label>Viti</label>
-          <div *ngIf="contract.year == ''">
+          <div *ngIf="!contract.year">
             <p>Nuk ka të dhëna!</p>
           </div>
-          <div *ngIf="contract.year != ''">
+          <div *ngIf="contract.year">
             <p>{{ contract.year }}</p>
           </div>
         </div>
@@ -500,10 +500,10 @@
         <div class="col-6">
           <div class="form-group">
             <label>Statusi:</label>
-            <div *ngIf="contract.flagStatus == ''">
+            <div *ngIf="!contract.flagStatus">
               <p>Nuk ka të dhëna!</p>
             </div>
-            <div *ngIf="contract.flagStatus != ''">
+            <div *ngIf="contract.flagStatus">
               <p>{{ contract.flagStatus }}</p>
             </div>
           </div>

@@ -1,12 +1,18 @@
 export class Directorate {
-    _id ?: string;
+    _id?: string;
     directorateName: string;
-    thePersonInChargeEmail: string;
+    thePersonInCharge: {
+        firstName: string,
+        lastName: string
+    };
     directorateIsActive: boolean;
     constructor() {
         this._id = '';
         this.directorateName = '';
-        this.thePersonInChargeEmail = '';
+        this.thePersonInCharge = {
+            firstName: '',
+            lastName: ''
+        };
         this.directorateIsActive = true;
     }
 }
