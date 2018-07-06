@@ -6,11 +6,20 @@ import { environment } from '../../environments/environment';
 @Injectable()
 export class ContractsService {
   APIUrl: string = environment.apiUrl;
+  contract: any;
   constructor(public http: HttpClientService) {
     this.http = http;
   }
 
   addContract(formData: FormData) {
     return this.http.postWithAuth(`${this.APIUrl}/contracts`, formData, 'multipart').map(res => res.json());
+  }
+
+  getContracts() {
+    return this.http.getWithAuth(`${this.APIUrl}/contracts/`).map(res => res.json().contracts);
+  }
+
+  getContractByID(id) {
+    return this.http.getWithAuth(`${this.APIUrl}/contracts/${id}`).map(res => res.json().data);
   }
 }

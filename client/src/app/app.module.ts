@@ -62,7 +62,7 @@ const appRoutes: Routes = [
       { path: 'dashboard/contracts/add-contract', component: AddContractComponent, canActivate: [AuthGuard] },
       { path: 'dashboard/profile', component: ProfileComponent, canActivate: [AuthGuard] },
       { path: 'dashboard/directorates', component: DirectoratesComponent, canActivate: [AuthGuard] },
-      { path: 'dashboard/contracts/contract-information', component: ContractInformationComponent, canActivate: [AuthGuard] }
+      { path: 'dashboard/contracts/:id', component: ContractInformationComponent, canActivate: [AuthGuard] }
     ]
   }
 ];

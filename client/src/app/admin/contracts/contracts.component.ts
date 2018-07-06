@@ -1,4 +1,6 @@
-import { Component, OnInit , ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
+import { ContractsService } from '../../service/contracts.service';
+import { Contract } from '../../models/contract';
 
 @Component({
   selector: 'app-contracts',
@@ -6,7 +8,10 @@ import { Component, OnInit , ElementRef } from '@angular/core';
   styleUrls: ['./contracts.component.css']
 })
 export class ContractsComponent implements OnInit {
-  constructor() { }
+  contract: Contract;
+  constructor(public contractsService: ContractsService) {
+
+  }
 
   ngOnInit() {
   }

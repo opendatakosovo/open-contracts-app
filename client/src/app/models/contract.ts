@@ -3,6 +3,7 @@ import { Annex } from './annex';
 import { OnInit } from '@angular/core';
 
 export class Contract {
+    _id?: String;
     activityTitle?: String;
     procurementNo?: Number;
     procurementType?: String;
@@ -68,6 +69,7 @@ export class Contract {
 
 
     constructor() {
+        this._id = '';
         this.activityTitle = '';
         this.procurementNo = 0;
         this.procurementType = '';
@@ -117,10 +119,24 @@ export class Contract {
             totalAmountOfAllAnnexContractsIncludingTaxes: 0,
             totalAmountOfContractsIncludingTaxes: 0,
             totalPayedPriceForContract: 0,
-            annexes: [{
-                totalValueOfAnnexContract1: 0,
-                annexContractSigningDate1: new Date(),
-            }],
+            annexes: [
+                {
+                    totalValueOfAnnexContract1: 1,
+                    annexContractSigningDate1: new Date(),
+                },
+                {
+                    totalValueOfAnnexContract1: 4,
+                    annexContractSigningDate1: new Date(),
+                },
+                {
+                    totalValueOfAnnexContract1: 6,
+                    annexContractSigningDate1: new Date(),
+                },
+                {
+                    totalValueOfAnnexContract1: 8,
+                    annexContractSigningDate1: new Date(),
+                }
+            ],
             criteria: '',
             implementationDeadlineStartingDate: new Date(),
             implementationDeadlineEndingDate: new Date(),
