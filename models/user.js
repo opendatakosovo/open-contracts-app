@@ -57,11 +57,23 @@ module.exports.getUserById = (id, callback) => {
   User.findById(id, callback);
 };
 
-// Function for getting all users
+// Function for getting all users and directorates
 module.exports.getAllUsers = callback => {
-  User.find({})
-  .sort([['createdAt',-1]])
-  .exec(callback);
+  User.aggregate([{
+    "$lookup": {
+      "from": "directorates",
+      "localField": "department",    
+      "foreignField": "directorateName",  
+      "as": "directorate"
+    }
+  },
+  {
+    "$replaceRoot": { "newRoot": { "$mergeObjects": [{ "$arrayElemAt": ["$directorate", 0] }, "$$ROOT"] } }
+  },
+  { "$project": { "directorate": 0 } }
+  ]) 
+  .sort({'createdAt': "desc"})
+  .exec(callback);;
 }
 
 // Updating user information
@@ -83,7 +95,10 @@ module.exports.addUser = (newUser, callback) => {
 module.exports.findUserByEmail = (email, callback) => {
   User.findOne({"email": email}, callback);
 }
-
+// Function for finding active users
+module.exports.activeUsers = (callback) => {
+  User.find({"isActive": true}, callback);
+}
 // Function for comparing passwords
 module.exports.comparePassword = (candidatePassword, hash, callback) => {
   bcrypt.compare(candidatePassword, hash, (err, isMatch) => {
