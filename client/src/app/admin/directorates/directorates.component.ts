@@ -28,7 +28,7 @@ export class DirectoratesComponent implements OnInit {
     this.directorateService.directoratesAndTheirPeopleInCharge().subscribe(data => {
       this.directorates = data.result;
       for (this.directorate of this.directorates) {
-        this.emails.push(this.directorate.thePersonInChargeEmail);
+        this.emails.push(this.directorate.thePersonInCharge);
       }
     });
 
@@ -157,7 +157,7 @@ export class DirectoratesComponent implements OnInit {
         this.directorateService.directoratesAndTheirPeopleInCharge().subscribe(data => {
           this.directorates = data.result;
           for (this.directorate of this.directorates) {
-            this.emails.push(this.directorate.thePersonInChargeEmail);
+            this.emails.push(this.directorate.thePersonInCharge);
           }
         });
         this.userService.getActiveUsers().subscribe(data => {
