@@ -1,44 +1,47 @@
 <div class="container col-md-12 login-box vertical-middle-align">
-  <form (submit)="onLoginSubmit()" class="form-control" id="login-form" novalidate #login="ngForm">
+  <form class="form-control" id="login-form" novalidate #loginForm="ngForm" (submit)="onLoginSubmit($event, loginForm.valid)">
     <div class="login-header">
       <h4>Kyçu</h4>
     </div>
     <label for="email">Email</label>
-    <input type="email" class="form-control" id="email" name="email" placeholder="Email" [(ngModel)]="email" #loginEmail="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required [style.border-color]="loginEmail.errors?.required && loginEmail.touched ? 'red' : '#ced4da'" [style.border-color]="loginEmail.errors?.pattern && loginEmail.touched ? 'red' : '#ced4da'">
-    <div *ngIf="loginEmail.errors?.required && loginEmail.touched;else error_email" class="error-msg">Email duhet plotësuar!</div>
-    <ng-template #error_email>
-      <div *ngIf="loginEmail.errors?.pattern && loginEmail.touched" class="error-msg">Email duhet të jetë valid!</div>
-    </ng-template>
+    <input type="email" class="form-control" id="email" name="email" placeholder="Email" [(ngModel)]="email" #loginEmail="ngModel"
+      pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required [style.border-color]="(loginEmail.errors?.required || loginEmail.errors?.pattern) && (loginEmail.touched || loginForm.submitted) ? 'red' : '#ced4da'">
+    <div [hidden]="(!loginEmail.errors?.required && !loginEmail.errors?.pattern) || (!loginEmail.touched && !loginForm.submitted)">
+      <small class="text-danger">Email duhet plotësuar dhe duhet të jetë valid!</small>
+    </div>
     <label for="password">Fjalëkalimi</label>
-    <input type="password" class="form-control" id="password" name="password" placeholder="Fjalëkalimi" [(ngModel)]="password" #loginPassword="ngModel" minlength="6" required [style.border-color]="loginPassword.errors?.required && loginPassword.touched ? 'red' : '#ced4da'" [style.border-color]="loginPassword.errors?.minlength && loginPassword.touched ? 'red' : '#ced4da'">
-    <div *ngIf="loginPassword.errors?.required && loginPassword.touched;else error_length" class="error-msg">Fjalëkalimi duhet plotësuar!</div>
-    <ng-template #error_length>
-      <div *ngIf="loginPassword.errors?.minlength && loginPassword.touched" class="error-msg">Fjalëkalimi duhet të jetë më i gjatë se 6 karaktere!</div>
-    </ng-template>
+    <input type="password" class="form-control" id="password" name="password" placeholder="Fjalëkalimi" [(ngModel)]="password"
+      #loginPassword="ngModel" minlength="6" required [style.border-color]="(loginPassword.errors?.required || loginPassword.errors?.minlength) && (loginPassword.touched || loginForm.submitted) ? 'red' : '#ced4da'">
+    <div [hidden]="(!loginPassword.errors?.required && !loginPassword.errors?.minlength) || (!loginPassword.touched && !loginForm.submitted)">
+      <small class="text-danger">Fjalëkalimi duhet plotësuar dhe duhet të jetë më i gjatë se 6 karaktere!</small>
+    </div>
     <br/>
-    <button type="submit" class="btn btn-primary" id="login-button" [disabled]="!login.valid">Kyçu</button>
+    <button type="submit" class="btn btn-primary" id="login-button">Kyçu</button>
 
     <div class="password-link">
-        <a data-toggle="modal" data-target="#passwordRecovery" id="password-changer">Keni harruar fjalëkalimin?</a>
-        <!-- Modal -->
-        <div class="modal fade" id="passwordRecovery" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">Rigjenerimi i fjalëkalimit</h5>
-                <button style="background-color: #39a6bd"type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">×</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                Kontaktoni administratorin në  <i class="text-info"><u>someone@example.com</u></i> për rigjenerim të fjalëkalimit të ri!
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              </div>
+      <a data-toggle="modal" data-target="#passwordRecovery" id="password-changer">Keni harruar fjalëkalimin?</a>
+      <!-- Modal -->
+      <div class="modal fade" id="passwordRecovery" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Rigjenerimi i fjalëkalimit</h5>
+              <button style="background-color: #39a6bd" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              Kontaktoni administratorin në
+              <i class="text-info">
+                <u>someone@example.com</u>
+              </i> për rigjenerim të fjalëkalimit të ri!
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
           </div>
         </div>
+      </div>
     </div>
   </form>
 </div>

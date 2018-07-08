@@ -9,27 +9,29 @@ import Swal from 'sweetalert2';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-    email: string;
-    password: string;
+  email: string;
+  password: string;
 
-    constructor(
-      private router: Router,
-      private userService: UserService
-    ) { }
+  constructor(
+    private router: Router,
+    private userService: UserService
+  ) { }
 
-    ngOnInit() {
-      if (this.userService.loggedIn()) {
-        this.router.navigate(['/dashboard']);
-      } else {
-        this.router.navigate(['/login']);
-      }
+  ngOnInit() {
+    if (this.userService.loggedIn()) {
+      this.router.navigate(['/dashboard']);
+    } else {
+      this.router.navigate(['/login']);
     }
+  }
 
-    onLoginSubmit() {
-      const user = {
-        email: this.email,
-        password: this.password
-      };
+  onLoginSubmit(e, isValid) {
+    e.preventDefault();
+    const user = {
+      email: this.email,
+      password: this.password
+    };
+    if (isValid === true) {
       this.userService.authUser(user)
         .subscribe(data => {
           if (data.success) {
@@ -41,4 +43,5 @@ export class LoginComponent implements OnInit {
           }
         });
     }
+  }
 }
