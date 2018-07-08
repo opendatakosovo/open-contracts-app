@@ -121,21 +121,9 @@ export class Contract {
             totalPayedPriceForContract: 0,
             annexes: [
                 {
-                    totalValueOfAnnexContract1: 1,
+                    totalValueOfAnnexContract1: 0,
                     annexContractSigningDate1: new Date(),
                 },
-                {
-                    totalValueOfAnnexContract1: 4,
-                    annexContractSigningDate1: new Date(),
-                },
-                {
-                    totalValueOfAnnexContract1: 6,
-                    annexContractSigningDate1: new Date(),
-                },
-                {
-                    totalValueOfAnnexContract1: 8,
-                    annexContractSigningDate1: new Date(),
-                }
             ],
             criteria: '',
             implementationDeadlineStartingDate: new Date(),

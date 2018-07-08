@@ -68,8 +68,8 @@ module.exports = (req, res, next) => {
     if (isEqual(requestedContract.contract['totalPayedPriceForContract'], 0)) {
         errors.push('Çmimi total i paguar për kontratën nuk duhet të jetë zero!');
     }
-    if (isEqual(requestedContract['year'], 0)) {
-        errors.push('Viti nuk duhet të jetë zero!');
+    if (isEmpty(requestedContract['year']) || isEqual(requestedContract['year'], 0)) {
+        errors.push('Viti duhet plotësuar dhe duhet të jetë valid!');
     }
 
     // Function for checking if the input is equal to 0
