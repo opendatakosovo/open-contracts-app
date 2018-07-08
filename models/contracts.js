@@ -88,3 +88,50 @@ module.exports.getAllContracts = cb => Contract.find().exec(cb);
 module.exports.getContractById = (id, cb) => {
     Contract.findById(id, cb);
 }
+
+// Data Visualizations
+
+module.exports.getContractsByYearWithPublicationDateAndSigningDate = (year) => {
+    return Contract.aggregate([
+        { $match: {
+              $or: [{
+                year: parseInt(year)
+              }]
+        } },
+        { $group: { _id: { publicationDateOfGivenContract: "$contract.publicationDateOfGivenContract", signingDate: "$contract.signingDate"}, count: {$sum: 1} } },
+        { $project: { _id: 0, publicationDateOfGivenContract: "$_id.publicationDateOfGivenContract", signingDate: "$_id.signingDate", totalContracts: "$count" } } 
+    ]);
+}
+
+module.exports.getTotalContractsByYears = () => {
+    return Contract.aggregate([
+        { $group: { _id: "$year", count: {$sum: 1} } },
+        { $sort: { _id: 1 } },
+        { $project: { _id: 0, year: "$_id", totalContracts: "$count" } }
+    ]);
+}
+
+module.exports.getContractsByYearWithPredictedValueAndTotalAmount = (year) => {
+    return Contract.aggregate([
+        { $match: { year: parseInt(year) } },
+        { $group: { _id: { id: "$_id", procurementNo: "$procurementNo", predictedValue: "$contract.predictedValue", totalAmountOfContractsIncludingTaxes: "$contract.totalAmountOfContractsIncludingTaxes"} } },
+        { $project: { _id: 0, id: "$_id.id", procurementNo: "$_id.procurementNo", predictedValue: "$_id.predictedValue", totalAmountOfContractsIncludingTaxes: "$_id.totalAmountOfContractsIncludingTaxes", } },
+        { $sort: { predictedValue: -1 } }
+    ]);
+}
+
+module.exports.getTopTenContractors = () => {
+    return Contract.aggregate([
+        { $match: { "company.name": { "$ne": "" } } },
+        {
+           $group: { _id: "$company.name", count: { $sum: 1 } }
+        },
+        { $sort: { count: -1 } },
+        { $limit: 10 },
+        { $project: { _id: 0, companyName: "$_id", totalContracts: "$count" } }    
+    ]);
+}
+
+module.exports.getContractsByContractorCompany = (companyName) => {
+    return Contract.find({ "company.name": companyName });
+}
