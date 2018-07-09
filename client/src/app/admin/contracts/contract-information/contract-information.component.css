@@ -3,7 +3,7 @@
     padding-right: 20px;
 }
 label {
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 500;
 }
 #last-row {
@@ -16,17 +16,18 @@ label {
     font-size: 35px;
     color: #32a6bd !important;
     padding-bottom: 5%;
-    text-align: right;
+    text-align: left;
 }
 .title-situations {
     color: #32a6bd;
     padding-top: 20px;
-    padding-left: 20px;
-    padding-right: 20px;
-}
-#title-row {
-    margin-left: 8%;
 }
 #last-situation {
     padding-bottom: 20px;
+}
+p {
+    font-size: 15px;
+}
+a {
+    font-size: 15px;
 }
