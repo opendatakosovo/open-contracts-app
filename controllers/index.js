@@ -1,12 +1,10 @@
 const router = require("express").Router()
     , userValidation = require('../middlewares/user_validation');
 const adminController = require('./admin');
+const dataController = require('./data');
 const User = require('../models/user');
 const config = require('../config/database');
 const jwt = require("jsonwebtoken");
-
-// Admin Controller
-router.use(adminController);
 
 // Login Route
 router.post('/login', (req, res) => {
@@ -47,5 +45,11 @@ router.post('/login', (req, res) => {
         });
     });
 });
+
+// Admin Controller
+router.use(adminController);
+
+// Data Visualization Controller
+router.use('/data', dataController);
 
 module.exports = router;
