@@ -17,8 +17,9 @@ export class ContractInformationComponent implements OnInit {
     const id = this.router.snapshot.paramMap.get('id');
     this.contractsService.getContractByID(id).subscribe(data => {
       this.contract = data;
+      console.log(this.contract.activityTitle);
     });
-    console.log(this.contract.contract.annexes.length);
+
   }
 
   ngOnInit() {
