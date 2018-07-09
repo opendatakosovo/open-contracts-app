@@ -29,7 +29,7 @@
             <input type="number" name="procurementNo" id="procurementNo" [(ngModel)]="contract.procurementNo" #contractProcurementNo="ngModel"
               class="form-control" required [style.border-color]="contractProcurementNo?.value == 0 && (contractProcurementNo.touched || contractForm.submitted) || !contractProcurementNo.valid && (contractProcurementNo.touched || contractForm.submitted)
               ? 'red' : '#ced4da'">
-            <div [hidden]="(!contractProcurementNo?.value == 0 || !contractProcurementNo.touched && !contractForm.submitted) && contractProcurementNo.valid || (!contractProcurementNo.touched && !contractForm.submitted)">
+            <div [hidden]="(contractProcurementNo?.value !== 0 || !contractProcurementNo.touched && !contractForm.submitted) && contractProcurementNo.valid || (!contractProcurementNo.touched && !contractForm.submitted)">
               <small class="text-danger">Duhet plotësuar dhe nuk duhet të jetë zero!</small>
             </div>
           </div>
@@ -217,7 +217,7 @@
             <input type="number" name="noOfCompaniesWhoDownloadedTenderDoc" id="noOfCompaniesWhoDownloadedTenderDoc" class="form-control"
               [(ngModel)]="contract.noOfCompaniesWhoDownloadedTenderDoc" #contractNoOfCompaniesWhoDownloadedTenderDoc="ngModel"
               [style.border-color]="contractNoOfCompaniesWhoDownloadedTenderDoc.value == 0  && (contractNoOfCompaniesWhoDownloadedTenderDoc.touched || contractForm.submitted) ? 'red' : '#ced4da'">
-            <div [hidden]="!contractNoOfCompaniesWhoDownloadedTenderDoc.value == 0 || contractNoOfCompaniesWhoDownloadedTenderDoc.value == undefined || (!contractNoOfCompaniesWhoDownloadedTenderDoc.touched && !contractForm.submitted)">
+            <div [hidden]="contractNoOfCompaniesWhoDownloadedTenderDoc.value !== 0 || contractNoOfCompaniesWhoDownloadedTenderDoc.value == undefined || (!contractNoOfCompaniesWhoDownloadedTenderDoc.touched && !contractForm.submitted)">
               <small class="text-danger">Nuk duhet të jetë zero!</small>
             </div>
           </div>
@@ -225,8 +225,8 @@
             <br>
             <label for="noOfCompaniesWhoSubmited">Nr. i OE që kanë dorëzuar ofertat</label>
             <input type="number" name="noOfCompaniesWhoSubmited" id="noOfCompaniesWhoSubmited" class="form-control" [(ngModel)]="contract.noOfCompaniesWhoSubmited"
-              #contractNoOfCompaniesWhoSubmited="ngModel" [style.border-color]="contractNoOfCompaniesWhoSubmited.value == 0 && (contractNoOfCompaniesWhoSubmited.touched || contractForm.submitted) ? 'red' : '#ced4da'">
-            <div [hidden]="!contractNoOfCompaniesWhoSubmited.value == 0 || contractNoOfCompaniesWhoSubmited.value == undefined || (!contractNoOfCompaniesWhoSubmited.touched && !contractForm.submitted)">
+              #contractNoOfCompaniesWhoSubmited="ngModel" [style.border-color]="contractNoOfCompaniesWhoSubmited.value !== 0 && (contractNoOfCompaniesWhoSubmited.touched || contractForm.submitted) ? 'red' : '#ced4da'">
+            <div [hidden]="contractNoOfCompaniesWhoSubmited.value !== 0 || contractNoOfCompaniesWhoSubmited.value == undefined || (!contractNoOfCompaniesWhoSubmited.touched && !contractForm.submitted)">
               <small class="text-danger">Nuk duhet të jetë zero!</small>
             </div>
           </div>
@@ -246,7 +246,7 @@
             <input type="number" name="noOfRefusedBids" id="noOfRefusedBids" [(ngModel)]="contract.noOfRefusedBids" class="form-control"
               #contractNoOfRefusedBids="ngModel" [style.border-color]="contractNoOfRefusedBids.value == 0 && (contractNoOfRefusedBids.touched || contractForm.submitted)
               ? 'red' : '#ced4da'">
-            <div [hidden]="!contractNoOfRefusedBids.value == 0 || contractNoOfRefusedBids.value == undefined || (!contractNoOfRefusedBids.touched && !contractForm.submitted)">
+            <div [hidden]="contractNoOfRefusedBids.value !== 0 || contractNoOfRefusedBids.value == undefined || (!contractNoOfRefusedBids.touched && !contractForm.submitted)">
               <small class="text-danger">Nuk duhet të jetë zero!</small>
             </div>
           </div>
@@ -340,7 +340,7 @@
             <input type="number" name="predictedValue" id="predictedValue" [(ngModel)]="contract.contract.predictedValue" class="form-control"
               #contractPredictedValue="ngModel" [style.border-color]="contractPredictedValue.value == 0 && (contractPredictedValue.touched || contractForm.submitted)
               ? 'red' : '#ced4da'">
-            <div [hidden]="!contractPredictedValue.value == 0 || contractPredictedValue.value == undefined || (!contractPredictedValue.touched && !contractForm.submitted)">
+            <div [hidden]="contractPredictedValue.value !== 0 || contractPredictedValue.value == undefined || (!contractPredictedValue.touched && !contractForm.submitted)">
               <small class="text-danger">Nuk duhet të jetë zero!</small>
             </div>
           </div>
@@ -487,7 +487,7 @@
             <input type="number" name="noOfPaymentInstallments" id="noOfPaymentInstallments" [(ngModel)]="contract.noOfPaymentInstallments"
               class="form-control" #contractNoOfPaymentInstallments="ngModel" [style.border-color]="contractNoOfPaymentInstallments.value == 0 && (contractNoOfPaymentInstallments.touched || contractForm.submitted)
               ? 'red' : '#ced4da'">
-            <div [hidden]="!contractNoOfPaymentInstallments.value == 0 || contractNoOfPaymentInstallments.value == undefined || (!contractNoOfPaymentInstallments.touched && !contractForm.submitted)">
+            <div [hidden]="contractNoOfPaymentInstallments.value !== 0 || contractNoOfPaymentInstallments.value == undefined || (!contractNoOfPaymentInstallments.touched && !contractForm.submitted)">
               <small class="text-danger">Nuk duhet të jetë zero!</small>
             </div>
           </div>
@@ -497,7 +497,7 @@
             <label for="totalAmountOfContractsIncludingTaxes">Vlera totale e kontratës, duke përfshirë të gjitha taksat etj.</label>
             <input type="number" name="totalAmountOfContractsIncludingTaxes" id="totalAmountOfContractsIncludingTaxes" [(ngModel)]="contract.contract.totalAmountOfContractsIncludingTaxes"
               class="form-control" #contractTotalAmountOfContractsIncludingTaxes="ngModel" [style.border-color]="contractTotalAmountOfContractsIncludingTaxes.value == 0 && (contractTotalAmountOfContractsIncludingTaxes.touched || contractForm.submitted) ? 'red' : '#ced4da'">
-            <div [hidden]="!contractTotalAmountOfContractsIncludingTaxes.value == 0 || contractTotalAmountOfContractsIncludingTaxes.value == undefined || (!contractTotalAmountOfContractsIncludingTaxes.touched && !contractForm.submitted)">
+            <div [hidden]="contractTotalAmountOfContractsIncludingTaxes.value !== 0 || contractTotalAmountOfContractsIncludingTaxes.value == undefined || (!contractTotalAmountOfContractsIncludingTaxes.touched && !contractForm.submitted)">
               <small class="text-danger">Nuk duhet të jetë zero!</small>
             </div>
           </div>
@@ -507,7 +507,7 @@
               [(ngModel)]="contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes" class="form-control" #contractTotalAmountOfAllAnnexContractsIncludingTaxes="ngModel"
               [style.border-color]="contractTotalAmountOfAllAnnexContractsIncludingTaxes.value == 0 && (contractTotalAmountOfAllAnnexContractsIncludingTaxes.touched || contractForm.submitted)
               ? 'red' : '#ced4da'">
-            <div [hidden]="!contractTotalAmountOfAllAnnexContractsIncludingTaxes.value == 0 || contractTotalAmountOfAllAnnexContractsIncludingTaxes.value == undefined || (!contractTotalAmountOfAllAnnexContractsIncludingTaxes.touched && !contractForm.submitted)">
+            <div [hidden]="contractTotalAmountOfAllAnnexContractsIncludingTaxes.value !== 0 || contractTotalAmountOfAllAnnexContractsIncludingTaxes.value == undefined || (!contractTotalAmountOfAllAnnexContractsIncludingTaxes.touched && !contractForm.submitted)">
               <small class="text-danger">Nuk duhet të jetë zero!</small>
             </div>
           </div>
@@ -518,7 +518,7 @@
             <input type="number" name="totalValueOfAnnexContract1" id="totalValueOfAnnexContract1" class="form-control" [(ngModel)]="contract.contract.annexes[0].totalValueOfAnnexContract1"
               #contractTotalValueOfAnnexContract1="ngModel" [style.border-color]="contractTotalValueOfAnnexContract1.value == 0 && (contractTotalValueOfAnnexContract1.touched
               || contractForm.submitted) ? 'red' : '#ced4da'">
-            <div [hidden]="!contractTotalValueOfAnnexContract1.value == 0 || contractTotalValueOfAnnexContract1.value == undefined || (!contractTotalValueOfAnnexContract1.touched && !contractForm.submitted)">
+            <div [hidden]="contractTotalValueOfAnnexContract1.value !== 0 || contractTotalValueOfAnnexContract1.value == undefined || (!contractTotalValueOfAnnexContract1.touched && !contractForm.submitted)">
               <small class="text-danger">Nuk duhet të jetë zero!</small>
             </div>
           </div>
@@ -547,7 +547,7 @@
               <input type="number" name="noOfPaymentInstallments{{i+1}}" id="noOfPaymentInstallments{{i+1}}" class="form-control" [(ngModel)]="contract.contract.annexes[i+1].totalValueOfAnnexContract1"
                 #contractTotalValueOfAnnexContract1="ngModel" [style.border-color]="contractTotalValueOfAnnexContract1.value == 0 && (contractTotalValueOfAnnexContract1.touched ||
               contractForm.submitted) ? 'red' : '#ced4da'">
-              <div [hidden]="!contractTotalValueOfAnnexContract1.value == 0 || contractTotalValueOfAnnexContract1.value == undefined || (!contractTotalValueOfAnnexContract1.touched && !contractForm.submitted)">
+              <div [hidden]="contractTotalValueOfAnnexContract1.value !== 0 || contractTotalValueOfAnnexContract1.value == undefined || (!contractTotalValueOfAnnexContract1.touched && !contractForm.submitted)">
                 <small class="text-danger">Nuk duhet të jetë zero!</small>
               </div>
             </div>
@@ -568,7 +568,7 @@
             <input type="number" name="installmentAmount1" id="installmentAmount1" class="form-control" [(ngModel)]="contract.installments[0].installmentAmount1"
               #contractInstallmentAmount1="ngModel" [style.border-color]="contractInstallmentAmount1.value == 0 && (contractInstallmentAmount1.touched ||
               contractForm.submitted) ? 'red' : '#ced4da'">
-            <div [hidden]="!contractInstallmentAmount1.value == 0 || contractInstallmentAmount1.value == undefined || (!contractInstallmentAmount1.touched && !contractForm.submitted)">
+            <div [hidden]="contractInstallmentAmount1.value !== 0 || contractInstallmentAmount1.value == undefined || (!contractInstallmentAmount1.touched && !contractForm.submitted)">
               <small class="text-danger">Nuk duhet të jetë zero!</small>
             </div>
           </div>
@@ -597,7 +597,7 @@
               <input type="number" name="installmentAmount1{{i+1}}" id="installmentAmount1{{i+1}}" class="form-control" [(ngModel)]="contract.installments[i+1].installmentAmount1"
                 #contractInstallmentAmount1="ngModel" [style.border-color]="contractInstallmentAmount1.value == 0 && (contractInstallmentAmount1.touched
               || contractForm.submitted) ? 'red' : '#ced4da'">
-              <div [hidden]="!contractInstallmentAmount1.value == 0 || contractInstallmentAmount1.value == undefined || (!contractInstallmentAmount1.touched && !contractForm.submitted)">
+              <div [hidden]="contractInstallmentAmount1.value !== 0 || contractInstallmentAmount1.value == undefined || (!contractInstallmentAmount1.touched && !contractForm.submitted)">
                 <small class="text-danger">Nuk duhet të jetë zero!</small>
               </div>
             </div>
@@ -615,7 +615,7 @@
             <input type="number" name="lastInstallmentAmount" id="lastInstallmentAmount" [(ngModel)]="contract.lastInstallmentAmount"
               class="form-control" #contractLastInstallmentAmount="ngModel" [style.border-color]="contractLastInstallmentAmount.value == 0 && (contractLastInstallmentAmount.touched || contractForm.submitted)
               ? 'red' : '#ced4da'">
-            <div [hidden]="!contractLastInstallmentAmount.value == 0 || contractLastInstallmentAmount.value == undefined || (!contractLastInstallmentAmount.touched && !contractForm.submitted)">
+            <div [hidden]="contractLastInstallmentAmount.value !== 0 || contractLastInstallmentAmount.value == undefined || (!contractLastInstallmentAmount.touched && !contractForm.submitted)">
               <small class="text-danger">Nuk duhet të jetë zero!</small>
             </div>
           </div>
@@ -626,7 +626,7 @@
             <input type="text" name="discountAmount" id="discountAmount" [(ngModel)]="contract.contract.discountAmount" class="form-control"
               #contractDiscountAmount="ngModel" [style.border-color]="contractDiscountAmount.value == 0 && (contractDiscountAmount.touched || contractForm.submitted)
             ? 'red' : '#ced4da'">
-            <div [hidden]="!contractDiscountAmount.value == 0 || contractDiscountAmount.value == undefined || (!contractDiscountAmount.touched && !contractForm.submitted)">
+            <div [hidden]="contractDiscountAmount.value !== 0 || contractDiscountAmount.value == undefined || (!contractDiscountAmount.touched && !contractForm.submitted)">
               <small class="text-danger">Nuk duhet të jetë zero!</small>
             </div>
           </div>
@@ -637,7 +637,7 @@
             <input type="number" name="totalPayedPriceForContract" id="totalPayedPriceForContract" [(ngModel)]="contract.contract.totalPayedPriceForContract"
               class="form-control" #contractTotalPayedPriceForContract="ngModel" [style.border-color]="contractTotalPayedPriceForContract.value == 0 && (contractTotalPayedPriceForContract.touched || contractForm.submitted)
             ? 'red' : '#ced4da'">
-            <div [hidden]="!contractTotalPayedPriceForContract.value == 0 || contractTotalPayedPriceForContract.value == undefined || (!contractTotalPayedPriceForContract.touched && !contractForm.submitted)">
+            <div [hidden]="contractTotalPayedPriceForContract.value !== 0 || contractTotalPayedPriceForContract.value == undefined || (!contractTotalPayedPriceForContract.touched && !contractForm.submitted)">
               <small class="text-danger">Nuk duhet të jetë zero!</small>
             </div>
           </div>

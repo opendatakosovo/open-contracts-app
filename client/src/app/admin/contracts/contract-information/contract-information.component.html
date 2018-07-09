@@ -21,64 +21,64 @@
         </div>
         <div class="col-md-3">
           <label>Lloji i prokurimit</label>
-          <div *ngIf="contract.procurementType == 'furnizim'">
+          <div *ngIf="contract.procurementType == 'Furnizim'">
             <p>Furnizim</p>
           </div>
-          <div *ngIf="contract.procurementType == 'shërbime'">
+          <div *ngIf="contract.procurementType == 'Shërbime'">
             <p>Shërbime</p>
           </div>
-          <div *ngIf="contract.procurementType == 'shërbime këshillimi'">
+          <div *ngIf="contract.procurementType == 'Shërbime këshillimi'">
             <p>Shërbime këshillimi</p>
           </div>
-          <div *ngIf="contract.procurementType == 'konkurs projektimi'">
+          <div *ngIf="contract.procurementType == 'Konkurs projektimi'">
             <p>Konkurs projektimi</p>
           </div>
-          <div *ngIf="contract.procurementType == 'punë'">
+          <div *ngIf="contract.procurementType == 'Punë'">
             <p>Punë</p>
           </div>
-          <div *ngIf="contract.procurementType == 'punë me koncesion'">
+          <div *ngIf="contract.procurementType == 'Punë me koncesion'">
             <p>Punë me koncesion</p>
           </div>
-          <div *ngIf="contract.procurementType == 'pronë e palujtshme'">
+          <div *ngIf="contract.procurementType == 'Pronë e palujtshme'">
             <p>Pronë e palujtshme</p>
           </div>
         </div>
         <div class="col-md-3">
           <label>Vlera e prokurimit</label>
-          <div *ngIf="contract.procurementValue == 'vlerë e madhe'">
+          <div *ngIf="contract.procurementValue == 'Vlerë e madhe'">
             <p>Vlerë e madhe</p>
           </div>
-          <div *ngIf="contract.procurementValue == 'vlerë e mesme'">
+          <div *ngIf="contract.procurementValue == 'Vlerë e mesme'">
             <p>Vlerë e mesme</p>
           </div>
-          <div *ngIf="contract.procurementValue == 'vlerë e vogël'">
+          <div *ngIf="contract.procurementValue == 'Vlerë e vogël'">
             <p>Vlerë e vogël</p>
           </div>
-          <div *ngIf="contract.procurementValue == 'vlerë minimale'">
+          <div *ngIf="contract.procurementValue == 'Vlerë minimale'">
             <p>Vlerë minimale</p>
           </div>
         </div>
         <div class="col-md-3">
           <label>Procedura prokurimit</label>
-          <div *ngIf="contract.procurementProcedure == 'procedura e hapur'">
+          <div *ngIf="contract.procurementProcedure == 'Procedura e hapur'">
             <p>Procedura e hapur</p>
           </div>
-          <div *ngIf="contract.procurementProcedure == 'procedura e kufizuar'">
+          <div *ngIf="contract.procurementProcedure == 'Procedura e kufizuar'">
             <p>Procedura e kufizuar</p>
           </div>
-          <div *ngIf="contract.procurementProcedure == 'konkurs projektimi'">
+          <div *ngIf="contract.procurementProcedure == 'Konkurs projektimi'">
             <p>Konkurs projektimi</p>
           </div>
-          <div *ngIf="contract.procurementProcedure == 'procedura e negociuar pas publikimit të njoftimit të kontratës'">
+          <div *ngIf="contract.procurementProcedure == 'Procedura e negociuar pas publikimit të njoftimit të kontratës'">
             <p>Procedura e negociuar pas publikimit të njoftimit të kontratës</p>
           </div>
-          <div *ngIf="contract.procurementProcedure == 'procedura e negociuar pa publikim të njoftimit të kontratës'">
+          <div *ngIf="contract.procurementProcedure == 'Procedura e negociuar pa publikim të njoftimit të kontratës'">
             <p>Procedura e negociuar pa publikim të njoftimit të kontratës</p>
           </div>
-          <div *ngIf="contract.procurementProcedure == 'procedura e kuotimit të çmimeve'">
+          <div *ngIf="contract.procurementProcedure == 'Procedura e kuotimit të Çmimeve'">
             <p>Procedura e kuotimit të Çmimeve</p>
           </div>
-          <div *ngIf="contract.procurementProcedure == 'procedura vlerës minimale'">
+          <div *ngIf="contract.procurementProcedure == 'Procedura vlerës minimale'">
             <p>Procedura vlerës minimale</p>
           </div>
         </div>
@@ -105,11 +105,11 @@
         </div>
         <div class="col-md-6">
           <label>Buxheti</label>
-          <div *ngIf="!contract.budget">
+          <div *ngIf="contract.budget == []">
             <p>Nuk ka të dhëna!</p>
           </div>
           <div *ngIf="contract.budget">
-            <p>{{ contract.budget }}</p>
+            <p>Të hyra vetanake1</p>
           </div>
         </div>
       </div>
@@ -142,8 +142,11 @@
           <div *ngIf="contract.complaintsToAuthority1 == ''">
             <p>Nuk ka të dhëna!</p>
           </div>
-          <div *ngIf="contract.complaintsToAuthority1 != ''">
-            <p>{{ contract.complaintsToAuthority1 }}</p>
+          <div *ngIf="contract.complaintsToAuthority1 == '1'">
+            <p>Negative</p>
+          </div>
+          <div *ngIf="contract.complaintsToAuthority1 == '2'">
+            <p>Pozitive</p>
           </div>
         </div>
         <div class="col-md-6">
@@ -151,8 +154,11 @@
           <div *ngIf="contract.complaintsToOshp1 == ''">
             <p>Nuk ka të dhëna!</p>
           </div>
-          <div *ngIf="contract.complaintsToOshp1 != ''">
-            <p>{{ contract.complaintsToOshp1 }}</p>
+          <div *ngIf="contract.complaintsToOshp1 == '1'">
+            <p>Negative</p>
+          </div>
+          <div *ngIf="contract.complaintsToOshp1 == '2'">
+            <p>Negative</p>
           </div>
         </div>
       </div>
@@ -228,20 +234,26 @@
         <div class="col-md-6">
           <label>Ankesat në autoritet</label>
           <br>
-          <div *ngIf="contract.complaintsToAuthority2 == ''">
-            <p>Nuk ka të dhëna!</p>
+          <div *ngIf="contract.complaintsToAuthority2 == '0'">
+            <p>Nuk ka</p>
           </div>
-          <div *ngIf="contract.complaintsToAuthority2 != ''">
-            <p>{{ contract.complaintsToAuthority2 }}</p>
+          <div *ngIf="contract.complaintsToAuthority2 == '1'">
+            <p>Negative</p>
+          </div>
+          <div *ngIf="contract.complaintsToAuthority2 == '2'">
+            <p>Pozitive</p>
           </div>
         </div>
         <div class="col-md-6">
           <label>Ankesat në OSHP</label>
-          <div *ngIf="contract.complaintsToOshp2 == ''">
-            <p>Nuk ka të dhëna!</p>
+          <div *ngIf="contract.complaintsToOshp2 == '0'">
+            <p>Nuk ka</p>
           </div>
-          <div *ngIf="contract.complaintsToOshp2 != ''">
-            <p>{{ contract.complaintsToOshp2 }}</p>
+          <div *ngIf="contract.complaintsToOshp2 == '1'">
+            <p>Negative</p>
+          </div>
+          <div *ngIf="contract.complaintsToOshp2 == '2'">
+            <p>Pozitive</p>
           </div>
         </div>
       </div>
@@ -261,8 +273,11 @@
           <div *ngIf="contract.company.type == ''">
             <p>Nuk ka të dhëna!</p>
           </div>
-          <div *ngIf="contract.company.type != ''">
-            <p>{{ contract.company.type }}</p>
+          <div *ngIf="contract.company.type == '1'">
+            <p>Vendore</p>
+          </div>
+          <div *ngIf="contract.company.type == 'notLocal'">
+            <p>Jo vendore</p>
           </div>
         </div>
       </div>
@@ -270,7 +285,12 @@
         <br>
         <div class="col-md-6">
           <label>Afati kohor për pranimin e tenderëve</label>
-          <p>{{ contract.applicationDeadlineType }}</p>
+          <div *ngIf="contract.applicationDeadlineType == '1'">
+            <p>Afati kohor normal</p>
+          </div>
+          <div *ngIf="contract.applicationDeadlineType == '2'">
+            <p>Afati kohor i shkurtuar</p>
+          </div>
         </div>
         <div class="col-md-6">
           <label>Kriteret për dhënie të kontratës</label>
@@ -514,7 +534,7 @@
         <div class="col-md-12">
           <div class="form-group">
             <label>Kontrata</label>
-            <p>Kontrata.csv</p>
+            <p>{{ contract.contract.file }}</p>
           </div>
         </div>
       </div>

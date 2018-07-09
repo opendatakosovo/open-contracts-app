@@ -91,7 +91,7 @@ export class Contract {
         this.reapprovalDate = new Date();
         this.cancellationNoticeDate = new Date();
         this.complaintsToAuthority2 = '';
-        this.complaintsToOshp2 = '';
+        this.complaintsToOshp2 = '0';
         this.applicationDeadlineType = '';
         this.retender = '';
         this.status = '';
