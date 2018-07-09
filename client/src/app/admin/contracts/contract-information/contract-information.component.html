@@ -105,11 +105,13 @@
         </div>
         <div class="col-md-6">
           <label>Buxheti</label>
-          <div *ngIf="contract.budget">
+          <div *ngIf="contract.budget.length < 1">
             <p>Nuk ka të dhëna!</p>
           </div>
-          <div *ngFor="let budget of contract.budget">
-            <p>{{ budget }}</p>
+          <div *ngIf="contract.budget.length >= 1 ">
+            <div *ngFor="let budget of contract.budget">
+              <p>{{ budget }}</p>
+            </div>
           </div>
         </div>
       </div>
