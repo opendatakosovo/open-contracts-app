@@ -124,7 +124,9 @@ export class UsersComponent implements OnInit {
         });
       } else {
         this.modalRef.hide();
-        this.users.unshift(res.user);
+        this.userService.getUsers().subscribe(data => {
+          this.users = data;
+        });
         Swal('Sukses!', 'Përdoruesi u shtua me sukses.', 'success');
         this.user = new User();
       }

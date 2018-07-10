@@ -1,4 +1,5 @@
 export class Directorate {
+<<<<<<< Updated upstream
     _id?: string;
     directorateName: string;
     thePersonInCharge: {
@@ -13,6 +14,16 @@ export class Directorate {
             firstName: '',
             lastName: ''
         };
+=======
+    _id ?: String;
+    directorateName: String;
+    peopleInChargeEmails: String[];
+    directorateIsActive: Boolean;
+    constructor() {
+        this._id = '';
+        this.directorateName = '';
+        this.peopleInChargeEmails = [];
+>>>>>>> Stashed changes
         this.directorateIsActive = true;
     }
 }

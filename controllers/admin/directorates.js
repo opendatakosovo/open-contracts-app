@@ -8,10 +8,10 @@ const Users = require("../../models/user");
  */
 
 //Route for creating a directorate
-router.post('/', passport.authenticate('jwt', {session: false}), directorateValidation, (req, res) => {
+router.post('/',  directorateValidation, (req, res) => {
     let directorate = new Directorates({
         directorateName: req.body.directorateName,
-        thePersonInChargeEmail : req.body.thePersonInChargeEmail,
+        peopleInChargeEmails : req.body.peopleInChargeEmails,
         directorateIsActive: req.body.directorateIsActive
     });
    

@@ -19,29 +19,65 @@ export class DirectoratesComponent implements OnInit {
   directorate: Directorate;
   directorateModal: Directorate;
   activeUsers = [];
+  users: User[];
   emails = [];
-
+  peopleInCharge = [];
+  isShown: boolean;
+  people: boolean;
   constructor(public directorateService: DirectorateService, private modalService: BsModalService, public userService: UserService) {
     this.directorate = new Directorate();
     this.directorateModal = new Directorate();
-
+    this.isShown = false;
+    this.people = false;
+    this.users = [];
     this.directorateService.directoratesAndTheirPeopleInCharge().subscribe(data => {
       this.directorates = data.result;
       for (this.directorate of this.directorates) {
         this.emails.push(this.directorate.thePersonInCharge);
       }
     });
-
     this.userService.getActiveUsers().subscribe(data => {
-      data.forEach(element1 => {
-        if (this.emails.includes(element1.email) === false) {
-          this.activeUsers.push(element1);
+      data.forEach(element => {
+        if ((this.emails.includes(element.email) === false) && (element.role === 'user')) {
+          this.activeUsers.push(element);
         }
       });
     });
   }
 
   ngOnInit() {
+  }
+
+  onClick() {
+    this.isShown = !this.isShown;
+  }
+  getPerson(personId) {
+    console.log(this.peopleInCharge);
+    this.peopleInCharge.push(personId);
+    this.userService.getUserByID(personId).subscribe(data => {
+        this.users.push(data);
+    });
+    this.people = true;
+  }
+  deletePersonInCharge(event) {
+    const id = event.target.dataset.id;
+    this.users.forEach(element => {
+      if (id === element._id) {
+        const index = this.peopleInCharge.indexOf(id);
+        this.peopleInCharge[index] = false;
+        this.peopleInCharge.splice(index, 1);
+        if (this.peopleInCharge.length === 0) {
+          this.people = false;
+          console.log(this.people);
+          this.users = [];
+        }
+      } else {
+        this.users = [];
+      this.userService.getUserByID(element._id).subscribe(data => {
+        this.users.push(data);
+    });
+  }
+    });
   }
   // Function for opening add directorate modal
   openModal(template: TemplateRef<any>) {
@@ -111,9 +147,9 @@ export class DirectoratesComponent implements OnInit {
       } else {
         this.activeUsers = [];
         this.userService.getActiveUsers().subscribe(data => {
-          data.forEach(element1 => {
-            if (this.emails.includes(element1.email) === false) {
-              this.activeUsers.push(element1);
+          data.forEach(element => {
+            if ((this.emails.includes(element.email) === false) && (element.role === 'user')) {
+              this.activeUsers.push(element);
             }
           });
         });
@@ -154,6 +190,7 @@ export class DirectoratesComponent implements OnInit {
         Swal('Gabim!', 'Pëdoruesi nuk u ndryshua.', 'error');
         return false;
       } else {
+        this.activeUsers = [];
         this.directorateService.directoratesAndTheirPeopleInCharge().subscribe(data => {
           this.directorates = data.result;
           for (this.directorate of this.directorates) {
@@ -161,9 +198,9 @@ export class DirectoratesComponent implements OnInit {
           }
         });
         this.userService.getActiveUsers().subscribe(data => {
-          data.forEach(element1 => {
-            if (this.emails.includes(element1.email) === false) {
-              this.activeUsers.push(element1);
+          data.forEach(element => {
+            if ((this.emails.includes(element.email) === false) && (element.role === 'user')) {
+              this.activeUsers.push(element);
             }
           });
         });

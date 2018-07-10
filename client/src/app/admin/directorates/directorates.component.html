@@ -80,13 +80,22 @@
               #directorateName="ngModel" required [style.border-color]="directorateName.errors?.required && directorateName.touched ? 'red': '#ced4da'">
             <div *ngIf="directorateName.errors?.required && directorateName.touched" class="text-danger">Drejtoria duhet plotësuar!</div>
           </div>
+          <div *ngIf="people">
+            <div *ngFor="let person of users">
+             <button class="float-right btn btn-outline-primary" [attr.data-id]="person._id" (click)="deletePersonInCharge($event)">
+               <span class="fa fa-minus" [attr.data-id]="person._id"></span></button> <p>{{person.firstName}} {{person.lastName}}</p>
+            </div>
+          </div>
           <div class="form-group">
-            <label for="users">Përgjegjësi</label>
-            <select name="thePersonInCharge" [(ngModel)]="directorate.thePersonInChargeEmail" class="form-control">
-              <option value="" selected>Zgjedh Përgjegjësin</option>
-              <option value="Nuk ka përgjegjës">Nuk ka përgjegjës</option>
-              <option *ngFor="let activeUser of activeUsers" [ngValue]="activeUser.email">{{ activeUser.firstName }} {{ activeUser.lastName }} </option>
-            </select>
+            <button type="button" class="btn btn-primary" (click)="onClick()">Zgjedhni personat</button>
+            <div  style="margin-left: 20px;" *ngIf="isShown" fromGroupName="users">
+              <div *ngFor="let activeUser of activeUsers;let i = index">
+                <input class="form-check-input" type="checkbox" (change)="getPerson(activeUser._id)" name="personInCharge" ngValue="activeUser.email" [(ngModel)]="directorate.peopleInChargeEmails[i]">
+                <label class="form-check-label" for="ownSources">
+                  {{activeUser.firstName}} {{activeUser.lastName}}
+                </label>
+              </div>
+            </div>
           </div>
         </div>
         <div class="modal-footer">
