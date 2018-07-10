@@ -1,2 +1,26 @@
-<h1 class="title">Të dhënat</h1>
-<a href="../uploads/ReadMe.pdf">Read me</a>
+<div class="containter-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="title">Të dhënat</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-10">
+            <div class="file-upload">
+                <input type="file" #file style="display: none" (change)="onFileChange($event)">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Zhgjedh dataset-in" id="name-area" aria-label="Recipient's username"
+                        aria-describedby="basic-addon2" [style.border-color]="!valid && touched ? 'red' : '#ced4da'" disabled>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" (click)="onClick()">Zgjedh</button>
+                    </div>
+                </div>
+                <div *ngIf=" !valid && touched" class="error-msg">{{message}}</div>
+            </div>
+        </div>
+        <div class="col-2 my-col-2">
+            <button type="button" class="btn btn-primary button-upload" (click)="uploadDataset($event)" [disabled]="!valid">Ngarkoje</button>
+        </div>
+    </div>
+</div>

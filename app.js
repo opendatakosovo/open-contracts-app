@@ -53,6 +53,16 @@ app.get('/uploads/:filename', (req, res) => {
   res.sendFile(path.join(__dirname, `uploads/${req.params.filename}`));
 })
 
+// Route all old dataset files
+app.get('/importer/data/old/:filename', (req, res) => {
+  res.sendFile(path.join(__dirname, `importer/data/old/${req.params.filename}`));
+})
+
+// Route all new dataset files
+app.get('/importer/data/new/:filename', (req, res) => {
+  res.sendFile(path.join(__dirname, `importer/data/new/${req.params.filename}`));
+})
+
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/index.html'));
 });
