@@ -1,6 +1,6 @@
 sudo su
 su jenkins
-ssh jenkins@46.101.135.45 <<EOF
+ssh jenkins@159.89.16.139<<EOF
  cd /var/www/open-contracts-app
  sudo su
  git pull
