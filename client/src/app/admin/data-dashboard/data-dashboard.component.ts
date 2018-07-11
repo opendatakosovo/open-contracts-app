@@ -38,7 +38,7 @@ export class DataDashboardComponent implements OnInit {
   }
 
   uploadDataset(event) {
-
+    console.log('hello');
   }
   ngOnInit() {
   }
