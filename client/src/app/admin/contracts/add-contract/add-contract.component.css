@@ -77,3 +77,8 @@ button[disabled]{
 .checkbox-label {
     margin-bottom: 15px;
 }
+.title {
+    font-size: 35px;
+    color: #32a6bd !important;
+    text-align: left;
+}

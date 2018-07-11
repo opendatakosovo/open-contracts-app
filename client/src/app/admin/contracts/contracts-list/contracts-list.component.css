@@ -1,0 +1,18 @@
+div {
+    padding-left: 30px;
+    padding-bottom: 10%;
+    padding-right: 30px;
+}
+.view-icon {
+    padding-left: 10px;
+}
+.edit-icon {
+    padding-left: 17px;
+}
+.delete-icon {
+    padding-left: 9px;
+}
+.column-header {
+    font-weight: 500;
+    margin-bottom: 0;
+}

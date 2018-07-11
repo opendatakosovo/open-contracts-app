@@ -6,7 +6,7 @@
     </div>
     <div class="col-6" id="add-user-btn">
       <button data-toggle="modal" (click)="openModal(modalAddUser)" class="float-right btn btn-outline-primary add-btn">
-        <i class="fa fa-plus"> </i> Shto përdorues</button>
+        <i class="fa fa-plus"></i> Shto përdorues</button>
     </div>
   </div>
 
@@ -43,14 +43,14 @@
               </p>
             </div>
             <div *ngIf="user.role == 'user'">
-                <p class="position"> Përdorues </p>
+              <p class="position"> Përdorues </p>
             </div>
             <div *ngIf="user.directorateIsActive == true">
-                <p class="position"> {{ user.department }}</p>
-              </div>
+              <p class="position"> {{ user.department }}</p>
+            </div>
             <div *ngIf="user.directorateIsActive == false">
-                <p class="position">{{ user.department }} (Drejtoria juaj nuk është aktive)</p>
-              </div>
+              <p class="position">{{ user.department }} (Drejtoria juaj nuk është aktive)</p>
+            </div>
             <div *ngIf="user.role == 'admin'">
               <p class="position">Administrator</p>
             </div>
