@@ -108,7 +108,7 @@
           <div *ngIf="contract.budget.length < 1">
             <p>Nuk ka të dhëna!</p>
           </div>
-          <div *ngIf="contract.budget.length >= 1 ">
+          <div *ngIf="contract.budget.length >= 1">
             <div *ngFor="let budget of contract.budget">
               <p>{{ budget }}</p>
             </div>
@@ -611,7 +611,7 @@
               <p>Nuk ka të dhëna!</p>
             </div>
             <div *ngIf="contract.contract.file != ''">
-              <a [routerLink]="['/uploads/{contract.contract.file}']">{{ contract.contract.file }}</a>
+              <a href="/uploads/{contract.contract.file}">{{contract.contract.file}}</a>
             </div>
           </div>
         </div>

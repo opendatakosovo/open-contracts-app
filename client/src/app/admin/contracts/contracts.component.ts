@@ -1,7 +1,6 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { ContractsService } from '../../service/contracts.service';
 import { Contract } from '../../models/contract';
-
 @Component({
   selector: 'app-contracts',
   templateUrl: './contracts.component.html',
