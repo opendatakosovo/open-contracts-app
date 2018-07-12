@@ -1,7 +1,6 @@
 <div>
-  <ngx-datatable class="bootstrap" columnMode="'force'" [rows]="this.contracts" [loadingIndicator]="loadingIndicator" [headerHeight]="40"
-    [summaryRow]="false" [summaryPosition]="'bottom'" [footerHeight]="50" [limit]="10" [rowHeight]="'auto'" [scrollbarH]="true"
-    [reorderable]="reorderable">
+  <ngx-datatable class="bootstrap" columnMode="'force'" [rows]="this.contracts" [headerHeight]="40" [summaryRow]="false" [summaryPosition]="'bottom'"
+    [footerHeight]="50" [limit]="10" [rowHeight]="'auto'" [scrollbarH]="true">
     <ngx-datatable-column [width]="50">
       <ng-template let-column="column" ngx-datatable-header-template>
         <p class="column-header">Shiko</p>
