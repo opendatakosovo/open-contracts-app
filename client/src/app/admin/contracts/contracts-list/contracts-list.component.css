@@ -1,0 +1,42 @@
+div {
+    padding-left: 30px;
+    padding-bottom: 10%;
+    padding-right: 30px;
+}
+.view-icon {
+    padding-left: 10px;
+}
+.edit-icon {
+    padding-left: 17px;
+}
+.delete-icon {
+    padding-left: 9px;
+}
+.column-header {
+    font-weight: 500;
+    margin-bottom: 0;
+}
+a {
+    color: rgb(33, 37, 41);
+}
+i {
+    color: rgb(33, 37, 41);
+}
+
+/* Delete user style */
+.delete-modal-header {
+    background-color: #39a6bd;
+    color: white;
+    padding-bottom: 4%;
+    padding-left: 3%; 
+}
+#delete-contract-modal {
+    padding: 0 !important;
+}
+.my-modal-footer {
+    padding-bottom: 0;
+}
+.modal-body {
+    padding-left: 2%;
+    padding-bottom: 2%;
+}

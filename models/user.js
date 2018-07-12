@@ -6,8 +6,8 @@ const ObjectId = require("mongoose").Types.ObjectId;
 
 
 const schemaOptions = {
-	timestamps: true,
-	versionKey: false
+  timestamps: true,
+  versionKey: false
 }
 // User Schema
 const UserSchema = mongoose.Schema({
@@ -29,22 +29,22 @@ UserSchema.options.toJSON = {
 }
 
 
-UserSchema.pre('save', function (next){
+UserSchema.pre('save', function (next) {
   var user = this;
-	var SALT_FACTOR = 10;
+  var SALT_FACTOR = 10;
 
-	// if password field is not changed go next and skip bcrypt
-	if(!user.isModified('password')) return next();
+  // if password field is not changed go next and skip bcrypt
+  if (!user.isModified('password')) return next();
 
-	bcrypt.genSalt(SALT_FACTOR, function (err, salt) {
-		if (err) return next(err);
+  bcrypt.genSalt(SALT_FACTOR, function (err, salt) {
+    if (err) return next(err);
 
-		bcrypt.hash(user.password, salt, function (err, hash) {
-			if (err) return next(err);
-			user.password = hash;
-			next();
-		});
-	});
+    bcrypt.hash(user.password, salt, function (err, hash) {
+      if (err) return next(err);
+      user.password = hash;
+      next();
+    });
+  });
 });
 
 const User = (module.exports = mongoose.model("User", UserSchema));
@@ -65,16 +65,16 @@ module.exports.getAllUsers = callback => {
 
 // Updating user information
 module.exports.updateUser = (id, user, callback) => {
-	User.findByIdAndUpdate(id, { $set: user }, { new: true }, callback);
+  User.findByIdAndUpdate(id, { $set: user }, { new: true }, callback);
 }
 
 // Function for adding user
 module.exports.addUser = (newUser, callback) => {
-    newUser.save(callback);
+  newUser.save(callback);
 }
 // Function for getting user by email
 module.exports.findUserByEmail = (email, callback) => {
-  User.findOne({"email": email}, callback);
+  User.findOne({ "email": email }, callback);
 }
 // Function for finding active users
 module.exports.activeUsers = (callback) => {
@@ -90,9 +90,11 @@ module.exports.comparePassword = (candidatePassword, hash, callback) => {
 
 // Function for changing password
 module.exports.changePassword = (id, newPassword, callback) => {
-  User.findByIdAndUpdate(id, { $set: {
-      password: bcrypt.hashSync(newPassword, bcrypt.genSaltSync(10), null)}
-      },{new: true}, callback);
+  User.findByIdAndUpdate(id, {
+    $set: {
+      password: bcrypt.hashSync(newPassword, bcrypt.genSaltSync(10), null)
+    }
+  }, { new: true }, callback);
 }
 // Function for activating a user or admin
 module.exports.activateUser = (id, callback) => {
@@ -100,6 +102,6 @@ module.exports.activateUser = (id, callback) => {
 }
 // Function for deactivating a user or admin
 module.exports.deactivateUser = (id, callback) => {
-  User.findByIdAndUpdate(id, { $set: { isActive: false }}, {new: true}, callback); 
-} 
+  User.findByIdAndUpdate(id, { $set: { isActive: false } }, { new: true }, callback);
+}
 

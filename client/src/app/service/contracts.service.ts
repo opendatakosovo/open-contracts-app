@@ -16,10 +16,14 @@ export class ContractsService {
   }
 
   getContracts() {
-    return this.http.getWithAuth(`${this.APIUrl}/contracts/`).map(res => res.json().contracts);
+    return this.http.getWithAuth(`${this.APIUrl}/contracts/`).map(res => res.json().data);
   }
 
   getContractByID(id) {
     return this.http.getWithAuth(`${this.APIUrl}/contracts/${id}`).map(res => res.json().data);
+  }
+
+  deleteContractByID(id) {
+    return this.http.deleteWithAuth(`${this.APIUrl}/contracts/${id}`).map(res => res.json().contract);
   }
 }

@@ -1,0 +1,219 @@
+<div>
+  <ngx-datatable class="bootstrap" columnMode="'force'" [rows]="this.contracts" [headerHeight]="40" [summaryRow]="false" [summaryPosition]="'bottom'"
+    [footerHeight]="50" [limit]="10" [rowHeight]="'auto'" [messages]="messages" [scrollbarH]="true">
+    <ngx-datatable-column [width]="50">
+      <ng-template let-column="column" ngx-datatable-header-template>
+        <p class="column-header">Shiko</p>
+      </ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <span>
+          <a class="view-icon" [attr.data-id]="row._id" [routerLink]="['/dashboard/contracts', row._id]">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+          </a>
+        </span>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [width]="70">
+      <ng-template let-column="column" ngx-datatable-header-template>
+        <p class="column-header">Ndrysho</p>
+      </ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <span>
+          <a class="edit-icon">
+            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+          </a>
+        </span>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [width]="70">
+      <ng-template let-column="column" ngx-datatable-header-template>
+        <p class="column-header">Fshij</p>
+      </ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <span>
+          <a class="delete-icon" (click)="deleteModal(modalDeleteContract, $event)" [attr.data-id]="row._id">
+            <i class="fa fa-trash" aria-hidden="true" [attr.data-id]="row._id"></i>
+          </a>
+        </span>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column>
+      <ng-template let-column="column" ngx-datatable-header-template>
+        <p class="column-header">Titulli i aktivitetit të prokurimit</p>
+      </ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <p *ngIf="row.activityTitle == ''">
+          Nuk ka të dhëna!
+        </p>
+        <p *ngIf="row.activityTitle != ''">
+          {{ row.activityTitle }}
+        </p>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column>
+      <ng-template let-column="column" ngx-datatable-header-template>
+        <p class="column-header">Data e publikimit të njoftimit për kontratë</p>
+      </ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <p *ngIf="row.contract.publicationDate == null">
+          Nuk ka të dhëna!
+        </p>
+        <p *ngIf="row.contract.publicationDate != null">
+          {{ row.contract.publicationDate | date: 'dd/MM/yyyy' }}
+        </p>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column>
+      <ng-template let-column="column" ngx-datatable-header-template>
+        <p class="column-header">Nr. i OE që kanë shkarkuar dosjen e tenderit</p>
+      </ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <p *ngIf="row.noOfCompaniesWhoDownloadedTenderDoc == null">
+          Nuk ka të dhëna!
+        </p>
+        <p *ngIf="row.noOfCompaniesWhoDownloadedTenderDoc != null">
+          {{ row.noOfCompaniesWhoDownloadedTenderDoc }}
+        </p>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column>
+      <ng-template let-column="column" ngx-datatable-header-template>
+        <p class="column-header">Data e publikimit të njoftimit për dhënie të kontratës</p>
+      </ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <p *ngIf="row.contract.publicationDateOfGivenContract == null">
+          Nuk ka të dhëna!
+        </p>
+        <p *ngIf="row.contract.publicationDateOfGivenContract != null">
+          {{ row.contract.publicationDateOfGivenContract | date: 'dd/MM/yyyy' }}
+        </p>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column>
+      <ng-template let-column="column" ngx-datatable-header-template>
+        <p class="column-header">Data e publikimit të anulimit të njoftimit</p>
+      </ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <p *ngIf="row.cancellationNoticeDate == null">
+          Nuk ka të dhëna!
+        </p>
+        <p *ngIf="row.cancellationNoticeDate != null">
+          {{ row.cancellationNoticeDate | date: 'dd/MM/yyyy' }}
+        </p>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column>
+      <ng-template let-column="column" ngx-datatable-header-template>
+        <p class="column-header">Vlera e parashikuar e kontratës</p>
+      </ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <p *ngIf="row.contract.predictedValue == ''">
+          Nuk ka të dhëna!
+        </p>
+        <p *ngIf="row.contract.predictedValue != ''">
+          {{ row.contract.predictedValue }}
+        </p>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column>
+      <ng-template let-column="column" ngx-datatable-header-template>
+        <p class="column-header">Emri i OE të cilit i është dhënë kontrata</p>
+      </ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <p *ngIf="row.company.name == ''">
+          Nuk ka të dhëna!
+        </p>
+        <p *ngIf="row.company.name != ''">
+          {{ row.company.name }}
+        </p>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column>
+      <ng-template let-column="column" ngx-datatable-header-template>
+        <p class="column-header">Data e nënshkrimit të kontratës</p>
+      </ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <p *ngIf="row.contract.signingDate == null">
+          Nuk ka të dhëna!
+        </p>
+        <p *ngIf="row.contract.signingDate != null">
+          {{ row.contract.signingDate | date: 'dd/MM/yyyy' }}
+        </p>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column>
+      <ng-template let-column="column" ngx-datatable-header-template>
+        <p class="column-header">Data e fillimit të implementimit të kontratës</p>
+      </ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <p *ngIf="row.contract.implementationDeadlineStartingDate == null">
+          Nuk ka të dhëna!
+        </p>
+        <p *ngIf="row.contract.implementationDeadlineStartingDate != null">
+          {{ row.contract.implementationDeadlineStartingDate | date: 'dd/MM/yyyy' }}
+        </p>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column>
+      <ng-template let-column="column" ngx-datatable-header-template>
+        <p class="column-header">Data e mbylljes se kontrates</p>
+      </ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <p *ngIf="row.contract.closingDate == null">
+          Nuk ka të dhëna!
+        </p>
+        <p *ngIf="row.contract.closingDate != null">
+          {{ row.contract.closingDate | date: 'dd/MM/yyyy' }}
+        </p>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column>
+      <ng-template let-column="column" ngx-datatable-header-template>
+        <p class="column-header">Vlera totale e kontratës, duke përfshirë të gjitha taksat</p>
+      </ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <p *ngIf="row.contract.totalAmountOfContractsIncludingTaxes == ''">
+          Nuk ka të dhëna!
+        </p>
+        <p *ngIf="row.contract.totalAmountOfContractsIncludingTaxes != ''">
+          {{ row.contract.totalAmountOfContractsIncludingTaxes }}
+        </p>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column>
+      <ng-template let-column="column" ngx-datatable-header-template>
+        <p class="column-header">Drejtoria</p>
+      </ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <p *ngIf="row.directorates == null">
+          Nuk ka të dhëna!
+        </p>
+        <p *ngIf="row.directorates != null">
+          {{ row.directorates }}
+        </p>
+      </ng-template>
+    </ngx-datatable-column>
+  </ngx-datatable>
+</div>
+
+<!-- Modal for deactivating a user or admin -->
+<ng-template #modalDeleteContract>
+  <div id="delete-contract-modal">
+    <div class="modal-header delete-modal-header">
+      <h4 class="modal-title">Fshi kontratën</h4>
+      <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">&times;</button>
+    </div>
+    <form action="" id="delete-user-form">
+      <div class="modal-body">
+        <div class="modal-body">
+          <p>A jeni i sigurt që dëshironi të fshini kontratën?</p>
+        </div>
+      </div>
+      <div class="modal-footer my-modal-footer">
+        <button type="button" class="btn btn-info" (click)="modalRef.hide()">Anuloje</button>
+        <button type="button" class="btn btn-danger delete-btn" id="deactivate-button" [attr.data-id]="contract._id" (click)="deleteContract($event)">Fshij</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+<!-- /Modal for deactivating a user or admin -->

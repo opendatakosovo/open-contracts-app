@@ -6,7 +6,7 @@
     </div>
     <div class="col-6" id="add-user-btn">
       <button data-toggle="modal" (click)="openModal(modalAddUser)" class="float-right btn btn-outline-primary add-btn">
-        <i class="fa fa-plus"> </i> Shto përdorues</button>
+        <i class="fa fa-plus"></i> Shto përdorues</button>
     </div>
   </div>
 
@@ -117,7 +117,7 @@
           <thead>
             <th id="profile-header" colspan="2">
               <span id="tableHeadText">Të dhënat e profilit</span>
-              <button type="button" name="close" class="close" data-dismiss="modal">&times;</button>
+              <button type="button" name="close" class="close" (click)="modalRef.hide()">&times;</button>
             </th>
           </thead>
           <tbody id="profile-information">
@@ -296,10 +296,10 @@
   </ng-template>
   <!-- /Modal for adding a user or admin -->
 
-  <!-- Modal for deleting a user or admin -->
+  <!-- Modal for deactivating a user or admin -->
   <ng-template #modalDeactivateUser>
-    <div id="delete-user-modal">
-      <div class="modal-header delete-modal-header">
+    <div id="deactivate-user-modal">
+      <div class="modal-header deactivate-modal-header">
         <h4 class="modal-title">Deaktivizo përdoruesin</h4>
         <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">&times;</button>
       </div>
@@ -316,7 +316,7 @@
       </form>
     </div>
   </ng-template>
-  <!-- /Modal for deleting a user or admin -->
+  <!-- /Modal for deactivating a user or admin -->
 
   <!-- Modal for activating a user or admin -->
   <ng-template #modalActivateUser>

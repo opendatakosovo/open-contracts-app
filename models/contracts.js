@@ -36,15 +36,15 @@ const ContractSchema = mongoose.Schema({
         installmentAmount1: { type: Number }
     }],
     lastInstallmentPayDate: { type: Date },
-    lastInstallmentAmount: { type: Number },
+    lastInstallmentAmount: { type: String },
     discountAmount: { type: String },
     directorates: { type: mongoose.Schema.Types.ObjectId },
     nameOfProcurementOffical: { type: String },
     contract: {
-        predictedValue: { type: Number },
-        totalAmountOfAllAnnexContractsIncludingTaxes: { type: Number },
-        totalAmountOfContractsIncludingTaxes: { type: Number },
-        totalPayedPriceForContract: { type: Number },
+        predictedValue: { type: String },
+        totalAmountOfAllAnnexContractsIncludingTaxes: { type: String },
+        totalAmountOfContractsIncludingTaxes: { type: String },
+        totalPayedPriceForContract: { type: String },
         annexes: [{
             totalValueOfAnnexContract1: { type: Number },
             annexContractSigningDate1: { type: Date }
@@ -56,7 +56,7 @@ const ContractSchema = mongoose.Schema({
         publicationDate: { type: Date },
         publicationDateOfGivenContract: { type: Date },
         closingDate: { type: Date },
-        discountAmount: { type: Number },
+        discountAmount: { type: String },
         file: { type: String },
         signingDate: { type: Date },
     },
@@ -89,23 +89,28 @@ module.exports.getContractById = (id, cb) => {
     Contract.findById(id, cb);
 }
 
+module.exports.deleteContractById = (id, callback) => {
+    Contract.findByIdAndRemove(id, callback);
+}
 // Data Visualizations
 
 module.exports.getContractsByYearWithPublicationDateAndSigningDate = (year) => {
     return Contract.aggregate([
-        { $match: {
-              $or: [{
-                year: parseInt(year)
-              }]
-        } },
-        { $group: { _id: { publicationDateOfGivenContract: "$contract.publicationDateOfGivenContract", signingDate: "$contract.signingDate"}, count: {$sum: 1} } },
-        { $project: { _id: 0, publicationDateOfGivenContract: "$_id.publicationDateOfGivenContract", signingDate: "$_id.signingDate", totalContracts: "$count" } } 
+        {
+            $match: {
+                $or: [{
+                    year: parseInt(year)
+                }]
+            }
+        },
+        { $group: { _id: { publicationDateOfGivenContract: "$contract.publicationDateOfGivenContract", signingDate: "$contract.signingDate" }, count: { $sum: 1 } } },
+        { $project: { _id: 0, publicationDateOfGivenContract: "$_id.publicationDateOfGivenContract", signingDate: "$_id.signingDate", totalContracts: "$count" } }
     ]);
 }
 
 module.exports.getTotalContractsByYears = () => {
     return Contract.aggregate([
-        { $group: { _id: "$year", count: {$sum: 1} } },
+        { $group: { _id: "$year", count: { $sum: 1 } } },
         { $sort: { _id: 1 } },
         { $project: { _id: 0, year: "$_id", totalContracts: "$count" } }
     ]);
@@ -114,7 +119,7 @@ module.exports.getTotalContractsByYears = () => {
 module.exports.getContractsByYearWithPredictedValueAndTotalAmount = (year) => {
     return Contract.aggregate([
         { $match: { year: parseInt(year) } },
-        { $group: { _id: { id: "$_id", procurementNo: "$procurementNo", predictedValue: "$contract.predictedValue", totalAmountOfContractsIncludingTaxes: "$contract.totalAmountOfContractsIncludingTaxes"} } },
+        { $group: { _id: { id: "$_id", procurementNo: "$procurementNo", predictedValue: "$contract.predictedValue", totalAmountOfContractsIncludingTaxes: "$contract.totalAmountOfContractsIncludingTaxes" } } },
         { $project: { _id: 0, id: "$_id.id", procurementNo: "$_id.procurementNo", predictedValue: "$_id.predictedValue", totalAmountOfContractsIncludingTaxes: "$_id.totalAmountOfContractsIncludingTaxes", } },
         { $sort: { predictedValue: -1 } }
     ]);
@@ -124,11 +129,11 @@ module.exports.getTopTenContractors = () => {
     return Contract.aggregate([
         { $match: { "company.name": { "$ne": "" } } },
         {
-           $group: { _id: "$company.name", count: { $sum: 1 } }
+            $group: { _id: "$company.name", count: { $sum: 1 } }
         },
         { $sort: { count: -1 } },
         { $limit: 10 },
-        { $project: { _id: 0, companyName: "$_id", totalContracts: "$count" } }    
+        { $project: { _id: 0, companyName: "$_id", totalContracts: "$count" } }
     ]);
 }
 

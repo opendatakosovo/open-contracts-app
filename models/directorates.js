@@ -38,13 +38,12 @@ module.exports.addAndRemovePeopleInCharge = (directorateName , peopleInCharge, c
   );
 }
 //Method for finding directorate by id 
-module.exports.getDirectorateById = (id , callback) => {
+module.exports.getDirectorateById = (id, callback) => {
   Directorate.findById(id, callback);
 }
-
 // Method for editing a directorate
 module.exports.updateDirectorate = (id, directorate, callback) => {
-  Directorate.findByIdAndUpdate( id, { $set: directorate }, { new: true }, callback);
+  Directorate.findByIdAndUpdate(id, { $set: directorate }, { new: true }, callback);
 }
 
 //Method for deactivating a directorate
