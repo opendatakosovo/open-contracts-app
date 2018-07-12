@@ -20,16 +20,17 @@ export class DirectorateService {
     return this.http.postWithAuth(`${this.APIUrl}/directorates`, directorate).map(res => res.json());
   }
 
+  countDirectorates() {
+    return this.http.getWithAuth(`${this.APIUrl}/directorates/count`).map(res => res.json().number);
+  }
+  getAllDirectorates() {
+    return this.http.getWithAuth(`${this.APIUrl}/directorates`).map(res => res.json().directorates);
+  }
   getDirectorateById(id) {
     return this.http.getWithAuth(`${this.APIUrl}/directorates/` + id).map(res => res.json().directorate);
   }
-
-  directoratesAndTheirPeopleInCharge() {
-    return this.http.getWithAuth(`${this.APIUrl}/directorates`).map(res => res.json());
-  }
-
-  getDirectorateByPersonInChargeEmail(email) {
-    return this.http.getWithAuth(`${this.APIUrl}/directorates/user/` + email).map(res => res.json());
+  addRemovePeopleInCharge(directorate) {
+    return this.http.postWithAuth(`${this.APIUrl}/directorates/people-in-charge`, directorate).map(res => res.json());
   }
 
   editDirectorate(id , editedDirectorate) {

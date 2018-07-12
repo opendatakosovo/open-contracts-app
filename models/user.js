@@ -17,7 +17,8 @@ const UserSchema = mongoose.Schema({
   email: { type: String, required: true },
   password: { type: String, required: true },
   role: { type: String, required: true },
-  department: { type: String, set: skipEmpty },
+  directorateName: { type: String },
+  isInCharge: { type: Boolean },
   isActive: { type: Boolean, required: true}
 }, schemaOptions);
 
@@ -59,21 +60,7 @@ module.exports.getUserById = (id, callback) => {
 
 // Function for getting all users and directorates
 module.exports.getAllUsers = callback => {
-  User.aggregate([{
-    "$lookup": {
-      "from": "directorates",
-      "localField": "department",    
-      "foreignField": "directorateName",  
-      "as": "directorate"
-    }
-  },
-  {
-    "$replaceRoot": { "newRoot": { "$mergeObjects": [{ "$arrayElemAt": ["$directorate", 0] }, "$$ROOT"] } }
-  },
-  { "$project": { "directorate": 0 } }
-  ]) 
-  .sort({'createdAt': "desc"})
-  .exec(callback);;
+  User.find().sort({'createdAt': "desc"}).exec(callback);;
 }
 
 // Updating user information
@@ -81,23 +68,17 @@ module.exports.updateUser = (id, user, callback) => {
 	User.findByIdAndUpdate(id, { $set: user }, { new: true }, callback);
 }
 
-// Activate a user 
-module.exports.activateUser = (id, callback) => {
-  User.findByIdAndUpdate(id,{$set:{isActive: true}}, {new: true}, callback);
-}
-
 // Function for adding user
 module.exports.addUser = (newUser, callback) => {
     newUser.save(callback);
 }
-
 // Function for getting user by email
 module.exports.findUserByEmail = (email, callback) => {
   User.findOne({"email": email}, callback);
 }
 // Function for finding active users
 module.exports.activeUsers = (callback) => {
-  User.find({"isActive": true}, callback);
+  User.find({"isActive": true, "role": "user" , "isInCharge": false }, callback);
 }
 // Function for comparing passwords
 module.exports.comparePassword = (candidatePassword, hash, callback) => {
@@ -113,8 +94,11 @@ module.exports.changePassword = (id, newPassword, callback) => {
       password: bcrypt.hashSync(newPassword, bcrypt.genSaltSync(10), null)}
       },{new: true}, callback);
 }
-
-// Function for deleting a user or admin
+// Function for activating a user or admin
+module.exports.activateUser = (id, callback) => {
+  User.findByIdAndUpdate(id, {$set:{isActive: true}}, {new: true}, callback);
+}
+// Function for deactivating a user or admin
 module.exports.deactivateUser = (id, callback) => {
   User.findByIdAndUpdate(id, { $set: { isActive: false }}, {new: true}, callback); 
 } 

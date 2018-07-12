@@ -20,7 +20,8 @@ router.post('/', passport.authenticate('jwt', { session: false }), userValidatio
         gender: req.body.gender,
         password: req.body.password,
         role: req.body.role,
-        department: req.body.department,
+        directorateName: req.body.directorateName,
+        isInCharge: req.body.isInCharge,
         isActive: true
     });
 

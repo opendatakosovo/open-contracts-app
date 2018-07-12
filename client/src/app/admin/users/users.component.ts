@@ -16,21 +16,19 @@ import { DirectorateService } from '../../service/directorate.service';
 export class UsersComponent implements OnInit {
   modalRef: BsModalRef;
   users: User[];
-  directorates: Directorate;
   userModal: User;
   user: User;
   currentUser: User;
-
+  numberOfDirectorates: number;
   constructor(public userService: UserService, private modalService: BsModalService, public directorateService: DirectorateService) {
     this.userModal = new User();
     this.user = new User();
     this.currentUser = new User();
-    this.directorates = new Directorate();
     this.userService.getUsers().subscribe(data => {
       this.users = data;
     });
-    this.directorateService.directoratesAndTheirPeopleInCharge().subscribe(data => {
-      this.directorates = data.result;
+    this.directorateService.countDirectorates().subscribe(data => {
+      this.numberOfDirectorates = data;
     });
     this.currentUser = JSON.parse(localStorage.getItem('user'));
   }
@@ -127,7 +125,11 @@ export class UsersComponent implements OnInit {
         this.userService.getUsers().subscribe(data => {
           this.users = data;
         });
-        Swal('Sukses!', 'Përdoruesi u shtua me sukses.', 'success');
+        if (this.user.role === 'admin') {
+        Swal('Sukses!', 'Admini u shtua me sukses.', 'success');
+        } else {
+        Swal('Sukses!', 'Përdoruesi u shtua me sukses.Tani mund të përcaktoni detyrën e tij!', 'success');
+        }
         this.user = new User();
       }
     });
@@ -155,19 +157,7 @@ export class UsersComponent implements OnInit {
         });
       } else if (this.userModal.firstName === '' || this.userModal.lastName === '') {
         Swal('Gabim!', 'Përdoruesi nuk u ndryshua.', 'error');
-      } else {
-        if (this.userModal.role === 'user') {
-          if (this.userModal.department === null || this.userModal.department === undefined || this.userModal.department === '') {
-            Swal('Gabim!', 'Përdoruesi nuk u ndryshua.', 'error');
-            return false;
-          } else {
-            this.userService.getUsers().subscribe(data => {
-              this.users = data;
-            });
-            Swal('Sukses!', 'Përdoruesi u ndryshua me sukses.', 'success');
-            this.modalRef.hide();
-          }
-        } else if (res.err) {
+      }  else if (res.err) {
           Swal('Gabim!', 'Përdoruesi nuk u ndryshua.', 'error');
           return false;
         } else {
@@ -177,7 +167,6 @@ export class UsersComponent implements OnInit {
           Swal('Sukses!', 'Përdoruesi u ndryshua me sukses.', 'success');
           this.modalRef.hide();
         }
-      }
     });
   }
 

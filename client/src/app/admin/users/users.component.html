@@ -43,14 +43,16 @@
               </p>
             </div>
             <div *ngIf="user.role == 'user'">
+              <div>
                 <p class="position"> Përdorues </p>
-            </div>
-            <div *ngIf="user.directorateIsActive == true">
-                <p class="position"> {{ user.department }}</p>
               </div>
-            <div *ngIf="user.directorateIsActive == false">
-                <p class="position">{{ user.department }} (Drejtoria juaj nuk është aktive)</p>
+            <div>
+                <p class="position"> {{user.directorateName }}</p>
               </div>
+            <div *ngIf="user.directorateName === ''">
+                <p class="position"> Nuk është përgjegjës i asnjë drejtorie!</p>              
+              </div>
+            </div>              
             <div *ngIf="user.role == 'admin'">
               <p class="position">Administrator</p>
             </div>
@@ -204,15 +206,6 @@
               <label for="user" class="form-check-label">Përdorues</label>
             </div>
           </div>
-          <div class="form-group" *ngIf="userModal.role == 'user'">
-            <label for="email">Drejtoritë</label>
-            <select name="departments" id="editDepartments" [(ngModel)]="userModal.department" class="form-control" #userDepartments="ngModel"
-              required [style.border-color]="userDepartments.errors?.required && userDepartments.touched ? 'red' : '#ced4da'">
-              <option [value]="undefined" selected>Zgjedh Drejtorinë</option>
-              <option *ngFor="let directorate of directorates" [value]="directorate.directorateName">{{ directorate.directorateName }}</option>
-            </select>
-            <div *ngIf="userDepartments.errors?.required && userDepartments.touched" class="error-msg">Duhet zgjedhur!</div>
-          </div>
         </div>
         <div class="modal-footer my-modal-footer">
           <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Mbyll</button>
@@ -291,15 +284,7 @@
               <input type="text" class="form-check-input" [(ngModel)]='user.role' type="radio" id="user" name="type" value="user">
               <label for="user" class="form-check-label">Përdorues</label>
             </div>
-          </div>
-          <div class="form-group" *ngIf="user.role == 'user'">
-            <label for="email">Drejtoritë</label>
-            <select name="departments" id="departments" [(ngModel)]="user.department" class="form-control" #userDepartments="ngModel"
-              required [style.border-color]="userDepartments.errors?.required && userDepartments.touched ? 'red' : '#ced4da'">
-              <option value="" selected>Zgjedh Drejtorinë</option>
-              <option *ngFor="let directorate of directorates" [ngValue]="directorate.directorateName">{{ directorate.directorateName }}</option>
-            </select>
-            <div *ngIf="userDepartments.errors?.required && userDepartments.touched" class="error-msg">Duhet zgjedhur!</div>
+            <div *ngIf="user.role === 'user' && numberOfDirectorates === 0" class="error-msg">Duhet të ekzistoj së paku një drejtori për të regjistruar përdorues!</div>
           </div>
         </div>
         <div class="modal-footer">

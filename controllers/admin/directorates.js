@@ -11,7 +11,7 @@ const Users = require("../../models/user");
 router.post('/',  directorateValidation, (req, res) => {
     let directorate = new Directorates({
         directorateName: req.body.directorateName,
-        peopleInChargeEmails : req.body.peopleInChargeEmails,
+        peopleInCharge : req.body.peopleInCharge,
         directorateIsActive: req.body.directorateIsActive
     });
    
@@ -48,21 +48,56 @@ router.post('/',  directorateValidation, (req, res) => {
  
 });
 
-// Route for getting all directorates and their person in charge
-router.get('/', (req, res) => {
-    Directorates.getAllDirectoratesWithPersonInCharge((err, result) => {
+//Route for adding people in charge 
+router.post('/people-in-charge', (req,res) => {
+    Directorates.addAndRemovePeopleInCharge(req.body.directorateName, req.body.peopleInCharge, (err,result) => {
         if(!err) {
-            res.json ({
-                "msg": "Data has been retrived successfully",
+            res.json({
+                "msg": "Directorates has been updated successfully",
                 "result": result,
-                "succes": true
-            });
+                "success": true
+            })
         } else {
             res.json({
                 "err": err,
                 "success": false
-            });
+            })
         }
+    });
+});
+//Method for counting directorates 
+router.get('/count' , (req,res) => {
+    Directorates.countDirectorates ((err, number) => {
+        if(!err) {
+            res.json({
+                "msg": "The number of directorates has been retrived successfully",
+                "number": number,
+                "success": true
+            })
+        } else {
+            res.json({
+                "err": err,
+                "success": false
+            })
+        }
+    })
+})
+
+//Route for getting all directorates 
+router.get('/', (req,res) => {
+    Directorates.getAllDirectorates((err, directorates) => {
+        if(!err) {
+            res.json({
+                "msg": "Directorates has been retrived successfully",
+                "directorates": directorates,
+                "success": true
+            })
+        } else {
+            res.json({
+                "err": err,
+                "success": false
+            })
+        } 
     });
 });
 
@@ -79,45 +114,9 @@ router.get('/:id', (req,res) => {
             res.json({
                 "err": err,
                 "success": false
-            })
-        }
-    })
-});
-
-//Route for getting active directorates
-router.get('/active-directorates', (req, res) => {
-    Directorates.activeDirectorates((err, directorates) => {
-        if(!err) {
-            res.json({
-                "msg": "Active users has been retrived succesfully",
-                "directorates": directorates, 
-                "success": true
-            })
-        } else {
-            res.json({
-                "err": err,
-                "success": true
             });
         }
     });
-});
-
-//Route for getting directorates by their person in charge email
-router.get('/user/:email', (req, res) => {
-    Directorates.getDirectorateByEmail(req.params.email ,(err, directorate) => {
-        if(!err) {
-            res.json ({
-                "msg": "Directorate has been retrived successfully",
-                "directorate": directorate,
-                "succes": true
-            });
-        } else {
-            res.json({
-                "err": err,
-                "success": true
-            });
-        }
-    });     
 });
 
 //Route for editing directorate

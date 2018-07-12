@@ -126,3 +126,21 @@
     padding-bottom: 20px;
     padding-top: 20px;
 }
+.people-in-charge p {
+    margin-top: 5px;
+    margin-left: 10px;
+    margin-bottom: 5px;
+}
+legend {
+    font-size: 15px;
+    margin-bottom: 5px;
+}
+.list-group {
+    list-style: none;
+}
+.list-group li {
+    margin-bottom: 5px;
+}
+.directorate-information{
+    width: 100px;
+}

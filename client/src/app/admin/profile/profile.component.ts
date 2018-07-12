@@ -27,9 +27,6 @@ export class ProfileComponent implements OnInit {
   constructor(private userService: UserService, private modalService: BsModalService, public directorateService: DirectorateService) {
     this.user = new User();
     this.userModal = new User();
-    this.directorateService.directoratesAndTheirPeopleInCharge().subscribe(data => {
-      this.directorates = data;
-    });
     this.currentUser = JSON.parse(localStorage.getItem('user'));
   }
 
