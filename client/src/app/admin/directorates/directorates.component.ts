@@ -19,59 +19,112 @@ export class DirectoratesComponent implements OnInit {
   directorate: Directorate;
   directorateModal: Directorate;
   activeUsers = [];
-  emails = [];
-
+  userModal: User;
+  users = [];
+  usersInCharge: User[];
+  peopleInChargeId = [];
+  peopleInCharge = [];
   constructor(public directorateService: DirectorateService, private modalService: BsModalService, public userService: UserService) {
     this.directorate = new Directorate();
     this.directorateModal = new Directorate();
-
-    this.directorateService.directoratesAndTheirPeopleInCharge().subscribe(data => {
-      this.directorates = data.result;
-      for (this.directorate of this.directorates) {
-        this.emails.push(this.directorate.thePersonInCharge);
-      }
-    });
-
-    this.userService.getActiveUsers().subscribe(data => {
-      data.forEach(element1 => {
-        if (this.emails.includes(element1.email) === false) {
-          this.activeUsers.push(element1);
-        }
-      });
+    this.usersInCharge = [];
+    this.userModal = new User();
+    this.peopleInChargeId = [];
+    this.directorateService.getAllDirectorates().subscribe(data => {
+      this.directorates = data;
     });
   }
 
   ngOnInit() {
   }
+
   // Function for opening add directorate modal
-  openModal(template: TemplateRef<any>) {
+  openModal(template) {
     this.directorate = new Directorate();
     this.modalRef = this.modalService.show(template);
   }
-
+  // Function for opening the add/remove people in charge modal
+  openAddRemovePeopleInChargeModal(template, event) {
+    this.peopleInChargeId = [];
+    this.peopleInCharge = [];
+    this.users = [];
+    this.directorateService.getDirectorateById(event.target.dataset.id).subscribe(data => {
+      this.directorateModal = data;
+      data.peopleInCharge.forEach(element => {
+        this.peopleInChargeId.push(element);
+      });
+      this.peopleInChargeId.forEach(id => {
+        this.userService.getUserByID(id).subscribe(userData => {
+          this.peopleInCharge.push(userData);
+        });
+      });
+    });
+    this.userService.getActiveUsers().subscribe(res => {
+      if (this.peopleInChargeId.length === 0) {
+        res.forEach(user => {
+          if (user.isInCharge === false) {
+            this.users.push(user);
+          }
+        });
+      } else {
+        res.forEach(user => {
+          if ((user.isInCharge === false)) {
+            this.users.push(user);
+          }
+        });
+      }
+    });
+    this.modalRef = this.modalService.show(template);
+  }
+  // Function to fetch selected users
+  getUser(event) {
+    const id = event.target.dataset.id;
+    this.peopleInChargeId.push(id);
+    this.userService.getUserByID(id).subscribe(data => {
+      this.peopleInCharge.unshift(data);
+    });
+    this.users.splice((this.users.findIndex(user => user._id === id)), 1);
+  }
+  removeUser(event) {
+    const id = event.target.dataset.id;
+    this.peopleInChargeId.splice((this.peopleInChargeId.indexOf(id)), 1);
+    if (this.peopleInChargeId.length === 0) {
+      this.userService.getUserByID(id).subscribe(userData => {
+        this.peopleInCharge = [];
+        this.users.unshift(userData);
+      });
+    } else {
+      this.userService.getUserByID(id).subscribe(userData => {
+        this.users.unshift(userData);
+      });
+      this.peopleInCharge.splice(this.peopleInCharge.findIndex(user => user._id === id), 1);
+    }
+  }
   // Function for opening show directorate information modal
   showDirectorate(event) {
-    const email = event.target.dataset.id;
-    this.directorateService.getDirectorateByPersonInChargeEmail(email).subscribe(data => {
-      data.forEach(element => {
-        this.directorateModal = element;
-      });
+    this.peopleInCharge = [];
+    const id = event.target.dataset.id;
+    this.directorateService.getDirectorateById(id).subscribe(data => {
+        this.directorateModal = data;
+        this.directorateModal.peopleInCharge.forEach(element => {
+          this.userService.getUserByID(element).subscribe(userData => {
+            this.peopleInCharge.push(userData);
+          });
+        });
     });
   }
 
   // Function for opening edit directorate modal
-  editModal(template: TemplateRef<any>, event) {
-    const email = event.target.dataset.id;
-    this.directorateService.getDirectorateByPersonInChargeEmail(email).subscribe(data => {
-      data.directorate.forEach(element => {
-        this.directorateModal = element;
+  editModal(template, event) {
+    const id = event.target.dataset.id;
+    this.directorateService.getDirectorateById(id).subscribe(data => {
+        this.directorateModal = data;
       });
-    });
     this.modalRef = this.modalService.show(template);
   }
 
   // Function for opening deactivate directorate modal
-  deactivateModal(template: TemplateRef<any>, event) {
+  deactivateModal(template, event) {
     const id = event.target.dataset.id;
     this.directorateService.getDirectorateById(id).subscribe(directorate => {
       this.directorateModal = directorate;
@@ -80,7 +133,7 @@ export class DirectoratesComponent implements OnInit {
   }
 
   // Function for opening activate directorate modal
-  activateModal(template: TemplateRef<any>, event) {
+  activateModal(template, event) {
     const id = event.target.dataset.id;
     this.directorateService.getDirectorateById(id).subscribe(directorate => {
       this.directorateModal = directorate;
@@ -109,23 +162,53 @@ export class DirectoratesComponent implements OnInit {
           confirmButtonText: 'Kthehu te forma'
         });
       } else {
-        this.activeUsers = [];
-        this.userService.getActiveUsers().subscribe(data => {
-          data.forEach(element1 => {
-            if (this.emails.includes(element1.email) === false) {
-              this.activeUsers.push(element1);
-            }
-          });
-        });
-        this.directorateService.directoratesAndTheirPeopleInCharge().subscribe(data => {
-          this.directorates = data.result;
-        });
-        this.modalRef.hide();
+        this.directorates.unshift(res.directorate);
         Swal('Sukses!', 'Drejtoria u shtua me sukses.', 'success');
+        this.modalRef.hide();
       }
     });
   }
-
+  // Add people in charge function
+  addRemovePeopleInCharge(event) {
+    this.directorateModal.peopleInCharge = this.peopleInChargeId;
+    this.directorateService.addRemovePeopleInCharge(this.directorateModal).subscribe(res => {
+      if (res.err) {
+        Swal('Gabim!', 'Personat përgjegjës nuk janë shtuar.', 'error');
+        return false;
+      } else {
+        this.peopleInChargeId.forEach(element => {
+          this.userService.getUserByID(element).subscribe(data => {
+            this.userModal = data;
+            this.userModal.isInCharge = true;
+            this.userModal.directorateName = this.directorateModal.directorateName;
+            this.userService.editUser(this.userModal._id, this.userModal).subscribe(result => {
+              if (result.err) {
+                return false;
+              } else {
+                this.modalRef.hide();
+              }
+            });
+          });
+        });
+        this.users.forEach(element => {
+          this.userService.getUserByID(element._id
+          ).subscribe(data => {
+            this.userModal = data;
+            this.userModal.isInCharge = false;
+            this.userService.editUser(this.userModal._id, this.userModal).subscribe(result => {
+              if (result.err) {
+                return false;
+              } else {
+                this.modalRef.hide();
+              }
+            });
+          });
+        });
+        Swal('Sukses!', 'Personat përgjegjës u shtuan me sukses.', 'success');
+        this.modalRef.hide();
+      }
+    });
+  }
   // Edit directorate function
   editDirectorate(event) {
     const id = event.target.dataset.id;
@@ -154,18 +237,8 @@ export class DirectoratesComponent implements OnInit {
         Swal('Gabim!', 'Pëdoruesi nuk u ndryshua.', 'error');
         return false;
       } else {
-        this.directorateService.directoratesAndTheirPeopleInCharge().subscribe(data => {
-          this.directorates = data.result;
-          for (this.directorate of this.directorates) {
-            this.emails.push(this.directorate.thePersonInCharge);
-          }
-        });
-        this.userService.getActiveUsers().subscribe(data => {
-          data.forEach(element1 => {
-            if (this.emails.includes(element1.email) === false) {
-              this.activeUsers.push(element1);
-            }
-          });
+        this.directorateService.getAllDirectorates().subscribe(data => {
+          this.directorates = data;
         });
         Swal('Sukses!', 'Pëdoruesi u ndryshua me sukses.', 'success');
         this.modalRef.hide();
@@ -180,11 +253,11 @@ export class DirectoratesComponent implements OnInit {
       if (res.err) {
         Swal('Gabim!', 'Drejtoria nuk është deaktivizuar!', 'error');
       } else {
-        this.modalRef.hide();
-        this.directorateService.directoratesAndTheirPeopleInCharge().subscribe(data => {
-          this.directorates = data.result;
+        this.directorateService.getAllDirectorates().subscribe(data => {
+          this.directorates = data;
         });
         Swal('Sukses!', 'Drejtoria u deaktivizua me sukses.', 'success');
+        this.modalRef.hide();
       }
     });
   }
@@ -192,16 +265,15 @@ export class DirectoratesComponent implements OnInit {
   // Activate directorate function
   activateDirectorate(event) {
     const id = event.target.dataset.id;
-
     this.directorateService.activateDirectorate(id, this.directorateModal).subscribe(res => {
       if (res.err) {
         Swal('Gabim!', 'Drejtoria nuk është aktivizuar!', 'error');
       } else {
-        this.modalRef.hide();
-        this.directorateService.directoratesAndTheirPeopleInCharge().subscribe(data => {
-          this.directorates = data.result;
+        this.directorateService.getAllDirectorates().subscribe(data => {
+          this.directorates = data;
         });
         Swal('Sukses!', 'Drejtoria u aktivizua me sukses!', 'success');
+        this.modalRef.hide();
       }
     });
   }

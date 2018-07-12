@@ -1,18 +1,14 @@
+import { User } from '../models/user';
+
 export class Directorate {
     _id?: string;
     directorateName: string;
-    thePersonInCharge: {
-        firstName: string,
-        lastName: string
-    };
+    peopleInCharge: String[];
     directorateIsActive: boolean;
     constructor() {
         this._id = '';
         this.directorateName = '';
-        this.thePersonInCharge = {
-            firstName: '',
-            lastName: ''
-        };
+        this.peopleInCharge = [];
         this.directorateIsActive = true;
     }
 }

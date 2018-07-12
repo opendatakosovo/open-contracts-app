@@ -6,7 +6,7 @@ const skipEmpty = require("mongoose-skip-empty");
 // Directorate Schema
 const DirectorateSchema = mongoose.Schema({
   directorateName: { type: String },
-  thePersonInChargeEmail: { type: String },
+  peopleInCharge:  [{}],
   directorateIsActive: { type: Boolean }
 });
 const Directorate = (module.exports = mongoose.model("Directorate", DirectorateSchema));
@@ -17,47 +17,29 @@ module.exports = mongoose.model("Directorate", DirectorateSchema);
 module.exports.addDirectorate = (newDirectorate, callback) => {
   newDirectorate.save(callback);
 }
-//Method for getting all directorates with persons in charge
-module.exports.getAllDirectoratesWithPersonInCharge = (callback) => {
-  Directorate.aggregate([{
-    "$lookup": {
-      "from": "users",
-      "localField": "thePersonInChargeEmail",    // field in the orders collection
-      "foreignField": "email",  // field in the items collection
-      "as": "personInCharge"
-    }
-  },
-  {
-    "$replaceRoot": { "newRoot": { "$mergeObjects": [{ "$arrayElemAt": ["$personInCharge", 0] }, "$$ROOT"] } }
-  },
-  { "$project": { "personInCharge": 0 } }
-  ]).sort({ 'createdAt': "desc" })
-    .exec(callback);;
-}
 //Method for finding directorate by name
 module.exports.findDirectorate = (directorate, callback) => {
   Directorate.findOne({ "directorateName": directorate }, callback);
 }
+//Method for counting the numbers of directorates
+module.exports.countDirectorates = (callback) => {
+  Directorate.count(callback);
+}
+
+//Method for getting all directorates
+module.exports.getAllDirectorates = (callback) => {
+  Directorate.find(callback);
+}
+//Method for adding people in charge to a directorate
+module.exports.addAndRemovePeopleInCharge = (directorateName , peopleInCharge, callback) => {
+  Directorate.updateOne(
+    { "directorateName": directorateName} , 
+    { $set: { "peopleInCharge": peopleInCharge}}, callback
+  );
+}
 //Method for finding directorate by id 
 module.exports.getDirectorateById = (id, callback) => {
   Directorate.findById(id, callback);
-}
-//Method for getting directorate and its person in charge by users email
-module.exports.getDirectorateByEmail = (email, callback) => {
-  Directorate.aggregate([{ "$match": { "thePersonInChargeEmail": email } },
-  {
-    "$lookup": {
-      "from": "users",
-      "localField": "thePersonInChargeEmail",
-      "foreignField": "email",
-      "as": "personInCharge"
-    }
-  },
-  {
-    "$replaceRoot": { "newRoot": { "$mergeObjects": [{ "$arrayElemAt": ["$personInCharge", 0] }, "$$ROOT"] } }
-  },
-  { "$project": { "personInCharge": 0 } }
-  ], callback);
 }
 // Method for editing a directorate
 module.exports.updateDirectorate = (id, directorate, callback) => {

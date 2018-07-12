@@ -6,7 +6,8 @@ export class User {
   email: string;
   password: string;
   role: string;
-  department?: string;
+  directorateName ?: string;
+  isInCharge: boolean;
   isActive: boolean;
   constructor() {
     this._id = '';
@@ -16,7 +17,8 @@ export class User {
     this.email = '';
     this.password = '';
     this.role = 'admin';
-    this.department = '';
+    this.directorateName = '';
+    this.isInCharge = false;
     this.isActive = true;
   }
 }
