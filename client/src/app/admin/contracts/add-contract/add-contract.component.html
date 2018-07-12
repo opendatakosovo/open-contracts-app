@@ -225,8 +225,10 @@
             <br>
             <label for="noOfCompaniesWhoSubmited">Nr. i OE që kanë dorëzuar ofertat</label>
             <input type="number" name="noOfCompaniesWhoSubmited" id="noOfCompaniesWhoSubmited" class="form-control" [(ngModel)]="contract.noOfCompaniesWhoSubmited"
-              #contractNoOfCompaniesWhoSubmited="ngModel" [style.border-color]="contractNoOfCompaniesWhoSubmited.value !== 0 && (contractNoOfCompaniesWhoSubmited.touched || contractForm.submitted) ? 'red' : '#ced4da'">
-            <div [hidden]="contractNoOfCompaniesWhoSubmited.value !== 0 || contractNoOfCompaniesWhoSubmited.value == undefined || (!contractNoOfCompaniesWhoSubmited.touched && !contractForm.submitted)">
+              #contractNoOfCompaniesWhoSubmited="ngModel" [style.border-color]="contractNoOfCompaniesWhoSubmited.value == 0 && (contractNoOfCompaniesWhoSubmited.touched || contractForm.submitted)
+              ? 'red' : '#ced4da'">
+            <div [hidden]="contractNoOfCompaniesWhoSubmited.value !== 0 || contractNoOfCompaniesWhoSubmited.value == undefined
+            || (!contractNoOfCompaniesWhoSubmited.touched && !contractForm.submitted)">
               <small class="text-danger">Nuk duhet të jetë zero!</small>
             </div>
           </div>
