@@ -89,6 +89,9 @@ module.exports.getContractById = (id, cb) => {
     Contract.findById(id, cb);
 }
 
+module.exports.deleteContractById = (id, callback) => {
+    Contract.findByIdAndRemove(id, callback);
+}
 // Data Visualizations
 
 module.exports.getContractsByYearWithPublicationDateAndSigningDate = (year) => {

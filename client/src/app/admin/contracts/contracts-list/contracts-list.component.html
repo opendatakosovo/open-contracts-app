@@ -1,6 +1,6 @@
 <div>
   <ngx-datatable class="bootstrap" columnMode="'force'" [rows]="this.contracts" [headerHeight]="40" [summaryRow]="false" [summaryPosition]="'bottom'"
-    [footerHeight]="50" [limit]="10" [rowHeight]="'auto'" [scrollbarH]="true">
+    [footerHeight]="50" [limit]="10" [rowHeight]="'auto'" [messages]="messages" [scrollbarH]="true">
     <ngx-datatable-column [width]="50">
       <ng-template let-column="column" ngx-datatable-header-template>
         <p class="column-header">Shiko</p>
@@ -31,8 +31,8 @@
       </ng-template>
       <ng-template let-row="row" ngx-datatable-cell-template>
         <span>
-          <a class="delete-icon">
-            <i class="fa fa-trash" aria-hidden="true"></i>
+          <a class="delete-icon" (click)="deleteModal(modalDeleteContract, $event)" [attr.data-id]="row._id">
+            <i class="fa fa-trash" aria-hidden="true" [attr.data-id]="row._id"></i>
           </a>
         </span>
       </ng-template>
@@ -195,3 +195,25 @@
     </ngx-datatable-column>
   </ngx-datatable>
 </div>
+
+<!-- Modal for deactivating a user or admin -->
+<ng-template #modalDeleteContract>
+  <div id="delete-contract-modal">
+    <div class="modal-header delete-modal-header">
+      <h4 class="modal-title">Fshi kontratën</h4>
+      <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">&times;</button>
+    </div>
+    <form action="" id="delete-user-form">
+      <div class="modal-body">
+        <div class="modal-body">
+          <p>A jeni i sigurt që dëshironi të fshini kontratën?</p>
+        </div>
+      </div>
+      <div class="modal-footer my-modal-footer">
+        <button type="button" class="btn btn-info" (click)="modalRef.hide()">Anuloje</button>
+        <button type="button" class="btn btn-danger delete-btn" id="deactivate-button" [attr.data-id]="contract._id" (click)="deleteContract($event)">Fshij</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+<!-- /Modal for deactivating a user or admin -->
