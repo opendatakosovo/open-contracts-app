@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { HostListener } from '@angular/core';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable/src';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './main/login/login.component';
@@ -37,6 +38,7 @@ import { DatasetService } from './service/dataset.service';
 
 import { AuthGuard } from './guards/auth.guard';
 import { ContractInformationComponent } from './admin/contracts/contract-information/contract-information.component';
+import { ContractsListComponent } from './admin/contracts/contracts-list/contracts-list.component';
 
 
 const appRoutes: Routes = [
@@ -91,6 +93,7 @@ const appRoutes: Routes = [
     ChangePasswordComponent,
     DirectoratesComponent,
     ContractInformationComponent,
+    ContractsListComponent,
   ],
   imports: [
     BrowserModule,
@@ -99,7 +102,8 @@ const appRoutes: Routes = [
     HttpModule,
     ReactiveFormsModule,
     RouterModule.forRoot(appRoutes),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    NgxDatatableModule
   ],
   entryComponents: [ChangePasswordComponent],
   providers: [

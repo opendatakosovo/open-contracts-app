@@ -34,14 +34,14 @@ export class Contract {
     noOfPaymentInstallments?: Number;
     installments?: Installment[];
     lastInstallmentPayDate?: Date;
-    lastInstallmentAmount?: Number;
+    lastInstallmentAmount?: String;
     directorates?: String;
     nameOfProcurementOffical?: String;
     contract: {
-        predictedValue?: Number,
-        totalAmountOfAllAnnexContractsIncludingTaxes?: Number,
-        totalAmountOfContractsIncludingTaxes?: Number,
-        totalPayedPriceForContract?: Number,
+        predictedValue?: String,
+        totalAmountOfAllAnnexContractsIncludingTaxes?: String,
+        totalAmountOfContractsIncludingTaxes?: String,
+        totalPayedPriceForContract?: String,
         annexes?: Annex[]
         criteria?: String,
         implementationDeadlineStartingDate?: Date,
@@ -50,7 +50,7 @@ export class Contract {
         publicationDate?: Date,
         publicationDateOfGivenContract?: Date,
         closingDate?: Date,
-        discountAmount?: Number,
+        discountAmount?: String,
         file?: String,
         signingDate?: Date;
     };
@@ -101,7 +101,7 @@ export class Contract {
             installmentAmount1: 0
         }];
         this.lastInstallmentPayDate = new Date();
-        this.lastInstallmentAmount = 0;
+        this.lastInstallmentAmount = '';
         this.company = {
             name: '',
             slug: '',
@@ -115,10 +115,10 @@ export class Contract {
         this.directorates = '';
         this.nameOfProcurementOffical = '';
         this.contract = {
-            predictedValue: 0,
-            totalAmountOfAllAnnexContractsIncludingTaxes: 0,
-            totalAmountOfContractsIncludingTaxes: 0,
-            totalPayedPriceForContract: 0,
+            predictedValue: '',
+            totalAmountOfAllAnnexContractsIncludingTaxes: '',
+            totalAmountOfContractsIncludingTaxes: '',
+            totalPayedPriceForContract: '',
             annexes: [
                 {
                     totalValueOfAnnexContract1: 0,
@@ -131,7 +131,7 @@ export class Contract {
             publicationDate: new Date(),
             publicationDateOfGivenContract: new Date(),
             closingDate: new Date(),
-            discountAmount: 0,
+            discountAmount: '',
             file: '',
             signingDate: new Date()
         };
