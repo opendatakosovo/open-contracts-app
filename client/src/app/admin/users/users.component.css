@@ -180,7 +180,7 @@
 }
 
 /* Delete user style */
-.delete-modal-header {
+.deactivate-modal-header {
     background-color: #39a6bd;
     color: white;
 }
