@@ -18,8 +18,8 @@ module.exports.addDirectorate = (newDirectorate, callback) => {
   newDirectorate.save(callback);
 }
 //Method for finding directorate by name
-module.exports.findDirectorate = (directorate, callback) => {
-  Directorate.findOne({ "directorateName": directorate }, callback);
+module.exports.findDirectorate = (directorateName, callback) => {
+  Directorate.findOne({ "directorateName": directorateName }, callback);
 }
 //Method for counting the numbers of directorates
 module.exports.countDirectorates = (callback) => {
