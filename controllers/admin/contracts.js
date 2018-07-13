@@ -24,7 +24,7 @@ router.get("/", passport.authenticate('jwt', { session: false }), (req, res) => 
     });
 });
 
-router.post("/", passport.authenticate('jwt', { session: false }), upload.single("file"), contractValidation, (req, res) => {
+router.post("/", upload.single("file"), contractValidation, (req, res) => {
     const requestedContract = JSON.parse(req.body.contract);
     const contract = new Contract({
         activityTitle: requestedContract.activityTitle,
@@ -128,7 +128,7 @@ router.delete('/:id', passport.authenticate('jwt', { session: false }), (req, re
 });
 
 // Router for updating a contract by id
-router.put('/edit-contract/:id', (req, res) => {
+router.put('/edit-contract/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
     const contractId = req.params.id;
 
     Contract.updateContract(contractId, req.body, (err, contract) => {
