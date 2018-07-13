@@ -7,7 +7,6 @@ const ContractSchema = mongoose.Schema({
     procurementType: { type: String },
     procurementValue: { type: String },
     procurementProcedure: { type: String },
-    fppClassification: { type: Number },
     planned: { type: String },
     budget: [{ type: String }],
     initiationDate: { type: Date },
@@ -38,6 +37,18 @@ const ContractSchema = mongoose.Schema({
     lastInstallmentPayDate: { type: Date },
     lastInstallmentAmount: { type: String },
     discountAmount: { type: String },
+    company: {
+        name: { type: String },
+        slug: { type: String },
+        headquarters: {
+            name: { type: String },
+            slug: { type: String }
+        },
+        type: { type: String },
+        standardDocuments: {
+            type: Date
+        },
+    },
     directorates: { type: String },
     nameOfProcurementOffical: { type: String },
     contract: {
@@ -60,21 +71,9 @@ const ContractSchema = mongoose.Schema({
         file: { type: String },
         signingDate: { type: Date },
     },
-    company: {
-        name: { type: String },
-        slug: { type: String },
-        headquarters: {
-            name: { type: String },
-            slug: { type: String }
-        },
-        type: { type: String },
-        standardDocuments: {
-            type: Date
-        },
-    },
     year: { type: Number },
-    flagStatus: { type: Number }
-
+    flagStatus: 0,
+    fppClassification: { type: Number }    
 });
 
 const Contract = module.exports = mongoose.model('Contract', ContractSchema);
