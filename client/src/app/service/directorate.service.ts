@@ -29,6 +29,9 @@ export class DirectorateService {
   getDirectorateById(id) {
     return this.http.getWithAuth(`${this.APIUrl}/directorates/` + id).map(res => res.json().directorate);
   }
+  getDirectorateByName(directorateName) {
+    return this.http.getWithAuth(`${this.APIUrl}/directorates/by-name/` + directorateName).map(res => res.json().directorate);
+  }
   addRemovePeopleInCharge(directorate) {
     return this.http.postWithAuth(`${this.APIUrl}/directorates/people-in-charge`, directorate).map(res => res.json());
   }

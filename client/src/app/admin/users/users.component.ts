@@ -18,12 +18,14 @@ export class UsersComponent implements OnInit {
   users: User[];
   userModal: User;
   user: User;
+  directorateModal: Directorate;
   currentUser: User;
   numberOfDirectorates: number;
   constructor(public userService: UserService, private modalService: BsModalService, public directorateService: DirectorateService) {
     this.userModal = new User();
     this.user = new User();
     this.currentUser = new User();
+    this.directorateModal = new Directorate();
     this.userService.getUsers().subscribe(data => {
       this.users = data;
     });
@@ -126,9 +128,9 @@ export class UsersComponent implements OnInit {
           this.users = data;
         });
         if (this.user.role === 'admin') {
-        Swal('Sukses!', 'Admini u shtua me sukses.', 'success');
+          Swal('Sukses!', 'Admini u shtua me sukses.', 'success');
         } else {
-        Swal('Sukses!', 'Përdoruesi u shtua me sukses.Tani mund të përcaktoni detyrën e tij!', 'success');
+          Swal('Sukses!', 'Përdoruesi u shtua me sukses.Tani mund të përcaktoni detyrën e tij!', 'success');
         }
         this.user = new User();
       }
@@ -157,23 +159,43 @@ export class UsersComponent implements OnInit {
         });
       } else if (this.userModal.firstName === '' || this.userModal.lastName === '') {
         Swal('Gabim!', 'Përdoruesi nuk u ndryshua.', 'error');
-      }  else if (res.err) {
-          Swal('Gabim!', 'Përdoruesi nuk u ndryshua.', 'error');
-          return false;
-        } else {
-          this.userService.getUsers().subscribe(data => {
-            this.users = data;
-          });
-          Swal('Sukses!', 'Përdoruesi u ndryshua me sukses.', 'success');
-          this.modalRef.hide();
-        }
+      } else if (res.err) {
+        Swal('Gabim!', 'Përdoruesi nuk u ndryshua.', 'error');
+        return false;
+      } else {
+        this.userService.getUsers().subscribe(data => {
+          this.users = data;
+        });
+        Swal('Sukses!', 'Përdoruesi u ndryshua me sukses.', 'success');
+        this.modalRef.hide();
+      }
     });
   }
 
   // Function to deactivate a specific user or admin
   deactivateUser(event) {
     const id = event.target.dataset.id;
-    this.userService.deactivateUser(id, this.userModal).subscribe(res => {
+    if ((this.userModal.role === 'user') && (this.userModal.isInCharge = true)) {
+      this.directorateService.getDirectorateByName(this.userModal.directorateName).subscribe(data => {
+        this.directorateModal = data;
+        this.directorateModal.peopleInCharge.forEach(element => {
+          if (element === this.userModal._id) {
+            this.directorateModal.peopleInCharge.splice((this.directorateModal.peopleInCharge.indexOf(element)), 1);
+          }
+        });
+        this.directorateService.addRemovePeopleInCharge(this.directorateModal).subscribe(result => {
+          if (result.err) {
+            return false;
+          } else {
+            this.modalRef.hide();
+          }
+        });
+      });
+      this.userModal.directorateName = '';
+      this.userModal.isInCharge = false;
+      this.userModal.isActive = false;
+    }
+    this.userService.editUser(id, this.userModal).subscribe(res => {
       if (res.err) {
         Swal('Gabim!', 'Përdoruesi nuk u deaktivizua.', 'error');
       } else {
