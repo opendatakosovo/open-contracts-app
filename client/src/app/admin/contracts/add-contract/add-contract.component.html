@@ -661,8 +661,7 @@
                 #contractDirectorates="ngModel" required [style.border-color]="!contractDirectorates.valid && (contractDirectorates.touched || contractForm.submitted)
                 ? 'red' : '#ced4da'">
                 <option value="" selected>Zgjedh drejtorinë</option>
-                <option value="drejtoria1">Drejtoria 1</option>
-                <option value="drejtoria2">Drejtoria 2</option>
+                <option *ngFor="let directorate of directorates"> {{directorate.directorateName}}</option>
               </select>
               <div [hidden]="contractDirectorates.valid || (!contractDirectorates.touched && !contractForm.submitted)">
                 <small class="text-danger">Duhet zgjedhur!</small>
