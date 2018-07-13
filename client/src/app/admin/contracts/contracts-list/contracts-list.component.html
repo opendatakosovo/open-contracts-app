@@ -19,7 +19,7 @@
       </ng-template>
       <ng-template let-row="row" ngx-datatable-cell-template>
         <span>
-          <a class="edit-icon">
+          <a class="edit-icon" [attr.data-id]="row._id" [routerLink]="['/dashboard/contracts/edit-contract', row._id]">
             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
           </a>
         </span>

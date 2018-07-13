@@ -110,11 +110,31 @@ router.get("/:id", passport.authenticate('jwt', { session: false }), (req, res) 
 });
 
 // Route for deleting a contract by id
-router.delete('/:id', (req, res) => {
+router.delete('/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
     Contract.deleteContractById(req.params.id, (err, contract) => {
         if (!err) {
             res.json({
                 "msg": "Contract has been deleted successfully",
+                "contract": contract,
+                "success": true
+            });
+        } else {
+            res.json({
+                "err": err,
+                "success": false
+            });
+        }
+    });
+});
+
+// Router for updating a contract by id
+router.put('/edit-contract/:id', (req, res) => {
+    const contractId = req.params.id;
+
+    Contract.updateContract(contractId, req.body, (err, contract) => {
+        if (!err) {
+            res.json({
+                "msg": "Contract has been updated successfully",
                 "contract": contract,
                 "success": true
             });

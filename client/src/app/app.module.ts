@@ -39,6 +39,7 @@ import { DatasetService } from './service/dataset.service';
 import { AuthGuard } from './guards/auth.guard';
 import { ContractInformationComponent } from './admin/contracts/contract-information/contract-information.component';
 import { ContractsListComponent } from './admin/contracts/contracts-list/contracts-list.component';
+import { EditContractComponent } from './admin/contracts/edit-contract/edit-contract.component';
 
 
 const appRoutes: Routes = [
@@ -65,7 +66,8 @@ const appRoutes: Routes = [
       { path: 'dashboard/contracts/add-contract', component: AddContractComponent, canActivate: [AuthGuard] },
       { path: 'dashboard/profile', component: ProfileComponent, canActivate: [AuthGuard] },
       { path: 'dashboard/directorates', component: DirectoratesComponent, canActivate: [AuthGuard] },
-      { path: 'dashboard/contracts/:id', component: ContractInformationComponent, canActivate: [AuthGuard] }
+      { path: 'dashboard/contracts/:id', component: ContractInformationComponent, canActivate: [AuthGuard] },
+      { path: 'dashboard/contracts/edit-contract/:id', component: EditContractComponent, canActivate: [AuthGuard] }
     ]
   }
 ];
@@ -94,6 +96,7 @@ const appRoutes: Routes = [
     DirectoratesComponent,
     ContractInformationComponent,
     ContractsListComponent,
+    EditContractComponent,
   ],
   imports: [
     BrowserModule,
