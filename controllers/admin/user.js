@@ -58,7 +58,7 @@ router.post('/', passport.authenticate('jwt', { session: false }), userValidatio
 });
 
 // Route for getting all users
-router.get('/', (req, res) => {
+router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => {
     User.getAllUsers((err, users) => {
         if (!err) {
             res.json({
@@ -75,7 +75,7 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/active-users', (req, res) => {
+router.get('/active-users', passport.authenticate('jwt', { session: false }), (req, res) => {
     User.activeUsers((err, users) => {
         if(!err) {
             res.json({
@@ -94,7 +94,7 @@ router.get('/active-users', (req, res) => {
 
 // Route for getting a user by id
 router.get('/:id',(req, res) => {
-    User.getUserById(req.params.id, (err, user) => {
+    User.getUserById(req.params.id, passport.authenticate('jwt', { session: false }), (err, user) => {
         if (!err) {
             res.json({
                 "msg": "User by id has been retrived successfully",
@@ -199,26 +199,6 @@ router.put('/change-password', passport.authenticate('jwt', { session: false }),
         if (!err) {
             res.json({
                 "msg": "Your password has been changed successfully",
-                "user": user,
-                "success": true
-            });
-        } else {
-            res.json({
-                "err": err,
-                "success": false
-            });
-        }
-    });
-});
-
-// Deactivate user by id
-router.put('/deactivate-user/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
-    const userId = req.params.id;
-
-    User.deactivateUser(userId, (err, user) => {
-        if (!err) {
-            res.json({
-                "msg": "User has been deactivated successfully",
                 "user": user,
                 "success": true
             });

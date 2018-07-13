@@ -48,7 +48,7 @@
             </span>
           </td>
           <td *ngIf="directorate.directorateIsActive == false"></td>
-          <td *ngIf="directorate.directorateIsActive == false"></td>          
+          <td *ngIf="directorate.directorateIsActive == false"></td>
           <td class="delete-ico" *ngIf="directorate.directorateIsActive == false">
             <span>
               <a data-toggle="modal" data-toggle="tooltip" title="Aktivizo drejtorinë" (click)="activateModal(modalActivateDirectorate, $event)"
@@ -104,24 +104,24 @@
         <div class="modal-body">
           <div>
             <fieldset class="people-in-charge border border-info rounded">
-              <legend class="text-info">Personat përgjegjës</legend>
+              <legend style="width: 135px" class="text-info">Personat përgjegjës</legend>
               <div>
-              <div *ngIf="peopleInChargeId.length === 0">
-                  <p class="data-information">Nuk ka persona përgjegjës për këtë drejtori!</p>                
+                <div *ngIf="peopleInChargeId.length === 0">
+                  <p class="data-information">Nuk ka persona përgjegjës për këtë drejtori!</p>
+                </div>
+                <div *ngIf="peopleInChargeId.length !== 0">
+                  <div *ngFor="let person of peopleInCharge">
+                    <p class="data-information">{{ person.firstName }} {{person.lastName}}
+                      <span class="fa fa-minus" [attr.data-id]="person._id" (click)="removeUser($event)"></span>
+                    </p>
+                  </div>
+                </div>
               </div>
-              <div *ngIf="peopleInChargeId.length !== 0">
-              <div *ngFor="let person of peopleInCharge">
-                <p class="data-information">{{ person.firstName }} {{person.lastName}}
-                  <span class="fa fa-minus" [attr.data-id]="person._id" (click)="removeUser($event)"></span>
-                </p>
-              </div>
-            </div>
-            </div>
             </fieldset>
           </div>
           <div>
             <fieldset class="people-in-charge border border-info rounded">
-              <legend class="text-info">Shto personat përgjegjës</legend>
+              <legend style="width: 170px" class="text-info">Shto personat përgjegjës</legend>
               <div *ngIf="users.length === 0">
                 <p class="data-information">Nuk ka përdorues të lirë!</p>
               </div>
@@ -162,17 +162,17 @@
             </tr>
             <tr>
               <th class="data-information">Përgjegjësit:</th>
-              <td > 
+              <td>
                 <div *ngIf="peopleInCharge.length === 0">
-                  <p>  Nuk ka persona përgjegjës! </p>
+                  <p> Nuk ka persona përgjegjës! </p>
                 </div>
                 <div *ngIf="peopleInCharge.length !== 0">
-                <ul class="list-group" *ngFor="let person of peopleInCharge">
-                  <li>
+                  <ul class="list-group" *ngFor="let person of peopleInCharge">
+                    <li>
                       {{ person.firstName }} {{ person.lastName }}
-                  </li>
-                </ul>
-              </div>
+                    </li>
+                  </ul>
+                </div>
               </td>
             </tr>
           </tbody>
@@ -224,7 +224,9 @@
       <form action="" id="deactivate-directorate-form">
         <div class="modal-body">
           <div class="modal-body">
-            <p>A jeni i sigurt që dëshironi të deaktivizoni drejtorinë?</p>
+            <p class="text-warning">Ju lutem largoni personat përgjegjës nga drejtoria para se të deaktivizoni nëse dëshironi që përdoruesit t'i
+              caktoni detyrë tjetër!</p>
+            <p class="text-primary" style="font-size: 18px">A jeni i sigurt që dëshironi të deaktivizoni drejtorinë?</p>
           </div>
         </div>
         <div class="modal-footer my-modal-footer">
