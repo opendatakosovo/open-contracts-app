@@ -26,4 +26,8 @@ export class ContractsService {
   deleteContractByID(id) {
     return this.http.deleteWithAuth(`${this.APIUrl}/contracts/${id}`).map(res => res.json().contract);
   }
+
+  editContract(id, editedContract) {
+    return this.http.putWithAuth(`${this.APIUrl}/contracts/edit-contract/` + id, editedContract).map(res => res.json());
+  }
 }

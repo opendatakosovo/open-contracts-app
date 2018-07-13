@@ -50,7 +50,42 @@ export class EditContractComponent implements OnInit {
       }
     });
   }
+  @ViewChild('fileInput') fileInput;
 
+  addInstallments() {
+    const installment: Installment = {
+      installmentPayDate1: new Date(),
+      installmentAmount1: 0
+    };
+
+    this.contract.installments.push(installment);
+    this.arrayInstallments.push(++this.countInstallment);
+  }
+
+  removeInstallment() {
+    this.contract.installments.pop();
+    this.arrayInstallments.pop();
+    --this.countInstallment;
+  }
+
+  addAnnex() {
+    const annex: Annex = {
+      totalValueOfAnnexContract1: 0,
+      annexContractSigningDate1: new Date()
+    };
+    this.contract.contract.annexes.push(annex);
+    this.annexArray.push(++this.countAnnex);
+  }
+
+  removeAnnex() {
+    this.contract.contract.annexes.pop();
+    this.annexArray.pop();
+    --this.countAnnex;
+  }
+
+  fileChangeEvent(event) {
+    this.filesToUpload = <Array<File>>event.target.files;
+  }
   ngOnInit() {
   }
 
