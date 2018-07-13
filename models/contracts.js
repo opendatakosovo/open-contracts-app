@@ -38,7 +38,7 @@ const ContractSchema = mongoose.Schema({
     lastInstallmentPayDate: { type: Date },
     lastInstallmentAmount: { type: String },
     discountAmount: { type: String },
-    directorates: { type: mongoose.Schema.Types.ObjectId },
+    directorates: { type: mongoose.Schema.Types.directorateName },
     nameOfProcurementOffical: { type: String },
     contract: {
         predictedValue: { type: String },
@@ -91,6 +91,11 @@ module.exports.getContractById = (id, cb) => {
 
 module.exports.deleteContractById = (id, callback) => {
     Contract.findByIdAndRemove(id, callback);
+}
+
+// Updating user information
+module.exports.updateContract = (id, contract, callback) => {
+    Contract.findByIdAndUpdate(id, { $set: contract }, { new: true }, callback);
 }
 // Data Visualizations
 
