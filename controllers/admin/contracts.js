@@ -8,7 +8,7 @@ const contractValidation = require("../../middlewares/contract_validation");
  * ENDPOINTS PREFIX: /contracts
  */
 
-router.get("/", passport.authenticate('jwt', { session: false }), (req, res) => {
+router.get("/", (req, res) => {
     Contract.getAllContracts((err, contracts) => {
         if (err) {
             res.json({

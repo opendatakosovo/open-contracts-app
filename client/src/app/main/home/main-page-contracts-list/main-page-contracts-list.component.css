@@ -1,0 +1,9 @@
+div {
+    padding-left: 30px;
+    padding-bottom: 10%;
+    padding-right: 30px;
+} 
+.column-header {
+    font-weight: 500;
+    margin-bottom: 0;
+}

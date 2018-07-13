@@ -22,7 +22,21 @@ a {
 i {
     color: rgb(33, 37, 41);
 }
-
+.contract-status-pending-icon {
+    padding-left: 12px;
+    color: orange;
+    padding-top: 5px;
+}
+.contract-status-successful-icon {
+    color: green;
+    padding-left: 12px;
+    padding-top: 5px;
+}
+.contract-status-failed-icon {
+    color: red;
+    padding-left: 12px;
+    padding-top: 5px;
+}
 /* Delete user style */
 .delete-modal-header {
     background-color: #39a6bd;
