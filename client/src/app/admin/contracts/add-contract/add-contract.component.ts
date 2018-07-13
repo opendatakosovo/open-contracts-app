@@ -6,7 +6,8 @@ import { ValidatorFn } from '@angular/forms/src/directives/validators';
 import * as moment from 'moment';
 import { ContractsService } from '../../../service/contracts.service';
 import Swal from 'sweetalert2';
-
+import { Directorate } from '../../../models/directorates';
+import { DirectorateService } from '../../../service/directorate.service';
 @Component({
   selector: 'app-add-contract',
   templateUrl: './add-contract.component.html',
@@ -23,12 +24,21 @@ export class AddContractComponent implements OnInit {
   arrayInstallments: number[];
   filesToUpload: Array<File>;
   contract: Contract;
-  constructor(public contractsService: ContractsService) {
+  directorates: Directorate[];
+  constructor(public contractsService: ContractsService, public directorateService: DirectorateService) {
+    this.directorates = [];
     this.countInstallment = 1;
     this.countAnnex = 1;
     this.annexArray = [];
     this.arrayInstallments = [];
     this.contract = new Contract();
+    this.directorateService.getAllDirectorates().subscribe(data => {
+      data.forEach(element => {
+        if (element.directorateIsActive === true) {
+          this.directorates.push(element);
+        }
+      });
+    });
   }
   @ViewChild('fileInput') fileInput;
   ngOnInit() {

@@ -24,7 +24,7 @@ router.get("/", passport.authenticate('jwt', { session: false }), (req, res) => 
     });
 });
 
-router.post("/", upload.single("file"), contractValidation, (req, res) => {
+router.post("/", passport.authenticate('jwt', { session: false }), upload.single("file"),(req, res) => {
     const requestedContract = JSON.parse(req.body.contract);
     const contract = new Contract({
         activityTitle: requestedContract.activityTitle,
@@ -32,51 +32,42 @@ router.post("/", upload.single("file"), contractValidation, (req, res) => {
         procurementType: requestedContract.procurementType,
         procurementValue: requestedContract.procurementValue,
         procurementProcedure: requestedContract.procurementProcedure,
-        fppClassification: requestedContract.fppClassification,
         planned: requestedContract.planned,
         budget: requestedContract.budget,
         initiationDate: requestedContract.initiationDate,
         approvalDateOfFunds: requestedContract.approvalDateOfFunds,
         torDate: requestedContract.torDate,
-        contractPublicationDate: requestedContract.contractPublicationDate,
         complaintsToAuthority1: requestedContract.complaintsToAuthority1,
         complaintsToOshp1: requestedContract.complaintsToOshp1,
-        bidOpeningDateTime: requestedContract.bidOpeningDateTime,
-        contractNoOfDownloads: requestedContract.contractNoOfDownloads,
-        contractNoOfOffers: requestedContract.contractNoOfOffers,
-        noOfOffersForContract: requestedContract.noOfOffersForContract,
-        startingOfEvaluationDate: requestedContract.startingOfEvaluationDate,
+        bidOpeningDate: requestedContract.bidOpeningDate,
+        noOfCompaniesWhoDownloadedTenderDoc: requestedContract.noOfCompaniesWhoDownloadedTenderDoc, 
+        noOfCompaniesWhoSubmited: requestedContract.noOfCompaniesWhoSubmited,
+        startingOfEvaluationDate: requestedContract.startingOfEvaluationDate, 
         endingOfEvaluationDate: requestedContract.endingOfEvaluationDate,
-        noOfRefusedBids: requestedContract.noOfRefusedBids,
-        reapprovalDate: requestedContract.reapprovalDate,
-        standardeDocumentsForOe: requestedContract.standardeDocumentsForOe,
+        startingAndEndingEvaluationDate: requestedContract.startingAndEndingEvaluationDate,
+        noOfRefusedBids: requestedContract.noOfRefusedBids,  
+        reapprovalDate: requestedContract.reapprovalDate, 
         publicationDateOfGivenContract: requestedContract.publicationDateOfGivenContract,
-        cancellationNoticeDate: requestedContract.cancellationNoticeDate,
+        cancellationNoticeDate: requestedContract.cancellationNoticeDate, 
         complaintsToAuthority2: requestedContract.complaintsToAuthority2,
         complaintsToOshp2: requestedContract.complaintsToOshp2,
-        predictedContractValue: requestedContract.predictedContractValue,
-        oeType: requestedContract.oeType,
-        applicationDeadlineType: requestedContract.applicationDeadlineType,
-        contractCriteria: requestedContract.contractCriteria,
-        retender: requestedContract.retender,
+        applicationDeadlineType: requestedContract.applicationDeadlineType, 
+        retender: requestedContract.retender,   
         status: requestedContract.status,
-        nameOfContractedOe: requestedContract.nameOfContractedOe,
-        signingDate: requestedContract.signingDate,
-        contractImplementationDeadline: requestedContract.contractImplementationDeadline,
-        contractClosingDate: requestedContract.contractClosingDate,
-        noOfPaymentInstallments: requestedContract.noOfPaymentInstallments,
-        totalAmountOfAllAnnexContractsIncludingTaxes: requestedContract.totalAmountOfAllAnnexContractsIncludingTaxes,
-        annexes: requestedContract.annexes,
-        installments: requestedContract.installments,
+        noOfPaymentInstallments: requestedContract.noOfPaymentInstallments, 
+        installments: requestedContract.installments,     
         lastInstallmendPayDate: requestedContract.lastInstallmendPayDate,
-        lastInstallmendAmount: requestedContract.lastInstallmendAmount,
+        lastInstallmendAmount: requestedContract.lastInstallmendAmount, 
         discountAmount: requestedContract.discountAmount,
-        totalAmount: requestedContract.totalAmount,
-        department: requestedContract.department,
-        contractFile: req.file.originalname,
-        nameOfProdcurementOffical: requestedContract.nameOfProdcurementOffical
+        company: requestedContract.company,  
+        directorates: requestedContract.directorates,
+        nameOfProdcurementOffical: requestedContract.nameOfProdcurementOffical,
+        contract: requestedContract.contract,                                       
+        year: requestedContract.year,
+        flagStatus: requestedContract.flagStatus,
+        fppClassification: requestedContract.fppClassification
     });
-
+   contract.contract.file = req.file.originalname;
     Contract.addContract(contract, (err, contract) => {
         if (!err) {
             res.json({
@@ -86,6 +77,7 @@ router.post("/", upload.single("file"), contractValidation, (req, res) => {
             });
         } else {
             res.json({
+                "msg": "test",
                 "err": err,
                 "success": false
             });
