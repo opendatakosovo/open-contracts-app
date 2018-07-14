@@ -3,7 +3,7 @@ const fs = require('fs');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, './prishtina-importer/data/procurements/new/');
+        cb(null, './prishtina-contracts-importer/data/procurements/new/');
     },
     filename: function (req, file, cb) {
         cb(null, file.originalname);
