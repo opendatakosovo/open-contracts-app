@@ -24,7 +24,7 @@ router.get("/", (req, res) => {
     });
 });
 
-router.post("/", passport.authenticate('jwt', { session: false }), upload.single("file"),(req, res) => {
+router.post("/", passport.authenticate('jwt', { session: false }), upload.single("file"), (req, res) => {
     const requestedContract = JSON.parse(req.body.contract);
     const contract = new Contract({
         activityTitle: requestedContract.activityTitle,
@@ -40,34 +40,34 @@ router.post("/", passport.authenticate('jwt', { session: false }), upload.single
         complaintsToAuthority1: requestedContract.complaintsToAuthority1,
         complaintsToOshp1: requestedContract.complaintsToOshp1,
         bidOpeningDate: requestedContract.bidOpeningDate,
-        noOfCompaniesWhoDownloadedTenderDoc: requestedContract.noOfCompaniesWhoDownloadedTenderDoc, 
+        noOfCompaniesWhoDownloadedTenderDoc: requestedContract.noOfCompaniesWhoDownloadedTenderDoc,
         noOfCompaniesWhoSubmited: requestedContract.noOfCompaniesWhoSubmited,
-        startingOfEvaluationDate: requestedContract.startingOfEvaluationDate, 
+        startingOfEvaluationDate: requestedContract.startingOfEvaluationDate,
         endingOfEvaluationDate: requestedContract.endingOfEvaluationDate,
         startingAndEndingEvaluationDate: requestedContract.startingAndEndingEvaluationDate,
-        noOfRefusedBids: requestedContract.noOfRefusedBids,  
-        reapprovalDate: requestedContract.reapprovalDate, 
+        noOfRefusedBids: requestedContract.noOfRefusedBids,
+        reapprovalDate: requestedContract.reapprovalDate,
         publicationDateOfGivenContract: requestedContract.publicationDateOfGivenContract,
-        cancellationNoticeDate: requestedContract.cancellationNoticeDate, 
+        cancellationNoticeDate: requestedContract.cancellationNoticeDate,
         complaintsToAuthority2: requestedContract.complaintsToAuthority2,
         complaintsToOshp2: requestedContract.complaintsToOshp2,
-        applicationDeadlineType: requestedContract.applicationDeadlineType, 
-        retender: requestedContract.retender,   
+        applicationDeadlineType: requestedContract.applicationDeadlineType,
+        retender: requestedContract.retender,
         status: requestedContract.status,
-        noOfPaymentInstallments: requestedContract.noOfPaymentInstallments, 
-        installments: requestedContract.installments,     
+        noOfPaymentInstallments: requestedContract.noOfPaymentInstallments,
+        installments: requestedContract.installments,
         lastInstallmendPayDate: requestedContract.lastInstallmendPayDate,
-        lastInstallmendAmount: requestedContract.lastInstallmendAmount, 
+        lastInstallmendAmount: requestedContract.lastInstallmendAmount,
         discountAmount: requestedContract.discountAmount,
-        company: requestedContract.company,  
+        company: requestedContract.company,
         directorates: requestedContract.directorates,
         nameOfProdcurementOffical: requestedContract.nameOfProdcurementOffical,
-        contract: requestedContract.contract,                                       
+        contract: requestedContract.contract,
         year: requestedContract.year,
         flagStatus: requestedContract.flagStatus,
         fppClassification: requestedContract.fppClassification
     });
-   contract.contract.file = req.file.originalname;
+    contract.contract.file = req.file.originalname;
     Contract.addContract(contract, (err, contract) => {
         if (!err) {
             res.json({
@@ -80,6 +80,22 @@ router.post("/", passport.authenticate('jwt', { session: false }), upload.single
                 "msg": "test",
                 "err": err,
                 "success": false
+            });
+        }
+    });
+});
+
+router.get("/latest-contracts", (req, res) => {
+    Contract.latestContracts((err, contract) => {
+        if (err) {
+            res.json({
+                "err": err,
+                "success": false
+            });
+        } else {
+            res.json({
+                "contract": contract,
+                "success": true,
             });
         }
     });
@@ -100,6 +116,7 @@ router.get("/:id", passport.authenticate('jwt', { session: false }), (req, res) 
         }
     });
 });
+
 
 // Route for deleting a contract by id
 router.delete('/:id', passport.authenticate('jwt', { session: false }), (req, res) => {

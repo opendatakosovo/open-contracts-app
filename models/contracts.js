@@ -73,7 +73,7 @@ const ContractSchema = mongoose.Schema({
     },
     year: { type: Number },
     flagStatus: 0,
-    fppClassification: { type: Number }    
+    fppClassification: { type: Number }
 });
 
 const Contract = module.exports = mongoose.model('Contract', ContractSchema);
@@ -94,6 +94,11 @@ module.exports.deleteContractById = (id, callback) => {
 
 module.exports.updateContract = (id, contract, callback) => {
     Contract.findByIdAndUpdate(id, { $set: contract }, { new: true }, callback);
+}
+
+// Function for finding 2018 contracts
+module.exports.latestContracts = (callback) => {
+    Contract.find({ "year": 2018 }, callback);
 }
 // Data Visualizations
 
