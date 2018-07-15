@@ -41,6 +41,7 @@ import { ContractInformationComponent } from './admin/contracts/contract-informa
 import { ContractsListComponent } from './admin/contracts/contracts-list/contracts-list.component';
 import { EditContractComponent } from './admin/contracts/edit-contract/edit-contract.component';
 import { ContractCommentsComponent } from './admin/contracts/contract-comments/contract-comments.component';
+import { MainPageContractsListComponent } from './main/home/main-page-contracts-list/main-page-contracts-list.component';
 
 
 const appRoutes: Routes = [
@@ -99,6 +100,7 @@ const appRoutes: Routes = [
     ContractsListComponent,
     EditContractComponent,
     ContractCommentsComponent,
+    MainPageContractsListComponent,
   ],
   imports: [
     BrowserModule,
