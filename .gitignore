@@ -5,6 +5,7 @@ ehthumbs.db
 Icon?
 Thumbs.db
 .env
+importer/
 
 # Node and related ecosystem
 # ==========================
@@ -14,7 +15,7 @@ node_modules/
 public/lib/
 app/tests/coverage/
 .bower-*/
-.idea/
+.idea/`
 coverage/
 .coveralls.yml
 package-lock.json
