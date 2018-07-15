@@ -49,18 +49,14 @@ UserSchema.pre('save', function (next) {
 
 const User = (module.exports = mongoose.model("User", UserSchema));
 
-module.exports.deleteUserById = (id, callback) => {
-  User.findByIdAndRemove(id, callback);
+// Function for getting all users and directorates
+module.exports.getAllUsers = callback => {
+  User.find().sort({'createdAt': "desc"}).exec(callback);;
 }
 
 // Function for get a user by id
 module.exports.getUserById = (id, callback) => {
   User.findById(id, callback);
-};
-
-// Function for getting all users and directorates
-module.exports.getAllUsers = callback => {
-  User.find().sort({'createdAt': "desc"}).exec(callback);;
 }
 
 // Updating user information
@@ -71,6 +67,10 @@ module.exports.updateUser = (id, user, callback) => {
 // Function for adding user
 module.exports.addUser = (newUser, callback) => {
   newUser.save(callback);
+}
+//Function for deleting a user
+module.exports.deleteUserById = (id, callback) => {
+  User.findByIdAndRemove(id, callback);
 }
 // Function for getting user by email
 module.exports.findUserByEmail = (email, callback) => {

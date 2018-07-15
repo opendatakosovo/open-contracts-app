@@ -1,0 +1,82 @@
+<div class="col-12">
+  <div class="container">
+    <div class="row" style="border: none">
+      <div class="col-md-1">
+        <div *ngIf="user.role == 'user'">
+          <img src="/assets/images/zyrtari.png" class="img-fluid">
+        </div>
+        <div *ngIf="user.role == 'admin'">
+          <img src="/assets/images/administratori.png" class="img-fluid">
+        </div>
+      </div>
+      <div class="user-info col-md-2">
+        <div>
+          <p class="name">
+            <a>{{ user.firstName }} {{ user.lastName }}</a>
+          </p>
+        </div>
+        <div *ngIf="user.role == 'user'">
+          <p class="position"> Përdorues </p>
+        </div>
+        <div *ngIf="user.role == 'admin'">
+          <p class="position">Administrator</p>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <form>
+          <input class="form-control" type="text" id="text">
+          <button class="btn btn-info" type="submit" id="submit">Dërgo</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="col-12">
+  <div *ngFor="let user of users" class="container">
+    <div class="row">
+      <div class="img-col col-md-1" id="image-col">
+        <div *ngIf="user.role == 'user' && user.isActive == true">
+          <img src="/assets/images/zyrtari.png" class="img-fluid">
+        </div>
+        <div *ngIf="user.role == 'admin' && user.isActive == true">
+          <img src="/assets/images/administratori.png" class="img-fluid">
+        </div>
+        <div *ngIf="user.role == 'user' && user.isActive == false">
+          <img src="/assets/images/zyrtariInactive.png" class="img-fluid">
+        </div>
+        <div *ngIf="user.role == 'admin' && user.isActive == false">
+          <img src="/assets/images/administratorInactive.png" class="img-fluid">
+        </div>
+      </div>
+      <div class="user-info col-md-2">
+        <div *ngIf="user.isActive == false">
+          <p class="name-is-false">{{ user.firstName }} {{ user.lastName }}</p>
+        </div>
+        <div *ngIf="user.isActive == true">
+          <p class="name">
+            <a>{{ user.firstName }} {{ user.lastName }}</a>
+          </p>
+        </div>
+        <div *ngIf="user.role == 'user'">
+          <p class="position"> Përdorues </p>
+        </div>
+        <div *ngIf="user.role == 'admin'">
+          <p class="position">Administrator</p>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <p id="comment">
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        </p>
+      </div>
+      <div class="col-md-1 float right" id="reply-icon">
+        <span>
+          <i class="fa fa-reply" aria-hidden="true"></i>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
