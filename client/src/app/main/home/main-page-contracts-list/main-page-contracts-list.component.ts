@@ -18,7 +18,7 @@ export class MainPageContractsListComponent implements OnInit {
   constructor(public contractsService: ContractsService, private modalService: BsModalService) {
     this.contractModal = new Contract();
     this.contract = new Contract();
-    this.contractsService.getContracts().subscribe(data => {
+    this.contractsService.latestContracts().subscribe(data => {
       this.contracts = data;
     });
   }

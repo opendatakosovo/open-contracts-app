@@ -30,4 +30,8 @@ export class ContractsService {
   editContract(id, editedContract) {
     return this.http.putWithAuth(`${this.APIUrl}/contracts/edit-contract/` + id, editedContract).map(res => res.json());
   }
+
+  latestContracts() {
+    return this.http.getWithAuth(`${this.APIUrl}/contracts/latest-contracts`).map(res => res.json().contract);
+  }
 }
