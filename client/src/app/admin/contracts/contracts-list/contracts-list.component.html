@@ -6,12 +6,12 @@
         <p class="column-header">Statusi</p>
       </ng-template>
       <ng-template let-row="row" ngx-datatable-cell-template>
-        <span *ngIf="row.flagStatus == null || row.flagStatus == '1'">
+        <span *ngIf="row.flagStatus == null || row.flagStatus == '2'">
           <a class="status-icon">
             <i class="fa fa-circle contract-status-pending-icon" aria-hidden="true"></i>
           </a>
         </span>
-        <span *ngIf="row.flagStatus == '2'">
+        <span *ngIf="row.flagStatus == '1'">
           <a class="status-icon">
             <i class="fa fa-circle contract-status-successful-icon" aria-hidden="true"></i>
           </a>

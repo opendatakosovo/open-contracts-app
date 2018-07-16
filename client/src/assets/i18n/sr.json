@@ -1,0 +1,40 @@
+{
+    "cover": {
+        "title": "Public signed contracts",
+        "text": "- Municipality of Pristina"
+    },
+    "datatable": {
+        "title": "PUBLIC CONTRACTS",
+        "searchContract": "Search contract",
+        "directorate": "Directorate",
+        "company": "Company",
+        "value": "Value"
+    },
+    "dataset": {
+        "title": "DATASETS",
+        "format": "Format",
+        "year": "Year",
+        "download": "Download"
+    },
+    "announcements": {
+        "title": "ONLINE PRISTINA",
+        "contract": "Announcement of contract",
+        "givenContract": "Announcement of given contract",
+        "cancel": "Announcement of cancellation",
+        "extraInfos": "Announcement for extra informations",
+        "cancellationOfGivenContract": "Cancellation of given contract",
+        "signingOfContract": "Announcement for signed contract",
+        "procurementPlan": "Procurements plan",
+        "announcementForProcurementAward": "Announcement for procurement award"
+    },
+    "footer": {
+        "municipality": "Municipality of Pristina"
+    },
+    "navigation": {
+        "home": "HOME",
+        "visualisations": "VISUALISATIONS",
+        "dataSet": "DATASETS",
+        "aboutUs": "ABOUT US",
+        "openBusinesses": "OPEN BUSINESSES"
+    }
+}

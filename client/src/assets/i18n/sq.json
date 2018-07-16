@@ -1,0 +1,40 @@
+{
+    "cover": {
+        "title": "Kontratat e nënshkurara publike",
+        "text": "- Komuna e Prishtinës"
+    },
+    "datatable": {
+        "title": "KONTRATAT PUBLIKE",
+        "searchContract": "Kërko kontratën",
+        "directorate": "Drejtoria",
+        "company": "Kompania",
+        "value": "Vlera"
+    },
+    "dataset": {
+        "title": "SETI I TË DHËNAVE",
+        "format": "Formati",
+        "year": "Viti",
+        "download": "Shkarko"
+    },
+    "announcements": {
+        "title": "PRISHTINA ONLINE",
+        "contract": "Njoftim për kontratë",
+        "givenContract": "Njoftim për dhënien e kontratës",
+        "cancel": "Njoftim për anulim",
+        "extraInfos": "Njoftim për informata shtesë",
+        "cancellationOfGivenContract": "Anulim i dhënies së kontratës",
+        "signingOfContract": "Njoftim për nënshkrimin e kontratës",
+        "procurementPlan": "Planet e prokurimit",
+        "announcementForProcurementAward": "Njoftim për konkurs të projektimit"
+    },
+    "footer": {
+        "municipality": "Komuna e Prishtinës"
+    },
+    "navigation": {
+        "home": "BALLINA",
+        "visualisations": "VIZUALIZIMET",
+        "dataSet": "SETI I TË DHËNAVE",
+        "aboutUs": "RRETH NESH",
+        "openBusinesses": "BIZNESET E HAPURA"
+    }
+}
