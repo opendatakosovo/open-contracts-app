@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HostListener } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-header',
@@ -7,11 +8,18 @@ import { HostListener } from '@angular/core';
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
-width: number = window.innerWidth;
+  width: number = window.innerWidth;
+  selectedItem = 'item1';
 
-  constructor() { }
-  ngOnInit() { }
+  constructor(private translate: TranslateService) {
+    translate.setDefaultLang('sq');
+  }
 
+  ngOnInit() {
+  }
+  useLanguage(language: string) {
+    this.translate.use(language);
+  }
   onResize() {
     this.width = window.innerWidth;
   }

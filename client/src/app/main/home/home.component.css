@@ -437,11 +437,20 @@
 #announcements-title-4 {
     width: 188px;
 }
+#announcements-title-3 {
+    width: 163px;
+}
 #announcements-title-5 {
     width: 210px;
 }
 #announcements-title-6 {
     width: 274px;
+}
+#announcements-title-7 {
+    width: 222px;
+}
+#announcements-title-8 {
+    width: 222px;
 }
 .announcements-buttons {
     text-align: center;
@@ -449,8 +458,8 @@
 #bg-img-contracts {
     background-image: url('/assets/images/background-prishtina-online.jpg');
      /* Full height */
-     height: 851px; 
-     max-height: 851px;
+     height: 1112px; 
+     max-height: 1120px;
      /* Center and scale the image nicely */
      background-repeat: no-repeat;
      background-position: center;
@@ -459,6 +468,12 @@
 }
 .contracts-announcement {
     padding: 0;
+}
+#procurement-plan {
+    padding-left: 17%;
+}
+#announcement-for-procurement-award {
+    padding-right: 17%;
 }
 /*---------Responsiveness----------*/
     @media(max-width: 887px) {

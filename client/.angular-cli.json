@@ -10,7 +10,8 @@
       "assets": [
         "assets",
         "favicon.ico",
-        "images"
+        "images",
+        "i18n"
       ],
       "index": "index.html",
       "main": "main.ts",
@@ -40,7 +41,8 @@
         "./assets/js/sb-admin.js",
         "./assets/js/navbar.js",
         "./assets/js/bootstrap-filestyle.js",
-        "./assets/js/contract.js"
+        "./assets/js/contract.js",
+        "./assets/i18n/sq.json"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
