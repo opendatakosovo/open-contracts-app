@@ -43,6 +43,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { ContractInformationComponent } from './admin/contracts/contract-information/contract-information.component';
 import { ContractsListComponent } from './admin/contracts/contracts-list/contracts-list.component';
 import { EditContractComponent } from './admin/contracts/edit-contract/edit-contract.component';
+import { ContractCommentsComponent } from './admin/contracts/contract-comments/contract-comments.component';
 import { MainPageContractsListComponent } from './main/home/main-page-contracts-list/main-page-contracts-list.component';
 
 
@@ -101,6 +102,7 @@ const appRoutes: Routes = [
     ContractInformationComponent,
     ContractsListComponent,
     EditContractComponent,
+    ContractCommentsComponent,
     MainPageContractsListComponent,
   ],
   imports: [
