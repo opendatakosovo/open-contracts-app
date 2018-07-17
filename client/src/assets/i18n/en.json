@@ -1,8 +1,8 @@
 {
     "navigation": {
         "home": "HOME",
-        "visualizations": "VISUALIZATIONS",
-        "dataset": "DATASETS",
+        "visualizations": "VIZUALIZATIONS",
+        "dataset": "DATA SET",
         "aboutUs": "ABOUT US",
         "openBusinesses": "OPEN BUSINESSES"
     },
@@ -26,10 +26,12 @@
     "announcements": {
         "title": "PRISTINA ONLINE",
         "contractNotice": "Contract notice",
-        "contractAwardNotification": "Notification for contract award",
+        "contractAwardNotification": "Contract award notice",
         "cancellationNotice": "Cancellation notice",
         "additionalInfosNotification": "Notification for additional information",
         "contractCancellationAward": "Cancellation of contract award",
-        "contractSigningNotification": "Notification for contract signing"
+        "contractSigningNotification": "Notification for contract signing",
+        "procurementPlans": "Procurement plans",
+        "designAwardNotification": "Notification for design vacancy"
     }
 }

@@ -35,12 +35,12 @@
     </ul>
     <div *ngIf="width>991">
       <ul class="navbar-nav navbar-right text-dark">
-        <li class="nav-item active" routerLinkActive="active">
-          <a class="nav-link" (click)="useLanguage('sq')">SHQ</a>
+        <li class="nav-item">
+          <a class="nav-link" [ngClass]="{'active': selectedItem === 'item1'}" (click)="useLanguage('sq');selectedItem = 'item1'">SHQ</a>
         </li>
         <span id="horizontalLine">|</span>
         <li class="nav-item">
-          <a class="nav-link" (click)="useLanguage('en')">ENG</a>
+          <a class="nav-link" [ngClass]="{'active': selectedItem === 'item2'}" (click)="useLanguage('en');selectedItem = 'item2'">ENG</a>
         </li>
       </ul>
     </div>

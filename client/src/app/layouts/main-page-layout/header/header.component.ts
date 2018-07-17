@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class HeaderComponent implements OnInit {
   width: number = window.innerWidth;
-
+  selectedItem = 'item1';
   constructor(private translate: TranslateService) {
     translate.setDefaultLang('sq');
   }

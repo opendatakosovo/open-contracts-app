@@ -30,6 +30,8 @@
         "cancellationNotice": "Njoftim për anulim",
         "additionalInfosNotification": "Njoftim për informata shtesë",
         "contractCancellationAward": "Anulim i dhënies së kontratës",
-        "contractSigningNotification": "Njoftim për nënshkrimin e kontratës"
+        "contractSigningNotification": "Njoftim për nënshkrimin e kontratës",
+        "procurementPlans": "Planet e prokurorimit",
+        "designAwardNotification": "Njoftim për konkurs të projektimit"
     }
 }
