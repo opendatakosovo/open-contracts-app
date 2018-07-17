@@ -42,6 +42,10 @@
         <li class="nav-item">
           <a class="nav-link" [ngClass]="{'active': selectedItem === 'item2'}" (click)="useLanguage('en');selectedItem = 'item2'">ENG</a>
         </li>
+        <span id="horizontalLine">|</span>
+        <li class="nav-item">
+          <a class="nav-link" [ngClass]="{'active': selectedItem === 'item3'}" (click)="useLanguage('sr');selectedItem = 'item3'">SRB</a>
+        </li>
       </ul>
     </div>
     <div *ngIf="991>=width">
@@ -50,11 +54,14 @@
           aria-expanded="false">
           <span class="caret"></span>SHQ</button>
         <ul class="dropdown-menu">
-          <li class="nav-item active" routerLinkActive="active">
-            <a class="nav-link" (click)="useLanguage('sq')">SHQ</a>
+          <li class="nav-item">
+            <a class="nav-link" [ngClass]="{'active': selectedItem === 'item1'}" (click)="useLanguage('sq');selectedItem = 'item1'">SHQ</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" (click)="useLanguage('en')">ENG</a>
+            <a class="nav-link" [ngClass]="{'active': selectedItem === 'item2'}" (click)="useLanguage('en');selectedItem = 'item2'">ENG</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [ngClass]="{'active': selectedItem === 'item3'}" (click)="useLanguage('sr');selectedItem = 'item3'">SRB</a>
           </li>
         </ul>
       </ul>
