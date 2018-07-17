@@ -6,8 +6,8 @@
       <div class="col-md-12 cover-col">
         <div id="bg-img" class="cover">
           <div class="info-text">
-            <h1 class="title">Kontratat e nënshkurara publike</h1>
-            <h4 class="subtitle">- Komuna e Prishtinës</h4>
+            <h1 class="title">{{ 'coverImg.title' | translate }}</h1>
+            <h4 class="subtitle">- {{ 'coverImg.municipality' | translate }}</h4>
           </div>
         </div>
       </div>
@@ -19,22 +19,22 @@
   <div class="container-fluid">
     <div class="row" id="public-contracts-row">
       <div class="col-md-12 public-contracts">
-        <h1 class="text-center title">KONTRATAT PUBLIKE</h1>
+        <h1 class="text-center title">{{ 'datatable.title' | translate }}</h1>
       </div>
     </div>
 
     <div class="row">
       <div class="col-lg-12 search text-center contracts-filter-form">
         <form action="" class="form-inline form-group">
-          <input type="text" class="form-control form-input" placeholder="Kërko kontratën">
+          <input type="text" class="form-control form-input" placeholder="{{ 'datatable.searchContract' | translate }}">
           <select name="" id="" class="form-control form-select">
-            <option value="">Drejtoria</option>
+            <option value="">{{ 'datatable.directorate' | translate }}</option>
           </select>
           <select name="" id="" class="form-control form-select">
-            <option value="">Kompania</option>
+            <option value="">{{ 'datatable.company' | translate }}</option>
           </select>
           <select name="" id="" class="form-control form-select">
-            <option value="">Vlera</option>
+            <option value="">{{ 'datatable.value' | translate }}</option>
           </select>
           <button class="btn btn-primary form-button">
             <i class="fa fa-search" aria-hidden="true"></i>
@@ -53,7 +53,7 @@
   <div class="container-fluid data-set" id="cover-image">
     <div class="row">
       <div class="col-md-12 data-set-title">
-        <h1 class="title text-center">SETI I TË DHËNAVE</h1>
+        <h1 class="title text-center">{{ 'dataset.title' | translate }}</h1>
       </div>
     </div>
     <div class="row justify-content-center align-items-center">
@@ -62,13 +62,13 @@
         <div class="data-set-form">
           <form action="" class="form-inline form-group">
             <select name="" id="" class="form-control form-select">
-              <option value="">Formati</option>
+              <option value="">{{ 'dataset.format' | translate }}</option>
             </select>
             <select name="" id="" class="form-control form-select">
-              <option value="">Viti</option>
+              <option value="">{{ 'dataset.year' | translate }}</option>
             </select>
             <button class="btn btn-primary form-button">
-              Shkarko
+              {{ 'dataset.download' | translate }}
               <i class="fa fa-download" aria-hidden="true"></i>
             </button>
           </form>
@@ -82,7 +82,7 @@
     <div id="bg-img-contracts">
       <div class="row" style="width:100%">
         <div class="col-md-12">
-          <h1 class="text-center title">PRISHTINA ONLINE</h1>
+          <h1 class="text-center title">{{ 'announcements.title' | translate }}</h1>
         </div>
       </div>
       <div class="row col-md-12 announcements-buttons">
@@ -90,19 +90,19 @@
           <a href="http://prishtinaonline.com/prokurimi/njoftim-per-kontrate" target="_blank">
             <img src="/assets/images/njoftimet-per-kontrata.png" class="img-fluid">
           </a>
-          <h1 id="announcements-title-1">Njoftim për kontratë</h1>
+          <h1 id="announcements-title-1">{{ 'announcements.contractNotice' | translate }}</h1>
         </div>
         <div class="col-md-4">
           <a href="http://prishtinaonline.com/prokurimi/njoftim-per-dhenjen-e-kontrates" target="_blank">
             <img src="/assets/images/njoftimet-per-dhenje-te-kontratave.png" class="img-fluid">
           </a>
-          <h1 id="announcements-title-2">Njoftim për dhënien e kontratës</h1>
+          <h1 id="announcements-title-2">{{ 'announcements.contractAwardNotification' | translate }}</h1>
         </div>
         <div class="col-md-4">
           <a href="http://prishtinaonline.com/prokurimi/njoftim-per-anulim" target="_blank">
             <img src="/assets/images/njoftimet-per-anulim.png" class="img-fluid">
           </a>
-          <h1 id="announcements-title-3">Njoftim për anulim</h1>
+          <h1 id="announcements-title-3">{{ 'announcements.cancellationNotice' | translate }}</h1>
         </div>
       </div>
       <div class="row col-md-12 announcements-buttons">
@@ -110,19 +110,19 @@
           <a href="http://prishtinaonline.com/prokurimi/njoftim-per-informata-shtese" target="_blank">
             <img src="/assets/images/njoftimet-per-informata-shtese.png" class="img-fluid">
           </a>
-          <h1 id="announcements-title-4">Njoftim për informata shtesë</h1>
+          <h1 id="announcements-title-4">{{ 'announcements.additionalInfosNotification' | translate }}</h1>
         </div>
         <div class="col-md-4">
           <a href="http://prishtinaonline.com/prokurimi/anulim-i-dhenies-se-kontrates" target="_blank">
             <img src="/assets/images/anulimet-e-dhenjes-se-kontratave.png" class="img-fluid">
           </a>
-          <h1 id="announcements-title-5">Anulim i dhënies së kontratës</h1>
+          <h1 id="announcements-title-5">{{ 'announcements.contractCancellationAward' | translate }}</h1>
         </div>
         <div class="col-md-4">
           <a href="http://prishtinaonline.com/prokurimi/njoftim-per-nenshkrimin-e-kontrates" target="_blank">
             <img src="/assets/images/njoftimet-per-nenshkrim-te-kontratave.png" class="img-fluid">
           </a>
-          <h1 id="announcements-title-6">Njoftim për nënshkrimin e kontratës</h1>
+          <h1 id="announcements-title-6">{{ 'announcements.contractSigningNotification' | translate }}</h1>
         </div>
       </div>
     </div>

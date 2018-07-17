@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -7,10 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
+  constructor(private translate: TranslateService) {
+    translate.setDefaultLang('sq');
+  }
 
-    constructor() { }
-
-    ngOnInit() {
-    }
+  ngOnInit() {
+  }
+  useLanguage(language: string) {
+    this.translate.use(language);
+  }
 
 }

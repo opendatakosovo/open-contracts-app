@@ -1,0 +1,35 @@
+{
+    "navigation": {
+        "home": "HOME",
+        "visualizations": "VISUALIZATIONS",
+        "dataset": "DATASETS",
+        "aboutUs": "ABOUT US",
+        "openBusinesses": "OPEN BUSINESSES"
+    },
+    "coverImg": {
+        "title": "Signed public contracts",
+        "municipality": "Municipality of Prishtina"
+    },
+    "datatable": {
+        "title": "PUBLIC CONTRACTS",
+        "searchContract": "Search contract",
+        "directorate": "Directory",
+        "company": "Company",
+        "value": "Value"
+    },
+    "dataset": {
+        "title": "DATA SET",
+        "format": "Format",
+        "year": "Year",
+        "download": "Download"
+    },
+    "announcements": {
+        "title": "PRISTINA ONLINE",
+        "contractNotice": "Contract notice",
+        "contractAwardNotification": "Notification for contract award",
+        "cancellationNotice": "Cancellation notice",
+        "additionalInfosNotification": "Notification for additional information",
+        "contractCancellationAward": "Cancellation of contract award",
+        "contractSigningNotification": "Notification for contract signing"
+    }
+}
