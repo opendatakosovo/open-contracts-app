@@ -6,6 +6,9 @@ import { FormsModule, FormGroup, FormControl, ReactiveFormsModule, Validators } 
 import { HttpModule } from '@angular/http';
 import { HostListener } from '@angular/core';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable/src';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './main/login/login.component';
@@ -43,7 +46,9 @@ import { EditContractComponent } from './admin/contracts/edit-contract/edit-cont
 import { ContractCommentsComponent } from './admin/contracts/contract-comments/contract-comments.component';
 import { MainPageContractsListComponent } from './main/home/main-page-contracts-list/main-page-contracts-list.component';
 
-
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 const appRoutes: Routes = [
   // Main page layouts routes
   {
@@ -110,7 +115,15 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     RouterModule.forRoot(appRoutes),
     ModalModule.forRoot(),
-    NgxDatatableModule
+    NgxDatatableModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   entryComponents: [ChangePasswordComponent],
   providers: [
@@ -124,3 +137,4 @@ const appRoutes: Routes = [
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+

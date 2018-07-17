@@ -1,0 +1,37 @@
+{
+    "navigation": {
+        "home": "Lorem ipsum",
+        "visualizations": "Dolor sit amet",
+        "dataset": "Etiam condimentum",
+        "aboutUs": "Aenean ornare",
+        "openBusinesses": "Aenean pulvinar"
+    },
+    "coverImg": {
+        "title": "Donec mattis",
+        "municipality": "Etiam libero"
+    },
+    "datatable": {
+        "title": "Cras imperdiet",
+        "searchContract": "Etiam auctor",
+        "directorate": "Ut blandit",
+        "company": "Nam",
+        "value": "Praesent"
+    },
+    "dataset": {
+        "title": "Nunc nulla tellus",
+        "format": "Morbi",
+        "year": "Duis",
+        "download": "Vestibulum"
+    },
+    "announcements": {
+        "title": "Class aptent",
+        "contractNotice": "Phasellus convallis",
+        "contractAwardNotification": "Pellentesque volutpat nisl",
+        "cancellationNotice": "Phasellus quis lacus ante",
+        "additionalInfosNotification": "Lorem ipsum dolor sit amet",
+        "contractCancellationAward": "Etiam libero leo",
+        "contractSigningNotification": "tempor vel ipsum",
+        "procurementPlans": "Donec suscipit urna a eleifend congue",
+        "designAwardNotification": "In malesuada tellus imperdiet id"
+    }
+}

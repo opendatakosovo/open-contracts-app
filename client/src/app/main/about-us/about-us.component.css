@@ -56,6 +56,7 @@
     margin: auto;
     padding: 0;
     text-align: center;
+    padding-bottom: 7%;
 }
 #project-description {
     text-align: left;
@@ -67,30 +68,4 @@
     bottom: 1px;
     top: 56px;
     font-family: 'Roboto', sans-serif;
-}
-/* Technologies Style */
-#technologies-title {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 600;
-    text-align: center;
-    color:#32a6bd;
-    padding-top:84px;
-    padding-bottom: 33px;
-}
-.technologies-imgs {
-    text-align: center;
-    margin: auto;
-    width: 87%;
-    max-width: 87%;
-    padding-bottom: 124px;
-} 
-.node-js {
-    text-align: left;
-}
-.angular-js {
-    top: 9px;
-    padding-left: 42px;
-}
-.express-js {
-    top: 29px;
 }
