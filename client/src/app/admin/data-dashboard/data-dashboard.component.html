@@ -1,4 +1,4 @@
-<div class="containter-fluid">
+<div class="container-fluid">
     <div class="row">
         <div class="col-12">
             <h1 class="title">Të dhënat</h1>
@@ -22,5 +22,62 @@
         <div class="col-2 my-col-2">
             <button type="button" class="btn btn-primary button-upload" (click)="uploadDataset(valid)">Importoje</button>
         </div>
+    </div>
+
+    <!-- Data sets list -->
+    <div class="row col-12" id="table-row">
+        <table class="table">
+            <tbody sorted="1">
+                <tr *ngFor="let dataSet of dataSets">
+                    <td class="img-col" id="image-col">
+                        <div>
+                            <img src="/assets/images/excel.png" class="img-fluid">
+                        </div>
+                    </td>
+                    <td class="dataset-info">
+                        <div>
+                            <p class="name">
+                                <a>Raporti vjetor për kontratat e nënshkruara {{ dataSet.datasetFilePath.replace('.csv', '')
+                                    }}
+                                </a>
+                            </p>
+                        </div>
+                        <div>
+                            <p class="information">{{ dataSet.createdAt | date: 'dd/MM/yyyy hh:mm' }}</p>
+                        </div>
+                    </td>
+                    <div id="icons">
+                        <td class="view-icon">
+                            <span>
+                                <a data-toggle="modal" class="view-icon">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </a>
+                            </span>
+                        </td>
+                        <td class="view-text">
+                            <span>
+                                <a data-toggle="modal" class="view-icon">
+                                    Shiko
+                                </a>
+                            </span>
+                        </td>
+                        <td class="edit-icon">
+                            <span>
+                                <a data-toggle="modal">
+                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                </a>
+                            </span>
+                        </td>
+                        <td class="edit-text">
+                            <span>
+                                <a data-toggle="modal">
+                                    Ndrysho
+                                </a>
+                            </span>
+                        </td>
+                    </div>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
