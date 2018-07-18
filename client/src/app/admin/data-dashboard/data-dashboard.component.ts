@@ -12,8 +12,12 @@ import Swal from 'sweetalert2';
 export class DataDashboardComponent implements OnInit {
   @ViewChild('file') file;
   dataSet: Dataset;
+  dataSets: Dataset[];
   constructor(public datasetService: DatasetService) {
     this.dataSet = new Dataset;
+    this.datasetService.getDatasets().subscribe(data => {
+      this.dataSets = data;
+    });
   }
 
   fileToUpload: File;

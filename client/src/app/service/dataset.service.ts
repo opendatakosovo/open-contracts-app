@@ -13,4 +13,8 @@ export class DatasetService {
     return this.http.postWithAuth(`${this.APIUrl}/datasets`, formData, 'multipart').map(res => res.json());
   }
 
+  getDatasets() {
+    return this.http.getWithAuth(`${this.APIUrl}/datasets/`).map(res => res.json().datasets);
+  }
+
 }

@@ -8,9 +8,20 @@ let exec = require('child_process').exec, child;
 
 
 router.get("/", (req, res) => {
-    res.json("blank");
+    Dataset.getAllDatasets((err, datasets) => {
+        if (err) {
+            res.json({
+                "err": err,
+                "success": false
+            });
+        } else {
+            res.json({
+                "datasets": datasets,
+                "success": true
+            });
+        }
+    });
 });
-
 router.post("/", passport.authenticate('jwt', { session: false }), upload.single('datasetFile'), (req, res) => {
 
     if (req.fileExist) {
