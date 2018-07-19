@@ -626,7 +626,7 @@
           <div *ngIf="contract.nameOfProcurementOffical != ''">
             <p>{{ contract.nameOfProcurementOffical }}</p>
           </div>
-        <app-contract-comments></app-contract-comments>                  
+        <app-contract-comments [contractId1]="contract._id"></app-contract-comments>                  
         </div>
       </div>
     </div>

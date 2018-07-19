@@ -45,6 +45,7 @@ import { ContractsListComponent } from './admin/contracts/contracts-list/contrac
 import { EditContractComponent } from './admin/contracts/edit-contract/edit-contract.component';
 import { ContractCommentsComponent } from './admin/contracts/contract-comments/contract-comments.component';
 import { MainPageContractsListComponent } from './main/home/main-page-contracts-list/main-page-contracts-list.component';
+import { CommentService } from './service/comment.service';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -132,7 +133,8 @@ const appRoutes: Routes = [
     DirectorateService,
     HttpClientService,
     ContractsService,
-    DatasetService
+    DatasetService,
+    CommentService
   ],
   bootstrap: [AppComponent]
 })
