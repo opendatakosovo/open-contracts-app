@@ -161,7 +161,7 @@ legend {
     font-size: 15px;
     margin-bottom: 5px;
     margin-left: 10px;
-    width: 135px;
+    width: auto;
 }
 
 .list-group {
