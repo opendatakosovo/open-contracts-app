@@ -25,62 +25,62 @@ export class EditContractComponent implements OnInit {
   filesToUpload: Array<File>;
   contract: Contract;
   constructor(public contractsService: ContractsService, private router: ActivatedRoute) {
-    this.countInstallment = 1;
-    this.countAnnex = 1;
-    this.annexArray = [];
-    this.arrayInstallments = [];
-    this.contract = new Contract();
-    const id = this.router.snapshot.paramMap.get('id');
-    this.contractsService.getContractByID(id).subscribe(data => {
-      this.contract = data;
-      if (this.contract.contract.annexes.length === 0) {
-        const annex: Annex = {
-          totalValueOfAnnexContract1: null,
-          annexContractSigningDate1: null
-        };
-        this.contract.contract.annexes.push(annex);
-      }
+    // this.countInstallment = 1;
+    // this.countAnnex = 1;
+    // this.annexArray = [];
+    // this.arrayInstallments = [];
+    // this.contract = new Contract();
+    // const id = this.router.snapshot.paramMap.get('id');
+    // this.contractsService.getContractByID(id).subscribe(data => {
+    //   this.contract = data;
+    //   if (this.contract.contract.annexes.length === 0) {
+    //     const annex: Annex = {
+    //       totalValueOfAnnexContract1: null,
+    //       annexContractSigningDate1: null
+    //     };
+    //     this.contract.contract.annexes.push(annex);
+    //   }
 
-      if (this.contract.installments.length === 0) {
-        const installment: Installment = {
-          installmentPayDate1: null,
-          installmentAmount1: null
-        };
-        this.contract.installments.push(installment);
-      }
-    });
+    //   if (this.contract.installments.length === 0) {
+    //     const installment: Installment = {
+    //       installmentPayDate1: null,
+    //       installmentAmount1: null
+    //     };
+    //     this.contract.installments.push(installment);
+    //   }
+    // });
   }
   @ViewChild('fileInput') fileInput;
 
   addInstallments() {
-    const installment: Installment = {
-      installmentPayDate1: new Date(),
-      installmentAmount1: 0
-    };
+    // // const installment: Installment = {
+    // //   installmentPayDate1: new Date(),
+    // //   installmentAmount1: 0
+    // // };
 
-    this.contract.installments.push(installment);
-    this.arrayInstallments.push(++this.countInstallment);
+    // this.contract.installments.push(installment);
+    // this.arrayInstallments.push(++this.countInstallment);
   }
 
   removeInstallment() {
-    this.contract.installments.pop();
-    this.arrayInstallments.pop();
-    --this.countInstallment;
+    // this.contract.installments.pop();
+    // this.arrayInstallments.pop();
+    // --this.countInstallment;
   }
 
   addAnnex() {
-    const annex: Annex = {
-      totalValueOfAnnexContract1: 0,
-      annexContractSigningDate1: new Date()
-    };
-    this.contract.contract.annexes.push(annex);
-    this.annexArray.push(++this.countAnnex);
+    // const annex: Annex = {
+    //   totalValueOfAnnexContract1: 0,
+    //   annexContractSigningDate1: new Date()
+    // };
+    // this.contract.contract.annexes.push(annex);
+    // this.annexArray.push(++this.countAnnex);
   }
 
   removeAnnex() {
-    this.contract.contract.annexes.pop();
-    this.annexArray.pop();
-    --this.countAnnex;
+    // this.contract.contract.annexes.pop();
+    // this.annexArray.pop();
+    // --this.countAnnex;
   }
 
   fileChangeEvent(event) {
