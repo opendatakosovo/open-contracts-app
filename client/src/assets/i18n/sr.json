@@ -15,7 +15,18 @@
         "searchContract": "Etiam auctor",
         "directorate": "Ut blandit",
         "company": "Nam",
-        "value": "Praesent"
+        "value": "Praesent",
+        "activityTitle": "Lorem ipsum dolor sit amet",
+        "publicationDate": "Egestas fringilla phasellus faucibus scelerisque eleifend",
+        "noOfCompaniesWhoDownloadedTenderDoc": "Sed risus pretium quam vulputate",
+        "publicationDateOfGivenContract": "Convallis a cras semper auctor",
+        "cancellationNoticeDate": "Lacus vel facilisis volutpat est. ",
+        "predictedValue": "Porta lorem mollis aliquam ut",
+        "name": "Ut morbi tincidunt augue interdum",
+        "signingDate": "Purus semper eget duis at tellus at",
+        "implementationDeadlineStartingDate": "Proin nibh nisl condimentum id venenatis a condimentum vitae sapien",
+        "closingDate": "Blandit aliquam etiam erat velit scelerisque in dictum",
+        "totalAmountOfContractsIncludingTaxes": "Luctus accumsan tortor posuere ac ut consequat semper viverra"
     },
     "dataset": {
         "title": "Nunc nulla tellus",
@@ -33,5 +44,11 @@
         "contractSigningNotification": "tempor vel ipsum",
         "procurementPlans": "Donec suscipit urna a eleifend congue",
         "designAwardNotification": "In malesuada tellus imperdiet id"
+    },
+    "aboutUs": {
+        "title": "Lorem ipsum",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec volutpat eros. Etiam in purus sed ante elementum lacinia non sed leo. Duis consectetur leo interdum, varius neque quis, laoreet libero. Duis dictum ut libero at pretium. Duis ut vulputate ante. Curabitur interdum pellentesque justo, eget sagittis ex mollis id. Aenean aliquet tellus nec sagittis eleifend. Praesent maximus sem fermentum feugiat eleifend. Sed id lorem lacus. Sed placerat commodo sagittis. Nunc a fermentum est, eu iaculis massa. Nulla blandit vulputate dictum.",
+        "projectTitle": "Curabitur non magna",
+        "projectDescription": "Maecenas enim velit, consectetur eget lacus sed, pretium tincidunt nisi. Praesent eget velit luctus sem fermentum elementum. Quisque eu diam consequat, rhoncus leo quis, dapibus risus. Pellentesque tempus turpis ut purus molestie, at ornare nisi consequat. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Interdum et malesuada fames ac ante ipsum primis in faucibus. Cras gravida libero rhoncus ligula pharetra, eu viverra erat cursus. Nam commodo vitae purus non tincidunt. Cras suscipit feugiat erat at fringilla.Mauris vel consequat lacus. Proin in gravida nibh. Nunc suscipit auctor dapibus. Aliquam imperdiet orci non nisl interdum, et consequat enim facilisis. Praesent vel sem sodales quam varius hendrerit et ac urna. Nullam lorem felis, maximus id quam maximus, ornare viverra nunc. Vestibulum malesuada fringilla tincidunt. Vestibulum et ipsum justo. Vestibulum at est nec ligula feugiat cursus bibendum in justo. Proin eget diam eu lorem blandit pretium. Phasellus ultrices ligula eu vestibulum ullamcorper. Vivamus id mauris hendrerit, varius dui at, pharetra arcu."
     }
 }

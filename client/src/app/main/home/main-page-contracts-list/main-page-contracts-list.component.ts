@@ -3,8 +3,8 @@ import { ContractsService } from '../../../service/contracts.service';
 import { Contract } from '../../../models/contract';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import Swal from 'sweetalert2';
 import { Page } from '../../../models/page';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -20,7 +20,8 @@ export class MainPageContractsListComponent implements OnInit {
   page = new Page();
   rows = new Array<Contract>();
 
-  constructor(public contractsService: ContractsService, private modalService: BsModalService) {
+  constructor(public contractsService: ContractsService, private modalService: BsModalService, private translate: TranslateService) {
+    translate.setDefaultLang('sq');
     this.page.pageNumber = 0;
     this.page.size = 10;
     this.contractModal = new Contract();
@@ -38,6 +39,10 @@ export class MainPageContractsListComponent implements OnInit {
 
   ngOnInit() {
     this.setPage({ offset: 0 });
+  }
+
+  useLanguage(language: string) {
+    this.translate.use(language);
   }
 
   setPage(pageInfo) {
