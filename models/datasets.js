@@ -19,3 +19,5 @@ Dataset.addDataset = (dataset, cb) => {
 Dataset.getByName = (name, cb) => {
     Dataset.findOne({ datasetFilePath: name }, cb);
 }
+
+Dataset.getAllDatasets = cb => Dataset.find().sort({ 'datasetFilePath': 'descending' }).exec(cb);

@@ -195,6 +195,7 @@ export class DirectoratesComponent implements OnInit {
           ).subscribe(data => {
             this.userModal = data;
             this.userModal.isInCharge = false;
+            this.userModal.directorateName = '';
             this.userService.editUser(this.userModal._id, this.userModal).subscribe(result => {
               if (result.err) {
                 return false;
