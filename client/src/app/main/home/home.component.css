@@ -417,6 +417,7 @@
     font-size: 30px;
     color: #32a6bd;
 }
+
 .announcements-buttons h1 {
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
@@ -428,24 +429,40 @@
     padding-top: 30px;
     padding-bottom: 78px;
 }
+
+.announcements-buttons  a{
+    text-decoration: none;
+    color: #32a6bd;
+}
+.announcements-buttons  a:hover {
+    text-decoration: none;
+    color: #32a6bd;
+}
+
 #announcements-title-1 {
     width: 214px;
 }
+
 #announcements-title-5 {
     width: 210px;
 }
+
 #announcements-title-6 {
     width: 274px;
 }
+
 #announcements-title-7 {
     width: 225px;
 }
+
 #announcements-title-8 {
     width: 225px;
 }
+
 .announcements-buttons {
     text-align: center;
 }
+
 #bg-img-contracts {
     background-image: url('/assets/images/background-prishtina-online.jpg');
      /* Full height */
@@ -457,21 +474,26 @@
      background-size: cover;
      padding: 0;
 }
+
 .contracts-announcement {
     padding: 0;
 }
+
 #procurement-plan {
     padding-left: 20%;
 }
+
 #design-award-notification {
     padding-right: 20%;
 }
+
 /*---------Responsiveness----------*/
     @media(max-width: 887px) {
         #announcements-title-6 {
             width: 256px;
         }
     }
+
     @media(max-width: 767px) {
         #bg-img-contracts{
             background-image: url('/assets/images/background-prishtina-online - mobile.jpg');
@@ -489,6 +511,7 @@
             padding-bottom: 60px;
         }
     }
+
     @media(max-width: 640px) {
         .contracts-announcement .title {
             font-size: 25px;
@@ -497,6 +520,7 @@
             font-size: 22px;
         }
     }
+
     @media(max-width: 500px) {
         .contracts-announcement .title {
             font-size: 22px;
@@ -511,4 +535,4 @@
             padding-bottom: 40px;
         }
     }
-    
+   
