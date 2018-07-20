@@ -49,12 +49,11 @@ export class ContractCommentsComponent implements OnInit {
         });
         this.users.forEach(element => {
           element.reply.forEach(element1 => {
-            if ( !element1.hasOwnProperty('_id') ) {
-            element.reply.splice((element.reply.findIndex(reply => reply === null)), 1);
+            if (!element1.hasOwnProperty('_id')) {
+              element.reply.splice((element.reply.findIndex(reply => reply === null)), 1);
             }
           });
         });
-        console.log(this.users);
       });
     });
   }
@@ -96,10 +95,10 @@ export class ContractCommentsComponent implements OnInit {
               this.users.push(element);
             }
             if (!element.reply.hasOwnProperty('_id')) {
-            element.reply.splice((this.users.findIndex(reply => reply === null)), 1);
-              }
-            });
+              element.reply.splice((this.users.findIndex(reply => reply === null)), 1);
+            }
           });
+        });
         Swal('Sukses!', 'Komenti u shtua me sukses.', 'success');
       }
     });
@@ -129,8 +128,8 @@ export class ContractCommentsComponent implements OnInit {
         this.userService.getUserByID(this.reply.replyUserId).subscribe(data => {
           this.users.forEach(element => {
             if (element._id === id) {
-             this.reply = Object.assign(this.reply, data);
-            element.reply.push(this.reply);
+              this.reply = Object.assign(this.reply, data);
+              element.reply.push(this.reply);
             }
           });
         });
@@ -159,8 +158,8 @@ export class ContractCommentsComponent implements OnInit {
         Swal('Gabim!', 'Reply nuk nuk u fshi', 'error');
       } else {
         this.users.forEach(element => {
-          if ( element._id === commentId) {
-          element.reply.splice((element.reply.findIndex(reply => replyId._id === replyId)), 1);
+          if (element._id === commentId) {
+            element.reply.splice((element.reply.findIndex(reply => replyId._id === replyId)), 1);
           }
         });
         Swal('Sukses!', 'Reply u fshi me sukses.', 'success');

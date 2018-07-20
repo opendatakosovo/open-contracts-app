@@ -317,7 +317,7 @@
             <p>Nuk ka të dhëna!</p>
           </div>
           <div *ngIf="contract.contract.predictedValue">
-            <p>{{ contract.contract.predictedValue }}</p>
+            <p>&euro;{{ contract.contract.predictedValue }}</p>
           </div>
         </div>
         <div class="col-md-6">
@@ -450,7 +450,7 @@
             <p>Nuk ka të dhëna!</p>
           </div>
           <div *ngIf="contract.contract.totalAmountOfContractsIncludingTaxes">
-            <p>{{ contract.contract.totalAmountOfContractsIncludingTaxes }}</p>
+            <p>&euro;{{ contract.contract.totalAmountOfContractsIncludingTaxes }}</p>
           </div>
         </div>
         <div class="col-md-4">
@@ -459,7 +459,7 @@
             <p>Nuk ka të dhëna!</p>
           </div>
           <div *ngIf="contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes">
-            <p>{{ contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes }}</p>
+            <p>&euro;{{ contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes }}</p>
           </div>
         </div>
       </div>
@@ -471,7 +471,7 @@
             <p>Nuk ka të dhëna!</p>
           </div>
           <div *ngIf="annex.totalValueOfAnnexContract1 != null">
-            <p>{{ annex.totalValueOfAnnexContract1 }}</p>
+            <p>&euro;{{ annex.totalValueOfAnnexContract1 }}</p>
           </div>
         </div>
         <div class="col-md-6">
@@ -504,7 +504,7 @@
               <p>Nuk ka të dhëna!</p>
             </div>
             <div *ngIf="installment.installmentAmount1 != null">
-              <p>{{ installment.installmentAmount1 }}</p>
+              <p>&euro;{{ installment.installmentAmount1 }}</p>
             </div>
           </div>
         </div>
@@ -540,7 +540,7 @@
             <p>Nuk ka të dhëna!</p>
           </div>
           <div *ngIf="contract.lastInstallmentAmount">
-            <p>{{ contract.lastInstallmentAmount }}</p>
+            <p>&euro;{{ contract.lastInstallmentAmount }}</p>
           </div>
         </div>
       </div>
@@ -552,7 +552,7 @@
             <p>Nuk ka të dhëna!</p>
           </div>
           <div *ngIf="contract.contract.discountAmount">
-            <p>{{ contract.contract.discountAmount}}</p>
+            <p>&euro;{{ contract.contract.discountAmount}}</p>
           </div>
         </div>
       </div>
@@ -564,7 +564,7 @@
             <p>Nuk ka të dhëna!</p>
           </div>
           <div *ngIf="contract.contract.totalPayedPriceForContract">
-            <p>{{ contract.contract.totalPayedPriceForContract}}</p>
+            <p>&euro;{{ contract.contract.totalPayedPriceForContract}}</p>
           </div>
         </div>
         <div class="col-md-6">
@@ -582,7 +582,7 @@
         <div class="col-6">
           <div class="form-group">
             <label>Drejtoritë</label>
-            <div *ngIf="contract.directorates == undefined">
+            <div *ngIf="contract.directorates == undefined || contract.directorates == ''">
               <p>Nuk ka të dhëna!</p>
             </div>
             <div *ngIf="contract.directorates != ''">
@@ -626,7 +626,7 @@
           <div *ngIf="contract.nameOfProcurementOffical != ''">
             <p>{{ contract.nameOfProcurementOffical }}</p>
           </div>
-        <app-contract-comments [contractId1]="contract._id"></app-contract-comments>                  
+          <app-contract-comments [contractId1]="contract._id"></app-contract-comments>
         </div>
       </div>
     </div>
