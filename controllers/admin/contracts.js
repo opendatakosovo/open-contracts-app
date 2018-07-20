@@ -4,6 +4,7 @@ const upload = require('../../utils/storage');
 const Contract = require('../../models/contracts');
 const contractValidation = require("../../middlewares/contract_validation");
 
+
 /*
  * ENDPOINTS PREFIX: /contracts
  */
@@ -22,6 +23,74 @@ router.get("/", (req, res) => {
             });
         }
     });
+});
+
+router.post("/latest-contracts/page", (req, res) => {
+    let page = {
+        size: req.body.size,
+        totalElements: req.body.totalElements,
+        totalPages: req.body.totalPages,
+        pageNumber: req.body.pageNumber
+    };
+    let response = {};
+    Contract.countLatestContracts()
+        .then(totalElements => {
+            page.totalElements = totalElements;
+            return page;
+        })
+        .then(page => {
+            page.totalPages = Math.round(page.totalElements / page.size)
+            return page;
+        })
+        .then(page => {
+            page.skipPages = page.size * page.pageNumber
+            return page;
+        })
+        .then(page => {
+            return Contract.find({ "year": 2018 }).skip(page.skipPages).limit(page.size).then(result => {
+                delete page.skipPages;
+                response.page = page;
+                response.data = result;
+                return response;
+            });
+        })
+        .then(response => {
+            res.json(response)
+        });
+});
+
+router.post("/page", (req, res) => {
+    let page = {
+        size: req.body.size,
+        totalElements: req.body.totalElements,
+        totalPages: req.body.totalPages,
+        pageNumber: req.body.pageNumber
+    };
+    let response = {};
+    Contract.countContracts()
+        .then(totalElements => {
+            page.totalElements = totalElements;
+            return page;
+        })
+        .then(page => {
+            page.totalPages = Math.round(page.totalElements / page.size)
+            return page;
+        })
+        .then(page => {
+            page.skipPages = page.size * page.pageNumber
+            return page;
+        })
+        .then(page => {
+            return Contract.find().skip(page.skipPages).limit(page.size).then(result => {
+                delete page.skipPages;
+                response.page = page;
+                response.data = result;
+                return response;
+            });
+        })
+        .then(response => {
+            res.json(response)
+        });
 });
 
 router.post("/", passport.authenticate('jwt', { session: false }), upload.single("file"), (req, res) => {

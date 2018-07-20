@@ -54,3 +54,12 @@ i {
     padding-left: 2%;
     padding-bottom: 2%;
 }
+.ngx-datatable.bootstrap .empty-row {
+    height: 50px;
+    text-align: center;
+    padding: .5rem 1.2rem;
+    vertical-align: top;
+    border-top: 0; 
+    color: rgb(66, 66, 66);
+    font-size: 15px;
+    margin-bottom: 20px; }
