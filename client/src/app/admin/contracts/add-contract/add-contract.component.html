@@ -516,7 +516,7 @@
           </div>
         </div>
         <div formArrayName="annexes">
-          <div [formGroupName]='i' *ngFor="let annex of form.controls.annexes.controls; let i = index">
+          <div [formGroupName]='i' *ngFor="let annex of formArrayAnnexes.controls; let i = index">
             <div class="row">
               <div class="col-md-6">
                 <label for="noOfPaymentInstallments{{i}}">
@@ -554,7 +554,7 @@
           </div>
         </div>
         <div formArrayName="installments">
-          <div [formGroupName]="i" *ngFor="let installment of form.controls.installments.controls; let i = index">
+          <div [formGroupName]="i" *ngFor="let installment of formArrayInstallments.controls; let i = index">
             <div class="row">
               <div class="col-md-6">
                 <label for="installmentAmount1{{i+1}}">

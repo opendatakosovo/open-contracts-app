@@ -32,11 +32,15 @@ export class AddContractComponent implements OnInit {
   valid = false;
   touched: boolean;
   message: string;
+  formArrayAnnexes: FormArray;
+  formArrayInstallments: FormArray;
 
 
   constructor(public contractsService: ContractsService, public directorateService: DirectorateService, private _fb: FormBuilder) {
     this.directorates = [];
     this.contract = new Contract();
+    this.formArrayAnnexes = new FormArray([]);
+    this.formArrayInstallments = new FormArray([]);
     this.directorateService.getAllDirectorates().subscribe(data => {
       data.forEach(element => {
         if (element.directorateIsActive === true) {
@@ -93,8 +97,8 @@ export class AddContractComponent implements OnInit {
       fppClassification: new FormControl(null, Validators.maxLength(2)),
       directorate: '',
       nameOfProcurementOffical: '',
-      annexes: _fb.array([]),
-      installments: _fb.array([])
+      annexes: this.formArrayAnnexes,
+      installments: this.formArrayInstallments
     });
     this.initAnnexes();
     this.initInstallments();
@@ -124,7 +128,7 @@ export class AddContractComponent implements OnInit {
       installmentAmount1: '',
       installmentPayDate1: null
     });
-    const arrControl = <FormArray>this.form.controls.installments;
+    const arrControl = this.formArrayInstallments;
     arrControl.push(this.addInstallment({
       installmentAmount1: '',
       installmentPayDate1: null
@@ -133,12 +137,12 @@ export class AddContractComponent implements OnInit {
 
   removeInstallment(i) {
     this.contract.installments.splice(i, 1);
-    const arrControl = <FormArray>this.form.controls.installments;
+    const arrControl = this.formArrayInstallments;
     arrControl.removeAt(i);
   }
 
   initInstallments() {
-    const arrControl = <FormArray>this.form.controls.installments;
+    const arrControl = this.formArrayInstallments;
     this.contract.installments.map(installment => {
       arrControl.push(this.addInstallment(installment));
     });
@@ -156,7 +160,7 @@ export class AddContractComponent implements OnInit {
       totalValueOfAnnexContract1: '',
       annexContractSigningDate1: null
     });
-    const arrControl = <FormArray>this.form.controls.annexes;
+    const arrControl = this.formArrayAnnexes;
     arrControl.push(this.addAnnex({
       totalValueOfAnnexContract1: '',
       annexContractSigningDate1: null
@@ -164,12 +168,12 @@ export class AddContractComponent implements OnInit {
   }
   removeAnnex(i) {
     this.contract.contract.annexes.splice(i, 1);
-    const arrControl = <FormArray>this.form.controls.annexes;
+    const arrControl = this.formArrayAnnexes;
     arrControl.removeAt(i);
   }
 
   initAnnexes() {
-    const arrControl = <FormArray>this.form.controls.annexes;
+    const arrControl = this.formArrayAnnexes;
     this.contract.contract.annexes.map(annex => {
       arrControl.push(this.addAnnex(annex));
     });
