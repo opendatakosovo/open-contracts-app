@@ -4,6 +4,8 @@ import { Contract } from '../../../models/contract';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import Swal from 'sweetalert2';
+import { Page } from '../../../models/page';
+
 @Component({
   selector: 'app-contracts-list',
   templateUrl: './contracts-list.component.html',
@@ -14,21 +16,35 @@ export class ContractsListComponent implements OnInit {
   contracts: Contract[];
   contractModal: Contract;
   modalRef: BsModalRef;
+  page = new Page();
+  rows = new Array<Contract>();
+
   constructor(public contractsService: ContractsService, private modalService: BsModalService) {
+    this.page.pageNumber = 0;
+    this.page.size = 10;
     this.contractModal = new Contract();
     this.contract = new Contract();
-    this.contractsService.getContracts().subscribe(data => {
-      this.contracts = data;
-    });
   }
+
   messages = {
     emptyMessage: `
     <div>
-      <span class="classname">Nuk ka kontrata!</span>
+        <i class="fa fa-spinner fa-spin"></i>
+        <p>Duke shfaqur kontratat</p>
     </div>
-  `
+    `
   };
+
   ngOnInit() {
+    this.setPage({ offset: 0 });
+  }
+
+  setPage(pageInfo) {
+    this.page.pageNumber = pageInfo.offset;
+    this.contractsService.serverPagination(this.page).subscribe(pagedData => {
+      this.page = pagedData.page;
+      this.rows = pagedData.data;
+    });
   }
 
   // Function to open delete modal
@@ -36,7 +52,6 @@ export class ContractsListComponent implements OnInit {
     const id = event.target.dataset.id;
     this.contractsService.getContractByID(id).subscribe(contract => {
       this.contract = contract;
-      console.log(id);
     });
     this.modalRef = this.modalService.show(template);
   }

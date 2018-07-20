@@ -34,4 +34,12 @@ export class ContractsService {
   latestContracts() {
     return this.http.getWithAuth(`${this.APIUrl}/contracts/latest-contracts`).map(res => res.json().contract);
   }
+
+  serverPagination(data) {
+    return this.http.postWithAuth(`${this.APIUrl}/contracts/page`, data).map(res => res.json());
+  }
+
+  serverPaginationLatestContracts(data) {
+    return this.http.postWithAuth(`${this.APIUrl}/contracts/latest-contracts/page`, data).map(res => res.json());
+  }
 }

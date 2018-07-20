@@ -100,6 +100,16 @@ module.exports.updateContract = (id, contract, callback) => {
 module.exports.latestContracts = (callback) => {
     Contract.find({ "year": 2018 }, callback);
 }
+
+module.exports.countContracts = () => {
+    return Contract.count();
+}
+
+module.exports.countLatestContracts = () => {
+    return Contract.find({ "year": 2018 }).count();
+}
+
+
 // Data Visualizations
 
 module.exports.getContractsByYearWithPublicationDateAndSigningDate = (year) => {
