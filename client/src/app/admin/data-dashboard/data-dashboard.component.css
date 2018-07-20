@@ -49,37 +49,10 @@
     font-size: 13px;
     margin-bottom: 0;
 }
-.edit-icon {
-    color: #868e96;
-    width: 30px;
-    padding-right: 1%;
-    padding-top: 16%;
-    padding-left: 23px;
-}
 .dataset-info {
     padding-bottom: 0;
     padding-top: 2%;
     padding-right: 29%;
-}
-.view-icon {
-    color: #868e96;
-    width: 30px;
-    padding-right: 1%;
-    padding-top: 16%;
-}
-.view-text {
-    color: #868e96;
-    width: 30px;
-    padding-right: 1%;
-    padding-top: 16%;
-    padding-left: 3px;
-}
-.edit-text {
-    color: #868e96;
-    width: 30px;
-    padding-right: 1%;
-    padding-top: 16%;
-    padding-left: 3px;
 }
 .form-i {
     margin-bottom: 0;
@@ -117,5 +90,13 @@
     border-color: #39a6bd;
 }
 .title {
+    color: #39a6bd;
+}
+.dropdown {
+    padding-top: 5%;
+}
+#dropdown-menu-button {
+    background-color: #fff;
+    border: 1px solid #39a6bd;
     color: #39a6bd;
 }

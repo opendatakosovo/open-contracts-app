@@ -611,7 +611,7 @@
               <p>Nuk ka të dhëna!</p>
             </div>
             <div *ngIf="contract.contract.file != ''">
-              <a href="/uploads/{contract.contract.file}">{{contract.contract.file}}</a>
+              <a href="/uploads/{{contract.contract.file}}" target="_blank">{{ contract.contract.file }}</a>
             </div>
           </div>
         </div>
