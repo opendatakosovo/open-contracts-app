@@ -82,3 +82,50 @@ button[disabled]{
     color: #32a6bd !important;
     text-align: left;
 }
+
+#title {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+#line {
+    border-top: 1px solid #a7a3a3;
+    top: 14px;
+    padding-left: 0px;
+    left: 7px;
+    padding-right: 0px;
+    right: 0px;
+}
+
+#line2 {
+    border-top: 1px solid #a7a3a3;
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-top: 14px;
+    margin-left: 26px;
+    width: 887px;
+}
+
+#button {
+    padding-left: 17px;
+    padding-right: 0px;
+
+}
+
+.button-exec {
+    background-color: #39a6bd !important;
+    color: #fff !important;
+    margin-bottom: 10px;
+}
+
+.button-del {
+    margin-top: 33px;
+}
+
+.nrOf {
+    color: #89cced;
+    font-weight: bold;
+}
+
+.errInput {
+    border: 1px solid #ff0000
+}

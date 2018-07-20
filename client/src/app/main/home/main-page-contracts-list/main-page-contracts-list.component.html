@@ -1,6 +1,7 @@
 <div>
-  <ngx-datatable class="bootstrap" columnMode="'force'" [rows]="this.contracts" [headerHeight]="'auto'" [summaryRow]="false"
-    [summaryPosition]="'bottom'" [footerHeight]="50" [limit]="10" [rowHeight]="'auto'" [messages]="messages" [scrollbarH]="true">
+  <ngx-datatable class="bootstrap" columnMode="'force'" [rows]="rows" [headerHeight]="'auto'" [summaryRow]="false" [summaryPosition]="'bottom'"
+    [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements" [offset]="page.pageNumber"
+    [limit]="page.size" [messages]="messages" [scrollbarH]="true" (page)='setPage($event)'>
     <ngx-datatable-column>
       <ng-template let-column="column" ngx-datatable-header-template>
         <p class="column-header">Titulli i aktivitetit të prokurimit</p>

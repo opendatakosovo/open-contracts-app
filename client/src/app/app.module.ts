@@ -9,6 +9,8 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable/src';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { DatepickerModule, BsDatepickerModule } from 'ngx-bootstrap';
+
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './main/login/login.component';
@@ -124,7 +126,10 @@ const appRoutes: Routes = [
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    DatepickerModule.forRoot(),
+    BsDatepickerModule.forRoot(),
+    NgxDatatableModule
   ],
   entryComponents: [ChangePasswordComponent],
   providers: [

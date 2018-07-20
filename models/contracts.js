@@ -57,7 +57,7 @@ const ContractSchema = mongoose.Schema({
         totalAmountOfContractsIncludingTaxes: { type: String },
         totalPayedPriceForContract: { type: String },
         annexes: [{
-            totalValueOfAnnexContract1: { type: Number },
+            totalValueOfAnnexContract1: { type: String },
             annexContractSigningDate1: { type: Date }
         }],
         criteria: { type: String },
@@ -72,7 +72,7 @@ const ContractSchema = mongoose.Schema({
         signingDate: { type: Date },
     },
     year: { type: Number },
-    flagStatus: 0,
+    flagStatus: { type: Number },
     fppClassification: { type: Number }
 });
 
@@ -100,6 +100,16 @@ module.exports.updateContract = (id, contract, callback) => {
 module.exports.latestContracts = (callback) => {
     Contract.find({ "year": 2018 }, callback);
 }
+
+module.exports.countContracts = () => {
+    return Contract.count();
+}
+
+module.exports.countLatestContracts = () => {
+    return Contract.find({ "year": 2018 }).count();
+}
+
+
 // Data Visualizations
 
 module.exports.getContractsByYearWithPublicationDateAndSigningDate = (year) => {
