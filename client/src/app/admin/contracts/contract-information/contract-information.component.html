@@ -317,7 +317,7 @@
             <p>Nuk ka të dhëna!</p>
           </div>
           <div *ngIf="contract.contract.predictedValue">
-            <p>&euro;{{ contract.contract.predictedValue }}</p>
+            <p>{{ contract.contract.predictedValue }} &euro;</p>
           </div>
         </div>
         <div class="col-md-6">
@@ -450,7 +450,7 @@
             <p>Nuk ka të dhëna!</p>
           </div>
           <div *ngIf="contract.contract.totalAmountOfContractsIncludingTaxes">
-            <p>&euro;{{ contract.contract.totalAmountOfContractsIncludingTaxes }}</p>
+            <p>{{ contract.contract.totalAmountOfContractsIncludingTaxes }} &euro;</p>
           </div>
         </div>
         <div class="col-md-4">
@@ -459,7 +459,7 @@
             <p>Nuk ka të dhëna!</p>
           </div>
           <div *ngIf="contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes">
-            <p>&euro;{{ contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes }}</p>
+            <p>{{ contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes }} &euro;</p>
           </div>
         </div>
       </div>
@@ -471,7 +471,7 @@
             <p>Nuk ka të dhëna!</p>
           </div>
           <div *ngIf="annex.totalValueOfAnnexContract1 != null">
-            <p>&euro;{{ annex.totalValueOfAnnexContract1 }}</p>
+            <p>{{ annex.totalValueOfAnnexContract1 }} &euro;</p>
           </div>
         </div>
         <div class="col-md-6">
@@ -504,7 +504,7 @@
               <p>Nuk ka të dhëna!</p>
             </div>
             <div *ngIf="installment.installmentAmount1 != null">
-              <p>&euro;{{ installment.installmentAmount1 }}</p>
+              <p>{{ installment.installmentAmount1 }} &euro;</p>
             </div>
           </div>
         </div>
@@ -540,7 +540,7 @@
             <p>Nuk ka të dhëna!</p>
           </div>
           <div *ngIf="contract.lastInstallmentAmount">
-            <p>&euro;{{ contract.lastInstallmentAmount }}</p>
+            <p>{{ contract.lastInstallmentAmount }} &euro;</p>
           </div>
         </div>
       </div>
@@ -552,7 +552,7 @@
             <p>Nuk ka të dhëna!</p>
           </div>
           <div *ngIf="contract.contract.discountAmount">
-            <p>&euro;{{ contract.contract.discountAmount}}</p>
+            <p>{{ contract.contract.discountAmount}} &euro;</p>
           </div>
         </div>
       </div>
@@ -564,7 +564,7 @@
             <p>Nuk ka të dhëna!</p>
           </div>
           <div *ngIf="contract.contract.totalPayedPriceForContract">
-            <p>&euro;{{ contract.contract.totalPayedPriceForContract}}</p>
+            <p>{{ contract.contract.totalPayedPriceForContract}} &euro;</p>
           </div>
         </div>
         <div class="col-md-6">
