@@ -4,21 +4,21 @@ export class Comment {
     comment: string;
     contractId: string;
     dateTime: string;
-    reply?: [{
-        userId: string,
+    reply?: {
+        replyUserId: string,
         replyComment: string,
-        dateTime: string
-    }];
+        replyDateTime: string
+    };
     constructor() {
         this._id = '';
         this.userId = '';
         this.comment = '';
         this.contractId = '';
         this.dateTime = '';
-        this.reply = [{
-            userId: null,
+        this.reply = {
+            replyUserId: null,
             replyComment: null,
-            dateTime: null
-        }];
+            replyDateTime: null
+        };
 }
 }
