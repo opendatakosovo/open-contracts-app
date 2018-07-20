@@ -20,8 +20,8 @@ import { trigger, style, transition, animate } from '@angular/animations';
         animate(1000, style({ backgroundColor: 'white', opacity: 1 }))
       ])
     ]
-  )],
- })
+    )],
+})
 
 export class ContractCommentsComponent implements OnInit {
   @Input() contractId1: string;

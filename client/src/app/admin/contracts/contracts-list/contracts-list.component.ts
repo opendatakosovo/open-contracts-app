@@ -64,8 +64,9 @@ export class ContractsListComponent implements OnInit {
         Swal('Gabim!', 'Kontrata nuk u fshi.', 'error');
       } else {
         this.modalRef.hide();
-        this.contractsService.getContracts().subscribe(data => {
-          this.contracts = data;
+        this.contractsService.serverPagination(this.page).subscribe(pagedData => {
+          this.page = pagedData.page;
+          this.rows = pagedData.data;
         });
         Swal('Sukses!', 'Kontrata u fshi me sukses.', 'success');
       }
