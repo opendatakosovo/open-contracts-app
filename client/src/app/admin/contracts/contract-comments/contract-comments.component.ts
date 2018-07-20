@@ -8,14 +8,14 @@ import Swal from 'sweetalert2';
 import { formatDate } from 'ngx-bootstrap/chronos';
 import { getLocaleDateTimeFormat } from '@angular/common';
 
-
 @Component({
   selector: 'app-contract-comments',
   templateUrl: './contract-comments.component.html',
-  styleUrls: ['./contract-comments.component.css']
+  styleUrls: ['./contract-comments.component.css'],
 })
 export class ContractCommentsComponent implements OnInit {
   @Input() contractId1: string;
+  state: string;
   users = [];
   loggedInUser = {
     id: '',
@@ -34,6 +34,7 @@ export class ContractCommentsComponent implements OnInit {
     this.users = [];
     this.currentUser = new User;
     this.commentModal = new Comment();
+    this.state = 'void';
     this.isShown = [];
     this.reply = {
       replyUserId: '',
@@ -43,6 +44,7 @@ export class ContractCommentsComponent implements OnInit {
     this.loggedInUser = JSON.parse(localStorage.getItem('user'));
     this.userService.getUsers().subscribe(data => {
       this.commentService.getComments(this.contractId1).subscribe(result => {
+        if ( result !== null) {
         result.forEach(element => {
           this.users.push(element);
           this.isShown.push(false);
@@ -54,7 +56,7 @@ export class ContractCommentsComponent implements OnInit {
             }
           });
         });
-        console.log(this.users);
+      }
       });
     });
   }
@@ -68,7 +70,8 @@ export class ContractCommentsComponent implements OnInit {
     this.isShown[i] = !this.isShown[i];
   }
 
-  addComment(event) {
+  addComment(event, isValid) {
+    if ( isValid === true) {
     this.commentModal.userId = event.target.dataset.id;
     this.commentModal.contractId = this.contractId1;
     this.commentModal.dateTime = new Date(Date.now()).toLocaleString();
@@ -104,8 +107,10 @@ export class ContractCommentsComponent implements OnInit {
       }
     });
   }
+  }
 
-  addReply(event) {
+  addReply(event, isValid) {
+    if ( isValid === true ) {
     const id = event.target.dataset.id;
     this.reply.replyUserId = this.loggedInUser.id;
     this.reply.replyDateTime = new Date(Date.now()).toLocaleString();
@@ -137,6 +142,7 @@ export class ContractCommentsComponent implements OnInit {
         Swal('Sukses!', 'Komenti u shtua me sukses.', 'success');
       }
     });
+  }
   }
 
   deleteComment(event) {

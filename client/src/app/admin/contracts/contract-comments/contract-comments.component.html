@@ -52,7 +52,7 @@
         <div>
           <div class="container" *ngFor="let replyUser of user.reply">
             <div>
-              <div class="row">
+              <div class="row" id="reply-div">
                 <div class="col-md-1"></div>
                 <div class="col-md-2"></div>
                 <div class="col-md-9 replies" style="margin-top: -35px; margin-left: -12px">
@@ -97,12 +97,13 @@
                     <span *ngIf="currentUser.role == 'superadmin'" class="position"> (Superadmin) </span>
                   </p>
                 </div>
-                <form #comment="ngForm" novalidate>
+                <form #commentReplyForm="ngForm" novalidate>
                   <input class="form-control" name="commentReply" [(ngModel)]="reply.replyComment" type="text" id="text" #commentReply="ngModel"
-                    required [style.border-color]="commentReply.errors?.required && commentReply.touched ? 'red': '#ced4da'">
-                  <button class="btn btn-info" type="submit" id="submit" [attr.data-id]="user._id" (click)="addReply($event)" [style.border-color]="comment.errors?.required && comment.touched ? 'red': '#ced4da'">Dërgo</button>
+                    required [style.border-color]="commentReply.errors?.required && (commentReply.touched || commentReplyForm.submitted) ? 'red': '#ced4da'">
+                  <button class="btn btn-info" type="submit" id="submit" [attr.data-id]="user._id" (click)="addReply($event, commentReply.valid)" 
+                  [style.border-color]="commentReply.errors?.required && (commentReply.touched || commentReplyForm.submitted) ? 'red': '#ced4da'">Dërgo</button>
                 </form>
-                <div *ngIf="commentReply.errors?.required && commentReply.touched" class="text-danger" style="margin-top:-13px; margin-left: 15px ">Duhet shtypur një mesazh!</div>
+                <div *ngIf="commentReply.errors?.required && (commentReply.touched || commentReplyForm.submitted)" class="text-danger" style="margin-top:-13px; margin-left: 15px ">Duhet shtypur një mesazh!</div>
               </div>
             </div>
           </div>
@@ -138,12 +139,13 @@
         </div>
       </div>
       <div class="col-md-9">
-        <form #comment="ngForm" novalidate>
+        <form #commentForm="ngForm" novalidate (submit)="addComment($event, commentForm.valid)">
           <input class="form-control" name="comment" [(ngModel)]="commentModal.comment" type="text" id="text" #comment="ngModel" required
-            [style.border-color]="comment.errors?.required && comment.touched ? 'red': '#ced4da'">
-          <button class="btn btn-info" type="submit" id="submit" [attr.data-id]="currentUser._id" (click)="addComment($event)" [style.border-color]="comment.errors?.required && comment.touched ? 'red': '#ced4da'">Dërgo</button>
+            [style.border-color]="comment.errors?.required && (comment.touched || commentForm.submitted) ? 'red': '#ced4da'">
+          <button class="btn btn-info" type="submit" value="submit" id="submit" [attr.data-id]="currentUser._id" 
+          [style.border-color]="comment.errors?.required && (comment.touched || commentForm.submitted) ? 'red': '#ced4da'">Dërgo</button>
         </form>
-        <div *ngIf="comment.errors?.required && comment.touched" class="text-danger" style="margin-top:-13px; margin-left: 15px ">Duhet shtypur një mesazh!</div>
+        <div *ngIf="comment.errors?.required && (comment.touched || commentForm.submitted)" class="text-danger" style="margin-top:-13px; margin-left: 15px ">Duhet shtypur një mesazh!</div>
       </div>
     </div>
   </div>
