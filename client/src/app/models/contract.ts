@@ -69,38 +69,34 @@ export class Contract {
 
 
     constructor() {
-        this._id = '';
         this.activityTitle = '';
-        this.procurementNo = 0;
+        this.procurementNo = null;
         this.procurementType = '';
         this.procurementValue = '';
         this.procurementProcedure = '';
         this.planned = '';
         this.budget = [];
-        this.initiationDate = new Date();
-        this.approvalDateOfFunds = new Date();
-        this.torDate = new Date();
+        this.initiationDate = null;
+        this.approvalDateOfFunds = null;
+        this.torDate = null;
         this.complaintsToAuthority1 = '';
         this.complaintsToOshp1 = '';
-        this.bidOpeningDate = new Date();
+        this.bidOpeningDate = null;
         this.noOfCompaniesWhoDownloadedTenderDoc = 0;
         this.noOfCompaniesWhoSubmited = 0;
-        this.startingOfEvaluationDate = new Date();
-        this.endingOfEvaluationDate = new Date();
+        this.startingOfEvaluationDate = null;
+        this.endingOfEvaluationDate = null;
         this.noOfRefusedBids = 0;
-        this.reapprovalDate = new Date();
-        this.cancellationNoticeDate = new Date();
+        this.reapprovalDate = null;
+        this.cancellationNoticeDate = null;
         this.complaintsToAuthority2 = '';
         this.complaintsToOshp2 = '0';
         this.applicationDeadlineType = '';
         this.retender = '';
         this.status = '';
         this.noOfPaymentInstallments = 0;
-        this.installments = [{
-            installmentPayDate1: new Date(),
-            installmentAmount1: 0
-        }];
-        this.lastInstallmentPayDate = new Date();
+        this.installments = [];
+        this.lastInstallmentPayDate = null;
         this.lastInstallmentAmount = '';
         this.company = {
             name: '',
@@ -110,7 +106,7 @@ export class Contract {
                 slug: ''
             },
             type: '',
-            standardDocuments: new Date()
+            standardDocuments: null
         };
         this.directorates = '';
         this.nameOfProcurementOffical = '';
@@ -119,21 +115,16 @@ export class Contract {
             totalAmountOfAllAnnexContractsIncludingTaxes: '',
             totalAmountOfContractsIncludingTaxes: '',
             totalPayedPriceForContract: '',
-            annexes: [
-                {
-                    totalValueOfAnnexContract1: 0,
-                    annexContractSigningDate1: new Date(),
-                },
-            ],
+            annexes: [],
             criteria: '',
-            implementationDeadlineStartingDate: new Date(),
-            implementationDeadlineEndingDate: new Date(),
-            publicationDate: new Date(),
-            publicationDateOfGivenContract: new Date(),
-            closingDate: new Date(),
+            implementationDeadlineStartingDate: null,
+            implementationDeadlineEndingDate: null,
+            publicationDate: null,
+            publicationDateOfGivenContract: null,
+            closingDate: null,
             discountAmount: '',
             file: '',
-            signingDate: new Date()
+            signingDate: null
         };
         this.year = 0;
         this.flagStatus = 0;
