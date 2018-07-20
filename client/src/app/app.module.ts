@@ -9,6 +9,8 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable/src';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { DatepickerModule, BsDatepickerModule } from 'ngx-bootstrap';
+
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './main/login/login.component';
@@ -45,6 +47,7 @@ import { ContractsListComponent } from './admin/contracts/contracts-list/contrac
 import { EditContractComponent } from './admin/contracts/edit-contract/edit-contract.component';
 import { ContractCommentsComponent } from './admin/contracts/contract-comments/contract-comments.component';
 import { MainPageContractsListComponent } from './main/home/main-page-contracts-list/main-page-contracts-list.component';
+import { CommentService } from './service/comment.service';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -123,7 +126,10 @@ const appRoutes: Routes = [
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    DatepickerModule.forRoot(),
+    BsDatepickerModule.forRoot(),
+    NgxDatatableModule
   ],
   entryComponents: [ChangePasswordComponent],
   providers: [
@@ -132,7 +138,8 @@ const appRoutes: Routes = [
     DirectorateService,
     HttpClientService,
     ContractsService,
-    DatasetService
+    DatasetService,
+    CommentService
   ],
   bootstrap: [AppComponent]
 })

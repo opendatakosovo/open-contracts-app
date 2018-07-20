@@ -1,6 +1,7 @@
 <div>
-  <ngx-datatable class="bootstrap" columnMode="'force'" [rows]="this.contracts" [headerHeight]="'auto'" [summaryRow]="false"
-    [summaryPosition]="'bottom'" [footerHeight]="50" [limit]="10" [rowHeight]="'auto'" [messages]="messages" [scrollbarH]="true">
+  <ngx-datatable class="bootstrap" columnMode="'force'" [rows]="rows" [headerHeight]="'auto'" [summaryRow]="false" [summaryPosition]="'bottom'"
+    [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements" [offset]="page.pageNumber"
+    [limit]="page.size" [messages]="messages" [scrollbarH]="true" (page)='setPage($event)'>
     <ngx-datatable-column [width]="70">
       <ng-template let-column="column" ngx-datatable-header-template>
         <p class="column-header">Statusi</p>
@@ -133,7 +134,7 @@
           Nuk ka të dhëna!
         </p>
         <p *ngIf="row.contract.predictedValue != ''">
-          {{ row.contract.predictedValue }}
+          {{ row.contract.predictedValue }} &euro;
         </p>
       </ng-template>
     </ngx-datatable-column>
@@ -198,7 +199,7 @@
           Nuk ka të dhëna!
         </p>
         <p *ngIf="row.contract.totalAmountOfContractsIncludingTaxes != ''">
-          {{ row.contract.totalAmountOfContractsIncludingTaxes }}
+          {{ row.contract.totalAmountOfContractsIncludingTaxes }} &euro;
         </p>
       </ng-template>
     </ngx-datatable-column>

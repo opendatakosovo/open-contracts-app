@@ -3,6 +3,8 @@ const passport = require('passport');
 const upload = require('../../utils/storage');
 const Contract = require('../../models/contracts');
 const contractValidation = require("../../middlewares/contract_validation");
+const uploadFile = require('../../middlewares/upload_file');
+const slugify = require('slugify');
 
 /*
  * ENDPOINTS PREFIX: /contracts
@@ -24,50 +26,93 @@ router.get("/", (req, res) => {
     });
 });
 
-router.post("/", passport.authenticate('jwt', { session: false }), upload.single("file"), (req, res) => {
-    const requestedContract = JSON.parse(req.body.contract);
-    const contract = new Contract({
-        activityTitle: requestedContract.activityTitle,
-        procurementNo: requestedContract.procurementNo,
-        procurementType: requestedContract.procurementType,
-        procurementValue: requestedContract.procurementValue,
-        procurementProcedure: requestedContract.procurementProcedure,
-        planned: requestedContract.planned,
-        budget: requestedContract.budget,
-        initiationDate: requestedContract.initiationDate,
-        approvalDateOfFunds: requestedContract.approvalDateOfFunds,
-        torDate: requestedContract.torDate,
-        complaintsToAuthority1: requestedContract.complaintsToAuthority1,
-        complaintsToOshp1: requestedContract.complaintsToOshp1,
-        bidOpeningDate: requestedContract.bidOpeningDate,
-        noOfCompaniesWhoDownloadedTenderDoc: requestedContract.noOfCompaniesWhoDownloadedTenderDoc,
-        noOfCompaniesWhoSubmited: requestedContract.noOfCompaniesWhoSubmited,
-        startingOfEvaluationDate: requestedContract.startingOfEvaluationDate,
-        endingOfEvaluationDate: requestedContract.endingOfEvaluationDate,
-        startingAndEndingEvaluationDate: requestedContract.startingAndEndingEvaluationDate,
-        noOfRefusedBids: requestedContract.noOfRefusedBids,
-        reapprovalDate: requestedContract.reapprovalDate,
-        publicationDateOfGivenContract: requestedContract.publicationDateOfGivenContract,
-        cancellationNoticeDate: requestedContract.cancellationNoticeDate,
-        complaintsToAuthority2: requestedContract.complaintsToAuthority2,
-        complaintsToOshp2: requestedContract.complaintsToOshp2,
-        applicationDeadlineType: requestedContract.applicationDeadlineType,
-        retender: requestedContract.retender,
-        status: requestedContract.status,
-        noOfPaymentInstallments: requestedContract.noOfPaymentInstallments,
-        installments: requestedContract.installments,
-        lastInstallmendPayDate: requestedContract.lastInstallmendPayDate,
-        lastInstallmendAmount: requestedContract.lastInstallmendAmount,
-        discountAmount: requestedContract.discountAmount,
-        company: requestedContract.company,
-        directorates: requestedContract.directorates,
-        nameOfProdcurementOffical: requestedContract.nameOfProdcurementOffical,
-        contract: requestedContract.contract,
-        year: requestedContract.year,
-        flagStatus: requestedContract.flagStatus,
-        fppClassification: requestedContract.fppClassification
-    });
-    contract.contract.file = req.file.originalname;
+router.post("/latest-contracts/page", (req, res) => {
+    let page = {
+        size: req.body.size,
+        totalElements: req.body.totalElements,
+        totalPages: req.body.totalPages,
+        pageNumber: req.body.pageNumber
+    };
+    let response = {};
+    Contract.countLatestContracts()
+        .then(totalElements => {
+            page.totalElements = totalElements;
+            return page;
+        })
+        .then(page => {
+            page.totalPages = Math.round(page.totalElements / page.size)
+            return page;
+        })
+        .then(page => {
+            page.skipPages = page.size * page.pageNumber
+            return page;
+        })
+        .then(page => {
+            return Contract.find({ "year": 2018 }).skip(page.skipPages).limit(page.size).then(result => {
+                delete page.skipPages;
+                response.page = page;
+                response.data = result;
+                return response;
+            });
+        })
+        .then(response => {
+            res.json(response)
+        });
+});
+
+router.post("/page", (req, res) => {
+    let page = {
+        size: req.body.size,
+        totalElements: req.body.totalElements,
+        totalPages: req.body.totalPages,
+        pageNumber: req.body.pageNumber
+    };
+    let response = {};
+    Contract.countContracts()
+        .then(totalElements => {
+            page.totalElements = totalElements;
+            return page;
+        })
+        .then(page => {
+            page.totalPages = Math.round(page.totalElements / page.size)
+            return page;
+        })
+        .then(page => {
+            page.skipPages = page.size * page.pageNumber
+            return page;
+        })
+        .then(page => {
+            return Contract.find().skip(page.skipPages).limit(page.size).then(result => {
+                delete page.skipPages;
+                response.page = page;
+                response.data = result;
+                return response;
+            });
+        })
+        .then(response => {
+            res.json(response)
+        });
+});
+
+router.post("/", uploadFile, (req, res) => {
+    const contentType = req.headers['content-type'];
+    let requestedContract;
+    let fileName;
+    if (contentType.indexOf('application/json') == -1) {
+        requestedContract = JSON.parse(req.body.contract);
+        fileName = req.file.originalname;
+    } else {
+        requestedContract = req.body;
+        fileName = "";
+    }
+
+    console.log(requestedContract);
+
+    let contract = new Contract(requestedContract);
+    contract.contract.file = fileName;
+    contract.company.slug = slugify(requestedContract.company.name)
+    contract.company.headquarters.slug = slugify(requestedContract.company.headquarters.name);
+    contract.flagStatus = 0;
     Contract.addContract(contract, (err, contract) => {
         if (!err) {
             res.json({

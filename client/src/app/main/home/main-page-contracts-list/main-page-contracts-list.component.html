@@ -1,9 +1,10 @@
 <div>
-  <ngx-datatable class="bootstrap" columnMode="'force'" [rows]="this.contracts" [headerHeight]="'auto'" [summaryRow]="false"
-    [summaryPosition]="'bottom'" [footerHeight]="50" [limit]="10" [rowHeight]="'auto'" [messages]="messages" [scrollbarH]="true">
+  <ngx-datatable class="bootstrap" columnMode="'force'" [rows]="rows" [headerHeight]="'auto'" [summaryRow]="false" [summaryPosition]="'bottom'"
+    [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements" [offset]="page.pageNumber"
+    [limit]="page.size" [messages]="messages" [scrollbarH]="true" (page)='setPage($event)'>
     <ngx-datatable-column>
       <ng-template let-column="column" ngx-datatable-header-template>
-        <p class="column-header">Titulli i aktivitetit të prokurimit</p>
+        <p class="column-header">{{ 'datatable.activityTitle' | translate }}</p>
       </ng-template>
       <ng-template let-row="row" ngx-datatable-cell-template>
         <p *ngIf="row.activityTitle == ''">
@@ -16,7 +17,7 @@
     </ngx-datatable-column>
     <ngx-datatable-column>
       <ng-template let-column="column" ngx-datatable-header-template>
-        <p class="column-header">Data e publikimit të njoftimit për kontratë</p>
+        <p class="column-header">{{ 'datatable.publicationDate' | translate }}</p>
       </ng-template>
       <ng-template let-row="row" ngx-datatable-cell-template>
         <p *ngIf="row.contract.publicationDate == null">
@@ -29,7 +30,7 @@
     </ngx-datatable-column>
     <ngx-datatable-column>
       <ng-template let-column="column" ngx-datatable-header-template>
-        <p class="column-header">Nr. i OE që kanë shkarkuar dosjen e tenderit</p>
+        <p class="column-header">{{ 'datatable.noOfCompaniesWhoDownloadedTenderDoc' | translate }}</p>
       </ng-template>
       <ng-template let-row="row" ngx-datatable-cell-template>
         <p *ngIf="row.noOfCompaniesWhoDownloadedTenderDoc == null">
@@ -42,7 +43,7 @@
     </ngx-datatable-column>
     <ngx-datatable-column>
       <ng-template let-column="column" ngx-datatable-header-template>
-        <p class="column-header">Data e publikimit të njoftimit për dhënie të kontratës</p>
+        <p class="column-header">{{ 'datatable.publicationDateOfGivenContract' | translate }}</p>
       </ng-template>
       <ng-template let-row="row" ngx-datatable-cell-template>
         <p *ngIf="row.contract.publicationDateOfGivenContract == null">
@@ -55,7 +56,7 @@
     </ngx-datatable-column>
     <ngx-datatable-column>
       <ng-template let-column="column" ngx-datatable-header-template>
-        <p class="column-header">Data e publikimit të anulimit të njoftimit</p>
+        <p class="column-header">{{ 'datatable.cancellationNoticeDate' | translate }}</p>
       </ng-template>
       <ng-template let-row="row" ngx-datatable-cell-template>
         <p *ngIf="row.cancellationNoticeDate == null">
@@ -68,20 +69,20 @@
     </ngx-datatable-column>
     <ngx-datatable-column>
       <ng-template let-column="column" ngx-datatable-header-template>
-        <p class="column-header">Vlera e parashikuar e kontratës</p>
+        <p class="column-header">{{ 'datatable.predictedValue' | translate }}</p>
       </ng-template>
       <ng-template let-row="row" ngx-datatable-cell-template>
         <p *ngIf="row.contract.predictedValue == ''">
           Nuk ka të dhëna!
         </p>
         <p *ngIf="row.contract.predictedValue != ''">
-          {{ row.contract.predictedValue }}
+          {{ row.contract.predictedValue }} &euro;
         </p>
       </ng-template>
     </ngx-datatable-column>
     <ngx-datatable-column>
       <ng-template let-column="column" ngx-datatable-header-template>
-        <p class="column-header">Emri i OE të cilit i është dhënë kontrata</p>
+        <p class="column-header">{{ 'datatable.name' | translate }}</p>
       </ng-template>
       <ng-template let-row="row" ngx-datatable-cell-template>
         <p *ngIf="row.company.name == ''">
@@ -94,7 +95,7 @@
     </ngx-datatable-column>
     <ngx-datatable-column>
       <ng-template let-column="column" ngx-datatable-header-template>
-        <p class="column-header">Data e nënshkrimit të kontratës</p>
+        <p class="column-header">{{ 'datatable.signingDate' | translate }}</p>
       </ng-template>
       <ng-template let-row="row" ngx-datatable-cell-template>
         <p *ngIf="row.contract.signingDate == null">
@@ -107,7 +108,7 @@
     </ngx-datatable-column>
     <ngx-datatable-column>
       <ng-template let-column="column" ngx-datatable-header-template>
-        <p class="column-header">Data e fillimit të implementimit të kontratës</p>
+        <p class="column-header">{{ 'datatable.implementationDeadlineStartingDate' | translate }}</p>
       </ng-template>
       <ng-template let-row="row" ngx-datatable-cell-template>
         <p *ngIf="row.contract.implementationDeadlineStartingDate == null">
@@ -120,7 +121,7 @@
     </ngx-datatable-column>
     <ngx-datatable-column>
       <ng-template let-column="column" ngx-datatable-header-template>
-        <p class="column-header">Data e mbylljes se kontrates</p>
+        <p class="column-header">{{ 'datatable.closingDate' | translate }}</p>
       </ng-template>
       <ng-template let-row="row" ngx-datatable-cell-template>
         <p *ngIf="row.contract.closingDate == null">
@@ -133,23 +134,23 @@
     </ngx-datatable-column>
     <ngx-datatable-column>
       <ng-template let-column="column" ngx-datatable-header-template>
-        <p class="column-header">Vlera totale e kontratës, duke përfshirë të gjitha taksat</p>
+        <p class="column-header">{{ 'datatable.totalAmountOfContractsIncludingTaxes' | translate }}</p>
       </ng-template>
       <ng-template let-row="row" ngx-datatable-cell-template>
         <p *ngIf="row.contract.totalAmountOfContractsIncludingTaxes == ''">
           Nuk ka të dhëna!
         </p>
         <p *ngIf="row.contract.totalAmountOfContractsIncludingTaxes != ''">
-          {{ row.contract.totalAmountOfContractsIncludingTaxes }}
+          {{ row.contract.totalAmountOfContractsIncludingTaxes }} &euro;
         </p>
       </ng-template>
     </ngx-datatable-column>
     <ngx-datatable-column>
       <ng-template let-column="column" ngx-datatable-header-template>
-        <p class="column-header">Drejtoria</p>
+        <p class="column-header">{{ 'datatable.directorate' | translate }}</p>
       </ng-template>
       <ng-template let-row="row" ngx-datatable-cell-template>
-        <p *ngIf="row.directorates == null">
+        <p *ngIf="row.directorates == null || row.directorates == ''">
           Nuk ka të dhëna!
         </p>
         <p *ngIf="row.directorates != null">

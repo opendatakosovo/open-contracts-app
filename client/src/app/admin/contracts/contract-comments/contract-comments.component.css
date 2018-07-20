@@ -2,12 +2,12 @@
     display: inherit;
 }
 
-.row {
+.border-top {
     border-top: 1px solid #868e96;
 }
 
 .img-fluid {
-    max-width: 65px;
+    max-width: 55px;
     padding-top: 20px;
     padding-bottom: 20px;
 }
@@ -19,9 +19,8 @@ img.img-col {
 }
 
 .user-info {
-    width: 92%;
+    width: 100%;
     padding-top: 26px;
-    padding-left: 10px;
 }
 
 .name {
@@ -46,9 +45,15 @@ img.img-col {
 
 #comment {
     font-size: 14px;
-    padding-top: 20px;
+    margin-top: 30px;
+    padding-bottom: 0;
+    margin-bottom: 5px;
 }
 
+.reply {
+    font-size: 14px;
+    margin-bottom: 0px;
+}
 #reply-icon {
     text-align: right;
     padding-top: 35px;
@@ -74,4 +79,38 @@ img.img-col {
 form {
     display: flex;
     padding-top: 30px;
+}
+
+.dateTime {
+    font-size: 10px;
+    color: #868e96;
+}
+
+#name-reply {
+    margin-bottom: -25px;
+    margin-top: 25px;
+    margin-left: 10px;
+    font-weight: 500;
+    color: #39a6bd;
+    font-size: 17px;    
+}
+
+#delete {
+    color: #868e96;
+    font-size: 12px;
+    margin-bottom: 0;
+}
+
+#delete:hover {
+    color: red;
+}
+
+.replies {
+    padding-left: 9px;
+    margin-top: -35px;
+}
+
+.text-danger {
+    margin-top:-13px; 
+    margin-left: 15px;
 }
