@@ -11,8 +11,8 @@ export class ContractsService {
     this.http = http;
   }
 
-  addContract(formData: FormData) {
-    return this.http.postWithAuth(`${this.APIUrl}/contracts`, formData, 'multipart').map(res => res.json());
+  addContract(formData, contentType = 'json') {
+    return this.http.postWithAuth(`${this.APIUrl}/contracts`, formData, contentType).map(res => res.json());
   }
 
   getContracts() {

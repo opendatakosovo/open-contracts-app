@@ -8,29 +8,34 @@ import { ContractsService } from '../../../service/contracts.service';
 import Swal from 'sweetalert2';
 import { Directorate } from '../../../models/directorates';
 import { DirectorateService } from '../../../service/directorate.service';
+import { BsDatepickerConfig, BsLocaleService } from 'ngx-bootstrap/datepicker';
+import { listLocales } from 'ngx-bootstrap/chronos';
+import { FormsModule, FormGroup, FormControl, ReactiveFormsModule, Validators, FormBuilder, FormArray } from '@angular/forms';
+import { CustomValidator } from '../../../validators/custom-validator';
+
 @Component({
   selector: 'app-add-contract',
   templateUrl: './add-contract.component.html',
   styleUrls: ['./add-contract.component.css']
 })
 export class AddContractComponent implements OnInit {
-  countInstallment: number;
-  countAnnex: number;
-  annexArray: number[];
   startOfEvaluationDate: Date;
   endOfEvaluationDate: Date;
   startImplementationDeadline: Date;
   endImplementationDeadline: Date;
   arrayInstallments: number[];
-  filesToUpload: Array<File>;
+  filesToUpload: File = null;
   contract: Contract;
   directorates: Directorate[];
-  constructor(public contractsService: ContractsService, public directorateService: DirectorateService) {
+  bsConfig: Partial<BsDatepickerConfig>;
+  public form: FormGroup;
+  valid = false;
+  touched: boolean;
+  message: string;
+
+
+  constructor(public contractsService: ContractsService, public directorateService: DirectorateService, private _fb: FormBuilder) {
     this.directorates = [];
-    this.countInstallment = 1;
-    this.countAnnex = 1;
-    this.annexArray = [];
-    this.arrayInstallments = [];
     this.contract = new Contract();
     this.directorateService.getAllDirectorates().subscribe(data => {
       data.forEach(element => {
@@ -39,46 +44,135 @@ export class AddContractComponent implements OnInit {
         }
       });
     });
+    this.form = _fb.group({
+      activityTitle: new FormControl('', Validators.required),
+      procurementNo: new FormControl(null, [Validators.required, CustomValidator.isZero()]),
+      procurementType: '',
+      procurementValue: '',
+      procurementProcedure: '',
+      planned: null,
+      budget: '',
+      initiationDate: null,
+      approvalDateOfFunds: '',
+      torDate: null,
+      publicationDate: null,
+      complaintsToAuthority1: '',
+      complaintsToOshp1: '',
+      bidOpeningDate: null,
+      noOfCompaniesWhoDownloadedTenderDoc: null,
+      noOfCompaniesWhoSubmited: null,
+      startingOfEvaluationDate: null,
+      endingOfEvaluationDate: null,
+      reapprovalDate: null,
+      standardDocuments: '',
+      cancellationNoticeDate: null,
+      complaintsToAuthority2: '',
+      complaintsToOshp2: '',
+      predictedValue: '',
+      applicationDeadlineType: '',
+      criteria: '',
+      retender: '',
+      type: '',
+      noOfRefusedBids: null,
+      publicationDateOfGivenContract: null,
+      status: '',
+      companyName: '',
+      headquartersName: '',
+      signingDate: null,
+      implementationDeadlineStartingDate: null,
+      implementationDeadlineEndingDate: null,
+      closingDate: null,
+      noOfPaymentInstallments: null,
+      totalAmountOfContractsIncludingTaxes: '',
+      totalAmountOfAllAnnexContractsIncludingTaxes: '',
+      lastInstallmentPayDate: null,
+      lastInstallmentAmount: '',
+      discountAmount: '',
+      totalPayedPriceForContract: '',
+      year: '',
+      fppClassification: new FormControl(null, Validators.maxLength(2)),
+      directorate: '',
+      nameOfProcurementOffical: '',
+      annexes: _fb.array([]),
+      installments: _fb.array([])
+    });
+    this.initAnnexes();
+    this.initInstallments();
+
+
   }
+
   @ViewChild('fileInput') fileInput;
+
   ngOnInit() {
-    function checkFile(file) {
-      const extension = file.substr((file.lastIndexOf('.') + 1));
-      if (!/(pdf|zip|doc)$/ig.test(extension)) {
-        alert('Invalid file type: ' + extension + '.  Please use DOC, PDF or Zip.');
-      }
-    }
+    this.bsConfig = Object.assign({}, { containerClass: 'theme-blue', dateInputFormat: 'DD-MM-YYYY' });
   }
 
-  addInstallments() {
-    const installment: Installment = {
-      installmentPayDate1: new Date(),
-      installmentAmount1: 0
-    };
-
-    this.contract.installments.push(installment);
-    this.arrayInstallments.push(++this.countInstallment);
+  onClick() {
+    this.fileInput.nativeElement.click();
   }
 
-  removeInstallment() {
-    this.contract.installments.pop();
-    this.arrayInstallments.pop();
-    --this.countInstallment;
+  addInstallment(installment: Installment) {
+    return this._fb.group({
+      installmentAmount1: '',
+      installmentPayDate1: null
+    });
   }
 
-  addAnnex() {
-    const annex: Annex = {
-      totalValueOfAnnexContract1: 0,
-      annexContractSigningDate1: new Date()
-    };
-    this.contract.contract.annexes.push(annex);
-    this.annexArray.push(++this.countAnnex);
+  addNewInstallment() {
+    this.contract.installments.push({
+      installmentAmount1: '',
+      installmentPayDate1: null
+    });
+    const arrControl = <FormArray>this.form.controls.installments;
+    arrControl.push(this.addInstallment({
+      installmentAmount1: '',
+      installmentPayDate1: null
+    }));
   }
 
-  removeAnnex() {
-    this.contract.contract.annexes.pop();
-    this.annexArray.pop();
-    --this.countAnnex;
+  removeInstallment(i) {
+    this.contract.installments.splice(i, 1);
+    const arrControl = <FormArray>this.form.controls.installments;
+    arrControl.removeAt(i);
+  }
+
+  initInstallments() {
+    const arrControl = <FormArray>this.form.controls.installments;
+    this.contract.installments.map(installment => {
+      arrControl.push(this.addInstallment(installment));
+    });
+  }
+
+  addAnnex(annex: Annex) {
+    return this._fb.group({
+      totalValueOfAnnexContract1: annex.totalValueOfAnnexContract1,
+      annexContractSigningDate1: annex.annexContractSigningDate1
+    });
+  }
+
+  addNewAnnex() {
+    this.contract.contract.annexes.push({
+      totalValueOfAnnexContract1: '',
+      annexContractSigningDate1: null
+    });
+    const arrControl = <FormArray>this.form.controls.annexes;
+    arrControl.push(this.addAnnex({
+      totalValueOfAnnexContract1: '',
+      annexContractSigningDate1: null
+    }));
+  }
+  removeAnnex(i) {
+    this.contract.contract.annexes.splice(i, 1);
+    const arrControl = <FormArray>this.form.controls.annexes;
+    arrControl.removeAt(i);
+  }
+
+  initAnnexes() {
+    const arrControl = <FormArray>this.form.controls.annexes;
+    this.contract.contract.annexes.map(annex => {
+      arrControl.push(this.addAnnex(annex));
+    });
   }
 
   monDiff(d1, d2): number {
@@ -88,35 +182,158 @@ export class AddContractComponent implements OnInit {
   }
 
   fileChangeEvent(event) {
-    this.filesToUpload = <Array<File>>event.target.files;
+    if (event.target.files.length > 0 || this.filesToUpload == null) {
+      this.filesToUpload = event.target.files[0];
+      const nameArea = <HTMLInputElement>document.getElementById('name-area');
+      nameArea.value = this.filesToUpload.name;
+      this.touched = true;
+      if (this.filesToUpload.type !== 'application/pdf') {
+        this.valid = false;
+        this.message = 'Tipi dokumentit nuk është valid, duhet të jetë i tipit pdf';
+      } else {
+        this.valid = true;
+      }
+    }
   }
 
-  addContract(e, isValid) {
-    e.preventDefault();
-    if (this.filesToUpload && this.filesToUpload.length > 0 && isValid === true) {
-      const formData = new FormData();
-      formData.append('file', this.filesToUpload[0], this.filesToUpload[0]['name']);
-      formData.append('contract', JSON.stringify(this.contract));
-      this.contractsService.addContract(formData).subscribe(res => {
-        if (res.err) {
-          Swal('Gabim!', 'Kontrata nuk u shtua.', 'error');
-        } else if (res.errVld) {
-          let errList = '';
-          for (const v of res.errVld) {
-            errList += `<li>${v}</li>`;
-          }
-          const htmlData = `<div style="text-align: center;">${errList}</div>`;
-          Swal({
-            title: 'Kujdes!',
-            html: htmlData,
-            width: 750,
-            type: 'info',
-            confirmButtonText: 'Kthehu te forma'
-          });
-        } else {
-          Swal('Sukses!', 'Kontrata u shtua me sukses.', 'success');
-        }
-      });
+  removeFile() {
+    this.filesToUpload = null;
+    const nameArea = <HTMLInputElement>document.getElementById('name-area');
+    nameArea.value = 'Bashkangjit dokumentin';
+    this.valid = false;
+    this.touched = false;
+  }
+
+  addBudgetValue(event) {
+    console.log(event.target.checked);
+    if (event.target.checked === false) {
+      this.contract.budget.splice(this.contract.budget.indexOf(event.target.value), 1);
+    } else if (event.target.checked === true) {
+      this.contract.budget.push(event.target.value);
     }
+  }
+
+  addContract(e) {
+    e.preventDefault();
+    if (this.form.valid === true) {
+
+
+      if (this.filesToUpload !== null && this.valid === true) {
+        this.contract.approvalDateOfFunds = this.contract.approvalDateOfFunds == null ? null : this.dateChange(this.contract.approvalDateOfFunds);
+        this.contract.bidOpeningDate = this.contract.bidOpeningDate == null ? null : this.dateChange(this.contract.bidOpeningDate);
+        this.contract.endingOfEvaluationDate = this.contract.endingOfEvaluationDate == null ? null : this.dateChange(this.contract.endingOfEvaluationDate);
+        this.contract.initiationDate = this.contract.initiationDate == null ? null : this.dateChange(this.contract.initiationDate);
+        this.contract.cancellationNoticeDate = this.contract.cancellationNoticeDate == null ? null : this.dateChange(this.contract.cancellationNoticeDate);
+        this.contract.reapprovalDate = this.contract.reapprovalDate == null ? null : this.dateChange(this.contract.reapprovalDate);
+        this.contract.startingOfEvaluationDate = this.contract.startingOfEvaluationDate == null ? null : this.dateChange(this.contract.startingOfEvaluationDate);
+        this.contract.lastInstallmentPayDate = this.contract.lastInstallmentPayDate == null ? null : this.dateChange(this.contract.lastInstallmentPayDate);
+        this.contract.contract.implementationDeadlineEndingDate = this.contract.contract.implementationDeadlineEndingDate == null ? null : this.dateChange(this.contract.contract.implementationDeadlineEndingDate);
+        this.contract.contract.implementationDeadlineStartingDate = this.contract.contract.implementationDeadlineStartingDate == null ? null : this.dateChange(this.contract.contract.implementationDeadlineStartingDate);
+        this.contract.contract.publicationDate = this.contract.contract.publicationDate == null ? null : this.dateChange(this.contract.contract.publicationDate);
+        this.contract.contract.publicationDateOfGivenContract = this.contract.contract.publicationDateOfGivenContract == null ? null : this.dateChange(this.contract.contract.publicationDateOfGivenContract);
+        this.contract.contract.closingDate = this.contract.contract.closingDate == null ? null : this.dateChange(this.contract.contract.closingDate);
+        this.contract.contract.signingDate = this.contract.contract.signingDate == null ? null : this.dateChange(this.contract.contract.signingDate);
+        if (this.contract.installments.length > 1) {
+          for (const installment of this.contract.installments) {
+            installment.installmentPayDate1 = this.dateChange(installment.installmentPayDate1);
+          }
+        }
+
+        if (this.contract.contract.annexes.length > 1) {
+          for (const annex of this.contract.contract.annexes) {
+            annex.annexContractSigningDate1 = this.dateChange(annex.annexContractSigningDate1);
+          }
+        }
+        const formData = new FormData();
+        formData.append('file', this.filesToUpload, this.filesToUpload['name']);
+        formData.append('contract', JSON.stringify(this.contract));
+        Swal({
+          title: 'Duke e importuar setin e të dhënave',
+          onOpen: () => {
+            Swal.showLoading();
+          }
+        });
+        this.contractsService.addContract(formData, 'multipart').subscribe(res => {
+          if (res.err) {
+            Swal('Gabim!', 'Kontrata nuk u shtua.', 'error');
+          } else if (res.errVld) {
+            let errList = '';
+            for (const v of res.errVld) {
+              errList += `<li>${v}</li>`;
+            }
+            const htmlData = `<div style="text-align: center;">${errList}</div>`;
+            Swal({
+              title: 'Kujdes!',
+              html: htmlData,
+              width: 750,
+              type: 'info',
+              confirmButtonText: 'Kthehu te forma'
+            });
+          } else {
+            Swal('Sukses!', 'Kontrata u shtua me sukses.', 'success').then((result) => {
+              if (result.value) {
+                window.location.href = 'dashboard/contracts/';
+              }
+            });;
+          }
+        });
+      } else if (this.filesToUpload === null) {
+        this.contract.approvalDateOfFunds = this.contract.approvalDateOfFunds == null ? null : this.dateChange(this.contract.approvalDateOfFunds);
+        this.contract.bidOpeningDate = this.contract.bidOpeningDate == null ? null : this.dateChange(this.contract.bidOpeningDate);
+        this.contract.endingOfEvaluationDate = this.contract.endingOfEvaluationDate == null ? null : this.dateChange(this.contract.endingOfEvaluationDate);
+        this.contract.initiationDate = this.contract.initiationDate == null ? null : this.dateChange(this.contract.initiationDate);
+        this.contract.cancellationNoticeDate = this.contract.cancellationNoticeDate == null ? null : this.dateChange(this.contract.cancellationNoticeDate);
+        this.contract.reapprovalDate = this.contract.reapprovalDate == null ? null : this.dateChange(this.contract.reapprovalDate);
+        this.contract.startingOfEvaluationDate = this.contract.startingOfEvaluationDate == null ? null : this.dateChange(this.contract.startingOfEvaluationDate);
+        this.contract.lastInstallmentPayDate = this.contract.lastInstallmentPayDate == null ? null : this.dateChange(this.contract.lastInstallmentPayDate);
+        this.contract.contract.implementationDeadlineEndingDate = this.contract.contract.implementationDeadlineEndingDate == null ? null : this.dateChange(this.contract.contract.implementationDeadlineEndingDate);
+        this.contract.contract.implementationDeadlineStartingDate = this.contract.contract.implementationDeadlineStartingDate == null ? null : this.dateChange(this.contract.contract.implementationDeadlineStartingDate);
+        this.contract.contract.publicationDate = this.contract.contract.publicationDate == null ? null : this.dateChange(this.contract.contract.publicationDate);
+        this.contract.contract.publicationDateOfGivenContract = this.contract.contract.publicationDateOfGivenContract == null ? null : this.dateChange(this.contract.contract.publicationDateOfGivenContract);
+        this.contract.contract.closingDate = this.contract.contract.closingDate == null ? null : this.dateChange(this.contract.contract.closingDate);
+        this.contract.contract.signingDate = this.contract.contract.signingDate == null ? null : this.dateChange(this.contract.contract.signingDate);
+        if (this.contract.installments.length > 1) {
+          for (const installment of this.contract.installments) {
+            installment.installmentPayDate1 = this.dateChange(installment.installmentPayDate1);
+          }
+        }
+
+        if (this.contract.contract.annexes.length > 1) {
+          for (const annex of this.contract.contract.annexes) {
+            annex.annexContractSigningDate1 = this.dateChange(annex.annexContractSigningDate1);
+          }
+        }
+        this.contractsService.addContract(this.contract).subscribe(res => {
+          if (res.err) {
+            Swal('Gabim!', 'Kontrata nuk u shtua.', 'error');
+          } else if (res.errVld) {
+            let errList = '';
+            for (const v of res.errVld) {
+              errList += `<li>${v}</li>`;
+            }
+            const htmlData = `<div style="text-align: center;">${errList}</div>`;
+            Swal({
+              title: 'Kujdes!',
+              html: htmlData,
+              width: 750,
+              type: 'info',
+              confirmButtonText: 'Kthehu te forma'
+            });
+          } else {
+            Swal('Sukses!', 'Kontrata u shtua me sukses.', 'success').then((result) => {
+              if (result.value) {
+                window.location.href = 'dashboard/contracts/';
+              }
+            });
+          }
+        });
+      }
+
+    }
+  }
+
+  dateChange(date) {
+    const oldDate = new Date(date);
+    return new Date(oldDate.getTime() + Math.abs(oldDate.getTimezoneOffset() * 60000));
   }
 }
