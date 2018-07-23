@@ -50,5 +50,10 @@
         "description": "Prishtina of the future is a city with efficient and quality services which aim to improve the general well-being of its citizens.A city with real urban planning and spatial planning that makes the capital a safe haven for a socio-economic, cultural, educational, sporting life, and ensuring the well-being and quality of life for the citizens of Pristina.A municipality with a model of efficient and transparent governance, and as such, serve as a model for governance in other municipalities in Kosovo, thus contributing to the growth of welfare for all citizens of Kosovo.",
         "projectTitle": "ABOUT THE PROJECT",
         "projectDescription": "The platform was developed for the Municipality of Prishtina, in order to provide information on the procurement processes/contracts regarding the institution. On this website, persons can be informed about the value of a contract, the winner of the contract, when the contract is expected to be implemented by, and will have access to open data sets as well. Furthermore, ‘Kontratat e Hapura’ provides users with visualizations of procurement data over the years, so that comparisons can be made."
+    },
+    "footer": {
+        "municipality": "Municipality of Prishtina",
+        "copyright": "All rights reserved",
+        "developers": "Designed & Developed by:"
     }
 }
