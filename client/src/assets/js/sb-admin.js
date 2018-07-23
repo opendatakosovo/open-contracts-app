@@ -53,6 +53,9 @@
       $('.datatable-body-row').css({ 'color': '#5f5e5e', 'border': 'none' });
       $('.datatable-body-cell').css('margin-right', '27px');
       $('.ngx-datatable.bootstrap .datatable-body .datatable-body-row').css('width', '1815px');
+      $('.ngx-datatable.bootstrap').css('border-radius', '10px');
+      $('.ngx-datatable.bootstrap .datatable-body .datatable-body-row .datatable-body-cell').css('padding-left', '14px');
+      $('.ngx-datatable.bootstrap .datatable-header .datatable-header-cell').css('padding-left', '26px');
     }, 300);
 
   });
