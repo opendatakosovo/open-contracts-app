@@ -48,6 +48,12 @@
       }, 1000, 'easeInOutExpo');
       event.preventDefault();
     });
-    // $('p:contains("Të gjitha të drejtat e rezervuara")').css('color', 'red');
+    $('.datatable-header').css({ 'color': 'white', 'background-color': '#32a6bd' });
+    setTimeout(function () {
+      $('.datatable-body-row').css({ 'color': '#5f5e5e', 'border': 'none' });
+      $('.datatable-body-cell').css('margin-right', '27px');
+      $('.ngx-datatable.bootstrap .datatable-body .datatable-body-row').css('width', '1815px');
+    }, 300);
+
   });
 })(jQuery); // End of use strict
