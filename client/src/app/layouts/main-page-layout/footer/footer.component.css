@@ -48,7 +48,7 @@
     padding-left: 73px;
 }
 .footerImage .dashboard img {
-    padding-left:35px; 
+    padding-left: 20%; 
 }
 .text {
     color: #fff;
@@ -60,7 +60,7 @@ img {
     height: 105px;
 }
 #odk-logo {
-    height: 100px;
+    height: 111px;
 }
 
 @media(max-width: 1200px) {
