@@ -1,4 +1,7 @@
 {
+    "pageTitle": {
+        "title": "Open Contracts"
+    },
     "navigation": {
         "home": "HOME",
         "visualizations": "VIZUALIZATIONS",
