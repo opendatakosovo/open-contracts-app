@@ -142,7 +142,8 @@ export class DirectoratesComponent implements OnInit {
   }
 
   // Add directorate function
-  addDirectorate(event) {
+  addDirectorate(event, isValid) {
+    if ( isValid === true) {
     this.directorateService.addDirectorate(this.directorate).subscribe(res => {
       if (res.err) {
         Swal('Gabim!', 'Drejtoria nuk u shtua', 'error');
@@ -167,6 +168,7 @@ export class DirectoratesComponent implements OnInit {
         this.modalRef.hide();
       }
     });
+  }
   }
   // Add people in charge function
   addRemovePeopleInCharge(event) {

@@ -2,8 +2,8 @@
 #bg-img {
     background-image:url("/assets/images/about-us-header.png");
     /* Full height */
-    height: 851px; 
-    max-height: 851px;
+    height: 678px; 
+    max-height: 678px;
    
     /* Center and scale the image nicely */
     background-position: center;
@@ -26,10 +26,13 @@
    top: 27%;
 }
 .company-header #title {
-   width: 201px;
-   margin-bottom: 48px;
+   width: auto;
+   margin-top: 100px; 
+   margin-bottom: 50px;
+   margin-left: 35px;
    font-weight: 600;
    font-size: 3.5rem;
+   float: left;
 }
 
 /* About Project Style */
@@ -68,4 +71,11 @@
     bottom: 1px;
     top: 56px;
     font-family: 'Roboto', sans-serif;
+}
+
+.company-description {
+    white-space: pre-line;
+    float: left;
+    font-family: 'Roboto', sans-serif;
+    color:white;
 }

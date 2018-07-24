@@ -31,7 +31,7 @@ export class CommentService {
   }
 
   deleteReply(commentId, replyId) {
-    return this.http.deleteWithAuth(`${this.APIUrl}/comments/delete-reply/` + replyId, commentId).map(res => res.json());
+    return this.http.deleteWithAuth(`${this.APIUrl}/comments/delete-reply/` + commentId + '/' +  replyId).map(res => res.json());
   }
 
 }

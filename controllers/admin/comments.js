@@ -92,8 +92,9 @@ router.delete('/:id', passport.authenticate('jwt', { session: false }), (req,res
 });
 
 // Route for deleting a reply
-router.delete('/delete-reply/:commentId', passport.authenticate('jwt', { session: false }), (req,res) => {
-    Comment.deleteReply(req.params.commentId, req.body.replyId, (err, response) => {
+router.delete('/delete-reply/:commentId/:replyId',  (req,res) => {
+
+    Comment.deleteReply(req.params.commentId, req.params.replyId, (err, response) => {
         if(!err) {
             res.json({
                 "msg": "reply has been deleted succesfully!",
