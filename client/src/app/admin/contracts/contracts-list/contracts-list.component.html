@@ -1,5 +1,7 @@
 <div>
-  <ngx-datatable class="bootstrap" columnMode="'force'" [rows]="rows" [headerHeight]="'auto'" [summaryRow]="false" [summaryPosition]="'bottom'"
+  <input style='padding:7px;margin:15px auto;width:150px;' placeholder="Search name column..." (keyup)='filterContractName($event)'
+  />
+  <ngx-datatable #table class="bootstrap" columnMode="'force'" [rows]="rows" [headerHeight]="'auto'" [summaryRow]="false" [summaryPosition]="'bottom'"
     [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements" [offset]="page.pageNumber"
     [limit]="page.size" [messages]="messages" [scrollbarH]="true" (page)='setPage($event)'>
     <ngx-datatable-column [width]="80">
