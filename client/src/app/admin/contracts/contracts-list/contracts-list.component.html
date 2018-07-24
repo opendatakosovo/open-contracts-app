@@ -2,7 +2,7 @@
   <ngx-datatable class="bootstrap" columnMode="'force'" [rows]="rows" [headerHeight]="'auto'" [summaryRow]="false" [summaryPosition]="'bottom'"
     [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements" [offset]="page.pageNumber"
     [limit]="page.size" [messages]="messages" [scrollbarH]="true" (page)='setPage($event)'>
-    <ngx-datatable-column [width]="70">
+    <ngx-datatable-column [width]="80">
       <ng-template let-column="column" ngx-datatable-header-template>
         <p class="column-header">Statusi</p>
       </ng-template>
@@ -24,7 +24,7 @@
         </span>
       </ng-template>
     </ngx-datatable-column>
-    <ngx-datatable-column [width]="50">
+    <ngx-datatable-column [width]="80">
       <ng-template let-column="column" ngx-datatable-header-template>
         <p class="column-header">Shiko</p>
       </ng-template>
@@ -36,7 +36,7 @@
         </span>
       </ng-template>
     </ngx-datatable-column>
-    <ngx-datatable-column [width]="70">
+    <ngx-datatable-column [width]="100">
       <ng-template let-column="column" ngx-datatable-header-template>
         <p class="column-header">Ndrysho</p>
       </ng-template>

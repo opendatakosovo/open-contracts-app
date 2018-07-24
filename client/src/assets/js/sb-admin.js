@@ -48,6 +48,6 @@
       }, 1000, 'easeInOutExpo');
       event.preventDefault();
     });
-    // $('p:contains("Të gjitha të drejtat e rezervuara")').css('color', 'red');
+
   });
 })(jQuery); // End of use strict

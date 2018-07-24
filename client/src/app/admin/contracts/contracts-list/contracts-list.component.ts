@@ -5,6 +5,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import Swal from 'sweetalert2';
 import { Page } from '../../../models/page';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-contracts-list',
@@ -37,6 +38,16 @@ export class ContractsListComponent implements OnInit {
 
   ngOnInit() {
     this.setPage({ offset: 0 });
+    $(document).ready(function () {
+      $('.datatable-header').css({ 'color': 'white', 'background-color': '#32a6bd' });
+      $('.ngx-datatable.bootstrap .datatable-header .datatable-header-cell').css('padding-left', '26px');
+      setTimeout(function () {
+        $('.datatable-body-row').css({ 'color': '#5f5e5e', 'border': 'none' });
+        $('.ngx-datatable.bootstrap .datatable-body .datatable-body-row').css('width', '1815px');
+        $('.ngx-datatable.bootstrap').css('border-radius', '10px');
+        $('.ngx-datatable.bootstrap .datatable-body .datatable-body-row .datatable-body-cell').css('padding-left', '14px');
+      }, 100);
+    });
   }
 
   setPage(pageInfo) {
