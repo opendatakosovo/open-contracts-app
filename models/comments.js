@@ -54,7 +54,7 @@ module.exports.deleteReply = (commentId, replyId, callback) => {
 // Method for getting a contract id 
 module.exports.getComments = (contractId, callback) => {
     Comment.aggregate([
-        { "$match": { "contractId": "5b48ae87fe931c2d941b5ca6" } },
+        { "$match": { "contractId": contractId } },
         {
             "$project": {
                 "userId": 1,

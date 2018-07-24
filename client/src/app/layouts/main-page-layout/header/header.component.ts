@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { HostListener } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Title } from '@angular/platform-browser';
+import { DOCUMENT } from '@angular/common';
+import { Router } from '@angular/router';
+import { PageScrollInstance, PageScrollService, EasingLogic } from 'ngx-page-scroll';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -10,11 +13,17 @@ import { Title } from '@angular/platform-browser';
 export class HeaderComponent implements OnInit {
   width: number = window.innerWidth;
   selectedItem = 'item1';
-  constructor(private translate: TranslateService, private titleService: Title) {
+  constructor(private translate: TranslateService, private titleService: Title, private router: Router,
+     @Inject(DOCUMENT) private document: any, private pageScrollService: PageScrollService) {
     translate.setDefaultLang('sq');
   }
   ngOnInit() { }
 
+  scroll() {
+    this.router.navigate(['']);
+    const pageScrollInstance: PageScrollInstance = PageScrollInstance.simpleInstance(this.document, '#data-set');
+    this.pageScrollService.start(pageScrollInstance);
+  }
   onResize() {
     this.width = window.innerWidth;
   }
