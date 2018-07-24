@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HostListener } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -9,7 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class HeaderComponent implements OnInit {
   width: number = window.innerWidth;
   selectedItem = 'item1';
-  constructor(private translate: TranslateService) {
+  constructor(private translate: TranslateService, private titleService: Title) {
     translate.setDefaultLang('sq');
   }
   ngOnInit() { }
@@ -19,5 +20,8 @@ export class HeaderComponent implements OnInit {
   }
   useLanguage(language: string) {
     this.translate.use(language);
+    this.translate.get('pageTitle.title').subscribe(name => {
+      this.titleService.setTitle(name);
+    });
   }
 }
