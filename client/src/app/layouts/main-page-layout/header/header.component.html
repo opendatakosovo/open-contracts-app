@@ -14,23 +14,19 @@
     <ul class="navbar-nav navbar-left">
       <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <a class="nav-link" id="home" [routerLink]="['']">{{ 'navigation.home' | translate }}</a>
-        <div class="underline" id="underlineHome" routerLinkActive="active"></div>
       </li>
       <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <a class="nav-link" id="visualisations" [routerLink]="['/visualisations']">{{ 'navigation.visualizations' | translate }}</a>
-        <div class="underline" id="underlineVisualizations" routerLinkActive="active"></div>
       </li>
-      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-        <a class="nav-link" id="dataSet" [routerLink]="['/data-set']">{{ 'navigation.dataset' | translate }}</a>
+      <li class="nav-item" >
+        <a class="nav-link" id="dataSet" (click)="scroll()" href="/#data-set">{{ 'navigation.dataset' | translate }}</a>
         <div class="underline" id="underlineDataSet" routerLinkActive="active"></div>
       </li>
       <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <a class="nav-link" id="about" [routerLink]="['/about-us']">{{ 'navigation.aboutUs' | translate }}</a>
-        <div class="underline" id="underlineAbout" routerLinkActive="active"></div>
       </li>
       <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <a class="nav-link" href="http://biznesetehapura.com/sq" target="_blank" style="width: 192px;">{{ 'navigation.openBusinesses' | translate }}</a>
-
       </li>
     </ul>
     <div *ngIf="width>991">

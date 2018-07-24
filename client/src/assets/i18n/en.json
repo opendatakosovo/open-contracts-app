@@ -1,4 +1,7 @@
 {
+    "pageTitle": {
+        "title": "Open Contracts"
+    },
     "navigation": {
         "home": "HOME",
         "visualizations": "VIZUALIZATIONS",
@@ -47,7 +50,8 @@
     },
     "aboutUs": {
         "title": "About Us",
-        "description": "Prishtina of the future is a city with efficient and quality services which aim to improve the general well-being of its citizens.A city with real urban planning and spatial planning that makes the capital a safe haven for a socio-economic, cultural, educational, sporting life, and ensuring the well-being and quality of life for the citizens of Pristina.A municipality with a model of efficient and transparent governance, and as such, serve as a model for governance in other municipalities in Kosovo, thus contributing to the growth of welfare for all citizens of Kosovo.",
+        "description1": "Opening the municipality to citizens is the primary goal of the Municipality of Prishtina.\n\nThe Municipality of Prishtina, with the development of the ‘Open Contracts’ platform, is providing all of its citizens with open data regarding the contracts that this institution signs with all economic operators. This platform enables coverage of all contracts by municipal directorates, so that these records are further used in the function of full transparency in the municipality.\n\nReturning citizens’ trust to public institutions through transparency and easy access to municipal services is our vision for Prishtina.",
+        "description2": "The information is listed as follows:\n\n-Title of the procurement activity\n-Date of publication of the contract notice\n-Number of economic operators that have downloaded the tender dossier\n-Date of publication of the contract award notice\n-Date of publication of cancellation of notice\n-Estimated value of the contract\n-Name of the economic operator to whom the contract is awarded\n-Date of contract signing\n-Date of commencement of contract implementation\n-Date of contract termination\n-Total value of the contract, including all taxes\n-Directorate to which the contract belongs to",
         "projectTitle": "ABOUT THE PROJECT",
         "projectDescription": "The platform was developed for the Municipality of Prishtina, in order to provide information on the procurement processes/contracts regarding the institution. On this website, persons can be informed about the value of a contract, the winner of the contract, when the contract is expected to be implemented by, and will have access to open data sets as well. Furthermore, ‘Kontratat e Hapura’ provides users with visualizations of procurement data over the years, so that comparisons can be made."
     },

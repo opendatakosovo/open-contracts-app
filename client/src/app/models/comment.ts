@@ -5,6 +5,7 @@ export class Comment {
     contractId: string;
     dateTime: string;
     reply?: {
+        _id?: string,
         replyUserId: string,
         replyComment: string,
         replyDateTime: string
@@ -16,6 +17,7 @@ export class Comment {
         this.contractId = '';
         this.dateTime = '';
         this.reply = {
+            _id: null,
             replyUserId: null,
             replyComment: null,
             replyDateTime: null

@@ -114,3 +114,20 @@ form {
     margin-top:-13px; 
     margin-left: 15px;
 }
+
+.modal-header {
+    background: #32a6bd;
+}
+
+.modal-title {
+    color: white !important;
+}
+
+.modal-footer {
+    padding-bottom: 0;
+}
+
+#modal-form {
+    padding-top: 10px;
+    margin-bottom: 0;
+}
