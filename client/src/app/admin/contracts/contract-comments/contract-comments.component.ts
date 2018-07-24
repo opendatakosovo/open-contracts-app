@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, TemplateRef } from '@angular/core';
+import { Component, OnInit, Input, TemplateRef, ViewChild } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { User } from '../../../models/user';
@@ -26,6 +26,8 @@ import { trigger, style, transition, animate } from '@angular/animations';
 })
 
 export class ContractCommentsComponent implements OnInit {
+  @ViewChild('commentForm') commentForm: any;
+  @ViewChild('commentReplyForm') replyForm: any;
   modalRef: BsModalRef;
   @Input() contractId1: string;
   users = [];
@@ -38,14 +40,16 @@ export class ContractCommentsComponent implements OnInit {
   comments: Comment[];
   isShown: Array<boolean>;
   replyComment: string;
-  active: boolean;
+  commentIsActive: boolean;
+  replyIsActive: boolean;
   constructor(public userService: UserService, public commentService: CommentService, private modalService: BsModalService) {
     this.users = [];
     this.currentUser = new User;
     this.commentModal = new Comment();
     this.isShown = [];
     this.replyComment = '';
-    this.active = true;
+    this.commentIsActive = true;
+    this.replyIsActive = true;
     this.loggedInUser = JSON.parse(localStorage.getItem('user'));
     this.userService.getUsers().subscribe(data => {
       this.commentService.getComments(this.contractId1).subscribe(result => {
@@ -83,11 +87,6 @@ export class ContractCommentsComponent implements OnInit {
     this.isShown[i] = !this.isShown[i];
   }
 
-  resetForm(form) {
-    form.reset();
-    this.active = false;
-    setTimeout(() => this.active = true, 0);
-  }
   addComment(event, isValid) {
     event.preventDefault();
     if (isValid === true) {
@@ -122,6 +121,9 @@ export class ContractCommentsComponent implements OnInit {
             });
           });
           this.commentModal = new Comment();
+          this.commentForm.reset();
+          this.commentIsActive = false;
+          setTimeout(() => this.commentIsActive = true, 0);
         }
       });
     }
@@ -159,6 +161,9 @@ export class ContractCommentsComponent implements OnInit {
             });
           });
           this.replyComment = '';
+          this.replyForm.reset();
+          this.replyIsActive = false;
+          setTimeout(() => this.replyIsActive = true, 0);
         }
       });
     }

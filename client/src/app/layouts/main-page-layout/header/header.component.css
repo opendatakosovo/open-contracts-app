@@ -101,7 +101,24 @@ a {
 }
 .navbar-light .navbar-nav .active>.nav-link, .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show>.nav-link {
     color: #32a6bd;
-} 
+}
+.navbar-left li {
+    position: relative;
+    z-index: 1;
+}
+.navbar-left li.active:before {
+    content : "";
+    position: absolute;
+    left    : 0;
+    bottom  : 0;
+    height  : 1px;
+    width   : 60%;
+    border-bottom: 3px solid #32a6bd;
+    left: 20%;
+}
+.navbar-light .navbar-left .nav-link {
+    width: auto;
+}
 /*--------Responsive--------*/
 
 @media (max-width: 1480px) {

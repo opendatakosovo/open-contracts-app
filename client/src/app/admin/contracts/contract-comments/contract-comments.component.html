@@ -75,24 +75,24 @@
                     </p>
                   </div>
                 </div>
-              <!-- Modal for deleting a reply -->
-              <ng-template #deleteReplyModal>
+                <!-- Modal for deleting a reply -->
+                <ng-template #deleteReplyModal>
                   <div id="delete-reply-modal">
-                      <div class="modal-header add-comment-modal-header">
-                        <h4 class="modal-title">Fshij komentin</h4>
-                        <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">&times;</button>
-                      </div>
-                      <form action="" id="modal-form">
-                        <div class="modal-body">
-                            <p class="text-info">A jeni të sigurt që doni të fshini komentin?</p>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-info" (click)="modalRef.hide()">Anuloje</button>
-                            <button type="button" class="btn btn-danger delete-btn" id="delete-button" [attr.data-id]="user._id" [attr.data-replyid]="replyUser._id"
-                            (click)="deleteReply($event)">Fshij</button>
-                          </div>
-                        </div>
-                      </form>
+                    <div class="modal-header add-comment-modal-header">
+                      <h4 class="modal-title">Fshij komentin</h4>
+                      <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">&times;</button>
                     </div>
+                    <form action="" id="modal-form">
+                      <div class="modal-body">
+                        <p class="text-info">A jeni të sigurt që doni të fshini komentin?</p>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-info" (click)="modalRef.hide()">Anuloje</button>
+                          <button type="button" class="btn btn-danger delete-btn" id="delete-button" [attr.data-id]="user._id" [attr.data-replyid]="replyUser._id"
+                            (click)="deleteReply($event)">Fshij</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
                 </ng-template>
 
               </div>
@@ -105,7 +105,7 @@
               <div class="row">
                 <div class="col-md-1" style="padding: 0"></div>
                 <div class="col-md-2"></div>
-                <div class="col-md-9 border-bottom replies" style="margin-left: -25px;">
+                <div class="col-md-9 border-bottom replies" style="margin-left: -25px;" *ngIf="replyIsActive">
                   <div>
                     <p id="name-reply">
                       {{ currentUser.firstName }} {{ currentUser.lastName }}
@@ -116,10 +116,10 @@
                   </div>
                   <form #commentReplyForm="ngForm" novalidate (submit)="addReply($event, commentReply.valid)" [attr.data-id]="user._id">
                     <input class="form-control" name="commentReply" [(ngModel)]="replyComment" type="text" id="text" #commentReply="ngModel"
-                      required [style.border-color]="commentReply.errors?.required && (commentReply.touched || commentReplyForm.submitted) ? 'red': '#ced4da'">
-                    <button class="btn btn-info" type="submit" id="submit" [style.border-color]="commentReply.errors?.required && (commentReply.touched || commentReplyForm.submitted) ? 'red': '#ced4da'">Dërgo</button>
+                      required [style.border-color]="commentReply.errors?.required &&  commentReplyForm.submitted ? 'red': '#ced4da'">
+                    <button class="btn btn-info" type="submit" id="submit" [style.border-color]="commentReply.errors?.required && commentReplyForm.submitted ? 'red': '#ced4da'">Dërgo</button>
                   </form>
-                  <div *ngIf="commentReply.errors?.required && (commentReply.touched || commentReplyForm.submitted)" class="text-danger">Duhet shtypur një mesazh!</div>
+                  <div *ngIf="commentReply.errors?.required && commentReplyForm.submitted" class="text-danger">Duhet shtypur një mesazh!</div>
                 </div>
               </div>
             </div>
@@ -129,56 +129,56 @@
 
       <ng-template #deleteCommentModal>
         <div id="delete-comment-modal">
-            <div class="modal-header add-comment-modal-header">
-              <h4 class="modal-title">Fshij komentin</h4>
-              <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">&times;</button>
-            </div>
-            <form action="" id="modal-form">
-              <div class="modal-body">
-                  <p class="text-info">A jeni të sigurt që doni të fshini komentin?</p>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-info" (click)="modalRef.hide()">Anuloje</button>
-                  <button type="button" class="btn btn-danger delete-btn" id="delete-button" [attr.data-id]="user._id" (click)="deleteComment($event)">Fshij</button>
-                </div>
-              </div>
-            </form>
+          <div class="modal-header add-comment-modal-header">
+            <h4 class="modal-title">Fshij komentin</h4>
+            <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">&times;</button>
           </div>
+          <form action="" id="modal-form">
+            <div class="modal-body">
+              <p class="text-info">A jeni të sigurt që doni të fshini komentin?</p>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-info" (click)="modalRef.hide()">Anuloje</button>
+                <button type="button" class="btn btn-danger delete-btn" id="delete-button" [attr.data-id]="user._id" (click)="deleteComment($event)">Fshij</button>
+              </div>
+            </div>
+          </form>
+        </div>
       </ng-template>
-      </div>
     </div>
   </div>
+</div>
 
-  <div class="col-12">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-1">
-          <div *ngIf="currentUser.role == 'user'">
-            <img src="/assets/images/zyrtari.png" class="img-fluid">
-          </div>
-          <div *ngIf="currentUser.role == 'admin' || currentUser.role == 'superadmin'">
-            <img src="/assets/images/administratori.png" class="img-fluid">
-          </div>
+<div class="col-12">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-1">
+        <div *ngIf="currentUser.role == 'user'">
+          <img src="/assets/images/zyrtari.png" class="img-fluid">
         </div>
-        <div class="user-info col-md-2">
-          <div>
-            <p class="name">
-              <a>{{ currentUser.firstName }} {{ currentUser.lastName }}</a>
-            </p>
-          </div>
-          <div *ngIf="currentUser.role == 'user'">
-            <p class="position"> Përdorues </p>
-          </div>
-          <div *ngIf="currentUser.role == 'admin'">
-            <p class="position">Administrator</p>
-          </div>
-        </div>
-        <div class="col-md-9">
-          <form #commentForm="ngForm" (submit)="addComment($event, commentForm.valid); resetForm(commentForm)" [attr.data-id]="currentUser._id" novalidate>
-            <input class="form-control" name="comment" [(ngModel)]="commentModal.comment" type="text" id="text" #comment="ngModel" required
-              [style.border-color]="comment.errors?.required && commentForm.submitted ? 'red': '#ced4da'">
-            <button class="btn btn-info" type="submit" value="submit" id="submit" 
-              [style.border-color]="comment.errors?.required && commentForm.submitted ? 'red': '#ced4da'">Dërgo</button>
-          </form>
-          <div *ngIf="comment.errors?.required && commentForm.submitted" class="text-danger">Duhet shtypur një mesazh!</div>
+        <div *ngIf="currentUser.role == 'admin' || currentUser.role == 'superadmin'">
+          <img src="/assets/images/administratori.png" class="img-fluid">
         </div>
       </div>
+      <div class="user-info col-md-2">
+        <div>
+          <p class="name">
+            <a>{{ currentUser.firstName }} {{ currentUser.lastName }}</a>
+          </p>
+        </div>
+        <div *ngIf="currentUser.role == 'user'">
+          <p class="position"> Përdorues </p>
+        </div>
+        <div *ngIf="currentUser.role == 'admin'">
+          <p class="position">Administrator</p>
+        </div>
+      </div>
+      <div class="col-md-9" *ngIf="commentIsActive">
+        <form #commentForm="ngForm" (submit)="addComment($event, commentForm.valid)" [attr.data-id]="currentUser._id"
+          novalidate >
+          <input class="form-control" name="comment" [(ngModel)]="commentModal.comment" type="text" id="text" #comment="ngModel" required
+            [style.border-color]="comment.errors?.required && commentForm.submitted ? 'red': '#ced4da'">
+          <button class="btn btn-info" type="submit" value="submit" id="submit" [style.border-color]="comment.errors?.required && commentForm.submitted ? 'red': '#ced4da'">Dërgo</button>
+        </form>
+        <div *ngIf="comment.errors?.required && commentForm.submitted" class="text-danger">Duhet shtypur një mesazh!</div>
+      </div>
+    </div>
