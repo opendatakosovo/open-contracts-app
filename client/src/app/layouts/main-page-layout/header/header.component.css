@@ -62,18 +62,6 @@ a {
     list-style-type: none;
     display: inherit;
 }
-#underlineHome {
-    width:36px;
-}
-#underlineVisualizations {
-    width:80px;
-}
-#underlineDataSet {
-    width:116px;
-}
-#underlineAbout {
-    width:69px;
-}
 #horizontalLine {
     margin-top:7px ;
     color:#333;
@@ -117,7 +105,7 @@ a {
     left: 20%;
 }
 .navbar-light .navbar-left .nav-link {
-    width: auto;
+    width: max-content;
 }
 /*--------Responsive--------*/
 
@@ -125,24 +113,11 @@ a {
     .nav-link, #lang-select {
         font-size: 15px;   
     }
-    .nav-item.active .underline {
-        margin-left: 18px;
-    }
+    
     .navbar {
         padding:  14px 100px 14px 100px;
     }
-    #underlineHome {
-        width:40px;
-    }
-    #underlineVisualizations {
-        width:78px;
-    }
-    #underlineDataSet {
-        width:110px;
-    }
-    #underlineAbout {
-        width:65px;
-    }
+
     nav#navbar-1 {
         width: 100%
     }
@@ -151,14 +126,9 @@ a {
     }
 }
 @media(max-width:1280px) {
-    .nav-item.active .underline {
-        margin-left: 18px;
-    }
-    .navbar {
+      .navbar {
         padding:  13px 100px 13px 100px;
-    }
-    
-    
+    }  
 }
 
 @media (max-width: 1111px) {
@@ -174,15 +144,6 @@ a {
 @media (max-width: 1080px) {
     .nav-link, #lang-select {
     font-size: 13.9px;
-    }
-    .nav-item.active .underline {
-        margin-left: 16px;
-    }
-    #underlineDataSet {
-        width:103px;
-    }
-    #underlineVisualizations {
-        width:74px;
     }
     .navbar-brand img{
         width: 87px;
@@ -206,23 +167,21 @@ a {
     .nav-link, #lang-select {
         font-size: 16px;
     }
-    .nav-item.active .underline {
-        margin-left: 13px;
+    .navbar-left li.active::before {
+        width: 3em;
+        left: 0.6em;
     }
-    #underlineHome {
-        width:39px;
-    }
-    #underlineVisualizations {
-        width:80px;
-    }   
-    #underlineDataSet {
-        width:112px;
-    }
-    #underlineAbout {
-        width:67px;
+    .navbar-left .about-visualization.active::before {
+        content : "";
+        position: absolute;
+        bottom  : 0;
+        height  : 1px;
+        width   : 5em;
+        border-bottom: 3px solid #32a6bd;
+        left: 0.6em;
     }
 }
-@media (max-width: 760px) {
+@media (max-width: 780px) {
     nav.navbar {
         padding:  12px 75px 12px 75px;
     }
@@ -236,20 +195,18 @@ a {
     .nav-link, #lang-select{
         font-size: 17px;
     }
-    .nav-item.active .underline {
-        margin-left: 13px;
+    .navbar-left .about-visualization.active::before {
+        width: 15%;
+        left: 1.5%;
     }
-    #underlineHome {
-        width: 41px;
+    .navbar-left li.active::before {
+        width: 3.5em;
+        border-bottom: 3px solid #32a6bd;
+        left: 0.4em;
     }
-    #underlineVisualizations {
-        width: 86px;
-    }
-    #underlineDataSet {
-        width: 123px;
-    }
-    #underlineAbout {
-        width: 73px;
+    .navbar-left .about-visualization.active::before {
+        width: 5.5em;
+        left: 0.6em;
     }
     
 }

@@ -15,15 +15,15 @@
       <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <a class="nav-link" id="home" [routerLink]="['']">{{ 'navigation.home' | translate }}</a>
       </li>
-      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      <li class="nav-item" class="about-visualization" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <a class="nav-link" id="visualisations" [routerLink]="['/visualisations']">{{ 'navigation.visualizations' | translate }}</a>
       </li>
       <li class="nav-item" >
         <a class="nav-link" id="dataSet" (click)="scroll()" href="/#data-set">{{ 'navigation.dataset' | translate }}</a>
         <div class="underline" id="underlineDataSet" routerLinkActive="active"></div>
       </li>
-      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-        <a class="nav-link" id="about" [routerLink]="['/about-us']">{{ 'navigation.aboutUs' | translate }}</a>
+      <li class="nav-item" class="about-visualization" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="nav-link" [routerLink]="['/about-us']">{{ 'navigation.aboutUs' | translate }}</a>
       </li>
       <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <a class="nav-link" href="http://biznesetehapura.com/sq" target="_blank" style="width: 192px;">{{ 'navigation.openBusinesses' | translate }}</a>
