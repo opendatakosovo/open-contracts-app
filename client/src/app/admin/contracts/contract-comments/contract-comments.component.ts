@@ -194,7 +194,7 @@ export class ContractCommentsComponent implements OnInit {
             element.reply.splice((element.reply.findIndex(reply => reply._id === replyId)), 1);
           }
         });
-        Swal('Sukses!', 'Reply u fshi me sukses.', 'success');
+        Swal('Sukses!', 'Përgjigja u fshi me sukses.', 'success');
         this.modalRef.hide();
       }
     });
