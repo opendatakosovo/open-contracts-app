@@ -20,11 +20,7 @@
     padding-bottom: 5px !important;
     transition: 0.5s !important;
 }
-.nav-item.active .underline {
-    border-bottom: 3px solid #32a6bd;
-    margin-top: 0;
-    margin-left: 25px;
-}
+
 .nav-item {
     color:black;
 }
@@ -34,13 +30,16 @@
     color: #333;
     padding-bottom: 0;
 }
+
 .nav-item.active .nav-link {
     color:#32a6bd;
     font-weight: 500;
 }
+
 #lang-select {
     display: inherit;
 }
+
 #mainNav .navbar-collapse {
     top: 0;
     left: 0;
@@ -50,22 +49,27 @@
     margin-top: 56px;
     overflow: visible;
 }
+
 a {
     font-family: 'Roboto', sans-serif;
 }
+
 .navbar-brand {
     font-size: 30px;
     color:#32a6bd;
     font-weight: 600;
 }
+
 #dropdownMenu {
     list-style-type: none;
     display: inherit;
 }
+
 #horizontalLine {
     margin-top:7px ;
     color:#333;
 }
+
 #lang-select {
     background-color: white;
     color: rgba(0,0,0,.5);
@@ -74,26 +78,32 @@ a {
     font-family: 'Roboto', sans-serif;
     font-weight: 500
 }
+
 .dropdown-toggle::after {
     margin-top: 11px;
 }
+
 .dropdown-menu a.nav-link {
     padding-left: 6px;
     padding-top: 1px;
     padding-bottom: 3px;
 }
+
 .dropdown-menu a.nav-link:hover {
     background-color: #f2f2f2 !important;
     cursor:pointer;
     
 }
+
 .navbar-light .navbar-nav .active>.nav-link, .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show>.nav-link {
     color: #32a6bd;
 }
+
 .navbar-left li {
     position: relative;
     z-index: 1;
 }
+
 .navbar-left li.active:before {
     content : "";
     position: absolute;
@@ -104,8 +114,25 @@ a {
     border-bottom: 3px solid #32a6bd;
     left: 20%;
 }
+
 .navbar-light .navbar-left .nav-link {
     width: max-content;
+}
+
+.data-set-link-active a{
+    color:#32a6bd;
+    font-weight: 500;
+}
+
+.data-set-link-active:before {
+    content : "";
+    position: absolute;
+    left    : 0;
+    bottom  : 0;
+    height  : 1px;
+    width   : 70%;
+    border-bottom: 3px solid #32a6bd;
+    left: 15%;
 }
 /*--------Responsive--------*/
 

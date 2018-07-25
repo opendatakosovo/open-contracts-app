@@ -17,5 +17,17 @@ export class HomeComponent implements OnInit {
   useLanguage(language: string) {
     this.translate.use(language);
   }
+  mouseOver() {
+    const dataSet = document.querySelector('.data-set-link');
+    const home = document.querySelector('.active');
+    home.setAttribute('class', 'inactive');
+    dataSet.setAttribute('class', 'data-set-link-active');
+  }
+  mouseLeave() {
+    const dataSet = document.querySelector('.data-set-link-active');
+    const home = document.querySelector('.inactive');
+    home.setAttribute('class', 'active');
+    dataSet.setAttribute('class', 'data-set-link');
+  }
 
 }
