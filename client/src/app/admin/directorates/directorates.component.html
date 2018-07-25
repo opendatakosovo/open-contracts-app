@@ -84,7 +84,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" (click)="modalRef.hide()" class="btn btn-secondary" data-dismiss="modal">Mbyll</button>
-          <button type="submit" class="btn btn-primary" id="addDirectoratesButton" (click)="addDirectorate($event)" [disabled]="!add.valid">Shto</button>
+          <button type="submit" class="btn btn-primary" id="addDirectoratesButton" (click)="addDirectorate($event, add.valid)">Shto</button>
         </div>
       </form>
     </div>

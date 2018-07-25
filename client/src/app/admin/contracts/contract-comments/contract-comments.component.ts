@@ -1,4 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, TemplateRef, ViewChild } from '@angular/core';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { User } from '../../../models/user';
 import { Comment } from '../../../models/comment';
 import { Contract } from '../../../models/contract';
@@ -7,14 +9,26 @@ import { CommentService } from '../../../service/comment.service';
 import Swal from 'sweetalert2';
 import { formatDate } from 'ngx-bootstrap/chronos';
 import { getLocaleDateTimeFormat } from '@angular/common';
-
+import { trigger, style, transition, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-contract-comments',
   templateUrl: './contract-comments.component.html',
-  styleUrls: ['./contract-comments.component.css']
+  styleUrls: ['./contract-comments.component.css'],
+  animations: [
+    trigger('fade', [
+      transition('void => *', [
+        style({ backgroundColor: '#F5F5DC', opacity: 0.5 }),
+        animate(1000, style({ backgroundColor: 'white', opacity: 1 }))
+      ])
+    ]
+    )],
 })
+
 export class ContractCommentsComponent implements OnInit {
+  @ViewChild('commentForm') commentForm: any;
+  @ViewChild('commentReplyForm') replyForm: any;
+  modalRef: BsModalRef;
   @Input() contractId1: string;
   users = [];
   loggedInUser = {
@@ -25,36 +39,33 @@ export class ContractCommentsComponent implements OnInit {
   commentModal: Comment;
   comments: Comment[];
   isShown: Array<boolean>;
-  reply = {
-    replyUserId: '',
-    replyComment: '',
-    replyDateTime: ''
-  };
-  constructor(public userService: UserService, public commentService: CommentService) {
+  replyComment: string;
+  commentIsActive: boolean;
+  replyIsActive: boolean;
+  constructor(public userService: UserService, public commentService: CommentService, private modalService: BsModalService) {
     this.users = [];
     this.currentUser = new User;
     this.commentModal = new Comment();
     this.isShown = [];
-    this.reply = {
-      replyUserId: '',
-      replyComment: '',
-      replyDateTime: ''
-    };
+    this.replyComment = '';
+    this.commentIsActive = true;
+    this.replyIsActive = true;
     this.loggedInUser = JSON.parse(localStorage.getItem('user'));
     this.userService.getUsers().subscribe(data => {
       this.commentService.getComments(this.contractId1).subscribe(result => {
-        result.forEach(element => {
-          this.users.push(element);
-          this.isShown.push(false);
-        });
-        this.users.forEach(element => {
-          element.reply.forEach(element1 => {
-            if ( !element1.hasOwnProperty('_id') ) {
-            element.reply.splice((element.reply.findIndex(reply => reply === null)), 1);
-            }
+        if (result !== null) {
+          result.forEach(element => {
+            this.users.push(element);
+            this.isShown.push(false);
           });
-        });
-        console.log(this.users);
+          this.users.forEach(element => {
+            element.reply.forEach(element1 => {
+              if (!element1.hasOwnProperty('_id')) {
+                element.reply.splice((element.reply.findIndex(reply => reply === null)), 1);
+              }
+            });
+          });
+        }
       });
     });
   }
@@ -64,79 +75,98 @@ export class ContractCommentsComponent implements OnInit {
       this.currentUser = data;
     });
   }
+
+  commentDeleteModal(template) {
+    this.modalRef = this.modalService.show(template);
+  }
+  replyDeleteModal(template) {
+    this.modalRef = this.modalService.show(template);
+  }
+
   show(i) {
     this.isShown[i] = !this.isShown[i];
   }
 
-  addComment(event) {
-    this.commentModal.userId = event.target.dataset.id;
-    this.commentModal.contractId = this.contractId1;
-    this.commentModal.dateTime = new Date(Date.now()).toLocaleString();
-    this.commentService.addComment(this.commentModal).subscribe(res => {
-      if (res.err) {
-        Swal('Gabim!', 'Komenti nuk u shtua', 'error');
-      } else if (res.errVld) {
-        let errList = '';
-        res.errVld.map(error => {
-          errList += `<li>${error.msg}</li>`;
-        });
-        const htmlData = `<div style="text-align: center;">${errList}</div>`;
-        Swal({
-          title: 'Kujdes!',
-          html: htmlData,
-          width: 750,
-          type: 'info',
-          confirmButtonText: 'Kthehu te forma'
-        });
-      } else {
-        this.commentModal = new Comment();
-        this.commentService.getComments(this.contractId1).subscribe(result => {
-          result.forEach(element => {
-            if (element._id === res.comment._id) {
-              this.users.push(element);
-            }
-            if (!element.reply.hasOwnProperty('_id')) {
-            element.reply.splice((this.users.findIndex(reply => reply === null)), 1);
+  addComment(event, isValid) {
+    event.preventDefault();
+    if (isValid === true) {
+      this.commentModal.userId = event.target.dataset.id;
+      this.commentModal.contractId = this.contractId1;
+      this.commentModal.dateTime = new Date(Date.now()).toLocaleString();
+      this.commentService.addComment(this.commentModal).subscribe(res => {
+        if (res.err) {
+          Swal('Gabim!', 'Komenti nuk u shtua', 'error');
+        } else if (res.errVld) {
+          let errList = '';
+          res.errVld.map(error => {
+            errList += `<li>${error.msg}</li>`;
+          });
+          const htmlData = `<div style="text-align: center;">${errList}</div>`;
+          Swal({
+            title: 'Kujdes!',
+            html: htmlData,
+            width: 750,
+            type: 'info',
+            confirmButtonText: 'Kthehu te forma'
+          });
+        } else {
+          this.commentService.getComments(this.contractId1).subscribe(result => {
+            result.forEach(element => {
+              if (element._id === res.comment._id) {
+                this.users.push(element);
+              }
+              if (!element.reply.hasOwnProperty('_id')) {
+                element.reply.splice((this.users.findIndex(reply => reply === null)), 1);
               }
             });
           });
-        Swal('Sukses!', 'Komenti u shtua me sukses.', 'success');
-      }
-    });
+          this.commentModal = new Comment();
+          this.commentForm.reset();
+          this.commentIsActive = false;
+          setTimeout(() => this.commentIsActive = true, 0);
+        }
+      });
+    }
   }
 
-  addReply(event) {
-    const id = event.target.dataset.id;
-    this.reply.replyUserId = this.loggedInUser.id;
-    this.reply.replyDateTime = new Date(Date.now()).toLocaleString();
-    this.commentService.addReply(id, this.reply).subscribe(res => {
-      if (res.err) {
-        Swal('Gabim!', 'Përgjigja nuk nuk u shtua', 'error');
-      } else if (res.errVld) {
-        let errList = '';
-        res.errVld.map(error => {
-          errList += `<li>${error.msg}</li>`;
-        });
-        const htmlData = `<div style="text-align: center;">${errList}</div>`;
-        Swal({
-          title: 'Kujdes!',
-          html: htmlData,
-          width: 750,
-          type: 'info',
-          confirmButtonText: 'Kthehu te forma'
-        });
-      } else {
-        this.userService.getUserByID(this.reply.replyUserId).subscribe(data => {
-          this.users.forEach(element => {
-            if (element._id === id) {
-             this.reply = Object.assign(this.reply, data);
-            element.reply.push(this.reply);
-            }
+  addReply(event, isValid) {
+    if (isValid === true) {
+      this.commentModal._id = event.target.dataset.id;
+      this.commentModal.reply.replyUserId = this.loggedInUser.id;
+      this.commentModal.reply.replyDateTime = new Date(Date.now()).toLocaleString();
+      this.commentModal.reply.replyComment = this.replyComment;
+      this.commentService.addReply(this.commentModal._id, this.commentModal.reply).subscribe(res => {
+        if (res.err) {
+          Swal('Gabim!', 'Përgjigja nuk nuk u shtua', 'error');
+        } else if (res.errVld) {
+          let errList = '';
+          res.errVld.map(error => {
+            errList += `<li>${error.msg}</li>`;
           });
-        });
-        Swal('Sukses!', 'Komenti u shtua me sukses.', 'success');
-      }
-    });
+          const htmlData = `<div style="text-align: center;">${errList}</div>`;
+          Swal({
+            title: 'Kujdes!',
+            html: htmlData,
+            width: 750,
+            type: 'info',
+            confirmButtonText: 'Kthehu te forma'
+          });
+        } else {
+          this.userService.getUserByID(this.commentModal.reply.replyUserId).subscribe(data => {
+            this.users.forEach(element => {
+              if (element._id === this.commentModal._id) {
+                this.commentModal.reply = Object.assign(this.commentModal.reply, data);
+                element.reply.push(this.commentModal.reply);
+              }
+            });
+          });
+          this.replyComment = '';
+          this.replyForm.reset();
+          this.replyIsActive = false;
+          setTimeout(() => this.replyIsActive = true, 0);
+        }
+      });
+    }
   }
 
   deleteComment(event) {
@@ -147,6 +177,7 @@ export class ContractCommentsComponent implements OnInit {
       } else {
         this.users.splice((this.users.findIndex(comment => comment._id === id)), 1);
         Swal('Sukses!', 'Komenti u fshi me sukses.', 'success');
+        this.modalRef.hide();
       }
     });
   }
@@ -159,11 +190,12 @@ export class ContractCommentsComponent implements OnInit {
         Swal('Gabim!', 'Reply nuk nuk u fshi', 'error');
       } else {
         this.users.forEach(element => {
-          if ( element._id === commentId) {
-          element.reply.splice((element.reply.findIndex(reply => replyId._id === replyId)), 1);
+          if (element._id === commentId) {
+            element.reply.splice((element.reply.findIndex(reply => reply._id === replyId)), 1);
           }
         });
         Swal('Sukses!', 'Reply u fshi me sukses.', 'success');
+        this.modalRef.hide();
       }
     });
   }

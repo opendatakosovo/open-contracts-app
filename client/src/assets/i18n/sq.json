@@ -1,9 +1,12 @@
 {
+    "pageTitle": {
+        "title": "Kontratat e hapura"
+    },
     "navigation": {
         "home": "BALLINA",
         "visualizations": "VIZUALIZIMET",
         "dataset": "SETI I TË DHËNAVE",
-        "aboutUs": "RRETH NESH",
+        "aboutUs": "RRETH FAQES",
         "openBusinesses": "BIZNESET E HAPURA"
     },
     "coverImg": {
@@ -42,13 +45,18 @@
         "additionalInfosNotification": "Njoftim për informata shtesë",
         "contractCancellationAward": "Anulim i dhënies së kontratës",
         "contractSigningNotification": "Njoftim për nënshkrimin e kontratës",
-        "procurementPlans": "Planet e prokurorimit",
+        "procurementPlans": "Planet e prokurimit",
         "designAwardNotification": "Njoftim për konkurs të projektimit"
     },
     "aboutUs": {
         "title": "Rreth Nesh",
-        "description": "Prishtina e së ardhmes është qytet me shërbime efikase e cilësore të cilat janë në funksion të mirëqenies së përgjithshme të qytetarëve të saj.Qytet me planifikim urban e hapësinor të mirëfilltë, i cili e bën kryeqytetin qendër të sigurt për një jetë të begatshme socio-ekonomike, kulturore, arsimore, sportive, dhe duke siguruar mirëqenie dhe cilësi të jetës për qytetarët e komunës së Prishtinës.Qytet me model të qeverisjes efikase dhe transparente, dhe si i tillë, të shërbejë si model edhe për qeverisje në komunat tjera në Kosovë, duke ndikuar kështu në rritjen e mirëqenies për tërë qytetarët e Kosovës.",
+        "description1": "\nHapja e komunës për qytetarët është qëllimi parësor i komunës së Prishtinës.Komuna e Prishtinës me zhvillimin e platformës “Kontratat e hapura” është duke ju siguruar të gjithë qytetarëve të dhëna të hapura sa i përket kontrateve që lidh ky institucion me të gjithë  operatorët ekonomikë. Kjo platformë mundëson pasqyrimin e të gjitha kontratave nga drejtoritë komunale me qëllim që këto shënime të përdoren më tutje në funksion të transparencës së plotë në komunë.\n\nKthimi i besimit të qytetarëve në institucione publike përmes transparencës dhe qasjes së lehtë në shërbime komunale është vizioni jonë për Prishtinën.",
+        "description2": "\nInformacionet janë të listuara në këtë mënyrë:\n\n - Titulli i aktivitetit të prokurimit \n - Data e publikimi të njoftimit për kontratë \n - Numri i operatorëve ekonomikë që kanë shkarkuar dosjen e tenderit \n- Data e publikimit të njoftimit për dhënie të kontratës \n - Data e publikimit të anulimit të njoftimit \n - Vlera e parashikuar e kontratës \n - Emri i operatorit ekonomik të cilit i është dhënë kontrata \n - Data e nënshkrimi të kontratës \n - Data e fillimit të implementimit të kontratës \n - Data e mbylljes së kontratës \n - Vlera totale e kontratës, duke përfshirë të gjitha taksat \n- Drejtoria të cilës i takon kontrata \n\n",
         "projectTitle": "RRETH PROJEKTIT",
         "projectDescription": "Platforma “Kontratat e Hapura” është zhvilluar për Komunën e Prishtinës në mënyre që të sigurojë informata në proceset e prokurorimit/ kontratat në lidhje me institucionin. Në këtë uebfqe, çdo person mund të informohet rreth vlerës së një kontrate, fituesin e kontratës, kur kontrata pritet të implementohet dhe do të këtë çasje në të dhenat e hapura. Për më shumë, “Kontratat e hapura” iu ofron përdoruesëve vizualizime të të dhënave të prokurorimit përgjatë viteve në mënyrë që të lehtësojë krahasimet."
+    },
+    "footer": {
+        "municipality": "Komuna e Prishtinës",
+        "developers": "Dizajnuar dhe zhvilluar:"
     }
 }

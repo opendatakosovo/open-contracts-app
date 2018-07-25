@@ -3,7 +3,7 @@
 }
 #footerImage {
     background-image: url('/assets/images/footer.png');
-    height: 377px;
+    height: 278px;
     background-repeat: no-repeat;
     background-size: cover;
     width: 100%;
@@ -20,41 +20,118 @@
     padding: 0;
 }
 .footerImage .komunaPrishtines {
-    padding-top: 110px;
-    padding-left: 130px; 
-    
+    padding-top: 25%;
+    padding-left: 0;
+}
+.footerImage .komunaPrishtines a {
+       padding-left: 38%; 
+}
+.footerImage .komunaPrishtines h5 {
+       padding-left: 0;
+       text-align: center; 
 }
 .footerImage .komunaPrishtines img {
-    padding-left: 55px;
+    padding-left: 0;
 }
 .footerImage .reservedRights {
     padding-top: 80px;
-    padding-left: 72px; 
+    padding-left: 3%; 
 }
 .footerImage .reservedRights p:nth-of-type(1) {
     margin-bottom: 0px;
+    text-align: center;
 }
 .footerImage .reservedRights p:nth-of-type(2) {
-    padding-left:45px; 
+    text-align: center 
 }
 .footerImage .dashboard {
-    padding-top: 110px;
-    padding-left: 73px;
+    padding-top: 27%;
+    padding-right: 23%;
 }
 .footerImage .dashboard img {
-    padding-left:35px; 
+    padding-left: 32%; 
 }
 .text {
     color: #fff;
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
+    text-align: center;
+    margin-bottom: 0;
+    font-size: 13px;
 }
 img {
     padding-top: 20px;
-    height: 105px;
+    height: 100px;
 }
-
-
+#techstitution-logo {
+    height: 90px;
+    padding-top: 10px;
+    margin-top: 9px;
+}
+#copyright {
+    padding-top: 3%;
+}
+.social-media {
+    padding-top: 8%;
+    padding-left: 0;
+    padding-right: 0;
+}
+.social-media a {
+    color: #fff;
+}
+.social-media a:hover {
+   text-decoration: none;
+}
+.social-media ul {
+    list-style: none;
+    padding-left: 0;
+}
+.social-media li {
+    margin-bottom: 2px;
+}
+.social-media p {
+    text-align: left;
+    margin-bottom: 10px;
+}
+#footer-div {
+    padding-left: 5%;
+    margin: 0;
+}
+#municipality {
+    padding-right: 0;
+}
+#developers {
+    padding-left: 35px;
+    padding-right: 0;
+}
+#facebook {
+    margin-left: 2%;
+    font-size: 13px;
+}
+#facebook-icon {
+    padding-left: 2px;
+}
+#twitter {
+    margin-left: 1%;
+    font-size: 13px;
+}
+#information {
+    font-size: 13px;
+    padding-left: 0;
+    padding-top: 8%;
+}
+#information ul {
+    list-style: none;
+    padding-left: 0;
+    color: #fff;
+}
+#information p {
+    text-align: left;
+    margin-bottom: 10px;
+}
+#information li {
+    margin-bottom: 2px;
+}
 @media(max-width: 1200px) {
     .text {
         font-size: 17px;

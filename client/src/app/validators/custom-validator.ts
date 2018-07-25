@@ -1,4 +1,4 @@
-import { AbstractControl, Validators, ValidatorFn } from '@angular/forms'
+import { AbstractControl, Validators, ValidatorFn } from '@angular/forms';
 import { controlNameBinding } from '../../../node_modules/@angular/forms/src/directives/reactive_directives/form_control_name';
 export class CustomValidator extends Validators {
 

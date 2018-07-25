@@ -46,36 +46,18 @@
                             <p class="information">{{ dataSet.createdAt | date: 'dd/MM/yyyy hh:mm' }}</p>
                         </div>
                     </td>
-                    <div id="icons">
-                        <td class="view-icon">
-                            <span>
-                                <a data-toggle="modal" class="view-icon">
-                                    <i class="fa fa-eye" aria-hidden="true"></i>
-                                </a>
-                            </span>
-                        </td>
-                        <td class="view-text">
-                            <span>
-                                <a data-toggle="modal" class="view-icon">
-                                    Shiko
-                                </a>
-                            </span>
-                        </td>
-                        <td class="edit-icon">
-                            <span>
-                                <a data-toggle="modal">
-                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                </a>
-                            </span>
-                        </td>
-                        <td class="edit-text">
-                            <span>
-                                <a data-toggle="modal">
-                                    Ndrysho
-                                </a>
-                            </span>
-                        </td>
-                    </div>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdown-menu-button" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                Shkarko
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="/datasets/{{dataSet.folder}}/{{dataSet.datasetFilePath}}">CSV</a>
+                                <a class="dropdown-item">JSON</a>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
             </tbody>
         </table>
