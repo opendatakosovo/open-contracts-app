@@ -48,7 +48,7 @@ router.post("/latest-contracts/page", (req, res) => {
             return page;
         })
         .then(page => {
-            return Contract.find({ "year": 2018 }).skip(page.skipPages).limit(page.size).then(result => {
+            return Contract.find({ "year": 2018 }).sort({ "contract.signingDate": -1 }).skip(page.skipPages).limit(page.size).then(result => {
                 delete page.skipPages;
                 response.page = page;
                 response.data = result;
@@ -82,7 +82,7 @@ router.post("/page", (req, res) => {
             return page;
         })
         .then(page => {
-            return Contract.find().skip(page.skipPages).limit(page.size).then(result => {
+            return Contract.find().sort({ "contract.signingDate": -1 }).skip(page.skipPages).limit(page.size).then(result => {
                 delete page.skipPages;
                 response.page = page;
                 response.data = result;
