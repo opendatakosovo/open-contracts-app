@@ -55,6 +55,7 @@ module.exports.deleteReply = (commentId, replyId, callback) => {
 module.exports.getComments = (contractId, callback) => {
     Comment.aggregate([
         { "$match": { "contractId": contractId } },
+        { "$sort": { "dateTime": -1}},
         {
             "$project": {
                 "userId": 1,
@@ -70,6 +71,7 @@ module.exports.getComments = (contractId, callback) => {
                 "preserveNullAndEmptyArrays": true
             }
         },
+        { "$sort": { "reply.replydateTime": 1}},
         {
             "$lookup": {
                 "from": "users",

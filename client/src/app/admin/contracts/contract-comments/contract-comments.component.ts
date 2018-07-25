@@ -35,6 +35,11 @@ export class ContractCommentsComponent implements OnInit {
     id: '',
     email: ''
   };
+  reply = {
+    replyUserId: '',
+    replyComment: '',
+    replyDateTime: ''
+  };
   currentUser: User;
   commentModal: Comment;
   comments: Comment[];
@@ -132,9 +137,10 @@ export class ContractCommentsComponent implements OnInit {
   addReply(event, isValid) {
     if (isValid === true) {
       this.commentModal._id = event.target.dataset.id;
-      this.commentModal.reply.replyUserId = this.loggedInUser.id;
-      this.commentModal.reply.replyDateTime = new Date(Date.now()).toLocaleString();
-      this.commentModal.reply.replyComment = this.replyComment;
+      this.reply.replyUserId = this.loggedInUser.id;
+      this.reply.replyDateTime = new Date(Date.now()).toLocaleString();
+      this.reply.replyComment = this.replyComment;
+      this.commentModal.reply = this.reply;
       this.commentService.addReply(this.commentModal._id, this.commentModal.reply).subscribe(res => {
         if (res.err) {
           Swal('Gabim!', 'Përgjigja nuk nuk u shtua', 'error');
@@ -160,6 +166,11 @@ export class ContractCommentsComponent implements OnInit {
               }
             });
           });
+          this.reply = {
+            replyUserId: '',
+            replyComment: '',
+            replyDateTime: ''
+          };
           this.replyComment = '';
           this.replyForm.reset();
           this.replyIsActive = false;
@@ -194,7 +205,7 @@ export class ContractCommentsComponent implements OnInit {
             element.reply.splice((element.reply.findIndex(reply => reply._id === replyId)), 1);
           }
         });
-        Swal('Sukses!', 'Reply u fshi me sukses.', 'success');
+        Swal('Sukses!', 'Përgjigja u fshi me sukses.', 'success');
         this.modalRef.hide();
       }
     });
