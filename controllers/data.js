@@ -53,18 +53,4 @@ router.get('/get-contracts-by-contractor/:companyName', (req, res) => {
         }) 
 });
 
-// Get all contracts by years and send as JSON file response
-router.get('/json/:year', (req, res) => {
-    Contract.getContractsByYears(req.params.year)
-        .then(data => {
-            let fileName = `${req.params.year}.json`;
-            let mimeType = 'application/json';
-            res.setHeader('Content-Type', mimeType);
-            res.setHeader('Content-disposition', 'attachment; filename='+fileName);
-            res.send(data);
-        }).catch(err => {
-            res.json(err);
-        });
-});
-
 module.exports = router;
