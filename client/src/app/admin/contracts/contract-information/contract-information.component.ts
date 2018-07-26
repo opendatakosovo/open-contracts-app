@@ -11,14 +11,19 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 export class ContractInformationComponent implements OnInit {
   contracts: Contract[];
   contract: Contract;
+  totalAmountOfAllAnnexContractsIncludingTaxes: number;
+  totalPayedPriceForContract: number;
+  discountAmount: number;
 
   constructor(public contractsService: ContractsService, private router: ActivatedRoute) {
     this.contract = new Contract();
     const id = this.router.snapshot.paramMap.get('id');
     this.contractsService.getContractByID(id).subscribe(data => {
       this.contract = data;
+      this.totalAmountOfAllAnnexContractsIncludingTaxes = parseFloat(this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes.toString());
+      this.totalPayedPriceForContract = parseFloat(this.contract.contract.totalPayedPriceForContract.toString());
+      this.discountAmount = parseFloat(this.contract.contract.discountAmount.toString());
     });
-
   }
 
   ngOnInit() {
