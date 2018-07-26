@@ -57,6 +57,9 @@
     },
     "footer": {
         "municipality": "Komuna e Prishtinës",
-        "developers": "Dizajnuar dhe zhvilluar:"
+        "developers": "Dizajnuar dhe zhvilluar:",
+        "followUs": "Na ndiqni në:",
+        "address": "Adresa:",
+        "exactAddress": "Rr.UÇK-2-10000 Prishtinë, Kosovë"
     }
 }
