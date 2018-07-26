@@ -34,9 +34,11 @@ export class AddContractComponent implements OnInit {
   message: string;
   formArrayAnnexes: FormArray;
   formArrayInstallments: FormArray;
-
+  total: Number;
+  totalInstallments: Number;
 
   constructor(public contractsService: ContractsService, public directorateService: DirectorateService, private _fb: FormBuilder) {
+
     this.directorates = [];
     this.contract = new Contract();
     this.formArrayAnnexes = new FormArray([]);
@@ -102,8 +104,6 @@ export class AddContractComponent implements OnInit {
     });
     this.initAnnexes();
     this.initInstallments();
-
-
   }
 
   @ViewChild('fileInput') fileInput;
@@ -179,6 +179,22 @@ export class AddContractComponent implements OnInit {
     });
   }
 
+  calculateValues() {
+    let sumAnnex = 0;
+    this.contract.contract.annexes.map(annex => {
+      sumAnnex += parseFloat(annex.totalValueOfAnnexContract1.toString());
+    });
+    this.total = parseFloat(this.contract.contract.totalAmountOfContractsIncludingTaxes.toString()) + sumAnnex;
+    this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes = this.total.toString();
+
+    let sumInstallments = 0;
+    this.contract.installments.map(installment => {
+      sumInstallments += parseFloat(installment.installmentAmount1.toString());
+    });
+    this.totalInstallments = parseFloat(this.contract.lastInstallmentAmount.toString()) + sumInstallments;
+    this.contract.contract.totalPayedPriceForContract = this.totalInstallments.toString();
+  }
+
   monDiff(d1, d2): number {
     const date1 = moment(d1);
     const date2 = moment(d2);
@@ -209,7 +225,6 @@ export class AddContractComponent implements OnInit {
   }
 
   addBudgetValue(event) {
-    console.log(event.target.checked);
     if (event.target.checked === false) {
       this.contract.budget.splice(this.contract.budget.indexOf(event.target.value), 1);
     } else if (event.target.checked === true) {
@@ -219,9 +234,8 @@ export class AddContractComponent implements OnInit {
 
   addContract(e) {
     e.preventDefault();
+    this.calculateValues();
     if (this.form.valid === true) {
-
-
       if (this.filesToUpload !== null && this.valid === true) {
         this.contract.approvalDateOfFunds = this.contract.approvalDateOfFunds == null ? null : this.dateChange(this.contract.approvalDateOfFunds);
         this.contract.bidOpeningDate = this.contract.bidOpeningDate == null ? null : this.dateChange(this.contract.bidOpeningDate);
@@ -278,7 +292,7 @@ export class AddContractComponent implements OnInit {
               if (result.value) {
                 window.location.href = 'dashboard/contracts/';
               }
-            });;
+            });
           }
         });
       } else if (this.filesToUpload === null) {
