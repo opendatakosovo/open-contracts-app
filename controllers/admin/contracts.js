@@ -106,8 +106,6 @@ router.post("/", uploadFile, (req, res) => {
         fileName = "";
     }
 
-    console.log(requestedContract);
-
     let contract = new Contract(requestedContract);
     contract.contract.file = fileName;
     contract.company.slug = slugify(requestedContract.company.name)
