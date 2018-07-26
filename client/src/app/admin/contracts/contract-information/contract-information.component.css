@@ -31,3 +31,23 @@ p {
 a {
     font-size: 15px;
 }
+.highlighted-values {
+    border: 0.5px solid #89cced;
+    border-radius: 5.5px;
+    padding-left: 15px;
+    padding-bottom: 6px;
+    padding-right: 15px;
+}
+#highlighted-values {
+    border: 0.5px solid #89cced;
+    border-radius: 5.5px;
+    padding-left: 15px;
+    padding-bottom: 6px;
+    padding-right: 15px;
+}
+#total-amount {
+    margin-bottom: 5px;
+}
+#total-payed-price {
+    margin-bottom: 5px;
+}

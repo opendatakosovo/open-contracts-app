@@ -10,14 +10,13 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { DatepickerModule, BsDatepickerModule } from 'ngx-bootstrap';
-
+import { NgxPageScrollModule } from 'ngx-page-scroll';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './main/login/login.component';
 import { HomeComponent } from './main/home/home.component';
 import { VisualisationsComponent } from './main/visualisations/visualisations.component';
 import { ProfileComponent } from './admin/profile/profile.component';
-import { DataSetComponent } from './main/data-set/data-set.component';
 import { AboutUsComponent } from './main/about-us/about-us.component';
 import { FooterComponent } from './layouts/main-page-layout/footer/footer.component';
 import { HeaderComponent } from './layouts/main-page-layout/header/header.component';
@@ -48,6 +47,7 @@ import { EditContractComponent } from './admin/contracts/edit-contract/edit-cont
 import { ContractCommentsComponent } from './admin/contracts/contract-comments/contract-comments.component';
 import { MainPageContractsListComponent } from './main/home/main-page-contracts-list/main-page-contracts-list.component';
 import { CommentService } from './service/comment.service';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -60,11 +60,9 @@ const appRoutes: Routes = [
     children: [
       { path: '', component: HomeComponent },
       { path: 'visualisations', component: VisualisationsComponent },
-      { path: 'data-set', component: DataSetComponent },
       { path: 'about-us', component: AboutUsComponent },
     ]
   },
-  { path: 'login', component: LoginComponent },
   {
     path: '',
     component: DashboardLayoutComponent,
@@ -79,7 +77,10 @@ const appRoutes: Routes = [
       { path: 'dashboard/contracts/:id', component: ContractInformationComponent, canActivate: [AuthGuard] },
       { path: 'dashboard/contracts/edit-contract/:id', component: EditContractComponent, canActivate: [AuthGuard] }
     ]
-  }
+  },
+  { path: 'login', component: LoginComponent },
+  { path: 'not-found', component: PageNotFoundComponent },
+  { path: '**', redirectTo: 'not-found' },
 ];
 
 @NgModule({
@@ -90,7 +91,6 @@ const appRoutes: Routes = [
     DashboardComponent,
     ProfileComponent,
     VisualisationsComponent,
-    DataSetComponent,
     AboutUsComponent,
     FooterComponent,
     HeaderComponent,
@@ -109,6 +109,7 @@ const appRoutes: Routes = [
     EditContractComponent,
     ContractCommentsComponent,
     MainPageContractsListComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
@@ -129,7 +130,8 @@ const appRoutes: Routes = [
     }),
     DatepickerModule.forRoot(),
     BsDatepickerModule.forRoot(),
-    NgxDatatableModule
+    NgxDatatableModule,
+    NgxPageScrollModule,
   ],
   entryComponents: [ChangePasswordComponent],
   providers: [

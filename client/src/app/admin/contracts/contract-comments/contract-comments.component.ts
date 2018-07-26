@@ -1,4 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, TemplateRef, ViewChild } from '@angular/core';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { User } from '../../../models/user';
 import { Comment } from '../../../models/comment';
 import { Contract } from '../../../models/contract';
@@ -24,25 +26,35 @@ import { trigger, style, transition, animate } from '@angular/animations';
 })
 
 export class ContractCommentsComponent implements OnInit {
+  @ViewChild('commentForm') commentForm: any;
+  @ViewChild('commentReplyForm') replyForm: any;
+  modalRef: BsModalRef;
   @Input() contractId1: string;
-  state: string;
   users = [];
   loggedInUser = {
     id: '',
     email: ''
+  };
+  reply = {
+    replyUserId: '',
+    replyComment: '',
+    replyDateTime: ''
   };
   currentUser: User;
   commentModal: Comment;
   comments: Comment[];
   isShown: Array<boolean>;
   replyComment: string;
-  constructor(public userService: UserService, public commentService: CommentService) {
+  commentIsActive: boolean;
+  replyIsActive: boolean;
+  constructor(public userService: UserService, public commentService: CommentService, private modalService: BsModalService) {
     this.users = [];
     this.currentUser = new User;
     this.commentModal = new Comment();
-    this.state = 'void';
     this.isShown = [];
     this.replyComment = '';
+    this.commentIsActive = true;
+    this.replyIsActive = true;
     this.loggedInUser = JSON.parse(localStorage.getItem('user'));
     this.userService.getUsers().subscribe(data => {
       this.commentService.getComments(this.contractId1).subscribe(result => {
@@ -68,11 +80,20 @@ export class ContractCommentsComponent implements OnInit {
       this.currentUser = data;
     });
   }
+
+  commentDeleteModal(template) {
+    this.modalRef = this.modalService.show(template);
+  }
+  replyDeleteModal(template) {
+    this.modalRef = this.modalService.show(template);
+  }
+
   show(i) {
     this.isShown[i] = !this.isShown[i];
   }
 
   addComment(event, isValid) {
+    event.preventDefault();
     if (isValid === true) {
       this.commentModal.userId = event.target.dataset.id;
       this.commentModal.contractId = this.contractId1;
@@ -94,7 +115,6 @@ export class ContractCommentsComponent implements OnInit {
             confirmButtonText: 'Kthehu te forma'
           });
         } else {
-          this.commentModal = new Comment();
           this.commentService.getComments(this.contractId1).subscribe(result => {
             result.forEach(element => {
               if (element._id === res.comment._id) {
@@ -105,6 +125,10 @@ export class ContractCommentsComponent implements OnInit {
               }
             });
           });
+          this.commentModal = new Comment();
+          this.commentForm.reset();
+          this.commentIsActive = false;
+          setTimeout(() => this.commentIsActive = true, 0);
         }
       });
     }
@@ -113,9 +137,10 @@ export class ContractCommentsComponent implements OnInit {
   addReply(event, isValid) {
     if (isValid === true) {
       this.commentModal._id = event.target.dataset.id;
-      this.commentModal.reply.replyUserId = this.loggedInUser.id;
-      this.commentModal.reply.replyDateTime = new Date(Date.now()).toLocaleString();
-      this.commentModal.reply.replyComment = this.replyComment;
+      this.reply.replyUserId = this.loggedInUser.id;
+      this.reply.replyDateTime = new Date(Date.now()).toLocaleString();
+      this.reply.replyComment = this.replyComment;
+      this.commentModal.reply = this.reply;
       this.commentService.addReply(this.commentModal._id, this.commentModal.reply).subscribe(res => {
         if (res.err) {
           Swal('Gabim!', 'Përgjigja nuk nuk u shtua', 'error');
@@ -141,7 +166,15 @@ export class ContractCommentsComponent implements OnInit {
               }
             });
           });
+          this.reply = {
+            replyUserId: '',
+            replyComment: '',
+            replyDateTime: ''
+          };
           this.replyComment = '';
+          this.replyForm.reset();
+          this.replyIsActive = false;
+          setTimeout(() => this.replyIsActive = true, 0);
         }
       });
     }
@@ -155,6 +188,7 @@ export class ContractCommentsComponent implements OnInit {
       } else {
         this.users.splice((this.users.findIndex(comment => comment._id === id)), 1);
         Swal('Sukses!', 'Komenti u fshi me sukses.', 'success');
+        this.modalRef.hide();
       }
     });
   }
@@ -168,10 +202,11 @@ export class ContractCommentsComponent implements OnInit {
       } else {
         this.users.forEach(element => {
           if (element._id === commentId) {
-            element.reply.splice((element.reply.findIndex(reply => replyId._id === replyId)), 1);
+            element.reply.splice((element.reply.findIndex(reply => reply._id === replyId)), 1);
           }
         });
-        Swal('Sukses!', 'Reply u fshi me sukses.', 'success');
+        Swal('Sukses!', 'Përgjigja u fshi me sukses.', 'success');
+        this.modalRef.hide();
       }
     });
   }

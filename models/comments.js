@@ -35,23 +35,27 @@ module.exports.addReply = (commentId, reply, callback) => {
 // Method for deleting a comment 
 module.exports.deleteComment = (commentId, callback) => {
     Comment.findByIdAndRemove(commentId, callback);
-} 
+}
 
 // Method for deleting a reply
-module.exports.deleteReply = (commentId,replyId, callback) => {
-    Comment.update( {
-        "_id": commentId},
-        { "$pull": 
-            {"reply": 
-                {"_id": replyId}
-            }
+module.exports.deleteReply = (commentId, replyId, callback) => {
+    Comment.update({
+        "_id": commentId
+    },
+        {
+            "$pull":
+                {
+                    "reply":
+                        { "_id": replyId }
+                }
         }, callback);
-} 
+}
 
 // Method for getting a contract id 
 module.exports.getComments = (contractId, callback) => {
     Comment.aggregate([
         { "$match": { "contractId": contractId } },
+        { "$sort": { "dateTime": -1}},
         {
             "$project": {
                 "userId": 1,
@@ -67,6 +71,7 @@ module.exports.getComments = (contractId, callback) => {
                 "preserveNullAndEmptyArrays": true
             }
         },
+        { "$sort": { "reply.replydateTime": 1}},
         {
             "$lookup": {
                 "from": "users",
@@ -74,6 +79,9 @@ module.exports.getComments = (contractId, callback) => {
                 "foreignField": "_id",
                 "as": "result"
             }
+        },
+        {
+            "$project": { "result": { "_id": 0 } }
         },
         {
             "$unwind": {
@@ -106,7 +114,7 @@ module.exports.getComments = (contractId, callback) => {
                 "isActive": { "$first": "$isActive" },
                 "userId": { "$first": "$userId" },
                 "dateTime": { "$first": "$dateTime" },
-                "comment": { "$first": "$comment" },                               
+                "comment": { "$first": "$comment" },
                 "contractId": { "$first": "$contractId" },
                 "reply": { "$push": "$repliesWithPeople" }
             }

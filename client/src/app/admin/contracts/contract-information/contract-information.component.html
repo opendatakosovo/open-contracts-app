@@ -21,6 +21,9 @@
         </div>
         <div class="col-md-3">
           <label>Lloji i prokurimit</label>
+          <div *ngIf="contract.procurementType == ''">
+            <p>Nuk ka të dhëna!</p>
+          </div>
           <div *ngIf="contract.procurementType == 'Furnizim'">
             <p>Furnizim</p>
           </div>
@@ -45,6 +48,9 @@
         </div>
         <div class="col-md-3">
           <label>Vlera e prokurimit</label>
+          <div *ngIf="contract.procurementValue == ''">
+            <p>Nuk ka të dhëna!</p>
+          </div>
           <div *ngIf="contract.procurementValue == 'Vlerë e madhe'">
             <p>Vlerë e madhe</p>
           </div>
@@ -60,6 +66,9 @@
         </div>
         <div class="col-md-3">
           <label>Procedura prokurimit</label>
+          <div *ngIf="contract.procurementProcedure == ''">
+            <p>Nuk ka të dhëna!</p>
+          </div>
           <div *ngIf="contract.procurementProcedure == 'Procedura e hapur'">
             <p>Procedura e hapur</p>
           </div>
@@ -286,7 +295,7 @@
         <div class="col-md-6">
           <label>Ankesat në autoritet</label>
           <br>
-          <div *ngIf="contract.complaintsToAuthority2 == '0' || contract.complaintsToOshp2 == ''">
+          <div *ngIf="contract.complaintsToAuthority2 == '0' || contract.complaintsToAuthority2 == ''">
             <p>Nuk ka</p>
           </div>
           <div *ngIf="contract.complaintsToAuthority2 == '1'">
@@ -325,7 +334,7 @@
           <div *ngIf="contract.company.type == '' || contract.company.type == 'n/a'">
             <p>Nuk ka të dhëna!</p>
           </div>
-          <div *ngIf="contract.company.type == '1' || contract.company.type == 'OE Vendor'">
+          <div *ngIf="contract.company.type == '1' || contract.company.type == 'OE Vendor' || contract.company.type == 'Vendore'">
             <p>Vendore</p>
           </div>
           <div *ngIf="contract.company.type == 'notLocal'">
@@ -435,7 +444,7 @@
       </div>
       <div class="row">
         <br>
-        <div class="col-4">
+        <div class="col-md-6">
           <label>Numri i përgjithshëm i situacioneve për pagesë, sipas kontratës</label>
           <div *ngIf="!contract.noOfPaymentInstallments">
             <p>Nuk ka të dhëna!</p>
@@ -444,7 +453,7 @@
             <p>{{ contract.noOfPaymentInstallments }}</p>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
           <label>Vlera totale e kontratës, duke përfshirë të gjitha taksat etj.</label>
           <div *ngIf="!contract.contract.totalAmountOfContractsIncludingTaxes">
             <p>Nuk ka të dhëna!</p>
@@ -453,7 +462,10 @@
             <p>{{ contract.contract.totalAmountOfContractsIncludingTaxes }} &euro;</p>
           </div>
         </div>
-        <div class="col-md-4">
+      </div>
+      <div class="row" id="total-amount">
+        <br>
+        <div class="col-12" class="highlighted-values">
           <label>Vlera totale e kontratës, duke përfshirë të gjitha anekset dhe të gjitha taksat etj.</label>
           <div *ngIf="!contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes">
             <p>Nuk ka të dhëna!</p>
@@ -544,9 +556,9 @@
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row" id="total-payed-price">
         <br>
-        <div class="col-md-12">
+        <div class="col-md-6">
           <label>Shuma e zbritjes nga kontrata për shkaqe të ndalesave</label>
           <div *ngIf="!contract.contract.discountAmount">
             <p>Nuk ka të dhëna!</p>
@@ -555,16 +567,22 @@
             <p>{{ contract.contract.discountAmount}} &euro;</p>
           </div>
         </div>
-      </div>
-      <div class="row">
-        <br>
-        <div class="col-md-6">
+        <div class="col-md-6" class="highlighted-values">
           <label>Çmimi total i paguar për kontratën</label>
           <div *ngIf="!contract.contract.totalPayedPriceForContract">
             <p>Nuk ka të dhëna!</p>
           </div>
           <div *ngIf="contract.contract.totalPayedPriceForContract">
             <p>{{ contract.contract.totalPayedPriceForContract}} &euro;</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <br>
+        <div class="col-md-6" id="highlighted-values">
+          <label>Çmimi total i papaguar për kontratën (Në këtë çmim është përfshirë edhe shuma e zbritjes për shkak të ndalesave)</label>
+          <div>
+            <p>{{ totalAmountOfAllAnnexContractsIncludingTaxes - totalPayedPriceForContract - discountAmount }} &euro;</p>
           </div>
         </div>
         <div class="col-md-6">

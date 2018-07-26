@@ -28,7 +28,7 @@ module.exports = multer({
                 if (err) {
                     cb(null, true);
                 } else {
-                    req.fileExist = "Dataset exsist";
+                    req.fileExist = "Dataset exists!";
                     return cb(null, false);
                 }
             });

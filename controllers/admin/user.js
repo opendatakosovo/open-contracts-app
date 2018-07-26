@@ -77,10 +77,10 @@ router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => 
 
 router.get('/active-users', passport.authenticate('jwt', { session: false }), (req, res) => {
     User.activeUsers((err, users) => {
-        if(!err) {
+        if (!err) {
             res.json({
                 "msg": "Active users has been retrived succesfully",
-                "users": users, 
+                "users": users,
                 "success": true
             })
         } else {
@@ -93,9 +93,9 @@ router.get('/active-users', passport.authenticate('jwt', { session: false }), (r
 });
 
 // Route for getting a user by id
-router.get('/:id', passport.authenticate('jwt', { session: false }), (req,res) => {
-    User.getUserById(req.params.id , (err, user) => {
-        if(!err) {
+router.get('/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
+    User.getUserById(req.params.id, (err, user) => {
+        if (!err) {
             res.json({
                 "msg": "User has been retrived successfully",
                 "user": user,
@@ -133,7 +133,6 @@ router.put('/generate-password/:id', passport.authenticate('jwt', { session: fal
     let password = passwordGenerator.generate();
     User.changePassword(req.params.id, password, (err, user) => {
         if (!err) {
-            console.log(user.email);
             const mail = {
                 to: user.email,
                 from: "support@prishtina.com",

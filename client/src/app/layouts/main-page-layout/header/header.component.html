@@ -14,23 +14,18 @@
     <ul class="navbar-nav navbar-left">
       <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <a class="nav-link" id="home" [routerLink]="['']">{{ 'navigation.home' | translate }}</a>
-        <div class="underline" id="underlineHome" routerLinkActive="active"></div>
       </li>
-      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      <li class="nav-item" class="about-visualization" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <a class="nav-link" id="visualisations" [routerLink]="['/visualisations']">{{ 'navigation.visualizations' | translate }}</a>
-        <div class="underline" id="underlineVisualizations" routerLinkActive="active"></div>
       </li>
-      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-        <a class="nav-link" id="dataSet" [routerLink]="['/data-set']">{{ 'navigation.dataset' | translate }}</a>
-        <div class="underline" id="underlineDataSet" routerLinkActive="active"></div>
+      <li class="nav-item" class="data-set-link">
+        <a class="nav-link" (click)="scroll()">{{ 'navigation.dataset' | translate }}</a>
       </li>
-      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-        <a class="nav-link" id="about" [routerLink]="['/about-us']">{{ 'navigation.aboutUs' | translate }}</a>
-        <div class="underline" id="underlineAbout" routerLinkActive="active"></div>
+      <li class="nav-item" class="about-visualization" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="nav-link" [routerLink]="['/about-us']">{{ 'navigation.aboutUs' | translate }}</a>
       </li>
       <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <a class="nav-link" href="http://biznesetehapura.com/sq" target="_blank" style="width: 192px;">{{ 'navigation.openBusinesses' | translate }}</a>
-
       </li>
     </ul>
     <div *ngIf="width>991">
@@ -40,11 +35,11 @@
         </li>
         <span id="horizontalLine">|</span>
         <li class="nav-item">
-          <a class="nav-link" [ngClass]="{'active': selectedItem === 'item2'}" (click)="useLanguage('en');selectedItem = 'item2'">ENG</a>
+          <a class="nav-link" [ngClass]="{'active': selectedItem === 'item2'}" (click)="useLanguage('sr');selectedItem = 'item2'">SRB</a>
         </li>
         <span id="horizontalLine">|</span>
         <li class="nav-item">
-          <a class="nav-link" [ngClass]="{'active': selectedItem === 'item3'}" (click)="useLanguage('sr');selectedItem = 'item3'">SRB</a>
+          <a class="nav-link" [ngClass]="{'active': selectedItem === 'item3'}" (click)="useLanguage('en');selectedItem = 'item3'">ENG</a>
         </li>
       </ul>
     </div>
@@ -58,10 +53,10 @@
             <a class="nav-link" [ngClass]="{'active': selectedItem === 'item1'}" (click)="useLanguage('sq');selectedItem = 'item1'">SHQ</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" [ngClass]="{'active': selectedItem === 'item2'}" (click)="useLanguage('en');selectedItem = 'item2'">ENG</a>
+            <a class="nav-link" [ngClass]="{'active': selectedItem === 'item2'}" (click)="useLanguage('sr');selectedItem = 'item2'">SRB</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" [ngClass]="{'active': selectedItem === 'item3'}" (click)="useLanguage('sr');selectedItem = 'item3'">SRB</a>
+            <a class="nav-link" [ngClass]="{'active': selectedItem === 'item3'}" (click)="useLanguage('en');selectedItem = 'item3'">ENG</a>
           </li>
         </ul>
       </ul>
