@@ -1,0 +1,32 @@
+.background-image {
+    background-image: url('/assets/images/404-bg.jpg');
+     height: 100%; 
+     max-height: 100%;
+     background-repeat: no-repeat;
+     background-position: center;
+     background-size: cover;
+     padding: 0;
+}
+
+h1 {
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    line-height: 440px;
+    font-size: 170px;
+    height: 350;
+}
+
+p {
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    margin-bottom: 0;
+    font-size: 21px;
+    font-weight: 400;
+}
+
+a {
+    color: white;
+    text-decoration-line: underline;
+}

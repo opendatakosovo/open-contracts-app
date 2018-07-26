@@ -47,6 +47,7 @@ import { EditContractComponent } from './admin/contracts/edit-contract/edit-cont
 import { ContractCommentsComponent } from './admin/contracts/contract-comments/contract-comments.component';
 import { MainPageContractsListComponent } from './main/home/main-page-contracts-list/main-page-contracts-list.component';
 import { CommentService } from './service/comment.service';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -62,7 +63,6 @@ const appRoutes: Routes = [
       { path: 'about-us', component: AboutUsComponent },
     ]
   },
-  { path: 'login', component: LoginComponent },
   {
     path: '',
     component: DashboardLayoutComponent,
@@ -77,7 +77,10 @@ const appRoutes: Routes = [
       { path: 'dashboard/contracts/:id', component: ContractInformationComponent, canActivate: [AuthGuard] },
       { path: 'dashboard/contracts/edit-contract/:id', component: EditContractComponent, canActivate: [AuthGuard] }
     ]
-  }
+  },
+  { path: 'login', component: LoginComponent },
+  { path: 'not-found', component: PageNotFoundComponent },
+  { path: '**', redirectTo: 'not-found' },
 ];
 
 @NgModule({
@@ -106,6 +109,7 @@ const appRoutes: Routes = [
     EditContractComponent,
     ContractCommentsComponent,
     MainPageContractsListComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
