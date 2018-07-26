@@ -9,7 +9,6 @@ const morgan = require('morgan');
 
 require('dotenv').config();
 
-
 // DB connection
 mongoose.connect(config.database);
 mongoose.connection.on("connected", () => {
@@ -56,8 +55,7 @@ app.get('/uploads/:filename', (req, res) => {
 // Route all dataset  files
 app.get('/datasets/:folder/:filename', (req, res) => {
   res.sendFile(path.join(__dirname, `prishtina-contracts-importer/data/procurements/${req.params.folder}/${req.params.filename}`));
-})
-
+});
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/index.html'));
