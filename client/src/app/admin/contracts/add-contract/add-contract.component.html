@@ -491,17 +491,10 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-6 form-group">
+          <div class="col-12 form-group">
             <label for="totalAmountOfContractsIncludingTaxes">Vlera totale e kontratës, duke përfshirë të gjitha taksat etj.</label>
             <input type="text" name="totalAmountOfContractsIncludingTaxes" id="totalAmountOfContractsIncludingTaxes" formControlName='totalAmountOfContractsIncludingTaxes'
               [(ngModel)]="contract.contract.totalAmountOfContractsIncludingTaxes" class="form-control">
-
-          </div>
-          <div class="col-md-6">
-            <label for="totalAmountOfAllAnnexContractsIncludingTaxes">Vlera totale e kontratës, duke përfshirë të gjitha anekset dhe të gjitha taksat etj.</label>
-            <input type="text" name="totalAmountOfAllAnnexContractsIncludingTaxes" id="totalAmountOfAllAnnexContractsIncludingTaxes"
-              formControlName="totalAmountOfAllAnnexContractsIncludingTaxes" [(ngModel)]="contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes"
-              class="form-control">
           </div>
         </div>
         <div class="row">
@@ -600,16 +593,9 @@
         </div>
         <div class="row">
           <div class="col-md-6">
-            <label for="totalPayedPriceForContract">Çmimi total i paguar për kontratën</label>
-            <input type="number" name="totalPayedPriceForContract" id="totalPayedPriceForContract" formControlName="totalPayedPriceForContract"
-              [(ngModel)]="contract.contract.totalPayedPriceForContract" class="form-control">
-          </div>
-          <div class="col-md-6">
             <label for="year">Viti</label>
             <input type="text" name="year" id="year" formControlName="year" [(ngModel)]="contract.year" class="form-control" required>
           </div>
-        </div>
-        <div class="row">
           <div class="col-md-6 form-group">
             <div class="form-group">
               <label for="directorates">Drejtoritë</label>
