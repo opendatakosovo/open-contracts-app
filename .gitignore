@@ -6,7 +6,8 @@ Icon?
 Thumbs.db
 .env
 importer/
-prishtina-importer-contracts/
+prishtina-contracts-importer
+angular-src
 
 # Node and related ecosystem
 # ==========================

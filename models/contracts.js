@@ -158,3 +158,7 @@ module.exports.getTopTenContractors = () => {
 module.exports.getContractsByContractorCompany = (companyName) => {
     return Contract.find({ "company.name": companyName });
 }
+
+module.exports.getContractsByYears = year => {
+    return Contract.find({ year: Number(year) });
+}
