@@ -3,7 +3,7 @@
   />
   <ngx-datatable #table class="bootstrap" columnMode="'force'" [rows]="rows" [headerHeight]="'auto'" [summaryRow]="false" [summaryPosition]="'bottom'"
     [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements" [offset]="page.pageNumber"
-    [limit]="10" [messages]="messages" [scrollbarH]="true" (page)='setPage($event)'>
+    [limit]="page.size" [messages]="messages" [scrollbarH]="true" (page)='setPage($event)'>
     <ngx-datatable-column [width]="80">
       <ng-template let-column="column" ngx-datatable-header-template>
         <p class="column-header">Statusi</p>
@@ -222,14 +222,7 @@
       <ng-template ngx-datatable-footer-template let-rowCount="rowCount" let-pageSize="pageSize" let-selectedCount="selectedCount"
         let-curPage="curPage" let-offset="offset">
         <div style="padding: 5px 10px;width: 50%;">
-          <div>
-            Kontrata: {{rowCount}} | Të shfaqura:
-            <select id="per-page" (change)="onLimitChange($event.target.value)">
-              <option *ngFor="let option of pageLimitOptions" [value]="option.value" [selected]="option.value == currentPageLimit">
-                {{ option.value }}
-              </option>
-            </select> | Faqja: {{curPage}}
-          </div>
+          Kontrata: {{rowCount}} | Të shfaqura: {{pageSize}} | Faqja: {{curPage}}
         </div>
         <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'" [pagerRightArrowIcon]="'datatable-icon-right'" [pagerPreviousIcon]="'datatable-icon-prev'"
           [pagerNextIcon]="'datatable-icon-skip'" [page]="curPage" [size]="pageSize" [count]="rowCount" [hidden]="!((rowCount / pageSize) > 1)"
