@@ -36,7 +36,6 @@ const ContractSchema = mongoose.Schema({
     }],
     lastInstallmentPayDate: { type: Date },
     lastInstallmentAmount: { type: String },
-    discountAmount: { type: String },
     company: {
         name: { type: String },
         slug: { type: String },
@@ -67,7 +66,7 @@ const ContractSchema = mongoose.Schema({
         publicationDate: { type: Date },
         publicationDateOfGivenContract: { type: Date },
         closingDate: { type: Date },
-        discountAmount: { type: String },
+        discountAmountFromContract: { type: String },
         file: { type: String },
         signingDate: { type: Date },
     },

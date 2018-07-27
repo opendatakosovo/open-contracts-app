@@ -465,13 +465,13 @@
       </div>
       <div class="row" id="total-amount">
         <br>
-        <div class="col-12" class="highlighted-values">
+        <div class="col-12">
           <label>Vlera totale e kontratës, duke përfshirë të gjitha anekset dhe të gjitha taksat etj.</label>
-          <div *ngIf="!contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes">
-            <p>Nuk ka të dhëna!</p>
+          <div *ngIf="contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes == '' || contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes == null">
+            <p class="highlighted-values">Nuk ka të dhëna!</p>
           </div>
           <div *ngIf="contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes">
-            <p>{{ contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes }} &euro;</p>
+            <p class="highlighted-values">{{ contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes }} &euro;</p>
           </div>
         </div>
       </div>
@@ -479,10 +479,10 @@
         <br>
         <div class="col-md-6">
           <label>Vlera totale e Aneks kontratës duke përfshirë të gjitha taksat({{i+1}})</label>
-          <div *ngIf="annex.totalValueOfAnnexContract1 == null">
+          <div *ngIf="annex.totalValueOfAnnexContract1 == ''">
             <p>Nuk ka të dhëna!</p>
           </div>
-          <div *ngIf="annex.totalValueOfAnnexContract1 != null">
+          <div *ngIf="annex.totalValueOfAnnexContract1 != ''">
             <p>{{ annex.totalValueOfAnnexContract1 }} &euro;</p>
           </div>
         </div>
@@ -560,29 +560,29 @@
         <br>
         <div class="col-md-6">
           <label>Shuma e zbritjes nga kontrata për shkaqe të ndalesave</label>
-          <div *ngIf="!contract.contract.discountAmount">
+          <div *ngIf="!contract.contract.discountAmountFromContract">
             <p>Nuk ka të dhëna!</p>
           </div>
-          <div *ngIf="contract.contract.discountAmount">
-            <p>{{ contract.contract.discountAmount}} &euro;</p>
+          <div *ngIf="contract.contract.discountAmountFromContract">
+            <p>{{ contract.contract.discountAmountFromContract }} &euro;</p>
           </div>
         </div>
-        <div class="col-md-6" class="highlighted-values">
+        <div class="col-md-6">
           <label>Çmimi total i paguar për kontratën</label>
           <div *ngIf="!contract.contract.totalPayedPriceForContract">
-            <p>Nuk ka të dhëna!</p>
+            <p class="highlighted-values">Nuk ka të dhëna!</p>
           </div>
           <div *ngIf="contract.contract.totalPayedPriceForContract">
-            <p>{{ contract.contract.totalPayedPriceForContract}} &euro;</p>
+            <p class="highlighted-values">{{ contract.contract.totalPayedPriceForContract}} &euro;</p>
           </div>
         </div>
       </div>
       <div class="row">
         <br>
-        <div class="col-md-6" id="highlighted-values">
+        <div class="col-md-6">
           <label>Çmimi total i papaguar për kontratën (Në këtë çmim është përfshirë edhe shuma e zbritjes për shkak të ndalesave)</label>
           <div>
-            <p>{{ totalAmountOfAllAnnexContractsIncludingTaxes - totalPayedPriceForContract - discountAmount }} &euro;</p>
+            <p class="highlighted-values">{{ totalAmountOfAllAnnexContractsIncludingTaxes - totalPayedPriceForContract - discountAmount }} &euro;</p>
           </div>
         </div>
         <div class="col-md-6">

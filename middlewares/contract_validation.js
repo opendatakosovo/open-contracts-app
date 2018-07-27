@@ -62,7 +62,7 @@ module.exports = (req, res, next) => {
     if (isEqual(requestedContract['lastInstallmentAmount'], 0)) {
         errors.push('Shuma e pagesës së situacionit të fundit nuk duhet të jetë zero!');
     }
-    if (isEqual(requestedContract.contract['discountAmount'], 0)) {
+    if (isEqual(requestedContract.contract['discountAmountFromContract'], 0)) {
         errors.push('Shuma e zbritjes nga kontrata për shkaqe të ndalesave nuk duhet të jetë zero!');
     }
     if (isEqual(requestedContract.contract['totalPayedPriceForContract'], 0)) {
