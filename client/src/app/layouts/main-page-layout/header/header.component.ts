@@ -13,7 +13,7 @@ import { timeout } from 'rxjs/operators';
 })
 export class HeaderComponent implements OnInit {
   width: number = window.innerWidth;
-  selectedItem = 'item1';
+  selectedItem = 'sq';
   isActive: boolean;
   constructor(private translate: TranslateService, private titleService: Title, private router: Router,
     @Inject(DOCUMENT) private document: any, private pageScrollService: PageScrollService) {
