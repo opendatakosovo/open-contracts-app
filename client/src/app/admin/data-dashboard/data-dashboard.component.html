@@ -54,7 +54,7 @@
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" href="/datasets/{{dataSet.folder}}/{{dataSet.datasetFilePath}}">CSV</a>
-                                <a class="dropdown-item">JSON</a>
+                                <a class="dropdown-item" href="/datasets/json/{{ dataSet.datasetFilePath.replace('.csv', '') }}">JSON</a>
                             </div>
                         </div>
                     </td>

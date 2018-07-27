@@ -17,4 +17,8 @@ export class DatasetService {
     return this.http.getWithAuth(`${this.APIUrl}/datasets/`).map(res => res.json().datasets);
   }
 
+  getDatasetByYear(year) {
+    return this.http.getWithAuth(`${this.APIUrl}/datasets/json/` + year).map(res => res.json());
+  }
+
 }
