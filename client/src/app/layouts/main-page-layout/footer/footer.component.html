@@ -3,7 +3,7 @@
     <div id="footerImage" class="col-md-12 footerImage">
       <div class="row" id="footer-div">
         <div class="col-md-3 social-media">
-          <p class="text">Na ndiqni në:</p>
+          <p class="text">{{ 'footer.followUs' | translate }}</p>
           <ul>
             <li>
               <a href="https://www.facebook.com/komunaprishtine/" target="_blank">
@@ -11,7 +11,7 @@
                 <span id="facebook">Facebook</span>
               </a>
             </li>
-            <li>
+            <li id="twitter-li">
               <a href="https://twitter.com/kprishtines" target="_blank">
                 <i class="fa fa-twitter" aria-hidden="true"></i>
                 <span id="twitter">Twitter</span>
@@ -20,10 +20,10 @@
           </ul>
         </div>
         <div class="col-md-3" id="information">
-          <p class="text">Adresa:</p>
+          <p class="text">{{ 'footer.address' | translate}}</p>
           <ul>
             <li>038/230 900</li>
-            <li>Rr.UÇK-2-10000 Prishtinë, Kosovë</li>
+            <li>{{ 'footer.exactAddress' | translate }}</li>
           </ul>
         </div>
         <div class="col-md-3" id="municipality">
@@ -45,7 +45,7 @@
       </div>
       <div class="row" id="copyright">
         <div class="col-md-12">
-          <div class="">
+          <div>
             <p class="text">Copyright © ODK
               <span id="year"></span>
             </p>

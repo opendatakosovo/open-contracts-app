@@ -1,6 +1,7 @@
 .row {
     width: 100%;
 }
+
 #footerImage {
     background-image: url('/assets/images/footer.png');
     height: 278px;
@@ -8,49 +9,48 @@
     background-size: cover;
     width: 100%;
 }
+
 .footer {
     bottom: 0;
     left: 0;
     position: relative;
 }
+
 .container-fluid {
     padding: 0;
 }
+
 .footerImage {
     padding: 0;
 }
+
 .footerImage .komunaPrishtines {
     padding-top: 25%;
     padding-left: 0;
 }
+
 .footerImage .komunaPrishtines a {
        padding-left: 38%; 
 }
+
 .footerImage .komunaPrishtines h5 {
        padding-left: 0;
        text-align: center; 
 }
+
 .footerImage .komunaPrishtines img {
     padding-left: 0;
 }
-.footerImage .reservedRights {
-    padding-top: 80px;
-    padding-left: 3%; 
-}
-.footerImage .reservedRights p:nth-of-type(1) {
-    margin-bottom: 0px;
-    text-align: center;
-}
-.footerImage .reservedRights p:nth-of-type(2) {
-    text-align: center 
-}
+
 .footerImage .dashboard {
     padding-top: 27%;
     padding-right: 23%;
 }
+
 .footerImage .dashboard img {
-    padding-left: 32%; 
+    padding-left: 35%; 
 }
+
 .text {
     color: #fff;
     font-family: 'Roboto', sans-serif;
@@ -59,139 +59,168 @@
     margin-bottom: 0;
     font-size: 13px;
 }
+
 img {
     padding-top: 20px;
     height: 100px;
 }
+
 #techstitution-logo {
     height: 90px;
     padding-top: 10px;
     margin-top: 9px;
 }
+
 #copyright {
     padding-top: 3%;
 }
+
 .social-media {
     padding-top: 8%;
     padding-left: 0;
     padding-right: 0;
 }
+
 .social-media a {
     color: #fff;
 }
+
 .social-media a:hover {
    text-decoration: none;
 }
+
 .social-media ul {
     list-style: none;
     padding-left: 0;
 }
+
 .social-media li {
     margin-bottom: 2px;
 }
+
 .social-media p {
     text-align: left;
     margin-bottom: 10px;
 }
+
 #footer-div {
     padding-left: 5%;
     margin: 0;
 }
+
 #municipality {
     padding-right: 0;
 }
+
 #developers {
     padding-left: 35px;
     padding-right: 0;
 }
+
 #facebook {
     margin-left: 2%;
     font-size: 13px;
 }
+
 #facebook-icon {
     padding-left: 2px;
 }
+
 #twitter {
     margin-left: 1%;
     font-size: 13px;
 }
+
 #information {
     font-size: 13px;
     padding-left: 0;
     padding-top: 8%;
 }
+
 #information ul {
     list-style: none;
     padding-left: 0;
     color: #fff;
 }
+
 #information p {
     text-align: left;
     margin-bottom: 10px;
 }
+
 #information li {
     margin-bottom: 2px;
 }
+
 @media(max-width: 1200px) {
-    .text {
-        font-size: 17px;
-    }
-    .footerImage .komunaPrishtines {
-        padding-left: 80px;
-    }
-    .footerImage .reservedRights {
-        padding-left: 45px;
-    }
-    .footerImage .dashboard {
-        padding-left: 50px
-    }
-    .footerImage .dashboard img {
-        padding-left:23px; 
+    #techstitution-logo {
+        padding-left:30%; 
     }
 }
-@media(max-width: 824px) {
-    .text {
-        width: 200px;
+
+@media(max-width: 880px) {
+    #techstitution-logo {
+        height: 75px;
     }
-}
-@media(max-width: 767px) {
-     #footerImage {
-        height: 555px;
-     }
-     .footerImage .komunaPrishtines {
-        padding-top: 90px;
-        padding-left: 0;
-        text-align: center;
-     }
-     .footerImage .komunaPrishtines img {
-        padding-top: 5px;
-        padding-left: 5px;
-        padding-right: 10px;
+    .footerImage .komunaPrishtines img {
+        height: 89px;
     }
-     .footerImage .reservedRights {
-        padding-top: 30px;
-        padding-left: 8px;
-        text-align: center;
-    }
-    .footerImage .reservedRights p:nth-of-type(2) {
-        padding-left:5px; 
-        padding-top: 0;
-    }
-    .footerImage .dashboard {
-        padding-top: 43px;
-        padding-left: 0;
-        text-align: center;
-    }
-    .footerImage .dashboard img {
-        padding-left: 5px;
-        padding-top: 5px; 
-        padding-bottom: 20px;
-    }
-    img {
-        padding-top: 20px;
-        height: 85px;
-    }
-    .text {
-        width: auto;
-    }
+    .footerImage .komunaPrishtines a {
+        padding-left: 34%; 
  }
+}
+
+@media(max-width: 767px) {
+    #footerImage {
+        height: 855px;
+    }
+
+    #information {
+        padding-left: 0;
+        padding-top: 5%;
+    }
+    #municipality, #developers {
+        padding-left: 0;
+    }
+    .social-media p, li, #information p {
+        text-align: center;
+    }
+
+    .social-media {
+        padding-top: 20%;
+        padding-left: 0%;
+    }
+
+    .footerImage .komunaPrishtines {
+        padding-top: 5%;
+        padding-left: 0%;
+    }
+
+    .footerImage .komunaPrishtines a, #techstitution-logo {
+        padding-left: 45%; 
+    }
+
+    .footerImage .dashboard {
+        padding-top: 7%;
+        padding-right: 0;
+    }
+    #copyright {
+        padding-left: 11%;
+        padding-top: 40px
+    }
+    #twitter-li {
+        margin-left: -15px
+    }
+}
+
+@media(max-width: 640px) {
+    #footerImage {
+        height: 600px;
+    }
+}
+
+@media(max-width: 450px) {
+    .footerImage .komunaPrishtines a, #techstitution-logo {
+        padding-left: 42%; 
+    }
+}
