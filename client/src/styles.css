@@ -45,6 +45,9 @@
 .ngx-datatable .datatable-body .datatable-row-wrapper {
     width: 101%;
 }
+.ngx-datatable .datatable-body .datatable-scroll {
+    width: 100% !important;
+}
 /* Datatable scrollbar style */
 /* width */
 .datatable-body::-webkit-scrollbar {
