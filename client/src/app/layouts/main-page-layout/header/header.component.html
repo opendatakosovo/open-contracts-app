@@ -10,58 +10,69 @@
     </span>
   </button>
 
-  <div class="collapse navbar-collapse justify-content-between" id="mainNav">
+  <div class="collapse navbar-collapse auto justify-content-between" id="mainNav">
     <ul class="navbar-nav navbar-left">
-      <li class="nav-item" data-toggle="collapse" data-target="#mainNav" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      <li *ngIf="width>991" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <a class="nav-link" id="home" [routerLink]="['']">{{ 'navigation.home' | translate }}</a>
       </li>
-      <li class="nav-item" data-toggle="collapse" data-target="#mainNav" class="about-visualization" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      <li *ngIf="991>=width" class="nav-item" data-toggle="collapse" data-target="#mainNav" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="nav-link" id="home" [routerLink]="['']">{{ 'navigation.home' | translate }}</a>
+      </li>
+      <li *ngIf="width>991" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <a class="nav-link" id="visualisations" [routerLink]="['/visualisations']">{{ 'navigation.visualizations' | translate }}</a>
       </li>
-      <li class="nav-item" data-toggle="collapse" data-target="#mainNav" class="data-set-link">
+      <li *ngIf="991>=width" class="nav-item" data-toggle="collapse" data-target="#mainNav" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="nav-link" id="visualisations" [routerLink]="['/visualisations']">{{ 'navigation.visualizations' | translate }}</a>
+      </li>
+      <li *ngIf="width>991" class="nav-item" class="data-set-link">
         <a class="nav-link" (click)="scroll()">{{ 'navigation.dataset' | translate }}</a>
       </li>
-      <li class="nav-item" data-toggle="collapse" data-target="#mainNav" class="about-visualization" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      <li *ngIf="991>=width" data-toggle="collapse" data-target="#mainNav" class="nav-item" class="data-set-link">
+        <a class="nav-link" (click)="scroll()">{{ 'navigation.dataset' | translate }}</a>
+      </li>
+      <li *ngIf="width>991" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <a class="nav-link" [routerLink]="['/about-us']">{{ 'navigation.aboutUs' | translate }}</a>
       </li>
-      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      <li *ngIf="991>=width" class="nav-item" data-toggle="collapse" data-target="#mainNav" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="nav-link" [routerLink]="['/about-us']">{{ 'navigation.aboutUs' | translate }}</a>
+      </li>
+      <li *ngIf="width>991" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="nav-link" href="http://biznesetehapura.com/sq" target="_blank" style="width: 192px;">{{ 'navigation.openBusinesses' | translate }}</a>
+      </li>
+      <li *ngIf="991>=width" class="nav-item" data-toggle="collapse" data-target="#mainNav" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <a class="nav-link" href="http://biznesetehapura.com/sq" target="_blank" style="width: 192px;">{{ 'navigation.openBusinesses' | translate }}</a>
       </li>
     </ul>
     <div *ngIf="width>991">
       <ul class="navbar-nav navbar-right text-dark">
         <li class="nav-item">
-          <a class="nav-link" [ngClass]="{'active': selectedItem === 'item1'}" (click)="useLanguage('sq');selectedItem = 'item1'">SHQ</a>
+          <a class="nav-link" [ngClass]="{'active': selectedItem === 'sq'}" (click)="useLanguage('sq');selectedItem = 'sq'">SHQ</a>
         </li>
         <span id="horizontalLine">|</span>
         <li class="nav-item">
-          <a class="nav-link" [ngClass]="{'active': selectedItem === 'item2'}" (click)="useLanguage('sr');selectedItem = 'item2'">SRB</a>
+          <a class="nav-link" [ngClass]="{'active': selectedItem === 'sr'}" (click)="useLanguage('sr');selectedItem = 'sr'">SRB</a>
         </li>
         <span id="horizontalLine">|</span>
         <li class="nav-item">
-          <a class="nav-link" [ngClass]="{'active': selectedItem === 'item3'}" (click)="useLanguage('en');selectedItem = 'item3'">ENG</a>
+          <a class="nav-link" [ngClass]="{'active': selectedItem === 'en'}" (click)="useLanguage('en');selectedItem = 'en'">ENG</a>
         </li>
       </ul>
     </div>
     <div *ngIf="991>=width">
       <ul class="navbar-nav navbar-right dropdown">
-        <button id="lang-select" class="btn btn-outline-info dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-          aria-expanded="false">
-          <span class="caret"></span>SHQ</button>
-        <ul class="dropdown-menu">
-          <li class="nav-item">
-            <a class="nav-link" [ngClass]="{'active': selectedItem === 'item1'}" (click)="useLanguage('sq');selectedItem = 'item1'">SHQ</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" [ngClass]="{'active': selectedItem === 'item2'}" (click)="useLanguage('sr');selectedItem = 'item2'">SRB</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" [ngClass]="{'active': selectedItem === 'item3'}" (click)="useLanguage('en');selectedItem = 'item3'">ENG</a>
-          </li>
-        </ul>
+        <select id="lang-select" class="btn btn-outline-info dropdown-toggle" data-toggle="dropdown" (change)="useLanguage($event.target.value); selectedItem = $event.target.value"
+          role="button" aria-haspopup="true" aria-expanded="false">
+          <option class="nav-item" [value]="'sq'">
+            <a class="nav-link" [ngClass]="{'active': selectedItem === 'sq'}">SHQ</a>
+          </option>
+          <option class="nav-item" [value]="'sr'">
+            <a class="nav-link" [ngClass]="{'active': selectedItem === 'sr'}">SRB</a>
+          </option>
+          <option class="nav-item" [value]="'en'">
+            <a class="nav-link" [ngClass]="{'active': selectedItem === 'en'}">ENG</a>
+          </option>
+        </select>
       </ul>
     </div>
   </div>
 </nav>
-<script>   
-</script>
