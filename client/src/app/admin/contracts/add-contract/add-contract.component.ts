@@ -93,7 +93,7 @@ export class AddContractComponent implements OnInit {
       totalAmountOfAllAnnexContractsIncludingTaxes: '',
       lastInstallmentPayDate: null,
       lastInstallmentAmount: '',
-      discountAmount: '',
+      discountAmountFromContract: '',
       totalPayedPriceForContract: '',
       year: '',
       fppClassification: new FormControl(null, Validators.maxLength(2)),

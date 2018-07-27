@@ -50,7 +50,7 @@ export class Contract {
         publicationDate?: Date,
         publicationDateOfGivenContract?: Date,
         closingDate?: Date,
-        discountAmount?: String,
+        discountAmountFromContract?: String,
         file?: String,
         signingDate?: Date;
     };
@@ -122,7 +122,7 @@ export class Contract {
             publicationDate: null,
             publicationDateOfGivenContract: null,
             closingDate: null,
-            discountAmount: '',
+            discountAmountFromContract: '',
             file: '',
             signingDate: null
         };
