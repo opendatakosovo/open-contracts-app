@@ -2,7 +2,7 @@
     min-height: 200px;
 }
 #bg-img {
-    background-image: url('/assets/images/header2.png');
+    background-image: url('/assets/images/home.png');
      /* Full height */
      height: 678px; 
      max-height: 678px;
@@ -16,7 +16,7 @@
 }
 .cover .info-text {
     width: 549px;
-    padding-top: 180px;
+    padding-top: 140px;
     padding-left: 100px;
 
 }

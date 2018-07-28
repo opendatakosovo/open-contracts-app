@@ -119,7 +119,7 @@ a {
     width: max-content;
 }
 
-.data-set-link-active a{
+.data-set-link-active {
     color:#32a6bd;
     font-weight: 500;
 }
