@@ -62,6 +62,14 @@
     },
     "footer": {
         "municipality": "Municipality of Prishtina",
-        "developers": "Designed and developed:"
+        "developers": "Designed and developed:",
+        "followUs": "Follow us on:",
+        "address": "Address:",
+        "exactAddress": "St.UÇK-2-10000 Prishtina, Kosovo"
+    },
+    "pageNotFound": {
+        "pageNotFound": "The page was not found!",
+        "return": "Go back",
+        "to": "to Homepage"
     }
 }

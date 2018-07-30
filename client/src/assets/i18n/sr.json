@@ -3,15 +3,15 @@
         "title": "Oтворени Yговори"
     },
     "navigation": {
-        "home": "Lorem ipsum",
-        "visualizations": "Dolor sit amet",
-        "dataset": "Etiam condimentum",
-        "aboutUs": "Aenean ornare",
-        "openBusinesses": "Aenean pulvinar"
+        "home": "Početna",
+        "visualizations": "Vizualizacije",
+        "dataset": "Set podataka",
+        "aboutUs": "O Stranic",
+        "openBusinesses": "Otvorena preduzeća"
     },
     "coverImg": {
-        "title": "Donec mattis",
-        "municipality": "Etiam libero"
+        "title": "Javni potpisani ugovori",
+        "municipality": "Opština Priština"
     },
     "datatable": {
         "title": "Cras imperdiet",
@@ -35,32 +35,41 @@
         "page": "Phasellus:"
     },
     "dataset": {
-        "title": "Nunc nulla tellus",
-        "format": "Morbi",
-        "year": "Duis",
-        "download": "Vestibulum",
+        "title": "SET PODATAKA",
+        "format": "Format",
+        "year": "Godina",
+        "download": "Preuzmite",
         "yearValidation": "Lorem ipsum dolor sit amet!",
-        "formatValidation": "Quisque non est vestibulum!"
+        "formatValidation": "Quisque non est vestibulum!
     },
     "announcements": {
-        "title": "Class aptent",
-        "contractNotice": "Phasellus convallis",
-        "contractAwardNotification": "Pellentesque volutpat nisl",
-        "cancellationNotice": "Phasellus quis lacus ante",
-        "additionalInfosNotification": "Lorem ipsum dolor sit amet",
-        "contractCancellationAward": "Etiam libero leo",
-        "contractSigningNotification": "tempor vel ipsum",
-        "procurementPlans": "Donec suscipit urna a eleifend congue",
-        "designAwardNotification": "In malesuada tellus imperdiet id"
+        "title": "ONLINE PRIŠTINA",
+        "contractNotice": "Obaveštenje o ugovoru",
+        "contractAwardNotification": "Obaveštenja o davanju ugovora",
+        "cancellationNotice": "Obaveštenje o poništenju",
+        "additionalInfosNotification": "Obaveštenje o dodatnim informacijama",
+        "contractCancellationAward": "Poništenje davanja ugovora",
+        "contractSigningNotification": "Obaveštenje o potpisivanju ugovora",
+        "procurementPlans": "Planovi javne nabavke",
+        "designAwardNotification": "Obaveštenje o konkursu projektovanja"
     },
     "aboutUs": {
-        "title": "Lorem ipsum",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec volutpat eros. Etiam in purus sed ante elementum lacinia non sed leo. Duis consectetur leo interdum, varius neque quis, laoreet libero. Duis dictum ut libero at pretium. Duis ut vulputate ante. Curabitur interdum pellentesque justo, eget sagittis ex mollis id. Aenean aliquet tellus nec sagittis eleifend. Praesent maximus sem fermentum feugiat eleifend. Sed id lorem lacus. Sed placerat commodo sagittis. Nunc a fermentum est, eu iaculis massa. Nulla blandit vulputate dictum.",
-        "projectTitle": "Curabitur non magna",
-        "projectDescription": "Maecenas enim velit, consectetur eget lacus sed, pretium tincidunt nisi. Praesent eget velit luctus sem fermentum elementum. Quisque eu diam consequat, rhoncus leo quis, dapibus risus. Pellentesque tempus turpis ut purus molestie, at ornare nisi consequat. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Interdum et malesuada fames ac ante ipsum primis in faucibus. Cras gravida libero rhoncus ligula pharetra, eu viverra erat cursus. Nam commodo vitae purus non tincidunt. Cras suscipit feugiat erat at fringilla.Mauris vel consequat lacus. Proin in gravida nibh. Nunc suscipit auctor dapibus. Aliquam imperdiet orci non nisl interdum, et consequat enim facilisis. Praesent vel sem sodales quam varius hendrerit et ac urna. Nullam lorem felis, maximus id quam maximus, ornare viverra nunc. Vestibulum malesuada fringilla tincidunt. Vestibulum et ipsum justo. Vestibulum at est nec ligula feugiat cursus bibendum in justo. Proin eget diam eu lorem blandit pretium. Phasellus ultrices ligula eu vestibulum ullamcorper. Vivamus id mauris hendrerit, varius dui at, pharetra arcu."
+        "title": "O Stranici",
+        "description1": "\nTransparentnost opštine za gradane je osnovni cilj opštine Priština. Opština Priština uz razvoj platforme 'Otvoreni Ugovori' pruûa svim gradanima otvorene podatke o ugovorima koje ova institucija povezuju  sa svim ekonomskim operatorima. Ova platforma omogucava predstavljanje svih ugovora od strane opötinskih direkcija sa ciljem da se ove evidencije dalje koriste u funkciji potpune transparentnosti u opštini.\n\nVracanje poverenja gradana o javnim institucijama kroz transparentnost i lak pristup opštinskim uslugama je naša vizija za Prištinu.",
+        "description2": "Informacije su navedene na sledeci nacin:\n\n - Naziv aktivnosti javne nabavke\n - Datum objavljivanja obaveštenja o ugovoru \n - Broj ekonomskih operatera koji su preuzeli tenderski dosije \n- Datum objavljivanja obaveötenja o dodeli ugovora \n - Datum objavljivanja ukida obaveštenja \n - Procenjena vrednost ugovora \n - Naziv ekonomskog operatera kome se dodeljuje ugovor \n - Datum potpisivanja ugovora \n - Datum pocetka implementacije ugovora \n - Datum zavröetka ugovora \n - Ukupna vrednost ugovora, ukljucujuci sve poreze \n- Direkcija kojoj pripada ugovor \n\n",
+        "projectTitle": "RRETH PROJEKTIT",
+        "projectDescription": "Platforma “Kontratat e Hapura” është zhvilluar për Komunën e Prishtinës në mënyre që të sigurojë informata në proceset e prokurorimit/ kontratat në lidhje me institucionin. Në këtë uebfqe, çdo person mund të informohet rreth vlerës së një kontrate, fituesin e kontratës, kur kontrata pritet të implementohet dhe do të këtë çasje në të dhenat e hapura. Për më shumë, “Kontratat e hapura” iu ofron përdoruesëve vizualizime të të dhënave të prokurorimit përgjatë viteve në mënyrë që të lehtësojë krahasimet."
     },
     "footer": {
-        "municipality": "Lorem ipsum dolor sit amet",
-        "developers": "Vestibulum et ipsum justo:"
+        "municipality": "Opština Priština",
+        "developers": "Dizajnirano i razvijeno:",
+        "followUs": "Pratite nas na:",
+        "address": "Adresa:",
+        "exactAddress": "Ul.UÇK-2-10000 Prishtinë, Kosovë"
+    },
+    "pageNotFound": {
+        "pageNotFound": "Stranica koju tražite ne postoji!",
+        "return": "Vratite",
+        "to": "se na početnoj stranici."
     }
 }
