@@ -61,5 +61,10 @@
         "followUs": "Na ndiqni në:",
         "address": "Adresa:",
         "exactAddress": "Rr.UÇK-2-10000 Prishtinë, Kosovë"
+    },
+    "pageNotFound": {
+        "pageNotFound": "Faqja që kërkuat nuk ekziston!",
+        "return": "Kthehu",
+        "to": "në ballinë."
     }
 }

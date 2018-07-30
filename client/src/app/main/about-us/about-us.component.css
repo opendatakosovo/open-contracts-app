@@ -1,6 +1,6 @@
 /* About Us Header Style */
 #bg-img {
-    background-image:url("/assets/images/about-us-header.png");
+    background-image:url("/assets/images/about.png");
     /* Full height */
     height: 678px; 
     max-height: 678px;
@@ -63,9 +63,9 @@
     padding-bottom: 7%;
 }
 #project-description {
-    text-align: left;
+    text-align: justify;
     color:black;
-    width: 100%;
+    width: 88%;
     height: 405px;
     margin-bottom: 0;
     bottom: 1px;
@@ -78,13 +78,17 @@
     float: left;
     font-family: 'Roboto', sans-serif;
     color:white;
+    text-align: justify;
 }
 
 #descriptions {
     margin-right: 85px;
 }
 
-@media(max-width: 768px) {
+@media(max-width: 767px) {
+    #project-img {
+        margin-left: 0;
+    }
     #bg-img {
         height: 800px; 
         max-height: 800px;
@@ -93,16 +97,23 @@
         margin-right: 0px;
     }
     .company-description {
-        width: 100%
+        width: 100%;
+    }
+    #project-description {
+        width: 100%;
     }
     .justify-content-center {
-        margin-left: 13%;
-        margin-right: 6%;
+        margin-left: 9%;
+        margin-right: 9%;
         margin-top: 5%;
     }
 }
 
 @media(max-width: 635px) {
+    .company-header {
+        margin-left: 2%;
+        margin-right: 0;
+    }
     #bg-img {
         height: 900px; 
         max-height: 900px;
