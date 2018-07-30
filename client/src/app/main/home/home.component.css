@@ -38,15 +38,38 @@
     padding-left: 0;
     padding-right: 0;
 }
+#download-data-set {
+    margin-bottom: 0;
+}
+.validation-text {
+    max-width: 50%;
+    position: absolute;
+    margin-top: 3%;
+}
+#format-text {
+    margin-left: 41%;
+}
+.text-danger {
+    color: #fff !important;
+}
+#format-validation {
+    margin-right: 5px;
+}
 /* ---- Responsiveness ---- */
 @media(max-width:1125px) {
     .cover .info-text .title {
         font-size: 68px;
     }
+    .validation-text {
+        margin-top: 29px;
+    }
 }
 @media(max-width: 985px) {
     .cover .info-text {
         padding-left: 85px;
+    }
+    .validation-text {
+        margin-top: 3px;
     }
 }
 @media(max-width:950px) {
@@ -340,6 +363,10 @@
                 margin-left: 250px;
                 margin-top: 10px;
             }
+            .validation-text {
+                padding-left: 20px;
+                margin-top: 2px;
+            }
         }
         @media(max-width: 1024px) {
             .data-set .form-button {
@@ -348,10 +375,20 @@
             #cover-image {
                 background-image: url('/assets/images/background-2-2.png');
             }
+            .validation-text {
+                padding-left: 17px;
+                margin-top: 3px;
+            }
         }
         @media (max-width: 888px) {
             #cover-image {
                 background-image: url('/assets/images/background-2-3.png');
+            }
+            .validation-text {
+                margin-top: -1px;
+            }
+            .data-set .form-button {
+                margin-top: 18px;
             }
         }
         @media (max-width: 820px){
@@ -365,6 +402,13 @@
             }
             .data-set .title {
                 font-size: 27px;
+            }
+            #format-text {
+                margin-left: 39%;
+            }
+            .data-set .form-button {
+                margin-left: 33%;
+                margin-top: 20px;
             }
         }
         @media(max-width: 640px) {
@@ -383,7 +427,7 @@
             }
             .data-set .form-select {
                 width: 90%;
-                margin-bottom: 5px;
+                margin-bottom: 6%;
                 font-size: 20px
             }
             .data-set .form-button {
@@ -393,6 +437,13 @@
             .data-set .title {
                 font-size: 25px;
             }
+            #format-text {
+                margin-left: 0;
+                margin-top: 106px;
+            }
+            .validation-text {
+                margin-top: 6%;
+            }
         }
         @media(max-width: 500px) {
             .data-set .data-set-form {
@@ -401,6 +452,9 @@
             }
             .data-set .title {
                 font-size: 22px;
+            }
+            .validation-text {
+                margin-top: 8%;
             }
         }
         

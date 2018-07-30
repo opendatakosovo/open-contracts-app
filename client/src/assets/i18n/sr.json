@@ -29,13 +29,18 @@
         "signingDate": "Purus semper eget duis at tellus at",
         "implementationDeadlineStartingDate": "Proin nibh nisl condimentum id venenatis a condimentum vitae sapien",
         "closingDate": "Blandit aliquam etiam erat velit scelerisque in dictum",
-        "totalAmountOfContractsIncludingTaxes": "Luctus accumsan tortor posuere ac ut consequat semper viverra"
+        "totalAmountOfContractsIncludingTaxes": "Luctus accumsan tortor posuere ac ut consequat semper viverra",
+        "contracts": "Mauris:",
+        "displayedContracts": "Imperdiet:",
+        "page": "Phasellus:"
     },
     "dataset": {
         "title": "Nunc nulla tellus",
         "format": "Morbi",
         "year": "Duis",
-        "download": "Vestibulum"
+        "download": "Vestibulum",
+        "yearValidation": "Lorem ipsum dolor sit amet!",
+        "formatValidation": "Quisque non est vestibulum!"
     },
     "announcements": {
         "title": "Class aptent",

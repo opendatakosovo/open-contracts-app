@@ -29,13 +29,18 @@
         "signingDate": "Data e nënshkrimit të kontratës",
         "implementationDeadlineStartingDate": "Data e fillimit të implementimit të kontratës",
         "closingDate": "Data e mbylljes se kontrates",
-        "totalAmountOfContractsIncludingTaxes": "Vlera totale e kontratës, duke përfshirë të gjitha taksat"
+        "totalAmountOfContractsIncludingTaxes": "Vlera totale e kontratës, duke përfshirë të gjitha taksat",
+        "contracts": "Kontrata:",
+        "displayedContracts": "Të shfaqura:",
+        "page": "Faqja:"
     },
     "dataset": {
         "title": "SETI I TË DHËNAVE",
         "format": "Formati",
         "year": "Viti",
-        "download": "Shkarko"
+        "download": "Shkarko",
+        "yearValidation": "Duhet zgjedhur vitin!",
+        "formatValidation": "Duhet zgjedhur formatin!"
     },
     "announcements": {
         "title": "PRISHTINA ONLINE",

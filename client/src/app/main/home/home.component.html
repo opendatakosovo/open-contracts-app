@@ -46,43 +46,56 @@
       <div class="col-md-12">
         <app-main-page-contracts-list></app-main-page-contracts-list>
       </div>
-    </div> 
+    </div>
   </div>
-  
+
   <div class="row">
-    <div id="data-set"></div>   
+    <div id="data-set"></div>
   </div>
-  <br><br><br>
+  <br>
+  <br>
+  <br>
   <!-- /Public contracts -->
   <div class="row"></div>
   <div>
     <div class="container-fluid data-set" id="cover-image" (mouseenter)="mouseOver()" (mouseleave)="mouseLeave()">
-    <div class="row">
-      <div class="col-md-12 data-set-title">
-        <h1 class="title text-center">{{ 'dataset.title' | translate }}</h1>
+      <div class="row">
+        <div class="col-md-12 data-set-title">
+          <h1 class="title text-center">{{ 'dataset.title' | translate }}</h1>
+        </div>
       </div>
-    </div>
-    <div class="row justify-content-center align-items-center">
-      <div class="col-md-3"></div>
-      <div class="col-md-9">
-        <div class="data-set-form">
-          <form action="" class="form-inline form-group">
-            <select name="" id="" class="form-control form-select">
-              <option value="">{{ 'dataset.format' | translate }}</option>
-            </select>
-            <select name="" id="" class="form-control form-select">
-              <option value="">{{ 'dataset.year' | translate }}</option>
-            </select>
-            <button class="btn btn-primary form-button">
-              {{ 'dataset.download' | translate }}
-              <i class="fa fa-download" aria-hidden="true"></i>
-            </button>
-          </form>
+      <div class="row justify-content-center align-items-center">
+        <div class="col-md-3"></div>
+        <div class="col-md-9">
+          <div class="data-set-form">
+            <form action="" id="download-data-set" novalidate #downloadForm="ngForm" class="form-inline form-group" (submit)="geoPreview(downloadForm.valid)">
+              <select name="" id="data" name="data" class="form-control form-select" [(ngModel)]="data" #dataSet="ngModel" required [style.border-color]="dataSet.errors?.required && downloadForm.submitted ? 'red' : '#ced4da'">
+                <option [value]="undefined" disabled>{{ 'dataset.year' | translate }}</option>
+                <option *ngFor="let dataSet of dataSets" [value]="dataSet.datasetFilePath">{{ dataSet.datasetFilePath.replace('.csv', '') }}</option>
+              </select>
+              <div class="col-6 validation-text" [hidden]="!dataSet.errors?.required || !downloadForm.submitted">
+                <small class="text-danger">{{ 'dataset.yearValidation' | translate }}</small>
+              </div>
+              <select name="" id="format" name="format" class="form-control form-select" [(ngModel)]="format" #formatDS="ngModel" required
+                [style.border-color]="formatDS.errors?.required && downloadForm.submitted
+              ? 'red' : '#ced4da'">
+                <option [value]="undefined" disabled>{{ 'dataset.format' | translate }}</option>
+                <option value="csv">CSV</option>
+                <option value="json">JSON</option>
+              </select>
+              <div class="col-6 validation-text" id="format-text" [hidden]="!formatDS.errors?.required || !downloadForm.submitted">
+                <small id="format-validation" class="text-danger">{{ 'dataset.formatValidation' | translate }}</small>
+              </div>
+              <button value="submit" class="btn btn-primary form-button">
+                {{ 'dataset.download' | translate }}
+                <i class="fa fa-download" aria-hidden="true"></i>
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
   <!-- Contracts Announcement page -->
   <div class="container-fluid contracts-announcement">
