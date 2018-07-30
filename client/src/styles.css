@@ -1,1 +1,71 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:100,400,500,700');
+/* Style for ngx-datatable */
+.empty-row {
+  text-align: center;
+  padding: 20px;
+}
+.fa-spin {
+  font-size: 28px;
+}
+.datatable-header {
+    width: 100% !important;
+    color: #fff;
+    background-color: #32a6bd;
+}
+.ngx-datatable.bootstrap .datatable-header .datatable-header-cell {
+    padding-left: 26px;
+}
+.ngx-datatable .datatable-body {
+    width: 100% !important;
+}
+.datatable-body-row {
+    color: #5f5e5e;
+    border: none !important;
+}
+.ngx-datatable.bootstrap .datatable-body .datatable-body-row {
+    width: 100% !important;
+}
+.ngx-datatable.bootstrap {
+    border-radius: 10px;
+}
+.ngx-datatable.bootstrap .datatable-body .datatable-body-row .datatable-body-cell {
+    padding-left: 14px;
+}
+.ngx-datatable.bootstrap .datatable-footer {
+    background: #fff;
+    color: #c1bbbb;
+}
+.ngx-datatable.bootstrap .datatable-footer .datatable-pager a {
+    color: #c1bbbb;
+}
+.ngx-datatable.bootstrap .datatable-footer .datatable-pager ul li:not(.disabled).active a, .ngx-datatable.bootstrap .datatable-footer .datatable-pager ul li:not(.disabled):hover a {
+    background-color: #fff;
+    color: #32a6bd;
+}
+.ngx-datatable .datatable-body .datatable-row-wrapper {
+    width: 101%;
+}
+.ngx-datatable .datatable-body .datatable-scroll {
+    width: 100% !important;
+}
+/* Datatable scrollbar style */
+/* width */
+.datatable-body::-webkit-scrollbar {
+    width: 20px;
+    height: 7px;
+    background-color: #d4d6d6;
+    border-radius: 10px;
+}
+/* Track */
+.datatable-body::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+/* Handle */
+.datatable-body::-webkit-scrollbar-thumb {
+    background: #32a6bd; 
+    border-radius: 10px;
+}
+/* Handle on hover */
+.datatable-body::-webkit-scrollbar-thumb:hover {
+    background: #78cfe0; 
+}

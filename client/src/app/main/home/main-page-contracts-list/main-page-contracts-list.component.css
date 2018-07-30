@@ -1,4 +1,4 @@
-div {
+#table {
     padding-left: 30px;
     padding-bottom: 10%;
     padding-right: 30px;
@@ -6,4 +6,9 @@ div {
 .column-header {
     font-weight: 500;
     margin-bottom: 0;
+}
+#per-page {
+    border: none;
+    background-color: rgb(66, 66, 66);
+    color: #fff;
 }

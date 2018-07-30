@@ -1,10 +1,10 @@
 /* About Us Header Style */
 #bg-img {
-    background-image:url("/assets/images/about-us-header.png");
+    background-image:url("/assets/images/about.png");
     /* Full height */
     height: 678px; 
     max-height: 678px;
-   
+    width: 100%;
     /* Center and scale the image nicely */
     background-position: center;
     background-repeat: no-repeat;
@@ -20,16 +20,17 @@
 .company-header {
    font-family: 'Roboto', sans-serif;
    color:white;
-   margin-left:65px;
+   margin-left: 5%;
+   margin-right: 5%;   
    width: 434px;
    max-width: 100%;
    top: 27%;
 }
 .company-header #title {
    width: auto;
-   margin-top: 100px; 
-   margin-bottom: 50px;
-   margin-left: 35px;
+   margin-top: 5%; 
+   margin-bottom: 0;
+   margin-left: 3%;
    font-weight: 600;
    font-size: 3.5rem;
    float: left;
@@ -41,7 +42,7 @@
     margin-right: 0;
     width: 81%;
     max-width: 81%;
-    height: 406px;
+ 
 }
 .project-header-title {
     font-family: 'Roboto', sans-serif;
@@ -62,10 +63,9 @@
     padding-bottom: 7%;
 }
 #project-description {
-    text-align: left;
+    text-align: justify;
     color:black;
-    width: 80%;
-    max-width: 80%;
+    width: 88%;
     height: 405px;
     margin-bottom: 0;
     bottom: 1px;
@@ -78,4 +78,58 @@
     float: left;
     font-family: 'Roboto', sans-serif;
     color:white;
+    text-align: justify;
+}
+
+#descriptions {
+    margin-right: 85px;
+}
+
+@media(max-width: 767px) {
+    #project-img {
+        margin-left: 0;
+    }
+    #bg-img {
+        height: 800px; 
+        max-height: 800px;
+    }
+    #descriptions {
+        margin-right: 0px;
+    }
+    .company-description {
+        width: 100%;
+    }
+    #project-description {
+        width: 100%;
+    }
+    .justify-content-center {
+        margin-left: 9%;
+        margin-right: 9%;
+        margin-top: 5%;
+    }
+}
+
+@media(max-width: 635px) {
+    .company-header {
+        margin-left: 2%;
+        margin-right: 0;
+    }
+    #bg-img {
+        height: 900px; 
+        max-height: 900px;
+    }
+}
+
+@media(max-width: 437px) {
+    #bg-img {
+        height: 1000px; 
+        max-height: 1000px;
+    }
+}
+
+@media(max-width: 391px) {
+    #bg-img {
+        height: 1190px; 
+        max-height: 1190px;
+    }
 }
