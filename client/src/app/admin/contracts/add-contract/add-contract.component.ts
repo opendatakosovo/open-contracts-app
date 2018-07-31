@@ -272,8 +272,10 @@ export class AddContractComponent implements OnInit {
           }
         });
         this.contractsService.addContract(formData, 'multipart').subscribe(res => {
-          if (res.err) {
-            Swal('Gabim!', 'Kontrata nuk u shtua.', 'error');
+          if (res.existErr) {
+            Swal('Kujdes!', 'Dokumenti Kontratës ekziston!.', 'warning');
+          } else if (res.typeValidation) {
+            Swal('Kujdes!', 'Tipi Dokumentit Kontratës është i gabuar.', 'warning');
           } else if (res.errVld) {
             let errList = '';
             for (const v of res.errVld) {
@@ -287,6 +289,8 @@ export class AddContractComponent implements OnInit {
               type: 'info',
               confirmButtonText: 'Kthehu te forma'
             });
+          } else if (res.err) {
+            Swal('Gabim!', 'Kontrata nuk u shtua.', 'error');
           } else {
             Swal('Sukses!', 'Kontrata u shtua me sukses.', 'success').then((result) => {
               if (result.value) {
@@ -322,9 +326,7 @@ export class AddContractComponent implements OnInit {
           }
         }
         this.contractsService.addContract(this.contract).subscribe(res => {
-          if (res.err) {
-            Swal('Gabim!', 'Kontrata nuk u shtua.', 'error');
-          } else if (res.errVld) {
+          if (res.errVld) {
             let errList = '';
             for (const v of res.errVld) {
               errList += `<li>${v}</li>`;
@@ -337,6 +339,8 @@ export class AddContractComponent implements OnInit {
               type: 'info',
               confirmButtonText: 'Kthehu te forma'
             });
+          } else if (res.err) {
+            Swal('Gabim!', 'Kontrata nuk u shtua.', 'error');
           } else {
             Swal('Sukses!', 'Kontrata u shtua me sukses.', 'success').then((result) => {
               if (result.value) {

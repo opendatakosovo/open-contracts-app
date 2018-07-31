@@ -15,6 +15,10 @@ export class ContractsService {
     return this.http.postWithAuth(`${this.APIUrl}/contracts`, formData, contentType).map(res => res.json());
   }
 
+  updateContract(id, formData, contentType = 'json') {
+    return this.http.putWithAuth(`${this.APIUrl}/contracts/update-contract/${id}`, formData, contentType).map(res => res.json());
+  }
+
   getContracts() {
     return this.http.getWithAuth(`${this.APIUrl}/contracts/`).map(res => res.json().data);
   }
@@ -25,10 +29,6 @@ export class ContractsService {
 
   deleteContractByID(id) {
     return this.http.deleteWithAuth(`${this.APIUrl}/contracts/${id}`).map(res => res.json().contract);
-  }
-
-  editContract(id, editedContract) {
-    return this.http.putWithAuth(`${this.APIUrl}/contracts/edit-contract/` + id, editedContract).map(res => res.json());
   }
 
   latestContracts() {

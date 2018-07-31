@@ -11,6 +11,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { DatepickerModule, BsDatepickerModule } from 'ngx-bootstrap';
 import { NgxPageScrollModule } from 'ngx-page-scroll';
+import { NgDatepickerModule } from 'ng2-datepicker';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './main/login/login.component';
@@ -37,6 +38,8 @@ import { DirectoratesComponent } from './admin/directorates/directorates.compone
 import { HttpClientService } from './service/http-client.service';
 import { ContractsService } from './service/contracts.service';
 import { DatasetService } from './service/dataset.service';
+import { DataService } from './service/data.service';
+import { ChartModule } from 'angular-highcharts';
 
 
 
@@ -48,6 +51,8 @@ import { ContractCommentsComponent } from './admin/contracts/contract-comments/c
 import { MainPageContractsListComponent } from './main/home/main-page-contracts-list/main-page-contracts-list.component';
 import { CommentService } from './service/comment.service';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { ContractsCountByYearsChartComponent } from './main/visualisations/charts/contracts-count-by-years-chart/contracts-count-by-years-chart.component';
+import { TopTenContractorsChartComponent } from './main/visualisations/charts/top-ten-contractors-chart/top-ten-contractors-chart.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -110,6 +115,8 @@ const appRoutes: Routes = [
     ContractCommentsComponent,
     MainPageContractsListComponent,
     PageNotFoundComponent,
+    ContractsCountByYearsChartComponent,
+    TopTenContractorsChartComponent
   ],
   imports: [
     BrowserModule,
@@ -126,12 +133,14 @@ const appRoutes: Routes = [
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
-      }
+      },
     }),
     DatepickerModule.forRoot(),
     BsDatepickerModule.forRoot(),
     NgxDatatableModule,
     NgxPageScrollModule,
+    ChartModule,
+    NgDatepickerModule
   ],
   entryComponents: [ChangePasswordComponent],
   providers: [
@@ -141,7 +150,8 @@ const appRoutes: Routes = [
     HttpClientService,
     ContractsService,
     DatasetService,
-    CommentService
+    CommentService,
+    DataService
   ],
   bootstrap: [AppComponent]
 })
