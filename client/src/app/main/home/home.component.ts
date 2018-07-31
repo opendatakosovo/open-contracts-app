@@ -1,14 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { DatasetService } from '../../service/dataset.service';
+import { Dataset } from '../../models/dataset';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-
-  constructor(private translate: TranslateService) {
+  dataSet: Dataset;
+  dataSets: Dataset[];
+  data: string;
+  format: string;
+  constructor(private translate: TranslateService, public datasetService: DatasetService) {
     translate.setDefaultLang('sq');
+    this.datasetService.getDatasets().subscribe(data => {
+      this.dataSets = data;
+    });
   }
 
   ngOnInit() {
@@ -28,6 +36,21 @@ export class HomeComponent implements OnInit {
     const home = document.querySelector('.inactive');
     home.setAttribute('class', 'active');
     dataSet.setAttribute('class', 'data-set-link');
+  }
+  geoPreview(isValid) {
+    const elemA = (<HTMLInputElement>document.getElementById('format')).value;
+    const elemB = (<HTMLInputElement>document.getElementById('data')).value;
+    if (isValid === true) {
+      if (elemA === 'json') {
+        window.location.href = '/datasets/json/' + elemB.replace('.csv', '');
+      } else if (elemA === 'csv') {
+        if (elemB === '2018.csv' || elemB === '2017.csv') {
+          window.location.href = '/datasets/new/' + elemB;
+        } else {
+          window.location.href = '/datasets/old/' + elemB;
+        }
+      }
+    }
   }
 
 }

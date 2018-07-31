@@ -29,13 +29,18 @@
         "signingDate": "Date of contract signing",
         "implementationDeadlineStartingDate": "Date of commencement of contract implementation",
         "closingDate": "Date of contract termination",
-        "totalAmountOfContractsIncludingTaxes": "Total value of the contract, including all taxes"
+        "totalAmountOfContractsIncludingTaxes": "Total value of the contract, including all taxes",
+        "contracts": "Contracts:",
+        "displayedContracts": "Displayed:",
+        "page": "Page:"
     },
     "dataset": {
         "title": "DATA SET",
         "format": "Format",
         "year": "Year",
-        "download": "Download"
+        "download": "Download",
+        "yearValidation": "The year should be chosen!",
+        "formatValidation": "The format should be selected!"
     },
     "announcements": {
         "title": "PRISTINA ONLINE",
