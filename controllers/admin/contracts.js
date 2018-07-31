@@ -5,7 +5,7 @@ const Contract = require('../../models/contracts');
 const contractValidation = require("../../middlewares/contract_validation");
 const uploadFile = require('../../middlewares/upload_file');
 const slugify = require('slugify');
-
+const fs = require('fs');
 /*
  * ENDPOINTS PREFIX: /contracts
  */
@@ -95,37 +95,48 @@ router.post("/page", (req, res) => {
 });
 
 router.post("/", uploadFile, (req, res) => {
-    const contentType = req.headers['content-type'];
-    let requestedContract;
-    let fileName;
-    if (contentType.indexOf('application/json') == -1) {
-        requestedContract = JSON.parse(req.body.contract);
-        fileName = req.file.originalname;
+    if (req.fileExist) {
+        res.json({
+            "existErr": "File exsit",
+            "success": false
+        });
+    } else if (req.typeValidation) {
+        res.json({
+            "typeValidation": "Document file type is wrong, you can only upload pdf file! ",
+            "success": false
+        });
     } else {
-        requestedContract = req.body;
-        fileName = "";
-    }
-
-    let contract = new Contract(requestedContract);
-    contract.contract.file = fileName;
-    contract.company.slug = slugify(requestedContract.company.name)
-    contract.company.headquarters.slug = slugify(requestedContract.company.headquarters.name);
-    contract.flagStatus = 0;
-    Contract.addContract(contract, (err, contract) => {
-        if (!err) {
-            res.json({
-                "msg": "Contract has been added successfully",
-                "contract": contract,
-                "success": true
-            });
+        const contentType = req.headers['content-type'];
+        let requestedContract;
+        let fileName;
+        if (contentType.indexOf('application/json') == -1) {
+            requestedContract = JSON.parse(req.body.contract);
+            fileName = req.file.originalname;
         } else {
-            res.json({
-                "msg": "test",
-                "err": err,
-                "success": false
-            });
+            requestedContract = req.body;
+            fileName = "";
         }
-    });
+
+        let contract = new Contract(requestedContract);
+        contract.contract.file = fileName;
+        contract.company.slug = slugify(requestedContract.company.name)
+        contract.company.headquarters.slug = slugify(requestedContract.company.headquarters.name);
+        Contract.addContract(contract, (err, contract) => {
+            if (!err) {
+                res.json({
+                    "msg": "Contract has been added successfully",
+                    "contract": contract,
+                    "success": true
+                });
+            } else {
+                res.json({
+                    "msg": "test",
+                    "err": err,
+                    "success": false
+                });
+            }
+        });
+    }
 });
 
 router.get("/latest-contracts", (req, res) => {
@@ -180,23 +191,58 @@ router.delete('/:id', passport.authenticate('jwt', { session: false }), (req, re
 });
 
 // Router for updating a contract by id
-router.put('/edit-contract/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
-    const contractId = req.params.id;
+router.put('/update-contract/:id', passport.authenticate('jwt', { session: false }), uploadFile, (req, res) => {
+    if (req.fileExist) {
+        res.json({
+            "existErr": "File exsit",
+            "success": false
+        });
+    } else if (req.typeValidation) {
+        res.json({
+            "typeValidation": "Document file type is wrong, you can only upload pdf file! ",
+            "success": false
+        });
+    } else {
+        const contractId = req.params.id;
+        let requestedContract;
+        let fileName;
+        const contentType = req.headers['content-type'];
+        console.log(req.body.fileToDelete);
+        if (req.body.fileToDelete != null) {
+            fs.unlink(`./uploads/${req.body.fileToDelete}`, err => {
+                if (err) {
+                    res.json({
+                        "errDel": err,
+                        "success": false
+                    });
+                }
+            });
 
-    Contract.updateContract(contractId, req.body, (err, contract) => {
-        if (!err) {
-            res.json({
-                "msg": "Contract has been updated successfully",
-                "contract": contract,
-                "success": true
-            });
-        } else {
-            res.json({
-                "err": err,
-                "success": false
-            });
         }
-    });
+        if (contentType.indexOf('application/json') == -1) {
+            requestedContract = JSON.parse(req.body.contract);
+            requestedContract.contract.file = req.file.originalname;
+        } else {
+            requestedContract = req.body.contract;
+            if (req.body.fileToDelete != null) {
+                requestedContract.contract.file = "";
+            }
+        }
+        Contract.updateContract(contractId, requestedContract, (err, contract) => {
+            if (!err) {
+                res.json({
+                    "msg": "Contract has been updated successfully",
+                    "contract": contract,
+                    "success": true
+                });
+            } else {
+                res.json({
+                    "err": err,
+                    "success": false
+                });
+            }
+        });
+    }
 });
 
 

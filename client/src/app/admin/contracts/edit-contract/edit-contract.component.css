@@ -1,0 +1,131 @@
+.row {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
+}
+h1 {
+    padding-bottom: 20px;
+}
+label {
+    font-size: 14px;
+}
+.error-msg {
+    color: red;
+    font-size: 14px;
+}
+.info-msg {
+    font-size: 10px;
+    font-weight: bold;
+    color: #007bff;
+}
+#upload-contract label {
+    background-color: #39a6bd !important; 
+}
+.btn-primary:not(:disabled):not(.disabled):active {
+    background-color: red;
+}
+#buttons {
+    margin-bottom: 60px;
+}
+#buttons button {
+    float: right;
+    margin-right: 15px;
+}
+.form-check {
+    display: inline;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.radioButtonLabel {
+    margin-bottom: 15px;
+}
+.radioButtons {
+    border: 0.5px solid #89cced;
+    border-radius: 5.5px;
+    padding-left: 15px;
+    padding-bottom: 6px;
+}
+.buttons {
+    border-color: #39a6bd !important;
+    color: #39a6bd !important;
+    margin-bottom: 10px;
+}
+.buttons:hover:enabled {
+    background-color: #39a6bd !important; 
+    color: white !important;
+    border-color: #39a6bd !important;  
+}
+#add-contract-button {
+    margin: 15px 0px 15px 0px !important;
+    width: 300px;
+}
+#contracts-buttons {
+    margin-top: 10px;
+    margin-right: 15px;
+}
+button:disabled,
+button[disabled]{
+  background-color: rgb(206, 212, 218);
+  border-color: rgb(206, 212, 218) !important;
+}
+.checkbox-buttons {
+    border: 0.5px solid #89cced;
+    border-radius: 5.5px;
+    padding-left: 15px;
+    padding-bottom: 6px;
+}
+.checkbox-label {
+    margin-bottom: 15px;
+}
+.title {
+    font-size: 35px;
+    color: #32a6bd !important;
+    text-align: left;
+}
+
+#title {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+#line {
+    border-top: 1px solid #a7a3a3;
+    top: 14px;
+    padding-left: 0px;
+    left: 7px;
+    padding-right: 0px;
+    right: 0px;
+}
+
+#line2 {
+    border-top: 1px solid #a7a3a3;
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-top: 14px;
+    margin-left: 26px;
+    width: 887px;
+}
+
+#button {
+    padding-left: 17px;
+    padding-right: 0px;
+
+}
+
+.button-exec {
+    background-color: #39a6bd !important;
+    color: #fff !important;
+    margin-bottom: 10px;
+}
+
+.button-del {
+    margin-top: 33px;
+}
+
+.nrOf {
+    color: #89cced;
+    font-weight: bold;
+}
+
+.errInput {
+    border: 1px solid #ff0000
+}

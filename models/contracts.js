@@ -1,5 +1,9 @@
 const mongoose = require('mongoose');
 const ObjectId = require('mongoose').Types.ObjectId;
+const schemaOptions = {
+    timestamps: true,
+    versionKey: false
+};
 
 const ContractSchema = mongoose.Schema({
     activityTitle: { type: String },
@@ -71,9 +75,9 @@ const ContractSchema = mongoose.Schema({
         signingDate: { type: Date },
     },
     year: { type: Number },
-    flagStatus: { type: Number },
+    flagStatus: { type: Number, default: 1 },
     fppClassification: { type: Number }
-});
+}, schemaOptions);
 
 const Contract = module.exports = mongoose.model('Contract', ContractSchema);
 
@@ -129,7 +133,7 @@ module.exports.getTotalContractsByYears = () => {
     return Contract.aggregate([
         { $group: { _id: "$year", count: { $sum: 1 } } },
         { $sort: { _id: 1 } },
-        { $project: { _id: 0, year: "$_id", totalContracts: "$count" } }
+        { $project: { _id: 0, name: "$_id", y: "$count", dorron: 'dorron' } }
     ]);
 }
 
@@ -137,7 +141,7 @@ module.exports.getContractsByYearWithPredictedValueAndTotalAmount = (year) => {
     return Contract.aggregate([
         { $match: { year: parseInt(year) } },
         { $group: { _id: { id: "$_id", procurementNo: "$procurementNo", predictedValue: "$contract.predictedValue", totalAmountOfContractsIncludingTaxes: "$contract.totalAmountOfContractsIncludingTaxes" } } },
-        { $project: { _id: 0, id: "$_id.id", procurementNo: "$_id.procurementNo", predictedValue: "$_id.predictedValue", totalAmountOfContractsIncludingTaxes: "$_id.totalAmountOfContractsIncludingTaxes", } },
+        { $project: { _id: 0, id: "$_id.id", procurementNo: "$_id.procurementNo", predictedValue: "$_id.predictedValue", totalAmountOfContractsIncludingTaxes: "$_id.totalAmountOfContractsIncludingTaxes" } },
         { $sort: { predictedValue: -1 } }
     ]);
 }
@@ -150,7 +154,7 @@ module.exports.getTopTenContractors = () => {
         },
         { $sort: { count: -1 } },
         { $limit: 10 },
-        { $project: { _id: 0, companyName: "$_id", totalContracts: "$count" } }
+        { $project: { _id: 0, name: "$_id", y: "$count" } }
     ]);
 }
 

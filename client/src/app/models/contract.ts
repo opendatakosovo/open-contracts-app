@@ -1,6 +1,7 @@
 import { Installment } from './installment';
 import { Annex } from './annex';
 import { OnInit } from '@angular/core';
+import { DATE } from '../../../node_modules/ngx-bootstrap/chronos/units/constants';
 
 export class Contract {
     _id?: String;
@@ -127,6 +128,7 @@ export class Contract {
             signingDate: null
         };
         this.year = 0;
-        this.flagStatus = 0;
+        this.flagStatus = 1;
     }
+
 }
