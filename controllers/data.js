@@ -2,6 +2,7 @@ const router = require('express').Router();
 const Contract = require('../models/contracts');
 const User = require('../models/user');
 const Directorate = require('../models/directorates')
+const passport = require("passport");
 
 /*
  * ENDPOINTS PREFIX: /data
@@ -58,7 +59,7 @@ router.get('/get-contracts-by-contractor/:companyName', (req, res) => {
 /*** Admin Dashboard ***/
 
 // Users
-router.get('/user', (req, res) => {
+router.get('/user', passport.authenticate('jwt', { session: false }), (req, res) => {
     let obj = {};
     User.totalUsers()
         .then(tu => {
@@ -108,7 +109,7 @@ router.get('/user', (req, res) => {
 });
 
 // Directorates
-router.get('/directorates', (req, res) => {
+router.get('/directorates', passport.authenticate('jwt', { session: false }), (req, res) => {
     let obj = {};
     Directorate.totalDirectorates()
         .then(td => {
@@ -146,7 +147,7 @@ router.get('/directorates', (req, res) => {
 });
 
 // Contracts
-router.get('/contracts', (req, res) => {
+router.get('/contracts', passport.authenticate('jwt', { session: false }), (req, res) => {
     let obj = {};
     Contract.getTotalContracts()
         .then(tc => {
