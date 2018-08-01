@@ -105,3 +105,16 @@ module.exports.deactivateUser = (id, callback) => {
   User.findByIdAndUpdate(id, { $set: { isActive: false } }, { new: true }, callback);
 }
 
+/** User data ***/
+
+// Total users
+module.exports.totalUsers = () => User.find({role: { $ne: "superadmin"}}).count();
+
+// Total active/inactive users
+module.exports.getTotalUsersByStatus = status => User.find({isActive: status, role: { $ne: "superadmin"}}).count();
+
+// Total users with/without directorates assigned
+module.exports.getTotalUsersByDirectoratesStatus = status => User.find({isInCharge: status, role: { $ne: "admin"}}).count();
+
+// Total admin/simple users
+module.exports.getTotalUsersByRole = role => User.find({role: role}).count();
