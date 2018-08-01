@@ -60,3 +60,17 @@ module.exports.deactivateDirectorate = (id, directorate, callback) => {
 module.exports.activateDirectorate = (id, directorate, callback) => {
   Directorate.findByIdAndUpdate(id, { $set: { directorateIsActive: true } }, { new: true }, callback);
 }
+
+/** Data **/
+
+// Total directorates
+module.exports.totalDirectorates = () => Directorate.find().count();
+
+// Get Total Directorates by status
+module.exports.getTotalDirectoratesByStatus = status => Directorate.find({directorateIsActive: status}).count();
+
+// Get Total Directorates without people in charge
+module.exports.getTotalDirectoratesWithoutPeopleInCharge = () => Directorate.find({peopleInCharge: []}).count();
+
+// Get Total Directorates with people in charge
+module.exports.getTotalDirectoratesWithPeopleInCharge = () => Directorate.find({peopleInCharge: {$ne: []}}).count();

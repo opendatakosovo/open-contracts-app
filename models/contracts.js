@@ -165,3 +165,11 @@ module.exports.getContractsByContractorCompany = (companyName) => {
 module.exports.getContractsByYears = year => {
     return Contract.find({ year: Number(year) });
 }
+
+/** Dashboard Data **/
+
+// Get total contracts
+module.exports.getTotalContracts = () => Contract.find().count();
+
+// Get total contracts by flag status
+module.exports.getTotalContractsbyFlagStatus = flagStatus => Contract.find({flagStatus: flagStatus}).count();
