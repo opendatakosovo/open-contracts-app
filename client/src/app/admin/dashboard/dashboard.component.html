@@ -1,8 +1,44 @@
 <div class="container-fluid">
   <!-- Breadcrumbs-->
   <div class="row">
-    <div class="col-12">
-      <h1 class="title">Paneli Kryesor</h1>
+    <div class="col">
+      <h1 class="title text-center">Analiza Statistikore</h1>
+    </div>
+  </div>
+
+  <div class="col row mb-5">
+      <div class="col-md-4">
+          <div class="card bg-info text-white bi-card">
+              <div class="card-body text-center">
+                  <h3 class="card-label">Total Përdorues</h3>
+                  <h3>{{userData.totalUsers}}</h3>
+              </div>
+          </div>
+      </div>
+      <div class="col-md-4">
+          <div class="card bg-info text-white bi-card">
+              <div class="card-body text-center">
+                  <h3 class="card-label">Përdorues Aktiv</h3>
+                  <h3>{{userData.totalActiveUsers}}</h3>
+              </div>
+          </div>
+      </div>
+      <div class="col-md-4">
+          <div class="card bg-info text-white bi-card">
+              <div class="card-body text-center">
+                  <h3 class="card-label">Përdorues Jo-aktiv</h3>
+                  <h3>{{userData.totalInactiveUsers}}</h3>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <div class="col row mb-5">
+    <div class="col-md-6">
+        <div [chart]="usersByDirectoratesChart"></div>
+    </div>
+    <div class="col-md-6">
+        <div [chart]="usersByRolesChart"></div>
     </div>
   </div>
 </div>

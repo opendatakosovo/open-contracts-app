@@ -22,4 +22,17 @@ export class DataService {
     return this.http.get(`${this.APIUrl}/data/get-contracts-by-contractor/${name}`).map(res => res.json());
   }
 
+  // Dashboard Data
+  getUserData() {
+    return this.http.getWithAuth(`${this.APIUrl}/data/user`).map(res => res.json());
+  }
+
+  getDirectorateData() {
+    return this.http.getWithAuth(`${this.APIUrl}/data/directorates`).map(res => res.json());
+  }
+
+  getContractsData() {
+    return this.http.getWithAuth(`${this.APIUrl}/data/contracts`).map(res => res.json());
+  }
+
 }

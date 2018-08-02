@@ -114,7 +114,7 @@ module.exports.totalUsers = () => User.find({role: { $ne: "superadmin"}}).count(
 module.exports.getTotalUsersByStatus = status => User.find({isActive: status, role: { $ne: "superadmin"}}).count();
 
 // Total users with/without directorates assigned
-module.exports.getTotalUsersByDirectoratesStatus = status => User.find({isInCharge: status, role: { $ne: "admin"}}).count();
+module.exports.getTotalUsersByDirectoratesStatus = status => User.find({isInCharge: status, role: { $ne: "admin"}, isActive: true}).count();
 
 // Total admin/simple users
 module.exports.getTotalUsersByRole = role => User.find({role: role}).count();
