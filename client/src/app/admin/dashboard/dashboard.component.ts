@@ -3,7 +3,7 @@ import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
 import { DataService } from '../../service/data.service';
 import { Chart } from 'angular-highcharts';
-import { UserData } from './userData';
+import { UserData } from './UserData';
 
 @Component({
   selector: 'app-dashboard',
