@@ -3,6 +3,7 @@ const Contract = require('../models/contracts');
 const User = require('../models/user');
 const Directorate = require('../models/directorates')
 const passport = require("passport");
+const compareValues = require("../utils/sortArrayByValues");
 
 /*
  * ENDPOINTS PREFIX: /data
@@ -54,6 +55,134 @@ router.get('/get-contracts-by-contractor/:companyName', (req, res) => {
         }).catch(err => {
             res.json(err);
         }) 
+});
+
+// Get the directorates of contracts
+router.get('/get-directorates-of-contracts', (req, res) => {
+    Contract.getDirectoratesInContracts()
+        .then(data => {
+
+            let adminObj = { name: 'Administratë', y: 0 };
+            let eduObj = { name: 'Arsim', y: 0 };
+            let infrastructureObj = { name: 'Infrastrukturë', y: 0 };
+            let investmentsObj = { name: 'Investime', y: 0 };
+            let culturObj = { name: 'Kulturë', y: 0 };
+            let publicServicesObj = { name: 'Shërbime Publike', y: 0 };
+            let healthObj = { name: 'Shëndetësi', y: 0 };
+            let toBeRemoved = [];
+
+            // Process some data
+            data.map((row, i) => {
+                if (row.name == '') {
+                    row.name = 'E pacaktuar';
+                }
+                if (row.name == 'Administrate') {
+                    adminObj.y += row.y
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Administrata') {
+                    adminObj.y += row.y
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Arsim') {
+                    eduObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Arsimi') {
+                    eduObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Infrastrukture') {
+                    infrastructureObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Infrastukture') {
+                    infrastructureObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Investime') {
+                    investmentsObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Investimet ka') {
+                    investmentsObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Investimne') {
+                    investmentsObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Invetsime') {
+                    investmentsObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Kultura') {
+                    culturObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Kulturë') {
+                    culturObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'kultur') {
+                    culturObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Sh.Publike') {
+                    publicServicesObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Sh.p') {
+                    publicServicesObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Sherb publike') {
+                    publicServicesObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Sherbime Pub') {
+                    publicServicesObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Sherbime publike') {
+                    publicServicesObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'sherbime Pub') {
+                    publicServicesObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Shendetesi') {
+                    healthObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Shendetsia') {
+                    healthObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+            });
+
+            data.push(adminObj);
+            data.push(eduObj);
+            data.push(infrastructureObj);
+            data.push(investmentsObj);
+            data.push(culturObj);
+            data.push(publicServicesObj);
+            data.push(healthObj);
+
+            for (let i = data.length; i >= 0; i--) {
+                for (index of toBeRemoved) {
+                    if (index == parseInt(i)) {
+                        data.splice(index, 1);
+                    }
+                }
+            }
+
+            data.sort(compareValues('y', 'desc'));
+            res.json(data);
+        }).catch(err => {
+            res.json(err);
+        })
 });
 
 /*** Admin Dashboard ***/
