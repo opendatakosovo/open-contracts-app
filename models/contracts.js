@@ -121,11 +121,13 @@ module.exports.getContractsByYearWithPublicationDateAndSigningDate = (year) => {
             $match: {
                 $or: [{
                     year: parseInt(year)
-                }]
+                }],
+                "contract.signingDate": { $ne: null },
+                "contract.publicationDateOfGivenContract": { $ne: null },
             }
         },
-        { $group: { _id: { publicationDateOfGivenContract: "$contract.publicationDateOfGivenContract", signingDate: "$contract.signingDate" }, count: { $sum: 1 } } },
-        { $project: { _id: 0, publicationDateOfGivenContract: "$_id.publicationDateOfGivenContract", signingDate: "$_id.signingDate", totalContracts: "$count" } }
+        { $group: { _id: { publicationDateOfGivenContract: "$contract.publicationDateOfGivenContract", signingDate: "$contract.signingDate", activityTitle: '$activityTitle' }, count: { $sum: 1 } } },
+        { $project: { _id: 0, publicationDateOfGivenContract: "$_id.publicationDateOfGivenContract", signingDate: "$_id.signingDate", totalContracts: "$count", activityTitle: '$_id.activityTitle' } }
     ]);
 }
 
@@ -168,16 +170,25 @@ module.exports.getContractsByYears = year => {
 
 module.exports.getDirectoratesInContracts = () => {
     return Contract.aggregate([
-        { $group: {_id: "$directorates", count: {$sum: 1} } }, 
-        { $sort:  { _id: 1 } },
+        { $group: { _id: "$directorates", count: { $sum: 1 } } },
+        { $sort: { _id: 1 } },
         { $project: { _id: 0, name: "$_id", y: "$count" } }
     ]);
 }
 
+module.exports.getContractYears = () => {
+    return Contract.aggregate([{
+        $match: {
+            year: { $gt: 2017 }
+        }
+    },
+    { $group: { _id: { year: '$year' } } },
+    { $project: { _id: 0, year: '$_id.year' } }]);
+}
 /** Dashboard Data **/
 
 // Get total contracts
 module.exports.getTotalContracts = () => Contract.find().count();
 
 // Get total contracts by flag status
-module.exports.getTotalContractsbyFlagStatus = flagStatus => Contract.find({flagStatus: flagStatus}).count();
+module.exports.getTotalContractsbyFlagStatus = flagStatus => Contract.find({ flagStatus: flagStatus }).count();
