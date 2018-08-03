@@ -40,14 +40,12 @@ export class Contract {
     nameOfProcurementOffical?: String;
     contract: {
         predictedValue?: String,
-        totalAmountOfAllAnnexContractsIncludingTaxes?: String,
+        totalOfAnnexesWithTaxes?: String,
         totalAmountOfContractsIncludingTaxes?: String,
         totalPayedPriceForContract?: String,
         annexes?: Annex[]
         criteria?: String,
-        implementationDeadlineStartingDate?: Date,
-        implementationDeadlineEndingDate?: Date,
-        implementationDeadlineStartingAndEndingDate?: String
+        implementationDeadline?: String,
         publicationDate?: Date,
         publicationDateOfGivenContract?: Date,
         closingDate?: Date,
@@ -113,13 +111,12 @@ export class Contract {
         this.nameOfProcurementOffical = '';
         this.contract = {
             predictedValue: '',
-            totalAmountOfAllAnnexContractsIncludingTaxes: '',
+            totalOfAnnexesWithTaxes: '',
             totalAmountOfContractsIncludingTaxes: '',
             totalPayedPriceForContract: '',
             annexes: [],
             criteria: '',
-            implementationDeadlineStartingDate: null,
-            implementationDeadlineEndingDate: null,
+            implementationDeadline: '',
             publicationDate: null,
             publicationDateOfGivenContract: null,
             closingDate: null,

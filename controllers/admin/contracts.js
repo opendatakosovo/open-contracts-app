@@ -245,5 +245,254 @@ router.put('/update-contract/:id', passport.authenticate('jwt', { session: false
     }
 });
 
+// Filtering contract based on all string fields
+router.post('/filter', (req, res) => {
+    let string = req.body.string;
+    let directorate = req.body.directorate;
+    let date = req.body.date;
+    let referenceDate = req.body.referenceDate;
+    let value = req.body.value;
+    
+    if ( (string !== 'Kërko kontratën' && string !== '') && (directorate == 'Drejtoria' || directorate === '') && date === null && (value === 'Vlera' || value === '')) {
+        Contract.filterStringFieldsinContracts(req.body.string, (err, contracts) => {
+            if (!err) {
+                res.json({
+                    "msg": "Contracts has been retrived successfully",
+                    "contracts": contracts,
+                    "success": true
+                });
+            } else {
+                res.json({
+                    "err": err,
+                    "success": false
+                });
+            }
+        });
+        } else if ((string !== 'Kërko kontratën' && string !== '') && (directorate !== 'Drejtoria' && directorate !== '') && date === null && (value === 'Vlera' || value ==='')) {
+        Contract.findByStringAndDirectorate(string, directorate, (err, contracts) => {
+            if (!err) {
+                res.json({
+                    "msg": "Contracts has been updated successfully",
+                    "contracts": contracts,
+                    "success": true
+                });
+            } else {
+                res.json({
+                    "err": err,
+                    "success": false
+                });
+            }
+        });
+    } else if ((string !== 'Kërko kontratën' && string !== '') && (directorate !== 'Drejtoria' && directorate !== '') && date !== null && (value === "Vlera" || value ==='')) {
+        Contract.findbyStringDirectorateDate(string, directorate, date, referenceDate, (err, contracts) => {
+            if (!err) {
+                res.json({
+                    "msg": "Contracts has been updated successfully",
+                    "contracts": contracts,
+                    "success": true
+                });
+            } else {
+                res.json({
+                    "err": err,
+                    "success": false
+                });
+            }
+        });
+    } else if ((string !== 'Kërko kontratën' && string !== '') && (directorate !== 'Drejtoria' && directorate !== '') && date !== null && (value !== 'Vlera' && value !== '')) {
+        Contract.findbyStringDirectorateDateValue(string, directorate, date, referenceDate, value, (err, contracts) => {
+            if (!err) {
+                res.json({
+                    "msg": "Contracts has been retrived successfully",
+                    "contracts": contracts,
+                    "success": true
+                });
+            } else {
+                res.json({
+                    "err": err,
+                    "success": false
+                });
+            }
+        });
+    } else if ((string === 'Kërko kontratën' || string === '') && (directorate !== 'Drejtoria' && directorate !== '') && date === null && (value === 'Vlera' || value === '')) {
+        Contract.findByDirectorate(directorate, (err, contracts) => {
+            if (!err) {
+                res.json({
+                    "msg": "Contracts has been retrived successfully",
+                    "contracts": directorate,
+                    "success": true
+                });
+            } else {
+                res.json({
+                    "err": err,
+                    "success": false
+                });
+            }
+        });
+    }else if ((string === 'Kërko kontratën' || string ==='') && (directorate === 'Drejtoria' || directorate ==='') && date !== null && (value === 'Vlera' || value === '')) {
+        Contract.findByDate(date, referenceDate, (err, contracts) => {
+            if (!err) {
+                res.json({
+                    "msg": "Contracts has been updated successfully",
+                    "contracts": contracts,
+                    "success": true
+                });
+            } else {
+                res.json({
+                    "err": err,
+                    "success": false
+                });
+            }
+        });
+    } else if ((string === 'Kërko kontratën' || string === '') && (directorate === 'Drejtoria' || directorate === '') && date === null && (value !== 'Vlera' && value !== '')) {
+        Contract.findContractByValues(value, (err, contracts) => {
+            if (!err) {
+                res.json({
+                    "msg": "Contracts has been updated successfully",
+                    "contracts": contracts,
+                    "success": true
+                });
+            } else {
+                res.json({
+                    "err": err,
+                    "success": false
+                });
+            }
+        });
+    } else if ((string !== 'Kërko kontratën' && string !== '') && (directorate === 'Drejtoria' || directorate === '') && date !== null && (value === 'Vlera' || value === '')) {
+        Contract.findByStringDate(string, date, referenceDate, (err, contracts) => {
+            if (!err) {
+                res.json({
+                    "msg": "Contracts has been updated successfully",
+                    "contracts": contracts,
+                    "success": true
+                });
+            } else {
+                res.json({
+                    "err": err,
+                    "success": false
+                });
+            }
+        });
+    } else if ((string !== 'Kërko kontratën' && string !== '') && (directorate === 'Drejtoria' || directorate === '') && date === null && (value !== 'Vlera' && value !== '')) {
+        Contract.findbyStringValue(string, value, (err, contracts) => {
+            if (!err) {
+                res.json({
+                    "msg": "Contracts has been updated successfully",
+                    "contracts": contracts,
+                    "success": true
+                });
+            } else {
+                res.json({
+                    "err": err,
+                    "success": false
+                });
+            }
+        });
+    } else if ((string === 'Kërko kontratën' || string === '') && (directorate !== 'Drejtoria' && directorate !== '') && date !== null && (value === 'Vlera' || value === '')) {
+        Contract.findbyDirectorateDate(directorate, date, referenceDate, (err, contracts) => {
+            if (!err) {
+                res.json({
+                    "msg": "Contracts has been updated successfully",
+                    "contracts": contracts,
+                    "success": true
+                });
+            } else {
+                res.json({
+                    "err": err,
+                    "success": false
+                });
+            }
+        });
+    } else if ((string === 'Kërko kontratën' || string === '') && (directorate !== 'Drejtoria' && directorate !== '') && date === null && (value !== 'Vlera' && value !== '')) {
+        Contract.findbyDirectorateValue(directorate, value, (err, contracts) => {
+            if (!err) {
+                res.json({
+                    "msg": "Contracts has been updated successfully",
+                    "contracts": contracts,
+                    "success": true
+                });
+            } else {
+                res.json({
+                    "err": err,
+                    "success": false
+                });
+            }
+        });
+    } else if ((string === 'Kërko kontratën' || string === '') && (directorate === 'Drejtoria' || directorate === '') && date !== null && (value !== 'Vlera' && value !== '')) {
+        Contract.findbyDateValue(date, referenceDate, value, (err, contracts) => {
+            if (!err) {
+                res.json({
+                    "msg": "Contracts has been updated successfully",
+                    "contracts": contracts,
+                    "success": true
+                });
+            } else {
+                res.json({
+                    "err": err,
+                    "success": false
+                });
+            }
+        });
+    } else if ((string === 'Kërko kontratën' || string === '') && (directorate !== 'Drejtoria' && directorate !== '') && date !== null && (value !== 'Vlera' && value !== '')) {
+        Contract.findbyDirectorateDateValue(directorate, date, referenceDate, value, (err, contracts) => {
+            if (!err) {
+                res.json({
+                    "msg": "Contracts has been updated successfully",
+                    "contracts": contracts,
+                    "success": true
+                });
+            } else {
+                res.json({
+                    "err": err,
+                    "success": false
+                });
+            }
+        });
+    } else if ((string !== 'Kërko kontratën' && string !== '') && (directorate === 'Drejtoria' || directorate === '') && date !== null && (value === 'Vlera' || value === '')) {
+        Contract.findbyStringDate(string, date, referenceDate, (err, contracts) => {
+            if (!err) {
+                res.json({
+                    "msg": "Contracts has been updated successfully",
+                    "contracts": contracts,
+                    "success": true
+                });
+            } else {
+                res.json({
+                    "err": err,
+                    "success": false
+                });
+            }
+        });
+    } else if ((string !== 'Kërko kontratën' && string !== '') && (directorate !== 'Drejtoria' && directorate !== '') && date === null && (value !== 'Vlera' && value !== '')) {
+        Contract.findbyStringDirectorateValue(string, directorate, value, (err, contracts) => {
+            if (!err) {
+                res.json({
+                    "msg": "Contracts has been updated successfully",
+                    "contracts": contracts,
+                    "success": true
+                });
+            } else {
+                res.json({
+                    "err": err,
+                    "success": false
+                });
+            }
+        });
+    } else if ((string === 'Kërko kontratën' || string === '') && (directorate === 'Drejtoria' || directorate === '') && date === null && (value === 'Vlera' || value === '')) {
+        Contract.getAllContracts((err, contracts) => {
+            if (err) {
+                res.json({
+                    "err": err,
+                    "success": false
+                });
+            } else {
+                res.json({
+                    "data": contracts,
+                    "success": true
+                });
+            }
+        });
+    }
+});
 
 module.exports = router;

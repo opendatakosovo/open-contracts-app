@@ -85,12 +85,11 @@ export class AddContractComponent implements OnInit {
       companyName: '',
       headquartersName: '',
       signingDate: null,
-      implementationDeadlineStartingDate: null,
-      implementationDeadlineEndingDate: null,
+      implementationDeadline: '',
       closingDate: null,
       noOfPaymentInstallments: null,
       totalAmountOfContractsIncludingTaxes: '',
-      totalAmountOfAllAnnexContractsIncludingTaxes: '',
+      totalOfAnnexesWithTaxes: '',
       lastInstallmentPayDate: null,
       lastInstallmentAmount: '',
       discountAmountFromContract: '',
@@ -185,7 +184,7 @@ export class AddContractComponent implements OnInit {
       sumAnnex += parseFloat(annex.totalValueOfAnnexContract1.toString());
     });
     this.total = parseFloat(this.contract.contract.totalAmountOfContractsIncludingTaxes.toString()) + sumAnnex;
-    this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes = this.total.toString();
+    this.contract.contract.totalOfAnnexesWithTaxes = this.total.toString();
 
     let sumInstallments = 0;
     this.contract.installments.map(installment => {
@@ -237,20 +236,28 @@ export class AddContractComponent implements OnInit {
     this.calculateValues();
     if (this.form.valid === true) {
       if (this.filesToUpload !== null && this.valid === true) {
-        this.contract.approvalDateOfFunds = this.contract.approvalDateOfFunds == null ? null : this.dateChange(this.contract.approvalDateOfFunds);
+        this.contract.approvalDateOfFunds =
+        this.contract.approvalDateOfFunds == null ? null : this.dateChange(this.contract.approvalDateOfFunds);
         this.contract.bidOpeningDate = this.contract.bidOpeningDate == null ? null : this.dateChange(this.contract.bidOpeningDate);
-        this.contract.endingOfEvaluationDate = this.contract.endingOfEvaluationDate == null ? null : this.dateChange(this.contract.endingOfEvaluationDate);
+        this.contract.endingOfEvaluationDate =
+        this.contract.endingOfEvaluationDate == null ? null : this.dateChange(this.contract.endingOfEvaluationDate);
         this.contract.initiationDate = this.contract.initiationDate == null ? null : this.dateChange(this.contract.initiationDate);
-        this.contract.cancellationNoticeDate = this.contract.cancellationNoticeDate == null ? null : this.dateChange(this.contract.cancellationNoticeDate);
+        this.contract.cancellationNoticeDate =
+        this.contract.cancellationNoticeDate == null ? null : this.dateChange(this.contract.cancellationNoticeDate);
         this.contract.reapprovalDate = this.contract.reapprovalDate == null ? null : this.dateChange(this.contract.reapprovalDate);
-        this.contract.startingOfEvaluationDate = this.contract.startingOfEvaluationDate == null ? null : this.dateChange(this.contract.startingOfEvaluationDate);
-        this.contract.lastInstallmentPayDate = this.contract.lastInstallmentPayDate == null ? null : this.dateChange(this.contract.lastInstallmentPayDate);
-        this.contract.contract.implementationDeadlineEndingDate = this.contract.contract.implementationDeadlineEndingDate == null ? null : this.dateChange(this.contract.contract.implementationDeadlineEndingDate);
-        this.contract.contract.implementationDeadlineStartingDate = this.contract.contract.implementationDeadlineStartingDate == null ? null : this.dateChange(this.contract.contract.implementationDeadlineStartingDate);
-        this.contract.contract.publicationDate = this.contract.contract.publicationDate == null ? null : this.dateChange(this.contract.contract.publicationDate);
-        this.contract.contract.publicationDateOfGivenContract = this.contract.contract.publicationDateOfGivenContract == null ? null : this.dateChange(this.contract.contract.publicationDateOfGivenContract);
-        this.contract.contract.closingDate = this.contract.contract.closingDate == null ? null : this.dateChange(this.contract.contract.closingDate);
-        this.contract.contract.signingDate = this.contract.contract.signingDate == null ? null : this.dateChange(this.contract.contract.signingDate);
+        this.contract.startingOfEvaluationDate =
+        this.contract.startingOfEvaluationDate == null ? null : this.dateChange(this.contract.startingOfEvaluationDate);
+        this.contract.lastInstallmentPayDate =
+        this.contract.lastInstallmentPayDate == null ? null : this.dateChange(this.contract.lastInstallmentPayDate);
+        this.contract.contract.publicationDate =
+        this.contract.contract.publicationDate == null ? null : this.dateChange(this.contract.contract.publicationDate);
+        this.contract.contract.publicationDateOfGivenContract =
+        this.contract.contract.publicationDateOfGivenContract ==
+        null ? null : this.dateChange(this.contract.contract.publicationDateOfGivenContract);
+        this.contract.contract.closingDate =
+        this.contract.contract.closingDate == null ? null : this.dateChange(this.contract.contract.closingDate);
+        this.contract.contract.signingDate =
+        this.contract.contract.signingDate == null ? null : this.dateChange(this.contract.contract.signingDate);
         if (this.contract.installments.length > 1) {
           for (const installment of this.contract.installments) {
             installment.installmentPayDate1 = this.dateChange(installment.installmentPayDate1);
@@ -300,20 +307,28 @@ export class AddContractComponent implements OnInit {
           }
         });
       } else if (this.filesToUpload === null) {
-        this.contract.approvalDateOfFunds = this.contract.approvalDateOfFunds == null ? null : this.dateChange(this.contract.approvalDateOfFunds);
+        this.contract.approvalDateOfFunds =
+        this.contract.approvalDateOfFunds == null ? null : this.dateChange(this.contract.approvalDateOfFunds);
         this.contract.bidOpeningDate = this.contract.bidOpeningDate == null ? null : this.dateChange(this.contract.bidOpeningDate);
-        this.contract.endingOfEvaluationDate = this.contract.endingOfEvaluationDate == null ? null : this.dateChange(this.contract.endingOfEvaluationDate);
+        this.contract.endingOfEvaluationDate =
+        this.contract.endingOfEvaluationDate == null ? null : this.dateChange(this.contract.endingOfEvaluationDate);
         this.contract.initiationDate = this.contract.initiationDate == null ? null : this.dateChange(this.contract.initiationDate);
-        this.contract.cancellationNoticeDate = this.contract.cancellationNoticeDate == null ? null : this.dateChange(this.contract.cancellationNoticeDate);
+        this.contract.cancellationNoticeDate =
+        this.contract.cancellationNoticeDate == null ? null : this.dateChange(this.contract.cancellationNoticeDate);
         this.contract.reapprovalDate = this.contract.reapprovalDate == null ? null : this.dateChange(this.contract.reapprovalDate);
-        this.contract.startingOfEvaluationDate = this.contract.startingOfEvaluationDate == null ? null : this.dateChange(this.contract.startingOfEvaluationDate);
-        this.contract.lastInstallmentPayDate = this.contract.lastInstallmentPayDate == null ? null : this.dateChange(this.contract.lastInstallmentPayDate);
-        this.contract.contract.implementationDeadlineEndingDate = this.contract.contract.implementationDeadlineEndingDate == null ? null : this.dateChange(this.contract.contract.implementationDeadlineEndingDate);
-        this.contract.contract.implementationDeadlineStartingDate = this.contract.contract.implementationDeadlineStartingDate == null ? null : this.dateChange(this.contract.contract.implementationDeadlineStartingDate);
-        this.contract.contract.publicationDate = this.contract.contract.publicationDate == null ? null : this.dateChange(this.contract.contract.publicationDate);
-        this.contract.contract.publicationDateOfGivenContract = this.contract.contract.publicationDateOfGivenContract == null ? null : this.dateChange(this.contract.contract.publicationDateOfGivenContract);
-        this.contract.contract.closingDate = this.contract.contract.closingDate == null ? null : this.dateChange(this.contract.contract.closingDate);
-        this.contract.contract.signingDate = this.contract.contract.signingDate == null ? null : this.dateChange(this.contract.contract.signingDate);
+        this.contract.startingOfEvaluationDate =
+        this.contract.startingOfEvaluationDate == null ? null : this.dateChange(this.contract.startingOfEvaluationDate);
+        this.contract.lastInstallmentPayDate =
+        this.contract.lastInstallmentPayDate == null ? null : this.dateChange(this.contract.lastInstallmentPayDate);
+        this.contract.contract.publicationDate =
+        this.contract.contract.publicationDate == null ? null : this.dateChange(this.contract.contract.publicationDate);
+        this.contract.contract.publicationDateOfGivenContract =
+        this.contract.contract.publicationDateOfGivenContract ==
+        null ? null : this.dateChange(this.contract.contract.publicationDateOfGivenContract);
+        this.contract.contract.closingDate =
+        this.contract.contract.closingDate == null ? null : this.dateChange(this.contract.contract.closingDate);
+        this.contract.contract.signingDate =
+        this.contract.contract.signingDate == null ? null : this.dateChange(this.contract.contract.signingDate);
         if (this.contract.installments.length > 1) {
           for (const installment of this.contract.installments) {
             installment.installmentPayDate1 = this.dateChange(installment.installmentPayDate1);

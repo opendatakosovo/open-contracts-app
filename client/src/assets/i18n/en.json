@@ -27,7 +27,7 @@
         "predictedValue": "Estimated value of the contract",
         "name": "Name of the EO to whom the contract is awarded",
         "signingDate": "Date of contract signing",
-        "implementationDeadlineStartingDate": "Date of commencement of contract implementation",
+        "implementationDeadline": "Date of commencement of contract implementation",
         "closingDate": "Date of contract termination",
         "totalAmountOfContractsIncludingTaxes": "Total value of the contract, including all taxes",
         "contracts": "Contracts:",

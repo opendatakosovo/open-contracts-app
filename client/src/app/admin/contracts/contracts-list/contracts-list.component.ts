@@ -65,7 +65,7 @@ export class ContractsListComponent implements OnInit {
 
   filterContractName(event: any) {
     const val = event.target.value.toLowerCase();
-
+    console.log(this.temp);
     const temp = this.temp.filter(function (result) {
       return result.activityTitle.toLocaleLowerCase().indexOf(val) !== -1 || !val;
     });
