@@ -191,7 +191,6 @@ module.exports.filterStringFieldsinContracts = (text, callback) => {
             { "activityTitle": { "$regex": text } },
             { "contract.implementationDeadline": { "$regex": text } },
             { "company.name": { "$regex": text } }
-            // { "noOfCompaniesWhoDownloadedTenderDoc": { "$regex": text }}
         ]
     }, callback);
 }
@@ -254,7 +253,6 @@ module.exports.findByStringAndDirectorate = (text, directorate, callback) => {
                     { "activityTitle": { "$regex": text } },
                     { "contract.implementationDeadline": { "$regex": text } },
                     { "company.name": { "$regex": text } }
-                    // { "noOfCompaniesWhoDownloadedTenderDoc": text }
                 ]
             },
             { "directorates": directorate }
@@ -270,7 +268,6 @@ module.exports.findbyStringDirectorateDate = (text, directorate, date, reference
                     { "activityTitle": { "$regex": text } },
                     { "contract.implementationDeadline": { "$regex": text } },
                     { "company.name": { "$regex": text } }
-                    // { "noOfCompaniesWhoDownloadedTenderDoc": text }
                 ]
             },
             { "directorates": directorate },
@@ -317,7 +314,6 @@ module.exports.findbyStringDirectorateDateValue = (text, directorate, date, refe
                     { "activityTitle": { "$regex": text } },
                     { "contract.implementationDeadline": { "$regex": text } },
                     { "company.name": { "$regex": text } }
-                    // { "noOfCompaniesWhoDownloadedTenderDoc": text }
                 ]
             },
             { "directorates": directorate },
@@ -370,7 +366,6 @@ module.exports.findByStringDate = (text, date, referenceDate, callback) => {
                     { "activityTitle": { "$regex": text } },
                     { "contract.implementationDeadline": { "$regex": text } },
                     { "company.name": { "$regex": text } },
-                    // { "noOfCompaniesWhoDownloadedTenderDoc": text }
                 ]
             },
             {
@@ -417,7 +412,6 @@ module.exports.findbyStringValue = (text, value, callback) => {
                     { "activityTitle": { "$regex": text } },
                     { "contract.implementationDeadline": { "$regex": text } },
                     { "company.name": { "$regex": text } },
-                    // { "noOfCompaniesWhoDownloadedTenderDoc": text }
                 ]
             },
             {
@@ -590,7 +584,6 @@ module.exports.findbyStringDate = (text, date, referenceDate, callback) => {
                     { "activityTitle": { "$regex": text } },
                     { "contract.implementationDeadline": { "regex": text } },
                     { "company.name": { "$regex": text } }
-                    // { "noOfCompaniesWhoDownloadedTenderDoc": text }
                 ]
             },
             {
@@ -638,7 +631,6 @@ module.exports.findbyStringDirectorateValue = (text, directorate, value, callbac
                     { "activityTitle": { "$regex": text } },
                     { "contract.implementationDeadline": { "$regex": text } },
                     { "company.name": { "$regex": text } },
-                    // { "noOfCompaniesWhoDownloadedTenderDoc": text }
                 ]
             },
             { "directorates": directorate },
