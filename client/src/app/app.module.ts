@@ -54,6 +54,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { ContractsCountByYearsChartComponent } from './main/visualisations/charts/contracts-count-by-years-chart/contracts-count-by-years-chart.component';
 import { TopTenContractorsChartComponent } from './main/visualisations/charts/top-ten-contractors-chart/top-ten-contractors-chart.component';
 import { ContractBySigningDatePublicationDateChartComponent } from './main/visualisations/charts/contract-by-signing-date-publication-date-chart/contract-by-signing-date-publication-date-chart.component';
+import { ContractByYearWithPredictedValueTotalAmountComponent } from './main/visualisations/charts/contract-by-year-with-predicted-value-total-amount/contract-by-year-with-predicted-value-total-amount.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -118,7 +119,8 @@ const appRoutes: Routes = [
     PageNotFoundComponent,
     ContractsCountByYearsChartComponent,
     TopTenContractorsChartComponent,
-    ContractBySigningDatePublicationDateChartComponent
+    ContractBySigningDatePublicationDateChartComponent,
+    ContractByYearWithPredictedValueTotalAmountComponent
   ],
   imports: [
     BrowserModule,
