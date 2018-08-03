@@ -133,7 +133,7 @@ module.exports.getTotalContractsByYears = () => {
     return Contract.aggregate([
         { $group: { _id: "$year", count: { $sum: 1 } } },
         { $sort: { _id: 1 } },
-        { $project: { _id: 0, name: "$_id", y: "$count", dorron: 'dorron' } }
+        { $project: { _id: 0, name: "$_id", y: "$count" } }
     ]);
 }
 
@@ -164,6 +164,14 @@ module.exports.getContractsByContractorCompany = (companyName) => {
 
 module.exports.getContractsByYears = year => {
     return Contract.find({ year: Number(year) });
+}
+
+module.exports.getDirectoratesInContracts = () => {
+    return Contract.aggregate([
+        { $group: {_id: "$directorates", count: {$sum: 1} } }, 
+        { $sort:  { _id: 1 } },
+        { $project: { _id: 0, name: "$_id", y: "$count" } }
+    ]);
 }
 
 /** Dashboard Data **/
