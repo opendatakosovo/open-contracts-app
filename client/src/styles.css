@@ -16,14 +16,14 @@
     padding-left: 20px;
 }
 .ngx-datatable .datatable-body {
-    width: 100% !important;
+    width: inherit !important;
 }
 .datatable-body-row {
     color: #5f5e5e;
     border: none !important;
 }
 .ngx-datatable.bootstrap .datatable-body .datatable-body-row {
-    width: 100% !important;
+    width: inherit !important;
 }
 .ngx-datatable.bootstrap {
     border-radius: 10px;
@@ -43,13 +43,10 @@
     color: #32a6bd;
 }
 .ngx-datatable .datatable-body .datatable-row-wrapper {
-    width: 100% !important;
-}
-.ngx-datatable.bootstrap .datatable-body .datatable-body-row.datatable-row-even {
-    width: 100% !important;
+    width: inherit !important;
 }
 .ngx-datatable .datatable-body .datatable-scroll {
-    width: 1824px !important;
+    width: inherit !important;
 }
 /* Datatable scrollbar style */
 /* width */
@@ -72,7 +69,6 @@
 .datatable-body::-webkit-scrollbar-thumb:hover {
     background: #78cfe0;
 }
-
 .vertical-middle-align {
   position: absolute;
   top: 50%;
