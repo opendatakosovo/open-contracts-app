@@ -89,7 +89,13 @@ export class MainPageContractsListComponent implements OnInit {
     this.translate.use(language);
   }
 
-  onTypeString(event: any) {
+  onType() {
+    this.contractsService.filterContract(this.search).subscribe(data => {
+      this.rows = data;
+    });
+    this.table.offset = 0;
+  }
+  onDatePick(event) {
     if (event !== null && event !== undefined) {
       this.search.date = event;
       this.search.date.setHours(0);

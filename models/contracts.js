@@ -184,7 +184,16 @@ module.exports.getContractYears = () => {
     { $group: { _id: { year: '$year' } } },
     { $project: { _id: 0, year: '$_id.year' } }]);
 }
+
+
 /** Dashboard Data **/
+// Get total contracts by flag status
+module.exports.getTotalContractsbyFlagStatus = flagStatus => Contract.find({ flagStatus: flagStatus }).count();
+
+// Get total contracts
+module.exports.getTotalContracts = () => Contract.find().count();
+
+// Filter functions
 module.exports.filterStringFieldsinContracts = (text, callback) => {
     Contract.find({
         "$or": [
@@ -525,10 +534,6 @@ module.exports.findbyDateValue = (date, referenceDate, value, callback) => {
             ]
     }, callback);
 }
-
-// Get total contracts by flag status
-module.exports.getTotalContractsbyFlagStatus = flagStatus => Contract.find({ flagStatus: flagStatus }).count();
-
 module.exports.findbyDirectorateDateValue = (directorate, date, referenceDate, value, callback) => {
     Contract.find({
         "$and":
