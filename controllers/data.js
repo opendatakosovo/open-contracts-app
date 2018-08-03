@@ -54,7 +54,7 @@ router.get('/get-contracts-by-contractor/:companyName', (req, res) => {
             res.json(data);
         }).catch(err => {
             res.json(err);
-        }) 
+        })
 });
 
 // Get the directorates of contracts
@@ -196,40 +196,40 @@ router.get('/user', passport.authenticate('jwt', { session: false }), (req, res)
             return obj;
         }).then(obj => {
             return User.getTotalUsersByStatus(false)
-                    .then(iu => {
-                        obj['totalInactiveUsers'] = iu;
-                        return obj;
-                    })
+                .then(iu => {
+                    obj['totalInactiveUsers'] = iu;
+                    return obj;
+                })
         }).then(obj => {
             return User.getTotalUsersByStatus(true)
-                    .then(au => {
-                        obj['totalActiveUsers'] = au;
-                        return obj;
-                    })
+                .then(au => {
+                    obj['totalActiveUsers'] = au;
+                    return obj;
+                })
         }).then(obj => {
             return User.getTotalUsersByDirectoratesStatus(false)
-                    .then(tuWithoutDir => {
-                        obj['totalUsersWithoutDirectorate'] = tuWithoutDir;
-                        return obj;
-                    })
+                .then(tuWithoutDir => {
+                    obj['totalUsersWithoutDirectorate'] = tuWithoutDir;
+                    return obj;
+                })
         }).then(obj => {
             return User.getTotalUsersByDirectoratesStatus(true)
-                    .then(tuWithDir => {
-                        obj['totalUsersWithDirectorate'] = tuWithDir;
-                        return obj;
-                    })
+                .then(tuWithDir => {
+                    obj['totalUsersWithDirectorate'] = tuWithDir;
+                    return obj;
+                })
         }).then(obj => {
             return User.getTotalUsersByRole("admin")
-                    .then(ta => {
-                        obj['totalAdminUsers'] = ta;
-                        return obj;
-                    })
+                .then(ta => {
+                    obj['totalAdminUsers'] = ta;
+                    return obj;
+                })
         }).then(obj => {
             return User.getTotalUsersByRole("user")
-                    .then(ts => {
-                        obj['totalSimpleUsers'] = ts;
-                        return obj;
-                    })
+                .then(ts => {
+                    obj['totalSimpleUsers'] = ts;
+                    return obj;
+                })
         }).then(obj => {
             res.json(obj);
         }).catch(err => {
@@ -271,8 +271,8 @@ router.get('/directorates', passport.authenticate('jwt', { session: false }), (r
         }).then(obj => {
             res.json(obj);
         }).catch(err => {
-        res.json(err);
-    })
+            res.json(err);
+        })
 });
 
 // Contracts
@@ -313,4 +313,13 @@ router.get('/contracts', passport.authenticate('jwt', { session: false }), (req,
         })
 })
 
+
+//Get all years from contract
+router.get('/years', (req, res) => {
+    Contract.getContractYears().then(data => {
+        res.json(data)
+    }).catch(err => {
+        res.json(err);
+    });
+})
 module.exports = router;
