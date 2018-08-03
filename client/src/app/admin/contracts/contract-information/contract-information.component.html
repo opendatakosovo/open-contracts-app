@@ -425,11 +425,11 @@
         <br>
         <div class="col-sm-6">
           <label>Afatet për implementimin e kontratës</label>
-          <div *ngIf="contract.contract.implementationDeadlineStartingAndEndingDate == null || contract.contract.implementationDeadlineStartingAndEndingDate == ''">
+          <div *ngIf="contract.contract.implementationDeadline == null || contract.contract.implementationDeadline == ''">
             <p>Nuk ka të dhëna!</p>
           </div>
-          <div *ngIf="contract.contract.implementationDeadlineStartingAndEndingDate != null">
-            <p>{{ contract.contract.implementationDeadlineStartingAndEndingDate }}</p>
+          <div *ngIf="contract.contract.implementationDeadline != null">
+            <p>{{ contract.contract.implementationDeadline }}</p>
           </div>
         </div>
         <div class="col-6">
