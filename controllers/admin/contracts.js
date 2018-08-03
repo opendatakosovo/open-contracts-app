@@ -318,7 +318,7 @@ router.post('/filter', (req, res) => {
             if (!err) {
                 res.json({
                     "msg": "Contracts has been retrived successfully",
-                    "contracts": directorate,
+                    "contracts": contracts,
                     "success": true
                 });
             } else {
