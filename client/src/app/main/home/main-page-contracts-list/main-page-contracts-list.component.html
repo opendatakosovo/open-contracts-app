@@ -9,14 +9,14 @@
   <div class="row">
     <div class="col-lg-12 search text-center contracts-filter-form">
       <form action="" class="form-inline form-group">
-        <input type="text" (keyup)="onTypeString()" [(ngModel)]="search.string" name="string" class="form-control form-input" placeholder="{{ 'datatable.searchContract' | translate }}">
-        <select name="directorate" [(ngModel)]="search.directorate" class="form-control form-select" (change)="onTypeString()">
+        <input type="text" (keyup)="onTypeString($event)" [(ngModel)]="search.string" name="string" class="form-control form-input" placeholder="{{ 'datatable.searchContract' | translate }}">
+        <select name="directorate" [(ngModel)]="search.directorate" class="form-control form-select" (change)="onTypeString($event)">
           <option>{{ 'datatable.directorate' | translate }}</option>
           <option *ngFor="let directorate of directorates"> {{ directorate.directorateName }}</option>          
         </select>
         <input (ngModelChange)="onTypeString($event)" bsDatepicker placeholder="Zgjedhni datën" [bsConfig]="bsConfig" name="date"
               id="date" class="form-control form-input" [(ngModel)]="search.date">
-        <input type="text" (keyup)="onTypeString()" [(ngModel)]="search.value" name="value" class="form-control form-input" placeholder="{{ 'datatable.value' | translate }}">        
+        <input type="text" (keyup)="onTypeString($event)" [(ngModel)]="search.value" name="value" class="form-control form-input" placeholder="{{ 'datatable.value' | translate }}">        
       </form>
     </div>
   </div>
