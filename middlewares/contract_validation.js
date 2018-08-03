@@ -29,7 +29,7 @@ module.exports = (req, res, next) => {
     if (isEqualWithChars(requestedContract['fppClassification'])) {
         errors.push('Klasifikimi duhet të permbajë 2 shifra!');
     }
-    if (isEqual(requestedContract.contract['totalAmountOfAllAnnexContractsIncludingTaxes'], 0)) {
+    if (isEqual(requestedContract.contract['totalOfAnnexesWithTaxes'], 0)) {
         errors.push('Vlera totale e kontratës, duke përfshirë të gjitha anekset dhe të gjitha taksat nuk duhet të jetë zero!');
     }
     if (isEqual(requestedContract['noOfCompaniesWhoDownloadedTenderDoc'], 0)) {
@@ -50,7 +50,7 @@ module.exports = (req, res, next) => {
     if (isEqual(requestedContract.contract['totalAmountOfContractsIncludingTaxes'], 0)) {
         errors.push('Vlera totale e kontratës, duke përfshirë të gjitha taksat nuk duhet të jetë zero!');
     }
-    if (isEqual(requestedContract.contract['totalAmountOfAllAnnexContractsIncludingTaxes'], 0)) {
+    if (isEqual(requestedContract.contract['totalOfAnnexesWithTaxes'], 0)) {
         errors.push('Vlera totale e kontratës, duke përfshirë të gjitha anekset dhe të gjitha taksat nuk duhet të jetë zero!');
     }
     if (isEqual(requestedContract.contract.annexes[0]['totalValueOfAnnexContract1'], 0)) {

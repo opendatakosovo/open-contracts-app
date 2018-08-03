@@ -1,3 +1,27 @@
+<!-- Public contracts -->
+<div class="container-fluid">
+  <div class="row" id="public-contracts-row">
+    <div class="col-md-12 public-contracts">
+      <h1 class="text-center title">{{ 'datatable.title' | translate }}</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12 search text-center contracts-filter-form">
+      <form action="" class="form-inline form-group">
+        <input type="text" (keyup)="onTypeString($event)" [(ngModel)]="search.string" name="string" class="form-control form-input" placeholder="{{ 'datatable.searchContract' | translate }}">
+        <select name="directorate" [(ngModel)]="search.directorate" class="form-control form-select" (change)="onTypeString($event)">
+          <option>{{ 'datatable.directorate' | translate }}</option>
+          <option *ngFor="let directorate of directorates"> {{ directorate.directorateName }}</option>          
+        </select>
+        <input (ngModelChange)="onTypeString($event)" bsDatepicker placeholder="Zgjedhni datën" [bsConfig]="bsConfig" name="date"
+              id="date" class="form-control form-input" [(ngModel)]="search.date">
+        <input type="text" (keyup)="onTypeString($event)" [(ngModel)]="search.value" name="value" class="form-control form-input" placeholder="{{ 'datatable.value' | translate }}">        
+      </form>
+    </div>
+  </div>
+</div>
+
 <div id="table1">
   <ngx-datatable #table class="bootstrap" columnMode="'force'" [rows]="rows" [headerHeight]="'auto'" [summaryRow]="false" [summaryPosition]="'bottom'"
     [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements" [offset]="page.pageNumber"
@@ -108,27 +132,14 @@
     </ngx-datatable-column>
     <ngx-datatable-column>
       <ng-template let-column="column" ngx-datatable-header-template>
-        <p class="column-header">{{ 'datatable.implementationDeadlineStartingDate' | translate }}</p>
+        <p class="column-header">{{ 'datatable.implementationDeadline' | translate }}</p>
       </ng-template>
       <ng-template let-row="row" ngx-datatable-cell-template>
-        <p *ngIf="row.contract.implementationDeadlineStartingDate == null">
+        <p *ngIf="row.contract.implementationDeadline == null">
           Nuk ka të dhëna!
         </p>
-        <p *ngIf="row.contract.implementationDeadlineStartingDate != null">
-          {{ row.contract.implementationDeadlineStartingDate | date: 'dd/MM/yyyy' }}
-        </p>
-      </ng-template>
-    </ngx-datatable-column>
-    <ngx-datatable-column>
-      <ng-template let-column="column" ngx-datatable-header-template>
-        <p class="column-header">{{ 'datatable.closingDate' | translate }}</p>
-      </ng-template>
-      <ng-template let-row="row" ngx-datatable-cell-template>
-        <p *ngIf="row.contract.closingDate == null">
-          Nuk ka të dhëna!
-        </p>
-        <p *ngIf="row.contract.closingDate != null">
-          {{ row.contract.closingDate | date: 'dd/MM/yyyy' }}
+        <p *ngIf="row.contract.implementationDeadline != null">
+          {{ row.contract.implementationDeadline }}
         </p>
       </ng-template>
     </ngx-datatable-column>

@@ -27,7 +27,7 @@
         "predictedValue": "Vlera e parashikuar e kontratës",
         "name": "Emri i OE të cilit i është dhënë kontrata",
         "signingDate": "Data e nënshkrimit të kontratës",
-        "implementationDeadlineStartingDate": "Data e fillimit të implementimit të kontratës",
+        "implementationDeadline": "Afatet për implementimin e kontratës",
         "closingDate": "Data e mbylljes se kontrates",
         "totalAmountOfContractsIncludingTaxes": "Vlera totale e kontratës, duke përfshirë të gjitha taksat",
         "contracts": "Kontrata:",
