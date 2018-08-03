@@ -8,12 +8,12 @@
   font-size: 28px;
 }
 .datatable-header {
-    width: 100% !important;
     color: #fff;
     background-color: #32a6bd;
+    border-radius: 10px 10px 0px 0px;
 }
 .ngx-datatable.bootstrap .datatable-header .datatable-header-cell {
-    padding-left: 26px;
+    padding-left: 20px;
 }
 .ngx-datatable .datatable-body {
     width: 100% !important;
@@ -43,10 +43,13 @@
     color: #32a6bd;
 }
 .ngx-datatable .datatable-body .datatable-row-wrapper {
-    width: 101%;
+    width: 100% !important;
+}
+.ngx-datatable.bootstrap .datatable-body .datatable-body-row.datatable-row-even {
+    width: 100% !important;
 }
 .ngx-datatable .datatable-body .datatable-scroll {
-    width: 100% !important;
+    width: 1824px !important;
 }
 /* Datatable scrollbar style */
 /* width */
