@@ -185,6 +185,46 @@ router.get('/get-directorates-of-contracts', (req, res) => {
         })
 });
 
+// Top ten highest total amount of contracts
+router.get('/top-ten-contracts-with-highest-amount-by-year/:year', (req, res) => {
+    Contract.getContractsMostByTotalAmountOfContract(req.params.year)
+        .then(data => {
+
+            // Processing some data
+            // First we have to loop through the data and convert string currencies to numbers and find the difference between predicted value and total amount of contracts
+            for (row of data) {
+                row.totalAmountOfContractsIncludingTaxes = Number(row.totalAmountOfContractsIncludingTaxes.replace(/[^0-9\.-]+/g,""));
+                row.predictedValue = Number(row.predictedValue.replace(/[^0-9\.-]+/g,""));
+                row.differenceAmountBetweenPredictedAndTotal = row.totalAmountOfContractsIncludingTaxes > row.predictedValue ? row.totalAmountOfContractsIncludingTaxes - row.predictedValue : row.predictedValue - row.totalAmountOfContractsIncludingTaxes;
+            }
+
+            // Secondly we have compare and sort the data by the highest total amount
+            data.sort(compareValues('totalAmountOfContractsIncludingTaxes', 'desc'));
+
+            // Thirdly we loop again and convert back the numbers to currency strings with two decimals and format some other data
+            for (row of data) {
+                row.totalAmountOfContractsIncludingTaxes = row.totalAmountOfContractsIncludingTaxes.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+                row.predictedValue = row.predictedValue.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+                row.differenceAmountBetweenPredictedAndTotal = row.differenceAmountBetweenPredictedAndTotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+                row.companyName = row.companyName.trim();
+                if (row.publicationDateOfGivenContract == null) {
+                    row.publicationDateOfGivenContract = "Nuk ka të dhëna";
+                }
+                if (row.signingDate == null) {
+                    row.signingDate = "Nuk ka të dhëna";
+                }
+            }
+
+            // Finally we limit the data array to get only the first tenth of contracts
+            data.splice(10, data.length);
+
+            // Serving data
+            res.json(data);
+        }).catch(err => {
+            res.json(err);
+        });
+});
+
 /*** Admin Dashboard ***/
 
 // Users
@@ -311,8 +351,7 @@ router.get('/contracts', passport.authenticate('jwt', { session: false }), (req,
         }).catch(err => {
             res.json(err);
         })
-})
-
+});
 
 //Get all years from contract
 router.get('/years', (req, res) => {
