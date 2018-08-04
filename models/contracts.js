@@ -165,8 +165,33 @@ module.exports.getTopTenContractors = () => {
     ]);
 }
 
-module.exports.getContractsByContractorCompany = (companyName) => {
+module.exports.getContractsByContractorCompany = companyName => {
     return Contract.find({ "company.name": companyName });
+}
+
+module.exports.getContractsMostByTotalAmountOfContract = year => {
+    return Contract.aggregate([
+        {
+            $match: {
+                year: parseInt(year),
+                "contract.totalAmountOfContractsIncludingTaxes": { $ne: '' },
+            }
+        },
+        { $group: { _id: { procurementNo: '$procurementNo', 
+                           activityTitle: '$activityTitle',
+                           companyName: '$company.name',
+                           publicationDateOfGivenContract: "$contract.publicationDateOfGivenContract", 
+                           signingDate: "$contract.signingDate",
+                           totalAmountOfContractsIncludingTaxes: "$contract.totalAmountOfContractsIncludingTaxes",
+                           predictedValue: "$contract.predictedValue" } } },
+        { $project: { _id: 0, activityTitle: '$_id.activityTitle', 
+                              totalAmountOfContractsIncludingTaxes: "$_id.totalAmountOfContractsIncludingTaxes",
+                              predictedValue: "$_id.predictedValue",
+                              procurementNo: "$_id.procurementNo",
+                              companyName: "$_id.companyName",
+                              publicationDateOfGivenContract: "$_id.publicationDateOfGivenContract", 
+                              signingDate: "$_id.signingDate" } }
+    ]);
 }
 
 module.exports.getContractsByYears = year => {
