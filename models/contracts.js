@@ -140,9 +140,15 @@ module.exports.getTotalContractsByYears = () => {
 
 module.exports.getContractsByYearWithPredictedValueAndTotalAmount = (year) => {
     return Contract.aggregate([
-        { $match: { year: parseInt(year) } },
-        { $group: { _id: { id: "$_id", procurementNo: "$procurementNo", predictedValue: "$contract.predictedValue", totalAmountOfContractsIncludingTaxes: "$contract.totalAmountOfContractsIncludingTaxes" } } },
-        { $project: { _id: 0, id: "$_id.id", procurementNo: "$_id.procurementNo", predictedValue: "$_id.predictedValue", totalAmountOfContractsIncludingTaxes: "$_id.totalAmountOfContractsIncludingTaxes" } },
+        {
+            $match: {
+                year: parseInt(year),
+                'contract.predictedValue': { $nin: ["", null] },
+                'contract.totalAmountOfContractsIncludingTaxes': { $nin: ["", null] },
+            }
+        },
+        { $group: { _id: { id: "$_id", activityTitle: "$activityTitle", predictedValue: "$contract.predictedValue", totalAmountOfContractsIncludingTaxes: "$contract.totalAmountOfContractsIncludingTaxes" } } },
+        { $project: { _id: 0, id: "$_id.id", activityTitle: "$_id.activityTitle", predictedValue: "$_id.predictedValue", totalAmountOfContractsIncludingTaxes: "$_id.totalAmountOfContractsIncludingTaxes" } },
         { $sort: { predictedValue: -1 } }
     ]);
 }

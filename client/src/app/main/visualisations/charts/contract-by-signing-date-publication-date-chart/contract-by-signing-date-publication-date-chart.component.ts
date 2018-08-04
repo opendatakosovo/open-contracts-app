@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../../../service/data.service';
 import { Chart } from 'angular-highcharts';
-import { Title } from '../../../../../../node_modules/@angular/platform-browser';
 
 
 @Component({
@@ -20,7 +19,7 @@ export class ContractBySigningDatePublicationDateChartComponent implements OnIni
           type: 'spline'
         },
         title: {
-          text: 'Krahasimi i datës publikimit të dhënies kontratës dhe datës të nënshkrimit kontratës'
+          text: 'Krahasimi i datës publikimit të dhënies kontratës me datën të nënshkrimit kontratës'
         },
         xAxis: {
           categories: data.activityTitles
