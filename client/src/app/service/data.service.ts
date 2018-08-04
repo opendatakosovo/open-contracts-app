@@ -30,6 +30,10 @@ export class DataService {
     return this.http.get(`${this.APIUrl}/data/contracts-with-predicted-value-and-total-amount/${year}`).map(res => res.json());
   }
 
+  getDirectoratesWithMostContracts() {
+    return this.http.get(`${this.APIUrl}/data/get-directorates-of-contracts`).map(res => res.json());
+  }
+
   getContractYears() {
     return this.http.get(`${this.APIUrl}/data/years`).map(res => res.json());
   }
