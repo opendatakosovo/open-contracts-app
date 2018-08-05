@@ -10,10 +10,23 @@ import { Chart } from 'angular-highcharts';
 })
 export class ContractBySigningDatePublicationDateChartComponent implements OnInit {
   chart: Chart;
+  years;
   constructor(public dataService: DataService) {
-    this.dataService.getContractSigningDateAndPublicationDateForChart(2018).subscribe(res => {
+    this.render(2018);
+    this.dataService.getContractYears(2017).subscribe(res => {
+      this.years = res;
+    });
+  }
+
+  ngOnInit() {
+  }
+  onChange(event) {
+    const year = event.target.value;
+    this.render(year);
+  }
+  render(year) {
+    this.dataService.getContractSigningDateAndPublicationDateForChart(year).subscribe(res => {
       const data = this.formatData(res);
-      console.log(data);
       this.chart = new Chart({
         chart: {
           type: 'spline'
@@ -44,9 +57,6 @@ export class ContractBySigningDatePublicationDateChartComponent implements OnIni
         }]
       });
     });
-  }
-
-  ngOnInit() {
   }
 
   formatData(contracts) {

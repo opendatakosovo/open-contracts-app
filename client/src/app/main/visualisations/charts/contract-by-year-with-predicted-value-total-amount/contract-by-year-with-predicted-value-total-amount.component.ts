@@ -9,10 +9,22 @@ import { Chart } from 'angular-highcharts';
 })
 export class ContractByYearWithPredictedValueTotalAmountComponent implements OnInit {
   chart: Chart;
+  years;
   constructor(public dataService: DataService) {
-    this.dataService.getContractByYearWithPredictedValueAndTotalAmount(2018).subscribe(res => {
+    this.render(2018);
+    this.dataService.getContractYears(2009).subscribe(res => {
+      this.years = res;
+    });
+  }
+
+  onChange(event) {
+    const year = event.target.value;
+    this.render(year);
+  }
+
+  render(year) {
+    this.dataService.getContractByYearWithPredictedValueAndTotalAmount(year).subscribe(res => {
       const data = this.formatData(res);
-      console.log(data);
       this.chart = new Chart({
         chart: {
           type: 'line'
