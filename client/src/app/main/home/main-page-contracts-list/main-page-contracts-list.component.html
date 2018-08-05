@@ -14,7 +14,7 @@
           <option *ngFor="let directorate of directorates"> {{ directorate.directorateName }}</option>          
         </select>
         <input (ngModelChange)="onDatePick($event)" bsDatepicker placeholder="Zgjedhni datën" [bsConfig]="bsConfig" name="date"
-              id="date" class="form-control form-input" [(ngModel)]="search.date">
+              id="date" class="form-control form-select" [(ngModel)]="search.date">
         <input type="text" (keyup)="onType()" [(ngModel)]="search.value" name="value" class="form-control form-input" placeholder="{{ 'datatable.value' | translate }}">        
       </form>
     </div>

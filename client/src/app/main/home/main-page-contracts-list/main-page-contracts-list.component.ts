@@ -26,13 +26,13 @@ export class MainPageContractsListComponent implements OnInit {
   directorates: Directorate[];
   rows = new Array<Contract>();
   private ref: ChangeDetectorRef;
-  temp = [];
   search = {
     string: '',
     directorate: '',
     date: new Date(),
     referenceDate: new Date(),
     value: '',
+    pageInfo: new Page()
   };
   @ViewChild('table') table: DatatableComponent;
 
@@ -44,11 +44,17 @@ export class MainPageContractsListComponent implements OnInit {
     this.contractModal = new Contract();
     this.contract = new Contract();
     this.search = {
-      string: 'Kërko kontratën',
-      directorate: 'Drejtoria',
+      string: '',
+      directorate: '',
       date: null,
       referenceDate: null,
-      value: 'Vlera',
+      value: '',
+      pageInfo: {
+        pageNumber: 0,
+        size: 10,
+        totalElements: 0,
+        totalPages: 0
+      }
     };
     this.directorateService.getAllDirectorates().subscribe(data => {
       this.directorates = data;
@@ -65,7 +71,7 @@ export class MainPageContractsListComponent implements OnInit {
   };
 
   ngOnInit() {
-    this.setPage({ offset: 0 });
+    // this.setPage({ offset: 0 });
     this.onGetContracts();
   }
 
@@ -73,7 +79,6 @@ export class MainPageContractsListComponent implements OnInit {
     this.contractsService.serverPagination(this.page).subscribe(pagedData => {
       this.page = pagedData.page;
       this.rows = pagedData.data;
-      this.temp = pagedData.data;
     });
   }
 
@@ -91,7 +96,18 @@ export class MainPageContractsListComponent implements OnInit {
 
   onType() {
     this.contractsService.filterContract(this.search).subscribe(data => {
-      this.rows = data;
+      console.log(this.page);
+      this.page = data.page;
+      this.rows = data.data;
+      if (data.data.length === 0) {
+        this.messages = {
+          emptyMessage: `
+          <div>
+              <p>Asnjë kontratë nuk përputhet me të dhënat e shypura</p>
+          </div>
+        `
+        };
+      }
     });
     this.table.offset = 0;
   }
@@ -108,7 +124,17 @@ export class MainPageContractsListComponent implements OnInit {
       this.search.referenceDate.toISOString();
     }
     this.contractsService.filterContract(this.search).subscribe(data => {
-      this.rows = data;
+      this.page = data.page;
+      this.rows = data.data;
+      if (data.data.length === 0) {
+        this.messages = {
+          emptyMessage: `
+          <div>
+              <p>Asnjë kontratë nuk përputhet me të dhënat e shypura</p>
+          </div>
+        `
+        };
+      }
     });
     this.table.offset = 0;
   }
