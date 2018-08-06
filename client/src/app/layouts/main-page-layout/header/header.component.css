@@ -124,7 +124,7 @@ a {
     font-weight: 500;
 }
 
-.data-set-link-active:before {
+.data-set-link-active::before {
     content : "";
     position: absolute;
     left    : 0;

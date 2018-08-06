@@ -11,11 +11,11 @@
       <form action="" class="form-inline form-group">
         <input type="text" (keyup)="onType()" [(ngModel)]="search.string" name="string" class="form-control form-input" placeholder="{{ 'datatable.searchContract' | translate }}">
         <select name="directorate" [(ngModel)]="search.directorate" class="form-control form-select" (change)="onType()">
-          <option *ngFor="let directorate of directorates"> {{ directorate.directorateName }}</option>          
+          <option *ngFor="let directorate of directorates"> {{ directorate.directorateName }}</option>
         </select>
-        <input (ngModelChange)="onDatePick($event)" bsDatepicker placeholder="Zgjedhni datën" [bsConfig]="bsConfig" name="date"
-              id="date" class="form-control form-input" [(ngModel)]="search.date">
-        <input type="text" (keyup)="onType()" [(ngModel)]="search.value" name="value" class="form-control form-input" placeholder="{{ 'datatable.value' | translate }}">        
+        <input (ngModelChange)="onDatePick($event)" bsDatepicker placeholder="Zgjedhni datën" [bsConfig]="bsConfig" name="date" id="date"
+          class="form-control form-select" [(ngModel)]="search.date">
+        <input type="text" (keyup)="onType()" [(ngModel)]="search.value" name="value" class="form-control form-input" placeholder="{{ 'datatable.value' | translate }}">
       </form>
     </div>
   </div>
