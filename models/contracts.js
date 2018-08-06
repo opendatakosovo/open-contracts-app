@@ -261,7 +261,7 @@ module.exports.filterByDirectorate = (directorate) => {
         "$and":
             [
                 { "year": 2018 },
-                { "directorates": directorate }
+                { "directorates": { "$regex": directorate, "$options": "i" }}
             ]
 
     });
@@ -272,7 +272,7 @@ module.exports.filterByDirectorateCount = (directorate) => {
         "$and":
             [
                 { "year": 2018 },
-                { "directorates": directorate }
+                { "directorates": { "$regex": directorate, "$options": "i" }}
             ]
 
     });
@@ -403,7 +403,7 @@ module.exports.filterByStringAndDirectorate = (text, directorate) => {
                     { "company.name": { "$regex": text, "$options": 'i' } }
                 ]
             },
-            { "directorates": directorate },
+            { "directorates": { "$regex": directorate, "$options": "i" }},
             { "year": 2018 }
             ]
     });
@@ -419,7 +419,7 @@ module.exports.filterByStringAndDirectorateCount = (text, directorate) => {
                     { "company.name": { "$regex": text, "$options": 'i' } }
                 ]
             },
-            { "directorates": directorate },
+            { "directorates": { "$regex": directorate, "$options": "i" }},
             { "year": 2018 }
             ]
     });
@@ -438,7 +438,7 @@ module.exports.filterbyStringDirectorateDate = (text, directorate, date, referen
                         { "company.name": { "$regex": text, "$options": 'i' } }
                     ]
                 },
-                { "directorates": directorate },
+                { "directorates": { "$regex": directorate, "$options": "i" }},
                 {
                     "$or": [
                         {
@@ -485,7 +485,7 @@ module.exports.filterbyStringDirectorateDateCount = (text, directorate, date, re
                         { "company.name": { "$regex": text, "$options": 'i' } }
                     ]
                 },
-                { "directorates": directorate },
+                { "directorates": { "$regex": directorate, "$options": "i" }},
                 {
                     "$or": [
                         {
@@ -533,7 +533,7 @@ module.exports.filterByStringDirectorateDateValue = (text, directorate, date, re
                     { "company.name": { "$regex": text, "$options": 'i' } }
                 ]
             },
-            { "directorates": directorate },
+            { "directorates": { "$regex": directorate, "$options": "i" }},
             {
                 "$or": [
                     {
@@ -587,7 +587,7 @@ module.exports.filterByStringDirectorateDateValueCount = (text, directorate, dat
                     { "company.name": { "$regex": text, "$options": 'i' } }
                 ]
             },
-            { "directorates": directorate },
+            { "directorates": { "$regex": directorate, "$options": "i" }},
             {
                 "$or": [
                     {
@@ -773,7 +773,7 @@ module.exports.filterbyDirectorateDate = (directorate, date, referenceDate) => {
     return Contract.find({
         "$and":
             [
-                { "directorates": directorate },
+                { "directorates": { "$regex": directorate, "$options": "i" }},
                 {
                     "$or": [
                         {
@@ -815,7 +815,7 @@ module.exports.filterbyDirectorateDateCount = (directorate, date, referenceDate)
     return Contract.count({
         "$and":
             [
-                { "directorates": directorate },
+                { "directorates": { "$regex": directorate, "$options": "i" }},
                 {
                     "$or": [
                         {
@@ -858,7 +858,7 @@ module.exports.filterByDirectorateValue = (directorate, value) => {
     return Contract.find({
         "$and":
             [
-                { "directorates": directorate },
+                { "directorates": { "$regex": directorate, "$options": "i" }},
                 {
                     "$or": [
                         { "contract.predictedValue": { "$regex": value } },
@@ -873,7 +873,7 @@ module.exports.filterByDirectorateValueCount = (directorate, value) => {
     return Contract.count({
         "$and":
             [
-                { "directorates": directorate },
+                { "directorates": { "$regex": directorate, "$options": "i" }},
                 {
                     "$or": [
                         { "contract.predictedValue": { "$regex": value } },
@@ -984,7 +984,7 @@ module.exports.filterByDirectorateDateValue = (directorate, date, referenceDate,
     return Contract.find({
         "$and":
             [
-                { "directorates": directorate },
+                { "directorates": { "$regex": directorate, "$options": "i" }},
                 {
                     "$or": [
                         {
@@ -1032,7 +1032,7 @@ module.exports.filterByDirectorateDateValueCount = (directorate, date, reference
     return Contract.count({
         "$and":
             [
-                { "directorates": directorate },
+                { "directorates": { "$regex": directorate, "$options": "i" }},
                 {
                     "$or": [
                         {
@@ -1087,7 +1087,7 @@ module.exports.filterByStringDirectorateValue = (text, directorate, value) => {
                     { "company.name": { "$regex": text, "$options": 'i' } },
                 ]
             },
-            { "directorates": directorate },
+            { "directorates": { "$regex": directorate, "$options": "i" }},
             {
                 "$or": [
                     { "contract.predictedValue": { "$regex": value } },
@@ -1108,7 +1108,7 @@ module.exports.filterByStringDirectorateValueCount = (text, directorate, value) 
                     { "company.name": { "$regex": text, "$options": 'i' } },
                 ]
             },
-            { "directorates": directorate },
+            { "directorates": { "$regex": directorate, "$options": "i" }},
             {
                 "$or": [
                     { "contract.predictedValue": { "$regex": value } },

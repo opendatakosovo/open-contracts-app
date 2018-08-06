@@ -3,6 +3,11 @@
     <div class="col-md-6" id="title-row">
       <h1 class="text-primary title">
         Të dhënat e kontratës
+        <span data-toggle="tooltip" title="Ndrysho kontratën" >
+          <a class="edit-icon" [attr.data-id]="contract._id" [routerLink]="['/dashboard/contracts/edit-contract', contract._id]">
+            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+          </a>
+        </span>
       </h1>
     </div>
   </div>
