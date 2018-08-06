@@ -1,8 +1,6 @@
 import { Component, OnInit, TemplateRef, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { ContractsService } from '../../../service/contracts.service';
-import { DirectorateService } from '../../../service/directorate.service';
 import { Contract } from '../../../models/contract';
-import { Directorate } from '../../../models/directorates';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { BsDatepickerConfig, BsLocaleService } from 'ngx-bootstrap/datepicker';
@@ -23,7 +21,6 @@ export class MainPageContractsListComponent implements OnInit {
   contractModal: Contract;
   modalRef: BsModalRef;
   page = new Page();
-  directorates: Directorate[];
   rows = new Array<Contract>();
   totalContracts: Number;
   private ref: ChangeDetectorRef;
@@ -37,8 +34,7 @@ export class MainPageContractsListComponent implements OnInit {
   };
   @ViewChild('table') table: DatatableComponent;
 
-  constructor(public contractsService: ContractsService, private modalService: BsModalService, private translate: TranslateService,
-    public directorateService: DirectorateService) {
+  constructor(public contractsService: ContractsService, private modalService: BsModalService, private translate: TranslateService) {
     translate.setDefaultLang('sq');
     this.page.pageNumber = 0;
     this.page.size = 10;
@@ -58,9 +54,6 @@ export class MainPageContractsListComponent implements OnInit {
         totalPages: 0
       }
     };
-    this.directorateService.getAllDirectorates().subscribe(data => {
-      this.directorates = data;
-    });
   }
 
   messages = {

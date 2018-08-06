@@ -66,7 +66,7 @@
     text-align: justify;
     color:black;
     width: 88%;
-    height: 405px;
+    height: auto;
     margin-bottom: 0;
     bottom: 1px;
     top: 56px;
@@ -83,6 +83,10 @@
 
 #descriptions {
     margin-right: 85px;
+}
+
+.technologies {
+    float: left;
 }
 
 @media(max-width: 767px) {
