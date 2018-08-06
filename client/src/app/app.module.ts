@@ -56,6 +56,7 @@ import { TopTenContractorsChartComponent } from './main/visualisations/charts/to
 import { ContractBySigningDatePublicationDateChartComponent } from './main/visualisations/charts/contract-by-signing-date-publication-date-chart/contract-by-signing-date-publication-date-chart.component';
 import { ContractByYearWithPredictedValueTotalAmountComponent } from './main/visualisations/charts/contract-by-year-with-predicted-value-total-amount/contract-by-year-with-predicted-value-total-amount.component';
 import { DirectoratesChartComponent } from './main/visualisations/charts/directorates-chart/directorates-chart.component';
+import { DirectoratesTableComponent } from './main/visualisations/charts/directorates-table/directorates-table.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -122,7 +123,8 @@ const appRoutes: Routes = [
     TopTenContractorsChartComponent,
     ContractBySigningDatePublicationDateChartComponent,
     ContractByYearWithPredictedValueTotalAmountComponent,
-    DirectoratesChartComponent
+    DirectoratesChartComponent,
+    DirectoratesTableComponent
   ],
   imports: [
     BrowserModule,

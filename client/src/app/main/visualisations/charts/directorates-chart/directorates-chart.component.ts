@@ -30,7 +30,7 @@ export class DirectoratesChartComponent implements OnInit {
           text: 'Drejtoritë me më shumëti kontrata '
         },
         xAxis: {
-          type: 'category'
+          type: 'category',
         },
         legend: {
           enabled: false
@@ -38,7 +38,13 @@ export class DirectoratesChartComponent implements OnInit {
         yAxis: {
           title: {
             text: 'Numri'
-          }
+          },
+          max: 250
+        },
+        plotOptions: {
+          bar: {
+            pointWidth: 15,
+          },
         },
         series: [{
           name: 'Drejtoritë',

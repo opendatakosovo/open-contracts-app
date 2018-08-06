@@ -177,20 +177,30 @@ module.exports.getContractsMostByTotalAmountOfContract = year => {
                 "contract.totalAmountOfContractsIncludingTaxes": { $ne: '' },
             }
         },
-        { $group: { _id: { procurementNo: '$procurementNo', 
-                           activityTitle: '$activityTitle',
-                           companyName: '$company.name',
-                           publicationDateOfGivenContract: "$contract.publicationDateOfGivenContract", 
-                           signingDate: "$contract.signingDate",
-                           totalAmountOfContractsIncludingTaxes: "$contract.totalAmountOfContractsIncludingTaxes",
-                           predictedValue: "$contract.predictedValue" } } },
-        { $project: { _id: 0, activityTitle: '$_id.activityTitle', 
-                              totalAmountOfContractsIncludingTaxes: "$_id.totalAmountOfContractsIncludingTaxes",
-                              predictedValue: "$_id.predictedValue",
-                              procurementNo: "$_id.procurementNo",
-                              companyName: "$_id.companyName",
-                              publicationDateOfGivenContract: "$_id.publicationDateOfGivenContract", 
-                              signingDate: "$_id.signingDate" } }
+        {
+            $group: {
+                _id: {
+                    procurementNo: '$procurementNo',
+                    activityTitle: '$activityTitle',
+                    companyName: '$company.name',
+                    publicationDateOfGivenContract: "$contract.publicationDateOfGivenContract",
+                    signingDate: "$contract.signingDate",
+                    totalAmountOfContractsIncludingTaxes: "$contract.totalAmountOfContractsIncludingTaxes",
+                    predictedValue: "$contract.predictedValue"
+                }
+            }
+        },
+        {
+            $project: {
+                _id: 0, activityTitle: '$_id.activityTitle',
+                totalAmountOfContractsIncludingTaxes: "$_id.totalAmountOfContractsIncludingTaxes",
+                predictedValue: "$_id.predictedValue",
+                procurementNo: "$_id.procurementNo",
+                companyName: "$_id.companyName",
+                publicationDateOfGivenContract: "$_id.publicationDateOfGivenContract",
+                signingDate: "$_id.signingDate"
+            }
+        }
     ]);
 }
 
@@ -206,12 +216,13 @@ module.exports.getDirectoratesInContracts = () => {
     ]);
 }
 
-module.exports.getContractYears = () => {
+module.exports.getContractYears = (year = 2017) => {
     return Contract.aggregate([{
         $match: {
-            year: { $gt: 2017 }
+            year: { $gt: year == 2017 ? 2017 : year }
         }
     },
+    { $sort: { year: 1 } },
     { $group: { _id: { year: '$year' } } },
     { $project: { _id: 0, year: '$_id.year' } }]);
 }
@@ -288,31 +299,31 @@ module.exports.filterByDate = (date, referenceDate) => {
                     "$or": [
                         {
                             "contract.publicationDate":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         },
                         {
                             "contract.publicationDateOfGivenContract":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         },
                         {
                             "contract.signingDate":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         },
                         {
                             "cancellationNoticeDate":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         }
                     ]
                 }]
@@ -328,31 +339,31 @@ module.exports.filterByDateCount = (date, referenceDate) => {
                     "$or": [
                         {
                             "contract.publicationDate":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         },
                         {
                             "contract.publicationDateOfGivenContract":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         },
                         {
                             "contract.signingDate":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         },
                         {
                             "cancellationNoticeDate":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         }
                     ]
                 }]
@@ -443,31 +454,31 @@ module.exports.filterbyStringDirectorateDate = (text, directorate, date, referen
                     "$or": [
                         {
                             "contract.publicationDate":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         },
                         {
                             "contract.publicationDateOfGivenContract":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         },
                         {
                             "contract.signingDate":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         },
                         {
                             "cancellationNoticeDate":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         }
                     ]
                 }]
@@ -490,31 +501,31 @@ module.exports.filterbyStringDirectorateDateCount = (text, directorate, date, re
                     "$or": [
                         {
                             "contract.publicationDate":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         },
                         {
                             "contract.publicationDateOfGivenContract":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         },
                         {
                             "contract.signingDate":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         },
                         {
                             "cancellationNoticeDate":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         }
                     ]
                 }]
@@ -538,31 +549,31 @@ module.exports.filterByStringDirectorateDateValue = (text, directorate, date, re
                 "$or": [
                     {
                         "contract.publicationDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
+                        {
+                            "$gte": date,
+                            "$lt": referenceDate
+                        }
                     },
                     {
                         "contract.publicationDateOfGivenContract":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
+                        {
+                            "$gte": date,
+                            "$lt": referenceDate
+                        }
                     },
                     {
                         "contract.signingDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
+                        {
+                            "$gte": date,
+                            "$lt": referenceDate
+                        }
                     },
                     {
                         "cancellationNoticeDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
+                        {
+                            "$gte": date,
+                            "$lt": referenceDate
+                        }
                     }
                 ]
             },
@@ -592,31 +603,31 @@ module.exports.filterByStringDirectorateDateValueCount = (text, directorate, dat
                 "$or": [
                     {
                         "contract.publicationDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
+                        {
+                            "$gte": date,
+                            "$lt": referenceDate
+                        }
                     },
                     {
                         "contract.publicationDateOfGivenContract":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
+                        {
+                            "$gte": date,
+                            "$lt": referenceDate
+                        }
                     },
                     {
                         "contract.signingDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
+                        {
+                            "$gte": date,
+                            "$lt": referenceDate
+                        }
                     },
                     {
                         "cancellationNoticeDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
+                        {
+                            "$gte": date,
+                            "$lt": referenceDate
+                        }
                     }
                 ]
             },
@@ -646,31 +657,31 @@ module.exports.filterByStringDate = (text, date, referenceDate) => {
                 "$or": [
                     {
                         "contract.publicationDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
+                        {
+                            "$gte": date,
+                            "$lt": referenceDate
+                        }
                     },
                     {
                         "contract.publicationDateOfGivenContract":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
+                        {
+                            "$gte": date,
+                            "$lt": referenceDate
+                        }
                     },
                     {
                         "contract.signingDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
+                        {
+                            "$gte": date,
+                            "$lt": referenceDate
+                        }
                     },
                     {
                         "cancellationNoticeDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
+                        {
+                            "$gte": date,
+                            "$lt": referenceDate
+                        }
                     }
                 ]
             },
@@ -693,31 +704,31 @@ module.exports.filterByStringDateCount = (text, date, referenceDate) => {
                 "$or": [
                     {
                         "contract.publicationDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
+                        {
+                            "$gte": date,
+                            "$lt": referenceDate
+                        }
                     },
                     {
                         "contract.publicationDateOfGivenContract":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
+                        {
+                            "$gte": date,
+                            "$lt": referenceDate
+                        }
                     },
                     {
                         "contract.signingDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
+                        {
+                            "$gte": date,
+                            "$lt": referenceDate
+                        }
                     },
                     {
                         "cancellationNoticeDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
+                        {
+                            "$gte": date,
+                            "$lt": referenceDate
+                        }
                     }
                 ]
             },
@@ -778,31 +789,31 @@ module.exports.filterbyDirectorateDate = (directorate, date, referenceDate) => {
                     "$or": [
                         {
                             "contract.publicationDate":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         },
                         {
                             "contract.publicationDateOfGivenContract":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         },
                         {
                             "contract.signingDate":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         },
                         {
                             "cancellationNoticeDate":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         }
                     ]
                 },
@@ -820,31 +831,31 @@ module.exports.filterbyDirectorateDateCount = (directorate, date, referenceDate)
                     "$or": [
                         {
                             "contract.publicationDate":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         },
                         {
                             "contract.publicationDateOfGivenContract":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         },
                         {
                             "contract.signingDate":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         },
                         {
                             "cancellationNoticeDate":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         }
                     ]
                 },
@@ -894,31 +905,31 @@ module.exports.filterByDateValue = (date, referenceDate, value) => {
                     "$or": [
                         {
                             "contract.publicationDate":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         },
                         {
                             "contract.publicationDateOfGivenContract":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         },
                         {
                             "contract.signingDate":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         },
                         {
                             "cancellationNoticeDate":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         }
                     ]
                 },
@@ -940,31 +951,31 @@ module.exports.filterByDateValueCount = (date, referenceDate, value) => {
                     "$or": [
                         {
                             "contract.publicationDate":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         },
                         {
                             "contract.publicationDateOfGivenContract":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         },
                         {
                             "contract.signingDate":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         },
                         {
                             "cancellationNoticeDate":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         }
                     ]
                 },
@@ -989,31 +1000,31 @@ module.exports.filterByDirectorateDateValue = (directorate, date, referenceDate,
                     "$or": [
                         {
                             "contract.publicationDate":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         },
                         {
                             "contract.publicationDateOfGivenContract":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         },
                         {
                             "contract.signingDate":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         },
                         {
                             "cancellationNoticeDate":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         }
                     ]
                 },
@@ -1037,31 +1048,31 @@ module.exports.filterByDirectorateDateValueCount = (directorate, date, reference
                     "$or": [
                         {
                             "contract.publicationDate":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         },
                         {
                             "contract.publicationDateOfGivenContract":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         },
                         {
                             "contract.signingDate":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         },
                         {
                             "cancellationNoticeDate":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         }
                     ]
                 },
@@ -1127,41 +1138,41 @@ module.exports.filterByStringDateValue = (text, date, referenceDate, value) => {
         "$and":
             [
                 {
-                "$or": [
-                    { "activityTitle": { "$regex": text, "$options": 'i' } },
-                    { "contract.implementationDeadline": { "$regex": text, "$options": 'i' } },
-                    { "company.name": { "$regex": text, "$options": 'i' } },
-                ]
-            },
+                    "$or": [
+                        { "activityTitle": { "$regex": text, "$options": 'i' } },
+                        { "contract.implementationDeadline": { "$regex": text, "$options": 'i' } },
+                        { "company.name": { "$regex": text, "$options": 'i' } },
+                    ]
+                },
                 {
                     "$or": [
                         {
                             "contract.publicationDate":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         },
                         {
                             "contract.publicationDateOfGivenContract":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         },
                         {
                             "contract.signingDate":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         },
                         {
                             "cancellationNoticeDate":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         }
                     ]
                 },
@@ -1190,31 +1201,31 @@ module.exports.filterByStringDateValueCount = (text, date, referenceDate, value)
                     "$or": [
                         {
                             "contract.publicationDate":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         },
                         {
                             "contract.publicationDateOfGivenContract":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         },
                         {
                             "contract.signingDate":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         },
                         {
                             "cancellationNoticeDate":
-                                {
-                                    "$gte": date,
-                                    "$lt": referenceDate
-                                }
+                            {
+                                "$gte": date,
+                                "$lt": referenceDate
+                            }
                         }
                     ]
                 },
