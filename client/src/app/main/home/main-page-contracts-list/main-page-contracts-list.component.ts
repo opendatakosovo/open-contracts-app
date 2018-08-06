@@ -25,6 +25,7 @@ export class MainPageContractsListComponent implements OnInit {
   page = new Page();
   directorates: Directorate[];
   rows = new Array<Contract>();
+  totalContracts: Number;
   private ref: ChangeDetectorRef;
   search = {
     string: '',
@@ -41,6 +42,7 @@ export class MainPageContractsListComponent implements OnInit {
     translate.setDefaultLang('sq');
     this.page.pageNumber = 0;
     this.page.size = 10;
+    this.totalContracts = 0;
     this.contractModal = new Contract();
     this.contract = new Contract();
     this.search = {
@@ -71,23 +73,24 @@ export class MainPageContractsListComponent implements OnInit {
   };
 
   ngOnInit() {
-    // this.setPage({ offset: 0 });
-    this.onGetContracts();
-  }
-
-  onGetContracts() {
-    this.contractsService.serverPagination(this.page).subscribe(pagedData => {
-      this.page = pagedData.page;
-      this.rows = pagedData.data;
-    });
+    this.setPage({ offset: 0 });
+    this.totalContracts = this.page.totalElements;
   }
 
   setPage(pageInfo) {
     this.page.pageNumber = pageInfo.offset;
-    this.contractsService.serverPaginationLatestContracts(this.page).subscribe(pagedData => {
-      this.page = pagedData.page;
-      this.rows = pagedData.data;
-    });
+    this.search.pageInfo.pageNumber = pageInfo.offset;
+    if (this.page.totalElements === this.totalContracts) {
+      this.contractsService.serverPaginationLatestContracts(this.page).subscribe(pagedData => {
+        this.page = pagedData.page;
+        this.rows = pagedData.data;
+      });
+    } else {
+      this.contractsService.filterContract(this.search).subscribe(data => {
+        this.page = data.page;
+        this.rows = data.data;
+      });
+    }
   }
 
   useLanguage(language: string) {
@@ -96,7 +99,6 @@ export class MainPageContractsListComponent implements OnInit {
 
   onType() {
     this.contractsService.filterContract(this.search).subscribe(data => {
-      console.log(this.page);
       this.page = data.page;
       this.rows = data.data;
       if (data.data.length === 0) {
