@@ -193,8 +193,8 @@ router.get('/top-ten-contracts-with-highest-amount-by-year/:year', (req, res) =>
             // Processing some data
             // First we have to loop through the data and convert string currencies to numbers and find the difference between predicted value and total amount of contracts
             for (row of data) {
-                row.totalAmountOfContractsIncludingTaxes = Number(row.totalAmountOfContractsIncludingTaxes.replace(/[^0-9\.-]+/g,""));
-                row.predictedValue = Number(row.predictedValue.replace(/[^0-9\.-]+/g,""));
+                row.totalAmountOfContractsIncludingTaxes = Number(row.totalAmountOfContractsIncludingTaxes.replace(/[^0-9\.-]+/g, ""));
+                row.predictedValue = Number(row.predictedValue.replace(/[^0-9\.-]+/g, ""));
                 row.differenceAmountBetweenPredictedAndTotal = row.totalAmountOfContractsIncludingTaxes > row.predictedValue ? row.totalAmountOfContractsIncludingTaxes - row.predictedValue : row.predictedValue - row.totalAmountOfContractsIncludingTaxes;
             }
 
@@ -354,11 +354,20 @@ router.get('/contracts', passport.authenticate('jwt', { session: false }), (req,
 });
 
 //Get all years from contract
-router.get('/years', (req, res) => {
-    Contract.getContractYears().then(data => {
-        res.json(data)
-    }).catch(err => {
-        res.json(err);
-    });
+router.get('/years/:from?', (req, res) => {
+    if (req.params.from != null) {
+        console.log(req.params)
+        Contract.getContractYears(parseInt(req.params.from)).then(data => {
+            res.json(data)
+        }).catch(err => {
+            res.json(err);
+        });
+    } else {
+        Contract.getContractYears().then(data => {
+            res.json(data)
+        }).catch(err => {
+            res.json(err);
+        });
+    }
 })
 module.exports = router;
