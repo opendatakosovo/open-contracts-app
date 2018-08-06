@@ -18,17 +18,17 @@
       <li *ngIf="991>=width" class="nav-item" data-toggle="collapse" data-target="#mainNav" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <a class="nav-link" id="home" [routerLink]="['']">{{ 'navigation.home' | translate }}</a>
       </li>
-      <li *ngIf="width>991" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-        <a class="nav-link" id="visualisations" [routerLink]="['/visualisations']">{{ 'navigation.visualizations' | translate }}</a>
-      </li>
-      <li *ngIf="991>=width" class="nav-item" data-toggle="collapse" data-target="#mainNav" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-        <a class="nav-link" id="visualisations" [routerLink]="['/visualisations']">{{ 'navigation.visualizations' | translate }}</a>
-      </li>
       <li *ngIf="width>991" class="nav-item" class="data-set-link">
         <a class="nav-link" (click)="scroll()">{{ 'navigation.dataset' | translate }}</a>
       </li>
       <li *ngIf="991>=width" data-toggle="collapse" data-target="#mainNav" class="nav-item" class="data-set-link">
         <a class="nav-link" (click)="scroll()">{{ 'navigation.dataset' | translate }}</a>
+      </li>
+      <li *ngIf="width>991" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="nav-link" id="visualisations" [routerLink]="['/visualisations']">{{ 'navigation.visualizations' | translate }}</a>
+      </li>
+      <li *ngIf="991>=width" class="nav-item" data-toggle="collapse" data-target="#mainNav" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="nav-link" id="visualisations" [routerLink]="['/visualisations']">{{ 'navigation.visualizations' | translate }}</a>
       </li>
       <li *ngIf="width>991" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <a class="nav-link" [routerLink]="['/about-us']">{{ 'navigation.aboutUs' | translate }}</a>
@@ -56,6 +56,11 @@
         <li class="nav-item">
           <a class="nav-link" [ngClass]="{'active': selectedItem === 'en'}" (click)="useLanguage('en');selectedItem = 'en'">ENG</a>
         </li>
+        <li class="nav-item" *ngIf="currentUser !== null && width>991">
+          <a class="nav-link" [routerLink]="['/dashboard']" class="view-icon">
+            <i class="fa fa-user user-icon" aria-hidden="true"></i>
+          </a>
+        </li>
       </ul>
     </div>
     <div *ngIf="991>=width">
@@ -72,6 +77,11 @@
             <a class="nav-link" [ngClass]="{'active': selectedItem === 'en'}">ENG</a>
           </option>
         </select>
+        <li class="nav-item" *ngIf="currentUser !== null">
+            <a class="nav-link" [routerLink]="['/dashboard']" class="view-icon">
+              <i class="fa fa-user user-icon" aria-hidden="true"></i>
+            </a>
+        </li>
       </ul>
     </div>
   </div>
