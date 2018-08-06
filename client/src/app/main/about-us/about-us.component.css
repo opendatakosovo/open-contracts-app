@@ -1,6 +1,6 @@
 /* About Us Header Style */
 #bg-img {
-    background-image:url("/assets/images/about.png");
+    background-image:url("/assets/images/home.png");
     /* Full height */
     height: 678px; 
     max-height: 678px;
@@ -30,7 +30,6 @@
    width: auto;
    margin-top: 5%; 
    margin-bottom: 0;
-   margin-left: 3%;
    font-weight: 600;
    font-size: 3.5rem;
    float: left;
