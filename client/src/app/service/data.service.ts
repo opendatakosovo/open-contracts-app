@@ -34,8 +34,12 @@ export class DataService {
     return this.http.get(`${this.APIUrl}/data/get-directorates-of-contracts`).map(res => res.json());
   }
 
-  getContractYears() {
-    return this.http.get(`${this.APIUrl}/data/years`).map(res => res.json());
+  getContractYears(year = 2017) {
+    return this.http.get(`${this.APIUrl}/data/years/${year === 2017 ? '' : year}`).map(res => res.json());
+  }
+
+  getContractsMostByTotalAmountOfContract(year) {
+    return this.http.get(`${this.APIUrl}/data/top-ten-contracts-with-highest-amount-by-year/${year}`).map(res => res.json());
   }
 
   // Dashboard Data
