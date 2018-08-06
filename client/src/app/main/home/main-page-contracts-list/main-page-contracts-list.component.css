@@ -21,7 +21,9 @@
     font-size: 30px;
     color: #32a6bd;
 }
-
+.alert p {
+    margin-bottom: 0;
+}
     /* -------- Public contracts form -------*/
         .search {
             width: 100%;
