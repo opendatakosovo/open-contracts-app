@@ -64,7 +64,7 @@
 #project-description {
     white-space: pre-line;
     text-align: justify;
-    color:black;
+    color: #868e96 ;
     width: 88%;
     height: auto;
     margin-bottom: 0;
@@ -87,6 +87,14 @@
 
 .technologies {
     float: left;
+    width: 18%;
+    margin-right: 5%;
+    margin-top: 5%;
+}
+
+a {
+    color: #32a6bd;
+    text-decoration: none
 }
 
 @media(max-width: 767px) {

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { lang } from 'moment';
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',
@@ -19,5 +20,4 @@ export class FooterComponent implements OnInit {
   useLanguage(language: string) {
     this.translate.use(language);
   }
-
 }
