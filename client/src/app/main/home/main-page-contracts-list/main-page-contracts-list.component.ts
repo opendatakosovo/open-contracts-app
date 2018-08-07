@@ -7,6 +7,7 @@ import { Page } from '../../../models/page';
 import { TranslateService } from '@ngx-translate/core';
 import * as $ from 'jquery';
 import { DatatableComponent } from '@swimlane/ngx-datatable/src/components/datatable.component';
+import { elementAt } from 'rxjs/operator/elementAt';
 @Component({
   selector: 'app-main-page-contracts-list',
   templateUrl: './main-page-contracts-list.component.html',
@@ -21,6 +22,7 @@ export class MainPageContractsListComponent implements OnInit {
   rows = new Array<Contract>();
   private ref: ChangeDetectorRef;
   temp = [];
+  reorderable: boolean;
 
   @ViewChild('table') table: DatatableComponent;
 
@@ -30,6 +32,7 @@ export class MainPageContractsListComponent implements OnInit {
     this.page.size = 10;
     this.contractModal = new Contract();
     this.contract = new Contract();
+    this.reorderable = true;
   }
 
   messages = {
@@ -58,5 +61,30 @@ export class MainPageContractsListComponent implements OnInit {
     this.translate.use(language);
   }
 
-
+  sortContracts(column) {
+    this.page.column = column;
+    const asc = document.getElementById('sort').classList.contains('asc');
+    const desc = document.getElementById('sort').classList.contains('desc');
+    if (asc === false || desc === true) {
+      this.contractsService.serverSortLatestContractsAscending(this.page).subscribe(pagedData => {
+        const ascClass = document.getElementById('sort');
+        if (desc === true) {
+          ascClass.classList.remove('desc');
+        }
+        ascClass.classList.add('asc');
+        this.page = pagedData.page;
+        this.page.column = pagedData.column;
+        this.rows = pagedData.data;
+      });
+    } else {
+      this.contractsService.serverSortLatestContractsDescending(this.page).subscribe(pagedData => {
+        const descClass = document.getElementById('sort');
+        descClass.classList.remove('asc');
+        descClass.classList.add('desc');
+        this.page = pagedData.page;
+        this.page.column = pagedData.column;
+        this.rows = pagedData.data;
+      });
+    }
+  }
 }

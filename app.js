@@ -13,6 +13,8 @@ require('dotenv').config();
 mongoose.connect(config.database);
 mongoose.connection.on("connected", () => {
   console.log("Connected to database!");
+}).catch(err => {
+  console.log(err);
 });
 
 const app = express();

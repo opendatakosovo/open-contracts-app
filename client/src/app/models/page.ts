@@ -7,4 +7,5 @@ export class Page {
     totalPages: Number = 0;
     // The current page number
     pageNumber: Number = 0;
+    column: String = '';
 }
