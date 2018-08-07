@@ -328,6 +328,7 @@ export class EditContractComponent implements OnInit {
 
   updateContract(e) {
     e.preventDefault();
+    console.log(this.form);
     console.log(this.filesToUpload);
     if (this.form.valid === true) {
       if (this.filesToUpload !== null && this.valid === true) {
@@ -418,7 +419,7 @@ export class EditContractComponent implements OnInit {
           }
         }
         const body = {
-          contract: this.contract,
+          requestedContract: this.contract,
           fileToDelete: null,
         };
         if (this.fileToDelete !== '') {
