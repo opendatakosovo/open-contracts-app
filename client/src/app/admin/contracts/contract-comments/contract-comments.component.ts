@@ -2,6 +2,8 @@ import { Component, OnInit, Input, TemplateRef, ViewChild } from '@angular/core'
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { User } from '../../../models/user';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/takeUntil';
 import { Comment } from '../../../models/comment';
 import { Contract } from '../../../models/contract';
 import { UserService } from '../../../service/user.service';
@@ -28,8 +30,11 @@ import { trigger, style, transition, animate } from '@angular/animations';
 export class ContractCommentsComponent implements OnInit {
   @ViewChild('commentForm') commentForm: any;
   @ViewChild('commentReplyForm') replyForm: any;
+  private unsubscribeAll: Subject<any> = new Subject<any>();
   modalRef: BsModalRef;
   @Input() contractId1: string;
+  enableEmailNotificationStatus: boolean;
+  simpleActiveUsers: Object[];
   users = [];
   loggedInUser = {
     id: '',
@@ -53,6 +58,7 @@ export class ContractCommentsComponent implements OnInit {
     this.commentModal = new Comment();
     this.isShown = [];
     this.replyComment = '';
+    this.simpleActiveUsers = [];
     this.commentIsActive = true;
     this.replyIsActive = true;
     this.loggedInUser = JSON.parse(localStorage.getItem('user'));
@@ -75,15 +81,47 @@ export class ContractCommentsComponent implements OnInit {
     });
   }
 
+  checkEmailNotification(status) {
+    this.enableEmailNotificationStatus = false;
+    if (status) {
+      this.enableEmailNotificationStatus = true;
+    }
+  }
+
   ngOnInit() {
-    this.userService.getUserByID(this.loggedInUser.id).subscribe(data => {
-      this.currentUser = data;
-    });
+    console.log(this.contractId1);
+    this.enableEmailNotificationStatus = false;
+    this.userService.getUserByID(this.loggedInUser.id)
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(data => {
+        this.currentUser = data;
+      });
+    this.userService.getAllSimpleActiveUsers()
+        .takeUntil(this.unsubscribeAll)
+        .subscribe(data => {
+          for (const row of data) {
+            this.simpleActiveUsers.push({
+              name: `${row.firstName} ${row.lastName} (${row.email})`,
+              value: row.email,
+              checked: false
+            });
+          }
+          console.log(this.simpleActiveUsers);
+        }, err => {
+          console.log(err);
+        });
+  }
+
+  getSelectedUsersEmails() {
+    return this.simpleActiveUsers
+              .filter(opt => opt['checked'])
+              .map(opt => opt['value']);
   }
 
   commentDeleteModal(template) {
     this.modalRef = this.modalService.show(template);
   }
+
   replyDeleteModal(template) {
     this.modalRef = this.modalService.show(template);
   }
@@ -98,38 +136,44 @@ export class ContractCommentsComponent implements OnInit {
       this.commentModal.userId = event.target.dataset.id;
       this.commentModal.contractId = this.contractId1;
       this.commentModal.dateTime = new Date(Date.now()).toLocaleString();
-      this.commentService.addComment(this.commentModal).subscribe(res => {
-        if (res.err) {
-          Swal('Gabim!', 'Komenti nuk u shtua', 'error');
-        } else if (res.errVld) {
-          let errList = '';
-          res.errVld.map(error => {
-            errList += `<li>${error.msg}</li>`;
-          });
-          const htmlData = `<div style="text-align: center;">${errList}</div>`;
-          Swal({
-            title: 'Kujdes!',
-            html: htmlData,
-            width: 750,
-            type: 'info',
-            confirmButtonText: 'Kthehu te forma'
-          });
-        } else {
-          this.commentService.getComments(this.contractId1).subscribe(result => {
-            result.forEach(element => {
-              if (element._id === res.comment._id) {
-                this.users.push(element);
-              }
-              if (!element.reply.hasOwnProperty('_id')) {
-                element.reply.splice((this.users.findIndex(reply => reply === null)), 1);
-              }
+      this.commentModal.userFullName = `${this.currentUser.firstName} ${this.currentUser.lastName}`;
+      const selectedEmails = this.getSelectedUsersEmails();
+      if (selectedEmails.length > 0) {
+        this.commentModal.usersEmails = selectedEmails;
+      }
+      this.commentService.addComment(this.commentModal, this.enableEmailNotificationStatus)
+        .subscribe(res => {
+          if (res.err) {
+            Swal('Gabim!', 'Komenti nuk u shtua', 'error');
+          } else if (res.errVld) {
+            let errList = '';
+            res.errVld.map(error => {
+              errList += `<li>${error.msg}</li>`;
             });
-          });
-          this.commentModal = new Comment();
-          this.commentForm.reset();
-          this.commentIsActive = false;
-          setTimeout(() => this.commentIsActive = true, 0);
-        }
+            const htmlData = `<div style="text-align: center;">${errList}</div>`;
+            Swal({
+              title: 'Kujdes!',
+              html: htmlData,
+              width: 750,
+              type: 'info',
+              confirmButtonText: 'Kthehu te forma'
+            });
+          } else {
+            this.commentService.getComments(this.contractId1).subscribe(result => {
+              result.forEach(element => {
+                if (element._id === res.comment._id) {
+                  this.users.push(element);
+                }
+                if (!element.reply.hasOwnProperty('_id')) {
+                  element.reply.splice((this.users.findIndex(reply => reply === null)), 1);
+                }
+              });
+            });
+            this.commentModal = new Comment();
+            this.commentForm.reset();
+            this.commentIsActive = false;
+            setTimeout(() => this.commentIsActive = true, 0);
+          }
       });
     }
   }
@@ -141,9 +185,14 @@ export class ContractCommentsComponent implements OnInit {
       this.reply.replyDateTime = new Date(Date.now()).toLocaleString();
       this.reply.replyComment = this.replyComment;
       this.commentModal.reply = this.reply;
-      this.commentService.addReply(this.commentModal._id, this.commentModal.reply).subscribe(res => {
+      this.commentModal.userFullName = `${this.currentUser.firstName} ${this.currentUser.lastName}`;
+      const selectedEmails = this.getSelectedUsersEmails();
+      if (selectedEmails.length > 0) {
+        this.commentModal.usersEmails = selectedEmails;
+      }
+      this.commentService.addReply(this.commentModal._id, this.commentModal, this.enableEmailNotificationStatus).subscribe(res => {
         if (res.err) {
-          Swal('Gabim!', 'Përgjigja nuk nuk u shtua', 'error');
+          Swal('Gabim!', 'Përgjigja nuk u shtua', 'error');
         } else if (res.errVld) {
           let errList = '';
           res.errVld.map(error => {
