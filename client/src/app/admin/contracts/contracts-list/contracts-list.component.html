@@ -68,7 +68,7 @@
       </ng-template>
       <ng-template let-row="row" ngx-datatable-cell-template>
         <p *ngIf="row.activityTitle == ''">
-          Nuk ka të dhëna!
+          -
         </p>
         <p *ngIf="row.activityTitle != ''">
           {{ row.activityTitle }}
@@ -81,7 +81,7 @@
       </ng-template>
       <ng-template let-row="row" ngx-datatable-cell-template>
         <p *ngIf="row.contract.publicationDate == null">
-          Nuk ka të dhëna!
+          -
         </p>
         <p *ngIf="row.contract.publicationDate != null">
           {{ row.contract.publicationDate | date: 'dd/MM/yyyy' }}
@@ -94,7 +94,7 @@
       </ng-template>
       <ng-template let-row="row" ngx-datatable-cell-template>
         <p *ngIf="row.noOfCompaniesWhoDownloadedTenderDoc == null">
-          Nuk ka të dhëna!
+          -
         </p>
         <p *ngIf="row.noOfCompaniesWhoDownloadedTenderDoc != null">
           {{ row.noOfCompaniesWhoDownloadedTenderDoc }}
@@ -107,7 +107,7 @@
       </ng-template>
       <ng-template let-row="row" ngx-datatable-cell-template>
         <p *ngIf="row.contract.publicationDateOfGivenContract == null">
-          Nuk ka të dhëna!
+          -
         </p>
         <p *ngIf="row.contract.publicationDateOfGivenContract != null">
           {{ row.contract.publicationDateOfGivenContract | date: 'dd/MM/yyyy' }}
@@ -120,7 +120,7 @@
       </ng-template>
       <ng-template let-row="row" ngx-datatable-cell-template>
         <p *ngIf="row.cancellationNoticeDate == null">
-          Nuk ka të dhëna!
+          -
         </p>
         <p *ngIf="row.cancellationNoticeDate != null">
           {{ row.cancellationNoticeDate | date: 'dd/MM/yyyy' }}
@@ -133,7 +133,7 @@
       </ng-template>
       <ng-template let-row="row" ngx-datatable-cell-template>
         <p *ngIf="row.contract.predictedValue == ''">
-          Nuk ka të dhëna!
+          -
         </p>
         <p *ngIf="row.contract.predictedValue != ''">
           {{ row.contract.predictedValue }} &euro;
@@ -146,7 +146,7 @@
       </ng-template>
       <ng-template let-row="row" ngx-datatable-cell-template>
         <p *ngIf="row.company.name == ''">
-          Nuk ka të dhëna!
+          -
         </p>
         <p *ngIf="row.company.name != ''">
           {{ row.company.name }}
@@ -159,7 +159,7 @@
       </ng-template>
       <ng-template let-row="row" ngx-datatable-cell-template>
         <p *ngIf="row.contract.signingDate == null">
-          Nuk ka të dhëna!
+          -
         </p>
         <p *ngIf="row.contract.signingDate != null">
           {{ row.contract.signingDate | date: 'dd/MM/yyyy' }}
@@ -172,7 +172,7 @@
       </ng-template>
       <ng-template let-row="row" ngx-datatable-cell-template>
         <p *ngIf="row.contract.implementationDeadline == null">
-          Nuk ka të dhëna!
+          -
         </p>
         <p *ngIf="row.contract.implementationDeadline != null">
           {{ row.contract.implementationDeadline }}
@@ -185,7 +185,7 @@
       </ng-template>
       <ng-template let-row="row" ngx-datatable-cell-template>
         <p *ngIf="row.contract.closingDate == null">
-          Nuk ka të dhëna!
+          -
         </p>
         <p *ngIf="row.contract.closingDate != null">
           {{ row.contract.closingDate | date: 'dd/MM/yyyy' }}
@@ -198,7 +198,7 @@
       </ng-template>
       <ng-template let-row="row" ngx-datatable-cell-template>
         <p *ngIf="row.contract.totalAmountOfContractsIncludingTaxes == ''">
-          Nuk ka të dhëna!
+          -
         </p>
         <p *ngIf="row.contract.totalAmountOfContractsIncludingTaxes != ''">
           {{ row.contract.totalAmountOfContractsIncludingTaxes }} &euro;
@@ -211,7 +211,7 @@
       </ng-template>
       <ng-template let-row="row" ngx-datatable-cell-template>
         <p *ngIf="row.directorates == null || row.directorates == ''">
-          Nuk ka të dhëna!
+          -
         </p>
         <p *ngIf="row.directorates != null">
           {{ row.directorates }}
