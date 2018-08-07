@@ -23,6 +23,7 @@
         "publicationDate": "Data e publikimit të njoftimit për kontratë",
         "noOfCompaniesWhoDownloadedTenderDoc": "Nr. i OE që kanë shkarkuar dosjen e tenderit",
         "publicationDateOfGivenContract": "Data e publikimit të njoftimit për dhënie të kontratës",
+        "noOfCompaniesWhoSubmited": "Numri i OE që kanë dorëzuar ofertat",
         "cancellationNoticeDate": "Data e publikimit të anulimit të njoftimit",
         "predictedValue": "Vlera e parashikuar e kontratës",
         "name": "Emri i OE të cilit i është dhënë kontrata",
