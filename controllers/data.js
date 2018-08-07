@@ -209,10 +209,10 @@ router.get('/top-ten-contracts-with-highest-amount-by-year/:year', (req, res) =>
                 row.differenceAmountBetweenPredictedAndTotal = row.differenceAmountBetweenPredictedAndTotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
                 row.companyName = row.companyName.trim();
                 if (row.publicationDateOfGivenContract == null) {
-                    row.publicationDateOfGivenContract = "Nuk ka të dhëna";
+                    row.publicationDateOfGivenContract = "-";
                 }
                 if (row.signingDate == null) {
-                    row.signingDate = "Nuk ka të dhëna";
+                    row.signingDate = "-";
                 }
             }
 

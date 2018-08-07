@@ -307,7 +307,7 @@ router.put('/update-contract/:id', uploadFile, (req, res) => {
             requestedContract = JSON.parse(req.body.contract);
             requestedContract.contract.file = req.file.originalname;
         } else {
-            requestedContract = req.body.contract;
+            requestedContract = req.body.requestedContract;
             if (req.body.fileToDelete != null) {
                 requestedContract.contract.file = "";
             }
