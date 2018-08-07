@@ -81,6 +81,9 @@ export class TopTenContractorsChartComponent implements OnInit {
             }
           }
         },
+        tooltip: {
+          pointFormat: '<span style="color:{series.color}">Nr kontratave: {point.y}</span><br/>'
+        },
         series: [{
           name: 'Kontratat',
           data: res

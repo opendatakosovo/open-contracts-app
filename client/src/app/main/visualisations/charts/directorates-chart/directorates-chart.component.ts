@@ -46,6 +46,9 @@ export class DirectoratesChartComponent implements OnInit {
             pointWidth: 15,
           },
         },
+        tooltip: {
+          pointFormat: '<span style="color:{series.color}">Nr kontratave: {point.y}</span><br/>'
+        },
         series: [{
           name: 'Drejtoritë',
           data: data
