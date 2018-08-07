@@ -353,7 +353,7 @@ router.get('/contracts', passport.authenticate('jwt', { session: false }), (req,
         })
 });
 
-//Get all years from contract
+// Get all years from contract
 router.get('/years/:from?', (req, res) => {
     if (req.params.from != null) {
         console.log(req.params)
