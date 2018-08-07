@@ -12,6 +12,13 @@
     background-color: rgb(66, 66, 66);
     color: #fff;
 }
+.sort-icons {
+    position: absolute;
+    bottom: 3%;
+}
+#sort {
+    font-size: 16px;
+}
 
 /* ------- Public contrats ------- */
 .public-contracts .title {

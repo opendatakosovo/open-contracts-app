@@ -26,6 +26,90 @@ router.get("/", (req, res) => {
     });
 });
 
+router.post("/latest-contracts/page/ascending", (req, res) => {
+    let page = {
+        size: req.body.size,
+        totalElements: req.body.totalElements,
+        totalPages: req.body.totalPages,
+        pageNumber: req.body.pageNumber,
+        column: req.body.column
+    };
+    let response = {};
+    Contract.countLatestContracts()
+        .then(totalElements => {
+            page.totalElements = totalElements;
+            return page;
+        })
+        .then(page => {
+            page.totalPages = Math.round(page.totalElements / page.size)
+            return page;
+        })
+        .then(page => {
+            page.skipPages = page.size * page.pageNumber
+            return page;
+        })
+        .then(page => {
+            return Contract.find({ 'year': 2018 }).then(result => {
+                for (row of result) {
+                    row.contract.totalAmountOfContractsIncludingTaxes = Number(row.contract.totalAmountOfContractsIncludingTaxes.replace(/[^0-9\.-]+/g, ""));
+                    row.contract.predictedValue = Number(row.contract.predictedValue.replace(/[^0-9\.-]+/g, ""));
+                }
+            }).sort({ [page.column]: 1 }).skip(page.skipPages).limit(page.size).then(result => {
+                delete page.skipPages;
+                response.page = page;
+                response.data = result;
+                return response;
+            });
+        })
+        .then(response => {
+            res.json(response)
+        });
+});
+
+router.post("/latest-contracts/page/descending", (req, res) => {
+    let page = {
+        size: req.body.size,
+        totalElements: req.body.totalElements,
+        totalPages: req.body.totalPages,
+        pageNumber: req.body.pageNumber,
+        column: req.body.column
+    };
+    let response = {};
+    Contract.countLatestContracts()
+        .then(totalElements => {
+            page.totalElements = totalElements;
+            return page;
+        })
+        .then(page => {
+            page.totalPages = Math.round(page.totalElements / page.size)
+            return page;
+        })
+        .then(page => {
+            page.skipPages = page.size * page.pageNumber
+            return page;
+        })
+        .then(row => {
+            return Contract.find({ 'year': 2018 }).then(result => {
+                for (row of result) {
+                    row.contract.totalAmountOfContractsIncludingTaxes = Number(row.contract.totalAmountOfContractsIncludingTaxes.replace(/[^0-9\.-]+/g, ""));
+                    row.contract.predictedValue = Number(row.contract.predictedValue.replace(/[^0-9\.-]+/g, ""));
+                }
+                return row;
+            })
+        })
+        .then(page => {
+            return result.sort({ [page.column]: -1 }).skip(page.skipPages).limit(page.size).then(result => {
+                delete page.skipPages;
+                response.page = page;
+                response.data = result;
+                return response;
+            });
+        })
+        .then(response => {
+            res.json(response)
+        });
+});
+
 router.post("/latest-contracts/page", (req, res) => {
     let page = {
         size: req.body.size,

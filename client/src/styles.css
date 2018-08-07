@@ -48,6 +48,10 @@
 .ngx-datatable .datatable-body .datatable-scroll {
     width: inherit !important;
 }
+.ngx-datatable .datatable-header .datatable-header-cell .datatable-header-cell-template-wrap {
+    cursor: pointer;
+    margin-bottom: 5%;
+}
 /* Datatable scrollbar style */
 /* width */
 .datatable-body::-webkit-scrollbar {
