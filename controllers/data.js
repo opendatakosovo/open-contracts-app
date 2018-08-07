@@ -4,6 +4,7 @@ const User = require('../models/user');
 const Directorate = require('../models/directorates')
 const passport = require("passport");
 const compareValues = require("../utils/sortArrayByValues");
+const order = require("../utils/sortArrayByValues")
 
 /*
  * ENDPOINTS PREFIX: /data
@@ -358,13 +359,15 @@ router.get('/years/:from?', (req, res) => {
     if (req.params.from != null) {
         console.log(req.params)
         Contract.getContractYears(parseInt(req.params.from)).then(data => {
-            res.json(data)
+            data = data.sort(order("year", 'desc'));
+            res.json(data);
         }).catch(err => {
             res.json(err);
         });
     } else {
         Contract.getContractYears().then(data => {
-            res.json(data)
+            data = data.sort(order('year', 'desc'));
+            res.json(data);
         }).catch(err => {
             res.json(err);
         });

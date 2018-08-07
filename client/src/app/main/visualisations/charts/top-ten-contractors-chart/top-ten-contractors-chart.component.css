@@ -1,0 +1,12 @@
+.my-btn{
+    background: none;
+    border: none;
+    color :#17a2b8 !important;
+    font-size: 25px;
+    outline: none;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+.info-toggle {
+    margin-top: 2px;
+}

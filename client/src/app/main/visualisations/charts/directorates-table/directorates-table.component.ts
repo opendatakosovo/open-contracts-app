@@ -13,7 +13,7 @@ export class DirectoratesTableComponent implements OnInit {
   years;
 
   constructor(public dataService: DataService) {
-    this.dataService.getContractsMostByTotalAmountOfContract(2018).subscribe(res => {
+    this.dataService.getContractsMostByTotalAmountOfContract('any').subscribe(res => {
       this.contracts = res;
     });
     this.dataService.getContractYears(2009).subscribe(res => {

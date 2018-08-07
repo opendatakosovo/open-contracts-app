@@ -3,14 +3,18 @@
     <h5>Dhjetë kontratat me vlerën më të madhe</h5>
   </div>
   <div class="col-2 mb-3">
-    <select (change)="render($event)" class="float-right form-control">
-      <option *ngFor="let year of years" value="{{year.year}}">{{year.year}}</option>
-    </select>
+    <div class="form-group">
+      <label for="yearInput">Viti:</label>
+      <select (change)="render($event)" class="float-right form-control my-form-control">
+        <option value="any">Të gjitha</option>
+        <option *ngFor="let year of years" value="{{year.year}}">{{year.year}}</option>
+      </select>
+    </div>
   </div>
 </div>
 <div class="table-responsive">
-  <table class="table table-striped">
-    <thead>
+  <table class="table table-striped myTable">
+    <thead id="blla">
       <tr>
         <th scope="col">Nr i prokurimit</th>
         <th scope="col">Titulli i aktivitetit të prokurimit</th>
@@ -22,9 +26,9 @@
         <th scope="col">Data e nënshkrimit të kontratës</th>
       </tr>
     </thead>
-    <tbody *ngFor="let contract of contracts">
-      <tr>
-        <td>{{contract.procurementNo}}</td>
+    <tbody>
+      <tr *ngFor="let contract of contracts">
+        <th scope="col">{{contract.procurementNo}}</th>
         <td>{{contract.activityTitle}}</td>
         <td>{{contract.companyName}}</td>
         <td>{{contract.predictedValue}} €</td>

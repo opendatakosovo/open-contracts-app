@@ -12,7 +12,7 @@ export class ContractBySigningDatePublicationDateChartComponent implements OnIni
   chart: Chart;
   years;
   constructor(public dataService: DataService) {
-    this.render(2018);
+    this.render('any');
     this.dataService.getContractYears(2017).subscribe(res => {
       this.years = res;
     });

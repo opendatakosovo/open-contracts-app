@@ -11,9 +11,9 @@ export class ContractByYearWithPredictedValueTotalAmountComponent implements OnI
   chart: Chart;
   years;
   constructor(public dataService: DataService) {
-    this.render(2018);
     this.dataService.getContractYears(2009).subscribe(res => {
       this.years = res;
+      this.render(this.years[0].year);
     });
   }
 
