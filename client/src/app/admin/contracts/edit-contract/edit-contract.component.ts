@@ -20,8 +20,6 @@ export class EditContractComponent implements OnInit {
   id;
   startOfEvaluationDate: Date;
   endOfEvaluationDate: Date;
-  startImplementationDeadline: Date;
-  endImplementationDeadline: Date;
   arrayInstallments: number[];
   filesToUpload: File = null;
   hasFileToDelete: Boolean = false;
@@ -92,8 +90,7 @@ export class EditContractComponent implements OnInit {
       companyName: '',
       headquartersName: '',
       signingDate: null,
-      implementationDeadlineStartingDate: null,
-      implementationDeadlineEndingDate: null,
+      implementationDeadline: '',
       closingDate: null,
       noOfPaymentInstallments: null,
       totalAmountOfContractsIncludingTaxes: '',
@@ -178,7 +175,7 @@ export class EditContractComponent implements OnInit {
     const arrControl = this.formArrayAnnexes;
     this.contract.contract.annexes.map(annex => {
       arrControl.push(this.addAnnex(annex));
-    })
+    });
   }
 
   ngOnInit() {
@@ -232,12 +229,8 @@ export class EditContractComponent implements OnInit {
       contract.contract.closingDate = new Date(contract.contract.closingDate);
     }
 
-    if (contract.contract.implementationDeadlineEndingDate !== null) {
-      contract.contract.implementationDeadlineEndingDate = new Date(contract.contract.implementationDeadlineEndingDate);
-    }
-
-    if (contract.contract.implementationDeadlineStartingDate !== null) {
-      contract.contract.implementationDeadlineStartingDate = new Date(this.contract.contract.implementationDeadlineStartingDate);
+    if (contract.contract.implementationDeadline !== null) {
+      contract.contract.implementationDeadline = new Date(contract.contract.implementationDeadline);
     }
 
     if (contract.contract.publicationDate !== null) {
@@ -264,7 +257,7 @@ export class EditContractComponent implements OnInit {
 
     for (const annex of contract.contract.annexes) {
       if (annex.annexContractSigningDate1 !== null) {
-        annex.annexContractSigningDate1 = new Date(annex.annexContractSigningDate1)
+        annex.annexContractSigningDate1 = new Date(annex.annexContractSigningDate1);
       }
     }
   }
@@ -301,7 +294,7 @@ export class EditContractComponent implements OnInit {
   }
 
   fileChangeEvent(event) {
-    if (this.hasFileToDelete == true) {
+    if (this.hasFileToDelete === true) {
       this.fileToDelete = this.contract.contract.file;
       this.hasFileToDelete = false;
     }
@@ -323,7 +316,7 @@ export class EditContractComponent implements OnInit {
     if (this.filesToUpload != null) {
       this.filesToUpload = null;
     }
-    if (this.hasFileToDelete == true) {
+    if (this.hasFileToDelete === true) {
       this.fileToDelete = this.contract.contract.file;
       this.hasFileToDelete = false;
     }
@@ -346,8 +339,6 @@ export class EditContractComponent implements OnInit {
         this.contract.reapprovalDate = this.contract.reapprovalDate == null ? null : this.dateChange(this.contract.reapprovalDate);
         this.contract.startingOfEvaluationDate = this.contract.startingOfEvaluationDate == null ? null : this.dateChange(this.contract.startingOfEvaluationDate);
         this.contract.lastInstallmentPayDate = this.contract.lastInstallmentPayDate == null ? null : this.dateChange(this.contract.lastInstallmentPayDate);
-        this.contract.contract.implementationDeadlineEndingDate = this.contract.contract.implementationDeadlineEndingDate == null ? null : this.dateChange(this.contract.contract.implementationDeadlineEndingDate);
-        this.contract.contract.implementationDeadlineStartingDate = this.contract.contract.implementationDeadlineStartingDate == null ? null : this.dateChange(this.contract.contract.implementationDeadlineStartingDate);
         this.contract.contract.publicationDate = this.contract.contract.publicationDate == null ? null : this.dateChange(this.contract.contract.publicationDate);
         this.contract.contract.publicationDateOfGivenContract = this.contract.contract.publicationDateOfGivenContract == null ? null : this.dateChange(this.contract.contract.publicationDateOfGivenContract);
         this.contract.contract.closingDate = this.contract.contract.closingDate == null ? null : this.dateChange(this.contract.contract.closingDate);
@@ -412,8 +403,6 @@ export class EditContractComponent implements OnInit {
         this.contract.reapprovalDate = this.contract.reapprovalDate == null ? null : this.dateChange(this.contract.reapprovalDate);
         this.contract.startingOfEvaluationDate = this.contract.startingOfEvaluationDate == null ? null : this.dateChange(this.contract.startingOfEvaluationDate);
         this.contract.lastInstallmentPayDate = this.contract.lastInstallmentPayDate == null ? null : this.dateChange(this.contract.lastInstallmentPayDate);
-        this.contract.contract.implementationDeadlineEndingDate = this.contract.contract.implementationDeadlineEndingDate == null ? null : this.dateChange(this.contract.contract.implementationDeadlineEndingDate);
-        this.contract.contract.implementationDeadlineStartingDate = this.contract.contract.implementationDeadlineStartingDate == null ? null : this.dateChange(this.contract.contract.implementationDeadlineStartingDate);
         this.contract.contract.publicationDate = this.contract.contract.publicationDate == null ? null : this.dateChange(this.contract.contract.publicationDate);
         this.contract.contract.publicationDateOfGivenContract = this.contract.contract.publicationDateOfGivenContract == null ? null : this.dateChange(this.contract.contract.publicationDateOfGivenContract);
         this.contract.contract.closingDate = this.contract.contract.closingDate == null ? null : this.dateChange(this.contract.contract.closingDate);

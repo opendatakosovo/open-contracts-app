@@ -1,0 +1,11 @@
+.myTable td{
+    font-size: 11px;
+}
+.myTable th{
+    font-size: 14px;
+
+}
+.my-form-control{
+    display: inline;
+    width: 120px!important;
+}

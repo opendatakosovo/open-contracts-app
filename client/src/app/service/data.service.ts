@@ -22,6 +22,26 @@ export class DataService {
     return this.http.get(`${this.APIUrl}/data/get-contracts-by-contractor/${name}`).map(res => res.json());
   }
 
+  getContractSigningDateAndPublicationDateForChart(year: any) {
+    return this.http.get(`${this.APIUrl}/data/contracts-by-years-publication-date-signing-date/${year}`).map(res => res.json());
+  }
+
+  getContractByYearWithPredictedValueAndTotalAmount(year) {
+    return this.http.get(`${this.APIUrl}/data/contracts-with-predicted-value-and-total-amount/${year}`).map(res => res.json());
+  }
+
+  getDirectoratesWithMostContracts() {
+    return this.http.get(`${this.APIUrl}/data/get-directorates-of-contracts`).map(res => res.json());
+  }
+
+  getContractYears(year = 2017) {
+    return this.http.get(`${this.APIUrl}/data/years/${year === 2017 ? '' : year}`).map(res => res.json());
+  }
+
+  getContractsMostByTotalAmountOfContract(year) {
+    return this.http.get(`${this.APIUrl}/data/top-ten-contracts-with-highest-amount-by-year/${year}`).map(res => res.json());
+  }
+
   // Dashboard Data
   getUserData() {
     return this.http.getWithAuth(`${this.APIUrl}/data/user`).map(res => res.json());

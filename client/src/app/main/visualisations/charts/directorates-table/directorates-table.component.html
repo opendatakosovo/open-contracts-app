@@ -1,0 +1,43 @@
+<div class="row">
+  <div class="col-md-10">
+    <h5>Dhjetë kontratat me vlerën më të madhe</h5>
+  </div>
+  <div class="col-2 mb-3">
+    <div class="form-group">
+      <label for="yearInput">Viti:</label>
+      <select (change)="render($event)" class="float-right form-control my-form-control">
+        <option value="any">Të gjitha</option>
+        <option *ngFor="let year of years" value="{{year.year}}">{{year.year}}</option>
+      </select>
+    </div>
+  </div>
+</div>
+<div class="table-responsive">
+  <table class="table table-striped myTable">
+    <thead id="blla">
+      <tr>
+        <th scope="col">Nr i prokurimit</th>
+        <th scope="col">Titulli i aktivitetit të prokurimit</th>
+        <th scope="col">Emri i OE të cilit i është dhënë kontrata</th>
+        <th scope="col">Vlera e parashikuar e kontratës</th>
+        <th scope="col">Vlera totale e kontratës, duke përfshirë të gjitha taksat</th>
+        <th scope="col">Shuma e diferencës në mesë vlerës parashikuar dhe totale me taksa të kontratës</th>
+        <th scope="col">Data e publikimit të njoftimit për dhënie të kontratës</th>
+        <th scope="col">Data e nënshkrimit të kontratës</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let contract of contracts">
+        <th scope="col">{{contract.procurementNo}}</th>
+        <td>{{contract.activityTitle}}</td>
+        <td>{{contract.companyName}}</td>
+        <td>{{contract.predictedValue}} €</td>
+        <td>{{contract.totalAmountOfContractsIncludingTaxes}}€</td>
+        <td>{{contract.differenceAmountBetweenPredictedAndTotal}}€</td>
+        <td>{{contract.publicationDateOfGivenContract == "Nuk ka të dhëna" ? contract.publicationDateOfGivenContract : contract.publicationDateOfGivenContract
+          | date: 'dd/MM/yyyy'}}</td>
+        <td>{{contract.signingDate == "Nuk ka të dhëna" ? contract.signingDate : contract.signingDate | date: 'dd/MM/yyyy'}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

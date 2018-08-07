@@ -1,0 +1,12 @@
+<div class="row">
+    <div class="offset-10 col-2 mb-3 float-right">
+        <div class="form-group">
+            <label for="yearInput">Viti:</label>
+            <select (change)="onChange($event)" class="form-control my-form-control">
+                <option value="any">Të gjitha</option>
+                <option *ngFor="let year of years" value="{{year.year}}">{{year.year}}</option>
+            </select>
+        </div>
+    </div>
+</div>
+<div [chart]="chart"></div>

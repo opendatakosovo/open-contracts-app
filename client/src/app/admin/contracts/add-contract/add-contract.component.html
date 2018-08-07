@@ -466,16 +466,10 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-sm-3 form-group">
-            <label for="implementationDeadlineStartingDate" style="width:270px;">Afatet për implementimin e kontratës</label>
-            <input [(bsValue)]="contract.contract.implementationDeadlineStartingDate" bsDatepicker placeholder="Zgjedhni datën e fillimit"
-              [bsConfig]="bsConfig" name="implementationDeadlineStartingDate" id="implementationDeadlineStartingDate" formControlName="implementationDeadlineStartingDate"
-              [(ngModel)]="contract.contract.implementationDeadlineStartingDate" class="form-control">
-          </div>
-          <div class="col-sm-3 form-group" style="padding-top: 29px;">
-            <input [(bsValue)]="contract.contract.implementationDeadlineEndingDate" bsDatepicker placeholder="Zgjedhni datën e përfundimit"
-              [bsConfig]="bsConfig" name="implementationDeadlineEndingDate" formControlName="implementationDeadlineEndingDate"
-              id="implementationDeadlineEndingDate" [(ngModel)]="contract.contract.implementationDeadlineEndingDate" class="form-control">
+          <div class="col-sm-6 form-group">
+            <label for="implementationDeadline" style="width:270px;">Afati për implementimin e kontratës</label>
+            <input  placeholder="Zgjedhni datën e fillimit" type="text" name="implementationDeadline" id="implementationDeadline" formControlName="implementationDeadline"
+              [(ngModel)]="contract.contract.implementationDeadline" class="form-control">
           </div>
           <div class="col-6 form-group">
             <label for="closingDate">Data e mbylljes së kontratës</label>

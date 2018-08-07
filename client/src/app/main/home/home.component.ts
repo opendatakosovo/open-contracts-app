@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { DatasetService } from '../../service/dataset.service';
 import { Dataset } from '../../models/dataset';
+import { ContractsService } from '../../service/contracts.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -12,7 +13,8 @@ export class HomeComponent implements OnInit {
   dataSets: Dataset[];
   data: string;
   format: string;
-  constructor(private translate: TranslateService, public datasetService: DatasetService) {
+  constructor(private translate: TranslateService, public datasetService: DatasetService,
+              public contractService: ContractsService ) {
     translate.setDefaultLang('sq');
     this.datasetService.getDatasets().subscribe(data => {
       this.dataSets = data;
@@ -52,5 +54,4 @@ export class HomeComponent implements OnInit {
       }
     }
   }
-
 }

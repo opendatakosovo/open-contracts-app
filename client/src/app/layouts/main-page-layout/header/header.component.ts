@@ -1,6 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HostListener } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { UserService } from '../../../service/user.service';
+import { User } from '../../../models/user';
 import { Title } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
 import { Router } from '@angular/router';
@@ -15,10 +17,12 @@ export class HeaderComponent implements OnInit {
   width: number = window.innerWidth;
   selectedItem = 'sq';
   isActive: boolean;
+  currentUser: User;
   constructor(private translate: TranslateService, private titleService: Title, private router: Router,
-    @Inject(DOCUMENT) private document: any, private pageScrollService: PageScrollService) {
+    @Inject(DOCUMENT) private document: any, private pageScrollService: PageScrollService, private userService: UserService) {
     this.isActive = false;
     translate.setDefaultLang('sq');
+    this.currentUser = JSON.parse(localStorage.getItem('user'));
   }
   ngOnInit() { }
 

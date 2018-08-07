@@ -1,6 +1,6 @@
 /* About Us Header Style */
 #bg-img {
-    background-image:url("/assets/images/about.png");
+    background-image:url("/assets/images/home.png");
     /* Full height */
     height: 678px; 
     max-height: 678px;
@@ -30,7 +30,6 @@
    width: auto;
    margin-top: 5%; 
    margin-bottom: 0;
-   margin-left: 3%;
    font-weight: 600;
    font-size: 3.5rem;
    float: left;
@@ -63,10 +62,11 @@
     padding-bottom: 7%;
 }
 #project-description {
+    white-space: pre-line;
     text-align: justify;
-    color:black;
+    color: #868e96 ;
     width: 88%;
-    height: 405px;
+    height: auto;
     margin-bottom: 0;
     bottom: 1px;
     top: 56px;
@@ -83,6 +83,18 @@
 
 #descriptions {
     margin-right: 85px;
+}
+
+.technologies {
+    float: left;
+    width: 18%;
+    margin-right: 5%;
+    margin-top: 5%;
+}
+
+a {
+    color: #32a6bd;
+    text-decoration: none
 }
 
 @media(max-width: 767px) {

@@ -27,7 +27,7 @@
         "predictedValue": "Vlera e parashikuar e kontratës",
         "name": "Emri i OE të cilit i është dhënë kontrata",
         "signingDate": "Data e nënshkrimit të kontratës",
-        "implementationDeadlineStartingDate": "Data e fillimit të implementimit të kontratës",
+        "implementationDeadline": "Afatet për implementimin e kontratës",
         "closingDate": "Data e mbylljes se kontrates",
         "totalAmountOfContractsIncludingTaxes": "Vlera totale e kontratës, duke përfshirë të gjitha taksat",
         "contracts": "Kontrata:",
@@ -54,11 +54,18 @@
         "designAwardNotification": "Njoftim për konkurs të projektimit"
     },
     "aboutUs": {
-        "title": "Rreth Nesh",
-        "description1": "\nHapja e komunës për qytetarët është qëllimi parësor i komunës së Prishtinës. Komuna e Prishtinës me zhvillimin e platformës “Kontratat e hapura” është duke ju siguruar të gjithë qytetarëve të dhëna të hapura sa i përket kontrateve që lidh ky institucion me të gjithë  operatorët ekonomikë. Kjo platformë mundëson pasqyrimin e të gjitha kontratave nga drejtoritë komunale me qëllim që këto shënime të përdoren më tutje në funksion të transparencës së plotë në komunë.\n\nKthimi i besimit të qytetarëve në institucione publike përmes transparencës dhe qasjes së lehtë në shërbime komunale është vizioni jonë për Prishtinën.",
+        "title": "Pse kontratat e nënshkruara publike?",
+        "description1": "Hapja e komunës për qytetarët është qëllimi parësor i komunës së Prishtinës. Komuna e Prishtinës me zhvillimin e platformës “Kontratat e hapura” është duke ju siguruar të gjithë qytetarëve të dhëna të hapura sa i përket kontrateve që lidh ky institucion me të gjithë  operatorët ekonomikë. Kjo platformë mundëson pasqyrimin e të gjitha kontratave nga drejtoritë komunale me qëllim që këto shënime të përdoren më tutje në funksion të transparencës së plotë në komunë.\n\nKthimi i besimit të qytetarëve në institucione publike përmes transparencës dhe qasjes së lehtë në shërbime komunale është vizioni jonë për Prishtinën.",
         "description2": "Informacionet janë të listuara në këtë mënyrë:\n\n - Titulli i aktivitetit të prokurimit \n - Data e publikimi të njoftimit për kontratë \n - Numri i operatorëve ekonomikë që kanë shkarkuar dosjen e tenderit \n- Data e publikimit të njoftimit për dhënie të kontratës \n - Data e publikimit të anulimit të njoftimit \n - Vlera e parashikuar e kontratës \n - Emri i operatorit ekonomik të cilit i është dhënë kontrata \n - Data e nënshkrimi të kontratës \n - Data e fillimit të implementimit të kontratës \n - Data e mbylljes së kontratës \n - Vlera totale e kontratës, duke përfshirë të gjitha taksat \n- Drejtoria të cilës i takon kontrata \n\n",
-        "projectTitle": "RRETH PROJEKTIT",
-        "projectDescription": "Platforma “Kontratat e Hapura” është zhvilluar për Komunën e Prishtinës në mënyre që të sigurojë informata në proceset e prokurorimit/ kontratat në lidhje me institucionin. Në këtë uebfqe, çdo person mund të informohet rreth vlerës së një kontrate, fituesin e kontratës, kur kontrata pritet të implementohet dhe do të këtë çasje në të dhenat e hapura. Për më shumë, “Kontratat e hapura” iu ofron përdoruesëve vizualizime të të dhënave të prokurorimit përgjatë viteve në mënyrë që të lehtësojë krahasimet."
+        "projectDescription1": "Platforma “Kontratat e Hapura” është zhvilluar në kuadër të projektit Techstitution në partneritet të ngushtë me Komunën e Prishtinës. Qëllimi i ofrimit të kësaj platforme është informimi i qytetarëve të Komunës së Prishtinës me proceset e prokurimit/kontratave të nënshkruara nga ky institucion.",
+        "techstitution": "\n\nTechstitution ",
+        "projectDescription2": "është një projekt i zbatuar nga ",
+        "openDataKosovo": "Open Data Kosovo ",
+        "projectDescription3": "dhe ",
+        "gck": "Girls Coding Kosova ", 
+        "projectDescription4": "iniciuar dhe mbështetur nga Zyra e ",
+        "unicef": " UNICEF ",
+        "projectDescription5": "në Kosovë.\n\nTeknologjitë të cilat janë përdorur për zhvillimin e platformës “Kontratat e Hapura” janë: MongoDB, ExpressJS, NodeJS, Angular."
     },
     "footer": {
         "municipality": "Komuna e Prishtinës",

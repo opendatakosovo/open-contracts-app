@@ -3,6 +3,11 @@
     <div class="col-md-6" id="title-row">
       <h1 class="text-primary title">
         Të dhënat e kontratës
+        <span data-toggle="tooltip" title="Ndrysho kontratën" >
+          <a class="edit-icon" [attr.data-id]="contract._id" [routerLink]="['/dashboard/contracts/edit-contract', contract._id]">
+            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+          </a>
+        </span>
       </h1>
     </div>
   </div>
@@ -425,11 +430,11 @@
         <br>
         <div class="col-sm-6">
           <label>Afatet për implementimin e kontratës</label>
-          <div *ngIf="contract.contract.implementationDeadlineStartingAndEndingDate == null || contract.contract.implementationDeadlineStartingAndEndingDate == ''">
+          <div *ngIf="contract.contract.implementationDeadline == null || contract.contract.implementationDeadline == ''">
             <p>Nuk ka të dhëna!</p>
           </div>
-          <div *ngIf="contract.contract.implementationDeadlineStartingAndEndingDate != null">
-            <p>{{ contract.contract.implementationDeadlineStartingAndEndingDate }}</p>
+          <div *ngIf="contract.contract.implementationDeadline != null">
+            <p>{{ contract.contract.implementationDeadline }}</p>
           </div>
         </div>
         <div class="col-6">
@@ -467,11 +472,11 @@
         <br>
         <div class="col-12">
           <label>Vlera totale e kontratës, duke përfshirë të gjitha anekset dhe të gjitha taksat etj.</label>
-          <div *ngIf="contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes == '' || contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes == null">
+          <div *ngIf="contract.contract.totalOfAnnexesWithTaxes == '' || contract.contract.totalOfAnnexesWithTaxes == null">
             <p class="highlighted-values">Nuk ka të dhëna!</p>
           </div>
-          <div *ngIf="contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes">
-            <p class="highlighted-values">{{ contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes }} &euro;</p>
+          <div *ngIf="contract.contract.totalOfAnnexesWithTaxes">
+            <p class="highlighted-values">{{ contract.contract.totalOfAnnexesWithTaxes }} &euro;</p>
           </div>
         </div>
       </div>
@@ -582,7 +587,7 @@
         <div class="col-md-6">
           <label>Çmimi total i papaguar për kontratën (Në këtë çmim është përfshirë edhe shuma e zbritjes për shkak të ndalesave)</label>
           <div>
-            <p class="highlighted-values">{{ totalAmountOfAllAnnexContractsIncludingTaxes - totalPayedPriceForContract - discountAmount }} &euro;</p>
+            <p class="highlighted-values">{{ totalOfAnnexesWithTaxes - totalPayedPriceForContract - discountAmount }} &euro;</p>
           </div>
         </div>
         <div class="col-md-6">

@@ -53,6 +53,10 @@ import { CommentService } from './service/comment.service';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ContractsCountByYearsChartComponent } from './main/visualisations/charts/contracts-count-by-years-chart/contracts-count-by-years-chart.component';
 import { TopTenContractorsChartComponent } from './main/visualisations/charts/top-ten-contractors-chart/top-ten-contractors-chart.component';
+import { ContractBySigningDatePublicationDateChartComponent } from './main/visualisations/charts/contract-by-signing-date-publication-date-chart/contract-by-signing-date-publication-date-chart.component';
+import { ContractByYearWithPredictedValueTotalAmountComponent } from './main/visualisations/charts/contract-by-year-with-predicted-value-total-amount/contract-by-year-with-predicted-value-total-amount.component';
+import { DirectoratesChartComponent } from './main/visualisations/charts/directorates-chart/directorates-chart.component';
+import { DirectoratesTableComponent } from './main/visualisations/charts/directorates-table/directorates-table.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -116,7 +120,11 @@ const appRoutes: Routes = [
     MainPageContractsListComponent,
     PageNotFoundComponent,
     ContractsCountByYearsChartComponent,
-    TopTenContractorsChartComponent
+    TopTenContractorsChartComponent,
+    ContractBySigningDatePublicationDateChartComponent,
+    ContractByYearWithPredictedValueTotalAmountComponent,
+    DirectoratesChartComponent,
+    DirectoratesTableComponent
   ],
   imports: [
     BrowserModule,

@@ -275,10 +275,10 @@ router.delete('/:id', passport.authenticate('jwt', { session: false }), (req, re
 });
 
 // Router for updating a contract by id
-router.put('/update-contract/:id', passport.authenticate('jwt', { session: false }), uploadFile, (req, res) => {
+router.put('/update-contract/:id', uploadFile, (req, res) => {
     if (req.fileExist) {
         res.json({
-            "existErr": "File exsit",
+            "existErr": "File exist",
             "success": false
         });
     } else if (req.typeValidation) {
@@ -329,5 +329,421 @@ router.put('/update-contract/:id', passport.authenticate('jwt', { session: false
     }
 });
 
+// Filtering contract based on all string fields
+router.post('/filter', (req, res) => {
+    let page = {
+        size: req.body.pageInfo.size,
+        totalElements: req.body.pageInfo.totalElements,
+        totalPages: req.body.pageInfo.totalPages,
+        pageNumber: req.body.pageInfo.pageNumber
+    };
+    let response = {};
+    let string = req.body.string;
+    let directorate = req.body.directorate;
+    let date = req.body.date;
+    let referenceDate = req.body.referenceDate;
+    let value = req.body.value;
+    if (string !== '' && directorate === '' & date === null && value === '') {
+        Contract.filterStringFieldsInContractsCount(string)
+            .then(totalElements => {
+                page.totalElements = totalElements;
+                return page;
+            })
+            .then(page => {
+                page.totalPages = Math.round(page.totalElements / page.size)
+                return page;
+            })
+            .then(page => {
+                page.skipPages = page.size * page.pageNumber
+                return page;
+            })
+            .then(page => {
+                return Contract.filterStringFieldsInContracts(string).sort({ "createdAt": -1 }).skip(page.skipPages).limit(page.size).
+                then(result => {
+                        delete page.skipPages;
+                        response.page = page;
+                        response.data = result;
+                        return response;
+                    });
+            }).then(response => {
+                res.json(response);
+            })
+    } else if (string === '' && directorate !== '' & date === null && value === '') {
+        Contract.filterByDirectorateCount(directorate)
+            .then(totalElements => {
+                page.totalElements = totalElements;
+                return page;
+            })
+            .then(page => {
+                page.totalPages = Math.round(page.totalElements / page.size)
+                return page;
+            })
+            .then(page => {
+                page.skipPages = page.size * page.pageNumber
+                return page;
+            })
+            .then(page => {
+                return Contract.filterByDirectorate(directorate).skip(page.skipPages).
+                    limit(page.size).then(result => {
+                        delete page.skipPages;
+                        response.page = page;
+                        response.data = result;
+                        return response;
+                    });
+            }).then(response => {
+                res.json(response);
+            })
+    } else if (string === '' && directorate === '' & date !== null && value === '') {
+        Contract.filterByDateCount(date, referenceDate)
+            .then(totalElements => {
+                page.totalElements = totalElements;
+                return page;
+            })
+            .then(page => {
+                page.totalPages = Math.round(page.totalElements / page.size)
+                return page;
+            })
+            .then(page => {
+                page.skipPages = page.size * page.pageNumber
+                return page;
+            })
+            .then(page => {
+                return Contract.filterByDate(date, referenceDate).skip(page.skipPages).
+                    limit(page.size).then(result => {
+                        delete page.skipPages;
+                        response.page = page;
+                        response.data = result;
+                        return response;
+                    });
+            }).then(response => {
+                res.json(response);
+            })
+    } else if (string === '' && directorate === '' & date === null && value !== '') {
+        Contract.filterByValueCount(value)
+            .then(totalElements => {
+                page.totalElements = totalElements;
+                return page;
+            })
+            .then(page => {
+                page.totalPages = Math.round(page.totalElements / page.size)
+                return page;
+            })
+            .then(page => {
+                page.skipPages = page.size * page.pageNumber
+                return page;
+            })
+            .then(page => {
+                return Contract.filterByValue(value).skip(page.skipPages).
+                    limit(page.size).then(result => {
+                        delete page.skipPages;
+                        response.page = page;
+                        response.data = result;
+                        return response;
+                    });
+            }).then(response => {
+                res.json(response);
+            })
+    } else if (string !== '' && directorate !== '' & date === null && value === '') {
+        Contract.filterByStringAndDirectorateCount(string, directorate)
+            .then(totalElements => {
+                page.totalElements = totalElements;
+                return page;
+            })
+            .then(page => {
+                page.totalPages = Math.round(page.totalElements / page.size)
+                return page;
+            })
+            .then(page => {
+                page.skipPages = page.size * page.pageNumber
+                return page;
+            })
+            .then(page => {
+                return Contract.filterByStringAndDirectorate(string, directorate).skip(page.skipPages).
+                    limit(page.size).then(result => {
+                        delete page.skipPages;
+                        response.page = page;
+                        response.data = result;
+                        return response;
+                    });
+            }).then(response => {
+                res.json(response);
+            })
+    } else if (string !== '' && directorate !== '' & date !== null && value === '') {
+        Contract.filterbyStringDirectorateDateCount(string, directorate, date, referenceDate)
+            .then(totalElements => {
+                page.totalElements = totalElements;
+                return page;
+            })
+            .then(page => {
+                page.totalPages = Math.round(page.totalElements / page.size)
+                return page;
+            })
+            .then(page => {
+                page.skipPages = page.size * page.pageNumber
+                return page;
+            })
+            .then(page => {
+                return Contract.filterbyStringDirectorateDate(string, directorate, date, referenceDate).skip(page.skipPages).
+                    limit(page.size).then(result => {
+                        delete page.skipPages;
+                        response.page = page;
+                        response.data = result;
+                        return response;
+                    });
+            }).then(response => {
+                res.json(response);
+            })
+    } else if (string !== '' && directorate !== '' & date !== null && value !== '') {
+        Contract.filterByStringDirectorateDateValueCount(string, directorate, date, referenceDate, value)
+            .then(totalElements => {
+                page.totalElements = totalElements;
+                return page;
+            })
+            .then(page => {
+                page.totalPages = Math.round(page.totalElements / page.size)
+                return page;
+            })
+            .then(page => {
+                page.skipPages = page.size * page.pageNumber
+                return page;
+            })
+            .then(page => {
+                return Contract.filterByStringDirectorateDateValue(string, directorate, date, referenceDate, value).skip(page.skipPages).
+                    limit(page.size).then(result => {
+                        delete page.skipPages;
+                        response.page = page;
+                        response.data = result;
+                        return response;
+                    });
+            }).then(response => {
+                res.json(response);
+            })
+    } else if (string !== '' && directorate === '' & date !== null && value === '') {
+        Contract.filterByStringDateCount(string, date, referenceDate)
+            .then(totalElements => {
+                page.totalElements = totalElements;
+                return page;
+            })
+            .then(page => {
+                page.totalPages = Math.round(page.totalElements / page.size)
+                return page;
+            })
+            .then(page => {
+                page.skipPages = page.size * page.pageNumber
+                return page;
+            })
+            .then(page => {
+                return Contract.filterByStringDate(string, date, referenceDate).skip(page.skipPages).
+                    limit(page.size).then(result => {
+                        delete page.skipPages;
+                        response.page = page;
+                        response.data = result;
+                        return response;
+                    });
+            }).then(response => {
+                res.json(response);
+            })
+    } else if (string !== '' && directorate === '' & date === null && value !== '') {
+        Contract.filterByStringValueCount(string, value)
+            .then(totalElements => {
+                page.totalElements = totalElements;
+                return page;
+            })
+            .then(page => {
+                page.totalPages = Math.round(page.totalElements / page.size)
+                return page;
+            })
+            .then(page => {
+                page.skipPages = page.size * page.pageNumber
+                return page;
+            })
+            .then(page => {
+                return Contract.filterByStringValue(string, value).skip(page.skipPages).
+                    limit(page.size).then(result => {
+                        delete page.skipPages;
+                        response.page = page;
+                        response.data = result;
+                        return response;
+                    });
+            }).then(response => {
+                res.json(response);
+            })
+    } else if (string === '' && directorate !== '' & date !== null && value === '') {
+        Contract.filterbyDirectorateDateCount(directorate, date, referenceDate)
+            .then(totalElements => {
+                page.totalElements = totalElements;
+                return page;
+            })
+            .then(page => {
+                page.totalPages = Math.round(page.totalElements / page.size)
+                return page;
+            })
+            .then(page => {
+                page.skipPages = page.size * page.pageNumber
+                return page;
+            })
+            .then(page => {
+                return Contract.filterbyDirectorateDate(directorate, date, referenceDate).skip(page.skipPages).
+                    limit(page.size).then(result => {
+                        delete page.skipPages;
+                        response.page = page;
+                        response.data = result;
+                        return response;
+                    });
+            }).then(response => {
+                res.json(response);
+            })
+    } else if (string === '' && directorate !== '' & date === null && value !== '') {
+        Contract.filterByDirectorateValueCount(directorate, value)
+            .then(totalElements => {
+                page.totalElements = totalElements;
+                return page;
+            })
+            .then(page => {
+                page.totalPages = Math.round(page.totalElements / page.size)
+                return page;
+            })
+            .then(page => {
+                page.skipPages = page.size * page.pageNumber
+                return page;
+            })
+            .then(page => {
+                return Contract.filterByDirectorateValue(directorate, value).skip(page.skipPages).
+                    limit(page.size).then(result => {
+                        delete page.skipPages;
+                        response.page = page;
+                        response.data = result;
+                        return response;
+                    });
+            }).then(response => {
+                res.json(response);
+            })
+    } else if (string === '' && directorate === '' & date !== null && value !== '') {
+        Contract.filterByDateValueCount(date, referenceDate, value)
+            .then(totalElements => {
+                page.totalElements = totalElements;
+                return page;
+            })
+            .then(page => {
+                page.totalPages = Math.round(page.totalElements / page.size)
+                return page;
+            })
+            .then(page => {
+                page.skipPages = page.size * page.pageNumber
+                return page;
+            })
+            .then(page => {
+                return Contract.filterByDateValue(date, referenceDate, value).skip(page.skipPages).
+                    limit(page.size).then(result => {
+                        delete page.skipPages;
+                        response.page = page;
+                        response.data = result;
+                        return response;
+                    });
+            }).then(response => {
+                res.json(response);
+            })
+    } else if (string === '' && directorate !== '' & date !== null && value !== '') {
+        Contract.filterByDirectorateDateValueCount(directorate, date, referenceDate, value)
+            .then(totalElements => {
+                page.totalElements = totalElements;
+                return page;
+            })
+            .then(page => {
+                page.totalPages = Math.round(page.totalElements / page.size)
+                return page;
+            })
+            .then(page => {
+                page.skipPages = page.size * page.pageNumber
+                return page;
+            })
+            .then(page => {
+                return Contract.filterByDirectorateDateValue(directorate, date, referenceDate, value).skip(page.skipPages).
+                    limit(page.size).then(result => {
+                        delete page.skipPages;
+                        response.page = page;
+                        response.data = result;
+                        return response;
+                    });
+            }).then(response => {
+                res.json(response);
+            })
+        } else if (string !== '' && directorate !== '' & date === null && value !== '') {
+            Contract.filterByStringDirectorateValueCount(string, directorate, value)
+                .then(totalElements => {
+                    page.totalElements = totalElements;
+                    return page;
+                })
+                .then(page => {
+                    page.totalPages = Math.round(page.totalElements / page.size)
+                    return page;
+                })
+                .then(page => {
+                    page.skipPages = page.size * page.pageNumber
+                    return page;
+                })
+                .then(page => {
+                    return Contract.filterByStringDirectorateValue(string, directorate, value).skip(page.skipPages).
+                        limit(page.size).then(result => {
+                            delete page.skipPages;
+                            response.page = page;
+                            response.data = result;
+                            return response;
+                        });
+                }).then(response => {
+                    res.json(response);
+                })
+        } else if (string !== '' && directorate === '' & date !== null && value !== '') {
+            Contract.filterByStringDateValueCount(string, date, referenceDate, value)
+                .then(totalElements => {
+                    page.totalElements = totalElements;
+                    return page;
+                })
+                .then(page => {
+                    page.totalPages = Math.round(page.totalElements / page.size)
+                    return page;
+                })
+                .then(page => {
+                    page.skipPages = page.size * page.pageNumber
+                    return page;
+                })
+                .then(page => {
+                    return Contract.filterByStringDateValue(string, date, referenceDate, value).skip(page.skipPages).
+                        limit(page.size).then(result => {
+                            delete page.skipPages;
+                            response.page = page;
+                            response.data = result;
+                            return response;
+                        });
+                }).then(response => {
+                    res.json(response);
+                })
+        } else {
+            Contract.countLatestContracts()
+            .then(totalElements => {
+                page.totalElements = totalElements;
+                return page;
+            })
+            .then(page => {
+                page.totalPages = Math.round(page.totalElements / page.size)
+                return page;
+            })
+            .then(page => {
+                page.skipPages = page.size * page.pageNumber
+                return page;
+            })
+            .then(page => {
+                return Contract.find({ "year": 2018 }).sort({ "createdAt": -1 }).skip(page.skipPages).limit(page.size).then(result => {
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = result;
+                    return response;
+                });
+            })
+            .then(response => {
+                res.json(response)
+            });
+        }
+});
 
 module.exports = router;
