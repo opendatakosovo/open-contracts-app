@@ -6,8 +6,6 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./about-us.component.css']
 })
 export class AboutUsComponent implements OnInit {
-
-
   constructor(private translate: TranslateService) {
     translate.setDefaultLang('sq');
   }
