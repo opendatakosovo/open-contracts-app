@@ -29,7 +29,7 @@ export class HeaderComponent implements OnInit {
   scroll() {
     this.router.navigate(['']);
     setTimeout(() => {
-      const pageScrollInstance: PageScrollInstance = PageScrollInstance.simpleInstance(this.document, '#data-set');
+      const pageScrollInstance: PageScrollInstance = PageScrollInstance.newInstance({ document: this.document, scrollTarget: '#target', scrollingViews: [this.container.nativeElement] });
       this.pageScrollService.start(pageScrollInstance);
     }, 150);
   }

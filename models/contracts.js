@@ -115,15 +115,19 @@ module.exports.countLatestContracts = () => {
 // Data Visualizations
 
 module.exports.getContractsByYearWithPublicationDateAndSigningDate = (year) => {
+
     return Contract.aggregate([
         {
-            $match: {
-                $or: [{
-                    year: parseInt(year)
-                }],
+            $match: year == "any" ? {
                 "contract.signingDate": { $ne: null },
-                "contract.publicationDateOfGivenContract": { $ne: null },
-            }
+                "contract.publicationDateOfGivenContract": { $ne: null }
+            } : {
+                    $or: [{
+                        year: parseInt(year)
+                    }],
+                    "contract.signingDate": { $ne: null },
+                    "contract.publicationDateOfGivenContract": { $ne: null },
+                }
         },
         { $group: { _id: { publicationDateOfGivenContract: "$contract.publicationDateOfGivenContract", signingDate: "$contract.signingDate", activityTitle: '$activityTitle' }, count: { $sum: 1 } } },
         { $project: { _id: 0, publicationDateOfGivenContract: "$_id.publicationDateOfGivenContract", signingDate: "$_id.signingDate", totalContracts: "$count", activityTitle: '$_id.activityTitle' } }
@@ -141,11 +145,14 @@ module.exports.getTotalContractsByYears = () => {
 module.exports.getContractsByYearWithPredictedValueAndTotalAmount = (year) => {
     return Contract.aggregate([
         {
-            $match: {
-                year: parseInt(year),
+            $match: year == "any" ? {
                 'contract.predictedValue': { $nin: ["", null] },
                 'contract.totalAmountOfContractsIncludingTaxes': { $nin: ["", null] },
-            }
+            } : {
+                    year: parseInt(year),
+                    'contract.predictedValue': { $nin: ["", null] },
+                    'contract.totalAmountOfContractsIncludingTaxes': { $nin: ["", null] },
+                }
         },
         { $group: { _id: { id: "$_id", activityTitle: "$activityTitle", predictedValue: "$contract.predictedValue", totalAmountOfContractsIncludingTaxes: "$contract.totalAmountOfContractsIncludingTaxes" } } },
         { $project: { _id: 0, id: "$_id.id", activityTitle: "$_id.activityTitle", predictedValue: "$_id.predictedValue", totalAmountOfContractsIncludingTaxes: "$_id.totalAmountOfContractsIncludingTaxes" } },
@@ -169,10 +176,11 @@ module.exports.getContractsByContractorCompany = companyName => {
     return Contract.find({ "company.name": companyName });
 }
 
+
 module.exports.getContractsMostByTotalAmountOfContract = year => {
     return Contract.aggregate([
         {
-            $match: {
+            $match: year == "any" ? { "contract.totalAmountOfContractsIncludingTaxes": { $ne: '' } } : {
                 year: parseInt(year),
                 "contract.totalAmountOfContractsIncludingTaxes": { $ne: '' },
             }

@@ -1,1 +1,183 @@
-<div [chart]="chartt"></div>
+<div class="row">
+    <div class="col-12 mt-5 mb-5">
+        <div class="alert alert-info" role="alert">
+            Njoftim: Klikoni mbi çdo pjesë që pasqyron kompaninë në vizualizerin e mëposhtëm për t'i parë të gjithë kontratat e asaj
+            kompanie
+        </div>
+    </div>
+</div>
+<div [chart]="chartt" id="target" class="mb-5"></div>
+<div class="row">
+    <div [hidden]="!clicked" class="col-12">
+
+        <button class="my-btn float-right" (click)="toggle($event)">
+            <i class='fa {{button ? "fa-chevron-up" : "fa-chevron-down" }}' aria-hidden='true'></i>
+        </button>
+        <p [hidden]="button != true" class="float-right info-toggle">Shfaq tabelën</p>
+    </div>
+</div>
+<div id="table1" [@visibilityChanged]="visibilityState" class="mt-10">
+    <div class="row">
+        <div class="col-md-12">
+            <h5>Të gjitha kontratat e kompanisë: {{oeName}}</h5>
+        </div>
+    </div>
+    <ngx-datatable #table [rows]="rows" class="bootstrap" columnMode="'force'" [headerHeight]="'auto'" [summaryRow]="false" [summaryPosition]="'bottom'"
+        [footerHeight]="50" [rowHeight]="'auto'" [limit]="10" [scrollbarH]="true" [messages]="messages">
+        <ngx-datatable-column>
+            <ng-template let-column="column" ngx-datatable-header-template>
+                <p class="column-header">{{ 'datatable.activityTitle' | translate }}</p>
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <p *ngIf="row.activityTitle == ''">
+                    Nuk ka të dhëna!
+                </p>
+                <p *ngIf="row.activityTitle != ''">
+                    {{ row.activityTitle }}
+                </p>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column>
+            <ng-template let-column="column" ngx-datatable-header-template>
+                <p class="column-header">{{ 'datatable.publicationDate' | translate }}</p>
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <p *ngIf="row.contract.publicationDate == null">
+                    Nuk ka të dhëna!
+                </p>
+                <p *ngIf="row.contract.publicationDate != null">
+                    {{ row.contract.publicationDate | date: 'dd/MM/yyyy' }}
+                </p>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column>
+            <ng-template let-column="column" ngx-datatable-header-template>
+                <p class="column-header">{{ 'datatable.noOfCompaniesWhoDownloadedTenderDoc' | translate }}</p>
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <p *ngIf="row.noOfCompaniesWhoDownloadedTenderDoc == null">
+                    Nuk ka të dhëna!
+                </p>
+                <p *ngIf="row.noOfCompaniesWhoDownloadedTenderDoc != null">
+                    {{ row.noOfCompaniesWhoDownloadedTenderDoc }}
+                </p>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column>
+            <ng-template let-column="column" ngx-datatable-header-template>
+                <p class="column-header">{{ 'datatable.publicationDateOfGivenContract' | translate }}</p>
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <p *ngIf="row.contract.publicationDateOfGivenContract == null">
+                    Nuk ka të dhëna!
+                </p>
+                <p *ngIf="row.contract.publicationDateOfGivenContract != null">
+                    {{ row.contract.publicationDateOfGivenContract | date: 'dd/MM/yyyy' }}
+                </p>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column>
+            <ng-template let-column="column" ngx-datatable-header-template>
+                <p class="column-header">{{ 'datatable.cancellationNoticeDate' | translate }}</p>
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <p *ngIf="row.cancellationNoticeDate == null">
+                    Nuk ka të dhëna!
+                </p>
+                <p *ngIf="row.cancellationNoticeDate != null">
+                    {{ row.cancellationNoticeDate | date: 'dd/MM/yyyy' }}
+                </p>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column>
+            <ng-template let-column="column" ngx-datatable-header-template>
+                <p class="column-header">{{ 'datatable.predictedValue' | translate }}</p>
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <p *ngIf="row.contract.predictedValue == ''">
+                    Nuk ka të dhëna!
+                </p>
+                <p *ngIf="row.contract.predictedValue != ''">
+                    {{ row.contract.predictedValue }} &euro;
+                </p>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column>
+            <ng-template let-column="column" ngx-datatable-header-template>
+                <p class="column-header">{{ 'datatable.name' | translate }}</p>
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <p *ngIf="row.company.name == ''">
+                    Nuk ka të dhëna!
+                </p>
+                <p *ngIf="row.company.name != ''">
+                    {{ row.company.name }}
+                </p>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column>
+            <ng-template let-column="column" ngx-datatable-header-template>
+                <p class="column-header">{{ 'datatable.signingDate' | translate }}</p>
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <p *ngIf="row.contract.signingDate == null">
+                    Nuk ka të dhëna!
+                </p>
+                <p *ngIf="row.contract.signingDate != null">
+                    {{ row.contract.signingDate | date: 'dd/MM/yyyy' }}
+                </p>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column>
+            <ng-template let-column="column" ngx-datatable-header-template>
+                <p class="column-header">{{ 'datatable.implementationDeadline' | translate }}</p>
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <p *ngIf="row.contract.implementationDeadline == null">
+                    Nuk ka të dhëna!
+                </p>
+                <p *ngIf="row.contract.implementationDeadline != null">
+                    {{ row.contract.implementationDeadline }}
+                </p>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column>
+            <ng-template let-column="column" ngx-datatable-header-template>
+                <p class="column-header">{{ 'datatable.totalAmountOfContractsIncludingTaxes' | translate }}</p>
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <p *ngIf="row.contract.totalAmountOfContractsIncludingTaxes == ''">
+                    Nuk ka të dhëna!
+                </p>
+                <p *ngIf="row.contract.totalAmountOfContractsIncludingTaxes != ''">
+                    {{ row.contract.totalAmountOfContractsIncludingTaxes }} &euro;
+                </p>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column>
+            <ng-template let-column="column" ngx-datatable-header-template>
+                <p class="column-header">{{ 'datatable.directorate' | translate }}</p>
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <p *ngIf="row.directorates == null || row.directorates == ''">
+                    Nuk ka të dhëna!
+                </p>
+                <p *ngIf="row.directorates != null">
+                    {{ row.directorates }}
+                </p>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-footer>
+            <ng-template ngx-datatable-footer-template let-rowCount="rowCount" let-pageSize="pageSize" let-selectedCount="selectedCount"
+                let-curPage="curPage" let-offset="offset">
+                <div style="padding: 5px 10px;width: 50%;">
+                    Kontrata: {{rowCount}} | Të shfaqura: {{pageSize}} | Faqja: {{curPage}}
+                </div>
+                <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'" [pagerRightArrowIcon]="'datatable-icon-right'" [pagerPreviousIcon]="'datatable-icon-prev'"
+                    [pagerNextIcon]="'datatable-icon-skip'" [page]="curPage" [size]="pageSize" [count]="rowCount" [hidden]="!((rowCount / pageSize) > 1)"
+                    (change)="table.onFooterPage($event)">
+                </datatable-pager>
+            </ng-template>
+        </ngx-datatable-footer>
+    </ngx-datatable>
+</div>

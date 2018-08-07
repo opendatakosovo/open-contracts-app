@@ -22,7 +22,7 @@ export class DataService {
     return this.http.get(`${this.APIUrl}/data/get-contracts-by-contractor/${name}`).map(res => res.json());
   }
 
-  getContractSigningDateAndPublicationDateForChart(year) {
+  getContractSigningDateAndPublicationDateForChart(year: any) {
     return this.http.get(`${this.APIUrl}/data/contracts-by-years-publication-date-signing-date/${year}`).map(res => res.json());
   }
 
