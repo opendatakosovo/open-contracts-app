@@ -92,6 +92,7 @@ export class MainPageContractsListComponent implements OnInit {
     this.translate.use(language);
   }
 
+  // Function to sort latest contracts ascending or descending
   sortContracts(column) {
     this.page.column = column;
     const asc = document.getElementById('sort').classList.contains('asc');
