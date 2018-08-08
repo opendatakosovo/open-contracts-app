@@ -55,7 +55,8 @@ export class UserService {
   logout() {
     this.token = null;
     this.user = null;
-    localStorage.clear();
+    localStorage.removeItem('id_token');
+    localStorage.removeItem('user');
   }
 
   getUserByID(id) {
