@@ -3,7 +3,7 @@
     <div class="col-md-6" id="title-row">
       <h1 class="text-primary title">
         Të dhënat e kontratës
-        <span data-toggle="tooltip" title="Ndrysho kontratën" >
+        <span data-toggle="tooltip" title="Ndrysho kontratën">
           <a class="edit-icon" [attr.data-id]="contract._id" [routerLink]="['/dashboard/contracts/edit-contract', contract._id]">
             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
           </a>
@@ -119,10 +119,10 @@
         </div>
         <div class="col-md-6">
           <label>Buxheti</label>
-          <div *ngIf="contract.budget.length < 1">
+          <div *ngIf="contract.budget == null || contract.budget == ''">
             <p>-</p>
           </div>
-          <div *ngIf="contract.budget.length >= 1">
+          <div *ngIf="contract.budget != null && contract.budget != ''">
             <div *ngFor="let budget of contract.budget">
               <p>{{ budget }}</p>
             </div>
@@ -175,7 +175,7 @@
         <br>
         <div class="col-md-6">
           <label>Ankesat në autoritet</label>
-          <div *ngIf="contract.complaintsToAuthority1 == ''">
+          <div *ngIf="contract.complaintsToAuthority1 == '' || contract.complaintsToAuthority1 == 'n/a' || contract.complaintsToAuthority1 == null">
             <p>-</p>
           </div>
           <div *ngIf="contract.complaintsToAuthority1 == '1'">
@@ -187,14 +187,14 @@
         </div>
         <div class="col-md-6">
           <label>Ankesat në OSHP</label>
-          <div *ngIf="contract.complaintsToOshp1 == ''">
+          <div *ngIf="contract.complaintsToOshp1 == '' || contract.complaintsToOshp1 == 'n/a' || contract.complaintsToOshp1 == null">
             <p>-</p>
           </div>
-          <div *ngIf="contract.complaintsToOshp1 == '1'">
+          <div *ngIf="contract.complaintsToOshp1 == '1' || contract.complaintsToOshp1 == 'pozitiv'">
             <p>Negative</p>
           </div>
-          <div *ngIf="contract.complaintsToOshp1 == '2'">
-            <p>Negative</p>
+          <div *ngIf="contract.complaintsToOshp1 == '2' || contract.complaintsToOshp1 == 'negativ'">
+            <p>Pozitive</p>
           </div>
         </div>
       </div>
@@ -240,7 +240,7 @@
             <p>-</p>
           </div>
           <div *ngIf="contract.startingAndEndingEvaluationDate != null">
-            <p>{{ contract.startingAndEndingEvaluationDate | date: 'dd/MM/yyyy' }}</p>
+            <p>{{ contract.startingAndEndingEvaluationDate }}</p>
           </div>
         </div>
         <div class="col-md-6">
@@ -300,25 +300,25 @@
         <div class="col-md-6">
           <label>Ankesat në autoritet</label>
           <br>
-          <div *ngIf="contract.complaintsToAuthority2 == '0' || contract.complaintsToAuthority2 == ''">
+          <div *ngIf="contract.complaintsToAuthority2 == '0' || contract.complaintsToAuthority2 == '' || contract.complaintsToAuthority2 == 'n/a' || contract.complaintsToAuthority2 == null">
             <p>Nuk ka</p>
           </div>
-          <div *ngIf="contract.complaintsToAuthority2 == '1'">
+          <div *ngIf="contract.complaintsToAuthority2 == '1' || contract.complaintsToAuthority2 == 'negativ'">
             <p>Negative</p>
           </div>
-          <div *ngIf="contract.complaintsToAuthority2 == '2'">
+          <div *ngIf="contract.complaintsToAuthority2 == '2' || contract.complaintsToAuthority2 == 'pozitiv'">
             <p>Pozitive</p>
           </div>
         </div>
         <div class="col-md-6">
           <label>Ankesat në OSHP</label>
-          <div *ngIf="contract.complaintsToOshp2 == '0' || contract.complaintsToOshp2 == ''">
+          <div *ngIf="contract.complaintsToOshp2 == '0' || contract.complaintsToOshp2 == '' || contract.complaintsToOshp2 == 'n/a' || contract.complaintsToOshp2 == null">
             <p>Nuk ka</p>
           </div>
-          <div *ngIf="contract.complaintsToOshp2 == '1'">
+          <div *ngIf="contract.complaintsToOshp2 == '1' || contract.complaintsToOshp2 == 'negativ'">
             <p>Negative</p>
           </div>
-          <div *ngIf="contract.complaintsToOshp2 == '2'">
+          <div *ngIf="contract.complaintsToOshp2 == '2' || contract.complaintsToOshp2 == 'pozitiv'">
             <p>Pozitive</p>
           </div>
         </div>
@@ -339,10 +339,10 @@
           <div *ngIf="contract.company.type == '' || contract.company.type == 'n/a'">
             <p>-</p>
           </div>
-          <div *ngIf="contract.company.type == '1' || contract.company.type == 'OE Vendor' || contract.company.type == 'Vendore'">
+          <div *ngIf="contract.company.type == '1' || contract.company.type == 'OE Vendor' || contract.company.type == 'Vendore' || contract.company.type == 'vendor'">
             <p>Vendore</p>
           </div>
-          <div *ngIf="contract.company.type == 'notLocal'">
+          <div *ngIf="contract.company.type == 'notLocal' || contract.company.type == 'jovendor' || contract.company.type == 'jo vendor'">
             <p>Jo vendore</p>
           </div>
         </div>
@@ -375,10 +375,10 @@
         <br>
         <div class="col-md-6">
           <label>Re-tenderimi</label>
-          <div *ngIf="contract.retender == ''">
+          <div *ngIf="contract.retender == '' || contract.retender == 'n/a'">
             <p>-</p>
           </div>
-          <div *ngIf="contract.retender != ''">
+          <div *ngIf="contract.retender != '' && contract.retender != 'n/a'">
             <p>{{ contract.retender }}</p>
           </div>
         </div>
