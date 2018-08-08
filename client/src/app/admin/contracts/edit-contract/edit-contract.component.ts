@@ -244,10 +244,6 @@ export class EditContractComponent implements OnInit {
       contract.contract.closingDate = new Date(contract.contract.closingDate);
     }
 
-    if (contract.contract.implementationDeadline !== null) {
-      contract.contract.implementationDeadline = new Date(contract.contract.implementationDeadline);
-    }
-
     if (contract.contract.publicationDate !== null) {
       contract.contract.publicationDate = new Date(contract.contract.publicationDate);
     }
