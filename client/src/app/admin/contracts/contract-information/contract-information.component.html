@@ -119,10 +119,10 @@
         </div>
         <div class="col-md-6">
           <label>Buxheti</label>
-          <div *ngIf="contract.budget == null || contract.budget == ''">
+          <div *ngIf="contract.budget == null">
             <p>-</p>
           </div>
-          <div *ngIf="contract.budget != null && contract.budget != ''">
+          <div *ngIf="contract.budget != null">
             <div *ngFor="let budget of contract.budget">
               <p>{{ budget }}</p>
             </div>
