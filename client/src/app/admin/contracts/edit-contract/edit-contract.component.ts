@@ -98,6 +98,7 @@ export class EditContractComponent implements OnInit {
       lastInstallmentPayDate: null,
       lastInstallmentAmount: '',
       discountAmountFromContract: '',
+      flagStatus: null,
       totalPayedPriceForContract: '',
       year: '',
       fppClassification: new FormControl(null, Validators.maxLength(2)),
@@ -185,17 +186,28 @@ export class EditContractComponent implements OnInit {
   calculateValues() {
     let sumAnnex = 0;
     this.contract.contract.annexes.map(annex => {
+      if (annex.totalValueOfAnnexContract1 !== undefined || annex.totalValueOfAnnexContract1 !== null) {
       sumAnnex += parseFloat(annex.totalValueOfAnnexContract1.toString());
+      }
     });
+    if (this.contract.contract.totalAmountOfContractsIncludingTaxes !== undefined || this.contract.contract.totalAmountOfContractsIncludingTaxes !== null) {
     this.total = parseFloat(this.contract.contract.totalAmountOfContractsIncludingTaxes.toString()) + sumAnnex;
+    }
+    if (this.contract.contract.totalOfAnnexesWithTaxes !== undefined || this.contract.contract.totalOfAnnexesWithTaxes !== null) {
     this.contract.contract.totalOfAnnexesWithTaxes = this.total.toString();
-
+    }
     let sumInstallments = 0;
     this.contract.installments.map(installment => {
+      if (installment.installmentAmount1 !== undefined || installment.installmentAmount1 !== null ) {
       sumInstallments += parseFloat(installment.installmentAmount1.toString());
+    }
     });
+    if (this.contract.lastInstallmentAmount !== undefined) {
     this.totalInstallments = parseFloat(this.contract.lastInstallmentAmount.toString()) + sumInstallments;
+    }
+    if (this.totalInstallments !== undefined) {
     this.contract.contract.totalPayedPriceForContract = this.totalInstallments.toString();
+    }
   }
 
   dateChange(date) {

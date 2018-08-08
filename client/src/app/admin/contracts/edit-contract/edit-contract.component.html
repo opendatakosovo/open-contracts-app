@@ -333,7 +333,7 @@
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="type" formControlName="type" [(ngModel)]="contract.company.type" id="Jo vendore"
+                <input class="form-check-input" type="radio" name="type" formControlName="type" [(ngModel)]="contract.company.type" id="notLocal"
                   value="notLocal">
                 <label class="form-check-label" for="notLocal">
                   Jo vendore
@@ -398,14 +398,14 @@
             <label for="retender">Re-tenderimi</label>
             <div class="form-check">
               <input class="form-check-input" type="radio" name="retender" formControlName="retender" [(ngModel)]="contract.retender" id="po"
-                value="Po" checked>
+                value="Po" >
               <label class="form-check-label" for="po">
                 Po
               </label>
             </div>
             <div class="form-check">
               <input class="form-check-input" type="radio" name="retender" formControlName="retender" [(ngModel)]="contract.retender" id="jo"
-                value="jo" checked>
+                value="jo" >
               <label class="form-check-label" for="jo">
                 Jo
               </label>
@@ -417,7 +417,7 @@
               <br>
               <div class="form-check">
                 <input class="form-check-input" type="radio" name="status" formControlName="status" [(ngModel)]="contract.status" id="published"
-                  value="1" checked>
+                  value="1" >
                 <label class="form-check-label" for="published">
                   Publikuar
                 </label>
@@ -579,10 +579,37 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-6">
             <label>Shuma e zbritjes nga kontrata për shkaqe të ndalesave</label>
             <input type="text" name="discountAmountFromContract" id="discountAmountFromContract" formControlName="discountAmountFromContract"
               formControlName="discountAmountFromContract" [(ngModel)]="contract.contract.discountAmountFromContract" class="form-control">
+          </div>
+          <div class="col-md-6" style="padding-top:22px;">
+            <div class="radioButtons">
+              <label class="radioButtonLabel">Statusi:</label>
+              <br>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="flagStatus" formControlName="flagStatus" [(ngModel)]="contract.flagStatus" id="pending"
+                  value="1">
+                <label class="form-check-label" for="pending">
+                  Pezull
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="flagStatus" formControlName="flagStatus" [(ngModel)]="contract.flagStatus" id="success"
+                  value="2">
+                <label class="form-check-label" for="success">
+                  Suksesshëm
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="flagStatus" formControlName="flagStatus" [(ngModel)]="contract.flagStatus" id="canceled"
+                  value="3">
+                <label class="form-check-label" for="canceled">
+                  Anuluar
+                </label>
+              </div>
+            </div>
           </div>
         </div>
         <div class="row">
