@@ -80,3 +80,17 @@ label {
 .error-msg {
     color: red;
 }
+#contracts-buttons {
+    margin-top: 10px;
+    margin-right: 15px;
+}
+.buttons {
+    border-color: #39a6bd !important;
+    color: #39a6bd !important;
+    margin-bottom: 10px;
+}
+.buttons:hover:enabled {
+    background-color: #39a6bd !important; 
+    color: white !important;
+    border-color: #39a6bd !important;  
+}
