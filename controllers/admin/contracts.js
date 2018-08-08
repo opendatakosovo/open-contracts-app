@@ -6,6 +6,7 @@ const contractValidation = require("../../middlewares/contract_validation");
 const uploadFile = require('../../middlewares/upload_file');
 const slugify = require('slugify');
 const fs = require('fs');
+const compareValues = require("../../utils/sortArrayByValues");
 /*
  * ENDPOINTS PREFIX: /contracts
  */
@@ -49,20 +50,40 @@ router.post("/latest-contracts/page/ascending", (req, res) => {
             return page;
         })
         .then(page => {
-            return Contract.find({ 'year': 2018 }).then(result => {
-                for (row of result) {
-                    row.contract.totalAmountOfContractsIncludingTaxes = Number(row.contract.totalAmountOfContractsIncludingTaxes.replace(/[^0-9\.-]+/g, ""));
-                    row.contract.predictedValue = Number(row.contract.predictedValue.replace(/[^0-9\.-]+/g, ""));
+            Contract.find({ 'year': 2018 }).then(data => {
+                const returnData = [];
+                for (row of data) {
+                    row = row.toObject();
+                    row.totalAmountOfContractsIncludingTaxes = Number(row.contract.totalAmountOfContractsIncludingTaxes.replace(/[^0-9\.-]+/g, ""));
+                    row.predictedValue = Number(row.contract.predictedValue.replace(/[^0-9\.-]+/g, ""));
+                    row.companyName = row.company.name;
+                    row.publicationDate = row.contract.publicationDate;
+                    row.publicationDateOfGivenContract = row.contract.publicationDateOfGivenContract;
+                    row.signingDate = row.contract.signingDate;
+                    row.implementationDeadline = row.contract.implementationDeadline;
+                    row.activityTitle1 = row.activityTitle.trim();
+                    returnData.push(row);
                 }
-            }).sort({ [page.column]: 1 }).skip(page.skipPages).limit(page.size).then(result => {
-                delete page.skipPages;
-                response.page = page;
-                response.data = result;
-                return response;
+                returnData.sort(compareValues([page.column], 'asc'));
+                if (page.skipPages === 0) {
+                    returnData.splice(10, returnData.length)
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = returnData;
+                    res.json(response);
+                } else {
+                    returnData.splice(0, page.skipPages);
+                    returnData.splice(10, returnData.length);
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = returnData;
+                    res.json(response);
+                }
+            }).catch(err => {
+                res.json(err);
             });
-        })
-        .then(response => {
-            res.json(response)
+        }).catch(err => {
+            res.json(err);
         });
 });
 
@@ -87,26 +108,41 @@ router.post("/latest-contracts/page/descending", (req, res) => {
         .then(page => {
             page.skipPages = page.size * page.pageNumber
             return page;
-        })
-        .then(row => {
-            return Contract.find({ 'year': 2018 }).then(result => {
-                for (row of result) {
-                    row.contract.totalAmountOfContractsIncludingTaxes = Number(row.contract.totalAmountOfContractsIncludingTaxes.replace(/[^0-9\.-]+/g, ""));
-                    row.contract.predictedValue = Number(row.contract.predictedValue.replace(/[^0-9\.-]+/g, ""));
+        }).then(page => {
+            Contract.find({ 'year': 2018 }).then(data => {
+                const returnData = [];
+                for (row of data) {
+                    row = row.toObject();
+                    row.totalAmountOfContractsIncludingTaxes = Number(row.contract.totalAmountOfContractsIncludingTaxes.replace(/[^0-9\.-]+/g, ""));
+                    row.predictedValue = Number(row.contract.predictedValue.replace(/[^0-9\.-]+/g, ""));
+                    row.companyName = row.company.name;
+                    row.publicationDate = row.contract.publicationDate;
+                    row.publicationDateOfGivenContract = row.contract.publicationDateOfGivenContract;
+                    row.signingDate = row.contract.signingDate;
+                    row.implementationDeadline = row.contract.implementationDeadline;
+                    row.activityTitle1 = row.activityTitle.trim();
+                    returnData.push(row);
                 }
-                return row;
-            })
-        })
-        .then(page => {
-            return result.sort({ [page.column]: -1 }).skip(page.skipPages).limit(page.size).then(result => {
-                delete page.skipPages;
-                response.page = page;
-                response.data = result;
-                return response;
+                returnData.sort(compareValues([page.column], 'desc'));
+                if (page.skipPages === 0) {
+                    returnData.splice(10, returnData.length)
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = returnData;
+                    res.json(response);
+                } else {
+                    returnData.splice(0, page.skipPages);
+                    returnData.splice(10, returnData.length);
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = returnData;
+                    res.json(response);
+                }
+            }).catch(err => {
+                res.json(err);
             });
-        })
-        .then(response => {
-            res.json(response)
+        }).catch(err => {
+            res.json(err);
         });
 });
 
@@ -359,7 +395,7 @@ router.post('/filter', (req, res) => {
             })
             .then(page => {
                 return Contract.filterStringFieldsInContracts(string).sort({ "createdAt": -1 }).skip(page.skipPages).limit(page.size).
-                then(result => {
+                    then(result => {
                         delete page.skipPages;
                         response.page = page;
                         response.data = result;
@@ -668,58 +704,58 @@ router.post('/filter', (req, res) => {
             }).then(response => {
                 res.json(response);
             })
-        } else if (string !== '' && directorate !== '' & date === null && value !== '') {
-            Contract.filterByStringDirectorateValueCount(string, directorate, value)
-                .then(totalElements => {
-                    page.totalElements = totalElements;
-                    return page;
-                })
-                .then(page => {
-                    page.totalPages = Math.round(page.totalElements / page.size)
-                    return page;
-                })
-                .then(page => {
-                    page.skipPages = page.size * page.pageNumber
-                    return page;
-                })
-                .then(page => {
-                    return Contract.filterByStringDirectorateValue(string, directorate, value).skip(page.skipPages).
-                        limit(page.size).then(result => {
-                            delete page.skipPages;
-                            response.page = page;
-                            response.data = result;
-                            return response;
-                        });
-                }).then(response => {
-                    res.json(response);
-                })
-        } else if (string !== '' && directorate === '' & date !== null && value !== '') {
-            Contract.filterByStringDateValueCount(string, date, referenceDate, value)
-                .then(totalElements => {
-                    page.totalElements = totalElements;
-                    return page;
-                })
-                .then(page => {
-                    page.totalPages = Math.round(page.totalElements / page.size)
-                    return page;
-                })
-                .then(page => {
-                    page.skipPages = page.size * page.pageNumber
-                    return page;
-                })
-                .then(page => {
-                    return Contract.filterByStringDateValue(string, date, referenceDate, value).skip(page.skipPages).
-                        limit(page.size).then(result => {
-                            delete page.skipPages;
-                            response.page = page;
-                            response.data = result;
-                            return response;
-                        });
-                }).then(response => {
-                    res.json(response);
-                })
-        } else {
-            Contract.countLatestContracts()
+    } else if (string !== '' && directorate !== '' & date === null && value !== '') {
+        Contract.filterByStringDirectorateValueCount(string, directorate, value)
+            .then(totalElements => {
+                page.totalElements = totalElements;
+                return page;
+            })
+            .then(page => {
+                page.totalPages = Math.round(page.totalElements / page.size)
+                return page;
+            })
+            .then(page => {
+                page.skipPages = page.size * page.pageNumber
+                return page;
+            })
+            .then(page => {
+                return Contract.filterByStringDirectorateValue(string, directorate, value).skip(page.skipPages).
+                    limit(page.size).then(result => {
+                        delete page.skipPages;
+                        response.page = page;
+                        response.data = result;
+                        return response;
+                    });
+            }).then(response => {
+                res.json(response);
+            })
+    } else if (string !== '' && directorate === '' & date !== null && value !== '') {
+        Contract.filterByStringDateValueCount(string, date, referenceDate, value)
+            .then(totalElements => {
+                page.totalElements = totalElements;
+                return page;
+            })
+            .then(page => {
+                page.totalPages = Math.round(page.totalElements / page.size)
+                return page;
+            })
+            .then(page => {
+                page.skipPages = page.size * page.pageNumber
+                return page;
+            })
+            .then(page => {
+                return Contract.filterByStringDateValue(string, date, referenceDate, value).skip(page.skipPages).
+                    limit(page.size).then(result => {
+                        delete page.skipPages;
+                        response.page = page;
+                        response.data = result;
+                        return response;
+                    });
+            }).then(response => {
+                res.json(response);
+            })
+    } else {
+        Contract.countLatestContracts()
             .then(totalElements => {
                 page.totalElements = totalElements;
                 return page;
@@ -743,7 +779,7 @@ router.post('/filter', (req, res) => {
             .then(response => {
                 res.json(response)
             });
-        }
+    }
 });
 
 module.exports = router;
