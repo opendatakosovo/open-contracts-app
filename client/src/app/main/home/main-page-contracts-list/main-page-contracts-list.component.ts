@@ -25,9 +25,6 @@ export class MainPageContractsListComponent implements OnInit {
   rows = new Array<Contract>();
   totalContracts: Number;
   private ref: ChangeDetectorRef;
-  temp = [];
-  reorderable: boolean;
-
   search = {
     string: '',
     directorate: '',
@@ -45,7 +42,6 @@ export class MainPageContractsListComponent implements OnInit {
     this.totalContracts = 0;
     this.contractModal = new Contract();
     this.contract = new Contract();
-    this.reorderable = true;
     this.search = {
       string: '',
       directorate: '',
@@ -108,7 +104,6 @@ export class MainPageContractsListComponent implements OnInit {
         }
         ascClass.classList.add('asc');
         this.page = pagedData.page;
-        this.page.column = pagedData.column;
         this.rows = pagedData.data;
       });
     } else {
@@ -117,7 +112,6 @@ export class MainPageContractsListComponent implements OnInit {
         descClass.classList.remove('asc');
         descClass.classList.add('desc');
         this.page = pagedData.page;
-        this.page.column = pagedData.column;
         this.rows = pagedData.data;
       });
     }
