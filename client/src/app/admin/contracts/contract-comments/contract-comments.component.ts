@@ -58,7 +58,7 @@ export class ContractCommentsComponent implements OnInit {
     public commentService: CommentService,
     private modalService: BsModalService,
     private router: ActivatedRoute,
-    ) {
+  ) {
     const id = this.router.snapshot.paramMap.get('id');
     this.contractId1 = id;
     this.users = [];
@@ -97,19 +97,19 @@ export class ContractCommentsComponent implements OnInit {
         this.currentUser = data;
       });
     this.userService.getAllSimpleActiveUsers()
-        .takeUntil(this.unsubscribeAll)
-        .subscribe(data => {
-          for (const row of data) {
-            this.simpleActiveUsers.push({
-              name: `${row.firstName} ${row.lastName} (${row.email})`,
-              value: row.email,
-              checked: false
-            });
-          }
-          this.checkEmailNotificationSettings();
-        }, err => {
-          console.log(err);
-        });
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(data => {
+        for (const row of data) {
+          this.simpleActiveUsers.push({
+            name: `${row.firstName} ${row.lastName} (${row.email})`,
+            value: row.email,
+            checked: false
+          });
+        }
+        this.checkEmailNotificationSettings();
+      }, err => {
+        console.log(err);
+      });
   }
 
   checkEmailNotificationSettings() {
@@ -153,8 +153,8 @@ export class ContractCommentsComponent implements OnInit {
 
   getSelectedUsersEmails() {
     return this.simpleActiveUsers
-              .filter(opt => opt['checked'])
-              .map(opt => opt['value']);
+      .filter(opt => opt['checked'])
+      .map(opt => opt['value']);
   }
 
   commentDeleteModal(template) {
@@ -180,6 +180,14 @@ export class ContractCommentsComponent implements OnInit {
       if (selectedEmails.length > 0) {
         this.commentModal.usersEmails = selectedEmails;
       }
+      if (this.enableEmailNotificationStatus === true) {
+        Swal({
+          title: 'Duke dërguar njoftimin!',
+          onOpen: () => {
+            Swal.showLoading();
+          }
+        });
+      }
       this.commentService.addComment(this.commentModal, this.enableEmailNotificationStatus)
         .takeUntil(this.unsubscribeAll)
         .subscribe(res => {
@@ -199,6 +207,7 @@ export class ContractCommentsComponent implements OnInit {
               confirmButtonText: 'Kthehu te forma'
             });
           } else {
+            Swal('Sukses!', 'Komenti u shtua me sukses!', 'success');
             this.commentService.getComments(this.contractId1)
               .takeUntil(this.unsubscribeAll)
               .subscribe(result => {
@@ -216,7 +225,7 @@ export class ContractCommentsComponent implements OnInit {
             this.commentIsActive = false;
             setTimeout(() => this.commentIsActive = true, 0);
           }
-      });
+        });
     }
   }
 
