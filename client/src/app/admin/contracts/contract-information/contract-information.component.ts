@@ -20,8 +20,8 @@ export class ContractInformationComponent implements OnInit {
     const id = this.router.snapshot.paramMap.get('id');
     this.contractsService.getContractByID(id).subscribe(data => {
       this.contract = data;
-      if (this.contract.contract.totalOfAnnexesWithTaxes !== '' && this.contract.contract.totalOfAnnexesWithTaxes !== undefined ) {
-        this.totalOfAnnexesWithTaxes = parseFloat(this.contract.contract.totalOfAnnexesWithTaxes.toString());
+      if (this.contract.contract.totalAmountOfContractsIncludingTaxes !== '' && this.contract.contract.totalAmountOfContractsIncludingTaxes !== undefined) {
+        this.totalOfAnnexesWithTaxes = parseFloat(this.contract.contract.totalAmountOfContractsIncludingTaxes.toString());
       }
       if (this.contract.contract.totalPayedPriceForContract !== '' && this.contract.contract.totalPayedPriceForContract !== undefined) {
         this.totalPayedPriceForContract = parseFloat(this.contract.contract.totalPayedPriceForContract.toString());

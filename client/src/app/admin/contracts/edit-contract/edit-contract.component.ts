@@ -182,6 +182,21 @@ export class EditContractComponent implements OnInit {
     this.bsConfig = Object.assign({}, { containerClass: 'theme-blue', dateInputFormat: 'DD/MM/YYYY' });
   }
 
+  calculateValues() {
+    let sumAnnex = 0;
+    this.contract.contract.annexes.map(annex => {
+      sumAnnex += parseFloat(annex.totalValueOfAnnexContract1.toString());
+    });
+    this.total = parseFloat(this.contract.contract.totalAmountOfContractsIncludingTaxes.toString()) + sumAnnex;
+    this.contract.contract.totalOfAnnexesWithTaxes = this.total.toString();
+
+    let sumInstallments = 0;
+    this.contract.installments.map(installment => {
+      sumInstallments += parseFloat(installment.installmentAmount1.toString());
+    });
+    this.totalInstallments = parseFloat(this.contract.lastInstallmentAmount.toString()) + sumInstallments;
+    this.contract.contract.totalPayedPriceForContract = this.totalInstallments.toString();
+  }
 
   dateChange(date) {
     const oldDate = new Date(date);
@@ -328,8 +343,7 @@ export class EditContractComponent implements OnInit {
 
   updateContract(e) {
     e.preventDefault();
-    console.log(this.form);
-    console.log(this.filesToUpload);
+    this.calculateValues();
     if (this.form.valid === true) {
       if (this.filesToUpload !== null && this.valid === true) {
         this.contract.approvalDateOfFunds = this.contract.approvalDateOfFunds == null ? null : this.dateChange(this.contract.approvalDateOfFunds);
