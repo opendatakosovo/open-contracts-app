@@ -62,6 +62,10 @@ export class UserService {
     return this.http.getWithAuth(`${this.APIUrl}/user/` + id).map(res => res.json().user);
   }
 
+  getAllSimpleActiveUsers() {
+    return this.http.getWithAuth(`${this.APIUrl}/user/simple-users`).map(res => res.json());
+  }
+
   generatePassword(id) {
     return this.http.putWithAuth(`${this.APIUrl}/user/generate-password/` + id, {}).map(res => res.json());
   }

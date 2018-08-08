@@ -57,6 +57,16 @@ router.post('/', passport.authenticate('jwt', { session: false }), userValidatio
     });
 });
 
+// Get all simple active users
+router.get('/simple-users', passport.authenticate('jwt', { session: false }), (req, res) => {
+    User.getAllSimpleUsers()
+        .then(data => {
+            res.json(data);
+        }).catch(err => {
+            res.json(err);
+        });
+});
+
 // Route for getting all users
 router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => {
     User.getAllUsers((err, users) => {

@@ -1,6 +1,22 @@
-<div class="row"> 
+<div class="row mb-3">
   <div class="col-12">
     <h1 class="text-info bg-light" style="margin-top: 50px">Komentet</h1>
+     <div style="margin: 15px;" class="custom-control custom-checkbox">
+      <input #enableEmailNotification (change)="checkEmailNotification(enableEmailNotification.checked)" type="checkbox" class="custom-control-input" [(ngModel)]="enableEmailNotificationStatus" id="enable-email-nofitication">
+      <label class="custom-control-label" for="enable-email-nofitication">Lejo njoftimin me email në rastin e komentimit.</label>
+    </div>
+    <div style="margin-left: 50px!important" *ngIf="enableEmailNotificationStatus">
+      <div style="margin-left: -10px" class="alert alert-info alert-dismissible fade show" role="alert">
+          <b>Vëmendje:</b> Pas lejimit të njoftimit, të gjithë administratorët do të njoftohen me email automatikisht!
+      </div>
+      <div style="margin-left: -10px;margin-bottom: 1rem;">Zgjedh përgjegjësit të cilëve do i'u dërgohet njoftimi:</div>
+      <div class="col-md-12" style='margin-bottom: 10px;' *ngFor="let option of simpleActiveUsers">
+        <div class="custom-checkbox">
+            <input (change)="updateSelectedEmailsState()" type="checkbox" value="{{option.value}}" class="custom-control-input" [(ngModel)]="option.checked" id="{{option.value}}">
+            <label class="custom-control-label" for="{{option.value}}">{{option.name}}</label>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
