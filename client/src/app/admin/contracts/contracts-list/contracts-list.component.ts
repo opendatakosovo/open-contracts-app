@@ -21,7 +21,6 @@ export class ContractsListComponent implements OnInit {
   page = new Page();
   rows = new Array<Contract>();
   private ref: ChangeDetectorRef;
-  temp = [];
 
   @ViewChild('table') table: DatatableComponent;
 
@@ -43,7 +42,6 @@ export class ContractsListComponent implements OnInit {
   };
 
   ngOnInit() {
-    this.onGetContracts();
     this.setPage({ offset: 0 });
   }
 
@@ -55,21 +53,30 @@ export class ContractsListComponent implements OnInit {
     });
   }
 
-  onGetContracts() {
-    this.contractsService.serverPagination(this.page).subscribe(pagedData => {
-      this.page = pagedData.page;
-      this.rows = pagedData.data;
-      this.temp = this.rows;
-    });
-  }
-
-  filterContractName(event: any) {
-    const val = event.target.value.toLowerCase();
-    const temp = this.temp.filter(function (result) {
-      return result.activityTitle.toLocaleLowerCase().indexOf(val) !== -1 || !val;
-    });
-    this.rows = temp;
-    this.table.offset = 0;
+  // Function to sort contracts ascending or descending
+  sortContracts(column) {
+    this.page.column = column;
+    const asc = document.getElementById('sort').classList.contains('asc');
+    const desc = document.getElementById('sort').classList.contains('desc');
+    if (asc === false || desc === true) {
+      this.contractsService.serverSortContractsAscending(this.page).subscribe(pagedData => {
+        const ascClass = document.getElementById('sort');
+        if (desc === true) {
+          ascClass.classList.remove('desc');
+        }
+        ascClass.classList.add('asc');
+        this.page = pagedData.page;
+        this.rows = pagedData.data;
+      });
+    } else {
+      this.contractsService.serverSortContractsDescending(this.page).subscribe(pagedData => {
+        const descClass = document.getElementById('sort');
+        descClass.classList.remove('asc');
+        descClass.classList.add('desc');
+        this.page = pagedData.page;
+        this.rows = pagedData.data;
+      });
+    }
   }
 
   // Function to open delete modal

@@ -50,7 +50,16 @@ export class ContractsService {
   serverSortLatestContractsDescending(data) {
     return this.http.postWithAuth(`${this.APIUrl}/contracts/latest-contracts/page/descending`, data).map(res => res.json());
   }
+
   filterContract(search) {
     return this.http.postWithAuth(`${this.APIUrl}/contracts/filter`, search).map(res => res.json());
+  }
+
+  serverSortContractsAscending(data) {
+    return this.http.postWithAuth(`${this.APIUrl}/contracts/page/ascending`, data).map(res => res.json());
+  }
+
+  serverSortContractsDescending(data) {
+    return this.http.postWithAuth(`${this.APIUrl}/contracts/page/descending`, data).map(res => res.json());
   }
 }

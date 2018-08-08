@@ -69,3 +69,14 @@ i {
     background-color: rgb(66, 66, 66);
     color: #fff;
 }
+.sort-icons {
+    position: absolute;
+    bottom: 3%;
+    padding-left: 2%;
+}
+#sort {
+    font-size: 16px;
+}
+#sort i {
+    color: #fff !important;
+}

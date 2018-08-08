@@ -27,6 +27,7 @@ router.get("/", (req, res) => {
     });
 });
 
+// Sort latest contracts ascending
 router.post("/latest-contracts/page/ascending", (req, res) => {
     let page = {
         size: req.body.size,
@@ -50,7 +51,7 @@ router.post("/latest-contracts/page/ascending", (req, res) => {
             return page;
         })
         .then(page => {
-            Contract.find({ 'year': 2018 }).then(data => {
+            Contract.find({ "year": new Date().getFullYear() }).then(data => {
                 const returnData = [];
                 for (row of data) {
                     row = row.toObject();
@@ -87,6 +88,7 @@ router.post("/latest-contracts/page/ascending", (req, res) => {
         });
 });
 
+// Sort latest contracts descending
 router.post("/latest-contracts/page/descending", (req, res) => {
     let page = {
         size: req.body.size,
@@ -109,7 +111,7 @@ router.post("/latest-contracts/page/descending", (req, res) => {
             page.skipPages = page.size * page.pageNumber
             return page;
         }).then(page => {
-            Contract.find({ 'year': 2018 }).then(data => {
+            Contract.find({ "year": new Date().getFullYear() }).then(data => {
                 const returnData = [];
                 for (row of data) {
                     row = row.toObject();
@@ -168,7 +170,7 @@ router.post("/latest-contracts/page", (req, res) => {
             return page;
         })
         .then(page => {
-            return Contract.find({ "year": 2018 }).sort({ "createdAt": -1 }).skip(page.skipPages).limit(page.size).then(result => {
+            return Contract.find({ "year": new Date().getFullYear() }).sort({ "createdAt": -1 }).skip(page.skipPages).limit(page.size).then(result => {
                 delete page.skipPages;
                 response.page = page;
                 response.data = result;
@@ -177,6 +179,127 @@ router.post("/latest-contracts/page", (req, res) => {
         })
         .then(response => {
             res.json(response)
+        });
+});
+
+// Sort contracts ascending
+router.post("/page/ascending", (req, res) => {
+    let page = {
+        size: req.body.size,
+        totalElements: req.body.totalElements,
+        totalPages: req.body.totalPages,
+        pageNumber: req.body.pageNumber,
+        column: req.body.column
+    };
+    let response = {};
+    Contract.countContracts()
+        .then(totalElements => {
+            page.totalElements = totalElements;
+            return page;
+        })
+        .then(page => {
+            page.totalPages = Math.round(page.totalElements / page.size)
+            return page;
+        })
+        .then(page => {
+            page.skipPages = page.size * page.pageNumber
+            return page;
+        })
+        .then(page => {
+            Contract.find().then(data => {
+                const returnData = [];
+                for (row of data) {
+                    row = row.toObject();
+                    row.totalAmountOfContractsIncludingTaxes = Number(row.contract.totalAmountOfContractsIncludingTaxes.replace(/[^0-9\.-]+/g, ""));
+                    row.predictedValue = Number(row.contract.predictedValue.replace(/[^0-9\.-]+/g, ""));
+                    row.companyName = row.company.name;
+                    row.publicationDate = row.contract.publicationDate;
+                    row.publicationDateOfGivenContract = row.contract.publicationDateOfGivenContract;
+                    row.signingDate = row.contract.signingDate;
+                    row.implementationDeadline = row.contract.implementationDeadline;
+                    row.activityTitle1 = row.activityTitle.trim();
+                    returnData.push(row);
+                }
+                returnData.sort(compareValues([page.column], 'asc'));
+                if (page.skipPages === 0) {
+                    returnData.splice(10, returnData.length)
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = returnData;
+                    res.json(response);
+                } else {
+                    returnData.splice(0, page.skipPages);
+                    returnData.splice(10, returnData.length);
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = returnData;
+                    res.json(response);
+                }
+            }).catch(err => {
+                res.json(err);
+            });
+        }).catch(err => {
+            res.json(err);
+        });
+});
+
+// Sort contracts descending
+router.post("/page/descending", (req, res) => {
+    let page = {
+        size: req.body.size,
+        totalElements: req.body.totalElements,
+        totalPages: req.body.totalPages,
+        pageNumber: req.body.pageNumber,
+        column: req.body.column
+    };
+    let response = {};
+    Contract.countContracts()
+        .then(totalElements => {
+            page.totalElements = totalElements;
+            return page;
+        })
+        .then(page => {
+            page.totalPages = Math.round(page.totalElements / page.size)
+            return page;
+        })
+        .then(page => {
+            page.skipPages = page.size * page.pageNumber
+            return page;
+        }).then(page => {
+            Contract.find().then(data => {
+                const returnData = [];
+                for (row of data) {
+                    row = row.toObject();
+                    row.totalAmountOfContractsIncludingTaxes = Number(row.contract.totalAmountOfContractsIncludingTaxes.replace(/[^0-9\.-]+/g, ""));
+                    row.predictedValue = Number(row.contract.predictedValue.replace(/[^0-9\.-]+/g, ""));
+                    row.companyName = row.company.name;
+                    row.publicationDate = row.contract.publicationDate;
+                    row.publicationDateOfGivenContract = row.contract.publicationDateOfGivenContract;
+                    row.signingDate = row.contract.signingDate;
+                    row.implementationDeadline = row.contract.implementationDeadline;
+                    row.activityTitle1 = row.activityTitle.trim();
+                    returnData.push(row);
+                }
+                returnData.sort(compareValues([page.column], 'desc'));
+                if (page.skipPages === 0) {
+                    returnData.splice(10, returnData.length)
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = returnData;
+                    res.json(response);
+                } else {
+                    returnData.splice(0, page.skipPages);
+                    returnData.splice(10, returnData.length);
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = returnData;
+                    res.json(response);
+                }
+            }).catch(err => {
+                res.json(err);
+            });
+        }).catch(err => {
+            res.json(err);
         });
 });
 
