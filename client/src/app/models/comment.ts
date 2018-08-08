@@ -4,6 +4,8 @@ export class Comment {
     comment: string;
     contractId: string;
     dateTime: string;
+    usersEmails: string[];
+    userFullName: string;
     reply?: {
         _id?: string,
         replyUserId: string,
@@ -16,6 +18,8 @@ export class Comment {
         this.comment = '';
         this.contractId = '';
         this.dateTime = '';
+        this.usersEmails = [];
+        this.userFullName = '';
         this.reply = {
             _id: null,
             replyUserId: null,

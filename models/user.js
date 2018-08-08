@@ -54,6 +54,16 @@ module.exports.getAllUsers = callback => {
   User.find().sort({'createdAt': "desc"}).exec(callback);;
 }
 
+module.exports.getAllSimpleUsers = () => {
+  return User.find({role: 'user', isActive: true});
+}
+
+module.exports.getAllAdminUsers = () => {
+  return User.aggregate([
+    { $match: { role: { $in: ['admin', 'superadmin'] } } }
+  ]);
+}
+
 // Function for get a user by id
 module.exports.getUserById = (id, callback) => {
   User.findById(id, callback);
@@ -106,7 +116,6 @@ module.exports.deactivateUser = (id, callback) => {
 }
 
 /** User data ***/
-
 // Total users
 module.exports.totalUsers = () => User.find({role: { $ne: "superadmin"}}).count();
 

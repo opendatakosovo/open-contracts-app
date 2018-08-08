@@ -20,8 +20,8 @@ const Comment = (module.exports = mongoose.model("Comment", CommentSchema));
 module.exports = mongoose.model("Comment", CommentSchema);
 
 // Method for adding a comment
-module.exports.addComment = (newComment, callback) => {
-    newComment.save(callback);
+module.exports.addComment = (newComment) => {
+    return newComment.save();
 }
 
 // Method for adding a reply
