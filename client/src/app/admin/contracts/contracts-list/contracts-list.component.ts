@@ -7,6 +7,8 @@ import Swal from 'sweetalert2';
 import { Page } from '../../../models/page';
 import * as $ from 'jquery';
 import { DatatableComponent } from '@swimlane/ngx-datatable/src/components/datatable.component';
+import { BsDatepickerConfig, BsLocaleService } from 'ngx-bootstrap/datepicker';
+
 
 @Component({
   selector: 'app-contracts-list',
@@ -14,6 +16,7 @@ import { DatatableComponent } from '@swimlane/ngx-datatable/src/components/datat
   styleUrls: ['./contracts-list.component.css']
 })
 export class ContractsListComponent implements OnInit {
+  bsConfig: Partial<BsDatepickerConfig>;
   contract: Contract;
   contracts: Contract[];
   contractModal: Contract;
@@ -21,6 +24,14 @@ export class ContractsListComponent implements OnInit {
   page = new Page();
   rows = new Array<Contract>();
   private ref: ChangeDetectorRef;
+  search = {
+    string: '',
+    directorate: '',
+    date: new Date(),
+    referenceDate: new Date(),
+    value: '',
+    pageInfo: new Page()
+  };
 
   @ViewChild('table') table: DatatableComponent;
 
@@ -30,6 +41,20 @@ export class ContractsListComponent implements OnInit {
     this.contractModal = new Contract();
     this.contract = new Contract();
     this.ref = ref;
+    this.search = {
+      string: '',
+      directorate: '',
+      date: null,
+      referenceDate: null,
+      value: '',
+      pageInfo: {
+        pageNumber: 0,
+        size: 10,
+        totalElements: 0,
+        totalPages: 0,
+        column: ''
+      }
+    };
   }
 
   messages = {
@@ -103,6 +128,50 @@ export class ContractsListComponent implements OnInit {
         Swal('Sukses!', 'Kontrata u fshi me sukses.', 'success');
       }
     });
+  }
+
+  onType() {
+    this.contractsService.filterContract(this.search).subscribe(data => {
+      this.page = data.page;
+      this.rows = data.data;
+      if (data.data.length === 0) {
+        this.messages = {
+          emptyMessage: `
+          <div>
+              <p>Asnjë kontratë nuk përputhet me të dhënat e shypura</p>
+          </div>
+        `
+        };
+      }
+    });
+    this.table.offset = 0;
+  }
+  onDatePick(event) {
+    if (event !== null && event !== undefined) {
+      this.search.date = event;
+      this.search.date.setHours(0);
+      this.search.date.setMinutes(0);
+      this.search.date.setSeconds(0);
+      this.search.date.setMilliseconds(0);
+      this.search.referenceDate = new Date(this.search.date.toDateString());
+      this.search.referenceDate.setDate(this.search.referenceDate.getDate() + 1);
+      this.search.date.toISOString();
+      this.search.referenceDate.toISOString();
+    }
+    this.contractsService.filterContract(this.search).subscribe(data => {
+      this.page = data.page;
+      this.rows = data.data;
+      if (data.data.length === 0) {
+        this.messages = {
+          emptyMessage: `
+          <div>
+              <p>Asnjë kontratë nuk përputhet me të dhënat e shypura</p>
+          </div>
+        `
+        };
+      }
+    });
+    this.table.offset = 0;
   }
 
 }
