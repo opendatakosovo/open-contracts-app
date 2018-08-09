@@ -393,7 +393,7 @@ module.exports.filterByValue = (value) => {
                         { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
                     ]
                 },
-                { "year": new Date().getFullYear() }
+                {"year" : { "$gte": new Date().getFullYear()}}
             ]
     });
 }
@@ -408,7 +408,7 @@ module.exports.filterByValueCount = (value) => {
                         { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
                     ]
                 },
-                { "year": new Date().getFullYear() }
+                { "year": { "$gte": new Date().getFullYear()}}
             ]
     });
 }

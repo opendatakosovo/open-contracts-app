@@ -21,16 +21,16 @@
         <div class="col-6">
           <div class="form-group">
             <label>Statusi:</label>
-            <div *ngIf="contract.flagStatus === 0">
+            <div *ngIf="contract.flagStatus == '0'">
               <p>-</p>
             </div>
-            <div *ngIf="contract.flagStatus === '1'">
+            <div *ngIf="contract.flagStatus == '1'">
               <p> Pezull</p>
             </div>
-            <div *ngIf="contract.flagStatus === '2'">
+            <div *ngIf="contract.flagStatus == '2'">
               <p> Anuluar</p>
             </div>
-            <div *ngIf="contract.flagStatus === '3'">
+            <div *ngIf="contract.flagStatus == '3'">
               <p> Sukses</p>
             </div>
           </div>
