@@ -54,7 +54,9 @@ export class EditContractComponent implements OnInit {
       this.formatDates(this.contract);
       this.initAnnexes();
       this.initInstallments();
-      this.implementationDeadline = this.contract.contract.implementationDeadline.split(' ', 2);
+      if (this.contract.contract.implementationDeadline !== undefined || this.contract.contract.implementationDeadline !== '') {
+      this.implementationDeadline = this.contract.contract.implementationDeadline.split(' ');
+    }
     });
     this.form = _fb.group({
       activityTitle: new FormControl('', Validators.required),
@@ -356,7 +358,7 @@ export class EditContractComponent implements OnInit {
     this.calculateValues();
     if (this.form.valid === true) {
       if (this.filesToUpload !== null && this.valid === true) {
-        if (this.form.value.implementationDeadlineNumber !== null && this.form.value.implementationDeadlineDuration !== '') {
+        if (this.form.value.implementationDeadlineNumber !== null && this.form.value.implementationDeadlineDuration !== '' ) {
           this.contract.contract.implementationDeadline = this.form.value.implementationDeadlineNumber + ' ' + this.form.value.implementationDeadlineDuration;
         } else {
           this.contract.contract.implementationDeadline = '';
