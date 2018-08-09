@@ -131,7 +131,7 @@ export class ContractsListComponent implements OnInit {
   }
 
   onType() {
-    this.contractsService.filterContract(this.search).subscribe(data => {
+    this.contractsService.filterContract(this.search, 'any').subscribe(data => {
       this.page = data.page;
       this.rows = data.data;
       if (data.data.length === 0) {
@@ -158,7 +158,7 @@ export class ContractsListComponent implements OnInit {
       this.search.date.toISOString();
       this.search.referenceDate.toISOString();
     }
-    this.contractsService.filterContract(this.search).subscribe(data => {
+    this.contractsService.filterContract(this.search, 'any').subscribe(data => {
       this.page = data.page;
       this.rows = data.data;
       if (data.data.length === 0) {
