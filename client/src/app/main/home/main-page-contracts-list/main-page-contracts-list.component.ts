@@ -119,7 +119,6 @@ export class MainPageContractsListComponent implements OnInit {
   }
   onType() {
     this.contractsService.filterContract(this.search).subscribe(data => {
-      console.log(data.data);
       this.page = data.page;
       this.rows = data.data;
       if (data.data.length === 0) {
