@@ -10,25 +10,16 @@
             left: 50%;
             top: 50%;
             z-index: 1;
-            width: 150px;
-            height: 150px;
+            width: 70px;
+            height: 70px;
             margin: -75px 0 0 -75px;
-            border: 16px solid #f3f3f3;
+            border: 10px solid #f3f3f3;
             border-radius: 50%;
-            border-top: 16px solid #32a6bd;
-            width: 120px;
-            height: 120px;
+            border-top: 10px solid #32a6bd;
+            width: 50px;
+            height: 50px;
             -webkit-animation: spin 2s linear infinite;
             animation: spin 2s linear infinite;
-        }
-
-        #loading {
-            position: absolute;
-            left: 52%;
-            top: 70%;
-            z-index: 1;
-            margin: -75px 0 0 -75px;
-            color: #32a6bd;
         }
 
         @-webkit-keyframes spin {
@@ -86,7 +77,6 @@
 <body>
     <app-root>
         <div id="loader"></div>
-        <p id="loading">Loading...</p>
     </app-root>
 </body>
 
