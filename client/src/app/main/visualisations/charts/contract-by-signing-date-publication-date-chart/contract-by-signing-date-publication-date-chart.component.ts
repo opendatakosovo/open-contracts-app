@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
 import { DataService } from '../../../../service/data.service';
 import { Chart } from 'angular-highcharts';
 
@@ -9,13 +10,16 @@ import { Chart } from 'angular-highcharts';
   styleUrls: ['./contract-by-signing-date-publication-date-chart.component.css']
 })
 export class ContractBySigningDatePublicationDateChartComponent implements OnInit {
+  private unsubscribeAll: Subject<any> = new Subject<any>();
   chart: Chart;
   years;
   constructor(public dataService: DataService) {
     this.render('any');
-    this.dataService.getContractYears(2017).subscribe(res => {
-      this.years = res;
-    });
+    this.dataService.getContractYears(2017)
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(res => {
+        this.years = res;
+      });
   }
 
   ngOnInit() {
@@ -25,38 +29,40 @@ export class ContractBySigningDatePublicationDateChartComponent implements OnIni
     this.render(year);
   }
   render(year) {
-    this.dataService.getContractSigningDateAndPublicationDateForChart(year).subscribe(res => {
-      const data = this.formatData(res);
-      this.chart = new Chart({
-        chart: {
-          type: 'spline'
-        },
-        title: {
-          text: 'Krahasimi i datës publikimit të dhënies kontratës me datën të nënshkrimit kontratës'
-        },
-        xAxis: {
-          categories: data.activityTitles
-        },
-        yAxis: {
-          type: 'datetime',
+    this.dataService.getContractSigningDateAndPublicationDateForChart(year)
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(res => {
+        const data = this.formatData(res);
+        this.chart = new Chart({
+          chart: {
+            type: 'spline'
+          },
           title: {
-            text: ''
+            text: 'Krahasimi i datës publikimit të dhënies kontratës me datën të nënshkrimit kontratës'
+          },
+          xAxis: {
+            categories: data.activityTitles
+          },
+          yAxis: {
+            type: 'datetime',
+            title: {
+              text: ''
 
-          }
-        },
-        tooltip: {
-          headerFormat: '<b>{series.name}</b><br>{point.x} - ',
-          pointFormat: ` {point.y:%d.%m.%Y}`
-        },
-        series: [{
-          name: 'Data publikimit të dhënies kontratës',
-          data: data.signingDates
-        }, {
-          name: 'Data të nënshkrimit kontratës',
-          data: data.publicationDatesOfGivenContracts
-        }]
+            }
+          },
+          tooltip: {
+            headerFormat: '<b>{series.name}</b><br>{point.x} - ',
+            pointFormat: ` {point.y:%d.%m.%Y}`
+          },
+          series: [{
+            name: 'Data publikimit të dhënies kontratës',
+            data: data.signingDates
+          }, {
+            name: 'Data të nënshkrimit kontratës',
+            data: data.publicationDatesOfGivenContracts
+          }]
+        });
       });
-    });
   }
 
   formatData(contracts) {

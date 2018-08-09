@@ -1,4 +1,5 @@
-import { Component, OnInit, OnDestroy, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
 import { UserService } from '../../service/user.service';
 import { User } from '../../models/user';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
@@ -14,6 +15,7 @@ import { DirectorateService } from '../../service/directorate.service';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
+  private unsubscribeAll: Subject<any> = new Subject<any>();
   currentUser = {
     id: '',
     email: ''
@@ -31,9 +33,11 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.getUserByID(this.currentUser.id).subscribe(data => {
-      this.user = data;
-    });
+    this.userService.getUserByID(this.currentUser.id)
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(data => {
+        this.user = data;
+      });
   }
 
   openModalWithComponent(event) {
@@ -42,38 +46,44 @@ export class ProfileComponent implements OnInit {
 
   editModal(template: TemplateRef<any>, event) {
     const id = event.target.dataset.id;
-    this.userService.getUserByID(id).subscribe(user => {
-      this.userModal = user;
-    });
+    this.userService.getUserByID(id)
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(user => {
+        this.userModal = user;
+      });
     this.bsModalRef = this.modalService.show(template);
   }
 
   editProfile(event) {
     const id = event.target.dataset.id;
-    this.userService.editUser(id, this.userModal).subscribe(res => {
-      if (res.err) {
-        Swal('Gabim!', 'Pëdoruesi nuk u ndryshua.', 'error');
-      } else if (res.errVld) {
-        let errList = '';
-        res.errVld.map(error => {
-            errList += `<li>${error.msg}</li>`;
-        });
-        const htmlData = `<div style="text-align: center;">${errList}</div>`;
-        Swal({
-            title: 'Kujdes!',
-            html: htmlData,
-            width: 750,
-            type: 'info',
-            confirmButtonText: 'Kthehu te forma'
-        });
-      } else {
-          this.bsModalRef.hide();
-          this.userService.getUserByID(this.user._id).subscribe(data => {
-            this.user = data;
+    this.userService.editUser(id, this.userModal)
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(res => {
+        if (res.err) {
+          Swal('Gabim!', 'Pëdoruesi nuk u ndryshua.', 'error');
+        } else if (res.errVld) {
+          let errList = '';
+          res.errVld.map(error => {
+              errList += `<li>${error.msg}</li>`;
           });
-          Swal('Sukses!', 'Pëdoruesi u ndryshua me sukses.', 'success');
-        }
-      });
+          const htmlData = `<div style="text-align: center;">${errList}</div>`;
+          Swal({
+              title: 'Kujdes!',
+              html: htmlData,
+              width: 750,
+              type: 'info',
+              confirmButtonText: 'Kthehu te forma'
+          });
+        } else {
+            this.bsModalRef.hide();
+            this.userService.getUserByID(this.user._id)
+              .takeUntil(this.unsubscribeAll)
+              .subscribe(data => {
+                this.user = data;
+              });
+            Swal('Sukses!', 'Pëdoruesi u ndryshua me sukses.', 'success');
+          }
+        });
     }
 
 }

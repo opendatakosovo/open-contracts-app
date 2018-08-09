@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
 import { DatasetService } from '../../service/dataset.service';
 import { Dataset } from '../../models/dataset';
 import Swal from 'sweetalert2';
@@ -10,14 +11,17 @@ import Swal from 'sweetalert2';
   styleUrls: ['./data-dashboard.component.css']
 })
 export class DataDashboardComponent implements OnInit {
+  private unsubscribeAll: Subject<any> = new Subject<any>();
   @ViewChild('file') file;
   dataSet: Dataset;
   dataSets: Dataset[];
   constructor(public datasetService: DatasetService) {
     this.dataSet = new Dataset;
-    this.datasetService.getDatasets().subscribe(data => {
-      this.dataSets = data;
-    });
+    this.datasetService.getDatasets()
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(data => {
+        this.dataSets = data;
+      });
   }
 
   fileToUpload: File;
@@ -83,23 +87,25 @@ export class DataDashboardComponent implements OnInit {
               Swal.showLoading();
             }
           });
-          this.datasetService.addDataset(formData).subscribe(res => {
-            if (res.err) {
-              Swal('Gabim!', res.err, 'error');
-            } else if (res.existErr) {
-              Swal('Kujdes!', 'Seti dhënave është importuar', 'warning');
-            } else if (res.typeValidation) {
-              Swal('Kujdes!', 'Tipi i setit të dhënave nuk është valid duhet të jetë tipit CSV', 'warning');
-            } else if (res.nameValidation) {
-              Swal('Kujdes!', 'Seti i të dhënave është i vjetër ose emri i setit dhënave nuk është valid', 'warning');
-            } else {
-              Swal('Sukses!', 'Dataseti i u importua me sukses', 'success');
-              const nameArea = <HTMLInputElement>document.getElementById('name-area');
-              nameArea.value = 'Zgjedhni setin e të dhënave';
-              this.fileToUpload = null;
-              this.valid = false;
-              this.touched = false;
-            }
+          this.datasetService.addDataset(formData)
+            .takeUntil(this.unsubscribeAll)
+            .subscribe(res => {
+              if (res.err) {
+                Swal('Gabim!', res.err, 'error');
+              } else if (res.existErr) {
+                Swal('Kujdes!', 'Seti dhënave është importuar', 'warning');
+              } else if (res.typeValidation) {
+                Swal('Kujdes!', 'Tipi i setit të dhënave nuk është valid duhet të jetë tipit CSV', 'warning');
+              } else if (res.nameValidation) {
+                Swal('Kujdes!', 'Seti i të dhënave është i vjetër ose emri i setit dhënave nuk është valid', 'warning');
+              } else {
+                Swal('Sukses!', 'Dataseti i u importua me sukses', 'success');
+                const nameArea = <HTMLInputElement>document.getElementById('name-area');
+                nameArea.value = 'Zgjedhni setin e të dhënave';
+                this.fileToUpload = null;
+                this.valid = false;
+                this.touched = false;
+              }
           });
         }
       });

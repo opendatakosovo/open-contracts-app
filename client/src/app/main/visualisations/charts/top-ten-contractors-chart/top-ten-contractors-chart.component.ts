@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
 import { Chart } from 'angular-highcharts';
 import { DataService } from '../../../../service/data.service';
-import { allSettled } from '../../../../../../node_modules/@types/q';
 import { DatatableComponent } from '@swimlane/ngx-datatable/src/components/datatable.component';
 import { TranslateService } from '@ngx-translate/core';
 import { trigger, animate, transition, style, state } from '@angular/animations';
@@ -22,7 +22,8 @@ import { PageScrollConfig, PageScrollInstance, PageScrollService, EasingLogic } 
   ]
 })
 export class TopTenContractorsChartComponent implements OnInit {
-  chartt;
+  private unsubscribeAll: Subject<any> = new Subject<any>();
+  chartt: Chart;
   @ViewChild('table') table: DatatableComponent;
   rows;
   visibilityState = 'hidden';
@@ -45,51 +46,55 @@ export class TopTenContractorsChartComponent implements OnInit {
 
   constructor(public dataService: DataService, public translate: TranslateService, private pageScrollService: PageScrollService, @Inject(DOCUMENT) private document: any) {
     PageScrollConfig.defaultScrollOffset = 115;
-    this.dataService.getTopTenContractors().subscribe(res => {
-      this.chartt = new Chart({
-        chart: {
-          type: 'pie'
-        },
-        title: {
-          text: 'Top dhjetë kompanitë me më së shumti kontrata'
-        },
-        xAxis: {
-          type: 'category'
-        },
-        yAxis: {
+    this.dataService.getTopTenContractors()
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(res => {
+        this.chartt = new Chart({
+          chart: {
+            type: 'pie'
+          },
           title: {
-            text: 'Kontratat'
-          }
-        },
-        plotOptions: {
-          series: {
-            cursor: 'pointer',
-            events: {
-              click: e => {
-                this.visibilityState = 'shown';
-                this.clicked = true;
-                this.button = false;
-                const name = e.point.name;
-                this.oeName = e.point.name;
-                this.rows = [];
-                this.dataService.getContractsByName(name).subscribe(data => {
-                  this.rows = data;
-                  const pageScrollInstance: PageScrollInstance = PageScrollInstance.simpleInstance(this.document, '#table1');
-                  this.pageScrollService.start(pageScrollInstance);
-                });
+            text: 'Top dhjetë kompanitë me më së shumti kontrata'
+          },
+          xAxis: {
+            type: 'category'
+          },
+          yAxis: {
+            title: {
+              text: 'Kontratat'
+            }
+          },
+          plotOptions: {
+            series: {
+              cursor: 'pointer',
+              events: {
+                click: e => {
+                  this.visibilityState = 'shown';
+                  this.clicked = true;
+                  this.button = false;
+                  const name = e.point.name;
+                  this.oeName = e.point.name;
+                  this.rows = [];
+                  this.dataService.getContractsByName(name)
+                    .takeUntil(this.unsubscribeAll)
+                    .subscribe(data => {
+                      this.rows = data;
+                      const pageScrollInstance: PageScrollInstance = PageScrollInstance.simpleInstance(this.document, '#table1');
+                      this.pageScrollService.start(pageScrollInstance);
+                    });
+                }
               }
             }
-          }
-        },
-        tooltip: {
-          pointFormat: '<span style="color:{series.color}">Nr kontratave: {point.y}</span><br/>'
-        },
-        series: [{
-          name: 'Kontratat',
-          data: res
-        }]
+          },
+          tooltip: {
+            pointFormat: '<span style="color:{series.color}">Nr kontratave: {point.y}</span><br/>'
+          },
+          series: [{
+            name: 'Kontratat',
+            data: res
+          }]
+        });
       });
-    });
   }
 
   toggle(event) {
