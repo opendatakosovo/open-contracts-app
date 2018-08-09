@@ -17,6 +17,7 @@ import { BsDatepickerConfig, BsLocaleService } from 'ngx-bootstrap/datepicker';
 })
 export class ContractsListComponent implements OnInit {
   private unsubscribeAll: Subject<any> = new Subject<any>();
+  bsConfig: Partial<BsDatepickerConfig>;
   contract: Contract;
   contracts: Contract[];
   contractModal: Contract;
