@@ -3,6 +3,7 @@
     width: 402px;
     margin: 0 auto;
     padding: 0;
+    background-color: #fff
 }
 .form-control {
     border: 1px solid #e6e5e5;
@@ -11,7 +12,7 @@
     box-shadow: 15px 15px 94px -6px hsl(0, 0%, 87%);
 }
 .vertical-middle-align {
-    /* min-height: 100%;  Fallback for browsers do NOT support vh unit */
+    min-height: 100%;  /*Fallback for browsers do NOT support vh unit */
     min-height: 100vh; /* These two lines are counted as one :-)       */
     display: flex;
     align-items: center;
@@ -19,8 +20,8 @@
 .login-header {   
     font-weight: bold;
     font-family: 'Robot', sans-serif;
-    color: #fff;
-    background: #39a6bd;
+    color: #39a6bd;
+    background: #fff;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
     height: 41px;
@@ -88,6 +89,7 @@ label {
     border-color: #39a6bd !important;
     color: #39a6bd !important;
     margin-bottom: 10px;
+    background-color: #fff;
 }
 .buttons:hover:enabled {
     background-color: #39a6bd !important; 
