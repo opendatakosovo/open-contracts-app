@@ -3,7 +3,7 @@
     width: 402px;
     margin: 0 auto;
     padding: 0;
-    background-color: #fff !important;
+    background-color: transparent;
 }
 .form-control {
     border: 1px solid #e6e5e5;

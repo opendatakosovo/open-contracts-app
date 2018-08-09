@@ -16,9 +16,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private userService: UserService
   ) {
-    document.body.style.background = '#2193b0';
-    document.body.style.webkitBackgroundOrigin = 'linear-gradient(to right, #2193b0, #6dd5ed)';
-    document.body.style.background = 'linear-gradient(to right, #2193b0, #6dd5ed)';
+    document.body.style.background = '#fdfdfd';
   }
 
   ngOnInit() {
