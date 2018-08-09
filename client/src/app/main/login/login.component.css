@@ -3,7 +3,7 @@
     width: 402px;
     margin: 0 auto;
     padding: 0;
-    background-color: #fff
+    background-color: #fff !important;
 }
 .form-control {
     border: 1px solid #e6e5e5;
@@ -89,7 +89,7 @@ label {
     border-color: #39a6bd !important;
     color: #39a6bd !important;
     margin-bottom: 10px;
-    background-color: #fff;
+    background-color: #fff !important;
 }
 .buttons:hover:enabled {
     background-color: #39a6bd !important; 
