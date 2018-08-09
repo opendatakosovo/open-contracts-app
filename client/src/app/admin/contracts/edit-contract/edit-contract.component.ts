@@ -47,18 +47,20 @@ export class EditContractComponent implements OnInit {
     this.contractsService.getContractByID(this.id)
       .takeUntil(this.unsubscribeAll)
       .subscribe(data => {
-        this.contract = data;
-        if (this.contract.contract.file !== '') {
-          const nameArea = <HTMLInputElement>document.getElementById('name-area');
-          nameArea.value = this.contract.contract.file.toString();
-          this.hasFileToDelete = true;
-        }
-        this.checkBudget(this.contract.budget);
-        this.formatDates(this.contract);
-        this.initAnnexes();
-        this.initInstallments();
-        this.implementationDeadline = this.contract.contract.implementationDeadline.split(' ', 2);
-      });
+      this.contract = data;
+      if (this.contract.contract.file !== '') {
+        const nameArea = <HTMLInputElement>document.getElementById('name-area');
+        nameArea.value = this.contract.contract.file.toString();
+        this.hasFileToDelete = true;
+      }
+      this.checkBudget(this.contract.budget);
+      this.formatDates(this.contract);
+      this.initAnnexes();
+      this.initInstallments();
+      if (this.contract.contract.implementationDeadline !== undefined || this.contract.contract.implementationDeadline !== '') {
+        this.implementationDeadline = this.contract.contract.implementationDeadline.split(' ');
+      }
+    });
     this.form = _fb.group({
       activityTitle: new FormControl('', Validators.required),
       procurementNo: new FormControl(null, Validators.required),
@@ -361,7 +363,7 @@ export class EditContractComponent implements OnInit {
     this.calculateValues();
     if (this.form.valid === true) {
       if (this.filesToUpload !== null && this.valid === true) {
-        if (this.form.value.implementationDeadlineNumber !== null && this.form.value.implementationDeadlineDuration !== '') {
+        if (this.form.value.implementationDeadlineNumber !== null && this.form.value.implementationDeadlineDuration !== '' ) {
           this.contract.contract.implementationDeadline = this.form.value.implementationDeadlineNumber + ' ' + this.form.value.implementationDeadlineDuration;
         } else {
           this.contract.contract.implementationDeadline = '';

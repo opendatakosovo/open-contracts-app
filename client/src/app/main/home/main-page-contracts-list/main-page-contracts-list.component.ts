@@ -30,6 +30,7 @@ export class MainPageContractsListComponent implements OnInit {
     date: new Date(),
     referenceDate: new Date(),
     value: '',
+    year: '',
     pageInfo: new Page()
   };
   @ViewChild('table') table: DatatableComponent;
@@ -47,6 +48,7 @@ export class MainPageContractsListComponent implements OnInit {
       date: null,
       referenceDate: null,
       value: '',
+      year: '2018',
       pageInfo: {
         pageNumber: 0,
         size: 10,
@@ -82,12 +84,12 @@ export class MainPageContractsListComponent implements OnInit {
           this.rows = pagedData.data;
         });
     } else {
-      this.contractsService.filterContract(this.search)
+      this.contractsService.filterContract(this.search, '2018')
         .takeUntil(this.unsubscribeAll)
         .subscribe(data => {
-          this.page = data.page;
-          this.rows = data.data;
-        });
+        this.page = data.page;
+        this.rows = data.data;
+      });
     }
   }
 
@@ -126,21 +128,21 @@ export class MainPageContractsListComponent implements OnInit {
   }
 
   onType() {
-    this.contractsService.filterContract(this.search)
+    this.contractsService.filterContract(this.search, '2018')
       .takeUntil(this.unsubscribeAll)
       .subscribe(data => {
-        this.page = data.page;
-        this.rows = data.data;
-        if (data.data.length === 0) {
-          this.messages = {
-            emptyMessage: `
-            <div>
-                <p>Asnjë kontratë nuk përputhet me të dhënat e shypura</p>
-            </div>
-          `
-          };
-        }
-      });
+      this.page = data.page;
+      this.rows = data.data;
+      if (data.data.length === 0) {
+        this.messages = {
+          emptyMessage: `
+          <div>
+              <p>Asnjë kontratë nuk përputhet me të dhënat e shypura</p>
+          </div>
+        `
+        };
+      }
+    });
     this.table.offset = 0;
   }
 
@@ -156,7 +158,7 @@ export class MainPageContractsListComponent implements OnInit {
       this.search.date.toISOString();
       this.search.referenceDate.toISOString();
     }
-    this.contractsService.filterContract(this.search)
+    this.contractsService.filterContract(this.search, '2018')
       .takeUntil(this.unsubscribeAll)
       .subscribe(data => {
         this.page = data.page;

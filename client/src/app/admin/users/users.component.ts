@@ -221,6 +221,8 @@ export class UsersComponent implements OnInit {
       this.userModal.directorateName = '';
       this.userModal.isInCharge = false;
       this.userModal.isActive = false;
+    } else {
+      this.userModal.isActive = false;
     }
     this.userService.editUser(id, this.userModal)
       .takeUntil(this.unsubscribeAll)
