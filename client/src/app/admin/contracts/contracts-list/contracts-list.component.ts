@@ -7,6 +7,8 @@ import Swal from 'sweetalert2';
 import { Page } from '../../../models/page';
 import * as $ from 'jquery';
 import { DatatableComponent } from '@swimlane/ngx-datatable/src/components/datatable.component';
+import { BsDatepickerConfig, BsLocaleService } from 'ngx-bootstrap/datepicker';
+
 
 @Component({
   selector: 'app-contracts-list',
@@ -14,6 +16,7 @@ import { DatatableComponent } from '@swimlane/ngx-datatable/src/components/datat
   styleUrls: ['./contracts-list.component.css']
 })
 export class ContractsListComponent implements OnInit {
+  bsConfig: Partial<BsDatepickerConfig>;
   contract: Contract;
   contracts: Contract[];
   contractModal: Contract;
