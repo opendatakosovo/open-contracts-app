@@ -1,3 +1,18 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12 search text-center contracts-filter-form">
+      <form action="" class="form-inline form-group">
+        <input type="text" (keyup)="onType()" [(ngModel)]="search.string" name="string" class="form-control form-input" placeholder="Kërkoni kontratën">
+        <input type="text" name="directorate" [(ngModel)]="search.directorate" class="form-control form-input" (keyup)="onType()"
+          placeholder="Drejtoria">
+        <input (ngModelChange)="onDatePick($event)" bsDatepicker placeholder="MM/DD/YYYY" [bsConfig]="bsConfig" name="date" id="date"
+          class="form-control form-select" [(ngModel)]="search.date">
+        <input type="text" (keyup)="onType()" [(ngModel)]="search.value" name="value" class="form-control form-input" placeholder="Vlera">
+      </form>
+    </div>
+  </div>
+</div>
+
 <div id="table">
   <ngx-datatable #table class="bootstrap" columnMode="'force'" [rows]="rows" [headerHeight]="'auto'" [summaryRow]="false" [summaryPosition]="'bottom'"
     [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements" [offset]="page.pageNumber"
@@ -232,7 +247,7 @@
         </div>
       </ng-template>
       <ng-template let-row="row" ngx-datatable-cell-template>
-        <p *ngIf="row.contract.implementationDeadline == null">
+        <p *ngIf="row.contract.implementationDeadline == ''">
           -
         </p>
         <p *ngIf="row.contract.implementationDeadline != null">
