@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
 import { DataService } from '../../../../service/data.service';
 import { Chart } from 'angular-highcharts';
 
@@ -8,13 +9,16 @@ import { Chart } from 'angular-highcharts';
   styleUrls: ['./contract-by-year-with-predicted-value-total-amount.component.css']
 })
 export class ContractByYearWithPredictedValueTotalAmountComponent implements OnInit {
+  private unsubscribeAll: Subject<any> = new Subject<any>();
   chart: Chart;
   years;
   constructor(public dataService: DataService) {
-    this.dataService.getContractYears(2009).subscribe(res => {
-      this.years = res;
-      this.render(this.years[0].year);
-    });
+    this.dataService.getContractYears(2009)
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(res => {
+        this.years = res;
+        this.render(this.years[0].year);
+      });
   }
 
   onChange(event) {
@@ -23,34 +27,36 @@ export class ContractByYearWithPredictedValueTotalAmountComponent implements OnI
   }
 
   render(year) {
-    this.dataService.getContractByYearWithPredictedValueAndTotalAmount(year).subscribe(res => {
-      const data = this.formatData(res);
-      this.chart = new Chart({
-        chart: {
-          type: 'line'
-        },
-        title: {
-          text: 'Krahasimi i vlerës parashikuar të kontratës me vlerën totale të kontratës me taksa'
-        },
-        xAxis: {
-          categories: data.activityTitles
-        },
-        yAxis: {
-          labels: {
-            formatter: function () {
-              return `${new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(this.value)}`;
+    this.dataService.getContractByYearWithPredictedValueAndTotalAmount(year)
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(res => {
+        const data = this.formatData(res);
+        this.chart = new Chart({
+          chart: {
+            type: 'line'
+          },
+          title: {
+            text: 'Krahasimi i vlerës parashikuar të kontratës me vlerën totale të kontratës me taksa'
+          },
+          xAxis: {
+            categories: data.activityTitles
+          },
+          yAxis: {
+            labels: {
+              formatter: function () {
+                return `${new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(this.value)}`;
+              }
             }
-          }
-        },
-        series: [{
-          name: 'Vlera parashikuar kontratës',
-          data: data.predictedValues
-        }, {
-          name: 'Vlera totale e kontratës me taksa',
-          data: data.totalAmountValues
-        }]
+          },
+          series: [{
+            name: 'Vlera parashikuar kontratës',
+            data: data.predictedValues
+          }, {
+            name: 'Vlera totale e kontratës me taksa',
+            data: data.totalAmountValues
+          }]
+        });
       });
-    });
   }
 
   ngOnInit() {

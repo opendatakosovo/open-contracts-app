@@ -1,19 +1,19 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { HostListener } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
 import { TranslateService } from '@ngx-translate/core';
 import { UserService } from '../../../service/user.service';
 import { User } from '../../../models/user';
 import { Title } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
 import { Router } from '@angular/router';
-import { PageScrollInstance, PageScrollService, EasingLogic } from 'ngx-page-scroll';
-import { timeout } from 'rxjs/operators';
+import { PageScrollInstance, PageScrollService } from 'ngx-page-scroll';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
+  private unsubscribeAll: Subject<any> = new Subject<any>();
   width: number = window.innerWidth;
   selectedItem = 'sq';
   isActive: boolean;
@@ -38,8 +38,10 @@ export class HeaderComponent implements OnInit {
   }
   useLanguage(language: string) {
     this.translate.use(language);
-    this.translate.get('pageTitle.title').subscribe(name => {
-      this.titleService.setTitle(name);
-    });
+    this.translate.get('pageTitle.title')
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(name => {
+        this.titleService.setTitle(name);
+      });
   }
 }
