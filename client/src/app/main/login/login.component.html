@@ -15,9 +15,9 @@
     </div>
     <label for="password">Fjalëkalimi</label>
     <input type="password" class="form-control" id="password" name="password" placeholder="Fjalëkalimi" [(ngModel)]="password"
-      #loginPassword="ngModel" minlength="6" required [style.border-color]="(loginPassword.errors?.required || loginPassword.errors?.minlength) && (loginPassword.touched || loginForm.submitted) ? 'red' : '#ced4da'">
-    <div [hidden]="(!loginPassword.errors?.required && !loginPassword.errors?.minlength) || (!loginPassword.touched && !loginForm.submitted)">
-      <small class="text-danger">Fjalëkalimi duhet plotësuar dhe duhet të jetë më i gjatë se 6 karaktere!</small>
+      #loginPassword="ngModel" required [style.border-color]="loginPassword.errors?.required && (loginPassword.touched || loginForm.submitted) ? 'red' : '#ced4da'">
+    <div [hidden]="!loginPassword.errors?.required || (!loginPassword.touched && !loginForm.submitted)">
+      <small class="text-danger">Fjalëkalimi duhet plotësuar!</small>
     </div>
     <br/>
     <button type="submit" class="btn btn-primary" id="login-button">Kyçu</button>
