@@ -36,6 +36,7 @@ export class EditContractComponent implements OnInit {
   total: Number;
   totalInstallments: Number;
   @ViewChild('fileInput') fileInput;
+  implementationDeadline = [];
   constructor(public contractsService: ContractsService, private router: ActivatedRoute, public directorateService: DirectorateService, private _fb: FormBuilder) {
     this.directorates = [];
     this.contract = new Contract();
@@ -53,8 +54,8 @@ export class EditContractComponent implements OnInit {
       this.formatDates(this.contract);
       this.initAnnexes();
       this.initInstallments();
+      this.implementationDeadline = this.contract.contract.implementationDeadline.split(' ', 2);
     });
-
     this.form = _fb.group({
       activityTitle: new FormControl('', Validators.required),
       procurementNo: new FormControl(null, Validators.required),
@@ -90,7 +91,8 @@ export class EditContractComponent implements OnInit {
       companyName: '',
       headquartersName: '',
       signingDate: null,
-      implementationDeadline: '',
+      implementationDeadlineNumber: null,
+      implementationDeadlineDuration: '',
       closingDate: null,
       noOfPaymentInstallments: null,
       totalAmountOfContractsIncludingTaxes: '',
@@ -187,26 +189,26 @@ export class EditContractComponent implements OnInit {
     let sumAnnex = 0;
     this.contract.contract.annexes.map(annex => {
       if (annex.totalValueOfAnnexContract1 !== undefined || annex.totalValueOfAnnexContract1 !== null) {
-      sumAnnex += parseFloat(annex.totalValueOfAnnexContract1.toString());
+        sumAnnex += parseFloat(annex.totalValueOfAnnexContract1.toString());
       }
     });
     if (this.contract.contract.totalAmountOfContractsIncludingTaxes !== undefined || this.contract.contract.totalAmountOfContractsIncludingTaxes !== null) {
-    this.total = parseFloat(this.contract.contract.totalAmountOfContractsIncludingTaxes.toString()) + sumAnnex;
+      this.total = parseFloat(this.contract.contract.totalAmountOfContractsIncludingTaxes.toString()) + sumAnnex;
     }
     if (this.contract.contract.totalOfAnnexesWithTaxes !== undefined || this.contract.contract.totalOfAnnexesWithTaxes !== null) {
-    this.contract.contract.totalOfAnnexesWithTaxes = this.total.toString();
+      this.contract.contract.totalOfAnnexesWithTaxes = this.total.toString();
     }
     let sumInstallments = 0;
     this.contract.installments.map(installment => {
-      if (installment.installmentAmount1 !== undefined || installment.installmentAmount1 !== null ) {
-      sumInstallments += parseFloat(installment.installmentAmount1.toString());
-    }
+      if (installment.installmentAmount1 !== undefined || installment.installmentAmount1 !== null) {
+        sumInstallments += parseFloat(installment.installmentAmount1.toString());
+      }
     });
     if (this.contract.lastInstallmentAmount !== undefined) {
-    this.totalInstallments = parseFloat(this.contract.lastInstallmentAmount.toString()) + sumInstallments;
+      this.totalInstallments = parseFloat(this.contract.lastInstallmentAmount.toString()) + sumInstallments;
     }
     if (this.totalInstallments !== undefined) {
-    this.contract.contract.totalPayedPriceForContract = this.totalInstallments.toString();
+      this.contract.contract.totalPayedPriceForContract = this.totalInstallments.toString();
     }
   }
 
@@ -354,6 +356,11 @@ export class EditContractComponent implements OnInit {
     this.calculateValues();
     if (this.form.valid === true) {
       if (this.filesToUpload !== null && this.valid === true) {
+        if (this.form.value.implementationDeadlineNumber !== null && this.form.value.implementationDeadlineDuration !== '') {
+          this.contract.contract.implementationDeadline = this.form.value.implementationDeadlineNumber + ' ' + this.form.value.implementationDeadlineDuration;
+        } else {
+          this.contract.contract.implementationDeadline = '';
+        }
         this.contract.approvalDateOfFunds = this.contract.approvalDateOfFunds == null ? null : this.dateChange(this.contract.approvalDateOfFunds);
         this.contract.bidOpeningDate = this.contract.bidOpeningDate == null ? null : this.dateChange(this.contract.bidOpeningDate);
         this.contract.endingOfEvaluationDate = this.contract.endingOfEvaluationDate == null ? null : this.dateChange(this.contract.endingOfEvaluationDate);
@@ -418,6 +425,11 @@ export class EditContractComponent implements OnInit {
           }
         });
       } else if (this.filesToUpload === null) {
+        if (this.form.value.implementationDeadlineNumber !== null && this.form.value.implementationDeadlineDuration !== '') {
+          this.contract.contract.implementationDeadline = this.form.value.implementationDeadlineNumber + ' ' + this.form.value.implementationDeadlineDuration;
+        } else {
+          this.contract.contract.implementationDeadline = '';
+        }
         this.contract.approvalDateOfFunds = this.contract.approvalDateOfFunds == null ? null : this.dateChange(this.contract.approvalDateOfFunds);
         this.contract.bidOpeningDate = this.contract.bidOpeningDate == null ? null : this.dateChange(this.contract.bidOpeningDate);
         this.contract.endingOfEvaluationDate = this.contract.endingOfEvaluationDate == null ? null : this.dateChange(this.contract.endingOfEvaluationDate);
