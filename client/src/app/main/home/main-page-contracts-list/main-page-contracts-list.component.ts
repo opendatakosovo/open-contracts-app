@@ -87,9 +87,9 @@ export class MainPageContractsListComponent implements OnInit {
       this.contractsService.filterContract(this.search, '2018')
         .takeUntil(this.unsubscribeAll)
         .subscribe(data => {
-        this.page = data.page;
-        this.rows = data.data;
-      });
+          this.page = data.page;
+          this.rows = data.data;
+        });
     }
   }
 
@@ -102,6 +102,15 @@ export class MainPageContractsListComponent implements OnInit {
     this.page.column = column;
     const asc = document.getElementById('sort').classList.contains('asc');
     const desc = document.getElementById('sort').classList.contains('desc');
+    this.rows = [];
+    this.messages = {
+      emptyMessage: `
+      <div>
+          <i class="fa fa-spinner fa-spin"></i>
+          <p>Duke renditur kontratat</p>
+      </div>
+    `
+    };
     if (asc === false || desc === true) {
       this.contractsService.serverSortLatestContractsAscending(this.page)
         .takeUntil(this.unsubscribeAll)
@@ -131,18 +140,18 @@ export class MainPageContractsListComponent implements OnInit {
     this.contractsService.filterContract(this.search, '2018')
       .takeUntil(this.unsubscribeAll)
       .subscribe(data => {
-      this.page = data.page;
-      this.rows = data.data;
-      if (data.data.length === 0) {
-        this.messages = {
-          emptyMessage: `
+        this.page = data.page;
+        this.rows = data.data;
+        if (data.data.length === 0) {
+          this.messages = {
+            emptyMessage: `
           <div>
               <p>Asnjë kontratë nuk përputhet me të dhënat e shypura</p>
           </div>
         `
-        };
-      }
-    });
+          };
+        }
+      });
     this.table.offset = 0;
   }
 

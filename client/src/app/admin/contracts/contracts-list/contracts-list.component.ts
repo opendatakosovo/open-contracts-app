@@ -86,6 +86,15 @@ export class ContractsListComponent implements OnInit {
     this.page.column = column;
     const asc = document.getElementById('sort').classList.contains('asc');
     const desc = document.getElementById('sort').classList.contains('desc');
+    this.rows = [];
+    this.messages = {
+      emptyMessage: `
+      <div>
+          <i class="fa fa-spinner fa-spin"></i>
+          <p>Duke renditur kontratat</p>
+      </div>
+    `
+    };
     if (asc === false || desc === true) {
       this.contractsService.serverSortContractsAscending(this.page)
         .takeUntil(this.unsubscribeAll)
