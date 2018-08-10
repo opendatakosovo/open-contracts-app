@@ -212,7 +212,13 @@ img {
 
 @media(max-width: 640px) {
     #footerImage {
-        height: 600px;
+        height: 700px;
+    }
+}
+
+@media(max-width: 500px) {
+    #footerImage {
+        height: 653px;
     }
 }
 
