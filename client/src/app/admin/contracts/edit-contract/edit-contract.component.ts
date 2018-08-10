@@ -1,15 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
 import { Contract } from '../../../models/contract';
 import { Directorate } from '../../../models/directorates';
 import { Annex } from '../../../models/annex';
 import { Installment } from '../../../models/installment';
-import * as moment from 'moment';
 import { ContractsService } from '../../../service/contracts.service';
 import { DirectorateService } from '../../../service/directorate.service';
 import Swal from 'sweetalert2';
-import { Router, ActivatedRoute, Params } from '@angular/router';
-import { BsDatepickerConfig, BsLocaleService } from 'ngx-bootstrap/datepicker';
-import { FormsModule, FormGroup, FormControl, ReactiveFormsModule, Validators, FormBuilder, FormArray } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-contract',
@@ -17,7 +17,8 @@ import { FormsModule, FormGroup, FormControl, ReactiveFormsModule, Validators, F
   styleUrls: ['./edit-contract.component.css']
 })
 export class EditContractComponent implements OnInit {
-  id;
+  private unsubscribeAll: Subject<any> = new Subject<any>();
+  id: string;
   startOfEvaluationDate: Date;
   endOfEvaluationDate: Date;
   arrayInstallments: number[];
@@ -43,7 +44,9 @@ export class EditContractComponent implements OnInit {
     this.formArrayAnnexes = new FormArray([]);
     this.formArrayInstallments = new FormArray([]);
     this.id = this.router.snapshot.paramMap.get('id');
-    this.contractsService.getContractByID(this.id).subscribe(data => {
+    this.contractsService.getContractByID(this.id)
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(data => {
       this.contract = data;
       if (this.contract.contract.file !== '') {
         const nameArea = <HTMLInputElement>document.getElementById('name-area');
@@ -55,8 +58,8 @@ export class EditContractComponent implements OnInit {
       this.initAnnexes();
       this.initInstallments();
       if (this.contract.contract.implementationDeadline !== undefined || this.contract.contract.implementationDeadline !== '') {
-      this.implementationDeadline = this.contract.contract.implementationDeadline.split(' ');
-    }
+        this.implementationDeadline = this.contract.contract.implementationDeadline.split(' ');
+      }
     });
     this.form = _fb.group({
       activityTitle: new FormControl('', Validators.required),
@@ -111,9 +114,11 @@ export class EditContractComponent implements OnInit {
       annexes: this.formArrayAnnexes,
       installments: this.formArrayInstallments,
     });
-    this.directorateService.getAllDirectorates().subscribe(data => {
-      this.directorates = data;
-    });
+    this.directorateService.getAllDirectorates()
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(data => {
+        this.directorates = data;
+      });
   }
 
   onClick() {
@@ -398,34 +403,36 @@ export class EditContractComponent implements OnInit {
             Swal.showLoading();
           }
         });
-        this.contractsService.updateContract(this.id, formData, 'multipart').subscribe(res => {
-          if (res.existErr) {
-            Swal('Kujdes!', 'Dokumenti Kontratës ekziston!.', 'warning');
-          } else if (res.typeValidation) {
-            Swal('Kujdes!', 'Tipi Dokumentit Kontratës është i gabuar.', 'warning');
-          } else if (res.errVld) {
-            let errList = '';
-            for (const v of res.errVld) {
-              errList += `<li>${v}</li>`;
-            }
-            const htmlData = `<div style="text-align: center;">${errList}</div>`;
-            Swal({
-              title: 'Kujdes!',
-              html: htmlData,
-              width: 750,
-              type: 'info',
-              confirmButtonText: 'Kthehu te forma'
-            });
-          } else if (res.err) {
-            Swal('Gabim!', 'Kontrata nuk u ndryshua.', 'error');
-          } else {
-            Swal('Sukses!', 'Kontrata u ndryshua me sukses.', 'success').then((result) => {
-              if (result.value) {
-                window.location.href = 'dashboard/contracts/';
+        this.contractsService.updateContract(this.id, formData, 'multipart')
+          .takeUntil(this.unsubscribeAll)
+          .subscribe(res => {
+            if (res.existErr) {
+              Swal('Kujdes!', 'Dokumenti Kontratës ekziston!.', 'warning');
+            } else if (res.typeValidation) {
+              Swal('Kujdes!', 'Tipi Dokumentit Kontratës është i gabuar.', 'warning');
+            } else if (res.errVld) {
+              let errList = '';
+              for (const v of res.errVld) {
+                errList += `<li>${v}</li>`;
               }
-            });
-          }
-        });
+              const htmlData = `<div style="text-align: center;">${errList}</div>`;
+              Swal({
+                title: 'Kujdes!',
+                html: htmlData,
+                width: 750,
+                type: 'info',
+                confirmButtonText: 'Kthehu te forma'
+              });
+            } else if (res.err) {
+              Swal('Gabim!', 'Kontrata nuk u ndryshua.', 'error');
+            } else {
+              Swal('Sukses!', 'Kontrata u ndryshua me sukses.', 'success').then((result) => {
+                if (result.value) {
+                  window.location.href = 'dashboard/contracts/';
+                }
+              });
+            }
+          });
       } else if (this.filesToUpload === null) {
         if (this.form.value.implementationDeadlineNumber !== null && this.form.value.implementationDeadlineDuration !== '') {
           this.contract.contract.implementationDeadline = this.form.value.implementationDeadlineNumber + ' ' + this.form.value.implementationDeadlineDuration;
@@ -461,31 +468,32 @@ export class EditContractComponent implements OnInit {
         if (this.fileToDelete !== '') {
           body.fileToDelete = this.fileToDelete;
         }
-        this.contractsService.updateContract(this.id, body).subscribe(res => {
-          if (res.errVld) {
-            let errList = '';
-            for (const v of res.errVld) {
-              errList += `<li>${v}</li>`;
-            }
-            const htmlData = `<div style="text-align: center;">${errList}</div>`;
-            Swal({
-              title: 'Kujdes!',
-              html: htmlData,
-              width: 750,
-              type: 'info',
-              confirmButtonText: 'Kthehu te forma'
-            });
-          } else if (res.err) {
-            Swal('Gabim!', 'Kontrata nuk u ndryshua.', 'error');
-          } else {
-            Swal('Sukses!', 'Kontrata u ndryshua me sukses.', 'success').then((result) => {
-              if (result.value) {
-                window.location.href = 'dashboard/contracts/';
+        this.contractsService.updateContract(this.id, body)
+          .takeUntil(this.unsubscribeAll)
+          .subscribe(res => {
+            if (res.errVld) {
+              let errList = '';
+              for (const v of res.errVld) {
+                errList += `<li>${v}</li>`;
               }
-            });
-          }
-        });
-
+              const htmlData = `<div style="text-align: center;">${errList}</div>`;
+              Swal({
+                title: 'Kujdes!',
+                html: htmlData,
+                width: 750,
+                type: 'info',
+                confirmButtonText: 'Kthehu te forma'
+              });
+            } else if (res.err) {
+              Swal('Gabim!', 'Kontrata nuk u ndryshua.', 'error');
+            } else {
+              Swal('Sukses!', 'Kontrata u ndryshua me sukses.', 'success').then((result) => {
+                if (result.value) {
+                  window.location.href = 'dashboard/contracts/';
+                }
+              });
+            }
+          });
       }
     }
   }

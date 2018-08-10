@@ -1,11 +1,11 @@
 import { Component, OnInit, Inject, ChangeDetectorRef, TemplateRef, Input, ViewChild } from '@angular/core';
 import { ContractsService } from '../../../service/contracts.service';
+import { Subject } from 'rxjs/Subject';
 import { Contract } from '../../../models/contract';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import Swal from 'sweetalert2';
 import { Page } from '../../../models/page';
-import * as $ from 'jquery';
 import { DatatableComponent } from '@swimlane/ngx-datatable/src/components/datatable.component';
 import { BsDatepickerConfig, BsLocaleService } from 'ngx-bootstrap/datepicker';
 
@@ -16,6 +16,7 @@ import { BsDatepickerConfig, BsLocaleService } from 'ngx-bootstrap/datepicker';
   styleUrls: ['./contracts-list.component.css']
 })
 export class ContractsListComponent implements OnInit {
+  private unsubscribeAll: Subject<any> = new Subject<any>();
   bsConfig: Partial<BsDatepickerConfig>;
   contract: Contract;
   contracts: Contract[];
@@ -72,10 +73,12 @@ export class ContractsListComponent implements OnInit {
 
   setPage(pageInfo) {
     this.page.pageNumber = pageInfo.offset;
-    this.contractsService.serverPagination(this.page).subscribe(pagedData => {
-      this.page = pagedData.page;
-      this.rows = pagedData.data;
-    });
+    this.contractsService.serverPagination(this.page)
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(pagedData => {
+        this.page = pagedData.page;
+        this.rows = pagedData.data;
+      });
   }
 
   // Function to sort contracts ascending or descending
@@ -84,50 +87,60 @@ export class ContractsListComponent implements OnInit {
     const asc = document.getElementById('sort').classList.contains('asc');
     const desc = document.getElementById('sort').classList.contains('desc');
     if (asc === false || desc === true) {
-      this.contractsService.serverSortContractsAscending(this.page).subscribe(pagedData => {
-        const ascClass = document.getElementById('sort');
-        if (desc === true) {
-          ascClass.classList.remove('desc');
-        }
-        ascClass.classList.add('asc');
-        this.page = pagedData.page;
-        this.rows = pagedData.data;
-      });
+      this.contractsService.serverSortContractsAscending(this.page)
+        .takeUntil(this.unsubscribeAll)
+        .subscribe(pagedData => {
+          const ascClass = document.getElementById('sort');
+          if (desc === true) {
+            ascClass.classList.remove('desc');
+          }
+          ascClass.classList.add('asc');
+          this.page = pagedData.page;
+          this.rows = pagedData.data;
+        });
     } else {
-      this.contractsService.serverSortContractsDescending(this.page).subscribe(pagedData => {
-        const descClass = document.getElementById('sort');
-        descClass.classList.remove('asc');
-        descClass.classList.add('desc');
-        this.page = pagedData.page;
-        this.rows = pagedData.data;
-      });
+      this.contractsService.serverSortContractsDescending(this.page)
+        .takeUntil(this.unsubscribeAll)
+        .subscribe(pagedData => {
+          const descClass = document.getElementById('sort');
+          descClass.classList.remove('asc');
+          descClass.classList.add('desc');
+          this.page = pagedData.page;
+          this.rows = pagedData.data;
+        });
     }
   }
 
   // Function to open delete modal
   deleteModal(template: TemplateRef<any>, event) {
     const id = event.target.dataset.id;
-    this.contractsService.getContractByID(id).subscribe(contract => {
-      this.contract = contract;
-    });
+    this.contractsService.getContractByID(id)
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(contract => {
+        this.contract = contract;
+      });
     this.modalRef = this.modalService.show(template);
   }
 
   // Function to delete a specific contract
   deleteContract(event) {
     const id = event.target.dataset.id;
-    this.contractsService.deleteContractByID(id).subscribe(res => {
-      if (res.err) {
-        Swal('Gabim!', 'Kontrata nuk u fshi.', 'error');
-      } else {
-        this.modalRef.hide();
-        this.contractsService.serverPagination(this.page).subscribe(pagedData => {
-          this.page = pagedData.page;
-          this.rows = pagedData.data;
-        });
-        Swal('Sukses!', 'Kontrata u fshi me sukses.', 'success');
-      }
-    });
+    this.contractsService.deleteContractByID(id)
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(res => {
+        if (res.err) {
+          Swal('Gabim!', 'Kontrata nuk u fshi.', 'error');
+        } else {
+          this.modalRef.hide();
+          this.contractsService.serverPagination(this.page)
+            .takeUntil(this.unsubscribeAll)
+            .subscribe(pagedData => {
+              this.page = pagedData.page;
+              this.rows = pagedData.data;
+            });
+          Swal('Sukses!', 'Kontrata u fshi me sukses.', 'success');
+        }
+      });
   }
 
   onType() {

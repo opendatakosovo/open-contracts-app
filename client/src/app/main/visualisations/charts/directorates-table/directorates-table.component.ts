@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../../../../service/data.service';
 import { Subject } from 'rxjs/Subject';
+import { DataService } from '../../../../service/data.service';
+import { Contract } from '../../../../models/contract';
 
 @Component({
   selector: 'app-directorates-table',
@@ -9,23 +10,29 @@ import { Subject } from 'rxjs/Subject';
 })
 export class DirectoratesTableComponent implements OnInit {
   private unsubscribeAll: Subject<any> = new Subject<any>();
-  contracts;
+  contracts: Contract[];
   years;
 
   constructor(public dataService: DataService) {
-    this.dataService.getContractsMostByTotalAmountOfContract('any').subscribe(res => {
-      this.contracts = res;
-    });
-    this.dataService.getContractYears(2009).subscribe(res => {
-      this.years = res;
-    });
+    this.dataService.getContractsMostByTotalAmountOfContract('any')
+    .takeUntil(this.unsubscribeAll)
+      .subscribe(res => {
+        this.contracts = res;
+      });
+    this.dataService.getContractYears(2009)
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(res => {
+        this.years = res;
+      });
   }
 
   render(event) {
     const year = event.target.value;
-    this.dataService.getContractsMostByTotalAmountOfContract(year).takeUntil(this.unsubscribeAll).subscribe(res => {
-      this.contracts = res;
-    });
+    this.dataService.getContractsMostByTotalAmountOfContract(year)
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(res => {
+        this.contracts = res;
+      });
   }
 
   ngOnInit() {
