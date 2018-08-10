@@ -46,15 +46,15 @@
     <div *ngIf="width>991">
       <ul class="navbar-nav navbar-right text-dark">
         <li class="nav-item">
-          <a class="nav-link" [ngClass]="{'active': selectedItem === 'sq'}" (click)="useLanguage('sq');selectedItem = 'sq'">SHQ</a>
+          <a class="nav-link" [ngClass]="{'active': this.translate.currentLang === 'sq'}" (click)="useLanguage('sq')">SHQ</a>
         </li>
         <span id="horizontalLine">|</span>
         <li class="nav-item">
-          <a class="nav-link" [ngClass]="{'active': selectedItem === 'sr'}" (click)="useLanguage('sr');selectedItem = 'sr'">SRB</a>
+          <a class="nav-link" [ngClass]="{'active': this.translate.currentLang === 'sr'}" (click)="useLanguage('sr')">SRB</a>
         </li>
         <span id="horizontalLine">|</span>
         <li class="nav-item">
-          <a class="nav-link" [ngClass]="{'active': selectedItem === 'en'}" (click)="useLanguage('en');selectedItem = 'en'">ENG</a>
+          <a class="nav-link" [ngClass]="{'active': this.translate.currentLang === 'en'}" (click)="useLanguage('en')">ENG</a>
         </li>
         <li class="nav-item" *ngIf="currentUser !== null && width>991">
           <a class="nav-link" [routerLink]="['/dashboard']" class="view-icon">
@@ -65,22 +65,22 @@
     </div>
     <div *ngIf="991>=width">
       <ul class="navbar-nav navbar-right dropdown">
-        <select id="lang-select" class="btn btn-outline-info dropdown-toggle" data-toggle="dropdown" (change)="useLanguage($event.target.value); selectedItem = $event.target.value"
+        <select id="lang-select" class="btn btn-outline-info dropdown-toggle" data-toggle="dropdown" (change)="useLanguage($event.target.value)"
           role="button" aria-haspopup="true" aria-expanded="false">
           <option class="nav-item" [value]="'sq'">
-            <a class="nav-link" [ngClass]="{'active': selectedItem === 'sq'}">SHQ</a>
+            <a class="nav-link" [ngClass]="{'active': this.translate.currentLang === 'sq'}">SHQ</a>
           </option>
           <option class="nav-item" [value]="'sr'">
-            <a class="nav-link" [ngClass]="{'active': selectedItem === 'sr'}">SRB</a>
+            <a class="nav-link" [ngClass]="{'active': this.translate.currentLang === 'sr'}">SRB</a>
           </option>
           <option class="nav-item" [value]="'en'">
-            <a class="nav-link" [ngClass]="{'active': selectedItem === 'en'}">ENG</a>
+            <a class="nav-link" [ngClass]="{'active': this.translate.currentLang === 'en'}">ENG</a>
           </option>
         </select>
         <li class="nav-item" *ngIf="currentUser !== null">
-            <a class="nav-link" [routerLink]="['/dashboard']" class="view-icon">
-              <i class="fa fa-user user-icon" aria-hidden="true"></i>
-            </a>
+          <a class="nav-link" [routerLink]="['/dashboard']" class="view-icon">
+            <i class="fa fa-user user-icon" aria-hidden="true"></i>
+          </a>
         </li>
       </ul>
     </div>

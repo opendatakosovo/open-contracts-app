@@ -17,7 +17,4 @@ export class FooterComponent implements OnInit {
     document.getElementById('year').innerHTML = new Date().getFullYear().toFixed(0);
   }
 
-  useLanguage(language: string) {
-    this.translate.use(language);
-  }
 }

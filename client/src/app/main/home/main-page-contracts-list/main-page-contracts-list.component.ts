@@ -93,10 +93,6 @@ export class MainPageContractsListComponent implements OnInit {
     }
   }
 
-  useLanguage(language: string) {
-    this.translate.use(language);
-  }
-
   // Function to sort latest contracts ascending or descending
   sortContracts(column) {
     this.page.column = column;

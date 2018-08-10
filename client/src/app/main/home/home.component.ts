@@ -16,7 +16,7 @@ export class HomeComponent implements OnInit {
   data: string;
   format: string;
   constructor(private translate: TranslateService, public datasetService: DatasetService,
-              public contractService: ContractsService ) {
+    public contractService: ContractsService) {
     translate.setDefaultLang('sq');
     this.datasetService.getDatasets()
       .takeUntil(this.unsubscribeAll)
@@ -28,9 +28,6 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
   }
 
-  useLanguage(language: string) {
-    this.translate.use(language);
-  }
   mouseOver() {
     const dataSet = document.querySelector('.data-set-link');
     const home = document.querySelector('.active');

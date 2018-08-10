@@ -13,8 +13,5 @@ export class AboutUsComponent implements OnInit {
   ngOnInit() {
   }
 
-  useLanguage(language: string) {
-    this.translate.use(language);
-  }
 
 }
