@@ -139,6 +139,9 @@ a {
     margin-top: 13.5px;
     margin-left: 6px;
 }
+.nav-link {
+    text-transform: uppercase;
+}
 /*--------Responsive--------*/
 
 @media (max-width: 1480px) {

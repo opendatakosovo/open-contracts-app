@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { UserService } from '../../../service/user.service';
 import { User } from '../../../models/user';
 import { Title } from '@angular/platform-browser';
@@ -21,8 +21,22 @@ export class HeaderComponent implements OnInit {
   constructor(private translate: TranslateService, private titleService: Title, private router: Router,
     @Inject(DOCUMENT) private document: any, private pageScrollService: PageScrollService, private userService: UserService) {
     this.isActive = false;
-    translate.setDefaultLang('sq');
+    if (localStorage.getItem('language')) {
+      translate.setDefaultLang(localStorage.getItem('language'));
+      translate.use(localStorage.getItem('language'));
+    } else {
+      translate.setDefaultLang('sq');
+      translate.use('sq');
+      localStorage.setItem('language', 'sq');
+    }
     this.currentUser = JSON.parse(localStorage.getItem('user'));
+    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.translate.get('pageTitle.title')
+        .takeUntil(this.unsubscribeAll)
+        .subscribe(name => {
+          this.titleService.setTitle(name);
+        });
+    });
   }
   ngOnInit() { }
 
@@ -37,11 +51,15 @@ export class HeaderComponent implements OnInit {
     this.width = window.innerWidth;
   }
   useLanguage(language: string) {
+    this.translate.setDefaultLang(language);
     this.translate.use(language);
-    this.translate.get('pageTitle.title')
-      .takeUntil(this.unsubscribeAll)
-      .subscribe(name => {
-        this.titleService.setTitle(name);
-      });
+    localStorage.setItem('language', language);
+    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.translate.get('pageTitle.title')
+        .takeUntil(this.unsubscribeAll)
+        .subscribe(name => {
+          this.titleService.setTitle(name);
+        });
+    });
   }
 }
