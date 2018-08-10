@@ -369,13 +369,6 @@
     padding: 0;
 }
 
-#signing-contract-annonuncments {
-    padding-left: 20%;
-}
-
-#design-award-notification {
-    padding-right: 20%;
-}
 
 /*---------Responsiveness----------*/
     @media(max-width: 887px) {
@@ -388,8 +381,8 @@
         #bg-img-contracts{
             background-image: url('/assets/images/background-prishtina-online - mobile.jpg');
             /* Full height */
-            height:2440px;
-            max-height: 2440px;
+            height: 2625px;
+            max-height: 2625px;
         }
         #announcements-title-6 {
             width: 266px;
@@ -422,8 +415,8 @@
 
     @media(max-width: 500px) {
         #bg-img-contracts {
-            height:1810px;
-            max-height: 1810px;
+            height: 1950px;
+            max-height: 1950px;
         }
 
         .contracts-announcement .title {
