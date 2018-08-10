@@ -1,90 +1,91 @@
 <div class="container-fluid">
-  <!-- Breadcrumbs-->
-  <div class="row">
+    <!-- Breadcrumbs-->
+    <div class="row">
+        <div class="col">
+            <h1 class="title text-center">Analiza Statistikore
+                <br/>Përdoruesit</h1>
+        </div>
+    </div>
+
+    <div class="col row mb-5">
+        <div class="col-md-4">
+            <div class="card bg-info text-white bi-card">
+                <div class="card-body text-center">
+                    <h3 class="card-label">Total Përdorues</h3>
+                    <h3>{{userData.totalUsers}}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-info text-white bi-card">
+                <div class="card-body text-center">
+                    <h3 class="card-label">Përdorues Aktiv</h3>
+                    <h3>{{userData.totalActiveUsers}}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-info text-white bi-card">
+                <div class="card-body text-center">
+                    <h3 class="card-label">Përdorues Jo-aktiv</h3>
+                    <h3>{{userData.totalInactiveUsers}}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col row mb-5">
+        <div class="col-md-6">
+            <div [chart]="usersByDirectoratesChart"></div>
+        </div>
+        <div class="col-md-6">
+            <div [chart]="usersByRolesChart"></div>
+        </div>
+    </div>
+
     <div class="col">
-      <h1 class="title text-center">Analiza Statistikore<br/>Përdoruesit</h1>
+        <h1 class="title text-center">Drejtoritë</h1>
     </div>
-  </div>
-
-  <div class="col row mb-5">
-      <div class="col-md-4">
-          <div class="card bg-info text-white bi-card">
-              <div class="card-body text-center">
-                  <h3 class="card-label">Total Përdorues</h3>
-                  <h3>{{userData.totalUsers}}</h3>
-              </div>
-          </div>
-      </div>
-      <div class="col-md-4">
-          <div class="card bg-info text-white bi-card">
-              <div class="card-body text-center">
-                  <h3 class="card-label">Përdorues Aktiv</h3>
-                  <h3>{{userData.totalActiveUsers}}</h3>
-              </div>
-          </div>
-      </div>
-      <div class="col-md-4">
-          <div class="card bg-info text-white bi-card">
-              <div class="card-body text-center">
-                  <h3 class="card-label">Përdorues Jo-aktiv</h3>
-                  <h3>{{userData.totalInactiveUsers}}</h3>
-              </div>
-          </div>
-      </div>
-  </div>
-
-  <div class="col row mb-5">
-    <div class="col-md-6">
-        <div [chart]="usersByDirectoratesChart"></div>
-    </div>
-    <div class="col-md-6">
-        <div [chart]="usersByRolesChart"></div>
-    </div>
-  </div>
-
-  <div class="col">
-    <h1 class="title text-center">Drejtoritë</h1>
-  </div>
-  <div class="col row mb-5">
-    <div class="col-md-4">
-      <div class="card mb-4 bg-info text-white bi-card">
-          <div class="card-body text-center">
-              <h3 class="card-label">Total Drejtori</h3>
-              <h3>{{directorateData.totalDirectorates}}</h3>
-          </div>
-      </div>
-      <div class="card mb-4 bg-info text-white bi-card">
-        <div class="card-body text-center">
-            <h3 class="card-label">Drejtori me përgjegjës</h3>
-            <h3>{{directorateData.totalDirectoratesWithPeopleInCharge}}</h3>
+    <div class="col row mb-5">
+        <div class="col-md-4">
+            <div class="card mb-4 bg-info text-white bi-card">
+                <div class="card-body text-center">
+                    <h3 class="card-label">Total Drejtori</h3>
+                    <h3>{{directorateData.totalDirectorates}}</h3>
+                </div>
+            </div>
+            <div class="card mb-4 bg-info text-white bi-card">
+                <div class="card-body text-center">
+                    <h3 class="card-label">Drejtori me përgjegjës</h3>
+                    <h3>{{directorateData.totalDirectoratesWithPeopleInCharge}}</h3>
+                </div>
+            </div>
+            <div class="card mb-4 bg-info text-white bi-card">
+                <div class="card-body text-center">
+                    <h3 class="card-label">Drejtori pa përgjegjës</h3>
+                    <h3>{{directorateData.totalDirectoratesWithoutPeopleInCharge}}</h3>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="card mb-4 bg-info text-white bi-card">
-        <div class="card-body text-center">
-            <h3 class="card-label">Drejtori pa përgjegjës</h3>
-            <h3>{{directorateData.totalDirectoratesWithoutPeopleInCharge}}</h3>
+        <div class="col-md-8">
+            <div [chart]="directoratesByStatusChart"></div>
         </div>
-      </div>
     </div>
-    <div class="col-md-8">
-      <div [chart]="directoratesByStatusChart"></div>
-    </div>
-  </div>
 
-  <div class="col">
-    <h1 class="title text-center">Kontratat</h1>
-  </div>
-  <div class="col row mb-5">
-    <div class="col-md-6">
-      <div class="vertical-middle-align card bg-info text-white bi-card">
-          <div class="card-body text-center">
-              <h3 class="card-label">Total Kontrata</h3>
-              <h3>{{contractData.totalContracts}}</h3>
-          </div>
-      </div>
+    <div class="col">
+        <h1 class="title text-center">Kontratat</h1>
     </div>
-    <div class="col-md-6">
-        <div [chart]="contractsByFlagStatusChart"></div>
+    <div class="col row mb-5" id="contracts">
+        <div class="col-md-6">
+            <div class="vertical-middle-align card bg-info text-white bi-card">
+                <div class="card-body text-center">
+                    <h3 class="card-label">Total Kontrata</h3>
+                    <h3>{{contractData.totalContracts}}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div [chart]="contractsByFlagStatusChart"></div>
+        </div>
     </div>
-  </div>
 </div>
