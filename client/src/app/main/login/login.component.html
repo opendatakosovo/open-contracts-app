@@ -1,3 +1,7 @@
+<div class="col-md-6">
+  <a style="float:left" class="btn btn-outline-primary buttons" id="contracts-buttons" [routerLink]="['']">
+    <i class="fa fa-home" aria-hidden="true"></i> Kthehu në ballinë</a>
+</div>
 <div class="container col-md-12 login-box vertical-middle-align">
   <form class="form-control" id="login-form" novalidate #loginForm="ngForm" (submit)="onLoginSubmit($event, loginForm.valid)">
     <div class="login-header">
@@ -11,9 +15,9 @@
     </div>
     <label for="password">Fjalëkalimi</label>
     <input type="password" class="form-control" id="password" name="password" placeholder="Fjalëkalimi" [(ngModel)]="password"
-      #loginPassword="ngModel" minlength="6" required [style.border-color]="(loginPassword.errors?.required || loginPassword.errors?.minlength) && (loginPassword.touched || loginForm.submitted) ? 'red' : '#ced4da'">
-    <div [hidden]="(!loginPassword.errors?.required && !loginPassword.errors?.minlength) || (!loginPassword.touched && !loginForm.submitted)">
-      <small class="text-danger">Fjalëkalimi duhet plotësuar dhe duhet të jetë më i gjatë se 6 karaktere!</small>
+      #loginPassword="ngModel" required [style.border-color]="loginPassword.errors?.required && (loginPassword.touched || loginForm.submitted) ? 'red' : '#ced4da'">
+    <div [hidden]="!loginPassword.errors?.required || (!loginPassword.touched && !loginForm.submitted)">
+      <small class="text-danger">Fjalëkalimi duhet plotësuar!</small>
     </div>
     <br/>
     <button type="submit" class="btn btn-primary" id="login-button">Kyçu</button>

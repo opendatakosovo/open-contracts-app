@@ -55,11 +55,16 @@ export class UserService {
   logout() {
     this.token = null;
     this.user = null;
-    localStorage.clear();
+    localStorage.removeItem('id_token');
+    localStorage.removeItem('user');
   }
 
   getUserByID(id) {
     return this.http.getWithAuth(`${this.APIUrl}/user/` + id).map(res => res.json().user);
+  }
+
+  getAllSimpleActiveUsers() {
+    return this.http.getWithAuth(`${this.APIUrl}/user/simple-users`).map(res => res.json());
   }
 
   generatePassword(id) {

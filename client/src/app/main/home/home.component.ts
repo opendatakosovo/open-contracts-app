@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
 import { TranslateService } from '@ngx-translate/core';
 import { DatasetService } from '../../service/dataset.service';
 import { Dataset } from '../../models/dataset';
@@ -9,6 +10,7 @@ import { ContractsService } from '../../service/contracts.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  private unsubscribeAll: Subject<any> = new Subject<any>();
   dataSet: Dataset;
   dataSets: Dataset[];
   data: string;
@@ -16,9 +18,11 @@ export class HomeComponent implements OnInit {
   constructor(private translate: TranslateService, public datasetService: DatasetService,
               public contractService: ContractsService ) {
     translate.setDefaultLang('sq');
-    this.datasetService.getDatasets().subscribe(data => {
-      this.dataSets = data;
-    });
+    this.datasetService.getDatasets()
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(data => {
+        this.dataSets = data;
+      });
   }
 
   ngOnInit() {

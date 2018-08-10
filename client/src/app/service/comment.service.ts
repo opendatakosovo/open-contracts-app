@@ -15,11 +15,11 @@ export class CommentService {
   constructor(public http: HttpClientService) {
     this.http = http;
   }
-  addComment(comment) {
-    return this.http.postWithAuth(`${this.APIUrl}/comments`, comment).map(res => res.json());
+  addComment(comment, enableEmailNotification) {
+    return this.http.postWithAuth(`${this.APIUrl}/comments?enableEmailNotification=${enableEmailNotification}`, comment).map(res => res.json());
   }
-  addReply(id, reply) {
-    return this.http.postWithAuth(`${this.APIUrl}/comments/` + id, reply).map(res => res.json());
+  addReply(id, reply, enableEmailNotification) {
+    return this.http.postWithAuth(`${this.APIUrl}/comments/${id}?enableEmailNotification=${enableEmailNotification}`, reply).map(res => res.json());
   }
 
   getComments(contractId) {

@@ -14,9 +14,26 @@
   <form action="" class="form-i">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-12">
+        <div class="col-6">
           <label>Titulli i aktivitetit të prokurimit</label>
           <p>{{ contract.activityTitle }}</p>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <label>Statusi:</label>
+            <div *ngIf="contract.flagStatus == '0'">
+              <p>-</p>
+            </div>
+            <div *ngIf="contract.flagStatus == '1'">
+              <p> Pezull</p>
+            </div>
+            <div *ngIf="contract.flagStatus == '2'">
+              <p> Anuluar</p>
+            </div>
+            <div *ngIf="contract.flagStatus == '3'">
+              <p> Sukses</p>
+            </div>
+          </div>
         </div>
       </div>
       <div class="row">
@@ -387,8 +404,17 @@
           <div *ngIf="contract.status == ''">
             <p>-</p>
           </div>
-          <div *ngIf="contract.status != ''">
-            <p>{{ contract.status }}</p>
+          <div *ngIf="contract.status == '1'">
+            <p>Publikuar</p>
+          </div>
+          <div *ngIf="contract.status == '2'">
+            <p>Vlerësim</p>
+          </div>
+          <div *ngIf="contract.status == '3'">
+            <p>Anuluar</p>
+          </div>
+          <div *ngIf="contract.status == '4'">
+            <p>Kontraktuar</p>
           </div>
         </div>
       </div>
@@ -613,21 +639,7 @@
             </div>
           </div>
         </div>
-        <div class="col-6">
-          <div class="form-group">
-            <label>Statusi:</label>
-            <div *ngIf="!contract.flagStatus">
-              <p>-</p>
-            </div>
-            <div *ngIf="contract.flagStatus">
-              <p>{{ contract.flagStatus }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <br>
-        <div class="col-md-12">
+        <div class="col-md-6">
           <div class="form-group">
             <label>Kontrata</label>
             <div *ngIf="contract.contract.file == ''">
@@ -649,7 +661,7 @@
           <div *ngIf="contract.nameOfProcurementOffical != ''">
             <p>{{ contract.nameOfProcurementOffical }}</p>
           </div>
-          <app-contract-comments [contractId1]="contract._id"></app-contract-comments>
+          <app-contract-comments></app-contract-comments>
         </div>
       </div>
     </div>

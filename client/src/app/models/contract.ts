@@ -6,6 +6,7 @@ import { DATE } from '../../../node_modules/ngx-bootstrap/chronos/units/constant
 export class Contract {
     _id?: String;
     activityTitle?: String;
+    activityTitleSlug?: String;
     procurementNo?: Number;
     procurementType?: String;
     procurementValue?: String;
@@ -37,6 +38,7 @@ export class Contract {
     lastInstallmentPayDate?: Date;
     lastInstallmentAmount?: String;
     directorates?: String;
+    directoratesSlug?: String;
     nameOfProcurementOffical?: String;
     contract: {
         predictedValue?: String,
@@ -46,6 +48,7 @@ export class Contract {
         annexes?: Annex[]
         criteria?: String,
         implementationDeadline?: String,
+        implementationDeadlineSlug?: String,
         publicationDate?: Date,
         publicationDateOfGivenContract?: Date,
         closingDate?: Date,
@@ -64,7 +67,7 @@ export class Contract {
         standardDocuments?: Date
     };
     year?: Number;
-    flagStatus?: Number;
+    flagStatus?: String;
 
 
     constructor() {
@@ -125,7 +128,7 @@ export class Contract {
             signingDate: null
         };
         this.year = 0;
-        this.flagStatus = 1;
+        this.flagStatus = '1';
     }
 
 }

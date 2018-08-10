@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
 import { DataService } from '../../../../service/data.service';
 import { Chart } from 'angular-highcharts';
 
@@ -9,57 +10,51 @@ import { Chart } from 'angular-highcharts';
   styleUrls: ['./contracts-count-by-years-chart.component.css']
 })
 export class ContractsCountByYearsChartComponent implements OnInit {
-  data;
-  formattedData: any[];
+  private unsubscribeAll: Subject<any> = new Subject<any>();
   chart: Chart;
   colors = ['#042a2b', '#5eb1bf', '#cdedf6', '#ef7b45', '#87a330', '#c17b74', '#7e6b8f', '#96e6b3', '#da3e52', '#068d9d'];
   colorIterator = 0;
 
-  constructor(public dataService: DataService, ) {
-    this.dataService.getContractsCountByYears().subscribe(res => {
-      res.forEach((data, i) => {
-        i = i + 1;
-        if (i > this.colors.length) {
-          this.colorIterator = 0;
-        }
-        data.color = this.colors[this.colorIterator++];
-      });
-      this.chart = new Chart({
-        chart: {
-          type: 'column'
-        },
-        title: {
-          text: 'Numri i kontratave ndër vite'
-        },
-        xAxis: {
-          type: 'category'
-        },
-        yAxis: {
-          title: {
-            text: 'Kontratat'
+  constructor(public dataService: DataService) {
+    this.dataService.getContractsCountByYears()
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(res => {
+        res.forEach((data, i) => {
+          i = i + 1;
+          if (i > this.colors.length) {
+            this.colorIterator = 0;
           }
-        },
-        tooltip: {
-          pointFormat: '<span style="color:{series.color}">Nr kontratave: {point.y}</span><br/>'
-        },
-        legend: {
-          enabled: false
-        },
-        series: [{
-          name: 'Vitet',
-          data: res
-        }]
+          data.color = this.colors[this.colorIterator++];
+        });
+        this.chart = new Chart({
+          chart: {
+            type: 'column'
+          },
+          title: {
+            text: 'Numri i kontratave ndër vite'
+          },
+          xAxis: {
+            type: 'category'
+          },
+          yAxis: {
+            title: {
+              text: 'Kontratat'
+            }
+          },
+          tooltip: {
+            pointFormat: '<span style="color:{series.color}">Nr kontratave: {point.y}</span><br/>'
+          },
+          legend: {
+            enabled: false
+          },
+          series: [{
+            name: 'Vitet',
+            data: res
+          }]
+        });
       });
-    });
-
   }
-
-
 
   ngOnInit() {
-
   }
-
-
-
 }

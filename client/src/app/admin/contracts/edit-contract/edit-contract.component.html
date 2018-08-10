@@ -13,11 +13,38 @@
     <form action="" [formGroup]="form" #contractForm="ngForm" (submit)="updateContract($event)" class="form-i" enctype="multipart/form-data">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-12 form-group">
+          <div class="col-md-6 form-group">
             <label for="activityTitle">Titulli i aktivitetit të prokurimit</label>
             <input type="text" name="activityTitle" id="activityTitle" class="form-control" [ngClass]="{'errInput': !form.controls.activityTitle.valid && (form.controls.activityTitle.touched || contractForm.submitted) }"
               formControlName="activityTitle" [(ngModel)]="contract.activityTitle" required>
             <div [hidden]="form.controls.activityTitle.valid || (!form.controls.activityTitle.touched && !contractForm.submitted)" class="error-msg">Titulli i aktivitetit të prokurimit duhet plotësuar</div>
+          </div>
+          <div class="col-md-6" style="padding-top:22px;">
+            <div class="radioButtons">
+              <label class="radioButtonLabel">Statusi:</label>
+              <br>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="flagStatus" formControlName="flagStatus" [(ngModel)]="contract.flagStatus" id="pending"
+                  value="1">
+                <label class="form-check-label" for="pending">
+                  Pezull
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="flagStatus" formControlName="flagStatus" [(ngModel)]="contract.flagStatus" id="success"
+                  value="2">
+                <label class="form-check-label" for="success">
+                  Suksesshëm
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="flagStatus" formControlName="flagStatus" [(ngModel)]="contract.flagStatus" id="canceled"
+                  value="3">
+                <label class="form-check-label" for="canceled">
+                  Anuluar
+                </label>
+              </div>
+            </div>
           </div>
         </div>
         <div class="row">
@@ -333,7 +360,7 @@
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="type" formControlName="type" [(ngModel)]="contract.company.type" id="Jo vendore"
+                <input class="form-check-input" type="radio" name="type" formControlName="type" [(ngModel)]="contract.company.type" id="notLocal"
                   value="notLocal">
                 <label class="form-check-label" for="notLocal">
                   Jo vendore
@@ -398,14 +425,14 @@
             <label for="retender">Re-tenderimi</label>
             <div class="form-check">
               <input class="form-check-input" type="radio" name="retender" formControlName="retender" [(ngModel)]="contract.retender" id="po"
-                value="Po" checked>
+                value="Po" >
               <label class="form-check-label" for="po">
                 Po
               </label>
             </div>
             <div class="form-check">
               <input class="form-check-input" type="radio" name="retender" formControlName="retender" [(ngModel)]="contract.retender" id="jo"
-                value="jo" checked>
+                value="jo" >
               <label class="form-check-label" for="jo">
                 Jo
               </label>
@@ -417,7 +444,7 @@
               <br>
               <div class="form-check">
                 <input class="form-check-input" type="radio" name="status" formControlName="status" [(ngModel)]="contract.status" id="published"
-                  value="1" checked>
+                  value="1" >
                 <label class="form-check-label" for="published">
                   Publikuar
                 </label>
@@ -467,9 +494,20 @@
         </div>
         <div class="row">
           <div class="col-sm-6 form-group">
-            <label for="implementationDeadline" style="width:270px;">Afatet për implementimin e kontratës</label>
-            <input type="text" name="implementationDeadline" id="implementationDeadline" formControlName="implementationDeadline"
-              [(ngModel)]="contract.contract.implementationDeadline" class="form-control">
+            <label for="implementationDeadlineNumber" style="width:auto;">Afati për implementimin e kontratës</label>
+            <br>
+            <div style="display: flex">
+              <input  type="text" name="implementationDeadlineNumber" id="implementationDeadlineNumber"
+                style="width: 30%; margin: 0;" formControlName="implementationDeadlineNumber" [(ngModel)]="implementationDeadline[0]"
+                class="form-control">
+              <select placeholder="Afati kohor" name="implementationDeadlineDuration" formControlName="implementationDeadlineDuration" [(ngModel)]="implementationDeadline[1]"
+                style="width: 70%; margin: 0px;" class="form-control">
+                <option value="">Afati kohor</option>                
+                <option value="Ditë">Ditë</option>
+                <option value="Muaj">Muaj</option>
+                <option value="Vite">Vite</option>
+              </select>
+            </div>
           </div>
           <div class="col-6 form-group">
             <label for="closingDate">Data e mbylljes së kontratës</label>

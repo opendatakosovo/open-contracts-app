@@ -1,9 +1,9 @@
 /* About Us Header Style */
 #bg-img {
-    background-image:url("/assets/images/home.png");
+    background-image:url("/assets/images/about.jpg");
     /* Full height */
-    height: 678px; 
-    max-height: 678px;
+    height: 723px; 
+    max-height: 723px;
     width: 100%;
     /* Center and scale the image nicely */
     background-position: center;
@@ -22,8 +22,8 @@
    color:white;
    margin-left: 5%;
    margin-right: 5%;   
-   width: 434px;
-   max-width: 100%;
+   width: 94%;
+   max-width: 94%;
    top: 27%;
 }
 .company-header #title {

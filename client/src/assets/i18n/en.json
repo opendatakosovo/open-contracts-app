@@ -32,7 +32,9 @@
         "totalAmountOfContractsIncludingTaxes": "Total value of the contract, including all taxes",
         "contracts": "Contracts:",
         "displayedContracts": "Displayed:",
-        "page": "Page:"
+        "page": "Page:",
+        "emptyMessage": "Displaying contracts",
+        "noOfCompaniesWhoSubmited": "Number of the EO who submited the offers"
     },
     "dataset": {
         "title": "DATA SET",
@@ -51,18 +53,19 @@
         "contractCancellationAward": "Cancellation of contract award",
         "contractSigningNotification": "Notification for contract signing",
         "procurementPlans": "Procurement plans",
-        "designAwardNotification": "Notification for design vacancy"
+        "designAwardNotification": "Notification for design vacancy",
+        "priorNotification": "Prior Notification"
     },
     "aboutUs": {
         "title": "About Us",
         "description1": "Opening the municipality to citizens is the primary goal of the Municipality of Prishtina.\n\nThe Municipality of Prishtina, with the development of the ‘Open Contracts’ platform, is providing all of its citizens with open data regarding the contracts that this institution signs with all economic operators. This platform enables coverage of all contracts by municipal directorates, so that these records are further used in the function of full transparency in the municipality.\n\nReturning citizens’ trust to public institutions through transparency and easy access to municipal services is our vision for Prishtina.",
         "description2": "The information is listed as follows:\n\n-Title of the procurement activity\n-Date of publication of the contract notice\n-Number of economic operators that have downloaded the tender dossier\n-Date of publication of the contract award notice\n-Date of publication of cancellation of notice\n-Estimated value of the contract\n-Name of the economic operator to whom the contract is awarded\n-Date of contract signing\n-Date of commencement of contract implementation\n-Date of contract termination\n-Total value of the contract, including all taxes\n-Directorate to which the contract belongs to",
-        "projectDescription1": "The “Open Contracts” platform has been developed under the Techstitution project in close partnership with the Municipality of Prishtina. The purpose of this platform is to inform the citizens of the Municipality of Prishtina on the procurement processes/contracts signed by this institution.",        
+        "projectDescription1": "The “Open Contracts” platform has been developed under the Techstitution project in close partnership with the Municipality of Prishtina. The purpose of this platform is to inform the citizens of the Municipality of Prishtina on the procurement processes/contracts signed by this institution.",
         "techstitution": "\n\nTechstitution ",
         "projectDescription2": "is a project implemented by ",
         "openDataKosovo": "Open Data Kosovo ",
         "projectDescription3": "and ",
-        "gck": "Girls Coding Kosova ", 
+        "gck": "Girls Coding Kosova ",
         "projectDescription4": "initiated and supported by the ",
         "unicef": "UNICEF ",
         "projectDescription5": "Office in Kosovo.\n\nThe technologies used to develop the “Open Contracts” platform are: MongoDB, ExpressJS, NodeJS, Angular."

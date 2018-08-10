@@ -467,9 +467,19 @@
         </div>
         <div class="row">
           <div class="col-sm-6 form-group">
-            <label for="implementationDeadline" style="width:270px;">Afati për implementimin e kontratës</label>
-            <input  placeholder="Zgjedhni datën e fillimit" type="text" name="implementationDeadline" id="implementationDeadline" formControlName="implementationDeadline"
-              [(ngModel)]="contract.contract.implementationDeadline" class="form-control">
+            <label for="implementationDeadlineNumber" style="width:auto;">Afati për implementimin e kontratës</label>
+            <br>
+            <div style="display: flex">
+              <input type="text" name="implementationDeadlineNumber" id="implementationDeadlineNumber" style="width: 30%; margin: 0;"
+                formControlName="implementationDeadlineNumber" class="form-control">
+              <select name="implementationDeadlineDuration" formControlName="implementationDeadlineDuration" style="width: 70%; margin: 0px;"
+                class="form-control">
+                <option value="" selected>Afati kohor</option>
+                <option value="Ditë">Ditë</option>
+                <option value="Muaj">Muaj</option>
+                <option value="Vite">Vite</option>
+              </select>
+            </div>
           </div>
           <div class="col-6 form-group">
             <label for="closingDate">Data e mbylljes së kontratës</label>
