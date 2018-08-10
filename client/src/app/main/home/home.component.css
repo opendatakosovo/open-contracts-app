@@ -342,7 +342,7 @@
 }
 
 #announcements-title-7 {
-    width: 225px;
+    width: 274px;
 }
 
 #announcements-title-8 {
@@ -369,13 +369,13 @@
     padding: 0;
 }
 
-#signing-contract-annonuncments {
-    padding-left: 20%;
+/* #signing-contract-annonuncments {
+    padding-left: 0;
 }
 
 #design-award-notification {
-    padding-right: 20%;
-}
+    padding-left: 0;
+} */
 
 /*---------Responsiveness----------*/
     @media(max-width: 887px) {

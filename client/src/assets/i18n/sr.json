@@ -32,7 +32,9 @@
         "totalAmountOfContractsIncludingTaxes": "Luctus accumsan tortor posuere ac ut consequat semper viverra",
         "contracts": "Mauris:",
         "displayedContracts": "Imperdiet:",
-        "page": "Phasellus:"
+        "page": "Phasellus:",
+        "emptyMessage": "Lorem ipsum",
+        "noOfCompaniesWhoSubmited": "Lorem ipsum dorem kiksum"
     },
     "dataset": {
         "title": "SET PODATAKA",
@@ -51,7 +53,8 @@
         "contractCancellationAward": "Poništenje davanja ugovora",
         "contractSigningNotification": "Obaveštenje o potpisivanju ugovora",
         "procurementPlans": "Planovi javne nabavke",
-        "designAwardNotification": "Obaveštenje o konkursu projektovanja"
+        "designAwardNotification": "Obaveštenje o konkursu projektovanja",
+        "priorNotification": "Lrem asdas"
     },
     "aboutUs": {
         "title": "O Stranici",
