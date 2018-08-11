@@ -385,8 +385,6 @@ router.get('/contracts', passport.authenticate('jwt', { session: false }), (req,
         })
 });
 
-router.get('/')
-
 // Get all years from contract
 router.get('/years/:from?', (req, res) => {
     if (req.params.from != null) {
