@@ -226,6 +226,37 @@ router.get('/top-ten-contracts-with-highest-amount-by-year/:year', (req, res) =>
         });
 });
 
+router.get('/contracts-count-by-procurement-category-and-year/:category/:year', (req, res) => {
+    let c = req.params.category;
+    switch(c) {
+        case 'type':
+            c = 'procurementType'
+            break;
+        case 'value':
+            c = 'procurementValue'
+            break;
+        case 'procedure':
+            c = 'procurementProcedure'
+            break;
+        default:
+            c = 'Not valid';
+    }
+
+    if (c == 'Not valid') {
+        res.json({
+            success: false,
+            msg: 'Category is not valid, please ask for: type, value or procedure'
+        });
+    }
+
+    Contract.getContractsCountByProcurementCategoryAndYear(req.params.year, c)
+        .then(data => {
+            res.json(data);
+        }).catch(err => {
+            res.json(err);
+        });
+});
+
 /*** Admin Dashboard ***/
 
 // Users
@@ -354,6 +385,8 @@ router.get('/contracts', passport.authenticate('jwt', { session: false }), (req,
         })
 });
 
+router.get('/')
+
 // Get all years from contract
 router.get('/years/:from?', (req, res) => {
     if (req.params.from != null) {
@@ -372,5 +405,5 @@ router.get('/years/:from?', (req, res) => {
             res.json(err);
         });
     }
-})
+});
 module.exports = router;
