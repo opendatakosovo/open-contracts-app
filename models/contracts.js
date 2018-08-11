@@ -242,6 +242,21 @@ module.exports.getContractYears = (year = 2017) => {
     { $project: { _id: 0, year: '$_id.year' } }]);
 }
 
+module.exports.getContractsCountByProcurementCategoryAndYear = (y, c) => {
+    let agg = [];
+
+    if (y !== 'any') {
+        agg.push({ $match: { year: parseInt(y) } });
+    }
+
+    agg.push({ $group: { _id: `$${c}`, count: { $sum: 1 } } });
+    agg.push({ $project: { _id: 0, "name": "$_id", "y": "$count" } });
+
+    console.log(agg);
+
+    return Contract.aggregate(agg);
+}
+
 
 /** Dashboard Data **/
 // Get total contracts by flag status
