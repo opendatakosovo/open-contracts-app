@@ -77,7 +77,8 @@ const ContractSchema = mongoose.Schema({
     },
     year: { type: Number },
     flagStatus: { type: String, default: '1' },
-    fppClassification: { type: Number }
+    fppClassification: { type: Number },
+    imported: { type: Boolean, default: false }
 }, schemaOptions);
 
 
@@ -97,8 +98,8 @@ module.exports.deleteContractById = (id, callback) => {
     Contract.findByIdAndRemove(id, callback);
 }
 
-module.exports.deleteContractsByYear = year => {
-    return Contract.deleteMany({ "year": year });
+module.exports.deleteContractsByYear = (year, imported = true) => {
+    return Contract.deleteMany({ "year": year, 'imported': imported });
 }
 
 module.exports.updateContract = (id, contract, callback) => {
