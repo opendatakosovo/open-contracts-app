@@ -45,7 +45,31 @@ export class HeaderComponent implements OnInit {
     setTimeout(() => {
       const pageScrollInstance: PageScrollInstance = PageScrollInstance.simpleInstance(this.document, '#data-set');
       this.pageScrollService.start(pageScrollInstance);
-    }, 150);
+    }, 250);
+  }
+  clickDataSet() {
+    const dataSet = document.querySelector('.data-set-link');
+    const navItem = document.querySelector('.nav-items');
+    const home = document.getElementById('home-nav');
+    dataSet.classList.add('data-set-link-active');
+    navItem.classList.remove('active');
+    home.removeAttribute('class');
+    home.setAttribute('class', 'inactive');
+    if (navItem.classList.contains('active') === true) {
+      navItem.classList.remove('active');
+      home.setAttribute('class', 'inactive');
+    }
+  }
+  clickNav() {
+    const dataSet = document.querySelector('.data-set-link');
+    const home = document.getElementById('home-nav');
+    dataSet.classList.remove('data-set-link-active');
+  }
+  clickHome() {
+    const dataSet = document.querySelector('.data-set-link');
+    const home = document.getElementById('home-nav');
+    dataSet.classList.remove('data-set-link-active');
+    home.setAttribute('class', 'active');
   }
   onResize() {
     this.width = window.innerWidth;

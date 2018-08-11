@@ -20,7 +20,9 @@
     padding-bottom: 5px !important;
     transition: 0.5s !important;
 }
-
+.navbar-light .navbar-nav .data-set-link-active > .nav-link {
+    color: #32a6bd;
+}
 .nav-item {
     color:black;
 }

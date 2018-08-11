@@ -12,28 +12,32 @@
 
   <div class="collapse navbar-collapse auto justify-content-between" id="mainNav">
     <ul class="navbar-nav navbar-left">
-      <li *ngIf="width>991" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      <li *ngIf="width>991" id="home-nav" class="nav-item nav-items" (click)="clickHome()" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <a class="nav-link" id="home" [routerLink]="['']">{{ 'navigation.home' | translate }}</a>
       </li>
-      <li *ngIf="991>=width" class="nav-item" data-toggle="collapse" data-target="#mainNav" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      <li *ngIf="991>=width" id="home-nav" class="nav-item nav-items" (click)="clickHome()" data-toggle="collapse" data-target="#mainNav"
+        routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <a class="nav-link" id="home" [routerLink]="['']">{{ 'navigation.home' | translate }}</a>
       </li>
-      <li *ngIf="width>991" class="nav-item" class="data-set-link">
+      <li *ngIf="width>991" class="nav-item nav-items" (click)="clickDataSet()" class="data-set-link">
         <a class="nav-link" (click)="scroll()">{{ 'navigation.dataset' | translate }}</a>
       </li>
-      <li *ngIf="991>=width" data-toggle="collapse" data-target="#mainNav" class="nav-item" class="data-set-link">
+      <li *ngIf="991>=width" data-toggle="collapse" (click)="clickDataSet()" data-target="#mainNav" class="nav-item nav-items"
+        class="data-set-link">
         <a class="nav-link" (click)="scroll()">{{ 'navigation.dataset' | translate }}</a>
       </li>
-      <li *ngIf="width>991" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      <li *ngIf="width>991" class="nav-item nav-items" (click)="clickNav()" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <a class="nav-link" id="visualisations" [routerLink]="['/visualisations']">{{ 'navigation.visualizations' | translate }}</a>
       </li>
-      <li *ngIf="991>=width" class="nav-item" data-toggle="collapse" data-target="#mainNav" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      <li *ngIf="991>=width" class="nav-item nav-items" (click)="clickNav()" data-toggle="collapse" data-target="#mainNav" routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }">
         <a class="nav-link" id="visualisations" [routerLink]="['/visualisations']">{{ 'navigation.visualizations' | translate }}</a>
       </li>
-      <li *ngIf="width>991" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      <li *ngIf="width>991" class="nav-item nav-items" (click)="clickNav()" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <a class="nav-link" [routerLink]="['/about-us']">{{ 'navigation.aboutUs' | translate }}</a>
       </li>
-      <li *ngIf="991>=width" class="nav-item" data-toggle="collapse" data-target="#mainNav" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      <li *ngIf="991>=width" class="nav-item nav-items" (click)="clickNav()" data-toggle="collapse" data-target="#mainNav" routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }">
         <a class="nav-link" [routerLink]="['/about-us']">{{ 'navigation.aboutUs' | translate }}</a>
       </li>
       <li *ngIf="width>991" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">

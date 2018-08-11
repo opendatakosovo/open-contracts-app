@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit {
 
   mouseOver() {
     const dataSet = document.querySelector('.data-set-link');
-    const home = document.querySelector('.active');
+    const home = document.getElementById('home-nav');
     home.setAttribute('class', 'inactive');
     dataSet.setAttribute('class', 'data-set-link-active');
   }
@@ -40,7 +40,7 @@ export class HomeComponent implements OnInit {
     home.setAttribute('class', 'active');
     dataSet.setAttribute('class', 'data-set-link');
   }
-  geoPreview(isValid) {
+  downloadDataSet(isValid) {
     const elemA = (<HTMLInputElement>document.getElementById('format')).value;
     const elemB = (<HTMLInputElement>document.getElementById('data')).value;
     if (isValid === true) {
