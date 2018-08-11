@@ -41,7 +41,6 @@ export class LoginComponent implements OnInit {
         .subscribe(data => {
           if (data.success) {
             this.userService.storeUserData(data.token, data.user);
-            this.router.navigate(['/dashboard']);
           } else {
             Swal('Gabim!', data.msg, 'info');
             this.router.navigate(['/login']);
