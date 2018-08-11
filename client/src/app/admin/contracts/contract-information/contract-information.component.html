@@ -498,11 +498,11 @@
         <br>
         <div class="col-12">
           <label>Vlera totale e kontratës, duke përfshirë të gjitha anekset dhe të gjitha taksat etj.</label>
-          <div *ngIf="contract.contract.totalOfAnnexesWithTaxes == '' || contract.contract.totalOfAnnexesWithTaxes == null">
+          <div *ngIf="contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes == '' || contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes == null">
             <p class="highlighted-values">-</p>
           </div>
-          <div *ngIf="contract.contract.totalOfAnnexesWithTaxes">
-            <p class="highlighted-values">{{ contract.contract.totalOfAnnexesWithTaxes }} &euro;</p>
+          <div *ngIf="contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes">
+            <p class="highlighted-values">{{ contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes }} &euro;</p>
           </div>
         </div>
       </div>
@@ -600,10 +600,10 @@
         </div>
         <div class="col-md-6">
           <label>Çmimi total i paguar për kontratën</label>
-          <div *ngIf="!contract.contract.totalPayedPriceForContract">
+          <div *ngIf="!contract.contract.totalPayedPriceForContract || contract.contract.totalPayedPriceForContract == 'NaN'">
             <p class="highlighted-values">-</p>
           </div>
-          <div *ngIf="contract.contract.totalPayedPriceForContract">
+          <div *ngIf="contract.contract.totalPayedPriceForContract != 'NaN' && contract.contract.totalPayedPriceForContract != 0">
             <p class="highlighted-values">{{ contract.contract.totalPayedPriceForContract}} &euro;</p>
           </div>
         </div>
@@ -613,7 +613,12 @@
         <div class="col-md-6">
           <label>Çmimi total i papaguar për kontratën (Në këtë çmim është përfshirë edhe shuma e zbritjes për shkak të ndalesave)</label>
           <div>
-            <p class="highlighted-values">{{ totalOfAnnexesWithTaxes - totalPayedPriceForContract - discountAmount }} &euro;</p>
+            <div *ngIf="total == 0">
+              <p class="highlighted-values">-</p>
+            </div>
+            <div *ngIf="total != 0">
+              <p class="highlighted-values">{{ total }} &euro;</p>
+            </div>
           </div>
         </div>
         <div class="col-md-6">
