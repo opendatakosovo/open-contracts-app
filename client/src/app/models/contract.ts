@@ -128,7 +128,7 @@ export class Contract {
             signingDate: null
         };
         this.year = 0;
-        this.flagStatus = '1';
+        this.flagStatus = 1;
     }
 
 }
