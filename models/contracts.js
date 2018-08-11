@@ -76,7 +76,7 @@ const ContractSchema = mongoose.Schema({
         signingDate: { type: Date },
     },
     year: { type: Number },
-    flagStatus: { type: String, default: '1' },
+    flagStatus: { type: Number, default: 1 },
     fppClassification: { type: Number },
     imported: { type: Boolean, default: false }
 }, schemaOptions);

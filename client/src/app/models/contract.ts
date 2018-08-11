@@ -67,7 +67,7 @@ export class Contract {
         standardDocuments?: Date
     };
     year?: Number;
-    flagStatus?: String;
+    flagStatus?: Number;
 
 
     constructor() {
