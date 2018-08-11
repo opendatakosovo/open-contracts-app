@@ -42,7 +42,7 @@ export class Contract {
     nameOfProcurementOffical?: String;
     contract: {
         predictedValue?: String,
-        totalOfAnnexesWithTaxes?: String,
+        totalAmountOfAllAnnexContractsIncludingTaxes?: String,
         totalAmountOfContractsIncludingTaxes?: String,
         totalPayedPriceForContract?: String,
         annexes?: Annex[]
@@ -114,7 +114,7 @@ export class Contract {
         this.nameOfProcurementOffical = '';
         this.contract = {
             predictedValue: '',
-            totalOfAnnexesWithTaxes: '',
+            totalAmountOfAllAnnexContractsIncludingTaxes: '',
             totalAmountOfContractsIncludingTaxes: '',
             totalPayedPriceForContract: '',
             annexes: [],

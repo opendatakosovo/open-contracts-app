@@ -340,7 +340,7 @@ router.post("/page", (req, res) => {
 router.post("/", uploadFile, (req, res) => {
     if (req.fileExist) {
         res.json({
-            "existErr": "File exsit",
+            "existErr": "File exist",
             "success": false
         });
     } else if (req.typeValidation) {
@@ -473,7 +473,7 @@ router.put('/update-contract/:id', uploadFile, (req, res) => {
             requestedContract.directoratesSlug = slugify(requestedContract.directorates, ' ');
             requestedContract.activityTitleSlug = slugify(requestedContract.activityTitle, ' ');
             if (requestedContract.contract.implementationDeadlineSlug !== null || requestedContract.contract.implementationDeadlineSlug !== '' || requestedContract.contract.implementationDeadlineSlug !== undefined) {
-            requestedContract.contract.implementationDeadlineSlug = slugify(requestedContract.contract.implementationDeadline, ' ');
+                requestedContract.contract.implementationDeadlineSlug = slugify(requestedContract.contract.implementationDeadline, ' ');
             }
             if (req.body.fileToDelete != null) {
                 requestedContract.contract.file = "";

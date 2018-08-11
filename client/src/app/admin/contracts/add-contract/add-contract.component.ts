@@ -92,7 +92,7 @@ export class AddContractComponent implements OnInit {
       closingDate: null,
       noOfPaymentInstallments: null,
       totalAmountOfContractsIncludingTaxes: '',
-      totalOfAnnexesWithTaxes: '',
+      totalAmountOfAllAnnexContractsIncludingTaxes: '',
       lastInstallmentPayDate: null,
       lastInstallmentAmount: '',
       discountAmountFromContract: '',
@@ -187,7 +187,7 @@ export class AddContractComponent implements OnInit {
       sumAnnex += parseFloat(annex.totalValueOfAnnexContract1.toString());
     });
     this.total = parseFloat(this.contract.contract.totalAmountOfContractsIncludingTaxes.toString()) + sumAnnex;
-    this.contract.contract.totalOfAnnexesWithTaxes = this.total.toString();
+    this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes = this.total.toString();
 
     let sumInstallments = 0;
     this.contract.installments.map(installment => {
