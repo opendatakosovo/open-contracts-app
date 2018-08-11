@@ -36,10 +36,12 @@
 <div id="table1">
   <ngx-datatable #table class="bootstrap" columnMode="'force'" [rows]="rows" [headerHeight]="'auto'" [summaryRow]="false" [summaryPosition]="'bottom'"
     [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements" [offset]="page.pageNumber"
-    [limit]="page.size" [messages]="messages" [scrollbarH]="true" (page)='setPage($event)' [externalSorting]="true">
+    [limit]="page.size" [messages]="messages" [scrollbarH]="true" (page)='setPage($event)' [externalSorting]="true" (scroll)="onTableScroll($event)">
     <ngx-datatable-column name="activity-title" prop="activityTitle">
       <ng-template let-column="column" ngx-datatable-header-template>
-        <p class="column-header">{{ 'datatable.activityTitle' | translate }}</p>
+        <span (click)="sortContracts('activityTitle1')">
+          <p class="column-header">{{ 'datatable.activityTitle' | translate }}</p>
+        </span>
         <div class="sort-icons">
           <span id="sort" (click)="sortContracts('activityTitle1')">
             <i class="fa fa-sort" aria-hidden="true"></i>
@@ -57,7 +59,9 @@
     </ngx-datatable-column>
     <ngx-datatable-column name="publication-date" prop="contract.publicationDate">
       <ng-template let-column="column" ngx-datatable-header-template>
-        <p class="column-header">{{ 'datatable.publicationDate' | translate }}</p>
+        <span (click)="sortContracts('publicationDate')">
+          <p class="column-header">{{ 'datatable.publicationDate' | translate }}</p>
+        </span>
         <div class="sort-icons">
           <span id="sort" (click)="sortContracts('publicationDate')">
             <i class="fa fa-sort" aria-hidden="true"></i>
@@ -75,7 +79,9 @@
     </ngx-datatable-column>
     <ngx-datatable-column name="number-of-companies" prop="noOfCompaniesWhoDownloadedTenderDoc">
       <ng-template let-column="column" ngx-datatable-header-template>
-        <p class="column-header">{{ 'datatable.noOfCompaniesWhoDownloadedTenderDoc' | translate }}</p>
+        <span (click)="sortContracts('noOfCompaniesWhoDownloadedTenderDoc')">
+          <p class="column-header">{{ 'datatable.noOfCompaniesWhoDownloadedTenderDoc' | translate }}</p>
+        </span>
         <div class="sort-icons">
           <span id="sort" (click)="sortContracts('noOfCompaniesWhoDownloadedTenderDoc')">
             <i class="fa fa-sort" aria-hidden="true"></i>
@@ -93,7 +99,9 @@
     </ngx-datatable-column>
     <ngx-datatable-column name="no-of-companies-who-submited" prop="noOfCompaniesWhoSubmited">
       <ng-template let-column="column" ngx-datatable-header-template>
-        <p class="column-header">{{ 'datatable.noOfCompaniesWhoSubmited' | translate }}</p>
+        <span (click)="sortContracts('noOfCompaniesWhoSubmited')">
+          <p class="column-header">{{ 'datatable.noOfCompaniesWhoSubmited' | translate }}</p>
+        </span>
         <div class="sort-icons">
           <span id="sort" (click)="sortContracts('noOfCompaniesWhoSubmited')">
             <i class="fa fa-sort" aria-hidden="true"></i>
@@ -111,7 +119,9 @@
     </ngx-datatable-column>
     <ngx-datatable-column name="publication-date-of-given-contract" prop="contract.publicationDateOfGivenContract">
       <ng-template let-column="column" ngx-datatable-header-template>
-        <p class="column-header">{{ 'datatable.publicationDateOfGivenContract' | translate }}</p>
+        <span (click)="sortContracts('publicationDateOfGivenContract')">
+          <p class="column-header">{{ 'datatable.publicationDateOfGivenContract' | translate }}</p>
+        </span>
         <div class="sort-icons">
           <span id="sort" (click)="sortContracts('publicationDateOfGivenContract')">
             <i class="fa fa-sort" aria-hidden="true"></i>
@@ -129,7 +139,9 @@
     </ngx-datatable-column>
     <ngx-datatable-column name="cancellation-notice-date" prop="cancellationNoticeDate">
       <ng-template let-column="column" ngx-datatable-header-template>
-        <p class="column-header">{{ 'datatable.cancellationNoticeDate' | translate }}</p>
+        <span (click)="sortContracts('cancellationNoticeDate')">
+          <p class="column-header">{{ 'datatable.cancellationNoticeDate' | translate }}</p>
+        </span>
         <div class="sort-icons">
           <span id="sort" (click)="sortContracts('cancellationNoticeDate')">
             <i class="fa fa-sort" aria-hidden="true"></i>
@@ -147,7 +159,9 @@
     </ngx-datatable-column>
     <ngx-datatable-column name="predicted-value" prop="contract.predictedValue">
       <ng-template let-column="column" ngx-datatable-header-template>
-        <p class="column-header">{{ 'datatable.predictedValue' | translate }}</p>
+        <span (click)="sortContracts('predictedValue')">
+          <p class="column-header">{{ 'datatable.predictedValue' | translate }}</p>
+        </span>
         <div class="sort-icons">
           <span id="sort" (click)="sortContracts('predictedValue')">
             <i class="fa fa-sort" aria-hidden="true"></i>
@@ -165,7 +179,9 @@
     </ngx-datatable-column>
     <ngx-datatable-column name="company-name" prop="company.name">
       <ng-template let-column="column" ngx-datatable-header-template>
-        <p class="column-header">{{ 'datatable.name' | translate }}</p>
+        <span (click)="sortContracts('companyName')">
+          <p class="column-header">{{ 'datatable.name' | translate }}</p>
+        </span>
         <div class="sort-icons">
           <span id="sort" (click)="sortContracts('companyName')">
             <i class="fa fa-sort" aria-hidden="true"></i>
@@ -183,7 +199,9 @@
     </ngx-datatable-column>
     <ngx-datatable-column name="signing-date" prop="contract.signingDate">
       <ng-template let-column="column" ngx-datatable-header-template>
-        <p class="column-header">{{ 'datatable.signingDate' | translate }}</p>
+        <span (click)="sortContracts('signingDate')">
+          <p class="column-header">{{ 'datatable.signingDate' | translate }}</p>
+        </span>
         <div class="sort-icons">
           <span id="sort" (click)="sortContracts('signingDate')">
             <i class="fa fa-sort" aria-hidden="true"></i>
@@ -201,7 +219,9 @@
     </ngx-datatable-column>
     <ngx-datatable-column name="implementation-deadline-starting-date" prop="contract.implementationDeadline">
       <ng-template let-column="column" ngx-datatable-header-template>
-        <p class="column-header">{{ 'datatable.implementationDeadline' | translate }}</p>
+        <span (click)="sortContracts('implementationDeadline')">
+          <p class="column-header">{{ 'datatable.implementationDeadline' | translate }}</p>
+        </span>
         <div class="sort-icons">
           <span id="sort" (click)="sortContracts('implementationDeadline')">
             <i class="fa fa-sort" aria-hidden="true"></i>
@@ -219,7 +239,9 @@
     </ngx-datatable-column>
     <ngx-datatable-column name="total-amount-of-contracts-including-taxes" prop="contract.totalAmountOfContractsIncludingTaxes">
       <ng-template let-column="column" ngx-datatable-header-template>
-        <p class="column-header">{{ 'datatable.totalAmountOfContractsIncludingTaxes' | translate }}</p>
+        <span (click)="sortContracts('totalAmountOfContractsIncludingTaxes')">
+          <p class="column-header">{{ 'datatable.totalAmountOfContractsIncludingTaxes' | translate }}</p>
+        </span>
         <div class="sort-icons">
           <span id="sort" (click)="sortContracts('totalAmountOfContractsIncludingTaxes')">
             <i class="fa fa-sort" aria-hidden="true"></i>
@@ -236,8 +258,10 @@
       </ng-template>
     </ngx-datatable-column>
     <ngx-datatable-column name="directorates" prop="directorates">
-      <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
-        <p class="column-header">{{ 'datatable.directorate' | translate }}</p>
+      <ng-template let-column="column" ngx-datatable-header-template>
+        <span (click)="sortContracts('directorates')">
+          <p class="column-header">{{ 'datatable.directorate' | translate }}</p>
+        </span>
         <div class="sort-icons">
           <span id="sort" (click)="sortContracts('directorates')">
             <i class="fa fa-sort" aria-hidden="true"></i>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { ContractsService } from '../../../service/contracts.service';
 import { Contract } from '../../../models/contract';
@@ -13,7 +13,7 @@ import { DatatableComponent } from '@swimlane/ngx-datatable/src/components/datat
   templateUrl: './main-page-contracts-list.component.html',
   styleUrls: ['./main-page-contracts-list.component.css']
 })
-export class MainPageContractsListComponent implements OnInit {
+export class MainPageContractsListComponent implements OnInit, AfterViewInit {
   private unsubscribeAll: Subject<any> = new Subject<any>();
   bsConfig: Partial<BsDatepickerConfig>;
   contract: Contract;
@@ -24,6 +24,7 @@ export class MainPageContractsListComponent implements OnInit {
   rows = new Array<Contract>();
   totalContracts: Number;
   private ref: ChangeDetectorRef;
+  private datatableBodyElement: Element;
   search = {
     string: '',
     directorate: '',
@@ -33,6 +34,8 @@ export class MainPageContractsListComponent implements OnInit {
     year: '',
     pageInfo: new Page()
   };
+  offsetX: number;
+
   @ViewChild('table') table: DatatableComponent;
 
   constructor(public contractsService: ContractsService, private modalService: BsModalService, private translate: TranslateService) {
@@ -73,6 +76,9 @@ export class MainPageContractsListComponent implements OnInit {
     this.totalContracts = this.page.totalElements;
   }
 
+  ngAfterViewInit() {
+    this.datatableBodyElement = this.table.element.querySelector('datatable-body');
+  }
   setPage(pageInfo) {
     this.page.pageNumber = pageInfo.offset;
     this.search.pageInfo.pageNumber = pageInfo.offset;
@@ -90,6 +96,14 @@ export class MainPageContractsListComponent implements OnInit {
           this.page = data.page;
           this.rows = data.data;
         });
+    }
+  }
+
+  onTableScroll(scroll: any) {
+    const offsetX = scroll.offsetX;
+    // can be undefined sometimes
+    if (offsetX != null) {
+      this.offsetX = offsetX;
     }
   }
 
@@ -118,6 +132,11 @@ export class MainPageContractsListComponent implements OnInit {
           ascClass.classList.add('asc');
           this.page = pagedData.page;
           this.rows = pagedData.data;
+          setTimeout(() => {
+            this.datatableBodyElement.scrollLeft = this.offsetX;
+          }, 1);
+        }, err => {
+          console.log(err);
         });
     } else {
       this.contractsService.serverSortLatestContractsDescending(this.page)
@@ -128,6 +147,11 @@ export class MainPageContractsListComponent implements OnInit {
           descClass.classList.add('desc');
           this.page = pagedData.page;
           this.rows = pagedData.data;
+          setTimeout(() => {
+            this.datatableBodyElement.scrollLeft = this.offsetX;
+          }, 1);
+        }, err => {
+          console.log(err);
         });
     }
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ChangeDetectorRef, TemplateRef, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject, ChangeDetectorRef, TemplateRef, AfterViewInit, ViewChild } from '@angular/core';
 import { ContractsService } from '../../../service/contracts.service';
 import { Subject } from 'rxjs/Subject';
 import { Contract } from '../../../models/contract';
@@ -15,7 +15,7 @@ import { BsDatepickerConfig, BsLocaleService } from 'ngx-bootstrap/datepicker';
   templateUrl: './contracts-list.component.html',
   styleUrls: ['./contracts-list.component.css']
 })
-export class ContractsListComponent implements OnInit {
+export class ContractsListComponent implements OnInit, AfterViewInit {
   private unsubscribeAll: Subject<any> = new Subject<any>();
   bsConfig: Partial<BsDatepickerConfig>;
   contract: Contract;
@@ -25,6 +25,7 @@ export class ContractsListComponent implements OnInit {
   page = new Page();
   rows = new Array<Contract>();
   private ref: ChangeDetectorRef;
+  private datatableBodyElement: Element;
   search = {
     string: '',
     directorate: '',
@@ -33,6 +34,7 @@ export class ContractsListComponent implements OnInit {
     value: '',
     pageInfo: new Page()
   };
+  offsetX: number;
 
   @ViewChild('table') table: DatatableComponent;
 
@@ -71,6 +73,9 @@ export class ContractsListComponent implements OnInit {
     this.setPage({ offset: 0 });
   }
 
+  ngAfterViewInit() {
+    this.datatableBodyElement = this.table.element.querySelector('datatable-body');
+  }
   setPage(pageInfo) {
     this.page.pageNumber = pageInfo.offset;
     this.contractsService.serverPagination(this.page)
@@ -81,6 +86,13 @@ export class ContractsListComponent implements OnInit {
       });
   }
 
+  onTableScroll(scroll: any) {
+    const offsetX = scroll.offsetX;
+    // can be undefined sometimes
+    if (offsetX != null) {
+      this.offsetX = offsetX;
+    }
+  }
   // Function to sort contracts ascending or descending
   sortContracts(column) {
     this.page.column = column;
@@ -106,6 +118,11 @@ export class ContractsListComponent implements OnInit {
           ascClass.classList.add('asc');
           this.page = pagedData.page;
           this.rows = pagedData.data;
+          setTimeout(() => {
+            this.datatableBodyElement.scrollLeft = this.offsetX;
+          }, 1);
+        }, err => {
+          console.log(err);
         });
     } else {
       this.contractsService.serverSortContractsDescending(this.page)
@@ -116,6 +133,11 @@ export class ContractsListComponent implements OnInit {
           descClass.classList.add('desc');
           this.page = pagedData.page;
           this.rows = pagedData.data;
+          setTimeout(() => {
+            this.datatableBodyElement.scrollLeft = this.offsetX;
+          }, 1);
+        }, err => {
+          console.log(err);
         });
     }
   }
