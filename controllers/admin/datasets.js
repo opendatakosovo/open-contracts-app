@@ -5,6 +5,7 @@ const Contract = require('../../models/contracts');
 const passport = require('passport');
 const datasetValidation = require('../../middlewares/dataset_file_validation');
 const shell = require('shelljs');
+const fs = require('fs');
 let exec = require('child_process').exec, child;
 
 
@@ -25,13 +26,7 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", passport.authenticate('jwt', { session: false }), upload.single('datasetFile'), (req, res) => {
-
-    if (req.fileExist) {
-        res.json({
-            "existErr": "File exsit",
-            "success": false
-        });
-    } else if (req.typeValidation) {
+    if (req.typeValidation) {
         res.json({
             "typeValidation": "Dataset type is wrong",
             "success": false
@@ -42,40 +37,94 @@ router.post("/", passport.authenticate('jwt', { session: false }), upload.single
             "success": false
         });
     } else {
-        const dataset = new Dataset({
-            datasetFilePath: req.file.originalname,
-            folder: "new"
-        });
-        Dataset.addDataset(dataset, (err, dataset) => {
-            if (!err) {
-                importCsv(dataset.datasetFilePath, (error, stdout, stderr) => {
-                    if (!error) {
-                        if (!stderr) {
+        if (req.fileExist) {
+            const dataset = {
+                datasetFilePath: req.file.originalname,
+                folder: "new"
+            };
+            Contract.deleteContractsByYear(dataset.datasetFilePath.split('.')[0])
+                .then(() => {
+                    importCsv(dataset.datasetFilePath, (error, stdout, stderr) => {
+                        if (!error) {
+                            Dataset.updateByFilePath(dataset.datasetFilePath, dataset).then(upatedDataset => {
+                                res.json({
+                                    "msg": "Dataset has been reimported successfully",
+                                    "dataset": upatedDataset,
+                                    "success": true,
+                                    "reImported": true
+                                });
+                                fs.unlinkSync(`./prishtina-contracts-importer/data/procurements/new/${dataset.datasetFilePath.split('.')[0]}-backup.${dataset.datasetFilePath.split('.')[1]}`);
+                            }).catch(err => {
+                                res.json({
+                                    "err": err,
+                                    "success": false
+                                });
+                            });
+                        } else {
+                            importBackup(dataset.datasetFilePath, err => {
+                                if (!err) {
+                                    importCsv(dataset.datasetFilePath, (error, stdout, stdErrBackup) => {
+                                        if (!error) {
+                                            res.json({
+                                                "shelljsErr": stderr,
+                                                "success": false
+                                            });
+                                        } else {
+                                            res.json({
+                                                "shelljsErrBackup": stdErrBackup,
+                                                "success": false
+                                            });
+                                        }
+                                    })
+                                } else {
+                                    res.json({
+                                        "backUpErr": err,
+                                        "success": false
+                                    });
+                                }
+                            });
+                        }
+                    })
+                })
+                .catch(err => {
+                    res.json({
+                        "err": err,
+                        "success": false
+                    });
+                });
+
+        } else {
+            const dataset = new Dataset({
+                datasetFilePath: req.file.originalname,
+                folder: "new"
+            });
+            importCsv(dataset.datasetFilePath, (error, stdout, stderr) => {
+                if (!error) {
+                    Dataset.addDataset(dataset)
+                        .then(dataset => {
                             res.json({
                                 "msg": "Dataset has been imported successfully",
                                 "dataset": dataset,
-                                "success": false
+                                "success": true,
+                                "reImported": false
                             });
-                        } else {
+                        })
+                        .catch(err => {
                             res.json({
-                                "shellErr": stderr,
+                                "err": err,
                                 "success": false
                             });
-                        }
-                    } else {
-                        res.json({
-                            "shelljsErr": err,
-                            "success": false
-                        });
-                    }
-                });
-            } else {
-                res.json({
-                    "err": err,
-                    "success": false
-                });
-            }
-        })
+                        })
+
+                } else {
+                    res.json({
+                        "shelljsErr": stderr,
+                        "success": false
+                    });
+                    fs.unlinkSync(`./prishtina-contracts-importer/data/procurements/new/${dataset.datasetFilePath}`);
+                }
+            });
+        }
     }
 
 });
@@ -107,9 +156,18 @@ router.get("/:name", (req, res) => {
 
 function importCsv(csv, cb) {
     shell.cd("prishtina-contracts-importer");
-    shell.exec(`sh run-with-args.sh ${csv}`, { async: true }, cb);
+    shell.exec(`bash run-with-args.sh ${csv}`, { async: true }, cb);
     shell.cd("..");
 };
+
+function importBackup(csv, cb) {
+    const filename = {
+        name: csv.split('.')[0],
+        type: csv.split('.')[1]
+    };
+    fs.unlinkSync(`./prishtina-contracts-importer/data/procurements/new/${csv}`);
+    fs.rename(`./prishtina-contracts-importer/data/procurements/new/${filename.name}-backup.${filename.type}`, `./prishtina-contracts-importer/data/procurements/new/${csv}`, cb);
+}
 
 // Get all contracts by years and send as JSON file response
 router.get('/json/:year', (req, res) => {
@@ -119,7 +177,7 @@ router.get('/json/:year', (req, res) => {
                 let fileName = `${req.params.year}.json`;
                 let mimeType = 'application/json';
                 res.setHeader('Content-Type', mimeType);
-                res.setHeader('Content-disposition', 'attachment; filename='+fileName);
+                res.setHeader('Content-disposition', 'attachment; filename=' + fileName);
                 res.send(data);
             } else {
                 res.json({
