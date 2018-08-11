@@ -91,22 +91,24 @@ export class DataDashboardComponent implements OnInit {
             .takeUntil(this.unsubscribeAll)
             .subscribe(res => {
               if (res.err) {
-                Swal('Gabim!', res.err, 'error');
-              } else if (res.existErr) {
-                Swal('Kujdes!', 'Seti dhënave është importuar', 'warning');
+                Swal('Gabim!', `Gabim: ${res.err}`, 'error');
               } else if (res.typeValidation) {
                 Swal('Kujdes!', 'Tipi i setit të dhënave nuk është valid duhet të jetë tipit CSV', 'warning');
               } else if (res.nameValidation) {
                 Swal('Kujdes!', 'Seti i të dhënave është i vjetër ose emri i setit dhënave nuk është valid', 'warning');
+              } else if (res.shelljsErr) {
+                Swal('Gabim!', `Gabim në  importim: ${res.shelljsErr}`, 'error');
+              } else if (res.stdErrBackup) {
+                Swal('Gabim!', `Gabim në  importim e backup-it: ${res.stdErrBackup}`, 'error');
               } else {
-                Swal('Sukses!', 'Dataseti i u importua me sukses', 'success');
+                Swal('Sukses!', `Dataseti i u ${res.reImported === true ? 'ri-importua' : 'importua'} me sukses`, 'success');
                 const nameArea = <HTMLInputElement>document.getElementById('name-area');
                 nameArea.value = 'Zgjedhni setin e të dhënave';
                 this.fileToUpload = null;
                 this.valid = false;
                 this.touched = false;
               }
-          });
+            });
         }
       });
     } else {
