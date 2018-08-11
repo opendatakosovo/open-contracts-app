@@ -603,7 +603,7 @@
           <div *ngIf="!contract.contract.totalPayedPriceForContract || contract.contract.totalPayedPriceForContract == 'NaN'">
             <p class="highlighted-values">-</p>
           </div>
-          <div *ngIf="contract.contract.totalPayedPriceForContract != 'NaN' && contract.contract.totalPayedPriceForContract != 0">
+          <div *ngIf="contract.contract.totalPayedPriceForContract != 'NaN'">
             <p class="highlighted-values">{{ contract.contract.totalPayedPriceForContract}} &euro;</p>
           </div>
         </div>
