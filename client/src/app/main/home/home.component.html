@@ -38,7 +38,7 @@
         <div class="col-md-3"></div>
         <div class="col-md-9">
           <div class="data-set-form">
-            <form action="" id="download-data-set" novalidate #downloadForm="ngForm" class="form-inline form-group" (submit)="geoPreview(downloadForm.valid)">
+            <form action="" id="download-data-set" novalidate #downloadForm="ngForm" class="form-inline form-group" (submit)="downloadDataSet(downloadForm.valid)">
               <select name="" id="data" name="data" class="form-control form-select" [(ngModel)]="data" #dataSet="ngModel" required [style.border-color]="dataSet.errors?.required && downloadForm.submitted ? 'red' : '#ced4da'">
                 <option [value]="undefined" disabled>{{ 'dataset.year' | translate }}</option>
                 <option *ngFor="let dataSet of dataSets" [value]="dataSet.datasetFilePath">{{ dataSet.datasetFilePath.replace('.csv', '') }}</option>
