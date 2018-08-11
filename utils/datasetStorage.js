@@ -10,17 +10,13 @@ const storage = multer.diskStorage({
     }
 });
 
-function fileNameRegexValidation(year) {
-    return /^(201[8-9])|(20[2-9][0-9])|(21[0-9][0-9])$/.test(year);
-}
-
 module.exports = multer({
     storage: storage,
     fileFilter: (req, file, cb) => {
         if (file.mimetype != "text/csv") {
             req.typeValidation = "Dateset file type is wrong, you can only upload";
             return cb(null, false);
-        } else if (!fileNameRegexValidation(file.originalname.split(".")[0])) {
+        } else if (parseInt(file.originalname.split(".")[0]) < 2016) {
             req.nameValidation = "Dataset is old or dataset name is invalid";
             return cb(null, false);
         } else {
@@ -28,8 +24,22 @@ module.exports = multer({
                 if (err) {
                     cb(null, true);
                 } else {
-                    req.fileExist = "Dataset exists!";
-                    return cb(null, false);
+                    const filename = {
+                        name: file.originalname.split('.')[0],
+                        type: file.originalname.split('.')[1]
+                    };
+                    fs.rename(`./prishtina-contracts-importer/data/procurements/new/${file.originalname}`, `./prishtina-contracts-importer/data/procurements/new/${filename.name}-backup.${filename.type}`, err => {
+                        if (err) {
+                            req.fileRenameError = err;
+                            return cb(null, false);
+                        } else {
+                            req.fileExist = {
+                                "exist": true,
+                                "year": parseInt(file.originalname.split('.'))
+                            }
+                            return cb(null, true);
+                        }
+                    });
                 }
             });
         }

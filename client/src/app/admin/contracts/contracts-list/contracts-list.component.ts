@@ -175,19 +175,21 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
   }
 
   onType() {
-    this.contractsService.filterContract(this.search, 'any').subscribe(data => {
-      this.page = data.page;
-      this.rows = data.data;
-      if (data.data.length === 0) {
-        this.messages = {
-          emptyMessage: `
-          <div>
-              <p>Asnjë kontratë nuk përputhet me të dhënat e shypura</p>
-          </div>
-        `
-        };
-      }
-    });
+    this.contractsService.filterContract(this.search, 'any')
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(data => {
+        this.page = data.page;
+        this.rows = data.data;
+        if (data.data.length === 0) {
+          this.messages = {
+            emptyMessage: `
+            <div>
+                <p>Asnjë kontratë nuk përputhet me të dhënat e shypura</p>
+            </div>
+          `
+          };
+        }
+      });
     this.table.offset = 0;
   }
   onDatePick(event) {
@@ -202,19 +204,21 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
       this.search.date.toISOString();
       this.search.referenceDate.toISOString();
     }
-    this.contractsService.filterContract(this.search, 'any').subscribe(data => {
-      this.page = data.page;
-      this.rows = data.data;
-      if (data.data.length === 0) {
-        this.messages = {
-          emptyMessage: `
-          <div>
-              <p>Asnjë kontratë nuk përputhet me të dhënat e shypura</p>
-          </div>
-        `
-        };
-      }
-    });
+    this.contractsService.filterContract(this.search, 'any')
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(data => {
+        this.page = data.page;
+        this.rows = data.data;
+        if (data.data.length === 0) {
+          this.messages = {
+            emptyMessage: `
+            <div>
+                <p>Asnjë kontratë nuk përputhet me të dhënat e shypura</p>
+            </div>
+          `
+          };
+        }
+      });
     this.table.offset = 0;
   }
 
