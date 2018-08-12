@@ -51,7 +51,7 @@ router.post("/latest-contracts/page/ascending", (req, res) => {
             return page;
         })
         .then(page => {
-            Contract.find({ "year": new Date().getFullYear() }).then(data => {
+            Contract.find({ "year": { "$gte": 2018 } }).then(data => {
                 const returnData = [];
                 for (row of data) {
                     row = row.toObject();
@@ -510,8 +510,9 @@ router.post('/filter', (req, res) => {
     let date = req.body.date;
     let referenceDate = req.body.referenceDate;
     let value = req.body.value;
+    let year = req.body.year;
     if (string !== '' && directorate === '' & date === null && value === '') {
-        Contract.filterStringFieldsInContractsCount(string)
+        Contract.filterStringFieldsInContractsCount(string, year)
             .then(totalElements => {
                 page.totalElements = totalElements;
                 return page;
@@ -525,7 +526,7 @@ router.post('/filter', (req, res) => {
                 return page;
             })
             .then(page => {
-                return Contract.filterStringFieldsInContracts(string).sort({ "createdAt": -1 }).skip(page.skipPages).limit(page.size).
+                return Contract.filterStringFieldsInContracts(string, year).sort({ "createdAt": -1 }).skip(page.skipPages).limit(page.size).
                     then(result => {
                         delete page.skipPages;
                         response.page = page;
@@ -536,7 +537,7 @@ router.post('/filter', (req, res) => {
                 res.json(response);
             })
     } else if (string === '' && directorate !== '' & date === null && value === '') {
-        Contract.filterByDirectorateCount(directorate)
+        Contract.filterByDirectorateCount(directorate, year)
             .then(totalElements => {
                 page.totalElements = totalElements;
                 return page;
@@ -550,7 +551,7 @@ router.post('/filter', (req, res) => {
                 return page;
             })
             .then(page => {
-                return Contract.filterByDirectorate(directorate).skip(page.skipPages).
+                return Contract.filterByDirectorate(directorate, year).skip(page.skipPages).
                     limit(page.size).then(result => {
                         delete page.skipPages;
                         response.page = page;
@@ -561,7 +562,7 @@ router.post('/filter', (req, res) => {
                 res.json(response);
             })
     } else if (string === '' && directorate === '' & date !== null && value === '') {
-        Contract.filterByDateCount(date, referenceDate)
+        Contract.filterByDateCount(date, referenceDate, year)
             .then(totalElements => {
                 page.totalElements = totalElements;
                 return page;
@@ -575,7 +576,7 @@ router.post('/filter', (req, res) => {
                 return page;
             })
             .then(page => {
-                return Contract.filterByDate(date, referenceDate).skip(page.skipPages).
+                return Contract.filterByDate(date, referenceDate, year).skip(page.skipPages).
                     limit(page.size).then(result => {
                         delete page.skipPages;
                         response.page = page;
@@ -586,7 +587,7 @@ router.post('/filter', (req, res) => {
                 res.json(response);
             })
     } else if (string === '' && directorate === '' & date === null && value !== '') {
-        Contract.filterByValueCount(value)
+        Contract.filterByValueCount(value, year)
             .then(totalElements => {
                 page.totalElements = totalElements;
                 return page;
@@ -600,7 +601,7 @@ router.post('/filter', (req, res) => {
                 return page;
             })
             .then(page => {
-                return Contract.filterByValue(value).skip(page.skipPages).
+                return Contract.filterByValue(value, year).skip(page.skipPages).
                     limit(page.size).then(result => {
                         delete page.skipPages;
                         response.page = page;
@@ -611,7 +612,7 @@ router.post('/filter', (req, res) => {
                 res.json(response);
             })
     } else if (string !== '' && directorate !== '' & date === null && value === '') {
-        Contract.filterByStringAndDirectorateCount(string, directorate)
+        Contract.filterByStringAndDirectorateCount(string, directorate, year)
             .then(totalElements => {
                 page.totalElements = totalElements;
                 return page;
@@ -625,7 +626,7 @@ router.post('/filter', (req, res) => {
                 return page;
             })
             .then(page => {
-                return Contract.filterByStringAndDirectorate(string, directorate).skip(page.skipPages).
+                return Contract.filterByStringAndDirectorate(string, directorate, year).skip(page.skipPages).
                     limit(page.size).then(result => {
                         delete page.skipPages;
                         response.page = page;
@@ -636,7 +637,7 @@ router.post('/filter', (req, res) => {
                 res.json(response);
             })
     } else if (string !== '' && directorate !== '' & date !== null && value === '') {
-        Contract.filterbyStringDirectorateDateCount(string, directorate, date, referenceDate)
+        Contract.filterbyStringDirectorateDateCount(string, directorate, date, referenceDate, year)
             .then(totalElements => {
                 page.totalElements = totalElements;
                 return page;
@@ -650,7 +651,7 @@ router.post('/filter', (req, res) => {
                 return page;
             })
             .then(page => {
-                return Contract.filterbyStringDirectorateDate(string, directorate, date, referenceDate).skip(page.skipPages).
+                return Contract.filterbyStringDirectorateDate(string, directorate, date, referenceDate, year).skip(page.skipPages).
                     limit(page.size).then(result => {
                         delete page.skipPages;
                         response.page = page;
@@ -661,7 +662,7 @@ router.post('/filter', (req, res) => {
                 res.json(response);
             })
     } else if (string !== '' && directorate !== '' & date !== null && value !== '') {
-        Contract.filterByStringDirectorateDateValueCount(string, directorate, date, referenceDate, value)
+        Contract.filterByStringDirectorateDateValueCount(string, directorate, date, referenceDate, value, year)
             .then(totalElements => {
                 page.totalElements = totalElements;
                 return page;
@@ -675,7 +676,7 @@ router.post('/filter', (req, res) => {
                 return page;
             })
             .then(page => {
-                return Contract.filterByStringDirectorateDateValue(string, directorate, date, referenceDate, value).skip(page.skipPages).
+                return Contract.filterByStringDirectorateDateValue(string, directorate, date, referenceDate, value, year).skip(page.skipPages).
                     limit(page.size).then(result => {
                         delete page.skipPages;
                         response.page = page;
@@ -686,7 +687,7 @@ router.post('/filter', (req, res) => {
                 res.json(response);
             })
     } else if (string !== '' && directorate === '' & date !== null && value === '') {
-        Contract.filterByStringDateCount(string, date, referenceDate)
+        Contract.filterByStringDateCount(string, date, referenceDate, year)
             .then(totalElements => {
                 page.totalElements = totalElements;
                 return page;
@@ -700,7 +701,7 @@ router.post('/filter', (req, res) => {
                 return page;
             })
             .then(page => {
-                return Contract.filterByStringDate(string, date, referenceDate).skip(page.skipPages).
+                return Contract.filterByStringDate(string, date, referenceDate, year).skip(page.skipPages).
                     limit(page.size).then(result => {
                         delete page.skipPages;
                         response.page = page;
@@ -711,7 +712,7 @@ router.post('/filter', (req, res) => {
                 res.json(response);
             })
     } else if (string !== '' && directorate === '' & date === null && value !== '') {
-        Contract.filterByStringValueCount(string, value)
+        Contract.filterByStringValueCount(string, value, year)
             .then(totalElements => {
                 page.totalElements = totalElements;
                 return page;
@@ -725,7 +726,7 @@ router.post('/filter', (req, res) => {
                 return page;
             })
             .then(page => {
-                return Contract.filterByStringValue(string, value).skip(page.skipPages).
+                return Contract.filterByStringValue(string, value, year).skip(page.skipPages).
                     limit(page.size).then(result => {
                         delete page.skipPages;
                         response.page = page;
@@ -736,7 +737,7 @@ router.post('/filter', (req, res) => {
                 res.json(response);
             })
     } else if (string === '' && directorate !== '' & date !== null && value === '') {
-        Contract.filterbyDirectorateDateCount(directorate, date, referenceDate)
+        Contract.filterbyDirectorateDateCount(directorate, date, referenceDate, year)
             .then(totalElements => {
                 page.totalElements = totalElements;
                 return page;
@@ -750,7 +751,7 @@ router.post('/filter', (req, res) => {
                 return page;
             })
             .then(page => {
-                return Contract.filterbyDirectorateDate(directorate, date, referenceDate).skip(page.skipPages).
+                return Contract.filterbyDirectorateDate(directorate, date, referenceDate, year).skip(page.skipPages).
                     limit(page.size).then(result => {
                         delete page.skipPages;
                         response.page = page;
@@ -761,7 +762,7 @@ router.post('/filter', (req, res) => {
                 res.json(response);
             })
     } else if (string === '' && directorate !== '' & date === null && value !== '') {
-        Contract.filterByDirectorateValueCount(directorate, value)
+        Contract.filterByDirectorateValueCount(directorate, value, year)
             .then(totalElements => {
                 page.totalElements = totalElements;
                 return page;
@@ -775,7 +776,7 @@ router.post('/filter', (req, res) => {
                 return page;
             })
             .then(page => {
-                return Contract.filterByDirectorateValue(directorate, value).skip(page.skipPages).
+                return Contract.filterByDirectorateValue(directorate, value, year).skip(page.skipPages).
                     limit(page.size).then(result => {
                         delete page.skipPages;
                         response.page = page;
@@ -786,7 +787,7 @@ router.post('/filter', (req, res) => {
                 res.json(response);
             })
     } else if (string === '' && directorate === '' & date !== null && value !== '') {
-        Contract.filterByDateValueCount(date, referenceDate, value)
+        Contract.filterByDateValueCount(date, referenceDate, value, year)
             .then(totalElements => {
                 page.totalElements = totalElements;
                 return page;
@@ -800,7 +801,7 @@ router.post('/filter', (req, res) => {
                 return page;
             })
             .then(page => {
-                return Contract.filterByDateValue(date, referenceDate, value).skip(page.skipPages).
+                return Contract.filterByDateValue(date, referenceDate, value, year).skip(page.skipPages).
                     limit(page.size).then(result => {
                         delete page.skipPages;
                         response.page = page;
@@ -811,7 +812,7 @@ router.post('/filter', (req, res) => {
                 res.json(response);
             })
     } else if (string === '' && directorate !== '' & date !== null && value !== '') {
-        Contract.filterByDirectorateDateValueCount(directorate, date, referenceDate, value)
+        Contract.filterByDirectorateDateValueCount(directorate, date, referenceDate, value, year)
             .then(totalElements => {
                 page.totalElements = totalElements;
                 return page;
@@ -825,7 +826,7 @@ router.post('/filter', (req, res) => {
                 return page;
             })
             .then(page => {
-                return Contract.filterByDirectorateDateValue(directorate, date, referenceDate, value).skip(page.skipPages).
+                return Contract.filterByDirectorateDateValue(directorate, date, referenceDate, value, year).skip(page.skipPages).
                     limit(page.size).then(result => {
                         delete page.skipPages;
                         response.page = page;
@@ -836,7 +837,7 @@ router.post('/filter', (req, res) => {
                 res.json(response);
             })
     } else if (string !== '' && directorate !== '' & date === null && value !== '') {
-        Contract.filterByStringDirectorateValueCount(string, directorate, value)
+        Contract.filterByStringDirectorateValueCount(string, directorate, value, year)
             .then(totalElements => {
                 page.totalElements = totalElements;
                 return page;
@@ -850,7 +851,7 @@ router.post('/filter', (req, res) => {
                 return page;
             })
             .then(page => {
-                return Contract.filterByStringDirectorateValue(string, directorate, value).skip(page.skipPages).
+                return Contract.filterByStringDirectorateValue(string, directorate, value, year).skip(page.skipPages).
                     limit(page.size).then(result => {
                         delete page.skipPages;
                         response.page = page;
@@ -861,7 +862,7 @@ router.post('/filter', (req, res) => {
                 res.json(response);
             })
     } else if (string !== '' && directorate === '' & date !== null && value !== '') {
-        Contract.filterByStringDateValueCount(string, date, referenceDate, value)
+        Contract.filterByStringDateValueCount(string, date, referenceDate, value, year)
             .then(totalElements => {
                 page.totalElements = totalElements;
                 return page;
@@ -875,7 +876,7 @@ router.post('/filter', (req, res) => {
                 return page;
             })
             .then(page => {
-                return Contract.filterByStringDateValue(string, date, referenceDate, value).skip(page.skipPages).
+                return Contract.filterByStringDateValue(string, date, referenceDate, value, ).skip(page.skipPages).
                     limit(page.size).then(result => {
                         delete page.skipPages;
                         response.page = page;
@@ -885,7 +886,7 @@ router.post('/filter', (req, res) => {
             }).then(response => {
                 res.json(response);
             })
-    } else {
+    } else if (string === '' && directorate === '' & date === null && value === '' && year !== 'any') {
         Contract.countLatestContracts()
             .then(totalElements => {
                 page.totalElements = totalElements;
@@ -900,7 +901,7 @@ router.post('/filter', (req, res) => {
                 return page;
             })
             .then(page => {
-                return Contract.find({ "year": 2018 }).sort({ "createdAt": -1 }).skip(page.skipPages).limit(page.size).then(result => {
+                return Contract.find({ "year": { "$gte": 2018 }}).sort({ "createdAt": -1 }).skip(page.skipPages).limit(page.size).then(result => {
                     delete page.skipPages;
                     response.page = page;
                     response.data = result;
@@ -910,6 +911,31 @@ router.post('/filter', (req, res) => {
             .then(response => {
                 res.json(response)
             });
+    } else {
+        Contract.countContracts()
+        .then(totalElements => {
+            page.totalElements = totalElements;
+            return page;
+        })
+        .then(page => {
+            page.totalPages = Math.round(page.totalElements / page.size)
+            return page;
+        })
+        .then(page => {
+            page.skipPages = page.size * page.pageNumber
+            return page;
+        })
+        .then(page => {
+            return Contract.find().sort({ "createdAt": -1 }).skip(page.skipPages).limit(page.size).then(result => {
+                delete page.skipPages;
+                response.page = page;
+                response.data = result;
+                return response;
+            });
+        })
+        .then(response => {
+            res.json(response)
+        });
     }
 });
 

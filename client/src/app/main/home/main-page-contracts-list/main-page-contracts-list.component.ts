@@ -90,7 +90,7 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
           this.rows = pagedData.data;
         });
     } else {
-      this.contractsService.filterContract(this.search, '2018')
+      this.contractsService.filterContract(this.search)
         .takeUntil(this.unsubscribeAll)
         .subscribe(data => {
           this.page = data.page;
@@ -157,7 +157,7 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
   }
 
   onType() {
-    this.contractsService.filterContract(this.search, '2018')
+    this.contractsService.filterContract(this.search)
       .takeUntil(this.unsubscribeAll)
       .subscribe(data => {
         this.page = data.page;
@@ -187,7 +187,7 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
       this.search.date.toISOString();
       this.search.referenceDate.toISOString();
     }
-    this.contractsService.filterContract(this.search, '2018')
+    this.contractsService.filterContract(this.search)
       .takeUntil(this.unsubscribeAll)
       .subscribe(data => {
         this.page = data.page;
