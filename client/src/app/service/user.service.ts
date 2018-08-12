@@ -5,6 +5,7 @@ import { environment } from '../../environments/environment';
 import { tokenNotExpired } from 'angular2-jwt';
 import { Auth } from '../utils/auth';
 import { HttpClientService } from './http-client.service';
+import { Router } from '@angular/router';
 
 
 @Injectable()
@@ -13,8 +14,11 @@ export class UserService {
   token: any;
   user: any;
   authHeaders: Headers;
+  isLoggedIn: Boolean = false;
+  // store the URL so we can redirect after logging in
+  public redirectUrl: string;
 
-  constructor(public http: HttpClientService) {
+  constructor(public http: HttpClientService, private router: Router) {
     this.http = http;
     this.authHeaders = this.loadToken();
   }
@@ -37,7 +41,16 @@ export class UserService {
   }
 
   authUser(user) {
-    return this.http.post(`${this.APIUrl}/login`, user).map(res => res.json());
+    return this.http.post(`${this.APIUrl}/login`, user).map(res => {
+      this.isLoggedIn = true;
+      if (this.redirectUrl) {
+        this.router.navigate([this.redirectUrl]);
+        this.redirectUrl = null;
+      } else {
+        this.router.navigate(['/dashboard']);
+      }
+      return res.json();
+    });
   }
 
   storeUserData(token, user) {
@@ -57,6 +70,7 @@ export class UserService {
     this.user = null;
     localStorage.removeItem('id_token');
     localStorage.removeItem('user');
+    this.isLoggedIn = false;
   }
 
   getUserByID(id) {
