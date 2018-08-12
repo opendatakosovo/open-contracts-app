@@ -122,7 +122,7 @@ export class DataDashboardComponent implements OnInit {
   updateDataset(valid) {
     if (valid !== false) {
       Swal({
-        title: `A jeni të sigurt që deshironi ta importoni datasetin "${this.fileToUpload.name}" ?`,
+        title: `A jeni të sigurt që deshironi ta përditësoni datasetin "${this.fileToUpload.name}" ?`,
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#007bff',
