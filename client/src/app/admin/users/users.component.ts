@@ -7,6 +7,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { Directorate } from '../../models/directorates';
 import { DirectorateService } from '../../service/directorate.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-users',
@@ -22,7 +23,7 @@ export class UsersComponent implements OnInit {
   directorateModal: Directorate;
   currentUser: User;
   numberOfDirectorates: number;
-  constructor(public userService: UserService, private modalService: BsModalService, public directorateService: DirectorateService) {
+  constructor(public userService: UserService, private modalService: BsModalService, public directorateService: DirectorateService, private route: Router) {
     this.userModal = new User();
     this.user = new User();
     this.currentUser = new User();
@@ -40,7 +41,11 @@ export class UsersComponent implements OnInit {
     this.currentUser = JSON.parse(localStorage.getItem('user'));
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    if (this.currentUser.role !== 'superadmin' && this.currentUser.role !== 'admin') {
+      this.route.navigate(['/dashboard']);
+    }
+  }
 
   // Function to open add user modal
   openModal(template: TemplateRef<any>) {

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { Subject } from 'rxjs/Subject';
 import { Title } from '@angular/platform-browser';
+import { User } from '../../../models/user';
 
 @Component({
   selector: 'app-dashboard-layout',
@@ -12,6 +13,7 @@ import { Title } from '@angular/platform-browser';
 })
 export class DashboardLayoutComponent implements OnInit {
   private unsubscribeAll: Subject<any> = new Subject<any>();
+  currentUser: User;
   constructor(
     private userService: UserService,
     private router: Router, private translate: TranslateService, private titleService: Title
@@ -21,9 +23,17 @@ export class DashboardLayoutComponent implements OnInit {
       .subscribe(name => {
         this.titleService.setTitle(name);
       });
+    this.currentUser = JSON.parse(localStorage.getItem('user'));
   }
 
   ngOnInit() {
+  }
+
+  authorize() {
+    if (this.currentUser.role !== 'superadmin' && this.currentUser.role !== 'admin') {
+      return false;
+    }
+    return true;
   }
 
   onLogout() {

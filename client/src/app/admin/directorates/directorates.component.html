@@ -3,7 +3,7 @@
     <div class="col-6">
       <h1 class="title">Drejtoritë</h1>
     </div>
-    <div class="col-6" id="add-user-btn">
+    <div *ngIf="authorize()" class="col-6" id="add-user-btn">
       <button (click)="openModal(addDirectorateModal)" class="float-right btn btn-outline-primary" id="add-btn" data-toggle="modal">
         <span class="fa fa-plus"></span> Shto Drejtorinë
       </button>
@@ -23,7 +23,7 @@
             <p class="deactive"> {{ directorate.directorateName }}</p>
             <p class="text-danger"> Jo-Aktiv</p>
           </td>
-          <td class="edit-ico" *ngIf="directorate.directorateIsActive == true">
+          <td class="edit-ico" *ngIf="directorate.directorateIsActive == true && authorize()">
             <span>
               <a data-toggle="modal" data-toggle="tooltip" title="Shto/fshij personat përgjegjës" (click)="openAddRemovePeopleInChargeModal(addRemovePeopleInChargeModal, $event)"
                 [attr.data-id]="directorate._id">
@@ -31,7 +31,7 @@
               </a>
             </span>
           </td>
-          <td class="edit-ico" *ngIf="directorate.directorateIsActive == true">
+          <td class="edit-ico" *ngIf="directorate.directorateIsActive == true && authorize()">
             <span>
               <a data-toggle="modal" data-toggle="tooltip" title="Ndrysho drejtorinë" (click)="editModal(editDirectorateModal, $event)"
                 [attr.data-id]="directorate.peopleInCharge">
@@ -39,7 +39,7 @@
               </a>
             </span>
           </td>
-          <td class="delete-ico" *ngIf="directorate.directorateIsActive == true">
+          <td class="delete-ico" *ngIf="directorate.directorateIsActive == true && authorize()">
             <span>
               <a data-toggle="modal" data-toggle="tooltip" title="Deaktivizo drejtorinë" (click)="deactivateModal(modalDactivateDirectorate, $event)"
                 [attr.data-id]="directorate._id">
