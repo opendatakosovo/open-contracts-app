@@ -9,6 +9,7 @@
       "outDir": "../public",
       "assets": [
         "assets",
+        "favicon.ico",
         "images"
       ],
       "index": "index.html",
