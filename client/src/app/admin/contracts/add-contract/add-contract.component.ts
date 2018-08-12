@@ -11,6 +11,7 @@ import { DirectorateService } from '../../../service/directorate.service';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { CustomValidator } from '../../../validators/custom-validator';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-contract',
@@ -37,7 +38,7 @@ export class AddContractComponent implements OnInit {
   total: Number;
   totalInstallments: Number;
 
-  constructor(public contractsService: ContractsService, public directorateService: DirectorateService, private _fb: FormBuilder) {
+  constructor(public contractsService: ContractsService, public directorateService: DirectorateService, private _fb: FormBuilder, private router: Router) {
 
     this.directorates = [];
     this.contract = new Contract();
@@ -309,7 +310,7 @@ export class AddContractComponent implements OnInit {
             } else {
               Swal('Sukses!', 'Kontrata u shtua me sukses.', 'success').then((result) => {
                 if (result.value) {
-                  window.location.href = 'dashboard/contracts/';
+                  this.router.navigate(['/dashboard/contracts']);
                 }
               });
             }
@@ -374,7 +375,7 @@ export class AddContractComponent implements OnInit {
             } else {
               Swal('Sukses!', 'Kontrata u shtua me sukses.', 'success').then((result) => {
                 if (result.value) {
-                  window.location.href = 'dashboard/contracts/';
+                  this.router.navigate(['/dashboard/contracts']);
                 }
               });
             }

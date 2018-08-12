@@ -10,6 +10,7 @@ import Swal from 'sweetalert2';
 import { ActivatedRoute } from '@angular/router';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-edit-contract',
@@ -38,7 +39,7 @@ export class EditContractComponent implements OnInit {
   totalInstallments: Number;
   @ViewChild('fileInput') fileInput;
   implementationDeadline = [];
-  constructor(public contractsService: ContractsService, private router: ActivatedRoute, public directorateService: DirectorateService, private _fb: FormBuilder) {
+  constructor(public contractsService: ContractsService, private router: ActivatedRoute, public directorateService: DirectorateService, private _fb: FormBuilder, private route: Router) {
     this.directorates = [];
     this.contract = new Contract();
     this.formArrayAnnexes = new FormArray([]);
@@ -428,7 +429,7 @@ export class EditContractComponent implements OnInit {
             } else {
               Swal('Sukses!', 'Kontrata u ndryshua me sukses.', 'success').then((result) => {
                 if (result.value) {
-                  window.location.href = 'dashboard/contracts/';
+                  this.route.navigate(['/dashboard/contracts']);
                 }
               });
             }
@@ -489,7 +490,7 @@ export class EditContractComponent implements OnInit {
             } else {
               Swal('Sukses!', 'Kontrata u ndryshua me sukses.', 'success').then((result) => {
                 if (result.value) {
-                  window.location.href = 'dashboard/contracts/';
+                  this.route.navigate(['/dashboard/contracts']);
                 }
               });
             }
