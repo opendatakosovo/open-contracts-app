@@ -6,6 +6,7 @@ const passport = require("passport");
 const mongoose = require("mongoose");
 const config = require("./config/database");
 const morgan = require('morgan');
+const favicon = require('serve-favicon')
 
 require('dotenv').config();
 
@@ -49,6 +50,8 @@ app.use(morgan('dev'));
 // Registering all controllers
 app.use(require('./controllers'));
 
+app.use(favicon(path.join(__dirname + '/client', 'src', 'assets', 'favicon.ico')));
+
 // Route all upload files
 app.get('/uploads/:filename', (req, res) => {
   res.sendFile(path.join(__dirname, `uploads/${req.params.filename}`));
@@ -63,6 +66,8 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
+
 app.listen(port, () => {
   console.log("Server started on port:" + port);
 });
+
