@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const Dataset = require('../../models/datasets');
 const upload = require("../../utils/datasetStorage");
+const reupload = require("../../utils/updateDatasetStorage");
 const Contract = require('../../models/contracts');
 const passport = require('passport');
 const datasetValidation = require('../../middlewares/dataset_file_validation');
@@ -188,6 +189,46 @@ router.get('/json/:year', (req, res) => {
         }).catch(err => {
             res.json(err);
         });
+});
+
+router.put('/update', reupload.single('datasetFile'), (req, res) => {
+    if (req.typeValidation) {
+        res.json({
+            "typeValidation": "Dataset type is wrong",
+            "success": false
+        });
+    } else if (req.nameValidation) {
+        res.json({
+            "nameValidation": "Dataset is old or dataset name is invalid",
+            "success": false
+        });
+    } else if (req.fileDoesntExist) {
+        res.json({
+            "fileDoesntExist": "Dataset cannot updated because doesn't exist",
+            "success": false
+        });
+    } else {
+        const dataset = {
+            datasetFilePath: req.file.originalname,
+            folder: "new"
+        };
+        Dataset.updateByFilePath(dataset.datasetFilePath, dataset)
+            .then(data => {
+                res.json({
+                    "msg": "Dataset has been updated successfully",
+                    "dataset": data,
+                    "success": true,
+                });
+            })
+            .catch(err => {
+                console.log(err);
+                res.json({
+                    "err": err,
+                    "success": false
+                });
+            })
+    }
+
 });
 
 module.exports = router;
