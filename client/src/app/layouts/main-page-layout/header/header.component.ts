@@ -18,7 +18,7 @@ export class HeaderComponent implements OnInit {
   selectedItem = 'sq';
   isActive: boolean;
   currentUser: User;
-  constructor(private translate: TranslateService, private titleService: Title, private router: Router,
+  constructor(public translate: TranslateService, private titleService: Title, private router: Router,
     @Inject(DOCUMENT) private document: any, private pageScrollService: PageScrollService, private userService: UserService) {
     this.isActive = false;
     if (localStorage.getItem('language')) {
