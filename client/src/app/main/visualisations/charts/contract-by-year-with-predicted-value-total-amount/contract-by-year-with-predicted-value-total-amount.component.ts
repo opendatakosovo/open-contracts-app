@@ -36,12 +36,15 @@ export class ContractByYearWithPredictedValueTotalAmountComponent implements OnI
             type: 'line'
           },
           title: {
-            text: 'Krahasimi i vlerës parashikuar të kontratës me vlerën totale të kontratës me taksa'
+            text: 'Krahasimi në mes vlerës së parashikuar dhe vlerës totale të kontratave'
           },
           xAxis: {
             categories: data.activityTitles
           },
           yAxis: {
+            title: {
+              text: 'Vlerat'
+            },
             labels: {
               formatter: function () {
                 return `${new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(this.value)}`;
