@@ -21,4 +21,8 @@ export class DatasetService {
     return this.http.getWithAuth(`${this.APIUrl}/datasets/json/` + year).map(res => res.json());
   }
 
+  updateDataset(formData: FormData) {
+    return this.http.putWithAuth(`${this.APIUrl}/datasets/update/`, formData, 'multipart').map(res => res.json());
+  }
+
 }
