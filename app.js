@@ -50,7 +50,7 @@ app.use(morgan('dev'));
 // Registering all controllers
 app.use(require('./controllers'));
 
-app.use(favicon(path.join(__dirname + '/client', 'src', 'assets', 'favicon.ico')));
+app.use(favicon(path.join(__dirname + '/client', 'src', 'favicon.ico')));
 
 // Route all upload files
 app.get('/uploads/:filename', (req, res) => {
