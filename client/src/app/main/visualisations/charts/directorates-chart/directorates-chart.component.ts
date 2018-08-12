@@ -31,7 +31,7 @@ export class DirectoratesChartComponent implements OnInit {
             type: 'bar'
           },
           title: {
-            text: 'Drejtoritë me më shumëti kontrata '
+            text: 'Numri i kontratave në bazë të drejtorive'
           },
           xAxis: {
             type: 'category',
@@ -51,7 +51,7 @@ export class DirectoratesChartComponent implements OnInit {
             },
           },
           tooltip: {
-            pointFormat: '<span style="color:{series.color}">Nr kontratave: {point.y}</span><br/>'
+            pointFormat: '<span style="color:{series.color}">Numri i kontratave: {point.y}</span><br/>'
           },
           series: [{
             name: 'Drejtoritë',

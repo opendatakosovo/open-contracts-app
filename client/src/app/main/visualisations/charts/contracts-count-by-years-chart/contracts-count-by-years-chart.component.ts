@@ -38,11 +38,11 @@ export class ContractsCountByYearsChartComponent implements OnInit {
           },
           yAxis: {
             title: {
-              text: 'Kontratat'
+              text: 'Numri'
             }
           },
           tooltip: {
-            pointFormat: '<span style="color:{series.color}">Nr kontratave: {point.y}</span><br/>'
+            pointFormat: '<span style="color:{series.color}">Numri i kontratave: {point.y}</span><br/>'
           },
           legend: {
             enabled: false

@@ -38,7 +38,7 @@ export class ContractBySigningDatePublicationDateChartComponent implements OnIni
             type: 'spline'
           },
           title: {
-            text: 'Krahasimi i datës publikimit të dhënies kontratës me datën të nënshkrimit kontratës'
+            text: 'Krahasimi në mes datës së publikimit dhe datës së nënshkrimit të kontratave'
           },
           xAxis: {
             categories: data.activityTitles
@@ -47,7 +47,6 @@ export class ContractBySigningDatePublicationDateChartComponent implements OnIni
             type: 'datetime',
             title: {
               text: ''
-
             }
           },
           tooltip: {
@@ -55,10 +54,10 @@ export class ContractBySigningDatePublicationDateChartComponent implements OnIni
             pointFormat: ` {point.y:%d.%m.%Y}`
           },
           series: [{
-            name: 'Data publikimit të dhënies kontratës',
+            name: 'Data publikimit',
             data: data.signingDates
           }, {
-            name: 'Data të nënshkrimit kontratës',
+            name: 'Data të nënshkrimit',
             data: data.publicationDatesOfGivenContracts
           }]
         });
