@@ -58,10 +58,12 @@ export class UserService {
     localStorage.setItem('user', JSON.stringify(user));
     this.token = token;
     this.user = user;
+    this.isLoggedIn = true;
   }
 
 
   loggedIn() {
+    this.isLoggedIn = true;
     return tokenNotExpired('id_token');
   }
 
@@ -70,7 +72,6 @@ export class UserService {
     this.user = null;
     localStorage.removeItem('id_token');
     localStorage.removeItem('user');
-    this.isLoggedIn = false;
   }
 
   getUserByID(id) {
