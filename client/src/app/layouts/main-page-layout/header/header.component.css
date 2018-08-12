@@ -144,6 +144,9 @@ a {
 .nav-link {
     text-transform: uppercase;
 }
+.open-businesses {
+    width: auto !important;
+}
 /*--------Responsive--------*/
 
 @media (max-width: 1480px) {
