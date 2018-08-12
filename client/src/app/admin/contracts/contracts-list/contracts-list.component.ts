@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import { Page } from '../../../models/page';
 import { DatatableComponent } from '@swimlane/ngx-datatable/src/components/datatable.component';
 import { BsDatepickerConfig, BsLocaleService } from 'ngx-bootstrap/datepicker';
+import { User } from '../../../models/user';
 
 
 @Component({
@@ -24,6 +25,7 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
   modalRef: BsModalRef;
   page = new Page();
   rows = new Array<Contract>();
+  currentUser: User;
   private ref: ChangeDetectorRef;
   private datatableBodyElement: Element;
   search = {
@@ -60,6 +62,7 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
         column: ''
       }
     };
+    this.currentUser = JSON.parse(localStorage.getItem('user'));
   }
 
   messages = {
@@ -177,7 +180,7 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
   }
 
   onType() {
-    this.contractsService.filterContract(this.search)
+    this.contractsService.filterContractDashboard(this.search, this.currentUser.role, this.currentUser.directorateName)
       .takeUntil(this.unsubscribeAll)
       .subscribe(data => {
         this.page = data.page;
@@ -206,7 +209,7 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
       this.search.date.toISOString();
       this.search.referenceDate.toISOString();
     }
-    this.contractsService.filterContract(this.search)
+    this.contractsService.filterContractDashboard(this.search, this.currentUser.role, this.currentUser.directorateName)
       .takeUntil(this.unsubscribeAll)
       .subscribe(data => {
         this.page = data.page;

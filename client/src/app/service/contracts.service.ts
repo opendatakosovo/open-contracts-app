@@ -54,7 +54,9 @@ export class ContractsService {
   filterContract(search) {
     return this.http.postWithAuth(`${this.APIUrl}/contracts/filter`, search).map(res => res.json());
   }
-
+  filterContractDashboard(search, role, directorateName) {
+    return this.http.postWithAuth(`${this.APIUrl}/contracts/filter${role != null ? `?role=${role}&directorate=${directorateName}` : ''}`, search).map(res => res.json());
+  }
   serverSortContractsAscending(data) {
     return this.http.postWithAuth(`${this.APIUrl}/contracts/page/ascending`, data).map(res => res.json());
   }

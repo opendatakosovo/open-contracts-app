@@ -228,7 +228,7 @@ router.get('/top-ten-contracts-with-highest-amount-by-year/:year', (req, res) =>
 
 router.get('/contracts-count-by-procurement-category-and-year/:category/:year', (req, res) => {
     let c = req.params.category;
-    switch(c) {
+    switch (c) {
         case 'type':
             c = 'procurementType'
             break;
@@ -388,7 +388,6 @@ router.get('/contracts', passport.authenticate('jwt', { session: false }), (req,
 // Get all years from contract
 router.get('/years/:from?', (req, res) => {
     if (req.params.from != null) {
-        console.log(req.params)
         Contract.getContractYears(parseInt(req.params.from)).then(data => {
             data = data.sort(order("year", 'desc'));
             res.json(data);

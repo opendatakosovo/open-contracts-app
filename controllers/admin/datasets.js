@@ -4,10 +4,9 @@ const upload = require("../../utils/datasetStorage");
 const reupload = require("../../utils/updateDatasetStorage");
 const Contract = require('../../models/contracts');
 const passport = require('passport');
-const datasetValidation = require('../../middlewares/dataset_file_validation');
 const shell = require('shelljs');
 const fs = require('fs');
-let exec = require('child_process').exec, child;
+const authorize = require('../../middlewares/authorization');
 
 
 router.get("/", (req, res) => {
@@ -26,7 +25,7 @@ router.get("/", (req, res) => {
     });
 });
 
-router.post("/", passport.authenticate('jwt', { session: false }), upload.single('datasetFile'), (req, res) => {
+router.post("/", passport.authenticate('jwt', { session: false }), authorize('superadmin', 'admin'), upload.single('datasetFile'), (req, res) => {
     if (req.typeValidation) {
         res.json({
             "typeValidation": "Dataset type is wrong",
@@ -191,7 +190,7 @@ router.get('/json/:year', (req, res) => {
         });
 });
 
-router.put('/update', reupload.single('datasetFile'), (req, res) => {
+router.put('/update', passport.authenticate('jwt', { session: false }), authorize('superadmin', 'admin'), reupload.single('datasetFile'), (req, res) => {
     if (req.typeValidation) {
         res.json({
             "typeValidation": "Dataset type is wrong",
