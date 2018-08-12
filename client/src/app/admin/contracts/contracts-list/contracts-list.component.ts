@@ -32,6 +32,7 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
     date: new Date(),
     referenceDate: new Date(),
     value: '',
+    year: '',
     pageInfo: new Page()
   };
   offsetX: number;
@@ -50,6 +51,7 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
       date: null,
       referenceDate: null,
       value: '',
+      year: 'any',
       pageInfo: {
         pageNumber: 0,
         size: 10,
@@ -175,7 +177,7 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
   }
 
   onType() {
-    this.contractsService.filterContract(this.search, 'any')
+    this.contractsService.filterContract(this.search)
       .takeUntil(this.unsubscribeAll)
       .subscribe(data => {
         this.page = data.page;
@@ -204,7 +206,7 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
       this.search.date.toISOString();
       this.search.referenceDate.toISOString();
     }
-    this.contractsService.filterContract(this.search, 'any')
+    this.contractsService.filterContract(this.search)
       .takeUntil(this.unsubscribeAll)
       .subscribe(data => {
         this.page = data.page;

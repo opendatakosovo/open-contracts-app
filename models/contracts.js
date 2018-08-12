@@ -108,7 +108,7 @@ module.exports.updateContract = (id, contract, callback) => {
 
 // Function for finding 2018 contracts
 module.exports.latestContracts = (callback) => {
-    Contract.find({ "year": 2018 }, callback);
+    Contract.find({ "year": { "$gte": 2018 }}, callback);
 }
 
 module.exports.countContracts = () => {
@@ -116,7 +116,7 @@ module.exports.countContracts = () => {
 }
 
 module.exports.countLatestContracts = () => {
-    return Contract.find({ "year": 2018 }).count();
+    return Contract.find({ "year": {"$gte": 2018 }}).count();
 }
 
 
@@ -268,1006 +268,1218 @@ module.exports.getTotalContracts = () => Contract.find().count();
 
 // Filter functions
 // Filter by any string field
-module.exports.filterStringFieldsInContracts = (text) => {
-    return Contract.find({
-        "$and":
-            [{
-                "$or": [
-                    { "activityTitleSlug": { "$regex": text, "$options": 'i' } },
-                    { "contract.implementationDeadlineSlug": { "$regex": text, "$options": 'i' } },
-                    { "company.slug": { "$regex": text, "$options": 'i' } }
+module.exports.filterStringFieldsInContracts = (text, year) => {
+    let filter = [];
+
+    if (year !== 'any') {
+        filter.push({ "$match": { "year": { "$gte": 2018 } }})
+    }
+    filter.push({
+        "$match": {
+            "$and":
+                [{
+                    "$or": [
+                        { "activityTitleSlug": { "$regex": text, "$options": 'i' } },
+                        { "contract.implementationDeadlineSlug": { "$regex": text, "$options": 'i' } },
+                        { "company.slug": { "$regex": text, "$options": 'i' } }
+                    ]
+                }
                 ]
-            },
-            { "year": new Date().getFullYear() }
-            ]
-    });
-}
-module.exports.filterStringFieldsInContractsCount = (text) => {
-    return Contract.count({
-        "$and":
-            [{
-                "$or": [
-                    { "activityTitleSlug": { "$regex": text, "$options": 'i' } },
-                    { "contract.implementationDeadlineSlug": { "$regex": text, "$options": 'i' } },
-                    { "company.slug": { "$regex": text, "$options": 'i' } }
-                ]
-            },
-            { "year": new Date().getFullYear() }
-            ]
+        }
     })
+    return Contract.aggregate(filter);
 }
 
+module.exports.filterStringFieldsInContractsCount = (text, year) => {
+    let filter = [];
+
+    if (year !== 'any') {
+        filter.push({ "$match": { "year": { "$gte": 2018 } }})
+    }
+
+    filter.push({
+        "$match": {
+            "$and":
+                [{
+                    "$or": [
+                        { "activityTitleSlug": { "$regex": text, "$options": 'i' } },
+                        { "contract.implementationDeadlineSlug": { "$regex": text, "$options": 'i' } },
+                        { "company.slug": { "$regex": text, "$options": 'i' } }
+                    ]
+                }
+                ]
+        }
+    })
+    return Contract.count(filter);
+}
 // Filter by directorate 
-module.exports.filterByDirectorate = (directorate) => {
-    return Contract.find({
-        "$and":
-            [
-                { "year": new Date().getFullYear() },
-                { "directoratesSlug": { "$regex": directorate, "$options": "i" } }
-            ]
+module.exports.filterByDirectorate = (directorate, year) => {
+    let filter = [];
 
-    });
+    if (year !== 'any') {
+        filter.push({ "$match": { "year": { "$gte": 2018 } }})
+    }
+    filter.push({
+        "$match":
+            { "directoratesSlug": { "$regex": directorate, "$options": "i" } }
+    })
+    return Contract.aggregate(filter);
 }
 
-module.exports.filterByDirectorateCount = (directorate) => {
-    return Contract.count({
-        "$and":
-            [
-                { "year": new Date().getFullYear() },
-                { "directoratesSlug": { "$regex": directorate, "$options": "i" } }
-            ]
+module.exports.filterByDirectorateCount = (directorate, year) => {
+    let filter = [];
 
-    });
+    if (year !== 'any') {
+        filter.push({ "$match": { "year": { "$gte": 2018 } }})
+    }
+    filter.push({
+        "$match":
+            { "directoratesSlug": { "$regex": directorate, "$options": "i" } }
+
+    })
+    return Contract.count(filter);
 }
 
 // Filter by date 
-module.exports.filterByDate = (date, referenceDate) => {
-    return Contract.find({
-        "$and":
-            [
-                { "year": new Date().getFullYear() },
-                {
-                    "$or": [
-                        {
-                            "contract.publicationDate":
+module.exports.filterByDate = (date, referenceDate, year) => {
+    let filter = [];
+
+    if (year !== 'any') {
+        filter.push({ "$match": { "year": { "$gte": 2018 } }})
+    }
+    filter.push({
+        "$match":
+            {
+                "$or": [
+                    {
+                        "contract.publicationDate":
                             {
-                                "$gte": date,
-                                "$lt": referenceDate
+                                "$gte": new Date(date),
+                                "$lt": new Date(referenceDate)
                             }
-                        },
-                        {
-                            "contract.publicationDateOfGivenContract":
+                    },
+                    {
+                        "contract.publicationDateOfGivenContract":
                             {
-                                "$gte": date,
-                                "$lt": referenceDate
+                                "$gte": new Date(date),
+                                "$lt": new Date(referenceDate)
                             }
-                        },
-                        {
-                            "contract.signingDate":
+                    },
+                    {
+                        "contract.signingDate":
                             {
-                                "$gte": date,
-                                "$lt": referenceDate
+                                "$gte": new Date(date),
+                                "$lt": new Date(referenceDate)
                             }
-                        },
-                        {
-                            "cancellationNoticeDate":
+                    },
+                    {
+                        "cancellationNoticeDate":
                             {
-                                "$gte": date,
-                                "$lt": referenceDate
+                                "$gte": new Date(date),
+                                "$lt": new Date(referenceDate)
                             }
-                        }
-                    ]
-                }]
-    });
+                    }
+                ]
+            }
+    })
+    return Contract.aggregate(filter);
 }
 
-module.exports.filterByDateCount = (date, referenceDate) => {
-    return Contract.count({
-        "$and":
-            [
-                { "year": new Date().getFullYear() },
-                {
-                    "$or": [
-                        {
-                            "contract.publicationDate":
+module.exports.filterByDateCount = (date, referenceDate, year) => {
+    let filter = [];
+
+    if (year !== 'any') {
+        filter.push({ "$match": { "year": { "$gte": 2018 } }})
+    }
+    filter.push({
+        "$match":
+            {
+                "$or": [
+                    {
+                        "contract.publicationDate":
                             {
-                                "$gte": date,
-                                "$lt": referenceDate
+                                "$gte": new Date(date),
+                                "$lt": new Date(referenceDate)
                             }
-                        },
-                        {
-                            "contract.publicationDateOfGivenContract":
+                    },
+                    {
+                        "contract.publicationDateOfGivenContract":
                             {
-                                "$gte": date,
-                                "$lt": referenceDate
+                                "$gte": new Date(date),
+                                "$lt": new Date(referenceDate)
                             }
-                        },
-                        {
-                            "contract.signingDate":
+                    },
+                    {
+                        "contract.signingDate":
                             {
-                                "$gte": date,
-                                "$lt": referenceDate
+                                "$gte": new Date(date),
+                                "$lt": new Date(referenceDate)
                             }
-                        },
-                        {
-                            "cancellationNoticeDate":
+                    },
+                    {
+                        "cancellationNoticeDate":
                             {
-                                "$gte": date,
-                                "$lt": referenceDate
+                                "$gte": new Date(date),
+                                "$lt": new Date(referenceDate)
                             }
-                        }
-                    ]
-                }]
-    });
+                    }
+                ]
+            }
+    })
+    return Contract.count(filter);
 }
 
 // Filter by value
+module.exports.filterByValue = (value, year) => {
+    let filter = [];
 
-module.exports.filterByValue = (value) => {
-    return Contract.find({
-        "$and":
-            [
-                {
-                    "$or": [
-                        { "contract.predictedValue": { "$regex": value } },
-                        { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
-                    ]
-                },
-                { "year": new Date().getFullYear() }
-            ]
-    });
+    if (year !== 'any') {
+        filter.push({ "$match": { "year": { "$gte": 2018 } }})
+    }
+    filter.push({
+        "$match":
+            {
+                "$or": [
+                    { "contract.predictedValue": { "$regex": value } },
+                    { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
+                ]
+            }
+
+    })
+    return Contract.aggregate(filter);
 }
 
-module.exports.filterByValueCount = (value) => {
-    return Contract.count({
-        "$and":
-            [
-                {
-                    "$or": [
-                        { "contract.predictedValue": { "$regex": value } },
-                        { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
-                    ]
-                },
-                { "year": new Date().getFullYear() }
-            ]
-    });
+module.exports.filterByValueCount = (value, year) => {
+    let filter = [];
+
+    if (year !== 'any') {
+        filter.push({ "$match": { "year": { "$gte": 2018 } }})
+    }
+    filter.push({
+        "$match":
+            {
+                "$or": [
+                    { "contract.predictedValue": { "$regex": value } },
+                    { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
+                ]
+            }
+
+    })
+    return Contract.count(filter);
 }
 
 // Filter by string and directorate 
+module.exports.filterByStringAndDirectorate = (text, directorate, year) => {
+    let filter = [];
 
-module.exports.filterByStringAndDirectorate = (text, directorate) => {
-    return Contract.find({
-        "$and":
-            [{
-                "$or": [
-                    { "activityTitleSlug": { "$regex": text, "$options": 'i' } },
-                    { "contract.implementationDeadlineSlug": { "$regex": text, "$options": 'i' } },
-                    { "company.slug": { "$regex": text, "$options": 'i' } }
-                ]
-            },
-            { "directoratesSlug": { "$regex": directorate, "$options": "i" } },
-            { "year": new Date().getFullYear() }
-            ]
+    if (year !== 'any') {
+        filter.push({ "$match": { "year": { "$gte": 2018 } }})
+    }
+    filter.push({
+        "$match":
+            {
+                "$and":
+                    [{
+                        "$or": [
+                            { "activityTitleSlug": { "$regex": text, "$options": 'i' } },
+                            { "contract.implementationDeadlineSlug": { "$regex": text, "$options": 'i' } },
+                            { "company.slug": { "$regex": text, "$options": 'i' } }
+                        ]
+                    },
+                    { "directoratesSlug": { "$regex": directorate, "$options": "i" } }
+                    ]
+            }
+
     });
+    return Contract.aggregate(filter);
 }
 
-module.exports.filterByStringAndDirectorateCount = (text, directorate) => {
-    return Contract.count({
-        "$and":
-            [{
-                "$or": [
-                    { "activityTitleSlug": { "$regex": text, "$options": 'i' } },
-                    { "contract.implementationDeadlineSlug": { "$regex": text, "$options": 'i' } },
-                    { "company.slug": { "$regex": text, "$options": 'i' } }
-                ]
-            },
-            { "directoratesSlug": { "$regex": directorate, "$options": "i" } },
-            { "year": new Date().getFullYear() }
-            ]
+module.exports.filterByStringAndDirectorateCount = (text, directorate, year) => {
+    let filter = [];
+
+    if (year !== 'any') {
+        filter.push({ "$match": { "year": { "$gte": 2018 } }})
+    }
+    filter.push({
+        "$match":
+            {
+                "$and":
+                    [{
+                        "$or": [
+                            { "activityTitleSlug": { "$regex": text, "$options": 'i' } },
+                            { "contract.implementationDeadlineSlug": { "$regex": text, "$options": 'i' } },
+                            { "company.slug": { "$regex": text, "$options": 'i' } }
+                        ]
+                    },
+                    { "directoratesSlug": { "$regex": directorate, "$options": "i" } }
+                    ]
+            }
+
     });
+    return Contract.count(filter);
 }
 
 // Filter by string, directorate, date
-module.exports.filterbyStringDirectorateDate = (text, directorate, date, referenceDate) => {
-    return Contract.find({
-        "$and":
-            [
-                { "year": new Date().getFullYear() },
-                {
-                    "$or": [
-                        { "activityTitleSlug": { "$regex": text, "$options": 'i' } },
-                        { "contract.implementationDeadlineSlug": { "$regex": text, "$options": 'i' } },
-                        { "company.slug": { "$regex": text, "$options": 'i' } }
-                    ]
-                },
-                { "directoratesSlug": { "$regex": directorate, "$options": "i" } },
-                {
-                    "$or": [
+module.exports.filterbyStringDirectorateDate = (text, directorate, date, referenceDate, year) => {
+    let filter = [];
+
+    if (year !== 'any') {
+        filter.push({ "$match": { "year": { "$gte": 2018 } }})
+    }
+    filter.push({
+        "$match":
+            {
+                "$and":
+                    [
                         {
-                            "contract.publicationDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
+                            "$or": [
+                                { "activityTitleSlug": { "$regex": text, "$options": 'i' } },
+                                { "contract.implementationDeadlineSlug": { "$regex": text, "$options": 'i' } },
+                                { "company.slug": { "$regex": text, "$options": 'i' } }
+                            ]
                         },
+                        { "directoratesSlug": { "$regex": directorate, "$options": "i" } },
                         {
-                            "contract.publicationDateOfGivenContract":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
-                        },
-                        {
-                            "contract.signingDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
-                        },
-                        {
-                            "cancellationNoticeDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
-                        }
-                    ]
-                }]
-    });
+                            "$or": [
+                                {
+                                    "contract.publicationDate":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                },
+                                {
+                                    "contract.publicationDateOfGivenContract":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                },
+                                {
+                                    "contract.signingDate":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                },
+                                {
+                                    "cancellationNoticeDate":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                }
+                            ]
+                        }]
+            }
+    })
+    return Contract.aggregate(filter);
 }
-module.exports.filterbyStringDirectorateDateCount = (text, directorate, date, referenceDate) => {
-    return Contract.count({
-        "$and":
-            [
-                { "year": new Date().getFullYear() },
-                {
-                    "$or": [
-                        { "activityTitleSlug": { "$regex": text, "$options": 'i' } },
-                        { "contract.implementationDeadlineSlug": { "$regex": text, "$options": 'i' } },
-                        { "company.slug": { "$regex": text, "$options": 'i' } }
-                    ]
-                },
-                { "directoratesSlug": { "$regex": directorate, "$options": "i" } },
-                {
-                    "$or": [
+module.exports.filterbyStringDirectorateDateCount = (text, directorate, date, referenceDate, year) => {
+    let filter = [];
+
+    if (year !== 'any') {
+        filter.push({ "$match": { "year": { "$gte": 2018 } }})
+    }
+    filter.push({
+        "$match":
+            {
+                "$and":
+                    [
                         {
-                            "contract.publicationDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
+                            "$or": [
+                                { "activityTitleSlug": { "$regex": text, "$options": 'i' } },
+                                { "contract.implementationDeadlineSlug": { "$regex": text, "$options": 'i' } },
+                                { "company.slug": { "$regex": text, "$options": 'i' } }
+                            ]
                         },
+                        { "directoratesSlug": { "$regex": directorate, "$options": "i" } },
                         {
-                            "contract.publicationDateOfGivenContract":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
-                        },
-                        {
-                            "contract.signingDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
-                        },
-                        {
-                            "cancellationNoticeDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
-                        }
-                    ]
-                }]
-    });
+                            "$or": [
+                                {
+                                    "contract.publicationDate":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                },
+                                {
+                                    "contract.publicationDateOfGivenContract":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                },
+                                {
+                                    "contract.signingDate":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                },
+                                {
+                                    "cancellationNoticeDate":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                }
+                            ]
+                        }]
+            }
+    })
+    return Contract.count(filter);
 }
 
 // Filter by string, directorate, date and value
+module.exports.filterByStringDirectorateDateValue = (text, directorate, date, referenceDate, value, year) => {
+    let filter = [];
 
-module.exports.filterByStringDirectorateDateValue = (text, directorate, date, referenceDate, value) => {
-    return Contract.find({
-        "$and":
-            [{
-                "$or": [
-                    { "activityTitleSlug": { "$regex": text, "$options": 'i' } },
-                    { "contract.implementationDeadlineSlug": { "$regex": text, "$options": 'i' } },
-                    { "company.slug": { "$regex": text, "$options": 'i' } }
-                ]
-            },
-            { "directoratesSlug": { "$regex": directorate, "$options": "i" } },
+    if (year !== 'any') {
+        filter.push({ "$match": { "year": { "$gte": 2018 } }})
+    }
+    filter.push({
+        "$match":
             {
-                "$or": [
+                "$and":
+                    [{
+                        "$or": [
+                            { "activityTitleSlug": { "$regex": text, "$options": 'i' } },
+                            { "contract.implementationDeadlineSlug": { "$regex": text, "$options": 'i' } },
+                            { "company.slug": { "$regex": text, "$options": 'i' } }
+                        ]
+                    },
+                    { "directoratesSlug": { "$regex": directorate, "$options": "i" } },
                     {
-                        "contract.publicationDate":
-                        {
-                            "$gte": date,
-                            "$lt": referenceDate
-                        }
+                        "$or": [
+                            {
+                                "contract.publicationDate":
+                                    {
+                                        "$gte": new Date(date),
+                                        "$lt": new Date(referenceDate)
+                                    }
+                            },
+                            {
+                                "contract.publicationDateOfGivenContract":
+                                    {
+                                        "$gte": new Date(date),
+                                        "$lt": new Date(referenceDate)
+                                    }
+                            },
+                            {
+                                "contract.signingDate":
+                                    {
+                                        "$gte": new Date(date),
+                                        "$lt": new Date(referenceDate)
+                                    }
+                            },
+                            {
+                                "cancellationNoticeDate":
+                                    {
+                                        "$gte": new Date(date),
+                                        "$lt": new Date(referenceDate)
+                                    }
+                            }
+                        ]
                     },
                     {
-                        "contract.publicationDateOfGivenContract":
-                        {
-                            "$gte": date,
-                            "$lt": referenceDate
-                        }
-                    },
-                    {
-                        "contract.signingDate":
-                        {
-                            "$gte": date,
-                            "$lt": referenceDate
-                        }
-                    },
-                    {
-                        "cancellationNoticeDate":
-                        {
-                            "$gte": date,
-                            "$lt": referenceDate
-                        }
+                        "$or": [
+                            { "contract.predictedValue": { "$regex": value } },
+                            { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
+                        ]
                     }
-                ]
-            },
-            {
-                "$or": [
-                    { "contract.predictedValue": { "$regex": value } },
-                    { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
-                ]
-            },
-            { "year": new Date().getFullYear() }
-            ]
-    });
+                    ]
+            }
+    })
+    return Contract.aggregate(filter)
 }
 
-module.exports.filterByStringDirectorateDateValueCount = (text, directorate, date, referenceDate, value) => {
-    return Contract.count({
-        "$and":
-            [{
-                "$or": [
-                    { "activityTitleSlug": { "$regex": text, "$options": 'i' } },
-                    { "contract.implementationDeadlineSlug": { "$regex": text, "$options": 'i' } },
-                    { "company.slug": { "$regex": text, "$options": 'i' } }
-                ]
-            },
-            { "directorates": { "$regex": directorate, "$options": "i" } },
-            { "directoratesSlug": { "$regex": directorate, "$options": "i" } },
+module.exports.filterByStringDirectorateDateValueCount = (text, directorate, date, referenceDate, value, year) => {
+    let filter = [];
+
+    if (year !== 'any') {
+        filter.push({ "$match": { "year": { "$gte": 2018 } }})
+    }
+    filter.push({
+        "$match":
             {
-                "$or": [
+                "$and":
+                    [{
+                        "$or": [
+                            { "activityTitleSlug": { "$regex": text, "$options": 'i' } },
+                            { "contract.implementationDeadlineSlug": { "$regex": text, "$options": 'i' } },
+                            { "company.slug": { "$regex": text, "$options": 'i' } }
+                        ]
+                    },
+                    { "directoratesSlug": { "$regex": directorate, "$options": "i" } },
                     {
-                        "contract.publicationDate":
-                        {
-                            "$gte": date,
-                            "$lt": referenceDate
-                        }
+                        "$or": [
+                            {
+                                "contract.publicationDate":
+                                    {
+                                        "$gte": new Date(date),
+                                        "$lt": new Date(referenceDate)
+                                    }
+                            },
+                            {
+                                "contract.publicationDateOfGivenContract":
+                                    {
+                                        "$gte": new Date(date),
+                                        "$lt": new Date(referenceDate)
+                                    }
+                            },
+                            {
+                                "contract.signingDate":
+                                    {
+                                        "$gte": new Date(date),
+                                        "$lt": new Date(referenceDate)
+                                    }
+                            },
+                            {
+                                "cancellationNoticeDate":
+                                    {
+                                        "$gte": new Date(date),
+                                        "$lt": new Date(referenceDate)
+                                    }
+                            }
+                        ]
                     },
                     {
-                        "contract.publicationDateOfGivenContract":
-                        {
-                            "$gte": date,
-                            "$lt": referenceDate
-                        }
-                    },
-                    {
-                        "contract.signingDate":
-                        {
-                            "$gte": date,
-                            "$lt": referenceDate
-                        }
-                    },
-                    {
-                        "cancellationNoticeDate":
-                        {
-                            "$gte": date,
-                            "$lt": referenceDate
-                        }
+                        "$or": [
+                            { "contract.predictedValue": { "$regex": value } },
+                            { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
+                        ]
                     }
-                ]
-            },
-            {
-                "$or": [
-                    { "contract.predictedValue": { "$regex": value } },
-                    { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
-                ]
-            },
-            { "year": new Date().getFullYear() }
-            ]
-    });
+                    ]
+            }
+    })
+    return Contract.count(filter)
 }
 
 // Filter by string and date
-module.exports.filterByStringDate = (text, date, referenceDate) => {
-    return Contract.find({
-        "$and":
-            [{
-                "$or": [
-                    { "activityTitleSlug": { "$regex": text, "$options": 'i' } },
-                    { "contract.implementationDeadlineSlug": { "$regex": text, "$options": 'i' } },
-                    { "company.slug": { "$regex": text, "$options": 'i' } }
-                ]
-            },
+module.exports.filterByStringDate = (text, date, referenceDate, year) => {
+    let filter = [];
+
+    if (year !== 'any') {
+        filter.push({ "$match": { "year": { "$gte": 2018 } }})
+    }
+    filter.push({
+        "$match":
             {
-                "$or": [
-                    {
-                        "contract.publicationDate":
-                        {
-                            "$gte": date,
-                            "$lt": referenceDate
-                        }
+                "$and":
+                    [{
+                        "$or": [
+                            { "activityTitleSlug": { "$regex": text, "$options": 'i' } },
+                            { "contract.implementationDeadlineSlug": { "$regex": text, "$options": 'i' } },
+                            { "company.slug": { "$regex": text, "$options": 'i' } }
+                        ]
                     },
                     {
-                        "contract.publicationDateOfGivenContract":
-                        {
-                            "$gte": date,
-                            "$lt": referenceDate
-                        }
-                    },
-                    {
-                        "contract.signingDate":
-                        {
-                            "$gte": date,
-                            "$lt": referenceDate
-                        }
-                    },
-                    {
-                        "cancellationNoticeDate":
-                        {
-                            "$gte": date,
-                            "$lt": referenceDate
-                        }
+                        "$or": [
+                            {
+                                "contract.publicationDate":
+                                    {
+                                        "$gte": new Date(date),
+                                        "$lt": new Date(referenceDate)
+                                    }
+                            },
+                            {
+                                "contract.publicationDateOfGivenContract":
+                                    {
+                                        "$gte": new Date(date),
+                                        "$lt": new Date(referenceDate)
+                                    }
+                            },
+                            {
+                                "contract.signingDate":
+                                    {
+                                        "$gte": new Date(date),
+                                        "$lt": new Date(referenceDate)
+                                    }
+                            },
+                            {
+                                "cancellationNoticeDate":
+                                    {
+                                        "$gte": new Date(date),
+                                        "$lt": new Date(referenceDate)
+                                    }
+                            }
+                        ]
                     }
-                ]
-            },
-            { "year": new Date().getFullYear() }
-            ]
-    });
+                    ]
+            }
+    })
+    return Contract.aggregate(filter)
 }
 
-module.exports.filterByStringDateCount = (text, date, referenceDate) => {
-    return Contract.count({
-        "$and":
-            [{
-                "$or": [
-                    { "activityTitleSlug": { "$regex": text, "$options": 'i' } },
-                    { "contract.implementationDeadlineSlug": { "$regex": text, "$options": 'i' } },
-                    { "company.slug": { "$regex": text, "$options": 'i' } }
-                ]
-            },
+module.exports.filterByStringDateCount = (text, date, referenceDate, year) => {
+    let filter = [];
+
+    if (year !== 'any') {
+        filter.push({ "$match": { "year": { "$gte": 2018 } }})
+    }
+    filter.push({
+        "$match":
             {
-                "$or": [
-                    {
-                        "contract.publicationDate":
-                        {
-                            "$gte": date,
-                            "$lt": referenceDate
-                        }
+                "$and":
+                    [{
+                        "$or": [
+                            { "activityTitleSlug": { "$regex": text, "$options": 'i' } },
+                            { "contract.implementationDeadlineSlug": { "$regex": text, "$options": 'i' } },
+                            { "company.slug": { "$regex": text, "$options": 'i' } }
+                        ]
                     },
                     {
-                        "contract.publicationDateOfGivenContract":
-                        {
-                            "$gte": date,
-                            "$lt": referenceDate
-                        }
-                    },
-                    {
-                        "contract.signingDate":
-                        {
-                            "$gte": date,
-                            "$lt": referenceDate
-                        }
-                    },
-                    {
-                        "cancellationNoticeDate":
-                        {
-                            "$gte": date,
-                            "$lt": referenceDate
-                        }
+                        "$or": [
+                            {
+                                "contract.publicationDate":
+                                    {
+                                        "$gte": new Date(date),
+                                        "$lt": new Date(referenceDate)
+                                    }
+                            },
+                            {
+                                "contract.publicationDateOfGivenContract":
+                                    {
+                                        "$gte": new Date(date),
+                                        "$lt": new Date(referenceDate)
+                                    }
+                            },
+                            {
+                                "contract.signingDate":
+                                    {
+                                        "$gte": new Date(date),
+                                        "$lt": new Date(referenceDate)
+                                    }
+                            },
+                            {
+                                "cancellationNoticeDate":
+                                    {
+                                        "$gte": new Date(date),
+                                        "$lt": new Date(referenceDate)
+                                    }
+                            }
+                        ]
                     }
-                ]
-            },
-            { "year": new Date().getFullYear() }
-            ]
-    });
+                    ]
+            }
+    })
+    return Contract.count(filter)
 }
 
 // Filter by string value 
-module.exports.filterByStringValue = (text, value) => {
-    return Contract.find({
-        "$and":
-            [{
-                "$or": [
-                    { "activityTitleSlug": { "$regex": text, "$options": 'i' } },
-                    { "contract.implementationDeadlineSlug": { "$regex": text, "$options": 'i' } },
-                    { "company.slug": { "$regex": text, "$options": 'i' } }
-                ]
-            },
+module.exports.filterByStringValue = (text, value, year) => {
+    let filter = [];
+
+    if (year !== 'any') {
+        filter.push({ "$match": { "year": { "$gte": 2018 } }})
+    }
+    filter.push({
+        "$match":
             {
-                "$or": [
-                    { "contract.predictedValue": { "$regex": value } },
-                    { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
-                ]
-            },
-            { "year": new Date().getFullYear() }
-            ]
-    });
+                "$and":
+                    [{
+                        "$or": [
+                            { "activityTitleSlug": { "$regex": text, "$options": 'i' } },
+                            { "contract.implementationDeadlineSlug": { "$regex": text, "$options": 'i' } },
+                            { "company.slug": { "$regex": text, "$options": 'i' } }
+                        ]
+                    },
+                    {
+                        "$or": [
+                            { "contract.predictedValue": { "$regex": value } },
+                            { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
+                        ]
+                    }
+                    ]
+            }
+    })
+    return Contract.aggregate(filter)
 }
-module.exports.filterByStringValueCount = (text, value) => {
-    return Contract.count({
-        "$and":
-            [{
-                "$or": [
-                    { "activityTitleSlug": { "$regex": text, "$options": 'i' } },
-                    { "contract.implementationDeadlineSlug": { "$regex": text, "$options": 'i' } },
-                    { "company.slug": { "$regex": text, "$options": 'i' } }
-                ]
-            },
+module.exports.filterByStringValueCount = (text, value, year) => {
+    let filter = [];
+
+    if (year !== 'any') {
+        filter.push({ "$match": { "year": { "$gte": 2018 } }})
+    }
+    filter.push({
+        "$match":
             {
-                "$or": [
-                    { "contract.predictedValue": { "$regex": value } },
-                    { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
-                ]
-            },
-            { "year": new Date().getFullYear() }
-            ]
-    });
+                "$and":
+                    [{
+                        "$or": [
+                            { "activityTitleSlug": { "$regex": text, "$options": 'i' } },
+                            { "contract.implementationDeadlineSlug": { "$regex": text, "$options": 'i' } },
+                            { "company.slug": { "$regex": text, "$options": 'i' } }
+                        ]
+                    },
+                    {
+                        "$or": [
+                            { "contract.predictedValue": { "$regex": value } },
+                            { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
+                        ]
+                    }
+                    ]
+            }
+    })
+    return Contract.count(filter)
 }
 
 // Filter by directorate and date 
-module.exports.filterbyDirectorateDate = (directorate, date, referenceDate) => {
-    return Contract.find({
-        "$and":
-            [
-                { "directoratesSlug": { "$regex": directorate, "$options": "i" } },
-                {
-                    "$or": [
+module.exports.filterbyDirectorateDate = (directorate, date, referenceDate, year) => {
+    let filter = [];
+
+    if (year !== 'any') {
+        filter.push({ "$match": { "year": { "$gte": 2018 } }})
+    }
+    filter.push({
+        "$match":
+            {
+                "$and":
+                    [
+                        { "directoratesSlug": { "$regex": directorate, "$options": "i" } },
                         {
-                            "contract.publicationDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
-                        },
-                        {
-                            "contract.publicationDateOfGivenContract":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
-                        },
-                        {
-                            "contract.signingDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
-                        },
-                        {
-                            "cancellationNoticeDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
+                            "$or": [
+                                {
+                                    "contract.publicationDate":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                },
+                                {
+                                    "contract.publicationDateOfGivenContract":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                },
+                                {
+                                    "contract.signingDate":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                },
+                                {
+                                    "cancellationNoticeDate":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                }
+                            ]
                         }
                     ]
-                },
-                { "year": new Date().getFullYear() }
-            ]
-    });
+            }
+    })
+    return Contract.aggregate(filter)
 }
 
-module.exports.filterbyDirectorateDateCount = (directorate, date, referenceDate) => {
-    return Contract.count({
-        "$and":
-            [
-                { "directoratesSlug": { "$regex": directorate, "$options": "i" } },
-                {
-                    "$or": [
+module.exports.filterbyDirectorateDateCount = (directorate, date, referenceDate, year) => {
+    let filter = [];
+
+    if (year !== 'any') {
+        filter.push({ "$match": { "year": { "$gte": 2018 } }})
+    }
+    filter.push({
+        "$match":
+            {
+                "$and":
+                    [
+                        { "directoratesSlug": { "$regex": directorate, "$options": "i" } },
                         {
-                            "contract.publicationDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
-                        },
-                        {
-                            "contract.publicationDateOfGivenContract":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
-                        },
-                        {
-                            "contract.signingDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
-                        },
-                        {
-                            "cancellationNoticeDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
+                            "$or": [
+                                {
+                                    "contract.publicationDate":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                },
+                                {
+                                    "contract.publicationDateOfGivenContract":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                },
+                                {
+                                    "contract.signingDate":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                },
+                                {
+                                    "cancellationNoticeDate":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                }
+                            ]
                         }
                     ]
-                },
-                { "year": new Date().getFullYear() }
-            ]
-    });
+            }
+    })
+    return Contract.count(filter)
 }
 
 // Filter by directorate and value
-module.exports.filterByDirectorateValue = (directorate, value) => {
-    return Contract.find({
-        "$and":
-            [
-                { "directoratesSlug": { "$regex": directorate, "$options": "i" } },
-                {
-                    "$or": [
-                        { "contract.predictedValue": { "$regex": value } },
-                        { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
+module.exports.filterByDirectorateValue = (directorate, value, year) => {
+    let filter = [];
+
+    if (year !== 'any') {
+        filter.push({ "$match": { "year": { "$gte": 2018 } }})
+    }
+    filter.push({
+        "$match":
+            {
+                "$and":
+                    [
+                        { "directoratesSlug": { "$regex": directorate, "$options": "i" } },
+                        {
+                            "$or": [
+                                { "contract.predictedValue": { "$regex": value } },
+                                { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
+                            ]
+                        }
                     ]
-                },
-                { "year": new Date().getFullYear() }
-            ]
-    });
+            }
+    })
+    return Contract.aggregate(filter)
 }
-module.exports.filterByDirectorateValueCount = (directorate, value) => {
-    return Contract.count({
-        "$and":
-            [
-                { "directoratesSlug": { "$regex": directorate, "$options": "i" } },
-                {
-                    "$or": [
-                        { "contract.predictedValue": { "$regex": value } },
-                        { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
+module.exports.filterByDirectorateValueCount = (directorate, value, year) => {
+    let filter = [];
+
+    if (year !== 'any') {
+        filter.push({ "$match": { "year": { "$gte": 2018 } }})
+    }
+    filter.push({
+        "$match":
+            {
+                "$and":
+                    [
+                        { "directoratesSlug": { "$regex": directorate, "$options": "i" } },
+                        {
+                            "$or": [
+                                { "contract.predictedValue": { "$regex": value } },
+                                { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
+                            ]
+                        }
                     ]
-                },
-                { "year": new Date().getFullYear() }
-            ]
-    });
+            }
+    })
+    return Contract.count(filter)
 }
 
 // Filter by date and value
-module.exports.filterByDateValue = (date, referenceDate, value) => {
-    return Contract.find({
-        "$and":
-            [
-                {
-                    "$or": [
+module.exports.filterByDateValue = (date, referenceDate, value, year) => {
+    let filter = [];
+
+    if (year !== 'any') {
+        filter.push({ "$match": { "year": { "$gte": 2018 } }})
+    }
+    filter.push({
+        "$match":
+            {
+                "$and":
+                    [
                         {
-                            "contract.publicationDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
+                            "$or": [
+                                { "contract.predictedValue": { "$regex": value } },
+                                { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
+                            ]
                         },
                         {
-                            "contract.publicationDateOfGivenContract":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
-                        },
-                        {
-                            "contract.signingDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
-                        },
-                        {
-                            "cancellationNoticeDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
+                            "$or": [
+                                {
+                                    "contract.publicationDate":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                },
+                                {
+                                    "contract.publicationDateOfGivenContract":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                },
+                                {
+                                    "contract.signingDate":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                },
+                                {
+                                    "cancellationNoticeDate":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                }
+                            ]
                         }
                     ]
-                },
-                {
-                    "$or": [
-                        { "contract.predictedValue": { "$regex": value } },
-                        { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
-                    ]
-                },
-                { "year": new Date().getFullYear() }
-            ]
-    });
+            }
+    })
+    return Contract.aggregate(filter)
 }
-module.exports.filterByDateValueCount = (date, referenceDate, value) => {
-    return Contract.count({
-        "$and":
-            [
-                {
-                    "$or": [
+module.exports.filterByDateValueCount = (date, referenceDate, value, year) => {
+    let filter = [];
+
+    if (year !== 'any') {
+        filter.push({ "$match": { "year": { "$gte": 2018 } }})
+    }
+    filter.push({
+        "$match":
+            {
+                "$and":
+                    [
                         {
-                            "contract.publicationDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
+                            "$or": [
+                                { "contract.predictedValue": { "$regex": value } },
+                                { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
+                            ]
                         },
                         {
-                            "contract.publicationDateOfGivenContract":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
-                        },
-                        {
-                            "contract.signingDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
-                        },
-                        {
-                            "cancellationNoticeDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
+                            "$or": [
+                                {
+                                    "contract.publicationDate":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                },
+                                {
+                                    "contract.publicationDateOfGivenContract":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                },
+                                {
+                                    "contract.signingDate":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                },
+                                {
+                                    "cancellationNoticeDate":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                }
+                            ]
                         }
                     ]
-                },
-                {
-                    "$or": [
-                        { "contract.predictedValue": { "$regex": value } },
-                        { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
-                    ]
-                },
-                { "year": new Date().getFullYear() }
-            ]
-    });
+            }
+    })
+    return Contract.count(filter)
 }
 
 // Filter by directorate, date and value
-module.exports.filterByDirectorateDateValue = (directorate, date, referenceDate, value) => {
-    return Contract.find({
-        "$and":
-            [
-                { "directoratesSlug": { "$regex": directorate, "$options": "i" } },
-                {
-                    "$or": [
+module.exports.filterByDirectorateDateValue = (directorate, date, referenceDate, value, year) => {
+    let filter = [];
+
+    if (year !== 'any') {
+        filter.push({ "$match": { "year": { "$gte": 2018 } }})
+    }
+    filter.push({
+        "$match":
+            {
+                "$and":
+                    [   
+                        { "directoratesSlug": { "$regex": directorate, "$options": "i" } },
                         {
-                            "contract.publicationDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
+                            "$or": [
+                                { "contract.predictedValue": { "$regex": value } },
+                                { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
+                            ]
                         },
                         {
-                            "contract.publicationDateOfGivenContract":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
-                        },
-                        {
-                            "contract.signingDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
-                        },
-                        {
-                            "cancellationNoticeDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
+                            "$or": [
+                                {
+                                    "contract.publicationDate":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                },
+                                {
+                                    "contract.publicationDateOfGivenContract":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                },
+                                {
+                                    "contract.signingDate":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                },
+                                {
+                                    "cancellationNoticeDate":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                }
+                            ]
                         }
                     ]
-                },
-                {
-                    "$or": [
-                        { "contract.predictedValue": { "$regex": value } },
-                        { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
-                    ]
-                },
-                { "year": new Date().getFullYear() }
-            ]
-    });
+            }
+    })
+    return Contract.aggregate(filter)
 }
 
-module.exports.filterByDirectorateDateValueCount = (directorate, date, referenceDate, value) => {
-    return Contract.count({
-        "$and":
-            [
-                { "directoratesSlug": { "$regex": directorate, "$options": "i" } },
-                {
-                    "$or": [
+module.exports.filterByDirectorateDateValueCount = (directorate, date, referenceDate, value, year) => {
+    let filter = [];
+
+    if (year !== 'any') {
+        filter.push({ "$match": { "year": { "$gte": 2018 } }})
+    }
+    filter.push({
+        "$match":
+            {
+                "$and":
+                    [   
+                        { "directoratesSlug": { "$regex": directorate, "$options": "i" } },
                         {
-                            "contract.publicationDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
+                            "$or": [
+                                { "contract.predictedValue": { "$regex": value } },
+                                { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
+                            ]
                         },
                         {
-                            "contract.publicationDateOfGivenContract":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
-                        },
-                        {
-                            "contract.signingDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
-                        },
-                        {
-                            "cancellationNoticeDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
+                            "$or": [
+                                {
+                                    "contract.publicationDate":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                },
+                                {
+                                    "contract.publicationDateOfGivenContract":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                },
+                                {
+                                    "contract.signingDate":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                },
+                                {
+                                    "cancellationNoticeDate":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                }
+                            ]
                         }
                     ]
-                },
-                {
-                    "$or": [
-                        { "contract.predictedValue": { "$regex": value } },
-                        { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
-                    ]
-                },
-                { "year": new Date().getFullYear() }
-            ]
-    });
+            }
+    })
+    return Contract.count(filter)
 }
 
 // Filter by string, directorate and value 
-module.exports.filterByStringDirectorateValue = (text, directorate, value) => {
-    return Contract.find({
-        "$and":
-            [{
-                "$or": [
-                    { "activityTitleSlug": { "$regex": text, "$options": 'i' } },
-                    { "contract.implementationDeadlineSlug": { "$regex": text, "$options": 'i' } },
-                    { "company.slug": { "$regex": text, "$options": 'i' } }
-                ]
-            },
-            { "directoratesSlug": { "$regex": directorate, "$options": "i" } },
+module.exports.filterByStringDirectorateValue = (text, directorate, value, year) => {
+    let filter = [];
+
+    if (year !== 'any') {
+        filter.push({ "$match": { "year": { "$gte": 2018 } }})
+    }
+    filter.push({
+        "$match":
             {
-                "$or": [
-                    { "contract.predictedValue": { "$regex": value } },
-                    { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
-                ]
-            },
-            { "year": new Date().getFullYear() }
-            ]
-    });
+                "$and":
+                    [   
+                        { "directoratesSlug": { "$regex": directorate, "$options": "i" } },
+                        {
+                            "$or": [
+                                { "contract.predictedValue": { "$regex": value } },
+                                { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
+                            ]
+                        },
+                        {
+                            "$or": [
+                                { "activityTitleSlug": { "$regex": text, "$options": 'i' } },
+                                { "contract.implementationDeadlineSlug": { "$regex": text, "$options": 'i' } },
+                                { "company.slug": { "$regex": text, "$options": 'i' } }
+                            ]
+                        }
+                    ]
+            }
+    })
+    return Contract.aggregate(filter)
 }
-module.exports.filterByStringDirectorateValueCount = (text, directorate, value) => {
-    return Contract.count({
-        "$and":
-            [{
-                "$or": [
-                    { "activityTitleSlug": { "$regex": text, "$options": 'i' } },
-                    { "contract.implementationDeadlineSlug": { "$regex": text, "$options": 'i' } },
-                    { "company.slug": { "$regex": text, "$options": 'i' } }
-                ]
-            },
-            { "directoratesSlug": { "$regex": directorate, "$options": "i" } },
+module.exports.filterByStringDirectorateValueCount = (text, directorate, value, year) => {
+    let filter = [];
+
+    if (year !== 'any') {
+        filter.push({ "$match": { "year": { "$gte": 2018 } }})
+    }
+    filter.push({
+        "$match":
             {
-                "$or": [
-                    { "contract.predictedValue": { "$regex": value } },
-                    { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
-                ]
-            },
-            { "year": new Date().getFullYear() }
-            ]
-    });
+                "$and":
+                    [   
+                        { "directoratesSlug": { "$regex": directorate, "$options": "i" } },
+                        {
+                            "$or": [
+                                { "contract.predictedValue": { "$regex": value } },
+                                { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
+                            ]
+                        },
+                        {
+                            "$or": [
+                                { "activityTitleSlug": { "$regex": text, "$options": 'i' } },
+                                { "contract.implementationDeadlineSlug": { "$regex": text, "$options": 'i' } },
+                                { "company.slug": { "$regex": text, "$options": 'i' } }
+                            ]
+                        }
+                    ]
+            }
+    })
+    return Contract.count(filter)
 }
 
 // Filter by string, date, value
 
-module.exports.filterByStringDateValue = (text, date, referenceDate, value) => {
-    return Contract.find({
-        "$and":
-            [
-                {
-                    "$or": [
-                        { "activityTitleSlug": { "$regex": text, "$options": 'i' } },
-                        { "contract.implementationDeadlineSlug": { "$regex": text, "$options": 'i' } },
-                        { "company.slug": { "$regex": text, "$options": 'i' } }
-                    ]
-                },
-                {
-                    "$or": [
+module.exports.filterByStringDateValue = (text, date, referenceDate, value, year) => {
+    let filter = [];
+
+    if (year !== 'any') {
+        filter.push({ "$match": { "year": { "$gte": 2018 } }})
+    }
+    filter.push({
+        "$match":
+            {
+                "$and":
+                    [   
                         {
-                            "contract.publicationDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
+                            "$or": [
+                                { "activityTitleSlug": { "$regex": text, "$options": 'i' } },
+                                { "contract.implementationDeadlineSlug": { "$regex": text, "$options": 'i' } },
+                                { "company.slug": { "$regex": text, "$options": 'i' } }
+                            ]
                         },
                         {
-                            "contract.publicationDateOfGivenContract":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
+                            "$or": [
+                                { "contract.predictedValue": { "$regex": value } },
+                                { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
+                            ]
                         },
                         {
-                            "contract.signingDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
-                        },
-                        {
-                            "cancellationNoticeDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
+                            "$or": [
+                                {
+                                    "contract.publicationDate":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                },
+                                {
+                                    "contract.publicationDateOfGivenContract":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                },
+                                {
+                                    "contract.signingDate":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                },
+                                {
+                                    "cancellationNoticeDate":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                }
+                            ]
                         }
                     ]
-                },
-                {
-                    "$or": [
-                        { "contract.predictedValue": { "$regex": value } },
-                        { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
-                    ]
-                },
-                { "year": new Date().getFullYear() }
-            ]
-    });
+            }
+    })
+    return Contract.aggregate(filter)
 }
-module.exports.filterByStringDateValueCount = (text, date, referenceDate, value) => {
-    return Contract.count({
-        "$and":
-            [
-                {
-                    "$or": [
-                        { "activityTitleSlug": { "$regex": text, "$options": 'i' } },
-                        { "contract.implementationDeadlineSlug": { "$regex": text, "$options": 'i' } },
-                        { "company.slug": { "$regex": text, "$options": 'i' } }
-                    ]
-                },
-                {
-                    "$or": [
+module.exports.filterByStringDateValueCount = (text, date, referenceDate, value, year) => {
+    let filter = [];
+
+    if (year !== 'any') {
+        filter.push({ "$match": { "year": { "$gte": 2018 } }})
+    }
+    filter.push({
+        "$match":
+            {
+                "$and":
+                    [   
                         {
-                            "contract.publicationDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
+                            "$or": [
+                                { "activityTitleSlug": { "$regex": text, "$options": 'i' } },
+                                { "contract.implementationDeadlineSlug": { "$regex": text, "$options": 'i' } },
+                                { "company.slug": { "$regex": text, "$options": 'i' } }
+                            ]
                         },
                         {
-                            "contract.publicationDateOfGivenContract":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
+                            "$or": [
+                                { "contract.predictedValue": { "$regex": value } },
+                                { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
+                            ]
                         },
                         {
-                            "contract.signingDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
-                        },
-                        {
-                            "cancellationNoticeDate":
-                            {
-                                "$gte": date,
-                                "$lt": referenceDate
-                            }
+                            "$or": [
+                                {
+                                    "contract.publicationDate":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                },
+                                {
+                                    "contract.publicationDateOfGivenContract":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                },
+                                {
+                                    "contract.signingDate":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                },
+                                {
+                                    "cancellationNoticeDate":
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                }
+                            ]
                         }
                     ]
-                },
-                {
-                    "$or": [
-                        { "contract.predictedValue": { "$regex": value } },
-                        { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
-                    ]
-                },
-                { "year": new Date().getFullYear() }
-            ]
-    });
+            }
+    })
+    return Contract.count(filter)
 }
