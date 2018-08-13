@@ -64,6 +64,16 @@ export class TopTenContractorsChartComponent implements OnInit {
               text: 'Kontratat'
             }
           },
+          colors: ['#32a6bd',
+            '#46aec3',
+            '#5ab7ca',
+            '#6fc0d0',
+            '#84c9d7',
+            '#98d2de',
+            '#addbe4',
+            '#c1e4eb',
+            '#d6edf1',
+            '#defaff'],
           plotOptions: {
             series: {
               cursor: 'pointer',

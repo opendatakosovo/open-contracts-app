@@ -447,6 +447,8 @@ router.post("/", passport.authenticate('jwt', { session: false }), authorize("su
         contract.activityTitleSlug = slugify(requestedContract.activityTitle);
         contract.contract.implementationDeadline = slugify(requestedContract.contract.implementationDeadline);
         contract.directorateSlug = slugify(requestedContract.directorates);
+        contract.contract.predictedValueSlug = requestedContract.contract.predictedValue.replace(/[,]+/g, '');
+        contract.contract.totalAmountOfContractsIncludingTaxesSlug = requestedContract.contract.totalAmountOfContractsIncludingTaxes.replace(/[,]+/g, '');
         Contract.addContract(contract, (err, contract) => {
             if (!err) {
                 res.json({
@@ -547,10 +549,17 @@ router.put('/update-contract/:id', passport.authenticate('jwt', { session: false
         if (contentType.indexOf('application/json') == -1) {
             requestedContract = JSON.parse(req.body.contract);
             requestedContract.contract.file = req.file.originalname;
+            requestedContract = req.body.requestedContract;
+            requestedContract.directoratesSlug = slugify(requestedContract.directorates);
+            requestedContract.activityTitleSlug = slugify(requestedContract.activityTitle);
+            requestedContract.contract.predictedValueSlug = requestedContract.contract.predictedValue.replace(/[,]+/g, '');
+            requestedContract.contract.totalAmountOfContractsIncludingTaxesSlug = requestedContract.contract.totalAmountOfContractsIncludingTaxes.replace(/[,]+/g, '');
         } else {
             requestedContract = req.body.requestedContract;
             requestedContract.directoratesSlug = slugify(requestedContract.directorates);
             requestedContract.activityTitleSlug = slugify(requestedContract.activityTitle);
+            requestedContract.contract.predictedValueSlug = requestedContract.contract.predictedValue.replace(/[,]+/g, '');
+            requestedContract.contract.totalAmountOfContractsIncludingTaxesSlug = requestedContract.contract.totalAmountOfContractsIncludingTaxes.replace(/[,]+/g, '');
             if (requestedContract.contract.implementationDeadlineSlug !== null || requestedContract.contract.implementationDeadlineSlug !== '' || requestedContract.contract.implementationDeadlineSlug !== undefined) {
                 requestedContract.contract.implementationDeadlineSlug = slugify(requestedContract.contract.implementationDeadline);
             }

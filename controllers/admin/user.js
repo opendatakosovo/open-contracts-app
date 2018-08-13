@@ -240,4 +240,60 @@ router.put('/activate-user/:id', passport.authenticate('jwt', { session: false }
     });
 });
 
+router.post("/send-email-for-regeneration", (req, res) => {
+    User.findRegularUserAndAdminsByEmail(req.body.email, (err, user) => {
+        if (!err) {
+            if (user) {
+                User.getSuperadmin()
+                    .then(superadmin => {
+                        const mail = {
+                            to: superadmin.email,
+                            from: "support@prishtina.com",
+                            subject: `Kërkes për ndryshim fjalëkalimi nga ${user.firstName} ${user.lastName}  `,
+                            html: `I/e nderuar,
+                                    <br>
+                                    <br>
+                                    ${user.firstName} ${user.lastName} me email ${user.email} kërkon të i ndryshohet fjalëkalimi.
+                                    <br>
+                                    <br>
+                                    Linku për rigjenerim të fjalëkalimit: <a href='${req.headers.origin}/dashboard/users'>${req.headers.origin}/dashboard/users</a>.
+                                    <br>
+                                    <br>
+                                    Me Respekt,<br>
+                                    ${user.firstName} ${user.lastName}`
+                        }
+                        mailTransporter.sendMail(mail).then(() => {
+                            res.json({
+                                "msg": "User's request for password change mail has been sent successfully",
+                                "user": user,
+                                "success": true
+                            });
+                        }).catch(err => {
+                            res.json({
+                                "err": ` Mail hasn't been sent successfully  | error: ${err}`,
+                                "success": false
+                            });
+                        })
+                    })
+                    .catch(err => {
+                        res.json({
+                            "err": err,
+                            "success": false
+                        });
+                    })
+            } else {
+                res.json({ "success": false })
+            }
+        } else {
+            {
+                res.json({
+                    "err": err,
+                    "success": false
+                });
+            }
+        }
+    });
+});
+
+
 module.exports = router;

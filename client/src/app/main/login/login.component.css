@@ -96,3 +96,8 @@ label {
     color: white !important;
     border-color: #39a6bd !important;  
 }
+
+.error-msg {
+    font-size: 14px;
+    color: red;
+}

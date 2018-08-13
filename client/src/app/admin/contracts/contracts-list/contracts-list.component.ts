@@ -88,7 +88,7 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
     this.page.pageNumber = pageInfo.offset;
     this.search.pageInfo.pageNumber = pageInfo.offset;
     if (this.page.totalElements === this.totalContracts) {
-      this.contractsService.serverPaginationLatestContracts(this.page)
+      this.contractsService.serverPagination(this.page)
         .takeUntil(this.unsubscribeAll)
         .subscribe(pagedData => {
           this.page = pagedData.page;

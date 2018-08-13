@@ -118,6 +118,7 @@
     border-color: #39a6bd;  
 }
 .error-msg {
+    font-size: 14px;
     color: red;
 }
 #add-user-modal {

@@ -58,8 +58,10 @@ const ContractSchema = mongoose.Schema({
     nameOfProcurementOffical: { type: String },
     contract: {
         predictedValue: { type: String },
+        predictedValueSlug: { type: String},
         totalAmountOfAllAnnexContractsIncludingTaxes: { type: String },
         totalAmountOfContractsIncludingTaxes: { type: String },
+        totalAmountOfContractsIncludingTaxesSlug: { type: String },
         totalPayedPriceForContract: { type: String },
         annexes: [{
             totalValueOfAnnexContract1: { type: String },
@@ -469,8 +471,8 @@ module.exports.filterByValue = (value, year, role, directorateName) => {
         "$match":
         {
             "$or": [
-                { "contract.predictedValue": { "$regex": value } },
-                { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
+                { "contract.predictedValueSlug": { "$regex": value } },
+                { "contract.totalAmountOfContractsIncludingTaxesSlug": { "$regex": value } }
             ]
         }
 
@@ -490,8 +492,8 @@ module.exports.filterByValueCount = (value, year, role, directorateName) => {
         "$match":
         {
             "$or": [
-                { "contract.predictedValue": { "$regex": value } },
-                { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
+                { "contract.predictedValueSlug": { "$regex": value } },
+                { "contract.totalAmountOfContractsIncludingTaxesSlug": { "$regex": value } }
             ]
         }
 
@@ -732,8 +734,8 @@ module.exports.filterByStringDirectorateDateValue = (text, directorate, date, re
                 },
                 {
                     "$or": [
-                        { "contract.predictedValue": { "$regex": value } },
-                        { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
+                        { "contract.predictedValueSlug": { "$regex": value } },
+                        { "contract.totalAmountOfContractsIncludingTaxesSlug": { "$regex": value } }
                     ]
                 }
                 ]
@@ -796,8 +798,8 @@ module.exports.filterByStringDirectorateDateValueCount = (text, directorate, dat
                 },
                 {
                     "$or": [
-                        { "contract.predictedValue": { "$regex": value } },
-                        { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
+                        { "contract.predictedValueSlug": { "$regex": value } },
+                        { "contract.totalAmountOfContractsIncludingTaxesSlug": { "$regex": value } }
                     ]
                 }
                 ]
@@ -943,8 +945,8 @@ module.exports.filterByStringValue = (text, value, year, role, directorateName) 
                 },
                 {
                     "$or": [
-                        { "contract.predictedValue": { "$regex": value } },
-                        { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
+                        { "contract.predictedValueSlug": { "$regex": value } },
+                        { "contract.totalAmountOfContractsIncludingTaxesSlug": { "$regex": value } }
                     ]
                 }
                 ]
@@ -971,8 +973,8 @@ module.exports.filterByStringValueCount = (text, value, year) => {
                 },
                 {
                     "$or": [
-                        { "contract.predictedValue": { "$regex": value } },
-                        { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
+                        { "contract.predictedValueSlug": { "$regex": value } },
+                        { "contract.totalAmountOfContractsIncludingTaxesSlug": { "$regex": value } }
                     ]
                 }
                 ]
@@ -1107,8 +1109,8 @@ module.exports.filterByDirectorateValue = (directorate, value, year, role, direc
                     { "directoratesSlug": { "$regex": directorate, "$options": "i" } },
                     {
                         "$or": [
-                            { "contract.predictedValue": { "$regex": value } },
-                            { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
+                            { "contract.predictedValueSlug": { "$regex": value } },
+                            { "contract.totalAmountOfContractsIncludingTaxesSlug": { "$regex": value } }
                         ]
                     }
                 ]
@@ -1133,8 +1135,8 @@ module.exports.filterByDirectorateValueCount = (directorate, value, year, role, 
                     { "directoratesSlug": { "$regex": directorate, "$options": "i" } },
                     {
                         "$or": [
-                            { "contract.predictedValue": { "$regex": value } },
-                            { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
+                            { "contract.predictedValueSlug": { "$regex": value } },
+                            { "contract.totalAmountOfContractsIncludingTaxesSlug": { "$regex": value } }
                         ]
                     }
                 ]
@@ -1159,8 +1161,8 @@ module.exports.filterByDateValue = (date, referenceDate, value, year, role, dire
                 [
                     {
                         "$or": [
-                            { "contract.predictedValue": { "$regex": value } },
-                            { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
+                            { "contract.predictedValueSlug": { "$regex": value } },
+                            { "contract.totalAmountOfContractsIncludingTaxesSlug": { "$regex": value } }
                         ]
                     },
                     {
@@ -1217,8 +1219,8 @@ module.exports.filterByDateValueCount = (date, referenceDate, value, year, role,
                 [
                     {
                         "$or": [
-                            { "contract.predictedValue": { "$regex": value } },
-                            { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
+                            { "contract.predictedValueSlug": { "$regex": value } },
+                            { "contract.totalAmountOfContractsIncludingTaxesSlug": { "$regex": value } }
                         ]
                     },
                     {
@@ -1278,8 +1280,8 @@ module.exports.filterByDirectorateDateValue = (directorate, date, referenceDate,
                     { "directoratesSlug": { "$regex": directorate, "$options": "i" } },
                     {
                         "$or": [
-                            { "contract.predictedValue": { "$regex": value } },
-                            { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
+                            { "contract.predictedValueSlug": { "$regex": value } },
+                            { "contract.totalAmountOfContractsIncludingTaxesSlug": { "$regex": value } }
                         ]
                     },
                     {
@@ -1337,8 +1339,8 @@ module.exports.filterByDirectorateDateValueCount = (directorate, date, reference
                     { "directoratesSlug": { "$regex": directorate, "$options": "i" } },
                     {
                         "$or": [
-                            { "contract.predictedValue": { "$regex": value } },
-                            { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
+                            { "contract.predictedValueSlug": { "$regex": value } },
+                            { "contract.totalAmountOfContractsIncludingTaxesSlug": { "$regex": value } }
                         ]
                     },
                     {
@@ -1398,8 +1400,8 @@ module.exports.filterByStringDirectorateValue = (text, directorate, value, year,
                     { "directoratesSlug": { "$regex": directorate, "$options": "i" } },
                     {
                         "$or": [
-                            { "contract.predictedValue": { "$regex": value } },
-                            { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
+                            { "contract.predictedValueSlug": { "$regex": value } },
+                            { "contract.totalAmountOfContractsIncludingTaxesSlug": { "$regex": value } }
                         ]
                     },
                     {
@@ -1430,8 +1432,8 @@ module.exports.filterByStringDirectorateValueCount = (text, directorate, value, 
                     { "directoratesSlug": { "$regex": directorate, "$options": "i" } },
                     {
                         "$or": [
-                            { "contract.predictedValue": { "$regex": value } },
-                            { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
+                            { "contract.predictedValueSlug": { "$regex": value } },
+                            { "contract.totalAmountOfContractsIncludingTaxesSlug": { "$regex": value } }
                         ]
                     },
                     {
@@ -1471,8 +1473,8 @@ module.exports.filterByStringDateValue = (text, date, referenceDate, value, year
                     },
                     {
                         "$or": [
-                            { "contract.predictedValue": { "$regex": value } },
-                            { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
+                            { "contract.predictedValueSlug": { "$regex": value } },
+                            { "contract.totalAmountOfContractsIncludingTaxesSlug": { "$regex": value } }
                         ]
                     },
                     {
@@ -1534,8 +1536,8 @@ module.exports.filterByStringDateValueCount = (text, date, referenceDate, value,
                     },
                     {
                         "$or": [
-                            { "contract.predictedValue": { "$regex": value } },
-                            { "contract.totalAmountOfContractsIncludingTaxes": { "$regex": value } }
+                            { "contract.predictedValueSlug": { "$regex": value } },
+                            { "contract.totalAmountOfContractsIncludingTaxesSlug": { "$regex": value } }
                         ]
                     },
                     {
