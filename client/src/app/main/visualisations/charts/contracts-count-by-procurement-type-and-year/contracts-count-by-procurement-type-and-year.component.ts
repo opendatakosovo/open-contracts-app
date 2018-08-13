@@ -15,8 +15,14 @@ export class ContractsCountByProcurementTypeAndYearComponent implements OnInit {
   chartt: Chart;
   category = 'type';
   years;
+  colors: string[];
   constructor(public dataService: DataService, public translate: TranslateService) {
     this.render('any');
+    this.colors = ['#48aebd',
+      '#50c2d2',
+      '#61c8d6',
+      '#72cedb',
+      '#84d4df', '#96dae4'];
     this.dataService.getContractYears(2009)
       .takeUntil(this.unsubscribeAll)
       .subscribe(res => {
@@ -36,39 +42,50 @@ export class ContractsCountByProcurementTypeAndYearComponent implements OnInit {
     this.dataService.getContractsCountByProcurementCategoryAndYear(this.category, year)
       .takeUntil(this.unsubscribeAll)
       .subscribe(res => {
+        let hasUndefinedData = false;
         const undefinedObj = { name: 'Të pacaktuara', y: 0 };
         const toBeRemoved = [];
+
         res.map((row, i) => {
           if (row.name === '') {
+            hasUndefinedData = true;
             undefinedObj.y += row.y;
             toBeRemoved.push(i);
           }
           if (row.name === 'n/a') {
+            hasUndefinedData = true;
             undefinedObj.y += row.y;
             toBeRemoved.push(i);
           }
           if (row.name === 'N/A') {
+            hasUndefinedData = true;
             undefinedObj.y += row.y;
             toBeRemoved.push(i);
           }
           if (row.name === null) {
+            hasUndefinedData = true;
             undefinedObj.y += row.y;
             toBeRemoved.push(i);
           }
         });
-        res.push(undefinedObj);
 
-        for (let i = res.length; i >= 0; i--) {
-          for (const index of toBeRemoved) {
-            if (index === Number(i)) {
-              res.splice(index, 1);
+        if (hasUndefinedData) {
+          res.push(undefinedObj);
+
+          for (let i = res.length; i >= 0; i--) {
+            for (const index of toBeRemoved) {
+              if (index === Number(i)) {
+                res.splice(index, 1);
+              }
             }
           }
         }
+
         this.chartt = new Chart({
           chart: {
             type: 'pie'
           },
+          colors: this.colors,
           title: {
             text: 'Numri i kontratave në bazë të tipit të prokurimit'
           },
