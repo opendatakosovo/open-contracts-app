@@ -4,7 +4,7 @@ import { Chart } from 'angular-highcharts';
 import { DataService } from '../../../../service/data.service';
 import { DatatableComponent } from '@swimlane/ngx-datatable/src/components/datatable.component';
 import { TranslateService } from '@ngx-translate/core';
-
+import { compareValues } from '../../../../utils/sortArrayByValues';
 @Component({
   selector: 'app-contracts-count-by-procurement-procedure-and-year',
   templateUrl: './contracts-count-by-procurement-procedure-and-year.component.html',
@@ -15,7 +15,9 @@ export class ContractsCountByProcurementProcedureAndYearComponent implements OnI
   chartt: Chart;
   category = 'value';
   years;
+  colors: string[];
   constructor(public dataService: DataService, public translate: TranslateService) {
+    this.colors = ['#cdedf6', '#5eb1bf', '#042a2b', '#ef7b45', '#87a330', '#c17b74', '#7e6b8f', '#96e6b3', '#da3e52', '#068d9d'];
     this.render('any');
     this.dataService.getContractYears(2009)
       .takeUntil(this.unsubscribeAll)
@@ -64,9 +66,16 @@ export class ContractsCountByProcurementProcedureAndYearComponent implements OnI
             }
           }
         }
+        res.sort(compareValues('y', 'desc'));
+        let maxValue = 0;
+        for (const row of res) {
+          if (row.y > maxValue) {
+            maxValue = row.y;
+          }
+        }
         this.chartt = new Chart({
           chart: {
-            type: 'pie'
+            type: 'column'
           },
           title: {
             text: 'Numri i kontratave në bazë të vlerës të prokurimit'
@@ -74,10 +83,20 @@ export class ContractsCountByProcurementProcedureAndYearComponent implements OnI
           xAxis: {
             type: 'category'
           },
+          legend: {
+            enabled: false
+          },
+          colors: this.colors,
+          plotOptions: {
+            column: {
+              colorByPoint: true
+            }
+          },
           yAxis: {
             title: {
               text: 'Kontratat'
-            }
+            },
+            max: maxValue
           },
           series: [{
             name: 'Numri i kontratave',
