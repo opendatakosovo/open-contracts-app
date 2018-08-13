@@ -42,6 +42,10 @@ export class DataService {
     return this.http.get(`${this.APIUrl}/data/top-ten-contracts-with-highest-amount-by-year/${year}`).map(res => res.json());
   }
 
+  getContractsCountByProcurementCategoryAndYear(category, year) {
+    return this.http.get(`${this.APIUrl}/data/contracts-count-by-procurement-category-and-year/${category}/${year}`).map(res => res.json());
+  }
+
   // Dashboard Data
   getUserData() {
     return this.http.getWithAuth(`${this.APIUrl}/data/user`).map(res => res.json());

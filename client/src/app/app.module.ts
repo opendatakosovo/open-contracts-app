@@ -57,6 +57,9 @@ import { ContractBySigningDatePublicationDateChartComponent } from './main/visua
 import { ContractByYearWithPredictedValueTotalAmountComponent } from './main/visualisations/charts/contract-by-year-with-predicted-value-total-amount/contract-by-year-with-predicted-value-total-amount.component';
 import { DirectoratesChartComponent } from './main/visualisations/charts/directorates-chart/directorates-chart.component';
 import { DirectoratesTableComponent } from './main/visualisations/charts/directorates-table/directorates-table.component';
+import { ContractsCountByProcurementTypeAndYearComponent } from './main/visualisations/charts/contracts-count-by-procurement-type-and-year/contracts-count-by-procurement-type-and-year.component';
+import { ContractsCountByProcurementValueAndYearComponent } from './main/visualisations/charts/contracts-count-by-procurement-value-and-year/contracts-count-by-procurement-value-and-year.component';
+import { ContractsCountByProcurementProcedureAndYearComponent } from './main/visualisations/charts/contracts-count-by-procurement-procedure-and-year/contracts-count-by-procurement-procedure-and-year.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -124,7 +127,10 @@ const appRoutes: Routes = [
     ContractBySigningDatePublicationDateChartComponent,
     ContractByYearWithPredictedValueTotalAmountComponent,
     DirectoratesChartComponent,
-    DirectoratesTableComponent
+    DirectoratesTableComponent,
+    ContractsCountByProcurementTypeAndYearComponent,
+    ContractsCountByProcurementValueAndYearComponent,
+    ContractsCountByProcurementProcedureAndYearComponent
   ],
   imports: [
     BrowserModule,

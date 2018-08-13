@@ -78,7 +78,7 @@ router.get('/get-directorates-of-contracts', (req, res) => {
                     row.name = 'E pacaktuar';
                 }
                 if (row.name == 'Administrate') {
-                    adminObj.y += row.y
+                    adminObj.y += row.y;
                     toBeRemoved.push(i);
                 }
                 if (row.name == 'Administrata') {
