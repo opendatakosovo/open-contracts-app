@@ -282,7 +282,9 @@ router.post("/send-email-for-regeneration", (req, res) => {
                         });
                     })
             } else {
-                res.json({ "success": false })
+                res.json({
+                    "userExist": "User doesn't exist", "success": false
+                })
             }
         } else {
             {

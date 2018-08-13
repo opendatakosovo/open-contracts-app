@@ -3,7 +3,6 @@ import { Subject } from 'rxjs/Subject';
 import { Router } from '@angular/router';
 import { UserService } from '../../service/user.service';
 import Swal from 'sweetalert2';
-import swal from 'sweetalert2';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
@@ -62,14 +61,23 @@ export class LoginComponent implements OnInit {
 
   requestRegerationForPassword(e, isValid) {
     e.preventDefault();
+    Swal({
+      title: 'Duke dërguar email',
+      onOpen: () => {
+        Swal.showLoading();
+      }
+    });
     if (isValid) {
       this.userService.forgotPassword(this.forgotEmail)
         .takeUntil(this.unsubscribeAll)
         .subscribe(res => {
-          if (!res.err) {
-            swal('Sukses', 'Email për kërkes të rigjenerimit të fjalëkalimit u dërgua', 'success');
+          if (res.err) {
+            Swal('Gabim!', `Dërgimi i email dështoji.`, 'error');
+          } else if (res.userExist) {
+            Swal('Kujdes!', `Përdoruesi nuk ekziston.`, 'warning');
           } else {
-            Swal('Gabim!', `Dërgimi i email dështoji`, 'error');
+            Swal('Sukses!', 'Email për kërkes të rigjenerimit të fjalëkalimit u dërgua.', 'success');
+            this.modalRef.hide();
           }
         });
     }

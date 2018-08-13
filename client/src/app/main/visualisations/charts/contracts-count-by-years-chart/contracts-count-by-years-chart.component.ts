@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { DataService } from '../../../../service/data.service';
 import { Chart } from 'angular-highcharts';
-
+import { compareValues } from '../../../../utils/sortArrayByValues';
 
 @Component({
   selector: 'app-contracts-count-by-years-chart',
@@ -28,13 +28,7 @@ export class ContractsCountByYearsChartComponent implements OnInit {
     this.dataService.getContractsCountByYears()
       .takeUntil(this.unsubscribeAll)
       .subscribe(res => {
-        res.forEach((data, i) => {
-          i = i + 1;
-          if (i > this.colors.length) {
-            this.colorIterator = 0;
-          }
-          data.color = this.colors[this.colorIterator++];
-        });
+        res.sort(compareValues('y', 'desc'));
         this.chart = new Chart({
           chart: {
             type: 'column'
@@ -48,6 +42,12 @@ export class ContractsCountByYearsChartComponent implements OnInit {
           yAxis: {
             title: {
               text: 'Numri'
+            }
+          },
+          colors: this.colors,
+          plotOptions: {
+            column: {
+              colorByPoint: true
             }
           },
           tooltip: {
