@@ -4,6 +4,8 @@ import { Chart } from 'angular-highcharts';
 import { DataService } from '../../../../service/data.service';
 import { DatatableComponent } from '@swimlane/ngx-datatable/src/components/datatable.component';
 import { TranslateService } from '@ngx-translate/core';
+import { compareValues } from '../../../../utils/sortArrayByValues';
+
 
 @Component({
   selector: 'app-contracts-count-by-procurement-value-and-year',
@@ -15,7 +17,9 @@ export class ContractsCountByProcurementValueAndYearComponent implements OnInit 
   chartt: Chart;
   category = 'procedure';
   years;
+  colors: string[];
   constructor(public dataService: DataService, public translate: TranslateService) {
+    this.colors = ['#cdedf6', '#5eb1bf', '#042a2b', '#ef7b45', '#87a330', '#c17b74', '#7e6b8f', '#96e6b3', '#da3e52', '#068d9d'];
     this.render('any');
     this.dataService.getContractYears(2009)
       .takeUntil(this.unsubscribeAll)
@@ -56,7 +60,6 @@ export class ContractsCountByProcurementValueAndYearComponent implements OnInit 
           }
         });
         res.push(undefinedObj);
-
         for (let i = res.length; i >= 0; i--) {
           for (const index of toBeRemoved) {
             if (index === Number(i)) {
@@ -64,9 +67,16 @@ export class ContractsCountByProcurementValueAndYearComponent implements OnInit 
             }
           }
         }
+        res.sort(compareValues('y', 'desc'));
+        let maxValue = 0;
+        for (const row of res) {
+          if (row.y > maxValue) {
+            maxValue = row.y;
+          }
+        }
         this.chartt = new Chart({
           chart: {
-            type: 'pie'
+            type: 'bar',
           },
           title: {
             text: 'Numri i kontratave në bazë të procedurës të prokurimit'
@@ -74,10 +84,20 @@ export class ContractsCountByProcurementValueAndYearComponent implements OnInit 
           xAxis: {
             type: 'category'
           },
+          legend: {
+            enabled: false
+          },
+          colors: this.colors,
+          plotOptions: {
+            bar: {
+              colorByPoint: true
+            }
+          },
           yAxis: {
             title: {
               text: 'Kontratat'
-            }
+            },
+            max: maxValue
           },
           series: [{
             name: 'Numri i kontratave',
