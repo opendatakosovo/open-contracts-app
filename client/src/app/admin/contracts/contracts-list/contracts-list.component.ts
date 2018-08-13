@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import { Page } from '../../../models/page';
 import { DatatableComponent } from '@swimlane/ngx-datatable/src/components/datatable.component';
 import { BsDatepickerConfig, BsLocaleService } from 'ngx-bootstrap/datepicker';
+import { User } from '../../../models/user';
 
 
 @Component({
@@ -22,8 +23,10 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
   contracts: Contract[];
   contractModal: Contract;
   modalRef: BsModalRef;
+  totalContracts: Number;
   page = new Page();
   rows = new Array<Contract>();
+  currentUser: User;
   private ref: ChangeDetectorRef;
   private datatableBodyElement: Element;
   search = {
@@ -32,6 +35,7 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
     date: new Date(),
     referenceDate: new Date(),
     value: '',
+    year: '',
     pageInfo: new Page()
   };
   offsetX: number;
@@ -42,6 +46,7 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
     this.page.pageNumber = 0;
     this.page.size = 10;
     this.contractModal = new Contract();
+    this.totalContracts = 0;
     this.contract = new Contract();
     this.ref = ref;
     this.search = {
@@ -50,6 +55,7 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
       date: null,
       referenceDate: null,
       value: '',
+      year: 'any',
       pageInfo: {
         pageNumber: 0,
         size: 10,
@@ -58,6 +64,7 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
         column: ''
       }
     };
+    this.currentUser = JSON.parse(localStorage.getItem('user'));
   }
 
   messages = {
@@ -71,6 +78,7 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.setPage({ offset: 0 });
+    this.totalContracts = this.page.totalElements;
   }
 
   ngAfterViewInit() {
@@ -78,12 +86,22 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
   }
   setPage(pageInfo) {
     this.page.pageNumber = pageInfo.offset;
-    this.contractsService.serverPagination(this.page)
-      .takeUntil(this.unsubscribeAll)
-      .subscribe(pagedData => {
-        this.page = pagedData.page;
-        this.rows = pagedData.data;
-      });
+    this.search.pageInfo.pageNumber = pageInfo.offset;
+    if (this.page.totalElements === this.totalContracts) {
+      this.contractsService.serverPaginationLatestContracts(this.page)
+        .takeUntil(this.unsubscribeAll)
+        .subscribe(pagedData => {
+          this.page = pagedData.page;
+          this.rows = pagedData.data;
+        });
+    } else {
+      this.contractsService.filterContract(this.search)
+        .takeUntil(this.unsubscribeAll)
+        .subscribe(data => {
+          this.page = data.page;
+          this.rows = data.data;
+        });
+    }
   }
 
   onTableScroll(scroll: any) {
@@ -175,7 +193,7 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
   }
 
   onType() {
-    this.contractsService.filterContract(this.search, 'any')
+    this.contractsService.filterContractDashboard(this.search, this.currentUser.role, this.currentUser.directorateName)
       .takeUntil(this.unsubscribeAll)
       .subscribe(data => {
         this.page = data.page;
@@ -204,7 +222,7 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
       this.search.date.toISOString();
       this.search.referenceDate.toISOString();
     }
-    this.contractsService.filterContract(this.search, 'any')
+    this.contractsService.filterContractDashboard(this.search, this.currentUser.role, this.currentUser.directorateName)
       .takeUntil(this.unsubscribeAll)
       .subscribe(data => {
         this.page = data.page;

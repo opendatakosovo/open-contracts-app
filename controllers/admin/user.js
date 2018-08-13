@@ -7,12 +7,13 @@ const userValidation = require("../../middlewares/user_validation");
 const checkCurrentPassword = require('../../middlewares/check_current_password');
 const changePasswordValidation = require('../../middlewares/change_password_validation');
 const checkCurrentUser = require('../../middlewares/check_current_user');
+const authorization = require('../../middlewares/authorization');
 /*
  * ENDPOINTS PREFIX: /user
  */
 
 // Route for creating a user
-router.post('/', passport.authenticate('jwt', { session: false }), userValidation, checkCurrentUser, (req, res) => {
+router.post('/', passport.authenticate('jwt', { session: false }), authorization("superadmin", "admin"), userValidation, checkCurrentUser, (req, res) => {
     let user = new User({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
@@ -58,7 +59,7 @@ router.post('/', passport.authenticate('jwt', { session: false }), userValidatio
 });
 
 // Get all simple active users
-router.get('/simple-users', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.get('/simple-users', passport.authenticate('jwt', { session: false }), authorization("superadmin", "admin"), (req, res) => {
     User.getAllSimpleUsers()
         .then(data => {
             res.json(data);
@@ -68,7 +69,7 @@ router.get('/simple-users', passport.authenticate('jwt', { session: false }), (r
 });
 
 // Route for getting all users
-router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.get('/', passport.authenticate('jwt', { session: false }), authorization("superadmin", "admin"), (req, res) => {
     User.getAllUsers((err, users) => {
         if (!err) {
             res.json({
@@ -85,7 +86,7 @@ router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => 
     });
 });
 
-router.get('/active-users', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.get('/active-users', passport.authenticate('jwt', { session: false }), authorization("superadmin", "admin"), (req, res) => {
     User.activeUsers((err, users) => {
         if (!err) {
             res.json({
@@ -103,7 +104,7 @@ router.get('/active-users', passport.authenticate('jwt', { session: false }), (r
 });
 
 // Route for getting a user by id
-router.get('/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.get('/:id', passport.authenticate('jwt', { session: false }), authorization("superadmin", "admin", "user"), (req, res) => {
     User.getUserById(req.params.id, (err, user) => {
         if (!err) {
             res.json({
@@ -121,7 +122,7 @@ router.get('/:id', passport.authenticate('jwt', { session: false }), (req, res) 
 });
 
 // Route for deleting a user by id
-router.delete('/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.delete('/:id', passport.authenticate('jwt', { session: false }), authorization("superadmin", "admin"), (req, res) => {
     User.deleteUserById(req.params.id, (err, user) => {
         if (!err) {
             res.json({
@@ -139,7 +140,7 @@ router.delete('/:id', passport.authenticate('jwt', { session: false }), (req, re
 });
 
 // Route for generate  password for a user
-router.put('/generate-password/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.put('/generate-password/:id', passport.authenticate('jwt', { session: false }), authorization("superadmin", "admin"), (req, res) => {
     let password = passwordGenerator.generate();
     User.changePassword(req.params.id, password, (err, user) => {
         if (!err) {
@@ -183,7 +184,7 @@ router.put('/generate-password/:id', passport.authenticate('jwt', { session: fal
 });
 
 // UPDATE USER DATA BY ID
-router.put('/edit-user/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.put('/edit-user/:id', passport.authenticate('jwt', { session: false }), authorization("superadmin", "admin", "user"), (req, res) => {
     const userId = req.params.id;
 
     User.updateUser(userId, req.body, (err, user) => {
@@ -203,7 +204,7 @@ router.put('/edit-user/:id', passport.authenticate('jwt', { session: false }), (
 });
 
 // Change password  for logged in user 
-router.put('/change-password', passport.authenticate('jwt', { session: false }), changePasswordValidation, checkCurrentPassword, (req, res) => {
+router.put('/change-password', passport.authenticate('jwt', { session: false }), authorization("superadmin", "admin", "user"), changePasswordValidation, checkCurrentPassword, (req, res) => {
     User.changePassword(req.user._id, req.body.newPassword, (err, user) => {
         if (!err) {
             res.json({
@@ -221,7 +222,7 @@ router.put('/change-password', passport.authenticate('jwt', { session: false }),
 });
 
 // Activate user by id
-router.put('/activate-user/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.put('/activate-user/:id', passport.authenticate('jwt', { session: false }), authorization("superadmin", "admin"), (req, res) => {
 
     User.activateUser(req.params.id, (err, user) => {
         if (!err) {

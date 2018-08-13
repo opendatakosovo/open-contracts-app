@@ -3,7 +3,8 @@ import { Subject } from 'rxjs/Subject';
 import { DatasetService } from '../../service/dataset.service';
 import { Dataset } from '../../models/dataset';
 import Swal from 'sweetalert2';
-
+import { User } from '../../models/user';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-data-dashboard',
@@ -16,13 +17,15 @@ export class DataDashboardComponent implements OnInit {
   dataSet: Dataset;
   dataSets: Dataset[];
   nameArea: HTMLInputElement;
-  constructor(public datasetService: DatasetService) {
+  currentUser: User;
+  constructor(public datasetService: DatasetService, private route: Router) {
     this.dataSet = new Dataset;
     this.datasetService.getDatasets()
       .takeUntil(this.unsubscribeAll)
       .subscribe(data => {
         this.dataSets = data;
       });
+    this.currentUser = JSON.parse(localStorage.getItem('user'));
   }
 
   fileToUpload: File;
@@ -170,8 +173,10 @@ export class DataDashboardComponent implements OnInit {
     }
   }
   ngOnInit() {
+    if (this.currentUser.role !== 'superadmin' && this.currentUser.role !== 'admin') {
+      this.route.navigate(['/dashboard']);
+    }
     this.nameArea = <HTMLInputElement>document.getElementById('name-area');
-
   }
 
 }

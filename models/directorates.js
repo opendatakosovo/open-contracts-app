@@ -6,7 +6,7 @@ const skipEmpty = require("mongoose-skip-empty");
 // Directorate Schema
 const DirectorateSchema = mongoose.Schema({
   directorateName: { type: String },
-  peopleInCharge:  [{}],
+  peopleInCharge: [{}],
   directorateIsActive: { type: Boolean }
 });
 const Directorate = (module.exports = mongoose.model("Directorate", DirectorateSchema));
@@ -29,15 +29,19 @@ module.exports.countDirectorates = (callback) => {
 }
 
 // Method for getting all directorates
-module.exports.getAllDirectorates = (callback) => {
-  Directorate.find(callback);
+module.exports.getAllDirectorates = (role, directorateName, callback) => {
+  if (role == "superadmin" || role == "admin") {
+    Directorate.find(callback).sort({ _id: -1 });
+  } else {
+    Directorate.find({ directorateName: directorateName }, callback).sort({ _id: -1 });
+  }
 }
 
 // Method for adding people in charge to a directorate
-module.exports.addAndRemovePeopleInCharge = (directorateName , peopleInCharge, callback) => {
+module.exports.addAndRemovePeopleInCharge = (directorateName, peopleInCharge, callback) => {
   Directorate.updateOne(
-    { "directorateName": directorateName} , 
-    { $set: { "peopleInCharge": peopleInCharge}}, callback
+    { "directorateName": directorateName },
+    { $set: { "peopleInCharge": peopleInCharge } }, callback
   );
 }
 
@@ -67,10 +71,10 @@ module.exports.activateDirectorate = (id, directorate, callback) => {
 module.exports.totalDirectorates = () => Directorate.find().count();
 
 // Get Total Directorates by status
-module.exports.getTotalDirectoratesByStatus = status => Directorate.find({directorateIsActive: status}).count();
+module.exports.getTotalDirectoratesByStatus = status => Directorate.find({ directorateIsActive: status }).count();
 
 // Get Total Directorates without people in charge
-module.exports.getTotalDirectoratesWithoutPeopleInCharge = () => Directorate.find({peopleInCharge: []}).count();
+module.exports.getTotalDirectoratesWithoutPeopleInCharge = () => Directorate.find({ peopleInCharge: [] }).count();
 
 // Get Total Directorates with people in charge
-module.exports.getTotalDirectoratesWithPeopleInCharge = () => Directorate.find({peopleInCharge: {$ne: []}}).count();
+module.exports.getTotalDirectoratesWithPeopleInCharge = () => Directorate.find({ peopleInCharge: { $ne: [] } }).count();

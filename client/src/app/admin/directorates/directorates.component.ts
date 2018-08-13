@@ -8,6 +8,7 @@ import { User } from '../../models/user';
 import { UserService } from '../../service/user.service';
 import Swal from 'sweetalert2';
 
+
 @Component({
   selector: 'app-directorates',
   templateUrl: './directorates.component.html',
@@ -25,6 +26,7 @@ export class DirectoratesComponent implements OnInit {
   usersInCharge: User[];
   peopleInChargeId = [];
   peopleInCharge = [];
+  currentUser: User;
   constructor(public directorateService: DirectorateService, private modalService: BsModalService, public userService: UserService) {
     this.directorate = new Directorate();
     this.directorateModal = new Directorate();
@@ -36,6 +38,7 @@ export class DirectoratesComponent implements OnInit {
       .subscribe(data => {
         this.directorates = data;
       });
+    this.currentUser = JSON.parse(localStorage.getItem('user'));
   }
 
   ngOnInit() {
@@ -122,14 +125,14 @@ export class DirectoratesComponent implements OnInit {
     this.directorateService.getDirectorateById(id)
       .takeUntil(this.unsubscribeAll)
       .subscribe(data => {
-          this.directorateModal = data;
-          this.directorateModal.peopleInCharge.forEach(element => {
-            this.userService.getUserByID(element)
-              .takeUntil(this.unsubscribeAll)
-              .subscribe(userData => {
-                this.peopleInCharge.push(userData);
-              });
-          });
+        this.directorateModal = data;
+        this.directorateModal.peopleInCharge.forEach(element => {
+          this.userService.getUserByID(element)
+            .takeUntil(this.unsubscribeAll)
+            .subscribe(userData => {
+              this.peopleInCharge.push(userData);
+            });
+        });
       });
   }
 
@@ -139,7 +142,7 @@ export class DirectoratesComponent implements OnInit {
     this.directorateService.getDirectorateById(id)
       .takeUntil(this.unsubscribeAll)
       .subscribe(data => {
-          this.directorateModal = data;
+        this.directorateModal = data;
       });
     this.modalRef = this.modalService.show(template);
   }
@@ -168,33 +171,33 @@ export class DirectoratesComponent implements OnInit {
 
   // Add directorate function
   addDirectorate(event, isValid) {
-    if ( isValid === true) {
-    this.directorateService.addDirectorate(this.directorate)
-      .takeUntil(this.unsubscribeAll)
-      .subscribe(res => {
-        if (res.err) {
-          Swal('Gabim!', 'Drejtoria nuk u shtua', 'error');
-        } else if (res.exists) {
-          Swal('Kujdes!', 'Drejtoria ekziston.', 'warning');
-        } else if (res.errVld) {
-          let errList = '';
-          res.errVld.map(error => {
-            errList += `<li>${error.msg}</li>`;
-          });
-          const htmlData = `<div style="text-align: center;">${errList}</div>`;
-          Swal({
-            title: 'Kujdes!',
-            html: htmlData,
-            width: 750,
-            type: 'info',
-            confirmButtonText: 'Kthehu te forma'
-          });
-        } else {
-          this.directorates.unshift(res.directorate);
-          Swal('Sukses!', 'Drejtoria u shtua me sukses.', 'success');
-          this.modalRef.hide();
-        }
-      });
+    if (isValid === true) {
+      this.directorateService.addDirectorate(this.directorate)
+        .takeUntil(this.unsubscribeAll)
+        .subscribe(res => {
+          if (res.err) {
+            Swal('Gabim!', 'Drejtoria nuk u shtua', 'error');
+          } else if (res.exists) {
+            Swal('Kujdes!', 'Drejtoria ekziston.', 'warning');
+          } else if (res.errVld) {
+            let errList = '';
+            res.errVld.map(error => {
+              errList += `<li>${error.msg}</li>`;
+            });
+            const htmlData = `<div style="text-align: center;">${errList}</div>`;
+            Swal({
+              title: 'Kujdes!',
+              html: htmlData,
+              width: 750,
+              type: 'info',
+              confirmButtonText: 'Kthehu te forma'
+            });
+          } else {
+            this.directorates.unshift(res.directorate);
+            Swal('Sukses!', 'Drejtoria u shtua me sukses.', 'success');
+            this.modalRef.hide();
+          }
+        });
     }
   }
   // Add people in charge function
@@ -227,21 +230,21 @@ export class DirectoratesComponent implements OnInit {
           });
           this.users.forEach(element => {
             this.userService.getUserByID(element._id)
-            .takeUntil(this.unsubscribeAll)
-            .subscribe(data => {
-              this.userModal = data;
-              this.userModal.isInCharge = false;
-              this.userModal.directorateName = '';
-              this.userService.editUser(this.userModal._id, this.userModal)
-                .takeUntil(this.unsubscribeAll)
-                .subscribe(result => {
-                  if (result.err) {
-                    return false;
-                  } else {
-                    this.modalRef.hide();
-                  }
-                });
-            });
+              .takeUntil(this.unsubscribeAll)
+              .subscribe(data => {
+                this.userModal = data;
+                this.userModal.isInCharge = false;
+                this.userModal.directorateName = '';
+                this.userService.editUser(this.userModal._id, this.userModal)
+                  .takeUntil(this.unsubscribeAll)
+                  .subscribe(result => {
+                    if (result.err) {
+                      return false;
+                    } else {
+                      this.modalRef.hide();
+                    }
+                  });
+              });
           });
           Swal('Sukses!', 'Personat përgjegjës u shtuan me sukses.', 'success');
           this.modalRef.hide();
@@ -327,5 +330,12 @@ export class DirectoratesComponent implements OnInit {
           this.modalRef.hide();
         }
       });
+  }
+
+  authorize() {
+    if (this.currentUser.role !== 'superadmin' && this.currentUser.role !== 'admin') {
+      return false;
+    }
+    return true;
   }
 }

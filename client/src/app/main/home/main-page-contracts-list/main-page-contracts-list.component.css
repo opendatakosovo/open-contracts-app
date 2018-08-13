@@ -19,6 +19,9 @@
 #sort {
     font-size: 16px;
 }
+.view-icon {
+    color: black;
+}
 
 /* ------- Public contrats ------- */
 .public-contracts .title {
