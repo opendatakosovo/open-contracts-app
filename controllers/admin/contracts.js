@@ -417,7 +417,7 @@ router.post("/page", passport.authenticate('jwt', { session: false }), authorize
         });
 });
 
-router.post("/", uploadFile, (req, res) => {
+router.post("/", passport.authenticate('jwt', { session: false }), authorize("superadmin", "admin"), uploadFile, (req, res) => {
     if (req.fileExist) {
         res.json({
             "existErr": "File exist",
@@ -499,7 +499,7 @@ router.get("/:id", passport.authenticate('jwt', { session: false }), (req, res) 
 
 
 // Route for deleting a contract by id
-router.delete('/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.delete('/:id', passport.authenticate('jwt', { session: false }), authorize('superadmin', 'admin'), (req, res) => {
     Contract.deleteContractById(req.params.id, (err, contract) => {
         if (!err) {
             res.json({
@@ -517,7 +517,7 @@ router.delete('/:id', passport.authenticate('jwt', { session: false }), (req, re
 });
 
 // Router for updating a contract by id
-router.put('/update-contract/:id', authorize('superadmin', 'admin'), uploadFile, (req, res) => {
+router.put('/update-contract/:id', passport.authenticate('jwt', { session: false }), uploadFile, (req, res) => {
     if (req.fileExist) {
         res.json({
             "existErr": "File exist",
@@ -533,7 +533,7 @@ router.put('/update-contract/:id', authorize('superadmin', 'admin'), uploadFile,
         let requestedContract;
         let fileName;
         const contentType = req.headers['content-type'];
-        if (req.body.fileToDelete != null) {
+        if (req.body.fileToDelete != null && req.body.fileToDelete != 'undefined' && req.body.fileToDelete != undefined && req.body.fileToDelete != '') {
             fs.unlink(`./uploads/${req.body.fileToDelete}`, err => {
                 if (err) {
                     res.json({
