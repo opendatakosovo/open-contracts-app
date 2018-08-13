@@ -81,7 +81,7 @@ export class ContractsCountByProcurementTypeAndYearComponent implements OnInit {
             }
           },
           series: [{
-            name: 'Kontratat',
+            name: 'Numri i kontratave',
             data: res
           }]
         });

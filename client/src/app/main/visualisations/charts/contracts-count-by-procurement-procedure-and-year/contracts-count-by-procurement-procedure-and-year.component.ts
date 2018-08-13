@@ -80,7 +80,7 @@ export class ContractsCountByProcurementProcedureAndYearComponent implements OnI
             }
           },
           series: [{
-            name: 'Kontratat',
+            name: 'Numri i kontratave',
             data: res
           }]
         });
