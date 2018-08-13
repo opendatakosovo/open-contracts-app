@@ -78,7 +78,7 @@ router.get('/get-directorates-of-contracts', (req, res) => {
                     row.name = 'E pacaktuar';
                 }
                 if (row.name == 'Administrate') {
-                    adminObj.y += row.y
+                    adminObj.y += row.y;
                     toBeRemoved.push(i);
                 }
                 if (row.name == 'Administrata') {
@@ -228,7 +228,7 @@ router.get('/top-ten-contracts-with-highest-amount-by-year/:year', (req, res) =>
 
 router.get('/contracts-count-by-procurement-category-and-year/:category/:year', (req, res) => {
     let c = req.params.category;
-    switch(c) {
+    switch (c) {
         case 'type':
             c = 'procurementType'
             break;
