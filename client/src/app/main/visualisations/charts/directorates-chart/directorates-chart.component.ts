@@ -11,27 +11,25 @@ import { Chart } from 'angular-highcharts';
 export class DirectoratesChartComponent implements OnInit {
   private unsubscribeAll: Subject<any> = new Subject<any>();
   chart: Chart;
-  colors = ['#32a6bd',
-    '#2d95aa',
-    '#288497',
-    '#237484',
+  colors = [
     '#1e6371',
-    '#19535e',
-    '#14424b',
-    '#0f3138'];
+    '#237484',
+    '#288497',
+    '#2d95aa',
+    '#32a6bd',
+    '#46aec3',
+    '#5ab7ca',
+    '#6fc0d0',
+    '#84c9d7',
+    '#98d2de'
+  ];
   colorIterator = 0;
 
   constructor(public dataService: DataService) {
     this.dataService.getDirectoratesWithMostContracts()
       .takeUntil(this.unsubscribeAll)
       .subscribe(res => {
-        res.forEach((directory, i) => {
-          i = i + 1;
-          if (i > this.colors.length) {
-            this.colorIterator = 0;
-          }
-          directory.color = this.colors[this.colorIterator++];
-        });
+
         const data = res;
         this.chart = new Chart({
           chart: {
@@ -46,16 +44,18 @@ export class DirectoratesChartComponent implements OnInit {
           legend: {
             enabled: false
           },
+          colors: this.colors,
+          plotOptions: {
+            bar: {
+              colorByPoint: true,
+              pointWidth: 15,
+            }
+          },
           yAxis: {
             title: {
               text: 'Numri'
             },
             max: 250
-          },
-          plotOptions: {
-            bar: {
-              pointWidth: 15,
-            },
           },
           tooltip: {
             pointFormat: '<span style="color:{series.color}">Numri i kontratave: {point.y}</span><br/>'
