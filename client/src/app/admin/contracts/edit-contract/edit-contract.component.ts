@@ -58,7 +58,7 @@ export class EditContractComponent implements OnInit {
         this.formatDates(this.contract);
         this.initAnnexes();
         this.initInstallments();
-        if (this.contract.contract.implementationDeadline !== undefined || this.contract.contract.implementationDeadline !== '') {
+        if (this.contract.contract.implementationDeadline !== undefined && this.contract.contract.implementationDeadline !== '') {
           this.implementationDeadline = this.contract.contract.implementationDeadline.split(' ');
         }
       });
@@ -196,24 +196,32 @@ export class EditContractComponent implements OnInit {
   calculateValues() {
     let sumAnnex = 0;
     this.contract.contract.annexes.map(annex => {
-      if (annex.totalValueOfAnnexContract1 !== undefined || annex.totalValueOfAnnexContract1 !== null) {
+      if (annex.totalValueOfAnnexContract1 !== undefined && annex.totalValueOfAnnexContract1 !== null) {
         sumAnnex += parseFloat(annex.totalValueOfAnnexContract1.toString());
+      } else {
+        sumAnnex = 0;
       }
     });
-    if (this.contract.contract.totalAmountOfContractsIncludingTaxes !== undefined || this.contract.contract.totalAmountOfContractsIncludingTaxes !== null) {
+    if (this.contract.contract.totalAmountOfContractsIncludingTaxes !== undefined && this.contract.contract.totalAmountOfContractsIncludingTaxes !== null) {
       this.total = parseFloat(this.contract.contract.totalAmountOfContractsIncludingTaxes.toString()) + sumAnnex;
+    } else {
+      this.total = 0;
     }
-    if (this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes !== undefined || this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes !== null) {
+    if (this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes !== undefined && this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes !== null) {
       this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes = this.total.toString();
     }
     let sumInstallments = 0;
     this.contract.installments.map(installment => {
-      if (installment.installmentAmount1 !== undefined || installment.installmentAmount1 !== null) {
+      if (installment.installmentAmount1 !== undefined && installment.installmentAmount1 !== null) {
         sumInstallments += parseFloat(installment.installmentAmount1.toString());
+      } else {
+        sumInstallments = 0;
       }
     });
     if (this.contract.lastInstallmentAmount !== undefined) {
       this.totalInstallments = parseFloat(this.contract.lastInstallmentAmount.toString()) + sumInstallments;
+    } else {
+      this.totalInstallments = 0;
     }
     if (this.totalInstallments !== undefined) {
       this.contract.contract.totalPayedPriceForContract = this.totalInstallments.toString();
@@ -509,4 +517,5 @@ export class EditContractComponent implements OnInit {
 
   }
 }
+
 
