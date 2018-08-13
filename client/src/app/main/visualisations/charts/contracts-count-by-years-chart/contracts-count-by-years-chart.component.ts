@@ -12,7 +12,16 @@ import { Chart } from 'angular-highcharts';
 export class ContractsCountByYearsChartComponent implements OnInit {
   private unsubscribeAll: Subject<any> = new Subject<any>();
   chart: Chart;
-  colors = ['#042a2b', '#5eb1bf', '#cdedf6', '#ef7b45', '#87a330', '#c17b74', '#7e6b8f', '#96e6b3', '#da3e52', '#068d9d'];
+  colors = ['#32a6bd',
+    '#46aec3',
+    '#5ab7ca',
+    '#6fc0d0',
+    '#84c9d7',
+    '#98d2de',
+    '#addbe4',
+    '#c1e4eb',
+    '#d6edf1',
+    '#eaf6f8'];
   colorIterator = 0;
 
   constructor(public dataService: DataService) {
