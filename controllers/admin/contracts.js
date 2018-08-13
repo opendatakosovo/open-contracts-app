@@ -442,11 +442,11 @@ router.post("/", uploadFile, (req, res) => {
 
         let contract = new Contract(requestedContract);
         contract.contract.file = fileName;
-        contract.company.slug = slugify(requestedContract.company.name, ' ')
-        contract.company.headquarters.slug = slugify(requestedContract.company.headquarters.name, ' ');
-        contract.activityTitleSlug = slugify(requestedContract.activityTitle, ' ');
-        contract.contract.implementationDeadline = slugify(requestedContract.contract.implementationDeadline, ' ');
-        contract.directorateSlug = slugify(requestedContract.directorates, ' ');
+        contract.company.slug = slugify(requestedContract.company.name)
+        contract.company.headquarters.slug = slugify(requestedContract.company.headquarters.name);
+        contract.activityTitleSlug = slugify(requestedContract.activityTitle);
+        contract.contract.implementationDeadline = slugify(requestedContract.contract.implementationDeadline);
+        contract.directorateSlug = slugify(requestedContract.directorates);
         Contract.addContract(contract, (err, contract) => {
             if (!err) {
                 res.json({
@@ -549,10 +549,10 @@ router.put('/update-contract/:id', authorize('superadmin', 'admin'), uploadFile,
             requestedContract.contract.file = req.file.originalname;
         } else {
             requestedContract = req.body.requestedContract;
-            requestedContract.directoratesSlug = slugify(requestedContract.directorates, ' ');
-            requestedContract.activityTitleSlug = slugify(requestedContract.activityTitle, ' ');
+            requestedContract.directoratesSlug = slugify(requestedContract.directorates);
+            requestedContract.activityTitleSlug = slugify(requestedContract.activityTitle);
             if (requestedContract.contract.implementationDeadlineSlug !== null || requestedContract.contract.implementationDeadlineSlug !== '' || requestedContract.contract.implementationDeadlineSlug !== undefined) {
-                requestedContract.contract.implementationDeadlineSlug = slugify(requestedContract.contract.implementationDeadline, ' ');
+                requestedContract.contract.implementationDeadlineSlug = slugify(requestedContract.contract.implementationDeadline);
             }
             if (req.body.fileToDelete != null) {
                 requestedContract.contract.file = "";
@@ -584,8 +584,8 @@ router.post('/filter', (req, res) => {
         pageNumber: req.body.pageInfo.pageNumber
     };
     let response = {};
-    let string = slugify(req.body.string, ' ');
-    let directorate = slugify(req.body.directorate, ' ');
+    let string = slugify(req.body.string);
+    let directorate = slugify(req.body.directorate);
     let date = req.body.date;
     let referenceDate = req.body.referenceDate;
     let value = req.body.value;

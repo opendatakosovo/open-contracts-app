@@ -23,6 +23,7 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
   contracts: Contract[];
   contractModal: Contract;
   modalRef: BsModalRef;
+  totalContracts: Number;
   page = new Page();
   rows = new Array<Contract>();
   currentUser: User;
@@ -45,6 +46,7 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
     this.page.pageNumber = 0;
     this.page.size = 10;
     this.contractModal = new Contract();
+    this.totalContracts = 0;
     this.contract = new Contract();
     this.ref = ref;
     this.search = {
@@ -76,6 +78,7 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.setPage({ offset: 0 });
+    this.totalContracts = this.page.totalElements;
   }
 
   ngAfterViewInit() {
@@ -83,12 +86,22 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
   }
   setPage(pageInfo) {
     this.page.pageNumber = pageInfo.offset;
-    this.contractsService.serverPagination(this.page)
-      .takeUntil(this.unsubscribeAll)
-      .subscribe(pagedData => {
-        this.page = pagedData.page;
-        this.rows = pagedData.data;
-      });
+    this.search.pageInfo.pageNumber = pageInfo.offset;
+    if (this.page.totalElements === this.totalContracts) {
+      this.contractsService.serverPaginationLatestContracts(this.page)
+        .takeUntil(this.unsubscribeAll)
+        .subscribe(pagedData => {
+          this.page = pagedData.page;
+          this.rows = pagedData.data;
+        });
+    } else {
+      this.contractsService.filterContract(this.search)
+        .takeUntil(this.unsubscribeAll)
+        .subscribe(data => {
+          this.page = data.page;
+          this.rows = data.data;
+        });
+    }
   }
 
   onTableScroll(scroll: any) {
