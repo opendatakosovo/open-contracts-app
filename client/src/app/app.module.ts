@@ -59,6 +59,7 @@ import { DirectoratesChartComponent } from './main/visualisations/charts/directo
 import { DirectoratesTableComponent } from './main/visualisations/charts/directorates-table/directorates-table.component';
 import { ContractsCountByProcurementTypeAndYearComponent } from './main/visualisations/charts/contracts-count-by-procurement-type-and-year/contracts-count-by-procurement-type-and-year.component';
 import { ContractsCountByProcurementValueAndYearComponent } from './main/visualisations/charts/contracts-count-by-procurement-value-and-year/contracts-count-by-procurement-value-and-year.component';
+import { ContractsCountByProcurementProcedureAndYearComponent } from './main/visualisations/charts/contracts-count-by-procurement-procedure-and-year/contracts-count-by-procurement-procedure-and-year.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -128,7 +129,8 @@ const appRoutes: Routes = [
     DirectoratesChartComponent,
     DirectoratesTableComponent,
     ContractsCountByProcurementTypeAndYearComponent,
-    ContractsCountByProcurementValueAndYearComponent
+    ContractsCountByProcurementValueAndYearComponent,
+    ContractsCountByProcurementProcedureAndYearComponent
   ],
   imports: [
     BrowserModule,

@@ -36,7 +36,7 @@ export class ContractsCountByProcurementTypeAndYearComponent implements OnInit {
     this.dataService.getContractsCountByProcurementCategoryAndYear(this.category, year)
       .takeUntil(this.unsubscribeAll)
       .subscribe(res => {
-        const undefinedObj = { name: 'Të pacaktuar', y: 0 };
+        const undefinedObj = { name: 'Të pacaktuara', y: 0 };
         const toBeRemoved = [];
         res.map((row, i) => {
           if (row.name === '') {

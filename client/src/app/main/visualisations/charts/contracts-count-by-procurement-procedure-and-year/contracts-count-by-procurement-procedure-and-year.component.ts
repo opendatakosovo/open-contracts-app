@@ -6,14 +6,14 @@ import { DatatableComponent } from '@swimlane/ngx-datatable/src/components/datat
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-contracts-count-by-procurement-value-and-year',
-  templateUrl: './contracts-count-by-procurement-value-and-year.component.html',
-  styleUrls: ['./contracts-count-by-procurement-value-and-year.component.css']
+  selector: 'app-contracts-count-by-procurement-procedure-and-year',
+  templateUrl: './contracts-count-by-procurement-procedure-and-year.component.html',
+  styleUrls: ['./contracts-count-by-procurement-procedure-and-year.component.css']
 })
-export class ContractsCountByProcurementValueAndYearComponent implements OnInit {
+export class ContractsCountByProcurementProcedureAndYearComponent implements OnInit {
   private unsubscribeAll: Subject<any> = new Subject<any>();
   chartt: Chart;
-  category = 'procedure';
+  category = 'value';
   years;
   constructor(public dataService: DataService, public translate: TranslateService) {
     this.render('any');
@@ -69,7 +69,7 @@ export class ContractsCountByProcurementValueAndYearComponent implements OnInit 
             type: 'pie'
           },
           title: {
-            text: 'Numri i kontratave në bazë të procedurës të prokurimit'
+            text: 'Numri i kontratave në bazë të vlerës të prokurimit'
           },
           xAxis: {
             type: 'category'
