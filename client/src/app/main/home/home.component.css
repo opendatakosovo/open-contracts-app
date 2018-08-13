@@ -2,10 +2,10 @@
     min-height: 200px;
 }
 #bg-img {
-    background-image: url('/assets/images/about.png');
+    background-image: url('/assets/images/home1.JPG');
      /* Full height */
-     height: 678px; 
-     max-height: 678px;
+     height: 920px; 
+     max-height: 920px;
      /* Center and scale the image nicely */
      background-position: center;
      background-repeat: no-repeat;
