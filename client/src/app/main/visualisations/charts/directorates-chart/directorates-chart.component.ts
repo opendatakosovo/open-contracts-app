@@ -11,7 +11,14 @@ import { Chart } from 'angular-highcharts';
 export class DirectoratesChartComponent implements OnInit {
   private unsubscribeAll: Subject<any> = new Subject<any>();
   chart: Chart;
-  colors = ['#042a2b', '#5eb1bf', '#cdedf6', '#ef7b45', '#87a330', '#c17b74', '#7e6b8f', '#96e6b3', '#da3e52', '#068d9d'];
+  colors = ['#32a6bd',
+    '#2d95aa',
+    '#288497',
+    '#237484',
+    '#1e6371',
+    '#19535e',
+    '#14424b',
+    '#0f3138'];
   colorIterator = 0;
 
   constructor(public dataService: DataService) {

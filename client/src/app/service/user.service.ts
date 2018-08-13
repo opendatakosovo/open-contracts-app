@@ -93,4 +93,8 @@ export class UserService {
   getActiveUsers() {
     return this.http.getWithAuth(`${this.APIUrl}/user/active-users`).map(res => res.json().users);
   }
+
+  forgotPassword(email) {
+    return this.http.post(`${this.APIUrl}/user/send-email-for-regeneration`, { 'email': email }).map(res => res.json());
+  }
 }

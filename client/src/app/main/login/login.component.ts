@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Router } from '@angular/router';
 import { UserService } from '../../service/user.service';
 import Swal from 'sweetalert2';
+import swal from 'sweetalert2';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 @Component({
   selector: 'app-login',
@@ -13,13 +16,21 @@ export class LoginComponent implements OnInit {
   private unsubscribeAll: Subject<any> = new Subject<any>();
   email: string;
   password: string;
+  forgotEmail: string;
+  modalRef: BsModalRef;
 
   constructor(
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private modalService: BsModalService
   ) {
     document.body.style.background = '#fdfdfd';
   }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
+
 
   ngOnInit() {
     if (this.userService.loggedIn()) {
@@ -44,6 +55,21 @@ export class LoginComponent implements OnInit {
           } else {
             Swal('Gabim!', data.msg, 'info');
             this.router.navigate(['/login']);
+          }
+        });
+    }
+  }
+
+  requestRegerationForPassword(e, isValid) {
+    e.preventDefault();
+    if (isValid) {
+      this.userService.forgotPassword(this.forgotEmail)
+        .takeUntil(this.unsubscribeAll)
+        .subscribe(res => {
+          if (!res.err) {
+            swal('Sukses', 'Email për kërkes të rigjenerimit të fjalëkalimit u dërgua', 'success');
+          } else {
+            Swal('Gabim!', `Dërgimi i email dështoji`, 'error');
           }
         });
     }

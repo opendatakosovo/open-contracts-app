@@ -23,29 +23,36 @@
     <button type="submit" class="btn btn-primary" id="login-button">Kyçu</button>
 
     <div class="password-link">
-      <a data-toggle="modal" data-target="#passwordRecovery" id="password-changer">Keni harruar fjalëkalimin?</a>
-      <!-- Modal -->
-      <div class="modal fade" id="passwordRecovery" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Rigjenerimi i fjalëkalimit</h5>
-              <button style="background-color: #39a6bd" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              Kontaktoni administratorin në
-              <i class="text-info">
-                <u>someone@example.com</u>
-              </i> për rigjenerim të fjalëkalimit të ri!
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <a data-toggle="modal" (click)="openModal(modalforgotPassword)" id="password-changer">Keni harruar fjalëkalimin?</a>
     </div>
   </form>
 </div>
+<!-- Modal -->
+<ng-template #modalforgotPassword>
+  <div class="modal-content">
+    <form id="forgot-form" novalidate #forgotForm="ngForm" (submit)="requestRegerationForPassword($event,forgotForm.valid)">
+      <div class="modal-header">
+        <h5 class="modal-title">Rigjenerimi i fjalëkalimit</h5>
+        <button style="background-color: #39a6bd" type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" class="form-control" id="forgotEmail" name="email" [(ngModel)]="forgotEmail" #userEmail="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+            required [style.border-color]="userEmail.errors?.required && userEmail.touched ? 'red' : '#ced4da'" [style.border-color]="userEmail.errors?.pattern && userEmail.touched ? 'red' : '#ced4da'">
+          <div *ngIf="userEmail.errors?.required && userEmail.touched;else error_email" class="error-msg">Email duhet plotësuar!</div>
+          <ng-template #error_email>
+            <div *ngIf="userEmail.errors?.pattern && userEmail.touched" class="error-msg">Email duhet të jetë valid!</div>
+          </ng-template>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <input type="submit" value="Dërgo" class="btn btn-primary">
+        <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Close</button>
+      </div>
+    </form>
+  </div>
+</ng-template>

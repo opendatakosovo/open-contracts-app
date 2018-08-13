@@ -19,7 +19,7 @@ const UserSchema = mongoose.Schema({
   role: { type: String, required: true },
   directorateName: { type: String },
   isInCharge: { type: Boolean },
-  isActive: { type: Boolean, required: true}
+  isActive: { type: Boolean, required: true }
 }, schemaOptions);
 
 UserSchema.options.toJSON = {
@@ -51,11 +51,11 @@ const User = (module.exports = mongoose.model("User", UserSchema));
 
 // Function for getting all users and directorates
 module.exports.getAllUsers = callback => {
-  User.find().sort({'createdAt': "desc"}).exec(callback);;
+  User.find().sort({ 'createdAt': "desc" }).exec(callback);;
 }
 
 module.exports.getAllSimpleUsers = () => {
-  return User.find({role: 'user', isActive: true});
+  return User.find({ role: 'user', isActive: true });
 }
 
 module.exports.getAllAdminUsers = () => {
@@ -86,9 +86,16 @@ module.exports.deleteUserById = (id, callback) => {
 module.exports.findUserByEmail = (email, callback) => {
   User.findOne({ "email": email }, callback);
 }
+module.exports.findRegularUserAndAdminsByEmail = (email, callback) => {
+  User.findOne({ "email": email, "role": { $in: ['user', 'admin'] } }, callback);
+}
+//Function for getting superadmin
+module.exports.getSuperadmin = () => {
+  return User.findOne({ "role": "superadmin" });
+}
 // Function for finding active users
 module.exports.activeUsers = (callback) => {
-  User.find({"isActive": true, "role": "user" , "isInCharge": false }, callback);
+  User.find({ "isActive": true, "role": "user", "isInCharge": false }, callback);
 }
 // Function for comparing passwords
 module.exports.comparePassword = (candidatePassword, hash, callback) => {
@@ -108,7 +115,7 @@ module.exports.changePassword = (id, newPassword, callback) => {
 }
 // Function for activating a user or admin
 module.exports.activateUser = (id, callback) => {
-  User.findByIdAndUpdate(id, {$set:{isActive: true}}, {new: true}, callback);
+  User.findByIdAndUpdate(id, { $set: { isActive: true } }, { new: true }, callback);
 }
 // Function for deactivating a user or admin
 module.exports.deactivateUser = (id, callback) => {
@@ -117,13 +124,13 @@ module.exports.deactivateUser = (id, callback) => {
 
 /** User data ***/
 // Total users
-module.exports.totalUsers = () => User.find({role: { $ne: "superadmin"}}).count();
+module.exports.totalUsers = () => User.find({ role: { $ne: "superadmin" } }).count();
 
 // Total active/inactive users
-module.exports.getTotalUsersByStatus = status => User.find({isActive: status, role: { $ne: "superadmin"}}).count();
+module.exports.getTotalUsersByStatus = status => User.find({ isActive: status, role: { $ne: "superadmin" } }).count();
 
 // Total users with/without directorates assigned
-module.exports.getTotalUsersByDirectoratesStatus = status => User.find({isInCharge: status, role: { $ne: "admin"}, isActive: true}).count();
+module.exports.getTotalUsersByDirectoratesStatus = status => User.find({ isInCharge: status, role: { $ne: "admin" }, isActive: true }).count();
 
 // Total admin/simple users
-module.exports.getTotalUsersByRole = role => User.find({role: role}).count();
+module.exports.getTotalUsersByRole = role => User.find({ role: role }).count();
