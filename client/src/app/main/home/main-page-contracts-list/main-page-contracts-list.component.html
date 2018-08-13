@@ -37,23 +37,6 @@
   <ngx-datatable #table class="bootstrap" columnMode="'force'" [rows]="rows" [headerHeight]="'auto'" [summaryRow]="false" [summaryPosition]="'bottom'"
     [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements" [offset]="page.pageNumber"
     [limit]="page.size" [messages]="messages" [scrollbarH]="true" (page)='setPage($event)' [externalSorting]="true" (scroll)="onTableScroll($event)">
-    <ngx-datatable-column [width]="80">
-      <ng-template let-column="column" ngx-datatable-header-template>
-        <p class="column-header">Shiko</p>
-      </ng-template>
-      <ng-template let-row="row" ngx-datatable-cell-template>
-        <span>
-          <div *ngIf="row.contract.file == ''">
-            <p>-</p>
-          </div>
-          <div *ngIf="row.contract.file != ''">
-            <a class="view-icon" [attr.data-id]="row._id" href="/uploads/{{row.contract.file}}" target="_blank">
-              <i class="fa fa-eye" aria-hidden="true"></i>
-            </a>
-          </div>
-        </span>
-      </ng-template>
-    </ngx-datatable-column>
     <ngx-datatable-column name="activity-title" prop="activityTitle">
       <ng-template let-column="column" ngx-datatable-header-template>
         <span (click)="sortContracts('activityTitle1')">
@@ -292,6 +275,23 @@
         <p *ngIf="row.directorates != null">
           {{ row.directorates }}
         </p>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column>
+      <ng-template let-column="column" ngx-datatable-header-template>
+        <p class="column-header">Shiko kontratën e plotë</p>
+      </ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <span>
+          <div *ngIf="row.contract.file == ''">
+            <p>-</p>
+          </div>
+          <div *ngIf="row.contract.file != ''">
+            <a class="view-icon" [attr.data-id]="row._id" href="/uploads/{{row.contract.file}}" target="_blank">
+              <i class="fa fa-file-text-o" style="margin-top: 1.5px; font-size: 20px" aria-hidden="true"></i>
+            </a>
+          </div>
+        </span>
       </ng-template>
     </ngx-datatable-column>
     <ngx-datatable-footer>
