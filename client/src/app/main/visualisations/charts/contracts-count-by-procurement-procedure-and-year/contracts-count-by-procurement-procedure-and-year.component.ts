@@ -5,6 +5,9 @@ import { DataService } from '../../../../service/data.service';
 import { DatatableComponent } from '@swimlane/ngx-datatable/src/components/datatable.component';
 import { TranslateService } from '@ngx-translate/core';
 import { compareValues } from '../../../../utils/sortArrayByValues';
+import { lang } from 'moment';
+declare var require: any;
+const translateVis = require('../../../../utils/visualisationTranslation.json');
 @Component({
   selector: 'app-contracts-count-by-procurement-procedure-and-year',
   templateUrl: './contracts-count-by-procurement-procedure-and-year.component.html',
@@ -16,6 +19,7 @@ export class ContractsCountByProcurementProcedureAndYearComponent implements OnI
   category = 'value';
   years;
   colors: string[];
+  title: string;
   constructor(public dataService: DataService, public translate: TranslateService) {
     this.colors = ['#cdedf6', '#5eb1bf', '#042a2b', '#ef7b45', '#87a330', '#c17b74', '#7e6b8f', '#96e6b3', '#da3e52', '#068d9d'];
     this.render('any');
@@ -37,8 +41,10 @@ export class ContractsCountByProcurementProcedureAndYearComponent implements OnI
     this.dataService.getContractsCountByProcurementCategoryAndYear(this.category, year)
       .takeUntil(this.unsubscribeAll)
       .subscribe(res => {
+        const ln = localStorage.getItem('language');
         const undefinedObj = { name: 'Të pacaktuara', y: 0 };
         const toBeRemoved = [];
+        console.log(translateVis[ln]);
         res.map((row, i) => {
           if (row.name === '') {
             undefinedObj.y += row.y;
@@ -78,7 +84,7 @@ export class ContractsCountByProcurementProcedureAndYearComponent implements OnI
             type: 'column'
           },
           title: {
-            text: 'Numri i kontratave në bazë të vlerës të prokurimit'
+            text: translateVis[ln]['string1']
           },
           xAxis: {
             type: 'category'

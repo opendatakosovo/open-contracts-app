@@ -1,0 +1,11 @@
+{
+    "sq": {
+        "string1": "string2"
+    },
+    "en": {
+        "string1": "string3"
+    },
+    "sr": {
+        "string1": "string4"
+    }
+}
