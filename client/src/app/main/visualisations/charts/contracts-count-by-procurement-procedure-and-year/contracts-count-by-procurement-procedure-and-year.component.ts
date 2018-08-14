@@ -19,10 +19,11 @@ export class ContractsCountByProcurementProcedureAndYearComponent implements OnI
   category = 'value';
   years;
   colors: string[];
-  title: string;
+  year: string;
+  lang: string;
   constructor(public dataService: DataService, public translate: TranslateService) {
     this.colors = ['#5e9ebd', '#6ea7c3', '#7eb1ca', '#8ebbd0', '#9ec4d7', '#aecede'];
-    this.render('any');
+    this.year = 'any';
     this.dataService.getContractYears(2009)
       .takeUntil(this.unsubscribeAll)
       .subscribe(res => {
@@ -31,26 +32,33 @@ export class ContractsCountByProcurementProcedureAndYearComponent implements OnI
   }
 
   ngOnInit() {
-    this.translate.onLangChange.subscribe(lang => {
-        console.log('Changed');
-        this.render('any');
-    });
+    this.lang = this.translate.currentLang;
+    this.translate.onLangChange
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(langObj => {
+        this.lang = langObj.lang;
+        this.render();
+      });
   }
 
   onChange(event) {
-    const year = event.target.value;
-    this.render(year);
+    this.year = event.target.value;
+    this.translate.onLangChange
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(langObj => {
+        this.lang = langObj.lang;
+        this.render();
+      });
+    this.render();
   }
 
-  render(year) {
-    this.dataService.getContractsCountByProcurementCategoryAndYear(this.category, year)
+  render() {
+    this.dataService.getContractsCountByProcurementCategoryAndYear(this.category, this.year)
       .takeUntil(this.unsubscribeAll)
       .subscribe(res => {
-        const ln = localStorage.getItem('language');
         let hasUndefinedData = false;
         const undefinedObj = { name: 'Të pacaktuara', y: 0 };
         const toBeRemoved = [];
-
         res.map((row, i) => {
           if (row.name === '') {
             hasUndefinedData = true;
@@ -87,19 +95,9 @@ export class ContractsCountByProcurementProcedureAndYearComponent implements OnI
         }
 
         // Translation of data in res
-        if (ln === 'en' || ln === 'sr') {
+        if (this.lang === 'en' || this.lang === 'sr') {
           res.map((row, i) => {
-            if (row.name === 'Vlerë e mesme') {
-              row.name = 'Medium value';
-            } else if (row.name === 'Vlerë e vogël') {
-              row.name = 'Small value';
-            } else if (row.name === 'Vlerë minimale') {
-              row.name = 'Minimal value';
-            } else if (row.name === 'Vlerë e madhe') {
-              row.name = 'Big value';
-            } else if (row.name === 'Të pacaktuara') {
-              row.name = 'Undefined';
-            }
+            row.name = translateVis[this.lang][row.name];
           });
         }
 
@@ -115,7 +113,7 @@ export class ContractsCountByProcurementProcedureAndYearComponent implements OnI
             type: 'column'
           },
           title: {
-            text: translateVis[ln]['contractByProcurementValue']
+            text: translateVis[this.lang]['contractByProcurementValue']
           },
           xAxis: {
             type: 'category'
@@ -131,12 +129,12 @@ export class ContractsCountByProcurementProcedureAndYearComponent implements OnI
           },
           yAxis: {
             title: {
-              text: 'Kontratat'
+              text: translateVis[this.lang]['contracts']
             },
             max: maxValue
           },
           series: [{
-            name: 'Numri i kontratave',
+            name: translateVis[this.lang]['numberOfContracts'],
             data: res
           }]
         });

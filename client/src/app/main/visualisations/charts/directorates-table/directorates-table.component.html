@@ -1,12 +1,12 @@
 <div class="row">
   <div class="col-md-10">
-    <h5>Top dhjetë kontratat me vlerën më të madhe</h5>
+    <h5>{{ 'datatable.visualisationsTitle' | translate }}</h5>
   </div>
-  <div class="col-2 mb-3">
+  <div id="year-input" class="col-2 mb-3">
     <div class="form-group">
-      <label style="margin-top: 7px;" for="yearInput">Viti:</label>
+      <label style="margin-top: 7px;" for="yearInput">{{ 'dataset.year' | translate }}:</label>
       <select (change)="render($event)" class="float-right form-control my-form-control">
-        <option value="any">Të gjitha</option>
+        <option value="any">{{ 'visualisations.allYears' | translate }}</option>
         <option *ngFor="let year of years" value="{{year.year}}">{{year.year}}</option>
       </select>
     </div>
@@ -16,14 +16,14 @@
   <table class="table table-striped myTable">
     <thead id="blla">
       <tr>
-        <th scope="col">Nr i prokurimit</th>
-        <th scope="col">Titulli i aktivitetit të prokurimit</th>
-        <th scope="col">Emri i OE të cilit i është dhënë kontrata</th>
-        <th scope="col">Vlera e parashikuar e kontratës</th>
-        <th scope="col">Vlera totale e kontratës, duke përfshirë të gjitha taksat</th>
-        <th scope="col">Shuma e diferencës në mesë vlerës parashikuar dhe totale me taksa të kontratës</th>
-        <th scope="col">Data e publikimit të njoftimit për dhënie të kontratës</th>
-        <th scope="col">Data e nënshkrimit të kontratës</th>
+        <th scope="col">{{ 'datatable.procurementNumber' | translate }}</th>
+        <th scope="col">{{ 'datatable.activityTitle' | translate }}</th>
+        <th scope="col">{{ 'datatable.name' | translate }}</th>
+        <th scope="col">{{ 'datatable.predictedValue' | translate }}</th>
+        <th scope="col">{{ 'datatable.totalAmountOfContractsIncludingTaxes' | translate }}</th>
+        <th scope="col">{{ 'datatable.amountOfDifferenceBetweenTheEstimatedValueAndtotalWithContractTax' | translate }}</th>
+        <th scope="col">{{ 'datatable.publicationDateOfGivenContract' | translate }}</th>
+        <th scope="col">{{ 'datatable.signingDate' | translate }}</th>
       </tr>
     </thead>
     <tbody>

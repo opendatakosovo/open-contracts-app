@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { DataService } from '../../../../service/data.service';
 import { Chart } from 'angular-highcharts';
-
+import { TranslateService } from '@ngx-translate/core';
+declare var require: any;
+const translateVis = require('../../../../utils/visualisationTranslation.json');
 @Component({
   selector: 'app-contract-by-year-with-predicted-value-total-amount',
   templateUrl: './contract-by-year-with-predicted-value-total-amount.component.html',
@@ -12,38 +14,52 @@ export class ContractByYearWithPredictedValueTotalAmountComponent implements OnI
   private unsubscribeAll: Subject<any> = new Subject<any>();
   chart: Chart;
   years;
-  constructor(public dataService: DataService) {
+  year: string;
+  lang: string;
+  constructor(public dataService: DataService, public translate: TranslateService) {
+    this.year = '2018';
     this.dataService.getContractYears(2009)
       .takeUntil(this.unsubscribeAll)
       .subscribe(res => {
         this.years = res;
-        this.render(this.years[0].year);
       });
   }
 
   onChange(event) {
-    const year = event.target.value;
-    this.render(year);
+    this.year = event.target.value;
+    this.translate.onLangChange
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(langObj => {
+        this.lang = langObj.lang;
+        this.render();
+      });
+    this.render();
   }
 
-  render(year) {
-    this.dataService.getContractByYearWithPredictedValueAndTotalAmount(year)
+  render() {
+    this.dataService.getContractByYearWithPredictedValueAndTotalAmount(this.year)
       .takeUntil(this.unsubscribeAll)
       .subscribe(res => {
+        // Translation of data in res
+        if (this.lang === 'en' || this.lang === 'sr') {
+          res.map((row, i) => {
+            row.name = translateVis[this.lang][row.name];
+          });
+        }
         const data = this.formatData(res);
         this.chart = new Chart({
           chart: {
             type: 'line'
           },
           title: {
-            text: 'Krahasimi në mes vlerës së parashikuar dhe vlerës totale të kontratave'
+            text: translateVis[this.lang]['contractByYearWithPredictedValueTotalAmount']
           },
           xAxis: {
             categories: data.activityTitles
           },
           yAxis: {
             title: {
-              text: 'Vlerat'
+              text: translateVis[this.lang]['values'],
             },
             labels: {
               formatter: function () {
@@ -52,10 +68,10 @@ export class ContractByYearWithPredictedValueTotalAmountComponent implements OnI
             }
           },
           series: [{
-            name: 'Vlera parashikuar kontratës',
+            name: translateVis[this.lang]['predictedValue'],
             data: data.predictedValues
           }, {
-            name: 'Vlera totale e kontratës me taksa',
+            name: translateVis[this.lang]['totalValueOfContract'],
             data: data.totalAmountValues
           }]
         });
@@ -63,6 +79,13 @@ export class ContractByYearWithPredictedValueTotalAmountComponent implements OnI
   }
 
   ngOnInit() {
+    this.lang = this.translate.currentLang;
+    this.translate.onLangChange
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(langObj => {
+        this.lang = langObj.lang;
+        this.render();
+      });
   }
 
   public formatData(contracts) {

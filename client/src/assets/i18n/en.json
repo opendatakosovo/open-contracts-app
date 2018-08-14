@@ -4,7 +4,7 @@
     },
     "navigation": {
         "home": "HOME",
-        "visualizations": "VIZUALIZATIONS",
+        "visualizations": "VISUALIZATIONS",
         "dataset": "DATA SET",
         "aboutUs": "ABOUT US",
         "openBusinesses": "OPEN BUSINESSES"
@@ -33,8 +33,10 @@
         "contracts": "Contracts:",
         "displayedContracts": "Displayed:",
         "page": "Page:",
-        "emptyMessage": "Displaying contracts",
-        "noOfCompaniesWhoSubmited": "Number of the EO who submited the offers"
+        "noOfCompaniesWhoSubmited": "Number of the EO who submited the offers",
+        "procurementNumber": "Nr. of procurement",
+        "amountOfDifferenceBetweenTheEstimatedValueAndtotalWithContractTax": "Amount of difference between the estimated value and total with contract tax",
+        "visualisationsTitle": "Top ten contracts with the highest value"
     },
     "dataset": {
         "title": "DATA SET",
@@ -59,7 +61,7 @@
     "aboutUs": {
         "title": "About Us",
         "description1": "Opening the municipality to citizens is the primary goal of the Municipality of Prishtina.\n\nThe Municipality of Prishtina, with the development of the ‘Open Contracts’ platform, is providing all of its citizens with open data regarding the contracts that this institution signs with all economic operators. This platform enables coverage of all contracts by municipal directorates, so that these records are further used in the function of full transparency in the municipality.\n\nReturning citizens’ trust to public institutions through transparency and easy access to municipal services is our vision for Prishtina.",
-        "description2": "The information is listed as follows:\n\n-Title of the procurement activity\n-Date of publication of the contract notice\n-Number of economic operators that have downloaded the tender dossier\n-Date of publication of the contract award notice\n-Date of publication of cancellation of notice\n-Estimated value of the contract\n-Name of the economic operator to whom the contract is awarded\n-Date of contract signing\n-Date of commencement of contract implementation\n-Date of contract termination\n-Total value of the contract, including all taxes\n-Directorate to which the contract belongs to",
+        "description2": "The information is listed as follows:\n\n- Title of the procurement activity\n- Date of publication of the contract notice\n- Number of economic operators that have downloaded the tender dossier\n- Date of publication of the contract award notice\n-Date of publication of cancellation of notice\n- Estimated value of the contract\n- Name of the economic operator to whom the contract is awarded\n- Date of contract signing\n- Date of commencement of contract implementation\n- Date of contract termination\n- Total value of the contract, including all taxes\n- Directorate to which the contract belongs to",
         "projectDescription1": "The “Open Contracts” platform has been developed under the Techstitution project in close partnership with the Municipality of Prishtina. The purpose of this platform is to inform the citizens of the Municipality of Prishtina on the procurement processes/contracts signed by this institution.",
         "techstitution": "\n\nTechstitution ",
         "projectDescription2": "is a project implemented by ",
@@ -81,5 +83,13 @@
         "pageNotFound": "The page was not found!",
         "return": "Go back",
         "to": "to Homepage"
+    },
+    "visualisations": {
+        "title": "Visualizations",
+        "subtitle": "Find out the records on the contracts concluded over the years",
+        "description": "Here you can find various forms of visualizations that show about contracts that have been connected by the Municipality of Prishtina\n with different economic operators over the years. Learning top ten companies with most contracts.\n Compare the dates of the contract award with the dates of their signature. Find out which are the most contingent directories and the highest value contracts.",
+        "allYears": "All",
+        "notification": "Notice: Click on the company shown in the visualization to see all the contracts it has with the municipality",
+        "allContractsOfOE": "All company contracts"
     }
 }

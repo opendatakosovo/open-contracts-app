@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { DataService } from '../../../../service/data.service';
 import { Chart } from 'angular-highcharts';
-
+import { TranslateService } from '@ngx-translate/core';
+declare var require: any;
+const translateVis = require('../../../../utils/visualisationTranslation.json');
 
 @Component({
   selector: 'app-contract-by-signing-date-publication-date-chart',
@@ -13,8 +15,10 @@ export class ContractBySigningDatePublicationDateChartComponent implements OnIni
   private unsubscribeAll: Subject<any> = new Subject<any>();
   chart: Chart;
   years;
-  constructor(public dataService: DataService) {
-    this.render('any');
+  year: string;
+  lang: string;
+  constructor(public dataService: DataService, public translate: TranslateService) {
+    this.year = '2018';
     this.dataService.getContractYears(2017)
       .takeUntil(this.unsubscribeAll)
       .subscribe(res => {
@@ -23,22 +27,32 @@ export class ContractBySigningDatePublicationDateChartComponent implements OnIni
   }
 
   ngOnInit() {
+    this.lang = this.translate.currentLang;
+    this.translate.onLangChange
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(langObj => {
+        this.lang = langObj.lang;
+        this.render();
+      });
   }
-  onChange(event) {
-    const year = event.target.value;
-    this.render(year);
-  }
-  render(year) {
-    this.dataService.getContractSigningDateAndPublicationDateForChart(year)
+
+  render() {
+    this.dataService.getContractSigningDateAndPublicationDateForChart(this.year)
       .takeUntil(this.unsubscribeAll)
       .subscribe(res => {
+        // Translation of data in res
+        if (this.lang === 'en' || this.lang === 'sr') {
+          res.map((row, i) => {
+            row.name = translateVis[this.lang][row.name];
+          });
+        }
         const data = this.formatData(res);
         this.chart = new Chart({
           chart: {
             type: 'spline'
           },
           title: {
-            text: 'Krahasimi në mes datës së publikimit dhe datës së nënshkrimit të kontratave'
+            text: translateVis[this.lang]['contractBySigningDatePublicationDateChart']
           },
           xAxis: {
             categories: data.activityTitles
@@ -54,10 +68,10 @@ export class ContractBySigningDatePublicationDateChartComponent implements OnIni
             pointFormat: ` {point.y:%d.%m.%Y}`
           },
           series: [{
-            name: 'Data publikimit',
+            name: translateVis[this.lang]['publicationDate'],
             data: data.signingDates
           }, {
-            name: 'Data të nënshkrimit',
+            name: translateVis[this.lang]['signingDate'],
             data: data.publicationDatesOfGivenContracts
           }]
         });

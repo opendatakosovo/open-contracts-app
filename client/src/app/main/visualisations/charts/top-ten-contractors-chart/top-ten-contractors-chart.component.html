@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-12 mt-5 mb-5">
         <div class="alert alert-info" role="alert">
-            Njoftim: Klikoni mbi kompaninë e paraqitur në vizualizim, që t’i shihni të gjitha kontratat që ajo ka me komunën
+            {{ 'visualisations.notification' | translate }}
         </div>
     </div>
 </div>
@@ -18,7 +18,7 @@
 <div id="table1" [@visibilityChanged]="visibilityState" class="mt-10">
     <div class="row">
         <div class="col-md-12">
-            <h5>Të gjitha kontratat e kompanisë: {{oeName}}</h5>
+            <h5>{{ 'visualisations.allContractsOfOE' | translate }}: {{oeName}}</h5>
         </div>
     </div>
     <ngx-datatable #table [rows]="rows" class="bootstrap" columnMode="'force'" [headerHeight]="'auto'" [summaryRow]="false" [summaryPosition]="'bottom'"
@@ -170,7 +170,8 @@
             <ng-template ngx-datatable-footer-template let-rowCount="rowCount" let-pageSize="pageSize" let-selectedCount="selectedCount"
                 let-curPage="curPage" let-offset="offset">
                 <div style="padding: 5px 10px;width: 50%;">
-                    Kontrata: {{rowCount}} | Të shfaqura: {{pageSize}} | Faqja: {{curPage}}
+                    {{ 'datatable.contracts' | translate }} {{rowCount}} | {{ 'datatable.displayedContracts' | translate }} {{pageSize}} | {{
+                    'datatable.page' | translate }} {{curPage}}
                 </div>
                 <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'" [pagerRightArrowIcon]="'datatable-icon-right'" [pagerPreviousIcon]="'datatable-icon-prev'"
                     [pagerNextIcon]="'datatable-icon-skip'" [page]="curPage" [size]="pageSize" [count]="rowCount" [hidden]="!((rowCount / pageSize) > 1)"
