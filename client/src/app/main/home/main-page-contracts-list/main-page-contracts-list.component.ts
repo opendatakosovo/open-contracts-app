@@ -175,6 +175,18 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
     this.table.offset = 0;
   }
 
+  onDateInputChange(event) {
+    const val = event.target.value;
+    if (val === '') {
+      this.contractsService.serverPaginationLatestContracts(this.page)
+        .takeUntil(this.unsubscribeAll)
+        .subscribe(pagedData => {
+          this.page = pagedData.page;
+          this.rows = pagedData.data;
+        });
+    }
+  }
+
   onDatePick(event) {
     if (event !== null && event !== undefined) {
       this.search.date = event;
@@ -186,8 +198,7 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
       this.search.referenceDate.setDate(this.search.referenceDate.getDate() + 1);
       this.search.date.toISOString();
       this.search.referenceDate.toISOString();
-    }
-    this.contractsService.filterContract(this.search)
+      this.contractsService.filterContract(this.search)
       .takeUntil(this.unsubscribeAll)
       .subscribe(data => {
         this.page = data.page;
@@ -203,5 +214,6 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
         }
       });
     this.table.offset = 0;
+    }
   }
 }
