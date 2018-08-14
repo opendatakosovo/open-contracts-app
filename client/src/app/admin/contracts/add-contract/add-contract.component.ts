@@ -244,9 +244,10 @@ export class AddContractComponent implements OnInit {
     this.calculateValues();
     if (this.form.valid === true) {
       if (this.filesToUpload !== null && this.valid === true) {
-        if (this.form.value.implementationDeadlineNumber !== null && this.form.value.implementationDeadlineDuration !== '') {
+        if (this.form.value.implementationDeadlineNumber !== null && this.form.value.implementationDeadlineNumber !== '') {
+          if (this.form.value.implementationDeadlineDuration !== '') {
           this.contract.contract.implementationDeadline = this.form.value.implementationDeadlineNumber + ' ' + this.form.value.implementationDeadlineDuration;
-        } else {
+        }} else {
           this.contract.contract.implementationDeadline = '';
         }
         this.contract.approvalDateOfFunds =

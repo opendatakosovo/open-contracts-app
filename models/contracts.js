@@ -274,18 +274,18 @@ module.exports.getTotalContracts = () => Contract.find().count();
 
 // Filter functions
 // Filter by any string field
-let education = ['Drejtoria Arsimit', 'Drejtoria e arsimit', 'Arsim', 'Arsimi'];
-let administration = ['Drejtoria e administratës', 'Administrate', 'Administrata', 'Drejtoria administratës', 'Drejtoria Administratës'];
-let infrastructure = ['Drejtoria e infrastrukturës', 'Infrastrukture', 'Infrastukture'];
-let investment = ['Investime', 'Investimet ka', 'Drejtoria i Investimeve Kapitale dhe Menaxhim të Kontratave', 'Invetsime', 'Drejtoria e Investimit', 'Drejtoria i investimeve kapitale dhe menaxhim të kontratave'];
-let culture = ['Kultura', 'Kulturë', 'kultur', 'Drejtoria e kulturës', 'Drejtoria e kulturës, rinisë dhe sportit'];
+let education = ['Drejtoria Arsimit', 'Drejtoria e arsimit', 'Arsim', 'Arsimi', 'Drejtoria arsimit', 'Drejtoria e Arsimit'];
+let administration = ['Drejtoria e Administratës', 'Drejtoria e Planifikimit Strategjik dhe Zhvillim të Qëndrueshëm', 'Administrate', 'Administrata', 'Drejtoria administratës', 'Drejtoria Administratës'];
+let infrastructure = ['Drejtoria e infrastrukturës', 'Infrastrukture', 'Infrastukture', 'Drejtoria e Infrastrukturës', 'Drejtoria Infrastrukturës', 'Drejtoria infrastrukturës'];
+let investment = ['Investime', 'Investimet ka', 'Drejtoria i Investimeve Kapitale dhe Menaxhim të Kontratave', 'Drejtoria e investimeve kapitale dhe menaxhim të kontratave', 'Drejtoria e Investimeve Kapitale dhe Menaxhim të Kontratave', 'Invetsime', 'Drejtoria e Investimit', 'Drejtoria i investimeve kapitale dhe menaxhim të kontratave'];
+let culture = ['Kultura', 'Kulturë', 'kultur', 'Drejtoria e Kulturës', 'Drejtoria Kulturës', 'Drejtoria kulturës', 'Drejtoria e kulturës', 'Drejtoria e kulturës, rinisë dhe sportit'];
 let publicServices = ['Sh.Publike', 'Sh.p', 'Sherb publike', 'Sherbime Pub', 'Sherbime publike', 'sherbime Pub', 'Drejtoria e shërbimeve publike', 'Drejtoria e Shërbimeve Publike', 'Shërbime Publike, Mbrojtjes dhe Shpëtimit', 'Drejtoria e Shërbimeve Publike, Mbrojtjes dhe Shpëtimit', 'Drejtoria e shërbimeve publike, mbrojtjes dhe shpëtimit'];
-let health = ['Shendetesi', 'Shendetsia', 'Drejtoria e Shëndetësisë', 'Drejtoria Shëndetësisë'];
-let cadastre = ['Drejtoria e Kadastrit', 'Drejtoria e kadastrit', 'Drejtoria kadastrit', 'Kadastri', 'kadastri'];
+let health = ['Shendetesi', 'Shendetsia', 'Drejtoria e Shëndetësisë', 'Drejtoria Shëndetësisë', 'Drejtoria shëndetësisë', 'Drejtoria e shëndetësisë'];
+let cadastre = ['Drejtoria e Kadastrit', 'Drejtoria e kadastrit', 'Drejtoria kadastrit', 'Drejtoria Kadastrit','Kadastri', 'kadastri'];
 let socialWelfare = ['Drejtoria e Mirëqenies Sociale', 'Drejtoria e mirëqenies sociale', 'Mirëqenie Sociale', 'Sociale', 'Mireqenie Sociale'];
-let agriculture = ['Drejtoria e Bujqësisë', 'Bujësisë', 'Drejtoria e Bujqësis', 'Drejtoria e bujqësisë', 'Bujqësia'];
+let agriculture = ['Drejtoria e Bujqësisë', 'Bujësisë', 'Drejtoria e Bujqësis', 'Drejtoria e bujqësisë', 'Drejtoria bujqësisë',  'Drejtoria Bujqësisë','Bujqësia'];
 let fincances = ['Drejtoria e Financave', 'Financa', 'Financës', 'Drejtoria Financës', 'Drejtoria financës', 'Drejtoria e financave'];
-let property = ['Drejtoria e Pronës', 'Drejtoria e Pronës', 'Prona'];
+let property = ['Drejtoria e pronës', 'Drejtoria e Pronës', 'Prona', 'Drejtoria Pronës', 'Drejtoria Pronës'];
 let urbanism = ['Drejtoria e urbanizimit', 'Drejtoria e urbanizmit', 'Drejtoria e Urbanizimit', 'Urbanizmi', 'Drejtoria Urbanizimit'];
 let inspection = ['Inspekcion', 'Drejtoria e inspektimit', 'Drejtoria e inspekcionit'];
 let planning = ['Planifikim strategjik dhe zhvillimit të qëndrueshëm', 'Drejtoria e planifikimit strategjik dhe zhvillimit të qëndrueshëm'];
@@ -354,12 +354,12 @@ module.exports.filterStringFieldsInContractsCount = (text, year, role, directora
 module.exports.filterByDirectorate = (directorate, year, role, directorateName) => {
     let filter = [];
     let queryArray = [];
-    if (directorate == 'Drejtoria Arsimit') {
+    if (directorate == 'Drejtoria e Arsimit') {
         education.forEach(element => {
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria Administrates') {
+    if (directorate == 'Drejtoria e Administratës') {
         administration.forEach(element => {
             queryArray.push(element);
         });
@@ -369,7 +369,7 @@ module.exports.filterByDirectorate = (directorate, year, role, directorateName) 
             queryArray.push(element);
         });
     }
-    if (directorate == 'Investime kapitale dhe menaxhimit të kontratave') {
+    if (directorate == 'Drejtoria e Investimeve Kapitale dhe Menaxhim të Kontratave') {
         investment.forEach(element => {
             queryArray.push(element);
         });
@@ -379,7 +379,7 @@ module.exports.filterByDirectorate = (directorate, year, role, directorateName) 
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Shërbimeve Publike, Mrojtjes dhe Shpëtimit') {
+    if (directorate == 'Drejtoria e Shërbimeve Publike') {
         publicServices.forEach(element => {
             queryArray.push(element);
         });
@@ -399,7 +399,7 @@ module.exports.filterByDirectorate = (directorate, year, role, directorateName) 
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Bujqësisë') {
+    if (directorate == 'Drejtoria e Bujqësis') {
         agriculture.forEach(element => {
             queryArray.push(element);
         });
@@ -424,7 +424,7 @@ module.exports.filterByDirectorate = (directorate, year, role, directorateName) 
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Planifikimit strategjik dhe zhvillimit të qëndrueshëm') {
+    if (directorate == 'Drejtoria e Planifikimit Strategjik dhe Zhvillim të Qëndrueshëm') {
         planning.forEach(element => {
             queryArray.push(element);
         });
