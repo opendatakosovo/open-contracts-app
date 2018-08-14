@@ -2,8 +2,8 @@
 #bg-img {
     background-image:url("/assets/images/about.jpg");
     /* Full height */
-    height: 723px; 
-    max-height: 723px;
+    height: 85%; 
+    max-height: 85%;
     width: 100%;
     /* Center and scale the image nicely */
     background-position: center;
@@ -84,7 +84,9 @@
 #descriptions {
     margin-right: 85px;
 }
-
+#description1 {
+    width: 72%;
+}
 .technologies {
     float: left;
     width: 18%;
@@ -119,6 +121,12 @@ a {
         margin-right: 9%;
         margin-top: 5%;
     }
+    .company-header #title {
+        font-size: 2.5em
+    }
+    #description1 {
+        width: 100%;
+    }
 }
 
 @media(max-width: 635px) {
@@ -129,19 +137,5 @@ a {
     #bg-img {
         height: 900px; 
         max-height: 900px;
-    }
-}
-
-@media(max-width: 437px) {
-    #bg-img {
-        height: 1000px; 
-        max-height: 1000px;
-    }
-}
-
-@media(max-width: 391px) {
-    #bg-img {
-        height: 1190px; 
-        max-height: 1190px;
     }
 }

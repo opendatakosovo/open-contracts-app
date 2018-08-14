@@ -377,8 +377,9 @@ export class EditContractComponent implements OnInit {
     e.preventDefault();
     this.calculateValues();
     if (this.form.valid === true) {
+      console.log(this.form.value.implementationDeadlineNumber);
       if (this.filesToUpload !== null && this.valid === true) {
-        if (this.form.value.implementationDeadlineNumber !== null && this.form.value.implementationDeadlineDuration !== '') {
+        if (this.form.value.implementationDeadlineNumber !== null && this.form.value.implementationDeadlineNumber !== '' && this.form.value.implementationDeadlineNumber !== undefined) {
           this.contract.contract.implementationDeadline = this.form.value.implementationDeadlineNumber + ' ' + this.form.value.implementationDeadlineDuration;
         } else {
           this.contract.contract.implementationDeadline = '';
@@ -449,7 +450,7 @@ export class EditContractComponent implements OnInit {
             }
           });
       } else if (this.filesToUpload === null) {
-        if (this.form.value.implementationDeadlineNumber !== null && this.form.value.implementationDeadlineDuration !== '') {
+        if (this.form.value.implementationDeadlineNumber !== null && this.form.value.implementationDeadlineNumber !== '' && this.form.value.implementationDeadlineNumber !== undefined) {
           this.contract.contract.implementationDeadline = this.form.value.implementationDeadlineNumber + ' ' + this.form.value.implementationDeadlineDuration;
         } else {
           this.contract.contract.implementationDeadline = '';
