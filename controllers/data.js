@@ -70,19 +70,56 @@ router.get('/get-directorates-of-contracts', (req, res) => {
             let culturObj = { name: 'Kulturë', y: 0 };
             let publicServicesObj = { name: 'Shërbime Publike', y: 0 };
             let healthObj = { name: 'Shëndetësi', y: 0 };
+            let cadasObj = { name: 'Kadastrës', y:0 };
+            let socWelObj = { name: 'Mirëqenia Sociale', y:0 };
+            let agriObj = { name: 'Bujqësisë', y:0 };
+            let finaObj = { name: 'Financave', y:0};
+            let propObj = { name: 'Prona', y:0 };
+            let urbanObj = { name: 'Urbanizmi', y:0 };
+            let inspeObj = { name: 'Inspekcioni', y:0 };
+            let planObj = { name: 'Planifikimit', y:0 };
+            let parkObj = { name: 'Parqeve', y:0 };
             let toBeRemoved = [];
 
             // Process some data
             data.map((row, i) => {
-                if (row.name == '') {
-                    row.name = 'E pacaktuar';
+                // if (row.name == '') {
+                //     row.name = 'E pacaktuar';
+                // }
+                if (row.name == 'Drejtoria e administratës') {
+                    adminObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Drejtoria e Administratës') {
+                    adminObj.y += row.y;
+                    toBeRemoved.push(i);
                 }
                 if (row.name == 'Administrate') {
                     adminObj.y += row.y;
                     toBeRemoved.push(i);
                 }
+                if (row.name == 'Administratë') {
+                    adminObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
                 if (row.name == 'Administrata') {
                     adminObj.y += row.y
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Drejtoria Arsimit') {
+                    eduObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Drejtoria arsimit') {
+                    eduObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Drejtoria e arsimit') {
+                    eduObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Drejtoria e Arsimit') {
+                    eduObj.y += row.y;
                     toBeRemoved.push(i);
                 }
                 if (row.name == 'Arsim') {
@@ -91,6 +128,22 @@ router.get('/get-directorates-of-contracts', (req, res) => {
                 }
                 if (row.name == 'Arsimi') {
                     eduObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Drejtoria e infrastrukturës') {
+                    infrastructureObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Drejtoria e Infrastrukturës') {
+                    infrastructureObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Drejtoria Infrastrukturës') {
+                    infrastructureObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Drejtoria infrastrukturës') {
+                    infrastructureObj.y += row.y;
                     toBeRemoved.push(i);
                 }
                 if (row.name == 'Infrastrukture') {
@@ -115,6 +168,26 @@ router.get('/get-directorates-of-contracts', (req, res) => {
                 }
                 if (row.name == 'Invetsime') {
                     investmentsObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Drejtoria i Investimeve Kapitale dhe Menaxhim të Kontratave') {
+                    investmentsObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Drejtoria e Investimeve Kapitale dhe Menaxhim të Kontratave') {
+                    investmentsObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Drejtoria i investimeve kapitale dhe menaxhim të kontratave') {
+                    investmentsObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Drejtoria e kulturës') {
+                    culturObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Drejtoria e kulturës, rinisë dhe sportit') {
+                    culturObj.y += row.y;
                     toBeRemoved.push(i);
                 }
                 if (row.name == 'Kultura') {
@@ -153,6 +226,30 @@ router.get('/get-directorates-of-contracts', (req, res) => {
                     publicServicesObj.y += row.y;
                     toBeRemoved.push(i);
                 }
+                if (row.name == 'Drejtoria e shërbimeve publike') {
+                    publicServicesObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Drejtoria shërbimeve publike') {
+                    publicServicesObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Drejtoria e Shërbimeve Publike') {
+                    publicServicesObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Shërbime Publike, Mbrojtjes dhe Shpëtimit') {
+                    publicServicesObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Drejtoria e Shërbimeve Publike, Mbrojtjes dhe Shpëtimit') {
+                    publicServicesObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Drejtoria e shërbimeve publike, mbrojtjes dhe shpëtimit') {
+                    publicServicesObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
                 if (row.name == 'Shendetesi') {
                     healthObj.y += row.y;
                     toBeRemoved.push(i);
@@ -161,7 +258,176 @@ router.get('/get-directorates-of-contracts', (req, res) => {
                     healthObj.y += row.y;
                     toBeRemoved.push(i);
                 }
+                if (row.name == 'Drejtoria e Shëndetësisë') {
+                    healthObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Drejtoria e shëndetësisë') {
+                    healthObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Drejtoria Shëndetësisë') {
+                    healthObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Drejtoria shëndetësisë') {
+                    healthObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == "Drejtoria e kadastrit") {
+                    cadasObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == "Drejtoria e Kadastrit") {
+                    cadasObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == "Drejtoria kadastrit") {
+                    cadasObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == "Drejtoria Kadastrit") {
+                    cadasObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == "Kadastri") {
+                    cadasObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == "kadastri") {
+                    cadasObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Drejtoria e mirëqenies sociale') {
+                    socWelObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Mirëqenie Sociale') {
+                    socWelObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Drejtoria e Mirëqenies Sociale') {
+                    socWelObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Mireqenie Sociale') {
+                    socWelObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Sociale') {
+                    socWelObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Mirëqenie sociale') {
+                    socWelObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name == 'Drejtoria e Bujqësisë') {
+                    agriObj.y += row.y;
+                    toBeRemoved.push(i)
+                }
+                if (row.name == 'Drejtoria e bujqësisë') {
+                    agriObj.y += row.y;
+                    toBeRemoved.push(i)
+                }
+                if (row.name == 'Bujqësisë') {
+                    agriObj.y += row.y;
+                    toBeRemoved.push(i)
+                }
+                if (row.name == 'Drejtoria e Bujqësis') {
+                    agriObj.y += row.y;
+                    toBeRemoved.push(i)
+                }
+                if (row.name == 'Bujqësia') {
+                    agriObj.y += row.y;
+                    toBeRemoved.push(i)
+                }
+                if ( row.name == 'Drejtoria e financave') {
+                    finaObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if ( row.name == 'Financa') {
+                    finaObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if ( row.name == 'Financës') {
+                    finaObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if ( row.name == 'Drejtoria financës') {
+                    finaObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if ( row.name == 'Drejtoria e pronës') {
+                    propObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if ( row.name == 'Drejtoria e Pronës') {
+                    propObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if ( row.name == 'Prona') {
+                    propObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if ( row.name == 'Drejtoria e urbanizmit') {
+                    urbanObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if ( row.name == 'Drejtoria e urbanizimit') {
+                    urbanObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if ( row.name == 'Drejtoria e Urbanizimit') {
+                    urbanObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if ( row.name == 'Urbanizmi') {
+                    urbanObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if ( row.name == 'Inspekcion') {
+                    inspeObj.y += row.y;
+                    toBeRemoved.push(i)
+                }
+                if( row.name == 'Drejtoria e Inspekcionit') {
+                    inspeObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if( row.name == 'Drejtoria e Inspektimit') {
+                    inspeObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if( row.name == 'Drejtoria e inspekcionit') {
+                    inspeObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if ( row.name == 'Drejtoria e planifikimit strategjik dhe zhvillimit të qëndrueshëm') {
+                    planObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if ( row.name == 'Drejtoria e Planifikimit Strategjik dhe Zhvillim të Qëndrueshëm') {
+                    planObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if ( row.name == 'Planifikim strategjik dhe zhvillimit të qëndrueshëm') {
+                    planObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if ( row.name == 'Parqeve') {
+                    parkObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if ( row.name == 'Drejtoria e parqeve') {
+                    parkObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if ( row.name == 'Drejtoria parqeve') {
+                    parkObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
             });
+            
 
             data.push(adminObj);
             data.push(eduObj);

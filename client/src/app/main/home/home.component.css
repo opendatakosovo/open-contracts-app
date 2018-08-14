@@ -4,8 +4,8 @@
 #bg-img {
     background-image: url('/assets/images/home1.JPG');
      /* Full height */
-     height: 920px; 
-     max-height: 920px;
+     height: 85%; 
+     max-height: 85%;
      /* Center and scale the image nicely */
      background-position: center;
      background-repeat: no-repeat;
@@ -16,7 +16,7 @@
 }
 .cover .info-text {
     width: 549px;
-    padding-top: 140px;
+    padding-top: 14%;
     padding-left: 100px;
 
 }
@@ -75,7 +75,6 @@
 @media(max-width:950px) {
     .cover .info-text .title {
         font-size: 62px;
-
     }
     .cover .info-text .subtitle {
         font-size: 24px;
@@ -86,6 +85,8 @@
         padding-left: 75px;
     }
 }
+
+
 @media(max-width: 580px) {
     .cover .info-text .title {
         font-size: 55px;
@@ -93,9 +94,6 @@
     .cover .info-text {
         padding-left: 65px;
         width: 470px;
-    }
-    #bg-img {
-        height: 550px;
     }
     .cover .info-text {
         padding-top: 100px;    

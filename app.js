@@ -50,7 +50,7 @@ app.use(morgan('dev'));
 // Registering all controllers
 app.use(require('./controllers'));
 
-app.use(serveFavicon(__dirname + '/client/src/favicon.ico'));
+// app.use(serveFavicon(__dirname + '/client/src/favicon.png'));
 
 // Route all upload files
 app.get('/uploads/:filename', (req, res) => {
@@ -66,7 +66,7 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
   console.log("Server started on port:" + port);
 });
 

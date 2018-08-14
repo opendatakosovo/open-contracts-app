@@ -8,6 +8,8 @@ const checkCurrentPassword = require('../../middlewares/check_current_password')
 const changePasswordValidation = require('../../middlewares/change_password_validation');
 const checkCurrentUser = require('../../middlewares/check_current_user');
 const authorization = require('../../middlewares/authorization');
+const async = require('async');
+const crypto = require('crypto');
 /*
  * ENDPOINTS PREFIX: /user
  */
@@ -297,5 +299,106 @@ router.post("/send-email-for-regeneration", (req, res) => {
     });
 });
 
+router.post('/reset-password', (req, res, cb) => {
+    async.waterfall([
+        done => {
+            crypto.randomBytes(20, (err, buf) => {
+                const token = buf.toString('hex');
+                done(err, token);
+            })
+        },
+        (token, done) => {
+            User.getSuperadmin().then(superadmin => {
+                superadmin.resetPasswordToken = token;
+                superadmin.resetPasswordExpires = Date.now() + 1800000
 
+                superadmin.save(err => {
+                    done(err, token, superadmin);
+                });
+            }).catch(err => {
+                console.log(err);
+            })
+        },
+        (token, superadmin, done) => {
+            var mailOptions = {
+                to: superadmin.email,
+                from: 'support@prishtina.com',
+                subject: ' Rivendosja e fjalëkalimit',
+                text: 'Ju keni pranuar këtë mesazh sepse ju (apo dikush tjetër) keni kërkuar të ndryshoni fjalëkalimin.\n\n' +
+                    'Ju lutemi klikoni në linkun e mëposhtëm për të vazhduar me proceduren e rivendosjes së fjalëkalimit: \n\n' +
+                    'http://' + req.headers.origin + '/change-password/' + token + '\n\n' +
+                    'Nëse ju nuk e keni kërkuar këtë email ju lutemi ta injoroni, fjalëkalimi do të mbetet i njëjtë.\n'
+            };
+            mailTransporter.sendMail(mailOptions, err => {
+                res.json({
+                    'status': 'ok',
+                    'message': 'Udhëzimet për rivendosje të fjalëkalimit janë dërguar tek ' + superadmin.email + '.'
+                });
+            });
+        }
+    ], err => {
+        if (err) {
+            cb(err);
+        } else {
+            res.json({
+                "redirect": "redirect"
+            })
+        }
+    });
+});
+
+router.get('/change-password-admin/:token', (req, res) => {
+    User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, (req, user) => {
+        if (!user) {
+            res.json({ redirect: true })
+        } else {
+            res.json({ redirect: false })
+        }
+    })
+});
+
+router.post('/change-password-admin/:token', (req, res) => {
+    async.waterfall([
+        done => {
+            User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, (err, user) => {
+                if (!user) {
+                    return res.json({
+                        'status': 'error',
+                        'message': 'Tokeni për rivendosjen e fjalëkalimit ka skaduar!'
+                    });
+                }
+
+                user.password = req.body.password;
+                user.resetPasswordToken = undefined;
+                user.resetPasswordExpires = undefined;
+
+                user.save(err => {
+                    if (!err) {
+                        res.json({
+                            'success': true,
+                            "msg": 'Password has been changed'
+                        })
+                    }
+                });
+            });
+        },
+        (user, done) => {
+            var mailOptions = {
+                to: user.email,
+                from: 'support@prishtina.com',
+                subject: 'Fjalëkalimi është ndryshuar me sukses',
+                text: 'Përshëndetje,\n\n' +
+                    'Ky është një email që konfirmon ndryshimin e fjalëkalimit për ' + user.email + '.\n'
+            };
+            mailTransporter.sendMail(mailOptions, err => {
+                res.json({
+                    'status': 'ok',
+                    'message': 'Fjalëkalimi i ri i juaj është rivendosur me sukses.'
+                });
+            });
+        }
+    ], err => {
+        res.json({ "err": err })
+    });
+});
 module.exports = router;

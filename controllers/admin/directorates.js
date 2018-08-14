@@ -196,4 +196,5 @@ router.put('/activate-directorate/:id', passport.authenticate('jwt', { session: 
     });
 });
 
+
 module.exports = router;

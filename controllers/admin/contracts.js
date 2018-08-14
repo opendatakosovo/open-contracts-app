@@ -519,7 +519,7 @@ router.delete('/:id', passport.authenticate('jwt', { session: false }), authoriz
 });
 
 // Router for updating a contract by id
-router.put('/update-contract/:id', passport.authenticate('jwt', { session: false }), uploadFile, (req, res) => {
+router.put('/update-contract/:id', passport.authenticate('jwt', { session: false }), authorize('superadmin', 'admin'), uploadFile, (req, res) => {
     if (req.fileExist) {
         res.json({
             "existErr": "File exist",
@@ -548,8 +548,8 @@ router.put('/update-contract/:id', passport.authenticate('jwt', { session: false
         }
         if (contentType.indexOf('application/json') == -1) {
             requestedContract = JSON.parse(req.body.contract);
+            console.log(requestedContract.activityTitle);
             requestedContract.contract.file = req.file.originalname;
-            requestedContract = req.body.requestedContract;
             requestedContract.directoratesSlug = slugify(requestedContract.directorates);
             requestedContract.activityTitleSlug = slugify(requestedContract.activityTitle);
             requestedContract.contract.predictedValueSlug = requestedContract.contract.predictedValue.replace(/[,]+/g, '');
@@ -594,7 +594,7 @@ router.post('/filter', (req, res) => {
     };
     let response = {};
     let string = slugify(req.body.string);
-    let directorate = slugify(req.body.directorate);
+    let directorate = req.body.directorate;
     let date = req.body.date;
     let referenceDate = req.body.referenceDate;
     let value = req.body.value;
@@ -616,7 +616,9 @@ router.post('/filter', (req, res) => {
     if (string !== '' && directorate === '' & date === null && value === '') {
         Contract.filterStringFieldsInContractsCount(string, year, role, directorateName)
             .then(totalElements => {
-                page.totalElements = totalElements;
+                totalElements.forEach(element => {
+                    page.totalElements = element.total
+                });
                 return page;
             })
             .then(page => {
@@ -641,7 +643,9 @@ router.post('/filter', (req, res) => {
     } else if (string === '' && directorate !== '' & date === null && value === '') {
         Contract.filterByDirectorateCount(directorate, year, role, directorateName)
             .then(totalElements => {
-                page.totalElements = totalElements;
+                totalElements.forEach(element => {
+                    page.totalElements = element.total
+                });
                 return page;
             })
             .then(page => {
@@ -666,7 +670,9 @@ router.post('/filter', (req, res) => {
     } else if (string === '' && directorate === '' & date !== null && value === '') {
         Contract.filterByDateCount(date, referenceDate, year, role, directorateName)
             .then(totalElements => {
-                page.totalElements = totalElements;
+                totalElements.forEach(element => {
+                    page.totalElements = element.total
+                });
                 return page;
             })
             .then(page => {
@@ -691,7 +697,9 @@ router.post('/filter', (req, res) => {
     } else if (string === '' && directorate === '' & date === null && value !== '') {
         Contract.filterByValueCount(value, year, role, directorateName)
             .then(totalElements => {
-                page.totalElements = totalElements;
+                totalElements.forEach(element => {
+                    page.totalElements = element.total
+                });
                 return page;
             })
             .then(page => {
@@ -716,7 +724,9 @@ router.post('/filter', (req, res) => {
     } else if (string !== '' && directorate !== '' & date === null && value === '') {
         Contract.filterByStringAndDirectorateCount(string, directorate, year, role, directorateName)
             .then(totalElements => {
-                page.totalElements = totalElements;
+                totalElements.forEach(element => {
+                    page.totalElements = element.total
+                });
                 return page;
             })
             .then(page => {
@@ -741,7 +751,9 @@ router.post('/filter', (req, res) => {
     } else if (string !== '' && directorate !== '' & date !== null && value === '') {
         Contract.filterbyStringDirectorateDateCount(string, directorate, date, referenceDate, year, role, directorateName)
             .then(totalElements => {
-                page.totalElements = totalElements;
+                totalElements.forEach(element => {
+                    page.totalElements = element.total
+                });
                 return page;
             })
             .then(page => {
@@ -766,7 +778,9 @@ router.post('/filter', (req, res) => {
     } else if (string !== '' && directorate !== '' & date !== null && value !== '') {
         Contract.filterByStringDirectorateDateValueCount(string, directorate, date, referenceDate, value, year, role, directorateName)
             .then(totalElements => {
-                page.totalElements = totalElements;
+                totalElements.forEach(element => {
+                    page.totalElements = element.total
+                });
                 return page;
             })
             .then(page => {
@@ -791,7 +805,9 @@ router.post('/filter', (req, res) => {
     } else if (string !== '' && directorate === '' & date !== null && value === '') {
         Contract.filterByStringDateCount(string, date, referenceDate, year, role, directorateName)
             .then(totalElements => {
-                page.totalElements = totalElements;
+                totalElements.forEach(element => {
+                    page.totalElements = element.total
+                });
                 return page;
             })
             .then(page => {
@@ -816,7 +832,9 @@ router.post('/filter', (req, res) => {
     } else if (string !== '' && directorate === '' & date === null && value !== '') {
         Contract.filterByStringValueCount(string, value, year, role, directorateName)
             .then(totalElements => {
-                page.totalElements = totalElements;
+                totalElements.forEach(element => {
+                    page.totalElements = element.total
+                });
                 return page;
             })
             .then(page => {
@@ -841,7 +859,9 @@ router.post('/filter', (req, res) => {
     } else if (string === '' && directorate !== '' & date !== null && value === '') {
         Contract.filterbyDirectorateDateCount(directorate, date, referenceDate, year, role, directorateName)
             .then(totalElements => {
-                page.totalElements = totalElements;
+                totalElements.forEach(element => {
+                    page.totalElements = element.total
+                });
                 return page;
             })
             .then(page => {
@@ -866,7 +886,9 @@ router.post('/filter', (req, res) => {
     } else if (string === '' && directorate !== '' & date === null && value !== '') {
         Contract.filterByDirectorateValueCount(directorate, value, year, role, directorateName)
             .then(totalElements => {
-                page.totalElements = totalElements;
+                totalElements.forEach(element => {
+                    page.totalElements = element.total
+                });
                 return page;
             })
             .then(page => {
@@ -891,7 +913,9 @@ router.post('/filter', (req, res) => {
     } else if (string === '' && directorate === '' & date !== null && value !== '') {
         Contract.filterByDateValueCount(date, referenceDate, value, year, role, directorateName)
             .then(totalElements => {
-                page.totalElements = totalElements;
+                totalElements.forEach(element => {
+                    page.totalElements = element.total
+                });
                 return page;
             })
             .then(page => {
@@ -916,7 +940,9 @@ router.post('/filter', (req, res) => {
     } else if (string === '' && directorate !== '' & date !== null && value !== '') {
         Contract.filterByDirectorateDateValueCount(directorate, date, referenceDate, value, year, role, directorateName)
             .then(totalElements => {
-                page.totalElements = totalElements;
+                totalElements.forEach(element => {
+                    page.totalElements = element.total
+                });
                 return page;
             })
             .then(page => {
@@ -941,7 +967,9 @@ router.post('/filter', (req, res) => {
     } else if (string !== '' && directorate !== '' & date === null && value !== '') {
         Contract.filterByStringDirectorateValueCount(string, directorate, value, year, role, directorateName)
             .then(totalElements => {
-                page.totalElements = totalElements;
+                totalElements.forEach(element => {
+                    page.totalElements = element.total
+                });
                 return page;
             })
             .then(page => {
@@ -966,7 +994,9 @@ router.post('/filter', (req, res) => {
     } else if (string !== '' && directorate === '' & date !== null && value !== '') {
         Contract.filterByStringDateValueCount(string, date, referenceDate, value, year, role, directorateName)
             .then(totalElements => {
-                page.totalElements = totalElements;
+                totalElements.forEach(element => {
+                    page.totalElements = element.total
+                });
                 return page;
             })
             .then(page => {

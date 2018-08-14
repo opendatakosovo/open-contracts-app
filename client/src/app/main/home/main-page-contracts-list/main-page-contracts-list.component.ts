@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild, ChangeDetectorRef, AfterViewInit } from '
 import { Subject } from 'rxjs/Subject';
 import { ContractsService } from '../../../service/contracts.service';
 import { Contract } from '../../../models/contract';
+import { Directorate } from '../../../models/directorates';
+import { DirectorateService } from '../../../service/directorate.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { BsDatepickerConfig, BsLocaleService } from 'ngx-bootstrap/datepicker';
@@ -19,6 +21,7 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
   contract: Contract;
   contracts: Contract[];
   contractModal: Contract;
+  directorates: Directorate[];
   modalRef: BsModalRef;
   page = new Page();
   rows = new Array<Contract>();
@@ -38,12 +41,18 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
 
   @ViewChild('table') table: DatatableComponent;
 
-  constructor(public contractsService: ContractsService, private modalService: BsModalService, private translate: TranslateService) {
+  constructor(public contractsService: ContractsService, private modalService: BsModalService, private translate: TranslateService,
+             public directorateService: DirectorateService) {
     translate.setDefaultLang('sq');
     this.page.pageNumber = 0;
     this.page.size = 10;
     this.totalContracts = 0;
     this.contractModal = new Contract();
+    this.directorateService.getAllDirectorates()
+    .takeUntil(this.unsubscribeAll)
+    .subscribe(data => {
+      this.directorates = data;
+    });
     this.contract = new Contract();
     this.search = {
       string: '',
@@ -175,6 +184,18 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
     this.table.offset = 0;
   }
 
+  onDateInputChange(event) {
+    const val = event.target.value;
+    if (val === '') {
+      this.contractsService.serverPaginationLatestContracts(this.page)
+        .takeUntil(this.unsubscribeAll)
+        .subscribe(pagedData => {
+          this.page = pagedData.page;
+          this.rows = pagedData.data;
+        });
+    }
+  }
+
   onDatePick(event) {
     if (event !== null && event !== undefined) {
       this.search.date = event;
@@ -186,8 +207,7 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
       this.search.referenceDate.setDate(this.search.referenceDate.getDate() + 1);
       this.search.date.toISOString();
       this.search.referenceDate.toISOString();
-    }
-    this.contractsService.filterContract(this.search)
+      this.contractsService.filterContract(this.search)
       .takeUntil(this.unsubscribeAll)
       .subscribe(data => {
         this.page = data.page;
@@ -199,6 +219,25 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
                 <p>Asnjë kontratë nuk përputhet me të dhënat e shypura</p>
             </div>
           `
+          };
+        }
+      });
+    this.table.offset = 0;
+    }
+  }
+  onChange() {
+    this.contractsService.filterContract(this.search)
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(data => {
+        this.page = data.page;
+        this.rows = data.data;
+        if (data.data.length === 0) {
+          this.messages = {
+            emptyMessage: `
+          <div>
+              <p>Asnjë kontratë nuk përputhet me të dhënat e shypura</p>
+          </div>
+        `
           };
         }
       });
