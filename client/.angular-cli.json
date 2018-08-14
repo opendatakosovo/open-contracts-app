@@ -9,7 +9,7 @@
       "outDir": "../public",
       "assets": [
         "assets",
-        "assets/favicon.png",
+        "favicon.png",
         "images"
       ],
       "index": "index.html",
