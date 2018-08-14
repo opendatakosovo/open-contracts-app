@@ -9,3 +9,6 @@
     display: inline;
     width: 120px!important;
 }
+#year-input {
+    padding: 0;
+}

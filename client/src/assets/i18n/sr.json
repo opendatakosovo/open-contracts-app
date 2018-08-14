@@ -1,6 +1,6 @@
 {
     "pageTitle": {
-        "title": "Oтворени Yговори"
+        "title": "Javni Ugovori"
     },
     "navigation": {
         "home": "Početna",
@@ -14,35 +14,37 @@
         "municipality": "Opština Priština"
     },
     "datatable": {
-        "title": "Cras imperdiet",
-        "searchContract": "Etiam auctor",
-        "directorate": "Ut blandit",
-        "company": "Nam",
-        "value": "Praesent",
-        "activityTitle": "Lorem ipsum dolor sit amet",
-        "publicationDate": "Egestas fringilla phasellus faucibus scelerisque eleifend",
-        "noOfCompaniesWhoDownloadedTenderDoc": "Sed risus pretium quam vulputate",
-        "publicationDateOfGivenContract": "Convallis a cras semper auctor",
-        "cancellationNoticeDate": "Lacus vel facilisis volutpat est. ",
-        "predictedValue": "Porta lorem mollis aliquam ut",
-        "name": "Ut morbi tincidunt augue interdum",
-        "signingDate": "Purus semper eget duis at tellus at",
-        "implementationDeadline": "Proin nibh nisl condimentum id venenatis a condimentum vitae sapien",
-        "closingDate": "Blandit aliquam etiam erat velit scelerisque in dictum",
-        "totalAmountOfContractsIncludingTaxes": "Luctus accumsan tortor posuere ac ut consequat semper viverra",
-        "contracts": "Mauris:",
-        "displayedContracts": "Imperdiet:",
-        "page": "Phasellus:",
-        "emptyMessage": "Lorem ipsum",
-        "noOfCompaniesWhoSubmited": "Lorem ipsum dorem kiksum"
+        "title": "JAVNI UGOVORI",
+        "searchContract": "Potraži ugovor",
+        "directorate": "Direkcija",
+        "company": "Kompanija",
+        "value": "Suma",
+        "activityTitle": "Naziv aktivnosti javne nabavke",
+        "publicationDate": "Datum objavljivanja obaveštenja za ugovor",
+        "noOfCompaniesWhoDownloadedTenderDoc": "Br. EO koji su preuzeli dosije tendera",
+        "publicationDateOfGivenContract": "Datum objavljivanja obaveštenja za davanje ugovora",
+        "cancellationNoticeDate": "Datum objavljivanja o poništavanju obaveštenja",
+        "predictedValue": "Predviđena suma ugovora",
+        "name": "Ime EO kome je dat ugovor",
+        "signingDate": "Datum potpisivanja ugovora",
+        "implementationDeadline": "Datum početka implementacije ugovora",
+        "closingDate": "Datum zataranja ugovora",
+        "totalAmountOfContractsIncludingTaxes": "Ukupna suma ugovora, uključujući sve takse",
+        "contracts": "Ugovori:",
+        "displayedContracts": "Prikazane:",
+        "page": "Strana:",
+        "noOfCompaniesWhoSubmited": "Broj EO koji su dostavili ponude",
+        "procurementNumber": "Br. nabavke",
+        "amountOfDifferenceBetweenTheEstimatedValueAndtotalWithContractTax": "Iznos razlike između procenjene vrednosti i ukupnog poreza na ugovor",
+        "visualisationsTitle": "Top deset ugovora sa najvišom vrednošću"
     },
     "dataset": {
         "title": "SET PODATAKA",
         "format": "Format",
         "year": "Godina",
         "download": "Preuzmite",
-        "yearValidation": "Lorem ipsum dolor sit amet!",
-        "formatValidation": "Quisque non est vestibulum!"
+        "yearValidation": "Morate odabrati godinu",
+        "formatValidation": "Morate odabrati format!"
     },
     "announcements": {
         "title": "ONLINE PRIŠTINA",
@@ -54,14 +56,21 @@
         "contractSigningNotification": "Obaveštenje o potpisivanju ugovora",
         "procurementPlans": "Planovi javne nabavke",
         "designAwardNotification": "Obaveštenje o konkursu projektovanja",
-        "priorNotification": "Lrem asdas"
+        "priorNotification": "Prethodno obaveštenje"
     },
     "aboutUs": {
         "title": "O Stranici",
         "description1": "\nTransparentnost opštine za gradane je osnovni cilj opštine Priština. Opština Priština uz razvoj platforme 'Otvoreni Ugovori' pruûa svim gradanima otvorene podatke o ugovorima koje ova institucija povezuju  sa svim ekonomskim operatorima. Ova platforma omogucava predstavljanje svih ugovora od strane opötinskih direkcija sa ciljem da se ove evidencije dalje koriste u funkciji potpune transparentnosti u opštini.\n\nVracanje poverenja gradana o javnim institucijama kroz transparentnost i lak pristup opštinskim uslugama je naša vizija za Prištinu.",
         "description2": "Informacije su navedene na sledeci nacin:\n\n - Naziv aktivnosti javne nabavke\n - Datum objavljivanja obaveštenja o ugovoru \n - Broj ekonomskih operatera koji su preuzeli tenderski dosije \n- Datum objavljivanja obaveötenja o dodeli ugovora \n - Datum objavljivanja ukida obaveštenja \n - Procenjena vrednost ugovora \n - Naziv ekonomskog operatera kome se dodeljuje ugovor \n - Datum potpisivanja ugovora \n - Datum pocetka implementacije ugovora \n - Datum zavröetka ugovora \n - Ukupna vrednost ugovora, ukljucujuci sve poreze \n- Direkcija kojoj pripada ugovor \n\n",
-        "projectTitle": "RRETH PROJEKTIT",
-        "projectDescription": "Platforma “Kontratat e Hapura” është zhvilluar për Komunën e Prishtinës në mënyre që të sigurojë informata në proceset e prokurorimit/ kontratat në lidhje me institucionin. Në këtë uebfqe, çdo person mund të informohet rreth vlerës së një kontrate, fituesin e kontratës, kur kontrata pritet të implementohet dhe do të këtë çasje në të dhenat e hapura. Për më shumë, “Kontratat e hapura” iu ofron përdoruesëve vizualizime të të dhënave të prokurorimit përgjatë viteve në mënyrë që të lehtësojë krahasimet."
+        "projectDescription1": "Platforma “Otvoreni ugovori“ razvijena je u okviru projekta “Tehnika“ u bliskoj saradnji sa opštinom Priština. Svrha ove platforme je da informiše građane opštine Priština o procesima nabavke / ugovora koje je potpisala ova institucija",
+        "techstitution": "\n\nTechstitution ",
+        "projectDescription2": "je projekat koji implementira ",
+        "openDataKosovo": "Open Data Kosovo ",
+        "projectDescription3": "i ",
+        "gck": "Girls Coding Kosova ",
+        "projectDescription4": "pokrenuti i podržani od strane ",
+        "unicef": "UNICEF ",
+        "projectDescription5": "Kancelarija na Kosovu.\n\nTehnologije koje se koriste za izradu platforme “Otvoreni ugovori“ su: MongoDB, EkpressJS, NodeJS, Ugao."
     },
     "footer": {
         "municipality": "Opština Priština",
@@ -74,5 +83,13 @@
         "pageNotFound": "Stranica koju tražite ne postoji!",
         "return": "Vratite",
         "to": "se na početnoj stranici."
+    },
+    "visualisations": {
+        "title": "Vizualizacije",
+        "subtitle": "Saznajte zapise o ugovorima zaključenim tokom godina",
+        "description": "Ovdje možete pronaći različite oblike vizualizacije koje pokazuju ugovore koje je povezala Opština Priština\n sa različitim ekonomskim operaterima tokom godina. Učenje deset najvećih kompanija sa većinom ugovora.\n Uporedite datume dodele ugovora sa datumom njihovog potpisivanja. Saznajte koji su najnapredniji direktorijumi i ugovora najviše vrijednosti.",
+        "allYears": "Sve",
+        "notification": "Napomena: Kliknite na kompaniju prikazanu u vizuelizaciji da biste videli sve ugovore koje ima sa opštinom",
+        "allContractsOfOE": "Svi ugovori kompanije"
     }
 }

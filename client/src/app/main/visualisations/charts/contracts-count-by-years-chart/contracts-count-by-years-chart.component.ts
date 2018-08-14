@@ -3,7 +3,9 @@ import { Subject } from 'rxjs/Subject';
 import { DataService } from '../../../../service/data.service';
 import { Chart } from 'angular-highcharts';
 import { compareValues } from '../../../../utils/sortArrayByValues';
-
+import { TranslateService } from '@ngx-translate/core';
+declare var require: any;
+const translateVis = require('../../../../utils/visualisationTranslation.json');
 @Component({
   selector: 'app-contracts-count-by-years-chart',
   templateUrl: './contracts-count-by-years-chart.component.html',
@@ -23,8 +25,12 @@ export class ContractsCountByYearsChartComponent implements OnInit {
     '#d6edf1',
     '#eaf6f8'];
   colorIterator = 0;
+  lang: string;
 
-  constructor(public dataService: DataService) {
+  constructor(public dataService: DataService, public translate: TranslateService) {
+  }
+
+  render() {
     this.dataService.getContractsCountByYears()
       .takeUntil(this.unsubscribeAll)
       .subscribe(res => {
@@ -34,14 +40,14 @@ export class ContractsCountByYearsChartComponent implements OnInit {
             type: 'column'
           },
           title: {
-            text: 'Numri i kontratave ndër vite'
+            text: translateVis[this.lang]['numberOfContractsOverTheYears']
           },
           xAxis: {
             type: 'category'
           },
           yAxis: {
             title: {
-              text: 'Numri'
+              text: translateVis[this.lang]['numberOfContracts']
             }
           },
           colors: this.colors,
@@ -50,14 +56,11 @@ export class ContractsCountByYearsChartComponent implements OnInit {
               colorByPoint: true
             }
           },
-          tooltip: {
-            pointFormat: '<span style="color:{series.color}">Numri i kontratave: {point.y}</span><br/>'
-          },
           legend: {
             enabled: false
           },
           series: [{
-            name: 'Vitet',
+            name: translateVis[this.lang]['year'],
             data: res
           }]
         });
@@ -65,5 +68,12 @@ export class ContractsCountByYearsChartComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.lang = this.translate.currentLang;
+    this.translate.onLangChange
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(langObj => {
+        this.lang = langObj.lang;
+        this.render();
+      });
   }
 }

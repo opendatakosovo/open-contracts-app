@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { DataService } from '../../../../service/data.service';
 import { Chart } from 'angular-highcharts';
-
+import { TranslateService } from '@ngx-translate/core';
+declare var require: any;
+const translateVis = require('../../../../utils/visualisationTranslation.json');
 @Component({
   selector: 'app-directorates-chart',
   templateUrl: './directorates-chart.component.html',
@@ -24,22 +26,43 @@ export class DirectoratesChartComponent implements OnInit {
     '#98d2de'
   ];
   colorIterator = 0;
+  lang: string;
+  constructor(public dataService: DataService, public translate: TranslateService) {
+  }
 
-  constructor(public dataService: DataService) {
+  ngOnInit() {
+    this.lang = this.translate.currentLang;
+    this.translate.onLangChange
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(langObj => {
+        this.lang = langObj.lang;
+        this.render();
+      });
+  }
+
+  render() {
     this.dataService.getDirectoratesWithMostContracts()
       .takeUntil(this.unsubscribeAll)
       .subscribe(res => {
-
+        // Translation of data in res
+        if (this.lang === 'en' || this.lang === 'sr') {
+          res.map((row, i) => {
+            row.name = translateVis[this.lang][row.name];
+          });
+        }
         const data = res;
         this.chart = new Chart({
           chart: {
             type: 'bar'
           },
           title: {
-            text: 'Numri i kontratave në bazë të drejtorive'
+            text: translateVis[this.lang]['numberOfContractsByDirectorate']
           },
           xAxis: {
             type: 'category',
+            title: {
+              text: translateVis[this.lang]['directorates']
+            }
           },
           legend: {
             enabled: false
@@ -53,22 +76,16 @@ export class DirectoratesChartComponent implements OnInit {
           },
           yAxis: {
             title: {
-              text: 'Numri'
+              text: translateVis[this.lang]['numberOfContracts']
             },
             max: 250
           },
-          tooltip: {
-            pointFormat: '<span style="color:{series.color}">Numri i kontratave: {point.y}</span><br/>'
-          },
           series: [{
-            name: 'Drejtoritë',
+            name: translateVis[this.lang]['numberOfContracts'],
             data: data
           }]
         });
       });
-  }
-
-  ngOnInit() {
   }
 
 }

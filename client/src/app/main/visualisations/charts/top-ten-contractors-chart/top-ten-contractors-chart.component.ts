@@ -7,7 +7,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { trigger, animate, transition, style, state } from '@angular/animations';
 import { DOCUMENT } from '@angular/common';
 import { PageScrollConfig, PageScrollInstance, PageScrollService, EasingLogic } from 'ngx-page-scroll';
-
+declare var require: any;
+const translateVis = require('../../../../utils/visualisationTranslation.json');
 @Component({
   selector: 'app-top-ten-contractors-chart',
   templateUrl: './top-ten-contractors-chart.component.html',
@@ -24,6 +25,7 @@ import { PageScrollConfig, PageScrollInstance, PageScrollService, EasingLogic } 
 export class TopTenContractorsChartComponent implements OnInit {
   private unsubscribeAll: Subject<any> = new Subject<any>();
   chartt: Chart;
+  lang: string;
   @ViewChild('table') table: DatatableComponent;
   rows;
   visibilityState = 'hidden';
@@ -46,6 +48,9 @@ export class TopTenContractorsChartComponent implements OnInit {
 
   constructor(public dataService: DataService, public translate: TranslateService, private pageScrollService: PageScrollService, @Inject(DOCUMENT) private document: any) {
     PageScrollConfig.defaultScrollOffset = 115;
+  }
+
+  render() {
     this.dataService.getTopTenContractors()
       .takeUntil(this.unsubscribeAll)
       .subscribe(res => {
@@ -54,14 +59,14 @@ export class TopTenContractorsChartComponent implements OnInit {
             type: 'pie'
           },
           title: {
-            text: 'Top dhjetë kompanitë me më së shumti kontrata'
+            text: translateVis[this.lang]['topTenContractors']
           },
           xAxis: {
             type: 'category'
           },
           yAxis: {
             title: {
-              text: 'Kontratat'
+              text: translateVis[this.lang]['contracts']
             }
           },
           colors: ['#32a6bd',
@@ -96,11 +101,8 @@ export class TopTenContractorsChartComponent implements OnInit {
               }
             }
           },
-          tooltip: {
-            pointFormat: '<span style="color:{series.color}">Numri i kontratave: {point.y}</span><br/>'
-          },
           series: [{
-            name: 'Kontratat',
+            name: translateVis[this.lang]['numberOfContracts'],
             data: res
           }]
         });
@@ -120,6 +122,13 @@ export class TopTenContractorsChartComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.lang = this.translate.currentLang;
+    this.translate.onLangChange
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(langObj => {
+        this.lang = langObj.lang;
+        this.render();
+      });
   }
 
 }

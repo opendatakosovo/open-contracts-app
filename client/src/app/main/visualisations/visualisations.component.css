@@ -48,3 +48,9 @@
 #visualisation {
     padding-left: 0;
 }
+#subtitle {
+    width: auto;
+    margin-bottom: 0;
+    font-weight: 400;
+    float: left;
+}

@@ -4,7 +4,9 @@ import { Chart } from 'angular-highcharts';
 import { DataService } from '../../../../service/data.service';
 import { DatatableComponent } from '@swimlane/ngx-datatable/src/components/datatable.component';
 import { TranslateService } from '@ngx-translate/core';
-
+import { lang } from 'moment';
+declare var require: any;
+const translateVis = require('../../../../utils/visualisationTranslation.json');
 @Component({
   selector: 'app-contracts-count-by-procurement-type-and-year',
   templateUrl: './contracts-count-by-procurement-type-and-year.component.html',
@@ -16,13 +18,15 @@ export class ContractsCountByProcurementTypeAndYearComponent implements OnInit {
   category = 'type';
   years;
   colors: string[];
+  year: string;
+  lang: string;
   constructor(public dataService: DataService, public translate: TranslateService) {
-    this.render('any');
     this.colors = ['#48aebd',
       '#50c2d2',
       '#61c8d6',
       '#72cedb',
       '#84d4df', '#96dae4'];
+    this.year = 'any';
     this.dataService.getContractYears(2009)
       .takeUntil(this.unsubscribeAll)
       .subscribe(res => {
@@ -31,15 +35,28 @@ export class ContractsCountByProcurementTypeAndYearComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.lang = this.translate.currentLang;
+    this.translate.onLangChange
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(langObj => {
+        this.lang = langObj.lang;
+        this.render();
+      });
   }
 
   onChange(event) {
-    const year = event.target.value;
-    this.render(year);
+    this.year = event.target.value;
+    this.translate.onLangChange
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(langObj => {
+        this.lang = langObj.lang;
+        this.render();
+      });
+    this.render();
   }
 
-  render(year) {
-    this.dataService.getContractsCountByProcurementCategoryAndYear(this.category, year)
+  render() {
+    this.dataService.getContractsCountByProcurementCategoryAndYear(this.category, this.year)
       .takeUntil(this.unsubscribeAll)
       .subscribe(res => {
         let hasUndefinedData = false;
@@ -81,24 +98,31 @@ export class ContractsCountByProcurementTypeAndYearComponent implements OnInit {
           }
         }
 
+        // Translation of data in res
+        if (this.lang === 'en' || this.lang === 'sr') {
+          res.map((row, i) => {
+            row.name = translateVis[this.lang][row.name];
+          });
+        }
+
         this.chartt = new Chart({
           chart: {
             type: 'pie'
           },
           colors: this.colors,
           title: {
-            text: 'Numri i kontratave në bazë të tipit të prokurimit'
+            text: translateVis[this.lang]['contractByProcurementType']
           },
           xAxis: {
             type: 'category'
           },
           yAxis: {
             title: {
-              text: 'Kontratat'
+              text: translateVis[this.lang]['contracts']
             }
           },
           series: [{
-            name: 'Numri i kontratave',
+            name: translateVis[this.lang]['numberOfContracts'],
             data: res
           }]
         });
