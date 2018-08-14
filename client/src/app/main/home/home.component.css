@@ -4,8 +4,8 @@
 #bg-img {
     background-image: url('/assets/images/home1.JPG');
      /* Full height */
-     height: 920px; 
-     max-height: 920px;
+     height: 760px; 
+     max-height: 760px;
      /* Center and scale the image nicely */
      background-position: center;
      background-repeat: no-repeat;
