@@ -178,7 +178,6 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
   onDateInputChange(event) {
     const val = event.target.value;
     if (val === '') {
-      console.log('call api');
       this.contractsService.serverPaginationLatestContracts(this.page)
         .takeUntil(this.unsubscribeAll)
         .subscribe(pagedData => {
