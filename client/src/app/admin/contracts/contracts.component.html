@@ -3,7 +3,7 @@
         <h1 class="title">
             Kontratat</h1>
     </div>
-    <div class="col-6" id="add-contract-button">
+    <div *ngIf="currentUser.role == 'superadmin' || currentUser.role == 'admin'" class="col-6" id="add-contract-button">
         <a class="btn btn-outline-primary" id="add-button" [routerLink]="['/dashboard/contracts/add-contract']">
             <i class="fa fa-plus"></i> Shto Kontratë</a>
     </div>

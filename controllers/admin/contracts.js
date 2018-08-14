@@ -519,7 +519,7 @@ router.delete('/:id', passport.authenticate('jwt', { session: false }), authoriz
 });
 
 // Router for updating a contract by id
-router.put('/update-contract/:id', passport.authenticate('jwt', { session: false }), uploadFile, (req, res) => {
+router.put('/update-contract/:id', passport.authenticate('jwt', { session: false }), authorize('superadmin', 'admin'), uploadFile, (req, res) => {
     if (req.fileExist) {
         res.json({
             "existErr": "File exist",

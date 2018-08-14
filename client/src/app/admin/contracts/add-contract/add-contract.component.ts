@@ -12,6 +12,7 @@ import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { CustomValidator } from '../../../validators/custom-validator';
 import { Router } from '@angular/router';
+import { User } from '../../../models/user';
 
 @Component({
   selector: 'app-add-contract',
@@ -37,6 +38,7 @@ export class AddContractComponent implements OnInit {
   formArrayInstallments: FormArray;
   total: Number;
   totalInstallments: Number;
+  currentUser: User;
 
   constructor(public contractsService: ContractsService, public directorateService: DirectorateService, private _fb: FormBuilder, private router: Router) {
 
@@ -107,11 +109,15 @@ export class AddContractComponent implements OnInit {
     });
     this.initAnnexes();
     this.initInstallments();
+    this.currentUser = JSON.parse(localStorage.getItem('user'));
   }
 
   @ViewChild('fileInput') fileInput;
 
   ngOnInit() {
+    if (this.currentUser.role !== 'superadmin' && this.currentUser.role !== 'admin') {
+      this.router.navigate(['/dashboard']);
+    }
     this.bsConfig = Object.assign({}, { containerClass: 'theme-blue', dateInputFormat: 'DD-MM-YYYY' });
   }
 

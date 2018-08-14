@@ -97,4 +97,16 @@ export class UserService {
   forgotPassword(email) {
     return this.http.post(`${this.APIUrl}/user/send-email-for-regeneration`, { 'email': email }).map(res => res.json());
   }
+
+  resetPassword() {
+    return this.http.post(`${this.APIUrl}/user/reset-password`, {}).map(res => res.json());
+  }
+
+  getToken(token) {
+    return this.http.get(`${this.APIUrl}/user/change-password-admin/${token}`).map(res => res.json());
+  }
+
+  changePasswordWithToken(user, token) {
+    return this.http.post(`${this.APIUrl}/user/change-password-admin/${token}`, user).map(res => res.json());
+  }
 }

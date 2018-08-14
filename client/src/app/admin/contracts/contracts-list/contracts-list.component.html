@@ -51,7 +51,7 @@
         </span>
       </ng-template>
     </ngx-datatable-column>
-    <ngx-datatable-column [width]="100">
+    <ngx-datatable-column *ngIf="currentUser.role == 'superadmin' || currentUser.role == 'admin'" [width]="100">
       <ng-template let-column="column" ngx-datatable-header-template>
         <p class="column-header">Ndrysho</p>
       </ng-template>
@@ -63,7 +63,7 @@
         </span>
       </ng-template>
     </ngx-datatable-column>
-    <ngx-datatable-column [width]="70">
+    <ngx-datatable-column *ngIf="currentUser.role == 'superadmin' || currentUser.role == 'admin'" [width]="70">
       <ng-template let-column="column" ngx-datatable-header-template>
         <p class="column-header">Fshij</p>
       </ng-template>

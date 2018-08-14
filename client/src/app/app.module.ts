@@ -43,6 +43,7 @@ import { ChartModule } from 'angular-highcharts';
 
 
 
+
 import { AuthGuard } from './guards/auth.guard';
 import { ContractInformationComponent } from './admin/contracts/contract-information/contract-information.component';
 import { ContractsListComponent } from './admin/contracts/contracts-list/contracts-list.component';
@@ -60,6 +61,10 @@ import { DirectoratesTableComponent } from './main/visualisations/charts/directo
 import { ContractsCountByProcurementTypeAndYearComponent } from './main/visualisations/charts/contracts-count-by-procurement-type-and-year/contracts-count-by-procurement-type-and-year.component';
 import { ContractsCountByProcurementValueAndYearComponent } from './main/visualisations/charts/contracts-count-by-procurement-value-and-year/contracts-count-by-procurement-value-and-year.component';
 import { ContractsCountByProcurementProcedureAndYearComponent } from './main/visualisations/charts/contracts-count-by-procurement-procedure-and-year/contracts-count-by-procurement-procedure-and-year.component';
+import { ResetPasswordComponent } from './main/reset-password/reset-password.component';
+import { fromPromise } from '../../node_modules/rxjs/observable/fromPromise';
+import { ChangePasswordMainComponent } from './main/change-password-main/change-password-main.component';
+
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -91,6 +96,8 @@ const appRoutes: Routes = [
     ]
   },
   { path: 'login', component: LoginComponent },
+  { path: 'reset-password', component: ResetPasswordComponent },
+  { path: 'change-password/:token', component: ChangePasswordMainComponent },
   { path: 'not-found', component: PageNotFoundComponent },
   { path: '**', redirectTo: 'not-found' },
 ];
@@ -130,7 +137,9 @@ const appRoutes: Routes = [
     DirectoratesTableComponent,
     ContractsCountByProcurementTypeAndYearComponent,
     ContractsCountByProcurementValueAndYearComponent,
-    ContractsCountByProcurementProcedureAndYearComponent
+    ContractsCountByProcurementProcedureAndYearComponent,
+    ResetPasswordComponent,
+    ChangePasswordMainComponent
   ],
   imports: [
     BrowserModule,
