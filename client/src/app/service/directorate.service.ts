@@ -27,6 +27,9 @@ export class DirectorateService {
   getAllDirectorates() {
     return this.http.getWithAuth(`${this.APIUrl}/directorates`).map(res => res.json().directorates);
   }
+  getAllDirectorateNames() {
+    return this.http.getWithAuth(`${this.APIUrl}/directorates/all-directorate-names`).map(res => res.json());
+  }
 
   getDirectorateById(id) {
     return this.http.getWithAuth(`${this.APIUrl}/directorates/` + id).map(res => res.json().directorate);
