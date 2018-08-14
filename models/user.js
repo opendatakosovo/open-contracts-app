@@ -5,6 +5,8 @@ const skipEmpty = require("mongoose-skip-empty");
 const ObjectId = require("mongoose").Types.ObjectId;
 
 
+
+
 const schemaOptions = {
   timestamps: true,
   versionKey: false
@@ -19,7 +21,9 @@ const UserSchema = mongoose.Schema({
   role: { type: String, required: true },
   directorateName: { type: String },
   isInCharge: { type: Boolean },
-  isActive: { type: Boolean, required: true }
+  isActive: { type: Boolean, required: true },
+  resetPasswordToken: String,
+  resetPasswordExpires: Date,
 }, schemaOptions);
 
 UserSchema.options.toJSON = {

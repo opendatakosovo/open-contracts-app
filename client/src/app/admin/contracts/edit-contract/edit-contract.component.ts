@@ -11,6 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
+import { User } from '../../../models/user';
 
 @Component({
   selector: 'app-edit-contract',
@@ -39,6 +40,7 @@ export class EditContractComponent implements OnInit {
   totalInstallments: Number;
   @ViewChild('fileInput') fileInput;
   implementationDeadline = [];
+  currentUser: User;
   constructor(public contractsService: ContractsService, private router: ActivatedRoute, public directorateService: DirectorateService, private _fb: FormBuilder, private route: Router) {
     this.directorates = [];
     this.contract = new Contract();
@@ -120,6 +122,7 @@ export class EditContractComponent implements OnInit {
       .subscribe(data => {
         this.directorates = data;
       });
+    this.currentUser = JSON.parse(localStorage.getItem('user'));
   }
 
   onClick() {
@@ -190,6 +193,9 @@ export class EditContractComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.currentUser.role !== 'superadmin' && this.currentUser.role !== 'admin') {
+      this.route.navigate(['/dashboard']);
+    }
     this.bsConfig = Object.assign({}, { containerClass: 'theme-blue', dateInputFormat: 'DD/MM/YYYY' });
   }
 

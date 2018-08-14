@@ -9,7 +9,8 @@
       </button>
     </div>
   </div>
-
+  <h4 *ngIf="currentUser.role == ' superadmin' || currentUser.role == ' admin' && directorates.length == 0 " class="text-center mt-5">Nuk ka drejtori</h4>
+  <h4 *ngIf="currentUser.role == 'user' && directorates.length == 0 " class="text-center mt-5">Nuk jeni përgjegjës i asjnë drejtorie</h4>
   <!-- Showing the list of Directorates -->
   <div class="row col-12" id="table-row">
     <table class="table table-hover">
