@@ -548,8 +548,8 @@ router.put('/update-contract/:id', passport.authenticate('jwt', { session: false
         }
         if (contentType.indexOf('application/json') == -1) {
             requestedContract = JSON.parse(req.body.contract);
+            console.log(requestedContract.activityTitle);
             requestedContract.contract.file = req.file.originalname;
-            requestedContract = req.body.requestedContract;
             requestedContract.directoratesSlug = slugify(requestedContract.directorates);
             requestedContract.activityTitleSlug = slugify(requestedContract.activityTitle);
             requestedContract.contract.predictedValueSlug = requestedContract.contract.predictedValue.replace(/[,]+/g, '');
