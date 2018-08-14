@@ -23,8 +23,10 @@
     <div class="col-lg-12 search text-center contracts-filter-form">
       <form action="" class="form-inline form-group">
         <input type="text" (keyup)="onType()" [(ngModel)]="search.string" name="string" class="form-control form-input" placeholder="{{ 'datatable.searchContract' | translate }}">
-        <input type="text" name="directorate" [(ngModel)]="search.directorate" class="form-control form-input" (keyup)="onType()"
-          placeholder="{{ 'datatable.directorate' | translate }}">
+        <select class="form-control form-select" (change)="onChange()" [(ngModel)]="search.directorate" name="directorate">
+          <option value="">Të gjitha</option>
+          <option *ngFor="let directorate of directorates" value="{{directorate.directorateName}}"> {{directorate.directorateName}}</option>
+        </select>
         <input (input)="onDateInputChange($event)" (ngModelChange)="onDatePick($event)" bsDatepicker placeholder="MM/DD/YYYY" [bsConfig]="bsConfig" name="date" id="date"
           class="form-control form-select" [(ngModel)]="search.date">
         <input type="text" (keyup)="onType()" [(ngModel)]="search.value" name="value" class="form-control form-input" placeholder="{{ 'datatable.value' | translate }}">

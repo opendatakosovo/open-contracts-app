@@ -594,7 +594,7 @@ router.post('/filter', (req, res) => {
     };
     let response = {};
     let string = slugify(req.body.string);
-    let directorate = slugify(req.body.directorate);
+    let directorate = req.body.directorate;
     let date = req.body.date;
     let referenceDate = req.body.referenceDate;
     let value = req.body.value;
