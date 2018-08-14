@@ -31,7 +31,12 @@ export class ContractsCountByProcurementProcedureAndYearComponent implements OnI
   }
 
   ngOnInit() {
+    this.translate.onLangChange.subscribe(lang => {
+        console.log('Changed');
+        this.render('any');
+    });
   }
+
   onChange(event) {
     const year = event.target.value;
     this.render(year);
@@ -45,7 +50,6 @@ export class ContractsCountByProcurementProcedureAndYearComponent implements OnI
         let hasUndefinedData = false;
         const undefinedObj = { name: 'Të pacaktuara', y: 0 };
         const toBeRemoved = [];
-        console.log(translateVis[ln]);
 
         res.map((row, i) => {
           if (row.name === '') {
@@ -82,6 +86,23 @@ export class ContractsCountByProcurementProcedureAndYearComponent implements OnI
           }
         }
 
+        // Translation of data in res
+        if (ln === 'en' || ln === 'sr') {
+          res.map((row, i) => {
+            if (row.name === 'Vlerë e mesme') {
+              row.name = 'Medium value';
+            } else if (row.name === 'Vlerë e vogël') {
+              row.name = 'Small value';
+            } else if (row.name === 'Vlerë minimale') {
+              row.name = 'Minimal value';
+            } else if (row.name === 'Vlerë e madhe') {
+              row.name = 'Big value';
+            } else if (row.name === 'Të pacaktuara') {
+              row.name = 'Undefined';
+            }
+          });
+        }
+
         res.sort(compareValues('y', 'desc'));
         let maxValue = 0;
         for (const row of res) {
@@ -94,7 +115,7 @@ export class ContractsCountByProcurementProcedureAndYearComponent implements OnI
             type: 'column'
           },
           title: {
-            text: translateVis[ln]['string1']
+            text: translateVis[ln]['contractByProcurementValue']
           },
           xAxis: {
             type: 'category'

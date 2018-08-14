@@ -1,11 +1,13 @@
 {
     "sq": {
-        "string1": "string2"
+        "contractByProcurementValue": "Numri i kontratave në bazë të vlerës së prokurimit"
     },
     "en": {
-        "string1": "string3"
+        "contractByProcurementValue": "Number of contracts based on procurement value",
+        "contractByProcurementValueData": []
     },
     "sr": {
-        "string1": "string4"
+        "contractByProcurementValue": "serbian title",
+        "contractByProcurementValueData": []
     }
 }
