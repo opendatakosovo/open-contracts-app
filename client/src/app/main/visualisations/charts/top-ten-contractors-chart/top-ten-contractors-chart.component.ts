@@ -129,6 +129,7 @@ export class TopTenContractorsChartComponent implements OnInit {
         this.lang = langObj.lang;
         this.render();
       });
+    this.render();
   }
 
 }

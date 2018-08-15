@@ -37,6 +37,10 @@ module.exports.getAllDirectorates = (role, directorateName, callback) => {
   }
 }
 
+module.exports.getAllPublicDirectorates = cb => {
+  Directorate.find({}, cb).sort({ _id: -1 });
+}
+
 // Method for adding people in charge to a directorate
 module.exports.addAndRemovePeopleInCharge = (directorateName, peopleInCharge, callback) => {
   Directorate.updateOne(

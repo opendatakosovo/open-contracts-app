@@ -119,6 +119,23 @@ router.get('/', passport.authenticate('jwt', { session: false }), authorize("sup
     });
 });
 
+router.get('/public', (req, res) => {
+    Directorates.getAllPublicDirectorates((err, directorates) => {
+        if (!err) {
+            res.json({
+                "msg": "Directorates has been retrived successfully",
+                "directorates": directorates,
+                "success": true
+            })
+        } else {
+            res.json({
+                "err": err,
+                "success": false
+            })
+        }
+    });
+});
+
 // Route for getting directorate by id
 router.get('/:id', passport.authenticate('jwt', { session: false }), authorize("superadmin", "admin", "user"), (req, res) => {
     Directorates.getDirectorateById(req.params.id, (err, directorate) => {

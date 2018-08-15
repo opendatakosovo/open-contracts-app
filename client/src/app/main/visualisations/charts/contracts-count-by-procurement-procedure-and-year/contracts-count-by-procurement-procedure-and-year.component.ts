@@ -39,6 +39,7 @@ export class ContractsCountByProcurementProcedureAndYearComponent implements OnI
         this.lang = langObj.lang;
         this.render();
       });
+    this.render();
   }
 
   onChange(event) {

@@ -75,5 +75,6 @@ export class ContractsCountByYearsChartComponent implements OnInit {
         this.lang = langObj.lang;
         this.render();
       });
+    this.render();
   }
 }

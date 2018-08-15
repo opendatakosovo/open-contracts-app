@@ -86,6 +86,7 @@ export class ContractByYearWithPredictedValueTotalAmountComponent implements OnI
         this.lang = langObj.lang;
         this.render();
       });
+    this.render();
   }
 
   public formatData(contracts) {

@@ -38,6 +38,7 @@ export class DirectoratesChartComponent implements OnInit {
         this.lang = langObj.lang;
         this.render();
       });
+    this.render();
   }
 
   render() {

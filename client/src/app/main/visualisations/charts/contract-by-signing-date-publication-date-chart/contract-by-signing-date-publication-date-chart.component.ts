@@ -34,6 +34,7 @@ export class ContractBySigningDatePublicationDateChartComponent implements OnIni
         this.lang = langObj.lang;
         this.render();
       });
+    this.render();
   }
 
   render() {

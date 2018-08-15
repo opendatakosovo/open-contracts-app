@@ -48,7 +48,7 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
     this.page.size = 10;
     this.totalContracts = 0;
     this.contractModal = new Contract();
-    this.directorateService.getAllDirectorates()
+    this.directorateService.getAllPublicDirectorates()
     .takeUntil(this.unsubscribeAll)
     .subscribe(data => {
       this.directorates = data;

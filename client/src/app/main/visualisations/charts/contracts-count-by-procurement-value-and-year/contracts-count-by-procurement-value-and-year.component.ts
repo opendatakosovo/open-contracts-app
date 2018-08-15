@@ -45,6 +45,7 @@ export class ContractsCountByProcurementValueAndYearComponent implements OnInit 
         this.lang = langObj.lang;
         this.render();
       });
+      this.render();
   }
   onChange(event) {
     this.year = event.target.value;
