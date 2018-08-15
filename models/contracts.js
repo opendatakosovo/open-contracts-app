@@ -317,11 +317,6 @@ module.exports.filterStringFieldsInContracts = (text, year, role, directorateNam
 }
 
 module.exports.filterStringFieldsInContractsCount = (text, year, role, directorateName) => {
-    console.log(text);
-    console.log(year);
-    console.log(role);
-    console.log(directorateName);
-
     let filter = [];
 
     if (year !== 'any') {
@@ -452,12 +447,12 @@ module.exports.filterByDirectorateCount = (directorate, year, role, directorateN
     console.log(directorate);
     let filter = [];
     let queryArray = [];
-    if (directorate == 'Drejtoria Arsimit') {
+    if (directorate == 'Drejtoria e Arsimit') {
         education.forEach(element => {
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria Administrates') {
+    if (directorate == 'Drejtoria e Administratës') {
         administration.forEach(element => {
             queryArray.push(element);
         });
@@ -467,7 +462,7 @@ module.exports.filterByDirectorateCount = (directorate, year, role, directorateN
             queryArray.push(element);
         });
     }
-    if (directorate == 'Investime kapitale dhe menaxhimit të kontratave') {
+    if (directorate == 'Drejtoria e Investimeve Kapitale dhe Menaxhim të Kontratave') {
         investment.forEach(element => {
             queryArray.push(element);
         });
@@ -477,7 +472,7 @@ module.exports.filterByDirectorateCount = (directorate, year, role, directorateN
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Shërbimeve Publike, Mrojtjes dhe Shpëtimit') {
+    if (directorate == 'Drejtoria e Shërbimeve Publike') {
         publicServices.forEach(element => {
             queryArray.push(element);
         });
@@ -497,7 +492,7 @@ module.exports.filterByDirectorateCount = (directorate, year, role, directorateN
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Bujqësisë') {
+    if (directorate == 'Drejtoria e Bujqësis') {
         agriculture.forEach(element => {
             queryArray.push(element);
         });
@@ -522,7 +517,7 @@ module.exports.filterByDirectorateCount = (directorate, year, role, directorateN
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Planifikimit strategjik dhe zhvillimit të qëndrueshëm') {
+    if (directorate == 'Drejtoria e Planifikimit Strategjik dhe Zhvillim të Qëndrueshëm') {
         planning.forEach(element => {
             queryArray.push(element);
         });
@@ -699,12 +694,12 @@ module.exports.filterByValueCount = (value, year, role, directorateName) => {
 module.exports.filterByStringAndDirectorate = (text, directorate, year, role, directorateName) => {
     let filter = [];
     let queryArray = [];
-    if (directorate == 'Drejtoria Arsimit') {
+    if (directorate == 'Drejtoria e Arsimit') {
         education.forEach(element => {
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria Administrates') {
+    if (directorate == 'Drejtoria e Administratës') {
         administration.forEach(element => {
             queryArray.push(element);
         });
@@ -714,7 +709,7 @@ module.exports.filterByStringAndDirectorate = (text, directorate, year, role, di
             queryArray.push(element);
         });
     }
-    if (directorate == 'Investime kapitale dhe menaxhimit të kontratave') {
+    if (directorate == 'Drejtoria e Investimeve Kapitale dhe Menaxhim të Kontratave') {
         investment.forEach(element => {
             queryArray.push(element);
         });
@@ -724,7 +719,7 @@ module.exports.filterByStringAndDirectorate = (text, directorate, year, role, di
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Shërbimeve Publike, Mrojtjes dhe Shpëtimit') {
+    if (directorate == 'Drejtoria e Shërbimeve Publike') {
         publicServices.forEach(element => {
             queryArray.push(element);
         });
@@ -744,7 +739,7 @@ module.exports.filterByStringAndDirectorate = (text, directorate, year, role, di
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Bujqësisë') {
+    if (directorate == 'Drejtoria e Bujqësis') {
         agriculture.forEach(element => {
             queryArray.push(element);
         });
@@ -769,7 +764,7 @@ module.exports.filterByStringAndDirectorate = (text, directorate, year, role, di
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Planifikimit strategjik dhe zhvillimit të qëndrueshëm') {
+    if (directorate == 'Drejtoria e Planifikimit Strategjik dhe Zhvillim të Qëndrueshëm') {
         planning.forEach(element => {
             queryArray.push(element);
         });
@@ -807,12 +802,12 @@ module.exports.filterByStringAndDirectorate = (text, directorate, year, role, di
 module.exports.filterByStringAndDirectorateCount = (text, directorate, year, role, directorateName) => {
     let filter = [];
     let queryArray = [];
-    if (directorate == 'Drejtoria Arsimit') {
+    if (directorate == 'Drejtoria e Arsimit') {
         education.forEach(element => {
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria Administrates') {
+    if (directorate == 'Drejtoria e Administratës') {
         administration.forEach(element => {
             queryArray.push(element);
         });
@@ -822,7 +817,7 @@ module.exports.filterByStringAndDirectorateCount = (text, directorate, year, rol
             queryArray.push(element);
         });
     }
-    if (directorate == 'Investime kapitale dhe menaxhimit të kontratave') {
+    if (directorate == 'Drejtoria e Investimeve Kapitale dhe Menaxhim të Kontratave') {
         investment.forEach(element => {
             queryArray.push(element);
         });
@@ -832,7 +827,7 @@ module.exports.filterByStringAndDirectorateCount = (text, directorate, year, rol
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Shërbimeve Publike, Mrojtjes dhe Shpëtimit') {
+    if (directorate == 'Drejtoria e Shërbimeve Publike') {
         publicServices.forEach(element => {
             queryArray.push(element);
         });
@@ -852,7 +847,7 @@ module.exports.filterByStringAndDirectorateCount = (text, directorate, year, rol
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Bujqësisë') {
+    if (directorate == 'Drejtoria e Bujqësis') {
         agriculture.forEach(element => {
             queryArray.push(element);
         });
@@ -877,7 +872,7 @@ module.exports.filterByStringAndDirectorateCount = (text, directorate, year, rol
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Planifikimit strategjik dhe zhvillimit të qëndrueshëm') {
+    if (directorate == 'Drejtoria e Planifikimit Strategjik dhe Zhvillim të Qëndrueshëm') {
         planning.forEach(element => {
             queryArray.push(element);
         });
@@ -919,12 +914,12 @@ module.exports.filterByStringAndDirectorateCount = (text, directorate, year, rol
 module.exports.filterbyStringDirectorateDate = (text, directorate, date, referenceDate, year, role, directorateName) => {
     let filter = [];
     let queryArray = [];
-    if (directorate == 'Drejtoria Arsimit') {
+    if (directorate == 'Drejtoria e Arsimit') {
         education.forEach(element => {
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria Administrates') {
+    if (directorate == 'Drejtoria e Administratës') {
         administration.forEach(element => {
             queryArray.push(element);
         });
@@ -934,7 +929,7 @@ module.exports.filterbyStringDirectorateDate = (text, directorate, date, referen
             queryArray.push(element);
         });
     }
-    if (directorate == 'Investime kapitale dhe menaxhimit të kontratave') {
+    if (directorate == 'Drejtoria e Investimeve Kapitale dhe Menaxhim të Kontratave') {
         investment.forEach(element => {
             queryArray.push(element);
         });
@@ -944,7 +939,7 @@ module.exports.filterbyStringDirectorateDate = (text, directorate, date, referen
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Shërbimeve Publike, Mrojtjes dhe Shpëtimit') {
+    if (directorate == 'Drejtoria e Shërbimeve Publike') {
         publicServices.forEach(element => {
             queryArray.push(element);
         });
@@ -964,7 +959,7 @@ module.exports.filterbyStringDirectorateDate = (text, directorate, date, referen
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Bujqësisë') {
+    if (directorate == 'Drejtoria e Bujqësis') {
         agriculture.forEach(element => {
             queryArray.push(element);
         });
@@ -989,7 +984,7 @@ module.exports.filterbyStringDirectorateDate = (text, directorate, date, referen
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Planifikimit strategjik dhe zhvillimit të qëndrueshëm') {
+    if (directorate == 'Drejtoria e Planifikimit Strategjik dhe Zhvillim të Qëndrueshëm') {
         planning.forEach(element => {
             queryArray.push(element);
         });
@@ -1058,12 +1053,12 @@ module.exports.filterbyStringDirectorateDate = (text, directorate, date, referen
 module.exports.filterbyStringDirectorateDateCount = (text, directorate, date, referenceDate, year, role, directorateName) => {
     let filter = [];
     let queryArray = [];
-    if (directorate == 'Drejtoria Arsimit') {
+    if (directorate == 'Drejtoria e Arsimit') {
         education.forEach(element => {
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria Administrates') {
+    if (directorate == 'Drejtoria e Administratës') {
         administration.forEach(element => {
             queryArray.push(element);
         });
@@ -1073,7 +1068,7 @@ module.exports.filterbyStringDirectorateDateCount = (text, directorate, date, re
             queryArray.push(element);
         });
     }
-    if (directorate == 'Investime kapitale dhe menaxhimit të kontratave') {
+    if (directorate == 'Drejtoria e Investimeve Kapitale dhe Menaxhim të Kontratave') {
         investment.forEach(element => {
             queryArray.push(element);
         });
@@ -1083,7 +1078,7 @@ module.exports.filterbyStringDirectorateDateCount = (text, directorate, date, re
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Shërbimeve Publike, Mrojtjes dhe Shpëtimit') {
+    if (directorate == 'Drejtoria e Shërbimeve Publike') {
         publicServices.forEach(element => {
             queryArray.push(element);
         });
@@ -1103,7 +1098,7 @@ module.exports.filterbyStringDirectorateDateCount = (text, directorate, date, re
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Bujqësisë') {
+    if (directorate == 'Drejtoria e Bujqësis') {
         agriculture.forEach(element => {
             queryArray.push(element);
         });
@@ -1128,7 +1123,7 @@ module.exports.filterbyStringDirectorateDateCount = (text, directorate, date, re
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Planifikimit strategjik dhe zhvillimit të qëndrueshëm') {
+    if (directorate == 'Drejtoria e Planifikimit Strategjik dhe Zhvillim të Qëndrueshëm') {
         planning.forEach(element => {
             queryArray.push(element);
         });
@@ -1202,12 +1197,12 @@ module.exports.filterbyStringDirectorateDateCount = (text, directorate, date, re
 module.exports.filterByStringDirectorateDateValue = (text, directorate, date, referenceDate, value, year, role, directorateName) => {
     let filter = [];
     let queryArray = [];
-    if (directorate == 'Drejtoria Arsimit') {
+    if (directorate == 'Drejtoria e Arsimit') {
         education.forEach(element => {
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria Administrates') {
+    if (directorate == 'Drejtoria e Administratës') {
         administration.forEach(element => {
             queryArray.push(element);
         });
@@ -1217,7 +1212,7 @@ module.exports.filterByStringDirectorateDateValue = (text, directorate, date, re
             queryArray.push(element);
         });
     }
-    if (directorate == 'Investime kapitale dhe menaxhimit të kontratave') {
+    if (directorate == 'Drejtoria e Investimeve Kapitale dhe Menaxhim të Kontratave') {
         investment.forEach(element => {
             queryArray.push(element);
         });
@@ -1227,7 +1222,7 @@ module.exports.filterByStringDirectorateDateValue = (text, directorate, date, re
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Shërbimeve Publike, Mrojtjes dhe Shpëtimit') {
+    if (directorate == 'Drejtoria e Shërbimeve Publike') {
         publicServices.forEach(element => {
             queryArray.push(element);
         });
@@ -1247,7 +1242,7 @@ module.exports.filterByStringDirectorateDateValue = (text, directorate, date, re
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Bujqësisë') {
+    if (directorate == 'Drejtoria e Bujqësis') {
         agriculture.forEach(element => {
             queryArray.push(element);
         });
@@ -1272,7 +1267,7 @@ module.exports.filterByStringDirectorateDateValue = (text, directorate, date, re
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Planifikimit strategjik dhe zhvillimit të qëndrueshëm') {
+    if (directorate == 'Drejtoria e Planifikimit Strategjik dhe Zhvillim të Qëndrueshëm') {
         planning.forEach(element => {
             queryArray.push(element);
         });
@@ -1282,7 +1277,6 @@ module.exports.filterByStringDirectorateDateValue = (text, directorate, date, re
             queryArray.push(element);
         });
     }
-
     if (role != "superadmin" && role != "admin" && role != null) {
         filter.push({ "$match": { "directorates": directorateName } })
     }
@@ -1349,12 +1343,12 @@ module.exports.filterByStringDirectorateDateValue = (text, directorate, date, re
 module.exports.filterByStringDirectorateDateValueCount = (text, directorate, date, referenceDate, value, year, role, directorateName) => {
     let filter = [];
     let queryArray = [];
-    if (directorate == 'Drejtoria Arsimit') {
+    if (directorate == 'Drejtoria e Arsimit') {
         education.forEach(element => {
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria Administrates') {
+    if (directorate == 'Drejtoria e Administratës') {
         administration.forEach(element => {
             queryArray.push(element);
         });
@@ -1364,7 +1358,7 @@ module.exports.filterByStringDirectorateDateValueCount = (text, directorate, dat
             queryArray.push(element);
         });
     }
-    if (directorate == 'Investime kapitale dhe menaxhimit të kontratave') {
+    if (directorate == 'Drejtoria e Investimeve Kapitale dhe Menaxhim të Kontratave') {
         investment.forEach(element => {
             queryArray.push(element);
         });
@@ -1374,7 +1368,7 @@ module.exports.filterByStringDirectorateDateValueCount = (text, directorate, dat
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Shërbimeve Publike, Mrojtjes dhe Shpëtimit') {
+    if (directorate == 'Drejtoria e Shërbimeve Publike') {
         publicServices.forEach(element => {
             queryArray.push(element);
         });
@@ -1394,7 +1388,7 @@ module.exports.filterByStringDirectorateDateValueCount = (text, directorate, dat
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Bujqësisë') {
+    if (directorate == 'Drejtoria e Bujqësis') {
         agriculture.forEach(element => {
             queryArray.push(element);
         });
@@ -1419,7 +1413,7 @@ module.exports.filterByStringDirectorateDateValueCount = (text, directorate, dat
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Planifikimit strategjik dhe zhvillimit të qëndrueshëm') {
+    if (directorate == 'Drejtoria e Planifikimit Strategjik dhe Zhvillim të Qëndrueshëm') {
         planning.forEach(element => {
             queryArray.push(element);
         });
@@ -1676,12 +1670,12 @@ module.exports.filterByStringValueCount = (text, value, year) => {
 module.exports.filterbyDirectorateDate = (directorate, date, referenceDate, year, role, directorateName) => {
     let filter = [];
     let queryArray = [];
-    if (directorate == 'Drejtoria Arsimit') {
+    if (directorate == 'Drejtoria e Arsimit') {
         education.forEach(element => {
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria Administrates') {
+    if (directorate == 'Drejtoria e Administratës') {
         administration.forEach(element => {
             queryArray.push(element);
         });
@@ -1691,7 +1685,7 @@ module.exports.filterbyDirectorateDate = (directorate, date, referenceDate, year
             queryArray.push(element);
         });
     }
-    if (directorate == 'Investime kapitale dhe menaxhimit të kontratave') {
+    if (directorate == 'Drejtoria e Investimeve Kapitale dhe Menaxhim të Kontratave') {
         investment.forEach(element => {
             queryArray.push(element);
         });
@@ -1701,7 +1695,7 @@ module.exports.filterbyDirectorateDate = (directorate, date, referenceDate, year
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Shërbimeve Publike, Mrojtjes dhe Shpëtimit') {
+    if (directorate == 'Drejtoria e Shërbimeve Publike') {
         publicServices.forEach(element => {
             queryArray.push(element);
         });
@@ -1721,7 +1715,7 @@ module.exports.filterbyDirectorateDate = (directorate, date, referenceDate, year
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Bujqësisë') {
+    if (directorate == 'Drejtoria e Bujqësis') {
         agriculture.forEach(element => {
             queryArray.push(element);
         });
@@ -1746,7 +1740,7 @@ module.exports.filterbyDirectorateDate = (directorate, date, referenceDate, year
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Planifikimit strategjik dhe zhvillimit të qëndrueshëm') {
+    if (directorate == 'Drejtoria e Planifikimit Strategjik dhe Zhvillim të Qëndrueshëm') {
         planning.forEach(element => {
             queryArray.push(element);
         });
@@ -1809,12 +1803,12 @@ module.exports.filterbyDirectorateDate = (directorate, date, referenceDate, year
 module.exports.filterbyDirectorateDateCount = (directorate, date, referenceDate, year, role, directorateName) => {
     let filter = [];
     let queryArray = [];
-    if (directorate == 'Drejtoria Arsimit') {
+    if (directorate == 'Drejtoria e Arsimit') {
         education.forEach(element => {
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria Administrates') {
+    if (directorate == 'Drejtoria e Administratës') {
         administration.forEach(element => {
             queryArray.push(element);
         });
@@ -1824,7 +1818,7 @@ module.exports.filterbyDirectorateDateCount = (directorate, date, referenceDate,
             queryArray.push(element);
         });
     }
-    if (directorate == 'Investime kapitale dhe menaxhimit të kontratave') {
+    if (directorate == 'Drejtoria e Investimeve Kapitale dhe Menaxhim të Kontratave') {
         investment.forEach(element => {
             queryArray.push(element);
         });
@@ -1834,7 +1828,7 @@ module.exports.filterbyDirectorateDateCount = (directorate, date, referenceDate,
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Shërbimeve Publike, Mrojtjes dhe Shpëtimit') {
+    if (directorate == 'Drejtoria e Shërbimeve Publike') {
         publicServices.forEach(element => {
             queryArray.push(element);
         });
@@ -1854,7 +1848,7 @@ module.exports.filterbyDirectorateDateCount = (directorate, date, referenceDate,
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Bujqësisë') {
+    if (directorate == 'Drejtoria e Bujqësis') {
         agriculture.forEach(element => {
             queryArray.push(element);
         });
@@ -1879,7 +1873,7 @@ module.exports.filterbyDirectorateDateCount = (directorate, date, referenceDate,
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Planifikimit strategjik dhe zhvillimit të qëndrueshëm') {
+    if (directorate == 'Drejtoria e Planifikimit Strategjik dhe Zhvillim të Qëndrueshëm') {
         planning.forEach(element => {
             queryArray.push(element);
         });
@@ -1946,12 +1940,12 @@ module.exports.filterbyDirectorateDateCount = (directorate, date, referenceDate,
 module.exports.filterByDirectorateValue = (directorate, value, year, role, directorateName) => {
     let filter = [];
     let queryArray = [];
-    if (directorate == 'Drejtoria Arsimit') {
+    if (directorate == 'Drejtoria e Arsimit') {
         education.forEach(element => {
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria Administrates') {
+    if (directorate == 'Drejtoria e Administratës') {
         administration.forEach(element => {
             queryArray.push(element);
         });
@@ -1961,7 +1955,7 @@ module.exports.filterByDirectorateValue = (directorate, value, year, role, direc
             queryArray.push(element);
         });
     }
-    if (directorate == 'Investime kapitale dhe menaxhimit të kontratave') {
+    if (directorate == 'Drejtoria e Investimeve Kapitale dhe Menaxhim të Kontratave') {
         investment.forEach(element => {
             queryArray.push(element);
         });
@@ -1971,7 +1965,7 @@ module.exports.filterByDirectorateValue = (directorate, value, year, role, direc
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Shërbimeve Publike, Mrojtjes dhe Shpëtimit') {
+    if (directorate == 'Drejtoria e Shërbimeve Publike') {
         publicServices.forEach(element => {
             queryArray.push(element);
         });
@@ -1991,7 +1985,7 @@ module.exports.filterByDirectorateValue = (directorate, value, year, role, direc
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Bujqësisë') {
+    if (directorate == 'Drejtoria e Bujqësis') {
         agriculture.forEach(element => {
             queryArray.push(element);
         });
@@ -2016,7 +2010,7 @@ module.exports.filterByDirectorateValue = (directorate, value, year, role, direc
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Planifikimit strategjik dhe zhvillimit të qëndrueshëm') {
+    if (directorate == 'Drejtoria e Planifikimit Strategjik dhe Zhvillim të Qëndrueshëm') {
         planning.forEach(element => {
             queryArray.push(element);
         });
@@ -2053,12 +2047,12 @@ module.exports.filterByDirectorateValue = (directorate, value, year, role, direc
 module.exports.filterByDirectorateValueCount = (directorate, value, year, role, directorateName) => {
     let filter = [];
     let queryArray = [];
-    if (directorate == 'Drejtoria Arsimit') {
+    if (directorate == 'Drejtoria e Arsimit') {
         education.forEach(element => {
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria Administrates') {
+    if (directorate == 'Drejtoria e Administratës') {
         administration.forEach(element => {
             queryArray.push(element);
         });
@@ -2068,7 +2062,7 @@ module.exports.filterByDirectorateValueCount = (directorate, value, year, role, 
             queryArray.push(element);
         });
     }
-    if (directorate == 'Investime kapitale dhe menaxhimit të kontratave') {
+    if (directorate == 'Drejtoria e Investimeve Kapitale dhe Menaxhim të Kontratave') {
         investment.forEach(element => {
             queryArray.push(element);
         });
@@ -2078,7 +2072,7 @@ module.exports.filterByDirectorateValueCount = (directorate, value, year, role, 
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Shërbimeve Publike, Mrojtjes dhe Shpëtimit') {
+    if (directorate == 'Drejtoria e Shërbimeve Publike') {
         publicServices.forEach(element => {
             queryArray.push(element);
         });
@@ -2098,7 +2092,7 @@ module.exports.filterByDirectorateValueCount = (directorate, value, year, role, 
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Bujqësisë') {
+    if (directorate == 'Drejtoria e Bujqësis') {
         agriculture.forEach(element => {
             queryArray.push(element);
         });
@@ -2123,7 +2117,7 @@ module.exports.filterByDirectorateValueCount = (directorate, value, year, role, 
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Planifikimit strategjik dhe zhvillimit të qëndrueshëm') {
+    if (directorate == 'Drejtoria e Planifikimit Strategjik dhe Zhvillim të Qëndrueshëm') {
         planning.forEach(element => {
             queryArray.push(element);
         });
@@ -2282,12 +2276,12 @@ module.exports.filterByDateValueCount = (date, referenceDate, value, year, role,
 module.exports.filterByDirectorateDateValue = (directorate, date, referenceDate, value, year, role, directorateName) => {
     let filter = [];
     let queryArray = [];
-    if (directorate == 'Drejtoria Arsimit') {
+    if (directorate == 'Drejtoria e Arsimit') {
         education.forEach(element => {
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria Administrates') {
+    if (directorate == 'Drejtoria e Administratës') {
         administration.forEach(element => {
             queryArray.push(element);
         });
@@ -2297,7 +2291,7 @@ module.exports.filterByDirectorateDateValue = (directorate, date, referenceDate,
             queryArray.push(element);
         });
     }
-    if (directorate == 'Investime kapitale dhe menaxhimit të kontratave') {
+    if (directorate == 'Drejtoria e Investimeve Kapitale dhe Menaxhim të Kontratave') {
         investment.forEach(element => {
             queryArray.push(element);
         });
@@ -2307,7 +2301,7 @@ module.exports.filterByDirectorateDateValue = (directorate, date, referenceDate,
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Shërbimeve Publike, Mrojtjes dhe Shpëtimit') {
+    if (directorate == 'Drejtoria e Shërbimeve Publike') {
         publicServices.forEach(element => {
             queryArray.push(element);
         });
@@ -2327,7 +2321,7 @@ module.exports.filterByDirectorateDateValue = (directorate, date, referenceDate,
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Bujqësisë') {
+    if (directorate == 'Drejtoria e Bujqësis') {
         agriculture.forEach(element => {
             queryArray.push(element);
         });
@@ -2352,7 +2346,7 @@ module.exports.filterByDirectorateDateValue = (directorate, date, referenceDate,
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Planifikimit strategjik dhe zhvillimit të qëndrueshëm') {
+    if (directorate == 'Drejtoria e Planifikimit Strategjik dhe Zhvillim të Qëndrueshëm') {
         planning.forEach(element => {
             queryArray.push(element);
         });
@@ -2423,12 +2417,12 @@ module.exports.filterByDirectorateDateValue = (directorate, date, referenceDate,
 module.exports.filterByDirectorateDateValueCount = (directorate, date, referenceDate, value, year, role, directorateName) => {
     let filter = [];
     let queryArray = [];
-    if (directorate == 'Drejtoria Arsimit') {
+    if (directorate == 'Drejtoria e Arsimit') {
         education.forEach(element => {
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria Administrates') {
+    if (directorate == 'Drejtoria e Administratës') {
         administration.forEach(element => {
             queryArray.push(element);
         });
@@ -2438,7 +2432,7 @@ module.exports.filterByDirectorateDateValueCount = (directorate, date, reference
             queryArray.push(element);
         });
     }
-    if (directorate == 'Investime kapitale dhe menaxhimit të kontratave') {
+    if (directorate == 'Drejtoria e Investimeve Kapitale dhe Menaxhim të Kontratave') {
         investment.forEach(element => {
             queryArray.push(element);
         });
@@ -2448,7 +2442,7 @@ module.exports.filterByDirectorateDateValueCount = (directorate, date, reference
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Shërbimeve Publike, Mrojtjes dhe Shpëtimit') {
+    if (directorate == 'Drejtoria e Shërbimeve Publike') {
         publicServices.forEach(element => {
             queryArray.push(element);
         });
@@ -2468,7 +2462,7 @@ module.exports.filterByDirectorateDateValueCount = (directorate, date, reference
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Bujqësisë') {
+    if (directorate == 'Drejtoria e Bujqësis') {
         agriculture.forEach(element => {
             queryArray.push(element);
         });
@@ -2493,7 +2487,7 @@ module.exports.filterByDirectorateDateValueCount = (directorate, date, reference
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Planifikimit strategjik dhe zhvillimit të qëndrueshëm') {
+    if (directorate == 'Drejtoria e Planifikimit Strategjik dhe Zhvillim të Qëndrueshëm') {
         planning.forEach(element => {
             queryArray.push(element);
         });
@@ -2566,12 +2560,12 @@ module.exports.filterByDirectorateDateValueCount = (directorate, date, reference
 module.exports.filterByStringDirectorateValue = (text, directorate, value, year, role, directorateName) => {
     let filter = [];
     let queryArray = [];
-    if (directorate == 'Drejtoria Arsimit') {
+    if (directorate == 'Drejtoria e Arsimit') {
         education.forEach(element => {
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria Administrates') {
+    if (directorate == 'Drejtoria e Administratës') {
         administration.forEach(element => {
             queryArray.push(element);
         });
@@ -2581,7 +2575,7 @@ module.exports.filterByStringDirectorateValue = (text, directorate, value, year,
             queryArray.push(element);
         });
     }
-    if (directorate == 'Investime kapitale dhe menaxhimit të kontratave') {
+    if (directorate == 'Drejtoria e Investimeve Kapitale dhe Menaxhim të Kontratave') {
         investment.forEach(element => {
             queryArray.push(element);
         });
@@ -2591,7 +2585,7 @@ module.exports.filterByStringDirectorateValue = (text, directorate, value, year,
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Shërbimeve Publike, Mrojtjes dhe Shpëtimit') {
+    if (directorate == 'Drejtoria e Shërbimeve Publike') {
         publicServices.forEach(element => {
             queryArray.push(element);
         });
@@ -2611,7 +2605,7 @@ module.exports.filterByStringDirectorateValue = (text, directorate, value, year,
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Bujqësisë') {
+    if (directorate == 'Drejtoria e Bujqësis') {
         agriculture.forEach(element => {
             queryArray.push(element);
         });
@@ -2636,7 +2630,7 @@ module.exports.filterByStringDirectorateValue = (text, directorate, value, year,
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Planifikimit strategjik dhe zhvillimit të qëndrueshëm') {
+    if (directorate == 'Drejtoria e Planifikimit Strategjik dhe Zhvillim të Qëndrueshëm') {
         planning.forEach(element => {
             queryArray.push(element);
         });
@@ -2680,12 +2674,12 @@ module.exports.filterByStringDirectorateValue = (text, directorate, value, year,
 module.exports.filterByStringDirectorateValueCount = (text, directorate, value, year, role, directorateName) => {
     let filter = [];
     let queryArray = [];
-    if (directorate == 'Drejtoria Arsimit') {
+    if (directorate == 'Drejtoria e Arsimit') {
         education.forEach(element => {
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria Administrates') {
+    if (directorate == 'Drejtoria e Administratës') {
         administration.forEach(element => {
             queryArray.push(element);
         });
@@ -2695,7 +2689,7 @@ module.exports.filterByStringDirectorateValueCount = (text, directorate, value, 
             queryArray.push(element);
         });
     }
-    if (directorate == 'Investime kapitale dhe menaxhimit të kontratave') {
+    if (directorate == 'Drejtoria e Investimeve Kapitale dhe Menaxhim të Kontratave') {
         investment.forEach(element => {
             queryArray.push(element);
         });
@@ -2705,7 +2699,7 @@ module.exports.filterByStringDirectorateValueCount = (text, directorate, value, 
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Shërbimeve Publike, Mrojtjes dhe Shpëtimit') {
+    if (directorate == 'Drejtoria e Shërbimeve Publike') {
         publicServices.forEach(element => {
             queryArray.push(element);
         });
@@ -2725,7 +2719,7 @@ module.exports.filterByStringDirectorateValueCount = (text, directorate, value, 
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Bujqësisë') {
+    if (directorate == 'Drejtoria e Bujqësis') {
         agriculture.forEach(element => {
             queryArray.push(element);
         });
@@ -2750,7 +2744,7 @@ module.exports.filterByStringDirectorateValueCount = (text, directorate, value, 
             queryArray.push(element);
         });
     }
-    if (directorate == 'Drejtoria e Planifikimit strategjik dhe zhvillimit të qëndrueshëm') {
+    if (directorate == 'Drejtoria e Planifikimit Strategjik dhe Zhvillim të Qëndrueshëm') {
         planning.forEach(element => {
             queryArray.push(element);
         });

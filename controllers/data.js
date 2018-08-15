@@ -189,6 +189,10 @@ router.get('/get-directorates-of-contracts', (req, res) => {
                     d.culturObj.y += row.y;
                     toBeRemoved.push(i);
                 }
+                if (row.name.trim() == 'Drejtoria e Kulturës') {
+                    d.culturObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
                 if (row.name.trim() == 'Drejtoria e kulturës, rinisë dhe sportit') {
                     d.culturObj.y += row.y;
                     toBeRemoved.push(i);
