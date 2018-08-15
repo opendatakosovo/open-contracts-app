@@ -26,7 +26,7 @@ export class AppComponent {
     this.meta.addTag({ name: 'og:site_name', content: 'Kontratat e Hapura' });
     this.meta.addTag({ name: 'og:title', content: 'Kontratat e Hapura' });
     this.meta.addTag({ name: 'og:description', content: 'K&euml;tu mund t&euml; gjeni t&euml; dh&euml;nat e hapura p&euml;r kontratat n&euml; komun&euml;n e Prishtin&euml;s.' });
-    this.meta.addTag({ name: 'og:image:url', content: '/assets/images/social-media.jpg' });
+    this.meta.addTag({ name: 'og:image', content: '/assets/images/social-media.jpg' });
     this.meta.addTag({ name: 'og:url', content: 'http://kontratatehapura.prishtinaonline.com/' });
     this.meta.addTag({ name: 'og:type', content: 'website' });
 
