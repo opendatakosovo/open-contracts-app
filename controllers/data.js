@@ -63,379 +63,383 @@ router.get('/get-directorates-of-contracts', (req, res) => {
     Contract.getDirectoratesInContracts()
         .then(data => {
 
-            let adminObj = { name: 'Administratë', y: 0 };
-            let eduObj = { name: 'Arsim', y: 0 };
-            let infrastructureObj = { name: 'Infrastrukturë', y: 0 };
-            let investmentsObj = { name: 'Investime', y: 0 };
-            let culturObj = { name: 'Kulturë', y: 0 };
-            let publicServicesObj = { name: 'Shërbime Publike', y: 0 };
-            let healthObj = { name: 'Shëndetësi', y: 0 };
-            let cadasObj = { name: 'Kadastrës', y:0 };
-            let socWelObj = { name: 'Mirëqenia Sociale', y:0 };
-            let agriObj = { name: 'Bujqësisë', y:0 };
-            let finaObj = { name: 'Financave', y:0};
-            let propObj = { name: 'Prona', y:0 };
-            let urbanObj = { name: 'Urbanizmi', y:0 };
-            let inspeObj = { name: 'Inspekcioni', y:0 };
-            let planObj = { name: 'Planifikimit', y:0 };
-            let parkObj = { name: 'Parqeve', y:0 };
+            let d = {
+                adminObj: { name: 'Administratë', y: 0 },
+                eduObj: { name: 'Arsim', y: 0 },
+                infrastructureObj: { name: 'Infrastrukturë', y: 0 },
+                investmentsObj: { name: 'Investime', y: 0 },
+                culturObj: { name: 'Kulturë', y: 0 },
+                publicServicesObj: { name: 'Shërbime Publike', y: 0 },
+                healthObj: { name: 'Shëndetësi', y: 0 },
+                cadasObj: { name: 'Kadastrës', y: 0 },
+                socWelObj: { name: 'Mirëqenia Sociale', y: 0 },
+                agriObj: { name: 'Bujqësisë', y: 0 },
+                finaObj: { name: 'Financave', y: 0 },
+                propObj: { name: 'Prona', y: 0 },
+                urbanObj: { name: 'Urbanizmi', y: 0 },
+                inspeObj: { name: 'Inspekcioni', y: 0 },
+                planObj: { name: 'Planifikimit', y: 0 },
+                parkObj: { name: 'Parqeve', y: 0 },
+            }
             let toBeRemoved = [];
 
             // Process some data
             data.map((row, i) => {
-                // if (row.name == '') {
-                //     row.name = 'E pacaktuar';
-                // }
-                if (row.name == 'Drejtoria e administratës') {
-                    adminObj.y += row.y;
+                if (row.name == '') {
+                    row.name = 'E pacaktuar';
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Drejtoria e Administratës') {
-                    adminObj.y += row.y;
+                if (row.name.trim() == 'Drejtoria e administratës') {
+                    d.adminObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Administrate') {
-                    adminObj.y += row.y;
+                if (row.name.trim() == 'Drejtoria e Administratës') {
+                    d.adminObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Administratë') {
-                    adminObj.y += row.y;
+                if (row.name.trim() == 'Administrate') {
+                    d.adminObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Administrata') {
-                    adminObj.y += row.y
+                if (row.name.trim() == 'Administratë') {
+                    d.adminObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Drejtoria Arsimit') {
-                    eduObj.y += row.y;
+                if (row.name.trim() == 'Administrata') {
+                    d.adminObj.y += row.y
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Drejtoria arsimit') {
-                    eduObj.y += row.y;
+                if (row.name.trim() == 'Drejtoria Arsimit') {
+                    d.eduObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Drejtoria e arsimit') {
-                    eduObj.y += row.y;
+                if (row.name.trim() == 'Drejtoria arsimit') {
+                    d.eduObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Drejtoria e Arsimit') {
-                    eduObj.y += row.y;
+                if (row.name.trim() == 'Drejtoria e arsimit') {
+                    d.eduObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Arsim') {
-                    eduObj.y += row.y;
+                if (row.name.trim() == 'Drejtoria e Arsimit') {
+                    d.eduObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Arsimi') {
-                    eduObj.y += row.y;
+                if (row.name.trim() == 'Arsim') {
+                    d.eduObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Drejtoria e infrastrukturës') {
-                    infrastructureObj.y += row.y;
+                if (row.name.trim() == 'Arsimi') {
+                    d.eduObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Drejtoria e Infrastrukturës') {
-                    infrastructureObj.y += row.y;
+                if (row.name.trim() == 'Drejtoria e infrastrukturës') {
+                    d.infrastructureObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Drejtoria Infrastrukturës') {
-                    infrastructureObj.y += row.y;
+                if (row.name.trim() == 'Drejtoria e Infrastrukturës') {
+                    d.infrastructureObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Drejtoria infrastrukturës') {
-                    infrastructureObj.y += row.y;
+                if (row.name.trim() == 'Drejtoria Infrastrukturës') {
+                    d.infrastructureObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Infrastrukture') {
-                    infrastructureObj.y += row.y;
+                if (row.name.trim() == 'Drejtoria infrastrukturës') {
+                    d.infrastructureObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Infrastukture') {
-                    infrastructureObj.y += row.y;
+                if (row.name.trim() == 'Infrastrukture') {
+                    d.infrastructureObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Investime') {
-                    investmentsObj.y += row.y;
+                if (row.name.trim() == 'Infrastukture') {
+                    d.infrastructureObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Investimet ka') {
-                    investmentsObj.y += row.y;
+                if (row.name.trim() == 'Investime') {
+                    d.investmentsObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Investimne') {
-                    investmentsObj.y += row.y;
+                if (row.name.trim() == 'Investimet ka') {
+                    d.investmentsObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Invetsime') {
-                    investmentsObj.y += row.y;
+                if (row.name.trim() == 'Investimne') {
+                    d.investmentsObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Drejtoria i Investimeve Kapitale dhe Menaxhim të Kontratave') {
-                    investmentsObj.y += row.y;
+                if (row.name.trim() == 'Invetsime') {
+                    d.investmentsObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Drejtoria e Investimeve Kapitale dhe Menaxhim të Kontratave') {
-                    investmentsObj.y += row.y;
+                if (row.name.trim() == 'Drejtoria i Investimeve Kapitale dhe Menaxhim të Kontratave') {
+                    d.investmentsObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Drejtoria i investimeve kapitale dhe menaxhim të kontratave') {
-                    investmentsObj.y += row.y;
+                if (row.name.trim() == 'Drejtoria e Investimeve Kapitale dhe Menaxhim të Kontratave') {
+                    d.investmentsObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Drejtoria e kulturës') {
-                    culturObj.y += row.y;
+                if (row.name.trim() == 'Drejtoria i investimeve kapitale dhe menaxhim të kontratave') {
+                    d.investmentsObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Drejtoria e kulturës, rinisë dhe sportit') {
-                    culturObj.y += row.y;
+                if (row.name.trim() == 'Drejtoria e kulturës') {
+                    d.culturObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Kultura') {
-                    culturObj.y += row.y;
+                if (row.name.trim() == 'Drejtoria e kulturës, rinisë dhe sportit') {
+                    d.culturObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Kulturë') {
-                    culturObj.y += row.y;
+                if (row.name.trim() == 'Kultura') {
+                    d.culturObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'kultur') {
-                    culturObj.y += row.y;
+                if (row.name.trim() == 'Kulturë') {
+                    d.culturObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Sh.Publike') {
-                    publicServicesObj.y += row.y;
+                if (row.name.trim() == 'kultur') {
+                    d.culturObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Sh.p') {
-                    publicServicesObj.y += row.y;
+                if (row.name.trim() == 'Sh.Publike') {
+                    d.publicServicesObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Sherb publike') {
-                    publicServicesObj.y += row.y;
+                if (row.name.trim() == 'Sh.p') {
+                    d.publicServicesObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Sherbime Pub') {
-                    publicServicesObj.y += row.y;
+                if (row.name.trim() == 'Sherb publike') {
+                    d.publicServicesObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Sherbime publike') {
-                    publicServicesObj.y += row.y;
+                if (row.name.trim() == 'Sherbime Pub') {
+                    d.publicServicesObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'sherbime Pub') {
-                    publicServicesObj.y += row.y;
+                if (row.name.trim() == 'Sherbime publike') {
+                    d.publicServicesObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Drejtoria e shërbimeve publike') {
-                    publicServicesObj.y += row.y;
+                if (row.name.trim() == 'sherbime Pub') {
+                    d.publicServicesObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Drejtoria shërbimeve publike') {
-                    publicServicesObj.y += row.y;
+                if (row.name.trim() == 'Drejtoria e shërbimeve publike') {
+                    d.publicServicesObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Drejtoria e Shërbimeve Publike') {
-                    publicServicesObj.y += row.y;
+                if (row.name.trim() == 'Drejtoria shërbimeve publike') {
+                    d.publicServicesObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Shërbime Publike, Mbrojtjes dhe Shpëtimit') {
-                    publicServicesObj.y += row.y;
+                if (row.name.trim() == 'Drejtoria e Shërbimeve Publike') {
+                    d.publicServicesObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Drejtoria e Shërbimeve Publike, Mbrojtjes dhe Shpëtimit') {
-                    publicServicesObj.y += row.y;
+                if (row.name.trim() == 'Shërbime Publike, Mbrojtjes dhe Shpëtimit') {
+                    d.publicServicesObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Drejtoria e shërbimeve publike, mbrojtjes dhe shpëtimit') {
-                    publicServicesObj.y += row.y;
+                if (row.name.trim() == 'Drejtoria e Shërbimeve Publike, Mbrojtjes dhe Shpëtimit') {
+                    d.publicServicesObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Shendetesi') {
-                    healthObj.y += row.y;
+                if (row.name.trim() == 'Drejtoria e shërbimeve publike, mbrojtjes dhe shpëtimit') {
+                    d.publicServicesObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Shendetsia') {
-                    healthObj.y += row.y;
+                if (row.name.trim() == 'Shendetesi') {
+                    d.healthObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Drejtoria e Shëndetësisë') {
-                    healthObj.y += row.y;
+                if (row.name.trim() == 'Shendetsia') {
+                    d.healthObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Drejtoria e shëndetësisë') {
-                    healthObj.y += row.y;
+                if (row.name.trim() == 'Drejtoria e Shëndetësisë') {
+                    d.healthObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Drejtoria Shëndetësisë') {
-                    healthObj.y += row.y;
+                if (row.name.trim() == 'Drejtoria e shëndetësisë') {
+                    d.healthObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Drejtoria shëndetësisë') {
-                    healthObj.y += row.y;
+                if (row.name.trim() == 'Drejtoria Shëndetësisë') {
+                    d.healthObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == "Drejtoria e kadastrit") {
-                    cadasObj.y += row.y;
+                if (row.name.trim() == 'Drejtoria shëndetësisë') {
+                    d.healthObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == "Drejtoria e Kadastrit") {
-                    cadasObj.y += row.y;
+                if (row.name.trim() == "Drejtoria e kadastrit") {
+                    d.cadasObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == "Drejtoria kadastrit") {
-                    cadasObj.y += row.y;
+                if (row.name.trim() == "Drejtoria e Kadastrit") {
+                    d.cadasObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == "Drejtoria Kadastrit") {
-                    cadasObj.y += row.y;
+                if (row.name.trim() == "Drejtoria kadastrit") {
+                    d.cadasObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == "Kadastri") {
-                    cadasObj.y += row.y;
+                if (row.name.trim() == "Drejtoria Kadastrit") {
+                    d.cadasObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == "kadastri") {
-                    cadasObj.y += row.y;
+                if (row.name.trim() == "Kadastri") {
+                    d.cadasObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Drejtoria e mirëqenies sociale') {
-                    socWelObj.y += row.y;
+                if (row.name.trim() == "kadastri") {
+                    d.cadasObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Mirëqenie Sociale') {
-                    socWelObj.y += row.y;
+                if (row.name.trim() == 'Drejtoria e mirëqenies sociale') {
+                    d.socWelObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Drejtoria e Mirëqenies Sociale') {
-                    socWelObj.y += row.y;
+                if (row.name.trim() == 'Mirëqenie Sociale') {
+                    d.socWelObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Mireqenie Sociale') {
-                    socWelObj.y += row.y;
+                if (row.name.trim() == 'Drejtoria e Mirëqenies Sociale') {
+                    d.socWelObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Sociale') {
-                    socWelObj.y += row.y;
+                if (row.name.trim() == 'Mireqenie Sociale') {
+                    d.socWelObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Mirëqenie sociale') {
-                    socWelObj.y += row.y;
+                if (row.name.trim() == 'Sociale') {
+                    d.socWelObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if (row.name == 'Drejtoria e Bujqësisë') {
-                    agriObj.y += row.y;
+                if (row.name.trim() == 'Mirëqenie sociale') {
+                    d.socWelObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name.trim() == 'Bujqesia') {
+                    d.agriObj.y += row.y;
                     toBeRemoved.push(i)
                 }
-                if (row.name == 'Drejtoria e bujqësisë') {
-                    agriObj.y += row.y;
+                if (row.name.trim() == 'Drejtoria e Bujqësisë') {
+                    d.agriObj.y += row.y;
                     toBeRemoved.push(i)
                 }
-                if (row.name == 'Bujqësisë') {
-                    agriObj.y += row.y;
+                if (row.name.trim() == 'Drejtoria e bujqësisë') {
+                    d.agriObj.y += row.y;
                     toBeRemoved.push(i)
                 }
-                if (row.name == 'Drejtoria e Bujqësis') {
-                    agriObj.y += row.y;
+                if (row.name.trim() == 'Bujqësisë') {
+                    d.agriObj.y += row.y;
                     toBeRemoved.push(i)
                 }
-                if (row.name == 'Bujqësia') {
-                    agriObj.y += row.y;
+                if (row.name.trim() == 'Drejtoria e Bujqësis') {
+                    d.agriObj.y += row.y;
                     toBeRemoved.push(i)
                 }
-                if ( row.name == 'Drejtoria e financave') {
-                    finaObj.y += row.y;
-                    toBeRemoved.push(i);
-                }
-                if ( row.name == 'Financa') {
-                    finaObj.y += row.y;
-                    toBeRemoved.push(i);
-                }
-                if ( row.name == 'Financës') {
-                    finaObj.y += row.y;
-                    toBeRemoved.push(i);
-                }
-                if ( row.name == 'Drejtoria financës') {
-                    finaObj.y += row.y;
-                    toBeRemoved.push(i);
-                }
-                if ( row.name == 'Drejtoria e pronës') {
-                    propObj.y += row.y;
-                    toBeRemoved.push(i);
-                }
-                if ( row.name == 'Drejtoria e Pronës') {
-                    propObj.y += row.y;
-                    toBeRemoved.push(i);
-                }
-                if ( row.name == 'Prona') {
-                    propObj.y += row.y;
-                    toBeRemoved.push(i);
-                }
-                if ( row.name == 'Drejtoria e urbanizmit') {
-                    urbanObj.y += row.y;
-                    toBeRemoved.push(i);
-                }
-                if ( row.name == 'Drejtoria e urbanizimit') {
-                    urbanObj.y += row.y;
-                    toBeRemoved.push(i);
-                }
-                if ( row.name == 'Drejtoria e Urbanizimit') {
-                    urbanObj.y += row.y;
-                    toBeRemoved.push(i);
-                }
-                if ( row.name == 'Urbanizmi') {
-                    urbanObj.y += row.y;
-                    toBeRemoved.push(i);
-                }
-                if ( row.name == 'Inspekcion') {
-                    inspeObj.y += row.y;
+                if (row.name.trim() == 'Bujqësia') {
+                    d.agriObj.y += row.y;
                     toBeRemoved.push(i)
                 }
-                if( row.name == 'Drejtoria e Inspekcionit') {
-                    inspeObj.y += row.y;
+                if (row.name.trim() == 'Drejtoria e financave') {
+                    d.finaObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if( row.name == 'Drejtoria e Inspektimit') {
-                    inspeObj.y += row.y;
+                if (row.name.trim() == 'Financa') {
+                    d.finaObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if( row.name == 'Drejtoria e inspekcionit') {
-                    inspeObj.y += row.y;
+                if (row.name.trim() == 'Financës') {
+                    d.finaObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if ( row.name == 'Drejtoria e planifikimit strategjik dhe zhvillimit të qëndrueshëm') {
-                    planObj.y += row.y;
+                if (row.name.trim() == 'Drejtoria financës') {
+                    d.finaObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if ( row.name == 'Drejtoria e Planifikimit Strategjik dhe Zhvillim të Qëndrueshëm') {
-                    planObj.y += row.y;
+                if (row.name.trim() == 'Drejtoria e pronës') {
+                    d.propObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if ( row.name == 'Planifikim strategjik dhe zhvillimit të qëndrueshëm') {
-                    planObj.y += row.y;
+                if (row.name.trim() == 'Drejtoria e Pronës') {
+                    d.propObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if ( row.name == 'Parqeve') {
-                    parkObj.y += row.y;
+                if (row.name.trim() == 'Prona') {
+                    d.propObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if ( row.name == 'Drejtoria e parqeve') {
-                    parkObj.y += row.y;
+                if (row.name.trim() == 'Drejtoria e urbanizmit') {
+                    d.urbanObj.y += row.y;
                     toBeRemoved.push(i);
                 }
-                if ( row.name == 'Drejtoria parqeve') {
-                    parkObj.y += row.y;
+                if (row.name.trim() == 'Drejtoria e urbanizimit') {
+                    d.urbanObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name.trim() == 'Drejtoria e Urbanizimit') {
+                    d.urbanObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name.trim() == 'Urbanizmi') {
+                    d.urbanObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name.trim() == 'Inspekcion') {
+                    d.inspeObj.y += row.y;
+                    toBeRemoved.push(i)
+                }
+                if (row.name.trim() == 'Drejtoria e Inspekcionit') {
+                    d.inspeObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name.trim() == 'Drejtoria e Inspektimit') {
+                    d.inspeObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name.trim() == 'Drejtoria e inspekcionit') {
+                    d.inspeObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name.trim() == 'Drejtoria e planifikimit strategjik dhe zhvillimit të qëndrueshëm') {
+                    d.planObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name.trim() == 'Drejtoria e Planifikimit Strategjik dhe Zhvillim të Qëndrueshëm') {
+                    d.planObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name.trim() == 'Planifikim strategjik dhe zhvillimit të qëndrueshëm') {
+                    d.planObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name.trim() == 'Parqeve') {
+                    d.parkObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name.trim() == 'Drejtoria e parqeve') {
+                    d.parkObj.y += row.y;
+                    toBeRemoved.push(i);
+                }
+                if (row.name.trim() == 'Drejtoria parqeve') {
+                    d.parkObj.y += row.y;
                     toBeRemoved.push(i);
                 }
             });
-            
 
-            data.push(adminObj);
-            data.push(eduObj);
-            data.push(infrastructureObj);
-            data.push(investmentsObj);
-            data.push(culturObj);
-            data.push(publicServicesObj);
-            data.push(healthObj);
+            for (const k in d) {
+                if (d[k].y !== 0) {
+                    data.push(d[k]);
+                }
+            }
 
             for (let i = data.length; i >= 0; i--) {
                 for (index of toBeRemoved) {

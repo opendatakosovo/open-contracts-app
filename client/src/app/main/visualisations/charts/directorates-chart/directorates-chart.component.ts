@@ -50,6 +50,13 @@ export class DirectoratesChartComponent implements OnInit {
             row.name = translateVis[this.lang][row.name];
           });
         }
+
+        let maxValue = 0;
+        for (const row of res) {
+          if (row.y > maxValue) {
+            maxValue = row.y;
+          }
+        }
         const data = res;
         this.chart = new Chart({
           chart: {
@@ -78,7 +85,7 @@ export class DirectoratesChartComponent implements OnInit {
             title: {
               text: translateVis[this.lang]['numberOfContracts']
             },
-            max: 250
+            max: maxValue
           },
           series: [{
             name: translateVis[this.lang]['numberOfContracts'],
