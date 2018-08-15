@@ -10,10 +10,10 @@
       <strong>{{ 'datatable.searchContract' | translate }}:</strong> "{{ 'datatable.activityTitle' | translate }}", "{{ 'datatable.name' | translate }}", "{{ 'datatable.implementationDeadline'
       | translate }}"!</p>
     <p>
-      <strong>Zgjedhni datën: </strong>"{{ 'datatable.publicationDate' | translate }}", "{{ 'datatable.publicationDateOfGivenContract'
+      <strong>{{ 'datatable.chooseDate' | translate }}: </strong>"{{ 'datatable.publicationDate' | translate }}", "{{ 'datatable.publicationDateOfGivenContract'
       | translate }}", "{{ 'datatable.cancellationNoticeDate' | translate }}", "{{ 'datatable.signingDate' | translate }}"!</p>
     <p>
-      <strong>Vlera:</strong> "{{ 'datatable.predictedValue' | translate }}", "{{ 'datatable.totalAmountOfContractsIncludingTaxes'
+      <strong>{{ 'datatable.value' | translate }}:</strong> "{{ 'datatable.predictedValue' | translate }}", "{{ 'datatable.totalAmountOfContractsIncludingTaxes'
       | translate }}" </p>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
@@ -24,7 +24,7 @@
       <form action="" class="form-inline form-group">
         <input type="text" (keyup)="onType()" [(ngModel)]="search.string" name="string" class="form-control form-input" placeholder="{{ 'datatable.searchContract' | translate }}">
         <select class="form-control form-select" (change)="onChange()" [(ngModel)]="search.directorate" name="directorate">
-          <option value="">Të gjitha</option>
+          <option value="">{{ 'visualisations.allYears' | translate }}</option>
           <option *ngFor="let directorate of directorates" value="{{directorate.directorateName}}"> {{directorate.directorateName}}</option>
         </select>
         <input (input)="onDateInputChange($event)" (ngModelChange)="onDatePick($event)" bsDatepicker placeholder="MM/DD/YYYY" [bsConfig]="bsConfig" name="date" id="date"
@@ -231,10 +231,10 @@
         </div>
       </ng-template>
       <ng-template let-row="row" ngx-datatable-cell-template>
-        <p *ngIf="row.contract.implementationDeadline == null">
+        <p *ngIf="row.contract.implementationDeadline == null || row.contract.implementationDeadline == 'undefined' || row.contract.implementationDeadline == 'undefined ' ||  row.contract.implementationDeadline == 'undefined udefined' || row.contract.implementationDeadline == 'n/a'">
           -
         </p>
-        <p *ngIf="row.contract.implementationDeadline != null">
+        <p *ngIf="row.contract.implementationDeadline != null && row.contract.implementationDeadline !== 'undefined' && row.contract.implementationDeadline !== 'undefined ' && row.contract.implementationDeadline !== 'undefined udefined' && row.contract.implementationDeadline !== 'n/a'">
           {{ row.contract.implementationDeadline }}
         </p>
       </ng-template>
@@ -300,7 +300,7 @@
       <ng-template ngx-datatable-footer-template let-rowCount="rowCount" let-pageSize="pageSize" let-selectedCount="selectedCount"
         let-curPage="curPage" let-offset="offset">
         <div style="padding: 5px 10px;width: 50%;">
-          Kontrata: {{rowCount}} | Të shfaqura: {{pageSize}} | Faqja: {{curPage}}
+          {{ 'datatable.contracts' | translate }} {{rowCount}} | {{ 'datatable.displayedContracts' | translate }} {{pageSize}} | {{ 'datatable.page' | translate }} {{curPage}}
         </div>
         <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'" [pagerRightArrowIcon]="'datatable-icon-right'" [pagerPreviousIcon]="'datatable-icon-prev'"
           [pagerNextIcon]="'datatable-icon-skip'" [page]="curPage" [size]="pageSize" [count]="rowCount" [hidden]="!((rowCount / pageSize) > 1)"

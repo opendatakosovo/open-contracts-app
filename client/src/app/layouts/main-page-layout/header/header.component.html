@@ -49,10 +49,20 @@
         <a class="nav-link" [routerLink]="['/about-us']">{{ 'navigation.aboutUs' | translate }}</a>
       </li>
       <li *ngIf="width>991" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-        <a class="nav-link open-businesses" href="http://biznesetehapura.com/sq" target="_blank" style="width: 192px;">{{ 'navigation.openBusinesses' | translate }}</a>
+        <div *ngIf="this.translate.currentLang === 'sq'">
+            <a class="nav-link open-businesses" href="http://biznesetehapura.com/sq" target="_blank" style="width: 192px;">{{ 'navigation.openBusinesses' | translate }}</a>
+        </div>
+        <div *ngIf="this.translate.currentLang === 'en' || this.translate.currentLang === 'sr'">
+            <a class="nav-link open-businesses" href="http://biznesetehapura.com/en" target="_blank" style="width: 192px;">{{ 'navigation.openBusinesses' | translate }}</a>
+        </div>
       </li>
       <li *ngIf="991>=width" class="nav-item" data-toggle="collapse" data-target="#mainNav" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-        <a class="nav-link open-businesses" href="http://biznesetehapura.com/sq" target="_blank" style="width: 192px;">{{ 'navigation.openBusinesses' | translate }}</a>
+          <div *ngIf="this.translate.currentLang === 'sq'">
+              <a class="nav-link open-businesses" href="http://biznesetehapura.com/sq" target="_blank" style="width: 192px;">{{ 'navigation.openBusinesses' | translate }}</a>
+          </div>
+          <div *ngIf="this.translate.currentLang === 'en' || this.translate.currentLang === 'sr'">
+              <a class="nav-link open-businesses" href="http://biznesetehapura.com/en" target="_blank" style="width: 192px;">{{ 'navigation.openBusinesses' | translate }}</a>
+          </div>
       </li>
     </ul>
     <div *ngIf="width>991">

@@ -36,7 +36,8 @@
         "noOfCompaniesWhoSubmited": "Number of the EO who submited the offers",
         "procurementNumber": "Nr. of procurement",
         "amountOfDifferenceBetweenTheEstimatedValueAndtotalWithContractTax": "Amount of difference between the estimated value and total with contract tax",
-        "visualisationsTitle": "Top ten contracts with the highest value"
+        "visualisationsTitle": "Top ten contracts with the highest value",
+        "chooseDate": "Choose Date"
     },
     "dataset": {
         "title": "DATA SET",

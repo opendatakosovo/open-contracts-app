@@ -6,7 +6,7 @@
       "contractByProcurementType": "Numri i kontratave në bazë të tipit së prokurimit",
       "contractByProcurementProcedure": "Numri i kontratave në bazë të procedurës së prokurimit",
       "contractByYearWithPredictedValueTotalAmount": "Krahasimi në mes vlerës së parashikuar dhe vlerës totale të kontratave",
-      "predictedValue": "Vlera parashikuar kontratës",
+      "predictedValue": "Vlera e parashikuar e kontratës",
       "totalValueOfContract": "Vlera totale e kontratës me taksa",
       "values": "Vlerat",
       "numberOfContractsByDirectorate": "Numri i kontratave në bazë të drejtorive",

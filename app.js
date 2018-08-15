@@ -41,7 +41,7 @@ app.use(bodyParser.json());
 
 // Index Route
 app.get("/", (req, res) => {
-  res.send("Invalid");
+  res.send("Loading...");
 });
 
 // Log every request into console

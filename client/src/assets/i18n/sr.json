@@ -36,7 +36,8 @@
         "noOfCompaniesWhoSubmited": "Broj EO koji su dostavili ponude",
         "procurementNumber": "Br. nabavke",
         "amountOfDifferenceBetweenTheEstimatedValueAndtotalWithContractTax": "Iznos razlike između procenjene vrednosti i ukupnog poreza na ugovor",
-        "visualisationsTitle": "Top deset ugovora sa najvišom vrednošću"
+        "visualisationsTitle": "Top deset ugovora sa najvišom vrednošću",
+        "chooseDate": "Izaberite datum"
     },
     "dataset": {
         "title": "SET PODATAKA",

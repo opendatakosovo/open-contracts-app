@@ -36,7 +36,8 @@
         "page": "Faqja:",
         "procurementNumber": "Nr. i prokurimit",
         "amountOfDifferenceBetweenTheEstimatedValueAndtotalWithContractTax": "Shuma e diferencës në mes vlerës parashikuar dhe totale me taksa të kontratës",
-        "visualisationsTitle": "Top dhjetë kontratat me vlerën më të madhe"
+        "visualisationsTitle": "Top dhjetë kontratat me vlerën më të madhe",
+        "chooseDate": "Zgjedhni datën"
     },
     "dataset": {
         "title": "SETI I TË DHËNAVE",

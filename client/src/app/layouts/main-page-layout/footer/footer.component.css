@@ -30,16 +30,16 @@
 }
 
 .footerImage .komunaPrishtines a {
-       padding-left: 38%; 
+       padding-left: 38%;
 }
 
 .footerImage .komunaPrishtines h5 {
        padding-left: 0;
-       text-align: center; 
+       text-align: center;
 }
 
 .footerImage .komunaPrishtines img {
-    padding-left: 0;
+    padding-left: 7px;
 }
 
 .footerImage .dashboard {
@@ -48,7 +48,7 @@
 }
 
 .footerImage .dashboard img {
-    padding-left: 35%; 
+    padding-left: 35%;
 }
 
 .text {
@@ -149,9 +149,14 @@ img {
     margin-bottom: 2px;
 }
 
+.text a {
+  color: #fff;
+  text-decoration: none;
+}
+
 @media(max-width: 1200px) {
     #techstitution-logo {
-        padding-left:30%; 
+        padding-left:30%;
     }
 }
 
@@ -163,7 +168,7 @@ img {
         height: 89px;
     }
     .footerImage .komunaPrishtines a {
-        padding-left: 34%; 
+        padding-left: 34%;
  }
 }
 
@@ -194,7 +199,7 @@ img {
     }
 
     .footerImage .komunaPrishtines a, #techstitution-logo {
-        padding-left: 45%; 
+        padding-left: 45%;
     }
 
     .footerImage .dashboard {
@@ -224,6 +229,6 @@ img {
 
 @media(max-width: 450px) {
     .footerImage .komunaPrishtines a, #techstitution-logo {
-        padding-left: 42%; 
+        padding-left: 42%;
     }
 }
