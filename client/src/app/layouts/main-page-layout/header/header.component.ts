@@ -5,7 +5,7 @@ import { UserService } from '../../../service/user.service';
 import { User } from '../../../models/user';
 import { Title } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { PageScrollInstance, PageScrollService } from 'ngx-page-scroll';
 @Component({
   selector: 'app-header',
@@ -18,7 +18,7 @@ export class HeaderComponent implements OnInit {
   selectedItem = 'sq';
   isActive: boolean;
   currentUser: User;
-  constructor(public translate: TranslateService, private titleService: Title, private router: Router,
+  constructor(public translate: TranslateService, private titleService: Title, private router: Router, private route: ActivatedRoute,
     @Inject(DOCUMENT) private document: any, private pageScrollService: PageScrollService, private userService: UserService) {
     this.isActive = false;
     if (localStorage.getItem('language')) {
@@ -29,9 +29,10 @@ export class HeaderComponent implements OnInit {
       translate.use('sq');
       localStorage.setItem('language', 'sq');
     }
+    this.selectedItem = this.route.snapshot.params['language'];
     this.currentUser = JSON.parse(localStorage.getItem('user'));
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      this.translate.get('pageTitle.title')
+      this.translate.get('pageTitle')
         .takeUntil(this.unsubscribeAll)
         .subscribe(name => {
           this.titleService.setTitle(name);
@@ -78,8 +79,9 @@ export class HeaderComponent implements OnInit {
     this.translate.setDefaultLang(language);
     this.translate.use(language);
     localStorage.setItem('language', language);
+    language = this.route.snapshot.params['language'];
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      this.translate.get('pageTitle.title')
+      this.translate.get('pageTitle')
         .takeUntil(this.unsubscribeAll)
         .subscribe(name => {
           this.titleService.setTitle(name);
