@@ -9,10 +9,10 @@ import { DirectorateService } from '../../../service/directorate.service';
 import Swal from 'sweetalert2';
 import { ActivatedRoute } from '@angular/router';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
-import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder, FormArray, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from '../../../models/user';
-
+import { CustomValidator } from '../../../validators/custom-validator';
 @Component({
   selector: 'app-edit-contract',
   templateUrl: './edit-contract.component.html',
@@ -66,7 +66,7 @@ export class EditContractComponent implements OnInit {
       });
     this.form = _fb.group({
       activityTitle: new FormControl('', Validators.required),
-      procurementNo: new FormControl(null, Validators.required),
+      procurementNo: new FormControl(null, [Validators.required, CustomValidator.isZero()]),
       procurementType: '',
       procurementValue: '',
       procurementProcedure: '',
@@ -110,7 +110,7 @@ export class EditContractComponent implements OnInit {
       discountAmountFromContract: '',
       flagStatus: null,
       totalPayedPriceForContract: '',
-      year: '',
+      year: new FormControl(null, [Validators.required, CustomValidator.isZero()]),
       fppClassification: new FormControl(null, Validators.maxLength(2)),
       directorate: '',
       nameOfProcurementOffical: '',
@@ -377,7 +377,6 @@ export class EditContractComponent implements OnInit {
     e.preventDefault();
     this.calculateValues();
     if (this.form.valid === true) {
-      console.log(this.form.value.implementationDeadlineNumber);
       if (this.filesToUpload !== null && this.valid === true) {
         if (this.form.value.implementationDeadlineNumber !== null && this.form.value.implementationDeadlineNumber !== '' && this.form.value.implementationDeadlineNumber !== undefined) {
           this.contract.contract.implementationDeadline = this.form.value.implementationDeadlineNumber + ' ' + this.form.value.implementationDeadlineDuration;

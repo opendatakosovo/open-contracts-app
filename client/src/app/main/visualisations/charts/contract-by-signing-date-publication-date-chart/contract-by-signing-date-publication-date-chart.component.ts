@@ -69,10 +69,10 @@ export class ContractBySigningDatePublicationDateChartComponent implements OnIni
             pointFormat: ` {point.y:%d.%m.%Y}`
           },
           series: [{
-            name: translateVis[this.lang]['publicationDate'],
+            name: translateVis[this.lang]['signingDate'],
             data: data.signingDates
           }, {
-            name: translateVis[this.lang]['signingDate'],
+            name: translateVis[this.lang]['publicationDate'],
             data: data.publicationDatesOfGivenContracts
           }]
         });

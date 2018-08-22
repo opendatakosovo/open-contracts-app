@@ -60,7 +60,7 @@ export class ContractsCountByYearsChartComponent implements OnInit {
             enabled: false
           },
           series: [{
-            name: translateVis[this.lang]['year'],
+            name: translateVis[this.lang]['numberOfContracts'],
             data: res
           }]
         });

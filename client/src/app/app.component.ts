@@ -16,7 +16,7 @@ export class AppComponent {
 
   constructor(private meta: Meta, private translate: TranslateService, private titleService: Title, private router: Router) {
     translate.setDefaultLang('sq');
-    this.translate.get('pageTitle.title')
+    this.translate.get('pageTitle')
       .takeUntil(this.unsubscribeAll)
       .subscribe(name => {
         this.titleService.setTitle(name);

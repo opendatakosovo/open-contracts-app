@@ -78,7 +78,7 @@ router.get('/get-directorates-of-contracts', (req, res) => {
                 propObj: { name: 'Prona', y: 0 },
                 urbanObj: { name: 'Urbanizmi', y: 0 },
                 inspeObj: { name: 'Inspekcioni', y: 0 },
-                planObj: { name: 'Planifikimit', y: 0 },
+                planObj: { name: 'Planifikimi', y: 0 },
                 parkObj: { name: 'Parqeve', y: 0 },
             }
             let toBeRemoved = [];

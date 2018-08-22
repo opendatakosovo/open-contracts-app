@@ -100,7 +100,7 @@ export class AddContractComponent implements OnInit {
       lastInstallmentAmount: '',
       discountAmountFromContract: '',
       totalPayedPriceForContract: '',
-      year: '',
+      year: new FormControl(null, [Validators.required, CustomValidator.isZero()]),
       fppClassification: new FormControl(null, Validators.maxLength(2)),
       directorate: '',
       nameOfProcurementOffical: '',
@@ -246,8 +246,9 @@ export class AddContractComponent implements OnInit {
       if (this.filesToUpload !== null && this.valid === true) {
         if (this.form.value.implementationDeadlineNumber !== null && this.form.value.implementationDeadlineNumber !== '') {
           if (this.form.value.implementationDeadlineDuration !== '') {
-          this.contract.contract.implementationDeadline = this.form.value.implementationDeadlineNumber + ' ' + this.form.value.implementationDeadlineDuration;
-        }} else {
+            this.contract.contract.implementationDeadline = this.form.value.implementationDeadlineNumber + ' ' + this.form.value.implementationDeadlineDuration;
+          }
+        } else {
           this.contract.contract.implementationDeadline = '';
         }
         this.contract.approvalDateOfFunds =
