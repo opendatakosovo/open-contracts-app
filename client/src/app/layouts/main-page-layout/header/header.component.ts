@@ -5,7 +5,7 @@ import { UserService } from '../../../service/user.service';
 import { User } from '../../../models/user';
 import { Title } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { PageScrollInstance, PageScrollService } from 'ngx-page-scroll';
 @Component({
   selector: 'app-header',
@@ -16,20 +16,25 @@ export class HeaderComponent implements OnInit {
   private unsubscribeAll: Subject<any> = new Subject<any>();
   width: number = window.innerWidth;
   selectedItem = 'sq';
+  language = 'sq';
   isActive: boolean;
   currentUser: User;
-  constructor(public translate: TranslateService, private titleService: Title, private router: Router, private route: ActivatedRoute,
-    @Inject(DOCUMENT) private document: any, private pageScrollService: PageScrollService, private userService: UserService) {
+  selected = 'sq';
+  currentRoute: string;
+  constructor(public translate: TranslateService, private titleService: Title, private router: Router,
+    @Inject(DOCUMENT) private document: any, private pageScrollService: PageScrollService, private userService: UserService, private route: ActivatedRoute) {
     this.isActive = false;
-    if (localStorage.getItem('language')) {
-      translate.setDefaultLang(localStorage.getItem('language'));
-      translate.use(localStorage.getItem('language'));
-    } else {
-      translate.setDefaultLang('sq');
-      translate.use('sq');
-      localStorage.setItem('language', 'sq');
+    this.currentRoute = this.router.url;
+    if (this.translate.currentLang === 'sq' || this.currentRoute === '/sq' || this.router.url === '/sq/visualisations') {
+      this.language = 'sq';
+      this.translate.use(this.language);
+    } else if (this.translate.currentLang === 'sr' || this.currentRoute === '/sr' || this.router.url === '/sr/visualisations') {
+      this.language = 'sr';
+      this.translate.use(this.language);
+    } else if (this.translate.currentLang === 'en' || this.currentRoute === '/en' || this.router.url === '/en/visualisations') {
+      this.language = 'en';
+      this.translate.use(this.language);
     }
-    this.selectedItem = this.route.snapshot.params['language'];
     this.currentUser = JSON.parse(localStorage.getItem('user'));
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.translate.get('pageTitle')
@@ -39,47 +44,111 @@ export class HeaderComponent implements OnInit {
         });
     });
   }
-  ngOnInit() { }
-
+  ngOnInit() {
+    this.activeClasses();
+  }
+  activeClasses() {
+    setTimeout(() => {
+      const navItem = document.querySelector('.visualisations');
+      const home = document.getElementById('home-nav');
+      const about = document.querySelector('.about-us');
+      if (this.router.url === '/sq/visualisations' || this.router.url === '/sr/visualisations' || this.router.url === '/en/visualisations') {
+        navItem.classList.add('active');
+        home.classList.remove('active');
+        about.classList.remove('active');
+      } else if (this.router.url === '/sq' || this.router.url === '/sr' || this.router.url === '/en') {
+        navItem.classList.remove('active');
+        home.classList.add('active');
+        about.classList.remove('active');
+      } else {
+        home.classList.remove('active');
+        navItem.classList.remove('active');
+        about.classList.add('active');
+      }
+    }, 1);
+  }
   scroll() {
-    this.router.navigate(['']);
+    this.router.navigate(['', this.language]);
     setTimeout(() => {
       const pageScrollInstance: PageScrollInstance = PageScrollInstance.simpleInstance(this.document, '#data-set');
       this.pageScrollService.start(pageScrollInstance);
     }, 250);
+    this.activeClasses();
   }
   clickDataSet() {
     const dataSet = document.querySelector('.data-set-link');
-    const navItem = document.querySelector('.nav-items');
+    const navItem = document.querySelector('.visualisations');
     const home = document.getElementById('home-nav');
+    const about = document.querySelector('.about-us');
     dataSet.classList.add('data-set-link-active');
     navItem.classList.remove('active');
+    about.classList.remove('active');
     home.removeAttribute('class');
     home.setAttribute('class', 'inactive');
     if (navItem.classList.contains('active') === true) {
       navItem.classList.remove('active');
       home.setAttribute('class', 'inactive');
     }
+    this.activeClasses();
   }
   clickNav() {
     const dataSet = document.querySelector('.data-set-link');
     const home = document.getElementById('home-nav');
     dataSet.classList.remove('data-set-link-active');
   }
+  clickVisualisations() {
+    const navItem = document.querySelector('.visualisations');
+    const home = document.getElementById('home-nav');
+    const about = document.querySelector('.about-us');
+    navItem.classList.add('active');
+    home.classList.remove('active');
+    about.classList.remove('active');
+    if (this.language === 'sq') {
+      this.router.navigate(['/sq/visualisations']);
+    } else if (this.language === 'en') {
+      this.router.navigate(['/en/visualisations']);
+    } else {
+      this.router.navigate(['/sr/visualisations']);
+    }
+  }
+  clickAboutUs() {
+    if (this.language === 'sq') {
+      this.router.navigate(['/sq/about-us']);
+    } else if (this.language === 'en') {
+      this.router.navigate(['/en/about-us']);
+    } else {
+      this.router.navigate(['/sr/about-us']);
+    }
+    this.activeClasses();
+  }
   clickHome() {
     const dataSet = document.querySelector('.data-set-link');
     const home = document.getElementById('home-nav');
     dataSet.classList.remove('data-set-link-active');
     home.setAttribute('class', 'active');
+    this.activeClasses();
   }
   onResize() {
     this.width = window.innerWidth;
   }
   useLanguage(language: string) {
+    let next;
+    if (this.router.url === '/sq' || this.router.url === '/en' || this.router.url === '/sr') {
+      next = '/' + language;
+    } else if (this.router.url === '/sq/visualisations' && language !== 'sq') {
+      next = '/' + language + '/visualisations';
+    } else if (this.router.url === '/en/visualisations' && language !== 'en') {
+      next = '/' + language + '/visualisations';
+    } else if (this.router.url === '/sr/visualisations' && language !== 'sr') {
+      next = '/' + language + '/visualisations';
+    } else {
+      next = '/' + this.router.url;
+    }
     this.translate.setDefaultLang(language);
     this.translate.use(language);
-    localStorage.setItem('language', language);
-    language = this.route.snapshot.params['language'];
+    this.language = language;
+    localStorage.setItem('language', this.language);
+    this.router.navigate([next]);
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.translate.get('pageTitle')
         .takeUntil(this.unsubscribeAll)

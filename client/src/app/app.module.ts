@@ -75,9 +75,18 @@ const appRoutes: Routes = [
     path: '',
     component: LayoutComponent,
     children: [
-      { path: '', component: HomeComponent },
-      { path: 'visualisations', component: VisualisationsComponent },
-      { path: 'about-us', component: AboutUsComponent },
+      { path: '', redirectTo: 'sq', pathMatch: 'full' },
+      { path: 'sq', component: HomeComponent },
+      { path: 'sr', component: HomeComponent },
+      { path: 'en', component: HomeComponent },
+      { path: 'visualisations', redirectTo: 'sq/visualisations', pathMatch: 'full' },
+      { path: 'sq/visualisations', component: VisualisationsComponent },
+      { path: 'sr/visualisations', component: VisualisationsComponent },
+      { path: 'en/visualisations', component: VisualisationsComponent },
+      { path: 'about-us', redirectTo: 'sq/about-us', pathMatch: 'full' },
+      { path: 'sq/about-us', component: AboutUsComponent },
+      { path: 'sr/about-us', component: AboutUsComponent },
+      { path: 'en/about-us', component: AboutUsComponent },
     ]
   },
   {

@@ -2,7 +2,7 @@
     "pageTitle": "Open Contracts",
     "navigation": {
         "home": "HOME",
-        "visualizations": "VISUALIZATIONS",
+        "visualizations": "VISUALISATIONS",
         "dataset": "DATA SET",
         "aboutUs": "ABOUT US",
         "openBusinesses": "OPEN BUSINESSES"
@@ -84,11 +84,11 @@
         "to": "to Homepage"
     },
     "visualisations": {
-        "title": "Visualizations",
+        "title": "Visualisations",
         "subtitle": "Find out the records on the contracts concluded over the years",
-        "description": "Here you can find various forms of visualizations that show about contracts that have been connected by the Municipality of Prishtina\n with different economic operators over the years. Learning top ten companies with most contracts.\n Compare the dates of the contract award with the dates of their signature. Find out which are the most contingent directories and the highest value contracts.",
+        "description": "Here you can find various forms of visualisations that show about contracts that have been connected by the Municipality of Prishtina\n with different economic operators over the years. Learning top ten companies with most contracts.\n Compare the dates of the contract award with the dates of their signature. Find out which are the most contingent directories and the highest value contracts.",
         "allYears": "All",
-        "notification": "Notice: Click on the company shown in the visualization to see all the contracts it has with the municipality",
+        "notification": "Notice: Click on the company shown in the visualisation to see all the contracts it has with the municipality",
         "allContractsOfOE": "All company contracts"
     }
 }
