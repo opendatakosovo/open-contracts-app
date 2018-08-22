@@ -18,7 +18,7 @@ export class DashboardLayoutComponent implements OnInit {
     private userService: UserService,
     private router: Router, private translate: TranslateService, private titleService: Title
   ) {
-    this.translate.get('pageTitle.title')
+    this.translate.get('pageTitle')
       .takeUntil(this.unsubscribeAll)
       .subscribe(name => {
         this.titleService.setTitle(name);
