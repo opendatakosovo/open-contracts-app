@@ -15,9 +15,10 @@ export class DirectoratesTableComponent implements OnInit {
 
   constructor(public dataService: DataService) {
     this.dataService.getContractsMostByTotalAmountOfContract('any')
-    .takeUntil(this.unsubscribeAll)
+      .takeUntil(this.unsubscribeAll)
       .subscribe(res => {
         this.contracts = res;
+        console.log(this.contracts);
       });
     this.dataService.getContractYears(2009)
       .takeUntil(this.unsubscribeAll)
@@ -33,6 +34,14 @@ export class DirectoratesTableComponent implements OnInit {
       .subscribe(res => {
         this.contracts = res;
       });
+  }
+
+  getClassByValue(value) {
+    if (Number(value.replace(/[^0-9\.-]+/g, '')) > 0.00) {
+      return 'active';
+    } else {
+      return 'inactive';
+    }
   }
 
   ngOnInit() {
