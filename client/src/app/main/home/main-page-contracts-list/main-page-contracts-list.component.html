@@ -41,7 +41,7 @@
     [limit]="page.size" [messages]="messages" [scrollbarH]="true" (page)='setPage($event)' [externalSorting]="true" (scroll)="onTableScroll($event)">
     <ngx-datatable-column name="activity-title" prop="activityTitle">
       <ng-template let-column="column" ngx-datatable-header-template>
-        <span (click)="sortContracts('activityTitle1')">
+        <span (click)="sortContracts('activityTitleSlug')">
           <p class="column-header">{{ 'datatable.activityTitle' | translate }}</p>
         </span>
         <div class="sort-icons">

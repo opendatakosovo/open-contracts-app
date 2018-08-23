@@ -21,11 +21,7 @@ export class AppComponent {
       .subscribe(name => {
         this.titleService.setTitle(name);
       });
-    this.router.events
-      .takeUntil(this.unsubscribeAll)
-      .subscribe((evt) => {
-        window.scrollTo(0, 0);
-      });
+  
   }
 
 }

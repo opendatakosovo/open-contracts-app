@@ -21,10 +21,10 @@
   <div class="collapse navbar-collapse auto justify-content-between" id="mainNav">
     <ul class="navbar-nav navbar-left">
       <li *ngIf="width>991" id="home-nav" class="nav-item nav-items" (click)="clickHome()">
-        <a class="nav-link" id="home" [routerLink]="['', this.language]">{{ 'navigation.home' | translate }}</a>
+        <a class="nav-link" id="home" [routerLink]="['', this.language]" (click)="scrollHome()">{{ 'navigation.home' | translate }}</a>
       </li>
       <li *ngIf="991>=width" id="home-nav" class="nav-item nav-items" (click)="clickHome()" data-toggle="collapse" data-target="#mainNav">
-        <a class="nav-link" id="home" [routerLink]="['', this.language]">{{ 'navigation.home' | translate }}</a>
+        <a class="nav-link" id="home" [routerLink]="['', this.language]" (click)="scrollHome()">{{ 'navigation.home' | translate }}</a>
       </li>
       <li *ngIf="width>991" class="nav-item nav-items" (click)="clickDataSet()" class="data-set-link">
         <a class="nav-link" (click)="scroll()">{{ 'navigation.dataset' | translate }}</a>
@@ -65,15 +65,15 @@
     <div *ngIf="width>991">
       <ul class="navbar-nav navbar-right text-dark">
         <li class="nav-item">
-          <a class="nav-link" [ngClass]="{'active': this.translate.currentLang === 'sq'}" (click)="useLanguage('sq')">SHQ</a>
+          <a class="nav-link" [ngClass]="{'active': this.translate.currentLang === 'sq'}" (click)="useLanguage('sq')">SQ</a>
         </li>
         <span id="horizontalLine">|</span>
         <li class="nav-item">
-          <a class="nav-link" [ngClass]="{'active': this.translate.currentLang === 'sr'}" (click)="useLanguage('sr')">SRB</a>
+          <a class="nav-link" [ngClass]="{'active': this.translate.currentLang === 'sr'}" (click)="useLanguage('sr')">SR</a>
         </li>
         <span id="horizontalLine">|</span>
         <li class="nav-item">
-          <a class="nav-link" [ngClass]="{'active': this.translate.currentLang === 'en'}" (click)="useLanguage('en')">ENG</a>
+          <a class="nav-link" [ngClass]="{'active': this.translate.currentLang === 'en'}" (click)="useLanguage('en')">EN</a>
         </li>
         <li class="nav-item" *ngIf="currentUser !== null && width>991">
           <a class="nav-link" [routerLink]="['/dashboard']" class="view-icon">
@@ -87,13 +87,13 @@
         <select id="lang-select" class="btn btn-outline-info dropdown-toggle" data-toggle="dropdown" (change)="useLanguage($event.target.value)"
           role="button" aria-haspopup="true" aria-expanded="false">
           <option class="nav-item" [value]="'sq'">
-            <a class="nav-link" [ngClass]="{'active': this.translate.currentLang === 'sq'}">SHQ</a>
+            <a class="nav-link" [ngClass]="{'active': this.translate.currentLang === 'sq'}">SQ</a>
           </option>
           <option class="nav-item" [value]="'sr'">
-            <a class="nav-link" [ngClass]="{'active': this.translate.currentLang === 'sr'}">SRB</a>
+            <a class="nav-link" [ngClass]="{'active': this.translate.currentLang === 'sr'}">SR</a>
           </option>
           <option class="nav-item" [value]="'en'">
-            <a class="nav-link" [ngClass]="{'active': this.translate.currentLang === 'en'}">ENG</a>
+            <a class="nav-link" [ngClass]="{'active': this.translate.currentLang === 'en'}">EN</a>
           </option>
         </select>
         <li class="nav-item" *ngIf="currentUser !== null">

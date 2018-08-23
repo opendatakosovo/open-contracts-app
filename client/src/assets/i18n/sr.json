@@ -69,7 +69,7 @@
         "gck": "Girls Coding Kosova ",
         "projectDescription4": "pokrenuti i podržani od strane ",
         "unicef": "UNICEF ",
-        "projectDescription5": "Kancelarija na Kosovu.\n\nTehnologije koje se koriste za izradu platforme “Otvoreni ugovori“ su: MongoDB, EkpressJS, NodeJS, Ugao."
+        "projectDescription5": "Kancelarija na Kosovu.\n\nTehnologije koje se koriste za izradu platforme “Otvoreni ugovori“ su: MongoDB, ExpressJS, NodeJS, Angular."
     },
     "footer": {
         "municipality": "Opština Priština",
