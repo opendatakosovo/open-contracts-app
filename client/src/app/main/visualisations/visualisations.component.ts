@@ -10,6 +10,7 @@ import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 export class VisualisationsComponent implements OnInit {
   language = 'sq';
   constructor(private router: Router, private route: ActivatedRoute, public translate: TranslateService) {
+    window.scrollTo(0, 0);
     const currentRoute = this.router.url;
     if (this.translate.currentLang === 'sq' || this.router.url === '/sq/visualisations') {
       this.language = 'sq';

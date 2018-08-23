@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { DatasetService } from '../../service/dataset.service';
 import { Dataset } from '../../models/dataset';
 import { ContractsService } from '../../service/contracts.service';
+import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -15,17 +16,30 @@ export class HomeComponent implements OnInit {
   dataSets: Dataset[];
   data: string;
   format: string;
+  language = 'sq';
   constructor(private translate: TranslateService, public datasetService: DatasetService,
-    public contractService: ContractsService) {
+    public contractService: ContractsService, public router: Router, public rout: ActivatedRoute) {
     translate.setDefaultLang('sq');
     this.datasetService.getDatasets()
       .takeUntil(this.unsubscribeAll)
       .subscribe(data => {
         this.dataSets = data;
       });
+    window.scroll(0, 0);
+
   }
 
   ngOnInit() {
+    if ((this.router.url.split('?', 1)[0] === '/sq' && this.router.url.split('?', 2).length > 1)) {
+      this.language = 'sq';
+      this.translate.use(this.language);
+    } else if ((this.router.url.split('?', 1)[0] === '/sr' && this.router.url.split('?', 2).length > 1)) {
+      this.language = 'sr';
+      this.translate.use(this.language);
+    } else if ((this.router.url.split('?', 1)[0] === '/en' && this.router.url.split('?', 2).length > 1)) {
+      this.language = 'en';
+      this.translate.use(this.language);
+    }
   }
 
   mouseOver() {

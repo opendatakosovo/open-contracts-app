@@ -30,6 +30,8 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
   page = new Page();
   rows = new Array<Contract>();
   currentUser: User;
+  isSortedDesc: Boolean;
+  isSortedAsc: Boolean;
   private ref: ChangeDetectorRef;
   private datatableBodyElement: Element;
   search = {
@@ -53,6 +55,8 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
     this.totalContracts = 0;
     this.contract = new Contract();
     this.ref = ref;
+    this.isSortedDesc = false;
+    this.isSortedAsc = false;
     this.directorateService.getAllDirectorates()
     .takeUntil(this.unsubscribeAll)
     .subscribe(data => {
@@ -96,8 +100,22 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
   setPage(pageInfo) {
     this.page.pageNumber = pageInfo.offset;
     this.search.pageInfo.pageNumber = pageInfo.offset;
-    if (this.page.totalElements === this.totalContracts) {
+    if (this.page.totalElements === this.totalContracts && ( this.isSortedAsc === false || this.isSortedDesc === false )) {
       this.contractsService.serverPagination(this.page)
+        .takeUntil(this.unsubscribeAll)
+        .subscribe(pagedData => {
+          this.page = pagedData.page;
+          this.rows = pagedData.data;
+        });
+    } else if ( this.isSortedAsc === false || this.isSortedDesc === true ) {
+      this.contractsService.serverSortContractsAscending(this.page)
+        .takeUntil(this.unsubscribeAll)
+        .subscribe(pagedData => {
+          this.page = pagedData.page;
+          this.rows = pagedData.data;
+        });
+    } else if ( this.isSortedAsc === true || this.isSortedDesc === false ) {
+      this.contractsService.serverSortContractsDescending(this.page)
         .takeUntil(this.unsubscribeAll)
         .subscribe(pagedData => {
           this.page = pagedData.page;
@@ -125,6 +143,8 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
     this.page.column = column;
     const asc = document.getElementById('sort').classList.contains('asc');
     const desc = document.getElementById('sort').classList.contains('desc');
+    this.isSortedAsc = asc;
+    this.isSortedDesc = desc;
     this.rows = [];
     this.messages = {
       emptyMessage: `
@@ -252,7 +272,7 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
   onDateInputChange(event) {
     const val = event.target.value;
     if (val === '') {
-      this.contractsService.serverPaginationLatestContracts(this.page)
+      this.contractsService.serverPagination(this.page)
         .takeUntil(this.unsubscribeAll)
         .subscribe(pagedData => {
           this.page = pagedData.page;
