@@ -28,6 +28,7 @@
     "angular-highcharts": "6.2.6",
     "angular2-jwt": "0.2.3",
     "bootstrap": "4.1.1",
+    "classlist.js": "^1.1.20150312",
     "core-js": "2.4.1",
     "express-validator": "2.20.4",
     "font-awesome": "4.7.0",
