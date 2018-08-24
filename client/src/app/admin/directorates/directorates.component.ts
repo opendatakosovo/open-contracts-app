@@ -7,7 +7,7 @@ import { Directorate } from '../../models/directorates';
 import { User } from '../../models/user';
 import { UserService } from '../../service/user.service';
 import Swal from 'sweetalert2';
-
+import { CheckIfServerDown } from "../../utils/CheckIfServerDown";
 
 @Component({
   selector: 'app-directorates',
@@ -27,7 +27,7 @@ export class DirectoratesComponent implements OnInit {
   peopleInChargeId = [];
   peopleInCharge = [];
   currentUser: User;
-  constructor(public directorateService: DirectorateService, private modalService: BsModalService, public userService: UserService) {
+  constructor(public directorateService: DirectorateService, private modalService: BsModalService, public userService: UserService, public checkIfServerDown: CheckIfServerDown) {
     this.directorate = new Directorate();
     this.directorateModal = new Directorate();
     this.usersInCharge = [];
@@ -37,7 +37,10 @@ export class DirectoratesComponent implements OnInit {
       .takeUntil(this.unsubscribeAll)
       .subscribe(data => {
         this.directorates = data;
-      });
+      },
+          err => {
+          this.checkIfServerDown.check(err.status)
+          });
     this.currentUser = JSON.parse(localStorage.getItem('user'));
   }
 

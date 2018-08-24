@@ -13,6 +13,7 @@ import { DatepickerModule, BsDatepickerModule } from 'ngx-bootstrap';
 import { NgxPageScrollModule } from 'ngx-page-scroll';
 import { NgDatepickerModule } from 'ng2-datepicker';
 
+
 import { AppComponent } from './app.component';
 import { LoginComponent } from './main/login/login.component';
 import { HomeComponent } from './main/home/home.component';
@@ -42,8 +43,6 @@ import { DataService } from './service/data.service';
 import { ChartModule } from 'angular-highcharts';
 
 
-
-
 import { AuthGuard } from './guards/auth.guard';
 import { ContractInformationComponent } from './admin/contracts/contract-information/contract-information.component';
 import { ContractsListComponent } from './admin/contracts/contracts-list/contracts-list.component';
@@ -64,6 +63,7 @@ import { ContractsCountByProcurementProcedureAndYearComponent } from './main/vis
 import { ResetPasswordComponent } from './main/reset-password/reset-password.component';
 import { fromPromise } from '../../node_modules/rxjs/observable/fromPromise';
 import { ChangePasswordMainComponent } from './main/change-password-main/change-password-main.component';
+import {CheckIfServerDown} from "./utils/CheckIfServerDown";
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -148,7 +148,7 @@ const appRoutes: Routes = [
     ContractsCountByProcurementValueAndYearComponent,
     ContractsCountByProcurementProcedureAndYearComponent,
     ResetPasswordComponent,
-    ChangePasswordMainComponent
+    ChangePasswordMainComponent,
   ],
   imports: [
     BrowserModule,
@@ -183,7 +183,8 @@ const appRoutes: Routes = [
     ContractsService,
     DatasetService,
     CommentService,
-    DataService
+    DataService,
+    CheckIfServerDown
   ],
   bootstrap: [AppComponent]
 })

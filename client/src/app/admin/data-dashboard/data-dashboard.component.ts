@@ -5,6 +5,7 @@ import { Dataset } from '../../models/dataset';
 import Swal from 'sweetalert2';
 import { User } from '../../models/user';
 import { Router } from '@angular/router';
+import { CheckIfServerDown } from "../../utils/CheckIfServerDown";
 
 @Component({
   selector: 'app-data-dashboard',
@@ -18,12 +19,14 @@ export class DataDashboardComponent implements OnInit {
   dataSets: Dataset[];
   nameArea: HTMLInputElement;
   currentUser: User;
-  constructor(public datasetService: DatasetService, private route: Router) {
+  constructor(public datasetService: DatasetService, private route: Router, public checkIfServerDown: CheckIfServerDown) {
     this.dataSet = new Dataset;
     this.datasetService.getDatasets()
       .takeUntil(this.unsubscribeAll)
       .subscribe(data => {
         this.dataSets = data;
+      }, err => {
+        this.checkIfServerDown.check(err.status)
       });
     this.currentUser = JSON.parse(localStorage.getItem('user'));
   }
