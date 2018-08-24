@@ -122,7 +122,7 @@ export class DirectoratesComponent implements OnInit {
     }
   }
   // Function for opening show directorate information modal
-  showDirectorate(event) {
+  showDirectorate(template, event) {
     this.peopleInCharge = [];
     const id = event.target.dataset.id;
     this.directorateService.getDirectorateById(id)
@@ -137,6 +137,7 @@ export class DirectoratesComponent implements OnInit {
             });
         });
       });
+    this.modalRef = this.modalService.show(template);
   }
 
   // Function for opening edit directorate modal

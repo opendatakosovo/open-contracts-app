@@ -12,3 +12,6 @@
 #year-input {
     padding: 0;
 }
+.active {
+    color: red;
+}

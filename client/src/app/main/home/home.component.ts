@@ -5,6 +5,9 @@ import { DatasetService } from '../../service/dataset.service';
 import { Dataset } from '../../models/dataset';
 import { ContractsService } from '../../service/contracts.service';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
+import { Meta } from '@angular/platform-browser';
+declare var require: any;
+const translateVis = require('../../utils/socialMediaTranslation.json');
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -18,7 +21,7 @@ export class HomeComponent implements OnInit {
   format: string;
   language = 'sq';
   constructor(private translate: TranslateService, public datasetService: DatasetService,
-    public contractService: ContractsService, public router: Router, public rout: ActivatedRoute) {
+    public contractService: ContractsService, public router: Router, public rout: ActivatedRoute, private meta: Meta) {
     translate.setDefaultLang('sq');
     this.datasetService.getDatasets()
       .takeUntil(this.unsubscribeAll)
@@ -26,7 +29,6 @@ export class HomeComponent implements OnInit {
         this.dataSets = data;
       });
     window.scroll(0, 0);
-
   }
 
   ngOnInit() {

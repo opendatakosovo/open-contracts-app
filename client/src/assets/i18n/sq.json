@@ -1,5 +1,5 @@
 {
-    "pageTitle": "Kontratat e hapura",
+    "pageTitle": "Kontratat e Hapura",
     "navigation": {
         "home": "BALLINA",
         "visualizations": "VIZUALIZIMET",
@@ -86,7 +86,7 @@
     "visualisations": {
         "title": "Vizualizimet",
         "subtitle": "Zbuloni të dhënat mbi kontratat e lidhura ndër vite",
-        "description": "Këtu mund të gjeni forma të ndryshme të vizualizimeve që tregojnë rreth kontratave që ka lidhur Komuna e Prishtinës\n me operatorë të ndryshëm ekonomik ndër vite. Mësoni top dhjetë kompanitë me më së shumti kontrata.\n Krahasoni datat e publikimit të dhënjes së kontratave me datat e nënshkrimit të tyre. Gjeni cilat janë drejtoritë me më së shumti kontrata si dhe kontratat me vleren më të madhe.",
+        "description": "Këtu mund të gjeni forma të ndryshme të vizualizimeve që tregojnë rreth kontratave që ka lidhur Komuna e Prishtinës me operatorë të ndryshëm ekonomik ndër vite. Mësoni top dhjetë kompanitë me më së shumti kontrata. Krahasoni datat e publikimit të dhënjes së kontratave me datat e nënshkrimit të tyre. Gjeni cilat janë drejtoritë me më së shumti kontrata si dhe kontratat me vleren më të madhe.",
         "allYears": "Të gjitha",
         "notification": "Njoftim: Klikoni mbi kompaninë e paraqitur në vizualizim, që t’i shihni të gjitha kontratat që ajo ka me komunën",
         "allContractsOfOE": "Të gjitha kontratat e kompanisë"
