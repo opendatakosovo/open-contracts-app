@@ -5,6 +5,9 @@ import { DatasetService } from '../../service/dataset.service';
 import { Dataset } from '../../models/dataset';
 import { ContractsService } from '../../service/contracts.service';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
+import { Meta } from '@angular/platform-browser';
+declare var require: any;
+const translateVis = require('../../utils/socialMediaTranslation.json');
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -18,7 +21,7 @@ export class HomeComponent implements OnInit {
   format: string;
   language = 'sq';
   constructor(private translate: TranslateService, public datasetService: DatasetService,
-    public contractService: ContractsService, public router: Router, public rout: ActivatedRoute) {
+    public contractService: ContractsService, public router: Router, public rout: ActivatedRoute, private meta: Meta) {
     translate.setDefaultLang('sq');
     this.datasetService.getDatasets()
       .takeUntil(this.unsubscribeAll)
@@ -27,6 +30,17 @@ export class HomeComponent implements OnInit {
       });
     window.scroll(0, 0);
 
+    // Facebook meta tags
+    this.meta.updateTag({ property: 'og:title', content: translateVis[this.translate.currentLang]['title'] });
+    this.meta.updateTag({ property: 'og:site_name', content: translateVis[this.translate.currentLang]['title'] });
+    this.meta.updateTag({ property: 'og:description', content: translateVis[this.translate.currentLang]['description'] });
+    this.meta.updateTag({ property: 'og:image:url', content: translateVis[this.translate.currentLang]['image'] });
+    this.meta.updateTag({ property: 'og:url', content: translateVis[this.translate.currentLang]['url'] });
+
+    // Twitter meta tags
+    this.meta.updateTag({ property: 'twitter:title', content: translateVis[this.translate.currentLang]['title'] });
+    this.meta.updateTag({ property: 'twitter:description', content: translateVis[this.translate.currentLang]['description'] });
+    this.meta.updateTag({ property: 'twitter:image', content: translateVis[this.translate.currentLang]['image'] });
   }
 
   ngOnInit() {
