@@ -16,8 +16,8 @@
     <table class="table table-hover">
       <tbody id="directorate-list">
         <tr *ngFor="let directorate of directorates" [id]="directorate._id">
-          <td class="directorate-info" style="cursor:pointer" data-toggle="tooltip" title="Shfaq drejtorinë" data-toggle="modal" data-target="#directorate-modal"
-            (click)="showDirectorate($event)" [attr.data-id]="directorate._id" *ngIf="directorate.directorateIsActive == true">
+          <td class="directorate-info" style="cursor:pointer" data-toggle="tooltip" title="Shfaq drejtorinë" (click)="showDirectorate(showDirectorateModal, $event)"
+            [attr.data-id]="directorate._id" *ngIf="directorate.directorateIsActive == true">
             <p class="name" [attr.data-id]="directorate._id">{{ directorate.directorateName }}</p>
           </td>
           <td *ngIf="directorate.directorateIsActive == false">
@@ -146,14 +146,14 @@
   <!-- Add and delete people in charge -->
 
   <!-- Show Directorate Infos Modal -->
-  <div class="modal fade" id="directorate-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+  <ng-template #showDirectorateModal>
+    <div id="directorate-modal">
       <div class="modal-content">
         <table class="table directorate-table table-hover">
           <thead>
             <th id="directorate-header" colspan="2">
               <span id="tableHeadText">Të dhënat e Drejtorisë</span>
-              <button type="button" name="close" class="close" data-dismiss="modal">&times;</button>
+              <button type="button" name="close" class="close" (click)="modalRef.hide()">&times;</button>
             </th>
           </thead>
           <tbody id="directorate-information">
@@ -179,11 +179,11 @@
           </tbody>
         </table>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Mbyll</button>
+          <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Mbyll</button>
         </div>
       </div>
     </div>
-  </div>
+  </ng-template>
   <!-- Show Directorate Infos Modal -->
 
 
