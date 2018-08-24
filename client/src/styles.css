@@ -33,14 +33,14 @@
     padding-left: 14px;
 }
 .ngx-datatable.bootstrap .datatable-footer {
-    background: #fff;
+    background: #fff !important;
     color: #c1bbbb;
 }
 .ngx-datatable.bootstrap .datatable-footer .datatable-pager a {
     color: #c1bbbb;
 }
 .ngx-datatable.bootstrap .datatable-footer .datatable-pager ul li:not(.disabled).active a, .ngx-datatable.bootstrap .datatable-footer .datatable-pager ul li:not(.disabled):hover a {
-    background-color: #fff;
+    background-color: #fff !important;
     color: #32a6bd;
 }
 .ngx-datatable .datatable-body .datatable-row-wrapper {

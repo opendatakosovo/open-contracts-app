@@ -46,7 +46,13 @@ export class HeaderComponent implements OnInit {
   }
   ngOnInit() {
     this.activeClasses();
-    window.scroll(0, 0);
+    if (this.route.snapshot.queryParamMap.has('string') === true || this.route.snapshot.queryParamMap.has('directorate') === true
+      || this.route.snapshot.queryParamMap.has('date') === true || this.route.snapshot.queryParamMap.has('value') === true) {
+      setTimeout(() => {
+        const pageScrollInstance: PageScrollInstance = PageScrollInstance.simpleInstance(this.document, '#filter-form');
+        this.pageScrollService.start(pageScrollInstance);
+      }, 250);
+    }
   }
   activeClasses() {
     setTimeout(() => {
@@ -89,7 +95,7 @@ export class HeaderComponent implements OnInit {
     setTimeout(() => {
       const pageScrollInstance: PageScrollInstance = PageScrollInstance.simpleInstance(this.document, '#data-set');
       this.pageScrollService.start(pageScrollInstance);
-    }, 250);
+    }, 1000);
   }
   clickDataSet() {
     const dataSet = document.querySelector('.data-set-link');
@@ -210,7 +216,6 @@ export class HeaderComponent implements OnInit {
     }
     this.translate.setDefaultLang(language);
     this.translate.use(language);
-    console.log(navigationExtras);
     this.language = language;
     localStorage.setItem('language', this.language);
     this.router.navigate([next], navigationExtras);
