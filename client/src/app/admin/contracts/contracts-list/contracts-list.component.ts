@@ -11,6 +11,7 @@ import { Page } from '../../../models/page';
 import { DatatableComponent } from '@swimlane/ngx-datatable/src/components/datatable.component';
 import { BsDatepickerConfig, BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { User } from '../../../models/user';
+import { CheckIfServerDown } from "../../../utils/CheckIfServerDown";
 
 
 @Component({
@@ -48,7 +49,7 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
   @ViewChild('table') table: DatatableComponent;
 
   constructor(public contractsService: ContractsService, private modalService: BsModalService, ref: ChangeDetectorRef,
-              public directorateService: DirectorateService) {
+              public directorateService: DirectorateService, public checkIfServerDown: CheckIfServerDown) {
     this.page.pageNumber = 0;
     this.page.size = 10;
     this.contractModal = new Contract();
@@ -61,7 +62,10 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
     .takeUntil(this.unsubscribeAll)
     .subscribe(data => {
       this.directorates = data;
-    });
+    },
+        err => {
+          this.checkIfServerDown.check(err.status)
+        });
     this.search = {
       string: '',
       directorate: '',

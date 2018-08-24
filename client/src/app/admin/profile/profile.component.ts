@@ -8,6 +8,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 import Swal from 'sweetalert2';
 import { Directorate } from '../../models/directorates';
 import { DirectorateService } from '../../service/directorate.service';
+import { CheckIfServerDown } from "../../utils/CheckIfServerDown";
 
 @Component({
   selector: 'app-profile',
@@ -26,7 +27,7 @@ export class ProfileComponent implements OnInit {
   bsModalRef: BsModalRef;
   directorates: Directorate[];
 
-  constructor(private userService: UserService, private modalService: BsModalService, public directorateService: DirectorateService) {
+  constructor(private userService: UserService, private modalService: BsModalService, public directorateService: DirectorateService, public checkIfServerDown: CheckIfServerDown) {
     this.user = new User();
     this.userModal = new User();
     this.currentUser = JSON.parse(localStorage.getItem('user'));
@@ -37,6 +38,8 @@ export class ProfileComponent implements OnInit {
       .takeUntil(this.unsubscribeAll)
       .subscribe(data => {
         this.user = data;
+      }, err => {
+          this.checkIfServerDown.check(err.status)
       });
   }
 
