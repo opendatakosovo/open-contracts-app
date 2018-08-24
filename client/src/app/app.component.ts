@@ -21,7 +21,6 @@ export class AppComponent {
       .subscribe(name => {
         this.titleService.setTitle(name);
       });
-  
   }
 
 }

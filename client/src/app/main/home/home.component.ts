@@ -29,18 +29,6 @@ export class HomeComponent implements OnInit {
         this.dataSets = data;
       });
     window.scroll(0, 0);
-
-    // Facebook meta tags
-    this.meta.updateTag({ property: 'og:title', content: translateVis[this.translate.currentLang]['title'] });
-    this.meta.updateTag({ property: 'og:site_name', content: translateVis[this.translate.currentLang]['title'] });
-    this.meta.updateTag({ property: 'og:description', content: translateVis[this.translate.currentLang]['description'] });
-    this.meta.updateTag({ property: 'og:image:url', content: translateVis[this.translate.currentLang]['image'] });
-    this.meta.updateTag({ property: 'og:url', content: translateVis[this.translate.currentLang]['url'] });
-
-    // Twitter meta tags
-    this.meta.updateTag({ property: 'twitter:title', content: translateVis[this.translate.currentLang]['title'] });
-    this.meta.updateTag({ property: 'twitter:description', content: translateVis[this.translate.currentLang]['description'] });
-    this.meta.updateTag({ property: 'twitter:image', content: translateVis[this.translate.currentLang]['image'] });
   }
 
   ngOnInit() {

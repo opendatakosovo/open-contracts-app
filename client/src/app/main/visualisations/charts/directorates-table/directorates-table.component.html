@@ -33,7 +33,7 @@
         <td>{{contract.companyName}}</td>
         <td>{{contract.predictedValue}} €</td>
         <td>{{contract.totalAmountOfContractsIncludingTaxes}} €</td>
-        <td [ngClass]="getClassByValue(contract.differenceAmountBetweenPredictedAndTotal)">{{contract.differenceAmountBetweenPredictedAndTotal}}
+        <td [ngClass]="getClassByValue(contract.predictedValue, contract.totalAmountOfContractsIncludingTaxes)">{{contract.differenceAmountBetweenPredictedAndTotal}}
           €
         </td>
         <td>{{contract.publicationDateOfGivenContract == "-" ? contract.publicationDateOfGivenContract : contract.publicationDateOfGivenContract

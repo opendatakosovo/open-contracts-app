@@ -18,7 +18,6 @@ export class DirectoratesTableComponent implements OnInit {
       .takeUntil(this.unsubscribeAll)
       .subscribe(res => {
         this.contracts = res;
-        console.log(this.contracts);
       });
     this.dataService.getContractYears(2009)
       .takeUntil(this.unsubscribeAll)
@@ -36,11 +35,11 @@ export class DirectoratesTableComponent implements OnInit {
       });
   }
 
-  getClassByValue(value) {
-    if (Number(value.replace(/[^0-9\.-]+/g, '')) > 0.00) {
-      return 'active';
-    } else {
+  getClassByValue(predictedValue, totalAmount) {
+    if (Number(predictedValue.replace(/[^0-9\.-]+/g, '')) > Number(totalAmount.replace(/[^0-9\.-]+/g, '')) || Number(predictedValue.replace(/[^0-9\.-]+/g, '')) === Number(totalAmount.replace(/[^0-9\.-]+/g, ''))) {
       return 'inactive';
+    } else {
+      return 'active';
     }
   }
 
