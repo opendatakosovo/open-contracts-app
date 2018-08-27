@@ -54,6 +54,7 @@ _site/
 *.swp
 logs/
 build/
+.idea
 
 # Sublime editor
 # ==============
