@@ -8,6 +8,7 @@ import { User } from '../../models/user';
 import { UserService } from '../../service/user.service';
 import Swal from 'sweetalert2';
 import { CheckIfServerDown } from "../../utils/CheckIfServerDown";
+import { CheckIfUserIsActive } from '../../utils/CheckIfUserIsActive';
 
 @Component({
   selector: 'app-directorates',
@@ -27,7 +28,11 @@ export class DirectoratesComponent implements OnInit {
   peopleInChargeId = [];
   peopleInCharge = [];
   currentUser: User;
-  constructor(public directorateService: DirectorateService, private modalService: BsModalService, public userService: UserService, public checkIfServerDown: CheckIfServerDown) {
+  constructor(public directorateService: DirectorateService, 
+    private modalService: BsModalService, 
+    public userService: UserService, 
+    public checkIfServerDown: CheckIfServerDown,
+    private checkIfUserIsActive: CheckIfUserIsActive) {
     this.directorate = new Directorate();
     this.directorateModal = new Directorate();
     this.usersInCharge = [];
@@ -45,6 +50,7 @@ export class DirectoratesComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.checkIfUserIsActive.check();
   }
 
   // Function for opening add directorate modal

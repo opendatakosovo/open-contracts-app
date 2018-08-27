@@ -71,6 +71,10 @@ export class UserService {
     return this.http.getWithAuth(`${this.APIUrl}/user/` + id).map(res => res.json().user);
   }
 
+  isActive(id) {
+    return this.http.getWithAuth(`${this.APIUrl}/user/isActive/` + id).map(res => res.json().isActive);
+  }
+
   getAllSimpleActiveUsers() {
     return this.http.getWithAuth(`${this.APIUrl}/user/simple-users`).map(res => res.json());
   }
@@ -109,4 +113,7 @@ export class UserService {
   changePasswordWithToken(user, token) {
     return this.http.post(`${this.APIUrl}/user/change-password-admin/${token}`, user).map(res => res.json());
   }
+
+
+  
 }
