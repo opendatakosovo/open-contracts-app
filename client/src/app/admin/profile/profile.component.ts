@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import { Directorate } from '../../models/directorates';
 import { DirectorateService } from '../../service/directorate.service';
 import { CheckIfServerDown } from "../../utils/CheckIfServerDown";
+import { CheckIfUserIsActive } from '../../utils/CheckIfUserIsActive';
 
 @Component({
   selector: 'app-profile',
@@ -27,13 +28,19 @@ export class ProfileComponent implements OnInit {
   bsModalRef: BsModalRef;
   directorates: Directorate[];
 
-  constructor(private userService: UserService, private modalService: BsModalService, public directorateService: DirectorateService, public checkIfServerDown: CheckIfServerDown) {
+  constructor(private userService: UserService, 
+    private modalService: BsModalService, 
+    public directorateService: DirectorateService, 
+    public checkIfServerDown: CheckIfServerDown,
+    private checkIfUserIsActive: CheckIfUserIsActive) {
     this.user = new User();
     this.userModal = new User();
     this.currentUser = JSON.parse(localStorage.getItem('user'));
   }
 
   ngOnInit() {
+    this.checkIfUserIsActive.check();
+
     this.userService.getUserByID(this.currentUser.id)
       .takeUntil(this.unsubscribeAll)
       .subscribe(data => {

@@ -64,6 +64,7 @@ import { ResetPasswordComponent } from './main/reset-password/reset-password.com
 import { fromPromise } from '../../node_modules/rxjs/observable/fromPromise';
 import { ChangePasswordMainComponent } from './main/change-password-main/change-password-main.component';
 import {CheckIfServerDown} from "./utils/CheckIfServerDown";
+import { CheckIfUserIsActive } from './utils/CheckIfUserIsActive';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -184,7 +185,8 @@ const appRoutes: Routes = [
     DatasetService,
     CommentService,
     DataService,
-    CheckIfServerDown
+    CheckIfServerDown,
+    CheckIfUserIsActive
   ],
   bootstrap: [AppComponent]
 })

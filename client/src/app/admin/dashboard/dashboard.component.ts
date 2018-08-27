@@ -8,6 +8,8 @@ import { DirectorateData } from './DirectorateData';
 import { ContractData } from './ContractData';
 import { DashboardLayoutComponent} from "../../layouts/dashboard-page-layout/dashboard-layout/dashboard-layout.component";
 import { CheckIfServerDown} from "../../utils/CheckIfServerDown";
+import { UserService } from '../../service/user.service';
+import { CheckIfUserIsActive } from '../../utils/CheckIfUserIsActive';
 
 @Component({
   selector: 'app-dashboard',
@@ -24,13 +26,19 @@ export class DashboardComponent implements OnInit {
   directoratesByStatusChart: Chart;
   contractsByFlagStatusChart: Chart;
 
-  constructor(public dataService: DataService, private checkIfServerDown: CheckIfServerDown) {
+  constructor(public dataService: DataService, private checkIfServerDown: CheckIfServerDown,
+  private checkIfUserIsActive: CheckIfUserIsActive) {
     this.userData = new UserData();
     this.directorateData = new DirectorateData();
     this.contractData = new ContractData();
+
+    
   }
 
   ngOnInit() {
+
+    this.checkIfUserIsActive.check();
+
     this.dataService.getUserData()
       .takeUntil(this.unsubscribeAll)
       .subscribe(userDataRes => {

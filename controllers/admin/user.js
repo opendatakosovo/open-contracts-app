@@ -123,6 +123,25 @@ router.get('/:id', passport.authenticate('jwt', { session: false }), authorizati
     });
 });
 
+// Route for checking if the user is active
+
+router.get('/isActive/:id', passport.authenticate('jwt', { session: false }), authorization("superadmin", "admin", "user"), (req, res) => {
+    User.getUserById(req.params.id, (err, user) => {
+        if (!err) {
+            res.json({
+                "msg": "User has been retrived successfully",
+                "isActive": user.isActive,
+                "success": true
+            })
+        } else {
+            res.json({
+                "err": err,
+                "success": false
+            });
+        }
+    });
+});
+
 // Route for deleting a user by id
 router.delete('/:id', passport.authenticate('jwt', { session: false }), authorization("superadmin", "admin"), (req, res) => {
     User.deleteUserById(req.params.id, (err, user) => {
@@ -401,4 +420,6 @@ router.post('/change-password-admin/:token', (req, res) => {
         res.json({ "err": err })
     });
 });
+
+
 module.exports = router;
