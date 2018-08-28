@@ -7,7 +7,8 @@
         </h1>
       </div>
       <div class="col-md-6">
-        <a style="float:right" class="btn btn-outline-primary buttons" id="contracts-buttons" [routerLink]="['/dashboard/contracts']">Kthehu tek kontratat</a>
+        <a style="float:right" class="btn btn-outline-primary buttons" id="contracts-buttons" [routerLink]="['/dashboard/contracts']">Kthehu
+          tek kontratat</a>
       </div>
     </div>
     <form action="" [formGroup]="form" #contractForm="ngForm" (submit)="updateContract($event)" class="form-i" enctype="multipart/form-data">
@@ -17,7 +18,8 @@
             <label for="activityTitle">Titulli i aktivitetit të prokurimit</label>
             <input type="text" name="activityTitle" id="activityTitle" class="form-control" [ngClass]="{'errInput': !form.controls.activityTitle.valid && (form.controls.activityTitle.touched || contractForm.submitted) }"
               formControlName="activityTitle" [(ngModel)]="contract.activityTitle" required>
-            <div [hidden]="form.controls.activityTitle.valid || (!form.controls.activityTitle.touched && !contractForm.submitted)" class="error-msg">Titulli i aktivitetit të prokurimit duhet plotësuar</div>
+            <div [hidden]="form.controls.activityTitle.valid || (!form.controls.activityTitle.touched && !contractForm.submitted)" class="error-msg">Titulli
+              i aktivitetit të prokurimit duhet plotësuar</div>
           </div>
           <div class="col-md-6" style="padding-top:22px;">
             <div class="radioButtons">
@@ -52,7 +54,8 @@
             <label>Nr. rendor i prokurimit</label>
             <input type="number" name="procurementNo" id="procurementNo" formControlName="procurementNo" [ngClass]="{'errInput': !form.controls.procurementNo.valid && (form.controls.procurementNo.touched || contractForm.submitted) }"
               [(ngModel)]="contract.procurementNo" class="form-control" required>
-            <div [hidden]="form.controls.procurementNo.valid || (!form.controls.procurementNo.touched && !contractForm.submitted)" class="error-msg">Nr. rendor i prokurimit duhet plotësuar</div>
+            <div [hidden]="form.controls.procurementNo.valid || (!form.controls.procurementNo.touched && !contractForm.submitted)" class="error-msg">Nr.
+              rendor i prokurimit duhet plotësuar</div>
           </div>
           <div class="col-md-3 form-group">
             <div class="form-group">
@@ -89,8 +92,10 @@
               <option value="Procedura e hapur">Procedura e hapur</option>
               <option value="Procedura e kufizuar">Procedura e kufizuar</option>
               <option value="Konkurs projektimi">Konkurs projektimi</option>
-              <option value="Procedura e negociuar pas publikimit të njoftimit të kontratës">Procedura e negociuar pas publikimit të njoftimit të kontratës</option>
-              <option value="Procedura e negociuar pa publikim të njoftimit të kontratës">Procedura e negociuar pa publikim të njoftimit të kontratës</option>
+              <option value="Procedura e negociuar pas publikimit të njoftimit të kontratës">Procedura e negociuar pas publikimit
+                të njoftimit të kontratës</option>
+              <option value="Procedura e negociuar pa publikim të njoftimit të kontratës">Procedura e negociuar pa publikim
+                të njoftimit të kontratës</option>
               <option value="Procedura e kuotimit të Çmimeve">Procedura e kuotimit të Çmimeve</option>
               <option value="Procedura vlerës minimale">Procedura vlerës minimale</option>
             </select>
