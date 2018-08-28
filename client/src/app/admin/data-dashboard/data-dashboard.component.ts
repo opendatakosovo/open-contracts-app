@@ -5,7 +5,7 @@ import { Dataset } from '../../models/dataset';
 import Swal from 'sweetalert2';
 import { User } from '../../models/user';
 import { Router } from '@angular/router';
-import { CheckIfServerDown } from "../../utils/CheckIfServerDown";
+import { CheckIfServerDown } from '../../utils/CheckIfServerDown';
 import { CheckIfUserIsActive } from '../../utils/CheckIfUserIsActive';
 
 @Component({
@@ -20,8 +20,8 @@ export class DataDashboardComponent implements OnInit {
   dataSets: Dataset[];
   nameArea: HTMLInputElement;
   currentUser: User;
-  constructor(public datasetService: DatasetService, 
-    private route: Router, 
+  constructor(public datasetService: DatasetService,
+    private route: Router,
     private checkIfServerDown: CheckIfServerDown,
     private checkIfUserIsActive: CheckIfUserIsActive) {
     this.dataSet = new Dataset;
@@ -30,7 +30,7 @@ export class DataDashboardComponent implements OnInit {
       .subscribe(data => {
         this.dataSets = data;
       }, err => {
-        this.checkIfServerDown.check(err.status)
+        this.checkIfServerDown.check(err.status);
       });
     this.currentUser = JSON.parse(localStorage.getItem('user'));
   }
@@ -186,6 +186,16 @@ export class DataDashboardComponent implements OnInit {
       this.route.navigate(['/dashboard']);
     }
     this.nameArea = <HTMLInputElement>document.getElementById('name-area');
+  }
+
+  onChange(event) {
+    const dataset = event.target.dataset.id;
+    const folder = event.target.dataset.folder;
+    if (event.target.value === 'csv') {
+      window.location.href = '/datasets/' + folder + '/' + dataset;
+    } else if (event.target.value === 'json') {
+      window.location.href = '/datasets/json/' + dataset.replace('.csv', '');
+    }
   }
 
 }

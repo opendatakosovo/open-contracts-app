@@ -281,9 +281,9 @@ let investment = ['Investime', 'Investimet ka', 'Drejtoria i Investimeve Kapital
 let culture = ['Kultura', 'Kulturë', 'kultur', 'Drejtoria e Kulturës', 'Drejtoria Kulturës', 'Drejtoria kulturës', 'Drejtoria e kulturës', 'Drejtoria e kulturës, rinisë dhe sportit'];
 let publicServices = ['Sh.Publike', 'Sh.p', 'Sherb publike', 'Sherbime Pub', 'Sherbime publike', 'sherbime Pub', 'Drejtoria e shërbimeve publike', 'Drejtoria e Shërbimeve Publike', 'Shërbime Publike, Mbrojtjes dhe Shpëtimit', 'Drejtoria e Shërbimeve Publike, Mbrojtjes dhe Shpëtimit', 'Drejtoria e shërbimeve publike, mbrojtjes dhe shpëtimit'];
 let health = ['Shendetesi', 'Shendetsia', 'Drejtoria e Shëndetësisë', 'Drejtoria Shëndetësisë', 'Drejtoria shëndetësisë', 'Drejtoria e shëndetësisë'];
-let cadastre = ['Drejtoria e Kadastrit', 'Drejtoria e kadastrit', 'Drejtoria kadastrit', 'Drejtoria Kadastrit','Kadastri', 'kadastri'];
+let cadastre = ['Drejtoria e Kadastrit', 'Drejtoria e kadastrit', 'Drejtoria kadastrit', 'Drejtoria Kadastrit', 'Kadastri', 'kadastri'];
 let socialWelfare = ['Drejtoria e Mirëqenies Sociale', 'Drejtoria e mirëqenies sociale', 'Mirëqenie Sociale', 'Sociale', 'Mireqenie Sociale'];
-let agriculture = ['Drejtoria e Bujqësisë', 'Bujësisë', 'Drejtoria e Bujqësis', 'Drejtoria e bujqësisë', 'Drejtoria bujqësisë',  'Drejtoria Bujqësisë','Bujqësia'];
+let agriculture = ['Drejtoria e Bujqësisë', 'Bujësisë', 'Drejtoria e Bujqësis', 'Drejtoria e bujqësisë', 'Drejtoria bujqësisë', 'Drejtoria Bujqësisë', 'Bujqësia'];
 let fincances = ['Drejtoria e Financave', 'Financa', 'Financës', 'Drejtoria Financës', 'Drejtoria financës', 'Drejtoria e financave'];
 let property = ['Drejtoria e pronës', 'Drejtoria e Pronës', 'Prona', 'Drejtoria Pronës', 'Drejtoria Pronës'];
 let urbanism = ['Drejtoria e urbanizimit', 'Drejtoria e urbanizmit', 'Drejtoria e Urbanizimit', 'Urbanizmi', 'Drejtoria Urbanizimit'];
@@ -791,7 +791,7 @@ module.exports.filterByStringAndDirectorate = (text, directorate, year, role, di
                             { "company.slug": { "$regex": text, "$options": 'i' } }
                         ]
                     },
-                    { "directorates": { "$in": queryArray} }
+                    { "directorates": { "$in": queryArray } }
                     ]
             }
 
@@ -900,7 +900,7 @@ module.exports.filterByStringAndDirectorateCount = (text, directorate, year, rol
                             { "company.slug": { "$regex": text, "$options": 'i' } }
                         ]
                     },
-                    { "directorates": { "$in": queryArray} }
+                    { "directorates": { "$in": queryArray } }
                     ]
             }
 
@@ -1761,7 +1761,7 @@ module.exports.filterbyDirectorateDate = (directorate, date, referenceDate, year
             {
                 "$and":
                     [
-                        { "directoratesSlug": { "$in":queryArray } },
+                        { "directorates": { "$in": queryArray } },
                         {
                             "$or": [
                                 {
@@ -1895,7 +1895,7 @@ module.exports.filterbyDirectorateDateCount = (directorate, date, referenceDate,
             {
                 "$and":
                     [
-                        { "directoratesSlug": { "$in" : queryArray } },
+                        { "directorates": { "$in": queryArray } },
                         {
                             "$or": [
                                 {
@@ -2509,7 +2509,7 @@ module.exports.filterByDirectorateDateValueCount = (directorate, date, reference
             {
                 "$and":
                     [
-                        { "directoratesSlug": { "$in" : queryArray } },
+                        { "directorates": { "$in": queryArray } },
                         {
                             "$or": [
                                 { "contract.predictedValueSlug": { "$regex": value } },
@@ -2765,7 +2765,7 @@ module.exports.filterByStringDirectorateValueCount = (text, directorate, value, 
             {
                 "$and":
                     [
-                        { "directoratesSlug": { "$in": queryArray } },
+                        { "directorates": { "$in": queryArray } },
                         {
                             "$or": [
                                 { "contract.predictedValueSlug": { "$regex": value } },
