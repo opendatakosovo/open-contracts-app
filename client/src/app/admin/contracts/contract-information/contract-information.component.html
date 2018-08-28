@@ -136,10 +136,10 @@
         </div>
         <div class="col-md-6">
           <label>Buxheti</label>
-          <div *ngIf="contract.budget == null">
+          <div *ngIf="contract.budget.length == 0 || contract.budget[0] == ''">
             <p>-</p>
           </div>
-          <div *ngIf="contract.budget != null">
+          <div *ngIf="contract.budget.length > 0">
             <div *ngFor="let budget of contract.budget">
               <p>{{ budget }}</p>
             </div>
@@ -456,10 +456,10 @@
         <br>
         <div class="col-sm-6">
           <label>Afatet për implementimin e kontratës</label>
-          <div *ngIf="contract.contract.implementationDeadline == null || contract.contract.implementationDeadline == ''">
+          <div *ngIf="contract.contract.implementationDeadline == null || contract.contract.implementationDeadline == '' || contract.contract.implementationDeadline == ' undefined'">
             <p>-</p>
           </div>
-          <div *ngIf="contract.contract.implementationDeadline != null">
+          <div *ngIf="contract.contract.implementationDeadline != null && contract.contract.implementationDeadline != '' && contract.contract.implementationDeadline != ' undefined'">
             <p>{{ contract.contract.implementationDeadline }}</p>
           </div>
         </div>
@@ -498,10 +498,10 @@
         <br>
         <div class="col-12">
           <label>Vlera totale e kontratës, duke përfshirë të gjitha anekset dhe të gjitha taksat etj.</label>
-          <div *ngIf="contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes == '' || contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes == null">
+          <div *ngIf="contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes == '' || contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes == null || contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes == 'NaN'">
             <p class="highlighted-values">-</p>
           </div>
-          <div *ngIf="contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes">
+          <div *ngIf="contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes != '' && contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes != null && contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes != 'NaN'">
             <p class="highlighted-values">{{ contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes }} &euro;</p>
           </div>
         </div>

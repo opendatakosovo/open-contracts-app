@@ -51,6 +51,9 @@ export class EditContractComponent implements OnInit {
       .takeUntil(this.unsubscribeAll)
       .subscribe(data => {
         this.contract = data;
+        if (data.bidOpeningDateTime === null) {
+          this.contract.bidOpeningDate = data.bidOpeningDateTime;
+        }
         if (this.contract.contract.file !== '') {
           const nameArea = <HTMLInputElement>document.getElementById('name-area');
           nameArea.value = this.contract.contract.file.toString();
@@ -502,7 +505,6 @@ export class EditContractComponent implements OnInit {
             } else if (res.err) {
               Swal('Gabim!', 'Kontrata nuk u ndryshua.', 'error');
             } else {
-              console.log(this.contract);
               Swal('Sukses!', 'Kontrata u ndryshua me sukses.', 'success').then((result) => {
                 if (result.value) {
                   this.route.navigate(['/dashboard/contracts']);
