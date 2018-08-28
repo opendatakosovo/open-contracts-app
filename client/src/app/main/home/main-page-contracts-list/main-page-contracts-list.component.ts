@@ -86,13 +86,13 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
   };
 
   ngOnInit() {
-    if (( this.route.url.split('?', 1)[0] === '/sq' && this.route.url.split('?', 2).length > 1)) {
+    if ((this.route.url.split('?', 1)[0] === '/sq' && this.route.url.split('?', 2).length > 1)) {
       this.language = 'sq';
       this.translate.use(this.language);
-    } else if (( this.route.url.split('?', 1)[0] === '/sr' && this.route.url.split('?', 2).length > 1)) {
+    } else if ((this.route.url.split('?', 1)[0] === '/sr' && this.route.url.split('?', 2).length > 1)) {
       this.language = 'sr';
       this.translate.use(this.language);
-    } else if (( this.route.url.split('?', 1)[0] === '/en' && this.route.url.split('?', 2).length > 1)) {
+    } else if ((this.route.url.split('?', 1)[0] === '/en' && this.route.url.split('?', 2).length > 1)) {
       this.language = 'en';
       this.translate.use(this.language);
     }
@@ -103,13 +103,13 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
       this.search.directorate = (this.activatedRoute.snapshot.queryParamMap.get('directorate') === 'any' ? 'any' : this.activatedRoute.snapshot.queryParamMap.get('directorate'));
       this.search.date = (this.activatedRoute.snapshot.queryParamMap.get('date') === 'any' ? null : new Date(this.activatedRoute.snapshot.queryParamMap.get('date')));
       this.search.value = (this.activatedRoute.snapshot.queryParamMap.get('value') === 'any' ? 'any' : this.activatedRoute.snapshot.queryParamMap.get('value'));
-      if ( this.search.string === 'any') {
+      if (this.search.string === 'any') {
         this.search.string = '';
       }
-      if ( this.search.directorate === 'any' ) {
+      if (this.search.directorate === 'any') {
         this.search.directorate = '';
       }
-      if ( this.search.value === 'any') {
+      if (this.search.value === 'any') {
         this.search.value = '';
       }
       this.contractsService.filterContract(this.search)
@@ -259,7 +259,7 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
       replaceUrl: false,
       relativeTo: this.activatedRoute,
       queryParams: {
-        'string': this.search.string === '' ? 'any' : this.search.string , 'directorate': this.search.directorate === '' ? 'any' : this.search.directorate ,
+        'string': this.search.string === '' ? 'any' : this.search.string, 'directorate': this.search.directorate === '' ? 'any' : this.search.directorate,
         'date': this.search.date === null ? 'any' : this.search.date.toString(), 'value': this.search.value === '' ? 'any' : this.search.value
       }
     });
@@ -278,17 +278,17 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
     if (val === '') {
       this.search.date = null;
       this.contractsService.filterContract(this.search)
-      .takeUntil(this.unsubscribeAll)
-      .subscribe(data => {
-        this.page = data.page;
-        this.rows = data.data;
-      });
+        .takeUntil(this.unsubscribeAll)
+        .subscribe(data => {
+          this.page = data.page;
+          this.rows = data.data;
+        });
     }
     this.route.navigate([], {
       replaceUrl: false,
       relativeTo: this.activatedRoute,
       queryParams: {
-        'string': this.search.string === '' ? 'any' : this.search.string , 'directorate': this.search.directorate === '' ? 'any' : this.search.directorate ,
+        'string': this.search.string === '' ? 'any' : this.search.string, 'directorate': this.search.directorate === '' ? 'any' : this.search.directorate,
         'date': this.search.date === null ? 'any' : this.search.date.toString(), 'value': this.search.value === '' ? 'any' : this.search.value
       }
     });
@@ -333,7 +333,7 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
     this.route.navigate([], {
       replaceUrl: false,
       queryParams: {
-        'string': this.search.string === '' ? 'any' : this.search.string , 'directorate': this.search.directorate === '' ? 'any' : this.search.directorate ,
+        'string': this.search.string === '' ? 'any' : this.search.string, 'directorate': this.search.directorate === '' ? 'any' : this.search.directorate,
         'date': this.search.date === null ? 'any' : this.search.date.toString(), 'value': this.search.value === '' ? 'any' : this.search.value
       }
     });
@@ -363,12 +363,12 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
         }
       });
     this.table.offset = 0;
-  this.route.navigate([], {
-    replaceUrl: false,
-    queryParams: {
-      'string': this.search.string === '' ? 'any' : this.search.string , 'directorate': this.search.directorate === '' ? 'any' : this.search.directorate ,
-      'date': this.search.date === null ? 'any' : this.search.date.toString(), 'value': this.search.value === '' ? 'any' : this.search.value
-    }
-  });
-}
+    this.route.navigate([], {
+      replaceUrl: false,
+      queryParams: {
+        'string': this.search.string === '' ? 'any' : this.search.string, 'directorate': this.search.directorate === '' ? 'any' : this.search.directorate,
+        'date': this.search.date === null ? 'any' : this.search.date.toString(), 'value': this.search.value === '' ? 'any' : this.search.value
+      }
+    });
+  }
 }

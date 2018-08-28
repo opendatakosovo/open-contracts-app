@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClientService } from './http-client.service';
 import { environment } from '../../environments/environment';
+import {Observable} from "rxjs";
 
 @Injectable()
 export class DatasetService {
@@ -14,7 +15,8 @@ export class DatasetService {
   }
 
   getDatasets() {
-    return this.http.getWithAuth(`${this.APIUrl}/datasets/`).map(res => res.json().datasets);
+      return this.http.getWithAuth(`${this.APIUrl}/datasets/`).map(res => res.json().datasets);
+
   }
 
   getDatasetByYear(year) {

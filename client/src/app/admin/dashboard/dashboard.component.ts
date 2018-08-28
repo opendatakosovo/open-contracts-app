@@ -6,6 +6,10 @@ import { Chart } from 'angular-highcharts';
 import { UserData } from './UserData';
 import { DirectorateData } from './DirectorateData';
 import { ContractData } from './ContractData';
+import { DashboardLayoutComponent} from "../../layouts/dashboard-page-layout/dashboard-layout/dashboard-layout.component";
+import { CheckIfServerDown} from "../../utils/CheckIfServerDown";
+import { UserService } from '../../service/user.service';
+import { CheckIfUserIsActive } from '../../utils/CheckIfUserIsActive';
 
 @Component({
   selector: 'app-dashboard',
@@ -22,13 +26,19 @@ export class DashboardComponent implements OnInit {
   directoratesByStatusChart: Chart;
   contractsByFlagStatusChart: Chart;
 
-  constructor(public dataService: DataService) {
+  constructor(public dataService: DataService, private checkIfServerDown: CheckIfServerDown,
+  private checkIfUserIsActive: CheckIfUserIsActive) {
     this.userData = new UserData();
     this.directorateData = new DirectorateData();
     this.contractData = new ContractData();
+
+    
   }
 
   ngOnInit() {
+
+    this.checkIfUserIsActive.check();
+
     this.dataService.getUserData()
       .takeUntil(this.unsubscribeAll)
       .subscribe(userDataRes => {
@@ -37,6 +47,7 @@ export class DashboardComponent implements OnInit {
         this.renderUsersByRoleChart(this.userData.totalAdminUsers, this.userData.totalSimpleUsers);
       }, err => {
         console.log(err);
+          this.checkIfServerDown.check(err.status)
       });
 
     this.dataService.getDirectorateData()
@@ -46,6 +57,8 @@ export class DashboardComponent implements OnInit {
           this.renderDirectoratesByStatusChart(this.directorateData.totalActiveDirectorates, this.directorateData.totalInactiveDirectorates);
         }, err => {
           console.log(err);
+            this.checkIfServerDown.check(err.status)
+
         });
 
     this.dataService.getContractsData()
@@ -55,6 +68,7 @@ export class DashboardComponent implements OnInit {
         this.renderContractsByFlagStatusChart(this.contractData.totalContractsWithoutFlagStatus, this.contractData.totalPendingContracts, this.contractData.totalCompletedContracts, this.contractData.totalRefusedContracts);
       }, err => {
         console.log(err);
+          this.checkIfServerDown.check(err.status)
       });
   }
 

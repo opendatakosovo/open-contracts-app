@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
+import {Observable} from "rxjs";
 
 
 @Injectable()
@@ -34,7 +35,10 @@ export class HttpClientService {
   getWithAuth(url, contentType = 'json') {
     const headers = new Headers();
     this.createAuthorizationHeader(headers, contentType);
-    return this.http.get(url, { headers: headers });
+    let rs =  this.http.get(url, { headers: headers })
+        // map(res => console.log(res));
+    return rs;
+
   }
 
   postWithAuth(url, body, contentType = 'json') {

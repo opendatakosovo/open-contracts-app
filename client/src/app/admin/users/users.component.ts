@@ -8,6 +8,8 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { Directorate } from '../../models/directorates';
 import { DirectorateService } from '../../service/directorate.service';
 import { Router } from '@angular/router';
+import { CheckIfServerDown } from "../../utils/CheckIfServerDown";
+import { CheckIfUserIsActive } from '../../utils/CheckIfUserIsActive';
 
 @Component({
   selector: 'app-users',
@@ -23,7 +25,12 @@ export class UsersComponent implements OnInit {
   directorateModal: Directorate;
   currentUser: User;
   numberOfDirectorates: number;
-  constructor(public userService: UserService, private modalService: BsModalService, public directorateService: DirectorateService, private route: Router) {
+  constructor(public userService: UserService, 
+    private modalService: BsModalService, 
+    public directorateService: DirectorateService, 
+    private route: Router, 
+    public checkIfServerDown: CheckIfServerDown,
+    private checkIfUserIsActive: CheckIfUserIsActive) {
     this.userModal = new User();
     this.user = new User();
     this.currentUser = new User();
@@ -32,7 +39,10 @@ export class UsersComponent implements OnInit {
       .takeUntil(this.unsubscribeAll)
       .subscribe(data => {
         this.users = data;
-      });
+      },
+          err => {
+            this.checkIfServerDown.check(err.status)
+          });
     this.directorateService.countDirectorates()
       .takeUntil(this.unsubscribeAll)
       .subscribe(data => {
@@ -42,6 +52,8 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.checkIfUserIsActive.check();
+
     if (this.currentUser.role !== 'superadmin' && this.currentUser.role !== 'admin') {
       this.route.navigate(['/dashboard']);
     }

@@ -38,13 +38,14 @@
     padding-right: 50px;
     padding-bottom: 50px;
 }
-.img-fluid {
-    max-width: 100%;
-}
 .img-col {
     width: 65px;
     padding-top: 20px;
     padding-bottom: 20px;
+}
+.img-fluid {
+    width: 100%;
+    max-width: 100%;
 }
 .name {
     font-weight: 500;
@@ -61,23 +62,26 @@
     color: #868e96;
     width: 17px;
     padding-right: 1%;
-    padding-top: 48%;
+    padding-top: 40px;
 }
 .user-info {
     padding-bottom: 0;
-    padding-top: 28px;
+    padding-top: 18px;
     padding-right: 58%;
+    width: 100%;
 }
 .delete-icon {
     color: #868e96;
     width: 17px;
-    padding-top: 47%;
+    padding-top: 38px;
+    
 }
 .view-icon {
     color: #868e96;
     width: 17px;
     padding-right: 1%;
-    padding-top: 47%;
+    padding-top: 38px;
+   
 }
 .form-i {
     margin-bottom: 0;
@@ -91,7 +95,7 @@
 .activate-icon {
     color: #868e96;
     width: 17px;
-    padding-top: 47%;
+    padding-top: 40px;
 }
 .active-text {
     margin-bottom: 0;
@@ -105,11 +109,7 @@
     color: red;
     font-size: 14px;
 }
-.blank-div {
-    width: 17px;
-    padding-right: 15px;
-    padding-top: 47%;
-}
+
 
 /* Add user style */
 #save {
