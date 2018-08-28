@@ -275,13 +275,13 @@ export class AddContractComponent implements OnInit {
           this.contract.contract.signingDate == null ? null : this.dateChange(this.contract.contract.signingDate);
         if (this.contract.installments.length > 1) {
           for (const installment of this.contract.installments) {
-            installment.installmentPayDate1 = this.dateChange(installment.installmentPayDate1);
+            installment.installmentPayDate1 = installment.installmentPayDate1 == null ? null : this.dateChange(installment.installmentPayDate1);
           }
         }
 
         if (this.contract.contract.annexes.length > 1) {
           for (const annex of this.contract.contract.annexes) {
-            annex.annexContractSigningDate1 = this.dateChange(annex.annexContractSigningDate1);
+            annex.annexContractSigningDate1 = annex.annexContractSigningDate1 == null ? null : this.dateChange(annex.annexContractSigningDate1);
           }
         }
         const formData = new FormData();
@@ -353,13 +353,13 @@ export class AddContractComponent implements OnInit {
           this.contract.contract.signingDate == null ? null : this.dateChange(this.contract.contract.signingDate);
         if (this.contract.installments.length > 1) {
           for (const installment of this.contract.installments) {
-            installment.installmentPayDate1 = this.dateChange(installment.installmentPayDate1);
+            installment.installmentPayDate1 = installment.installmentPayDate1 == null ? null : this.dateChange(installment.installmentPayDate1);
           }
         }
 
         if (this.contract.contract.annexes.length > 1) {
           for (const annex of this.contract.contract.annexes) {
-            annex.annexContractSigningDate1 = this.dateChange(annex.annexContractSigningDate1);
+            annex.annexContractSigningDate1 = annex.annexContractSigningDate1 == null ? null : this.dateChange(annex.annexContractSigningDate1);
           }
         }
         this.contractsService.addContract(this.contract)
