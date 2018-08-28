@@ -859,6 +859,7 @@ router.post('/filter', (req, res) => {
     } else if (string === '' && directorate !== '' & date !== null && value === '') {
         Contract.filterbyDirectorateDateCount(directorate, date, referenceDate, year, role, directorateName)
             .then(totalElements => {
+                console.log(totalElements);
                 totalElements.forEach(element => {
                     page.totalElements = element.total
                 });

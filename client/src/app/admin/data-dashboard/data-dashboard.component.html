@@ -50,16 +50,15 @@
                         </div>
                     </td>
                     <td>
-                        <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdown-menu-button" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">
-                                Shkarko
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="/datasets/{{dataSet.folder}}/{{dataSet.datasetFilePath}}">CSV</a>
-                                <a class="dropdown-item" href="/datasets/json/{{ dataSet.datasetFilePath.replace('.csv', '') }}">JSON</a>
-                            </div>
-                        </div>
+                        <select class="custom-select" (change)="onChange($event)" [attr.data-id]="dataSet.datasetFilePath" [attr.data-folder]="dataSet.folder">
+                            <option>Shkarko</option>
+                            <option value="csv">
+                                CSV
+                            </option>
+                            <option value="json">
+                                JSON
+                            </option>
+                        </select>
                     </td>
                 </tr>
             </tbody>
