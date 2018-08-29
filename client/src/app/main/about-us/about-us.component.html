@@ -1,34 +1,38 @@
 <!-- Cover Image/Description-->
 <div style="overflow:auto" class="col-md-12 header" id="bg-img">
-    <div class="row">
-      <div class="col-12 company-header">
-        <div class="row">
-          <h1 id="title">{{ 'aboutUs.title' | translate }}</h1>
+  <div class="row">
+    <div class="col-12 company-header">
+      <div class="row">
+        <h1 id="title">{{ 'aboutUs.title' | translate }}</h1>
+      </div>
+      <div class="row" id="descriptions">
+        <div class="col-md-6">
+          <p class="company-description" id="description1">
+            {{ 'aboutUs.description1' | translate }}
+          </p>
         </div>
-        <div class="row" id="descriptions">
-          <div class="col-md-6">
-            <p class="company-description" id="description1">
-              {{ 'aboutUs.description1' | translate }}
-            </p>
-          </div>
-          <div class="col-md-6">
-            <p class="company-description">
-              {{ 'aboutUs.description2' | translate }}
-            </p>
-          </div>
+        <div class="col-md-6">
+          <p class="company-description">
+            {{ 'aboutUs.description2' | translate }}
+          </p>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <div class="row">
+<div class="row" id="project-row">
   <div class="col-md-12 row project-details" style="margin-top: 3%">
     <div class="col-md-6">
       <img id="project-img" src="/assets/images/hands-on-laptop.jpg" class="img-fluid">
     </div>
     <div class="col-md-6 justify-content-center">
       <p id="project-description">
-        {{ 'aboutUs.projectDescription1' | translate }}<a target="_blank" href="http://techstitution.org/">{{ 'aboutUs.techstitution' | translate }}</a>{{ 'aboutUs.projectDescription2' | translate}}<a target="_blank" href="http://opendatakosovo.org/">{{ 'aboutUs.openDataKosovo' | translate }}</a>{{ 'aboutUs.projectDescription3' | translate}}<a target="_blank" href="http://girlscodingkosova.org/">{{ 'aboutUs.gck' | translate }}</a>{{ 'aboutUs.projectDescription4' | translate}}<a target="_blank" href="http://kosovoinnovations.org/">{{ 'aboutUs.unicef' | translate }}</a>{{ 'aboutUs.projectDescription5' | translate }}
+        {{ 'aboutUs.projectDescription1' | translate }}<a target="_blank" href="http://techstitution.org/">{{ 'aboutUs.techstitution'
+          | translate }}</a>{{ 'aboutUs.projectDescription2' | translate}}<a target="_blank" href="http://opendatakosovo.org/">{{
+          'aboutUs.openDataKosovo' | translate }}</a>{{ 'aboutUs.projectDescription3' | translate}}<a target="_blank" href="http://girlscodingkosova.org/">{{
+          'aboutUs.gck' | translate }}</a>{{ 'aboutUs.projectDescription4' | translate}}<a target="_blank" href="http://kosovoinnovations.org/">{{
+          'aboutUs.unicef' | translate }}</a>{{ 'aboutUs.projectDescription5' | translate }}
       </p>
       <div class="row">
         <div class="col-md-12">

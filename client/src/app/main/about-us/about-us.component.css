@@ -78,9 +78,10 @@
     float: left;
     font-family: 'Roboto', sans-serif;
     color:white;
-    text-align: justify;
 }
-
+#project-row {
+    margin-right: 0px;
+}
 #descriptions {
     margin-right: 85px;
 }
