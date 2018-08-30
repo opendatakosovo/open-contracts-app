@@ -383,7 +383,7 @@ Configure the file upload limit
 sudo nano /etc/nginx/nginx.conf
 
 #Add this line inside the http block:
-client_max_body_size 5M;
+client_max_body_size 100M;
 
 #Then restart Nginx
 sudo service nginx restart
