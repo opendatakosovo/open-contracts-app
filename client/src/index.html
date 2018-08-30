@@ -6,19 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" sizes="32x32" href="favicon.png" type="image/png" />
     <!-- Facebook meta tags -->
-    <meta property="og:title" content="Kontratat e Hapura">
+    <!-- <meta property="og:title" content="Kontratat e Hapura">
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Kontratat e Hapura" />
-    <meta property="og:description" content="K&euml;tu mund t&euml; gjeni t&euml; dh&euml;nat e hapura p&euml;r kontratat n&euml; komun&euml;n e Prishtin&euml;s.">
-    <meta property="og:image:url" content="http://kontratatehapura.prishtinaonline.com/assets/images/social-media.jpg">
-    <meta property="og:url" content="http://kontratatehapura.prishtinaonline.com/">
+    <meta property="og:description" content="K&euml;tu mund t&euml; gjeni t&euml; dh&euml;nat e hapura p&euml;r kontratat n&euml; komun&euml;n e Prishtin&euml;s."> -->
+    <!-- <meta property="og:image:url" content="http://kontratatehapura.prishtinaonline.com/assets/images/social-media.jpg">
+    <meta property="og:url" content="http://kontratatehapura.prishtinaonline.com/"> -->
     <!-- Twitter meta tags -->
-    <meta property="twitter:title" content="Kontratat e Hapura">
-    <meta property="twitter:description" content="K&euml;tu mund t&euml; gjeni t&euml; dh&euml;nat e hapura p&euml;r kontratat n&euml; komun&euml;n e Prishtin&euml;s.">
-    <meta property="twitter:image" content="http://kontratatehapura.prishtinaonline.com/assets/images/social-media.jpg">
+    <!-- <meta property="twitter:title" content="Kontratat e Hapura">
+    <meta property="twitter:description" content="K&euml;tu mund t&euml; gjeni t&euml; dh&euml;nat e hapura p&euml;r kontratat n&euml; komun&euml;n e Prishtin&euml;s."> -->
+    <!-- <meta property="twitter:image" content="http://kontratatehapura.prishtinaonline.com/assets/images/social-media.jpg">
     <meta property="twitter:card" content="summary_large_image">
-    <meta name="twitter:creator" content="@OpenDataKosovo">
+    <meta name="twitter:creator" content="@OpenDataKosovo"> -->
     <script>
+        const head = document.getElementsByTagName('head')[0];
+        const metaTitle = document.createElement('meta');
+        const metaDescription = document.createElement('meta');
+        const metaImage = document.createElement('meta');
+        const metaSiteName = document.createElement('meta');
+        const metaUrl = document.createElement('meta');
+        const metaType = document.createElement('meta');
+
+
         const urlArray = window.location.href.split("/");
         const sq = {
             "description": "Këtu mund të gjeni të dhënat e hapura për kontratat në komunën e Prishtinës.",
@@ -38,51 +47,78 @@
             "image": "http://kontratatehapura.prishtinaonline.com/assets/images/srpski.jpg",
             "url": "http://kontratatehapura.prishtinaonline.com/sr"
         }
-        const facebook_description = document.querySelector('meta[property="og:description"]');
-        const facebook_title = document.querySelector('meta[property="og:title"]');
-        const facebook_image_url = document.querySelector('meta[property="og:image:url"]');
-        const facebook_url = document.querySelector('meta[property="og:url"]');
-        const facebook_site_name = document.querySelector('meta[property="og:site_name"]');
+        // const facebook_description = document.querySelector('meta[property="og:description"]');
+        // const facebook_title = document.querySelector('meta[property="og:title"]');
+        // const facebook_image_url = document.querySelector('meta[property="og:image:url"]');
+        // const facebook_url = document.querySelector('meta[property="og:url"]');
+        // const facebook_site_name = document.querySelector('meta[property="og:site_name"]');
 
-        const twitter_title = document.querySelector('meta[property="twitter:title"]');
-        const twitter_description = document.querySelector('meta[property="twitter:description"]');
-        const twitter_image = document.querySelector('meta[property="twitter:image"]');
+        // const twitter_title = document.querySelector('meta[property="twitter:title"]');
+        // const twitter_description = document.querySelector('meta[property="twitter:description"]');
+        // const twitter_image = document.querySelector('meta[property="twitter:image"]');
         if (urlArray[urlArray.length - 1] == 'sq') {
-            // Facebook meta tags
-            facebook_description.setAttribute("content", sq.description);
-            facebook_title.setAttribute("content", sq.title);
-            facebook_image_url.setAttribute("content", sq.image);
-            facebook_url.setAttribute("content", sq.url);
-            facebook_site_name.setAttribute("content", sq.title);
+            metaTitle.setAttribute('property', 'og:title');
+            metaTitle.content = 'Kontratat e Hapura';
+            metaType.setAttribute('property', 'og:type');
+            metaType.content = 'website';
+            metaSiteName.setAttribute('property', 'og:site_name');
+            metaSiteName.content = 'Kontratat e Hapura';
+            metaDescription.setAttribute('property', 'og:description');
+            metaDescription.content = 'Këtu mund të gjeni të dhënat e hapura për kontratat në komunën e Prishtinës.';
+            metaImage.setAttribute('property', 'og:image:url');
+            metaImage.content = 'http://kontratatehapura.prishtinaonline.com/assets/images/social-media.jpg';
+            metaUrl.setAttribute('property', 'og:url');
+            metaUrl.content = 'http://kontratatehapura.prishtinaonline.com/sq';
 
-            // Twitter meta tags
-            twitter_title.setAttribute("content", sq.title);
-            twitter_description.setAttribute("content", sq.description);
-            twitter_image.setAttribute("content", sq.image);
+            head.appendChild(metaTitle);
+            head.appendChild(metaType);
+            head.appendChild(metaSiteName);
+            head.appendChild(metaDescription);
+            head.appendChild(metaImage);
+            head.appendChild(metaUrl);
+
         } else if (urlArray[urlArray.length - 1] == 'sr') {
-            // Facebook meta tags
-            facebook_description.setAttribute("content", sr.description);
-            facebook_title.setAttribute("content", sr.title);
-            facebook_image_url.setAttribute("content", sr.image);
-            facebook_url.setAttribute("content", sr.url);
-            facebook_site_name.setAttribute("content", sr.title);
+            metaTitle.setAttribute('property', 'og:title');
+            metaTitle.content = 'Javni Ugovori';
+            metaType.setAttribute('property', 'og:type');
+            metaType.content = 'website';
+            metaSiteName.setAttribute('property', 'og:site_name');
+            metaSiteName.content = 'Javni Ugovori';
+            metaDescription.setAttribute('property', 'og:description');
+            metaDescription.content = 'Ovde možete pronaći otvorene podatke za ugovore u opštini Priština.';
+            metaImage.setAttribute('property', 'og:image:url');
+            metaImage.content = 'http://kontratatehapura.prishtinaonline.com/assets/images/srpski.jpg';
+            metaUrl.setAttribute('property', 'og:url');
+            metaUrl.content = 'http://kontratatehapura.prishtinaonline.com/sr';
 
-            // Twitter meta tags
-            twitter_title.setAttribute("content", sr.title);
-            twitter_description.setAttribute("content", sr.description);
-            twitter_image.setAttribute("content", sr.image);
+            head.appendChild(metaTitle);
+            head.appendChild(metaType);
+            head.appendChild(metaSiteName);
+            head.appendChild(metaDescription);
+            head.appendChild(metaImage);
+            head.appendChild(metaUrl);
+
         } else if (urlArray[urlArray.length - 1] == 'en') {
-            // Facebook meta tags
-            facebook_description.setAttribute("content", en.description);
-            facebook_title.setAttribute("content", en.title);
-            facebook_image_url.setAttribute("content", en.image);
-            facebook_url.setAttribute("content", en.url);
-            facebook_site_name.setAttribute("content", en.title);
+            metaTitle.setAttribute('property', 'og:title');
+            metaTitle.content = 'Open Contracts';
+            metaType.setAttribute('property', 'og:type');
+            metaType.content = 'website';
+            metaSiteName.setAttribute('property', 'og:site_name');
+            metaSiteName.content = 'Open Contracts';
+            metaDescription.setAttribute('property', 'og:description');
+            metaDescription.content = 'Here you can find the open data for contracts in the municipality of Pristina.';
+            metaImage.setAttribute('property', 'og:image:url');
+            metaImage.content = 'http://kontratatehapura.prishtinaonline.com/assets/images/english.jpg';
+            metaUrl.setAttribute('property', 'og:url');
+            metaUrl.content = 'http://kontratatehapura.prishtinaonline.com/en';
 
-            // Twitter meta tags
-            twitter_title.setAttribute("content", en.title);
-            twitter_description.setAttribute("content", en.description);
-            twitter_image.setAttribute("content", en.image);
+            head.appendChild(metaTitle);
+            head.appendChild(metaType);
+            head.appendChild(metaSiteName);
+            head.appendChild(metaDescription);
+            head.appendChild(metaImage);
+            head.appendChild(metaUrl);
+
         }
     </script>
     <style>
