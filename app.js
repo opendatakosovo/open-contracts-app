@@ -6,16 +6,16 @@ const passport = require("passport");
 const mongoose = require("mongoose");
 const config = require("./config/database");
 const morgan = require('morgan');
-const serveFavicon = require('serve-favicon')
+const helmet = require('helmet');
 
 require('dotenv').config();
 
 // DB connection
-mongoose.connect(config.database);
+mongoose.connect(config.database, { useNewUrlParser: true });
 mongoose.connection.on("connected", () => {
-  console.log("Connected to database!");
+  console.log("Successfully connected to database!");
 }).catch(err => {
-  console.log(err);
+  console.log('Couldn\'t connect to DB! Error: ', err);
 });
 
 const app = express();
@@ -39,6 +39,8 @@ app.use(express.static(path.join(__dirname, "public")));
 // Body parser middleware
 app.use(bodyParser.json());
 
+app.use(helmet());
+
 // Index Route
 app.get("/", (req, res) => {
   res.send("Loading...");
@@ -49,8 +51,6 @@ app.use(morgan('dev'));
 
 // Registering all controllers
 app.use(require('./controllers'));
-
-// app.use(serveFavicon(__dirname + '/client/src/favicon.png'));
 
 // Route all upload files
 app.get('/uploads/:filename', (req, res) => {
@@ -67,6 +67,6 @@ app.get('*', (req, res) => {
 });
 
 app.listen(port, '0.0.0.0', () => {
-  console.log("Server started on port:" + port);
+  console.log("Server started on port: " + port);
 });
 
