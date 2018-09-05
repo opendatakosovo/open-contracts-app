@@ -8,6 +8,7 @@ ssh jenkins@159.89.16.139<<EOF
  cd client
  npm --unsafe-perm --verbose install
  ng build --prod --extract-css=false
+ node ../ssr.js
  pm2 restart app
  exit
 EOF
