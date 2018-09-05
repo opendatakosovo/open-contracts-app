@@ -7,6 +7,9 @@ const mongoose = require("mongoose");
 const config = require("./config/database");
 const morgan = require('morgan');
 const helmet = require('helmet');
+const fs = require('fs');
+const cheerio = require('cheerio');
+const socialMetaData = require('./social-meta');
 require('dotenv').config();
 
 // DB connection
@@ -56,20 +59,35 @@ app.get('/uploads/:filename', (req, res) => {
   res.sendFile(path.join(__dirname, `uploads/${req.params.filename}`));
 })
 
-// Route all dataset  files
+// Route all dataset files
 app.get('/datasets/:folder/:filename', (req, res) => {
   res.sendFile(path.join(__dirname, `prishtina-contracts-importer/data/procurements/${req.params.folder}/${req.params.filename}`));
 });
 
+function serverRender(res, lang) {
+  fs.readFile(path.join(__dirname, 'public/index.html'), 'utf8', (err, html) => {
+    if (err) throw err;
+    const $ = cheerio.load(html.toString());
+
+    $('#fb-url').replaceWith(`<meta property="og:url" content="http://kontratatehapura.prishtinaonline.com/${lang}">`);
+    $('#fb-img').replaceWith(`<meta property="og:image:url" content="${socialMetaData[lang]['img']}">`);
+    $('#fb-description').replaceWith(`<meta property="og:description" content="${socialMetaData[lang]['description']}">`);
+    $('#fb-title').replaceWith(`<meta property="og:site_name" content="${socialMetaData[lang]['title']}">`);
+    $('#fb-site-name').replaceWith(`<meta property="og:site_name" content="${socialMetaData[lang]['title']}">`);
+
+    $('#tw-img').replaceWith(`<meta property="twitter:image" content="${socialMetaData[lang]['img']}">`);
+    $('#tw-description').replaceWith(`<meta property="twitter:description" content="${socialMetaData[lang]['description']}">`);
+    $('#tw-title').replaceWith(`<meta property="twitter:title" content="${socialMetaData[lang]['title']}">`);
+    
+    res.send($.html());
+  });
+}
 
 app.get('*', (req, res) => {
-  const lang = req.originalUrl;
-  if (lang === '/sq') {
-    res.sendFile(path.join(__dirname, 'public/index.html'));
-  } else if (lang === '/en') {
-    res.sendFile(path.join(__dirname, 'public/index.en.html'));
-  } else if (lang === '/sr') {
-    res.sendFile(path.join(__dirname, 'public/index.sr.html'));
+  let lang = req.originalUrl.replace('/', '');
+
+  if (lang == 'en' || lang == 'sr') {
+    serverRender(res, lang);
   } else {
     res.sendFile(path.join(__dirname, 'public/index.html'));
   }

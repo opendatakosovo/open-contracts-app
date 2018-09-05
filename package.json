@@ -10,6 +10,7 @@
   "dependencies": {
     "bcryptjs": "*",
     "body-parser": "*",
+    "cheerio": "^1.0.0-rc.2",
     "cors": "*",
     "dotenv": "^5.0.1",
     "express": "*",
