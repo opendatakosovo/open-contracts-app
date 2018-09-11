@@ -11,7 +11,7 @@ import { Page } from '../../../models/page';
 import { DatatableComponent } from '@swimlane/ngx-datatable/src/components/datatable.component';
 import { BsDatepickerConfig, BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { User } from '../../../models/user';
-import { CheckIfServerDown } from "../../../utils/CheckIfServerDown";
+import { CheckIfServerDown } from '../../../utils/CheckIfServerDown';
 import { CheckIfUserIsActive } from '../../../utils/CheckIfUserIsActive';
 
 
@@ -50,8 +50,8 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
   @ViewChild('table') table: DatatableComponent;
 
   constructor(public contractsService: ContractsService, private modalService: BsModalService, ref: ChangeDetectorRef,
-              public directorateService: DirectorateService, public checkIfServerDown: CheckIfServerDown,
-              private checkIfUserIsActive: CheckIfUserIsActive) {
+    public directorateService: DirectorateService, public checkIfServerDown: CheckIfServerDown,
+    private checkIfUserIsActive: CheckIfUserIsActive) {
     this.page.pageNumber = 0;
     this.page.size = 10;
     this.contractModal = new Contract();
@@ -61,10 +61,10 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
     this.isSortedDesc = false;
     this.isSortedAsc = false;
     this.directorateService.getAllDirectorates()
-    .takeUntil(this.unsubscribeAll)
-    .subscribe(data => {
-      this.directorates = data;
-    },
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(data => {
+        this.directorates = data;
+      },
         err => {
           this.checkIfServerDown.check(err.status)
         });
@@ -108,21 +108,21 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
   setPage(pageInfo) {
     this.page.pageNumber = pageInfo.offset;
     this.search.pageInfo.pageNumber = pageInfo.offset;
-    if (this.page.totalElements === this.totalContracts && ( this.isSortedAsc === false || this.isSortedDesc === false )) {
+    if (this.page.totalElements === this.totalContracts || (this.isSortedAsc === false && this.isSortedDesc === false)) {
       this.contractsService.serverPagination(this.page)
         .takeUntil(this.unsubscribeAll)
         .subscribe(pagedData => {
           this.page = pagedData.page;
           this.rows = pagedData.data;
         });
-    } else if ( this.isSortedAsc === false || this.isSortedDesc === true ) {
+    } else if (this.isSortedAsc === false && this.isSortedDesc === true) {
       this.contractsService.serverSortContractsAscending(this.page)
         .takeUntil(this.unsubscribeAll)
         .subscribe(pagedData => {
           this.page = pagedData.page;
           this.rows = pagedData.data;
         });
-    } else if ( this.isSortedAsc === true || this.isSortedDesc === false ) {
+    } else if (this.isSortedAsc === true && this.isSortedDesc === false) {
       this.contractsService.serverSortContractsDescending(this.page)
         .takeUntil(this.unsubscribeAll)
         .subscribe(pagedData => {
