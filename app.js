@@ -6,16 +6,18 @@ const passport = require("passport");
 const mongoose = require("mongoose");
 const config = require("./config/database");
 const morgan = require('morgan');
-const serveFavicon = require('serve-favicon')
-
+const helmet = require('helmet');
+const fs = require('fs');
+const cheerio = require('cheerio');
+const socialMetaData = require('./social-meta');
 require('dotenv').config();
 
 // DB connection
-mongoose.connect(config.database);
+mongoose.connect(config.database, { useNewUrlParser: true });
 mongoose.connection.on("connected", () => {
-  console.log("Connected to database!");
+  console.log("Successfully connected to database!");
 }).catch(err => {
-  console.log(err);
+  console.log('Couldn\'t connect to DB! Error: ', err);
 });
 
 const app = express();
@@ -39,6 +41,8 @@ app.use(express.static(path.join(__dirname, "public")));
 // Body parser middleware
 app.use(bodyParser.json());
 
+app.use(helmet());
+
 // Index Route
 app.get("/", (req, res) => {
   res.send("Loading...");
@@ -50,23 +54,45 @@ app.use(morgan('dev'));
 // Registering all controllers
 app.use(require('./controllers'));
 
-// app.use(serveFavicon(__dirname + '/client/src/favicon.png'));
-
 // Route all upload files
 app.get('/uploads/:filename', (req, res) => {
   res.sendFile(path.join(__dirname, `uploads/${req.params.filename}`));
 })
 
-// Route all dataset  files
+// Route all dataset files
 app.get('/datasets/:folder/:filename', (req, res) => {
   res.sendFile(path.join(__dirname, `prishtina-contracts-importer/data/procurements/${req.params.folder}/${req.params.filename}`));
 });
 
+function serverRender(res, lang) {
+  fs.readFile(path.join(__dirname, 'public/index.html'), 'utf8', (err, html) => {
+    if (err) throw err;
+    const $ = cheerio.load(html.toString());
+
+    $('#fb-title').replaceWith(`<meta property="og:title" content="${socialMetaData[lang]['title']}">`);
+    $('#fb-site-name').replaceWith(`<meta property="og:site_name" content="${socialMetaData[lang]['title']}">`);
+    $('#fb-description').replaceWith(`<meta property="og:description" content="${socialMetaData[lang]['description']}">`);
+    $('#fb-img').replaceWith(`<meta property="og:image:url" content="${socialMetaData[lang]['img']}">`);
+    $('#fb-url').replaceWith(`<meta property="og:url" content="http://kontratatehapura.prishtinaonline.com/${lang}">`);
+
+    $('#tw-title').replaceWith(`<meta property="twitter:title" content="${socialMetaData[lang]['title']}">`);
+    $('#tw-description').replaceWith(`<meta property="twitter:description" content="${socialMetaData[lang]['description']}">`);
+    $('#tw-img').replaceWith(`<meta property="twitter:image" content="${socialMetaData[lang]['img']}">`);
+    
+    res.send($.html());
+  });
+}
+
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public/index.html'));
+  let lang = req.originalUrl.replace('/', '');
+
+  if (lang == 'en' || lang == 'sr') {
+    serverRender(res, lang);
+  } else {
+    res.sendFile(path.join(__dirname, 'public/index.html'));
+  }
 });
 
 app.listen(port, '0.0.0.0', () => {
-  console.log("Server started on port:" + port);
+  console.log("Server started on port: " + port);
 });
-

@@ -1,0 +1,14 @@
+{
+    "en": {
+        "description": "Here you can find the open data for contracts in the municipality of Pristina.",
+        "title": "Open Contracts",
+        "img": "http://kontratatehapura.prishtinaonline.com/assets/images/english.jpg",
+        "url": "http://kontratatehapura.prishtinaonline.com/en"
+    },
+    "sr": {
+        "description": "Ovde možete pronaći otvorene podatke za ugovore u opštini Priština.",
+        "title": "Javni Ugovori",
+        "img": "http://kontratatehapura.prishtinaonline.com/assets/images/srpski.jpg",
+        "url": "http://kontratatehapura.prishtinaonline.com/sr"
+    }
+}

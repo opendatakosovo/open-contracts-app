@@ -5,122 +5,20 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" sizes="32x32" href="favicon.png" type="image/png" />
+
     <!-- Facebook meta tags -->
-    <!-- <meta property="og:title" content="Kontratat e Hapura">
+    <meta id="fb-title" property="og:title" content="Kontratat e Hapura">
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Kontratat e Hapura" />
-    <meta property="og:description" content="K&euml;tu mund t&euml; gjeni t&euml; dh&euml;nat e hapura p&euml;r kontratat n&euml; komun&euml;n e Prishtin&euml;s."> -->
-    <!-- <meta property="og:image:url" content="http://kontratatehapura.prishtinaonline.com/assets/images/social-media.jpg">
-    <meta property="og:url" content="http://kontratatehapura.prishtinaonline.com/"> -->
+    <meta id="fb-site-name" property="og:site_name" content="Kontratat e Hapura" />
+    <meta id="fb-description" property="og:description" content="K&euml;tu mund t&euml; gjeni t&euml; dh&euml;nat e hapura p&euml;r kontratat n&euml; komun&euml;n e Prishtin&euml;s.">
+    <meta id="fb-img" property="og:image:url" content="http://kontratatehapura.prishtinaonline.com/assets/images/social-media.jpg">
+    <meta id="fb-url" property="og:url" content="http://kontratatehapura.prishtinaonline.com/sq">
     <!-- Twitter meta tags -->
-    <!-- <meta property="twitter:title" content="Kontratat e Hapura">
-    <meta property="twitter:description" content="K&euml;tu mund t&euml; gjeni t&euml; dh&euml;nat e hapura p&euml;r kontratat n&euml; komun&euml;n e Prishtin&euml;s."> -->
-    <!-- <meta property="twitter:image" content="http://kontratatehapura.prishtinaonline.com/assets/images/social-media.jpg">
+    <meta id="tw-title" property="twitter:title" content="Kontratat e Hapura">
+    <meta id="tw-description" property="twitter:description" content="K&euml;tu mund t&euml; gjeni t&euml; dh&euml;nat e hapura p&euml;r kontratat n&euml; komun&euml;n e Prishtin&euml;s.">
+    <meta id="tw-img" property="twitter:image" content="http://kontratatehapura.prishtinaonline.com/assets/images/social-media.jpg">
     <meta property="twitter:card" content="summary_large_image">
-    <meta name="twitter:creator" content="@OpenDataKosovo"> -->
-    <script>
-        const head = document.getElementsByTagName('head')[0];
-        const metaTitle = document.createElement('meta');
-        const metaDescription = document.createElement('meta');
-        const metaImage = document.createElement('meta');
-        const metaSiteName = document.createElement('meta');
-        const metaUrl = document.createElement('meta');
-        const metaType = document.createElement('meta');
-
-
-        const urlArray = window.location.href.split("/");
-        const sq = {
-            "description": "Këtu mund të gjeni të dhënat e hapura për kontratat në komunën e Prishtinës.",
-            "title": "Kontratat e Hapura",
-            "image": "http://kontratatehapura.prishtinaonline.com/assets/images/social-media.jpg",
-            "url": "http://kontratatehapura.prishtinaonline.com/sq"
-        }
-        const en = {
-            "description": "Here you can find the open data for contracts in the municipality of Pristina.",
-            "title": "Open Contracts",
-            "image": "http://kontratatehapura.prishtinaonline.com/assets/images/english.jpg",
-            "url": "http://kontratatehapura.prishtinaonline.com/en"
-        }
-        const sr = {
-            "description": "Ovde možete pronaći otvorene podatke za ugovore u opštini Priština.",
-            "title": "Javni Ugovori",
-            "image": "http://kontratatehapura.prishtinaonline.com/assets/images/srpski.jpg",
-            "url": "http://kontratatehapura.prishtinaonline.com/sr"
-        }
-        // const facebook_description = document.querySelector('meta[property="og:description"]');
-        // const facebook_title = document.querySelector('meta[property="og:title"]');
-        // const facebook_image_url = document.querySelector('meta[property="og:image:url"]');
-        // const facebook_url = document.querySelector('meta[property="og:url"]');
-        // const facebook_site_name = document.querySelector('meta[property="og:site_name"]');
-
-        // const twitter_title = document.querySelector('meta[property="twitter:title"]');
-        // const twitter_description = document.querySelector('meta[property="twitter:description"]');
-        // const twitter_image = document.querySelector('meta[property="twitter:image"]');
-        if (urlArray[urlArray.length - 1] == 'sq') {
-            metaTitle.setAttribute('property', 'og:title');
-            metaTitle.content = 'Kontratat e Hapura';
-            metaType.setAttribute('property', 'og:type');
-            metaType.content = 'website';
-            metaSiteName.setAttribute('property', 'og:site_name');
-            metaSiteName.content = 'Kontratat e Hapura';
-            metaDescription.setAttribute('property', 'og:description');
-            metaDescription.content = 'Këtu mund të gjeni të dhënat e hapura për kontratat në komunën e Prishtinës.';
-            metaImage.setAttribute('property', 'og:image:url');
-            metaImage.content = 'http://kontratatehapura.prishtinaonline.com/assets/images/social-media.jpg';
-            metaUrl.setAttribute('property', 'og:url');
-            metaUrl.content = 'http://kontratatehapura.prishtinaonline.com/sq';
-
-            head.appendChild(metaTitle);
-            head.appendChild(metaType);
-            head.appendChild(metaSiteName);
-            head.appendChild(metaDescription);
-            head.appendChild(metaImage);
-            head.appendChild(metaUrl);
-
-        } else if (urlArray[urlArray.length - 1] == 'sr') {
-            metaTitle.setAttribute('property', 'og:title');
-            metaTitle.content = 'Javni Ugovori';
-            metaType.setAttribute('property', 'og:type');
-            metaType.content = 'website';
-            metaSiteName.setAttribute('property', 'og:site_name');
-            metaSiteName.content = 'Javni Ugovori';
-            metaDescription.setAttribute('property', 'og:description');
-            metaDescription.content = 'Ovde možete pronaći otvorene podatke za ugovore u opštini Priština.';
-            metaImage.setAttribute('property', 'og:image:url');
-            metaImage.content = 'http://kontratatehapura.prishtinaonline.com/assets/images/srpski.jpg';
-            metaUrl.setAttribute('property', 'og:url');
-            metaUrl.content = 'http://kontratatehapura.prishtinaonline.com/sr';
-
-            head.appendChild(metaTitle);
-            head.appendChild(metaType);
-            head.appendChild(metaSiteName);
-            head.appendChild(metaDescription);
-            head.appendChild(metaImage);
-            head.appendChild(metaUrl);
-
-        } else if (urlArray[urlArray.length - 1] == 'en') {
-            metaTitle.setAttribute('property', 'og:title');
-            metaTitle.content = 'Open Contracts';
-            metaType.setAttribute('property', 'og:type');
-            metaType.content = 'website';
-            metaSiteName.setAttribute('property', 'og:site_name');
-            metaSiteName.content = 'Open Contracts';
-            metaDescription.setAttribute('property', 'og:description');
-            metaDescription.content = 'Here you can find the open data for contracts in the municipality of Pristina.';
-            metaImage.setAttribute('property', 'og:image:url');
-            metaImage.content = 'http://kontratatehapura.prishtinaonline.com/assets/images/english.jpg';
-            metaUrl.setAttribute('property', 'og:url');
-            metaUrl.content = 'http://kontratatehapura.prishtinaonline.com/en';
-
-            head.appendChild(metaTitle);
-            head.appendChild(metaType);
-            head.appendChild(metaSiteName);
-            head.appendChild(metaDescription);
-            head.appendChild(metaImage);
-            head.appendChild(metaUrl);
-
-        }
-    </script>
+    <meta name="twitter:creator" content="@OpenDataKosovo">
     <style>
         /* Center the loader */
 
