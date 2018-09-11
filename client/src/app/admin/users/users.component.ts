@@ -123,7 +123,7 @@ export class UsersComponent implements OnInit {
         if (!result.err) {
           Swal('Sukses!', 'Përdoruesi ju rigjenerua fjalëkalimi dhe ju dërgua me sukses.', 'success');
         } else {
-          Swal('Gabim!', `Përdoruesi nuk u rigjenerua fjalëkalimi me sukses arsyja: ${result.err}`, 'success');
+          Swal('Gabim!', `Përdoruesi nuk u rigjenerua fjalëkalimi me sukses arsyja: ${result.err}`, 'error');
         }
       });
   }
