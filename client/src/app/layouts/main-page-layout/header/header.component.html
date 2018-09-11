@@ -1,6 +1,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <nav class="navbar sticky-top navbar-expand-lg navbar-light" id="navbar-1" (window:resize)="onResize()">
-  <a class="navbar-brand" [routerLink]="['']">
+  <a class="navbar-brand logo-image" (click)="clickHome()">
     <div *ngIf="this.language === 'sq'">
       <img src="../../../../assets/images/kontratat-e-hapura-logo.png">
     </div>
@@ -11,8 +11,8 @@
       <img src="../../../../assets/images/open-contracts---logo.png">
     </div>
   </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNav" aria-controls="mainNav" aria-expanded="false"
-    aria-label="Toggle navigation">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNav" aria-controls="mainNav"
+    aria-expanded="false" aria-label="Toggle navigation">
     <span>
       <i class="fa fa-bars" aria-hidden="true"></i>
     </span>
@@ -23,7 +23,8 @@
       <li *ngIf="width>991" id="home-nav" class="nav-item nav-items" (click)="clickHome()">
         <a class="nav-link" id="home" (click)="scrollHome()">{{ 'navigation.home' | translate }}</a>
       </li>
-      <li *ngIf="991>=width" id="home-nav" class="nav-item nav-items" (click)="clickHome()" data-toggle="collapse" data-target="#mainNav">
+      <li *ngIf="991>=width" id="home-nav" class="nav-item nav-items" (click)="clickHome()" data-toggle="collapse"
+        data-target="#mainNav">
         <a class="nav-link" id="home" (click)="scrollHome()">{{ 'navigation.home' | translate }}</a>
       </li>
       <li *ngIf="width>991" class="nav-item nav-items data-set-link" (click)="clickDataSet()">
@@ -35,14 +36,15 @@
       <li *ngIf="width>991" class="nav-item nav-items visualisations" (click)="clickNav();clickVisualisations()">
         <a class="nav-link" id="visualisations">{{ 'navigation.visualizations' | translate }}</a>
       </li>
-      <li *ngIf="991>=width" class="nav-item nav-items visualisations" (click)="clickVisualisations();clickNav()" data-toggle="collapse"
-        data-target="#mainNav">
+      <li *ngIf="991>=width" class="nav-item nav-items visualisations" (click)="clickVisualisations();clickNav()"
+        data-toggle="collapse" data-target="#mainNav">
         <a class="nav-link" id="visualisations">{{ 'navigation.visualizations' | translate }}</a>
       </li>
       <li *ngIf="width>991" class="nav-item nav-items about-us" (click)="clickNav();clickAboutUs()">
         <a class="nav-link">{{ 'navigation.aboutUs' | translate }}</a>
       </li>
-      <li *ngIf="991>=width" class="nav-item nav-items about-us" (click)="clickNav();clickAboutUs()" data-toggle="collapse" data-target="#mainNav">
+      <li *ngIf="991>=width" class="nav-item nav-items about-us" (click)="clickNav();clickAboutUs()" data-toggle="collapse"
+        data-target="#mainNav">
         <a class="nav-link">{{ 'navigation.aboutUs' | translate }}</a>
       </li>
       <li *ngIf="width>991" class="nav-item">

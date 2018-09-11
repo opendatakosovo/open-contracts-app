@@ -50,6 +50,9 @@
     cursor: pointer;
     margin-bottom: 5%;
 }
+.ngx-datatable .datatable-body .datatable-scroll {
+    width: inherit !important;
+}
 /* Datatable scrollbar style */
 /* width */
 .datatable-body::-webkit-scrollbar {
