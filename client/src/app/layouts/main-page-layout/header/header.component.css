@@ -147,6 +147,9 @@ a {
 .open-businesses {
     width: auto !important;
 }
+.logo-image {
+    cursor: pointer;
+}
 /*--------Responsive--------*/
 
 @media (max-width: 1480px) {
