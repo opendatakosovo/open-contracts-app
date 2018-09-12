@@ -136,10 +136,10 @@
         </div>
         <div class="col-md-6">
           <label>Buxheti</label>
-          <div *ngIf="contract.budget.length == 0 || contract.budget[0] == ''">
+          <div *ngIf="contract.budget == null || contract.budget.length == 0 || contract.budget[0] == ''">
             <p>-</p>
           </div>
-          <div *ngIf="contract.budget.length > 0">
+          <div *ngIf="contract.budget != null && contract.budget.length > 0">
             <div *ngFor="let budget of contract.budget">
               <p>{{ budget }}</p>
             </div>
@@ -611,7 +611,8 @@
       <div class="row">
         <br>
         <div class="col-md-6">
-          <label>Çmimi total i papaguar për kontratën (Në këtë çmim është përfshirë edhe shuma e zbritjes për shkak të ndalesave)</label>
+          <label>Çmimi total i papaguar për kontratën (Në këtë çmim është përfshirë edhe shuma e zbritjes për shkak të
+            ndalesave)</label>
           <div>
             <div *ngIf="total == 0">
               <p class="highlighted-values">-</p>
