@@ -3,6 +3,9 @@ import { Subject } from 'rxjs/Subject';
 import { Contract } from '../../../models/contract';
 import { ContractsService } from '../../../service/contracts.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { CheckIfServerDown } from '../../../utils/CheckIfServerDown';
+import { CheckIfUserIsActive } from '../../../utils/CheckIfUserIsActive';
+import { User } from '../../../models/user';
 
 @Component({
   selector: 'app-contract-information',
@@ -17,10 +20,15 @@ export class ContractInformationComponent implements OnInit {
   totalPayedPriceForContract: number;
   discountAmount: number;
   total: number;
+  currentUser: User;
 
-  constructor(public contractsService: ContractsService, private router: ActivatedRoute) {
+  constructor(public contractsService: ContractsService, private router: ActivatedRoute,
+    public checkIfServerDown: CheckIfServerDown,
+    private checkIfUserIsActive: CheckIfUserIsActive) {
     this.contract = new Contract();
+    this.currentUser = new User();
     const id = this.router.snapshot.paramMap.get('id');
+    this.currentUser = JSON.parse(localStorage.getItem('user'));
     this.contractsService.getContractByID(id)
       .takeUntil(this.unsubscribeAll)
       .subscribe(data => {
@@ -41,10 +49,14 @@ export class ContractInformationComponent implements OnInit {
           this.discountAmount = 0;
         }
         this.total = this.totalOfAnnexesWithTaxes - this.totalPayedPriceForContract - this.discountAmount;
-      });
+      },
+        err => {
+          this.checkIfServerDown.check(err.status);
+        });
   }
 
   ngOnInit() {
+    this.checkIfUserIsActive.check();
   }
 
 }
