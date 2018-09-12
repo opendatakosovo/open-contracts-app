@@ -73,12 +73,12 @@ function serverRender(res, lang) {
     $('#fb-site-name').replaceWith(`<meta property="og:site_name" content="${socialMetaData[lang]['title']}">`);
     $('#fb-description').replaceWith(`<meta property="og:description" content="${socialMetaData[lang]['description']}">`);
     $('#fb-img').replaceWith(`<meta property="og:image:url" content="${socialMetaData[lang]['img']}">`);
-    $('#fb-url').replaceWith(`<meta property="og:url" content="http://kontratatehapura.prishtinaonline.com/${lang}">`);
+    $('#fb-url').replaceWith(`<meta property="og:url" content="https://kontratatehapura.prishtinaonline.com/${lang}">`);
 
     $('#tw-title').replaceWith(`<meta property="twitter:title" content="${socialMetaData[lang]['title']}">`);
     $('#tw-description').replaceWith(`<meta property="twitter:description" content="${socialMetaData[lang]['description']}">`);
     $('#tw-img').replaceWith(`<meta property="twitter:image" content="${socialMetaData[lang]['img']}">`);
-    
+
     res.send($.html());
   });
 }

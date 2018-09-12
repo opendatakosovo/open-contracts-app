@@ -66,7 +66,7 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
         this.directorates = data;
       },
         err => {
-          this.checkIfServerDown.check(err.status)
+          this.checkIfServerDown.check(err.status);
         });
     this.search = {
       string: '',
