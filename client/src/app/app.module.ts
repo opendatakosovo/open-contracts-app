@@ -33,7 +33,6 @@ import { DirectorateService } from './service/directorate.service';
 import { ContractsComponent } from './admin/contracts/contracts.component';
 import { AddContractComponent } from './admin/contracts/add-contract/add-contract.component';
 import { ModalModule } from 'ngx-bootstrap';
-import { ChangePasswordFormComponent } from './admin/change-password-form/change-password-form.component';
 import { ChangePasswordComponent } from './admin/profile/change-password/change-password.component';
 import { DirectoratesComponent } from './admin/directorates/directorates.component';
 import { HttpClientService } from './service/http-client.service';
@@ -130,7 +129,6 @@ const appRoutes: Routes = [
     DataDashboardComponent,
     ContractsComponent,
     AddContractComponent,
-    ChangePasswordFormComponent,
     ChangePasswordComponent,
     DirectoratesComponent,
     ContractInformationComponent,
