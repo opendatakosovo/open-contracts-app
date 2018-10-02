@@ -240,17 +240,19 @@ router.put('/update-csv/:year', (req, res) => {
     }
     let formatDate = (date) => {
         if (typeof date === 'object') {
-            if (date !== null && date !== undefined && date !== '' && date !== "undefined undefined" && date !== "undefined-undefined") {
+            if (date !== null && date !== undefined && date !== '' && date !== "undefined undefined" && date !== "undefined-undefined" && date !== "n/a undefined" && date !== "n/a" && date !== "undefined ") {
                 return moment(date).format('DD.MM.YY');
-            } else if (date === null || date === undefined || date === "undefined undefined" || date === "undefined-undefined") {
+            } else if (date === null || date === undefined || date === "undefined undefined" || date === "undefined-undefined" || date === "n/a undefined" || date === "n/a" || date === "undefined ") {
                 return "";
             } else {
                 return date;
             }
         } else {
-            if (date !== null && date !== undefined && date !== "undefined undefined" && date !== "undefined-undefined" && date !== '' && date.includes('Muaj') === false && date.includes('Ditë') === false && date.includes('Vite') === false && date.includes('muaj') === false && date.includes('dite') === false && date.includes('ditë') === false && date.length > 3) {
+            if (date.includes('undefined') === true && (date.includes('Vite') === true || date.includes('Muaj') === true || date.includes('Ditë') === true)) {
+                return date.split("undefined");
+            } else if (date !== null && date !== undefined && date !== "undefined undefined" && date !== "undefined-undefined" && date !== '' && date.includes('Muaj') === false && date.includes('Ditë') === false && date.includes('Vite') === false && date.includes('muaj') === false && date.includes('dite') === false && date.includes('ditë') === false && date.length > 3 && date !== "n/a undefined" && date !== "n/a" && date !== "undefined ") {
                 return moment(date).format('DD.MM.YY');
-            } else if (date === null || date === undefined || date === "undefined undefined" || date === "undefined-undefined") {
+            } else if (date === null || date === undefined || date === "undefined undefined" || date === "undefined-undefined" || date === "n/a undefined" || date === "n/a" || date === "undefined ") {
                 return "";
             } else {
                 return date;
@@ -270,13 +272,13 @@ router.put('/update-csv/:year', (req, res) => {
         if (budget !== null) {
             if (budget[0] === "Të hyra vetanake" && budget.length === 1) {
                 return "1";
-            } else if (budget[0] === "Të hyra vetanake" && budget[1] === "Buxheti i Kosovës") {
+            } else if ((budget[0] === "Të hyra vetanake" && budget[1] === "Buxheti i Kosovës") || (budget[1] === "Të hyra vetanake" && budget[0] === "Buxheti i Kosovës") && budget.length === 2) {
                 return "1+2";
-            } else if (budget[0] === "Të hyra vetanake" && budget[1] === "Buxheti i Kosovës" && budget[3] === "Donacion") {
+            } else if ((budget[0] === "Të hyra vetanake" && budget[1] === "Buxheti i Kosovës" && budget[2] === "Donacion") || (budget[1] === "Të hyra vetanake" && budget[0] === "Buxheti i Kosovës" && budget[2] === "Donacion") || (budget[2] === "Të hyra vetanake" && budget[0] === "Buxheti i Kosovës" && budget[1] === "Donacion") || (budget[2] === "Të hyra vetanake" && budget[1] === "Buxheti i Kosovës" && budget[0] === "Donacion") || (budget[1] === "Të hyra vetanake" && budget[2] === "Buxheti i Kosovës" && budget[0] === "Donacion")) {
                 return "1+2+3";
-            } else if (budget[0] === "Të hyra vetanake" && budget[1] === "Donacion") {
+            } else if ((budget[0] === "Të hyra vetanake" && budget[1] === "Donacion") || (budget[1] === "Të hyra vetanake" && budget[0] === "Donacion") && budget.length === 2) {
                 return "1+3";
-            } else if (budget[0] === "Buxheti i Kosovës" && budget[1] === "Donacion") {
+            } else if ((budget[0] === "Buxheti i Kosovës" && budget[1] === "Donacion") || (budget[1] === "Buxheti i Kosovës" && budget[0] === "Donacion") && budget.length === 2) {
                 return "2+3";
             } else if (budget[0] === "Buxheti i Kosovës" && budget.length === 1) {
                 return "2";
