@@ -240,13 +240,13 @@ router.put('/update-csv/:year', (req, res) => {
     }
     let formatDate = (date) => {
         if (typeof date === 'object') {
-            if (date !== null && date !== undefined && date !== '') {
+            if (date !== null && date !== undefined && date !== '' && date !== "undefined undefined" && date !== "undefined-undefined") {
                 return moment(date).format('DD.MM.YY');
             } else {
                 return date;
             }
         } else {
-            if (date !== null && date !== undefined && date !== '' && date.includes('Muaj') === false && date.includes('Ditë') === false && date.includes('Vite') === false && date.includes('muaj') === false && date.includes('dite') === false && date.includes('ditë') === false && date.length > 3) {
+            if (date !== null && date !== undefined && date !== "undefined undefined" && date !== "undefined-undefined" && date !== '' && date.includes('Muaj') === false && date.includes('Ditë') === false && date.includes('Vite') === false && date.includes('muaj') === false && date.includes('dite') === false && date.includes('ditë') === false && date.length > 3) {
                 return moment(date).format('DD.MM.YY');
             } else {
                 return date;
