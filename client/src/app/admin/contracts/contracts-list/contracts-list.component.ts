@@ -13,7 +13,7 @@ import { BsDatepickerConfig, BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { User } from '../../../models/user';
 import { CheckIfServerDown } from '../../../utils/CheckIfServerDown';
 import { CheckIfUserIsActive } from '../../../utils/CheckIfUserIsActive';
-
+import { DatasetService } from '../../../service/dataset.service';
 
 @Component({
   selector: 'app-contracts-list',
@@ -51,7 +51,7 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
 
   constructor(public contractsService: ContractsService, private modalService: BsModalService, ref: ChangeDetectorRef,
     public directorateService: DirectorateService, public checkIfServerDown: CheckIfServerDown,
-    private checkIfUserIsActive: CheckIfUserIsActive) {
+    private checkIfUserIsActive: CheckIfUserIsActive, public datasetService: DatasetService) {
     this.page.pageNumber = 0;
     this.page.size = 10;
     this.contractModal = new Contract();
@@ -224,7 +224,12 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
               this.page = pagedData.page;
               this.rows = pagedData.data;
             });
+          console.log(this.contract);
           Swal('Sukses!', 'Kontrata u fshi me sukses.', 'success');
+          this.datasetService.updateCsv(this.contract.year, this.contract)
+            .takeUntil(this.unsubscribeAll)
+            .subscribe(data => {
+            });
         }
       });
   }

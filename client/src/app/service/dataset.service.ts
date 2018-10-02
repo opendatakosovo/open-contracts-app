@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClientService } from './http-client.service';
 import { environment } from '../../environments/environment';
-import {Observable} from "rxjs";
 
 @Injectable()
 export class DatasetService {
@@ -15,7 +14,7 @@ export class DatasetService {
   }
 
   getDatasets() {
-      return this.http.getWithAuth(`${this.APIUrl}/datasets/`).map(res => res.json().datasets);
+    return this.http.getWithAuth(`${this.APIUrl}/datasets/`).map(res => res.json().datasets);
 
   }
 
@@ -25,6 +24,10 @@ export class DatasetService {
 
   updateDataset(formData: FormData) {
     return this.http.putWithAuth(`${this.APIUrl}/datasets/update/`, formData, 'multipart').map(res => res.json());
+  }
+
+  updateCsv(datasetFilePath, dataset) {
+    return this.http.putWithAuth(`${this.APIUrl}/datasets/update-csv/${datasetFilePath}`, dataset).map(res => res.json().dataset);
   }
 
 }
