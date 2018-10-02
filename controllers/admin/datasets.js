@@ -248,14 +248,17 @@ router.put('/update-csv/:year', (req, res) => {
                 return date;
             }
         } else {
-            if (date.includes('undefined') === true && (date.includes('Vite') === true || date.includes('Muaj') === true || date.includes('Ditë') === true)) {
-                return date.split("undefined");
-            } else if (date !== null && date !== undefined && date !== "undefined undefined" && date !== "undefined-undefined" && date !== '' && date.includes('Muaj') === false && date.includes('Ditë') === false && date.includes('Vite') === false && date.includes('muaj') === false && date.includes('dite') === false && date.includes('ditë') === false && date.length > 3 && date !== "n/a undefined" && date !== "n/a" && date !== "undefined ") {
+            if (date !== null && date !== undefined && date !== "undefined undefined" && date !== "undefined-undefined" && date !== '' && date.includes('Muaj') === false && date.includes('Ditë') === false && date.includes('Vite') === false && date.includes('muaj') === false && date.includes('dite') === false && date.includes('ditë') === false && date.length > 3 && date !== "n/a undefined" && date !== "n/a" && date !== "undefined ") {
                 return moment(date).format('DD.MM.YY');
             } else if (date === null || date === undefined || date === "undefined undefined" || date === "undefined-undefined" || date === "n/a undefined" || date === "n/a" || date === "undefined ") {
                 return "";
             } else {
-                return date;
+                if (date.includes('undefined') && (date.includes('Muaj') === true || date.includes('Ditë') === true || date.includes('Vite') === true)) {
+                    return date.split("undefined");
+                } else {
+                    return date;
+                }
+
             }
         }
     }
