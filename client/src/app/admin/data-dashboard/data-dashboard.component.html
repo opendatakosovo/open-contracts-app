@@ -10,8 +10,9 @@
             <div class="file-upload">
                 <input type="file" #file style="display: none" (change)="onFileChange($event)">
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Zgjedhni setin e të dhënave" id="name-area" aria-label="Recipient's username"
-                        aria-describedby="basic-addon2" [style.border-color]="!valid && touched ? 'red' : '#ced4da'" disabled>
+                    <input type="text" class="form-control" placeholder="Zgjedhni setin e të dhënave" id="name-area"
+                        aria-label="Recipient's username" aria-describedby="basic-addon2" [style.border-color]="!valid && touched ? 'red' : '#ced4da'"
+                        disabled>
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary" type="button" (click)="onClick()">Zgjedh</button>
                     </div>
@@ -40,7 +41,8 @@
                     <td class="dataset-info">
                         <div>
                             <p class="name">
-                                <a>Raporti vjetor për kontratat e nënshkruara {{ dataSet.datasetFilePath.replace('.csv', '')
+                                <a>Raporti vjetor për kontratat e nënshkruara {{
+                                    dataSet.datasetFilePath.replace('.csv', '')
                                     }}
                                 </a>
                             </p>
@@ -50,7 +52,8 @@
                         </div>
                     </td>
                     <td>
-                        <select class="custom-select" (change)="onChange($event)" [attr.data-id]="dataSet.datasetFilePath" [attr.data-folder]="dataSet.folder">
+                        <select class="custom-select" (click)="onChange($event)" [attr.data-id]="dataSet.datasetFilePath"
+                            [attr.data-folder]="dataSet.folder">
                             <option>Shkarko</option>
                             <option value="csv">
                                 CSV
