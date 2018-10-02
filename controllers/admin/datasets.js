@@ -246,7 +246,7 @@ router.put('/update-csv/:year', (req, res) => {
                 return date;
             }
         } else {
-            if (date !== null && date !== undefined && date !== '' && date.includes('muaj') === false && date.includes('dite') === false && date.includes('ditë') === false && date.length > 3) {
+            if (date !== null && date !== undefined && date !== '' && date.includes('Muaj') === false && date.includes('Ditë') === false && date.includes('Vite') === false && date.includes('muaj') === false && date.includes('dite') === false && date.includes('ditë') === false && date.length > 3) {
                 return moment(date).format('DD.MM.YY');
             } else {
                 return date;
@@ -254,9 +254,9 @@ router.put('/update-csv/:year', (req, res) => {
         }
     }
     let formatPlanned = (planned) => {
-        if (planned === 'po') {
+        if (planned === 'po' || planned === '1') {
             return '1';
-        } else if (planned === 'jo') {
+        } else if (planned === 'jo' || planned === '2') {
             return '2';
         } else {
             return '';
@@ -338,9 +338,9 @@ router.put('/update-csv/:year', (req, res) => {
         }
     }
     let formatComplaints = (complaint) => {
-        if (complaint === "negativ") {
+        if (complaint === "negativ" || complaint === "1") {
             return 1;
-        } else if (complaint === "pozitiv") {
+        } else if (complaint === "pozitiv" || complaint === "2") {
             return 2;
         } else if (complaint === 'n/a') {
             return "n/a";
@@ -349,11 +349,11 @@ router.put('/update-csv/:year', (req, res) => {
         }
     }
     let formatComplaintsSecond = (complaint) => {
-        if (complaint === "nuk ka") {
+        if (complaint === "nuk ka" || complaint === "0") {
             return 0;
-        } else if (complaint === "negativ") {
+        } else if (complaint === "negativ" || complaint === "1") {
             return 1;
-        } else if (complaint === "pozitiv") {
+        } else if (complaint === "pozitiv" || complaint === "2") {
             return 2;
         } else if (complaint === "n/a") {
             return "n/a";
@@ -362,9 +362,9 @@ router.put('/update-csv/:year', (req, res) => {
         }
     }
     let formatCompanyType = (type) => {
-        if (type === "vendor" || type === "OE Vendor") {
+        if (type === "vendor" || type === "OE Vendor" || type === "Vendore") {
             return 1;
-        } else if (type === "jo vendor" || type === "OE Jo vendor") {
+        } else if (type === "jo vendor" || type === "OE Jo vendor" || type === "notLocal") {
             return 2;
         } else if (type === "n/a") {
             return "n/a";
@@ -373,9 +373,9 @@ router.put('/update-csv/:year', (req, res) => {
         }
     }
     let formatApplicationDeadlineType = (type) => {
-        if (type === "Afati kohor normal") {
+        if (type === "Afati kohor normal" || type === "1") {
             return 1;
-        } else if (type === "Afati kohor i shkurtuar") {
+        } else if (type === "Afati kohor i shkurtuar" || type === "2") {
             return 2;
         } else {
             return "";
@@ -393,13 +393,13 @@ router.put('/update-csv/:year', (req, res) => {
         }
     }
     let formatStatus = (status) => {
-        if (status === "publikuar") {
+        if (status === "publikuar" || status === "1") {
             return 1;
-        } else if (status === "vlerësim") {
+        } else if (status === "vlerësim" || status === "2") {
             return 2;
-        } else if (status === "anuluar") {
+        } else if (status === "anuluar" || status === "3") {
             return 3;
-        } else if (status === "kontraktuar") {
+        } else if (status === "kontraktuar" || status === "4") {
             return 4;
         } else {
             return "";
