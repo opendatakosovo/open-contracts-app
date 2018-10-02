@@ -253,7 +253,7 @@ router.put('/update-csv/:year', (req, res) => {
             } else if (date === null || date === undefined || date === "undefined undefined" || date === "undefined-undefined" || date === "n/a undefined" || date === "n/a" || date === "undefined ") {
                 return "";
             } else {
-                if (date.includes('undefined') && (date.includes('Muaj') === true || date.includes('Ditë') === true || date.includes('Vite') === true)) {
+                if (date.includes('undefined') && (date.includes('Muaj') === true || date.includes('Ditë') === true || date.includes('Vite') === true || date.includes('muaj') === true || date.includes('dite') === true || date.includes('ditë') === true)) {
                     return date.split("undefined");
                 } else {
                     return date;
