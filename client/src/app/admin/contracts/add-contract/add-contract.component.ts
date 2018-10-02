@@ -13,7 +13,8 @@ import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@ang
 import { CustomValidator } from '../../../validators/custom-validator';
 import { Router } from '@angular/router';
 import { User } from '../../../models/user';
-
+import { DatasetService } from '../../../service/dataset.service';
+import { Dataset } from '../../../models/dataset';
 @Component({
   selector: 'app-add-contract',
   templateUrl: './add-contract.component.html',
@@ -40,7 +41,7 @@ export class AddContractComponent implements OnInit {
   totalInstallments: Number;
   currentUser: User;
 
-  constructor(public contractsService: ContractsService, public directorateService: DirectorateService, private _fb: FormBuilder, private router: Router) {
+  constructor(public contractsService: ContractsService, public directorateService: DirectorateService, private _fb: FormBuilder, private router: Router, public datasetService: DatasetService) {
 
     this.directorates = [];
     this.contract = new Contract();
@@ -317,6 +318,10 @@ export class AddContractComponent implements OnInit {
               Swal('Gabim!', 'Kontrata nuk u shtua.', 'error');
             } else {
               Swal('Sukses!', 'Kontrata u shtua me sukses.', 'success').then((result) => {
+                this.datasetService.updateCsv(this.contract.year, this.contract)
+                  .takeUntil(this.unsubscribeAll)
+                  .subscribe(data => {
+                  });
                 if (result.value) {
                   this.router.navigate(['/dashboard/contracts']);
                 }
@@ -382,6 +387,10 @@ export class AddContractComponent implements OnInit {
               Swal('Gabim!', 'Kontrata nuk u shtua.', 'error');
             } else {
               Swal('Sukses!', 'Kontrata u shtua me sukses.', 'success').then((result) => {
+                this.datasetService.updateCsv(this.contract.year, this.contract)
+                  .takeUntil(this.unsubscribeAll)
+                  .subscribe(data => {
+                  });
                 if (result.value) {
                   this.router.navigate(['/dashboard/contracts']);
                 }

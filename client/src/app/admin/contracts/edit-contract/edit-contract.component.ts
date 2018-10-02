@@ -13,6 +13,7 @@ import { FormGroup, FormControl, Validators, FormBuilder, FormArray, ValidatorFn
 import { Router } from '@angular/router';
 import { User } from '../../../models/user';
 import { CustomValidator } from '../../../validators/custom-validator';
+import { DatasetService } from '../../../service/dataset.service';
 @Component({
   selector: 'app-edit-contract',
   templateUrl: './edit-contract.component.html',
@@ -41,7 +42,7 @@ export class EditContractComponent implements OnInit {
   @ViewChild('fileInput') fileInput;
   implementationDeadline = [];
   currentUser: User;
-  constructor(public contractsService: ContractsService, private router: ActivatedRoute, public directorateService: DirectorateService, private _fb: FormBuilder, private route: Router) {
+  constructor(public contractsService: ContractsService, private router: ActivatedRoute, public directorateService: DirectorateService, private _fb: FormBuilder, private route: Router, public datasetService: DatasetService) {
     this.directorates = [];
     this.contract = new Contract();
     this.formArrayAnnexes = new FormArray([]);
@@ -445,6 +446,10 @@ export class EditContractComponent implements OnInit {
               Swal('Gabim!', 'Kontrata nuk u ndryshua.', 'error');
             } else {
               Swal('Sukses!', 'Kontrata u ndryshua me sukses.', 'success').then((result) => {
+                this.datasetService.updateCsv(this.contract.year, this.contract)
+                  .takeUntil(this.unsubscribeAll)
+                  .subscribe(data => {
+                  });
                 if (result.value) {
                   this.route.navigate(['/dashboard/contracts']);
                 }
@@ -506,6 +511,10 @@ export class EditContractComponent implements OnInit {
               Swal('Gabim!', 'Kontrata nuk u ndryshua.', 'error');
             } else {
               Swal('Sukses!', 'Kontrata u ndryshua me sukses.', 'success').then((result) => {
+                this.datasetService.updateCsv(this.contract.year, this.contract)
+                  .takeUntil(this.unsubscribeAll)
+                  .subscribe(data => {
+                  });
                 if (result.value) {
                   this.route.navigate(['/dashboard/contracts']);
                 }
