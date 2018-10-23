@@ -334,7 +334,9 @@ export class EditContractComponent implements OnInit {
     }
   }
   addBudgetValue(event) {
-    if (this.contract.budget[0] === '') {
+    if (this.contract.budget === [] || this.contract.budget === null) {
+      this.contract.budget = [];
+    } else if (this.contract.budget[0] === '') {
       this.contract.budget = [];
     }
     if (event.target.checked === false) {

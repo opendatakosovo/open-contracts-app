@@ -39,7 +39,7 @@
     "ng2-datepicker": "3.1.0",
     "ngx-bootstrap": "2.0.5",
     "ngx-page-scroll": "5.0.0",
-    "node-sass": "^4.9.3",
+    "node-sass": "^4.9.4",
     "popper.js": "1.14.3",
     "rxjs": "5.5.6",
     "sweetalert2": "7.22.2",
