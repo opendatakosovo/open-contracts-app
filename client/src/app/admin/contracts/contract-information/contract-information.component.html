@@ -456,12 +456,7 @@
         <br>
         <div class="col-sm-6">
           <label>Afatet për implementimin e kontratës</label>
-          <div *ngIf="contract.contract.implementationDeadline == null || contract.contract.implementationDeadline == '' || contract.contract.implementationDeadline == ' undefined'">
-            <p>-</p>
-          </div>
-          <div *ngIf="contract.contract.implementationDeadline != null && contract.contract.implementationDeadline != '' && contract.contract.implementationDeadline != ' undefined'">
-            <p>{{ contract.contract.implementationDeadline }}</p>
-          </div>
+          <p>{{ contract.contract.implementationDeadline }}</p>
         </div>
         <div class="col-6">
           <label>Data e mbylljes se kontrates </label>

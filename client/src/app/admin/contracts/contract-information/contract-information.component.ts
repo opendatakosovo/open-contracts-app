@@ -49,6 +49,15 @@ export class ContractInformationComponent implements OnInit {
           this.discountAmount = 0;
         }
         this.total = this.totalOfAnnexesWithTaxes - this.totalPayedPriceForContract - this.discountAmount;
+        if (this.contract.contract.implementationDeadline === null || this.contract.contract.implementationDeadline === '' || this.contract.contract.implementationDeadline === ' undefined' || this.contract.contract.implementationDeadline === 'n-a' || this.contract.contract.implementationDeadline === 'n/a') {
+          this.contract.contract.implementationDeadline = '-';
+        }
+        if (this.contract.contract.implementationDeadline !== '' && this.contract.contract.implementationDeadline !== '') {
+          const implementationDeadlineValues = this.contract.contract.implementationDeadline.includes(' undefined');
+          if (implementationDeadlineValues) {
+            this.contract.contract.implementationDeadline = this.contract.contract.implementationDeadline.replace(' undefined', '');
+          }
+        }
       },
         err => {
           this.checkIfServerDown.check(err.status);
