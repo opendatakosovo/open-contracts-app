@@ -165,6 +165,7 @@ export class HeaderComponent implements OnInit {
   }
   onResize() {
     this.width = window.innerWidth;
+    this.activeClasses();
   }
   useLanguage(language: string) {
     let next;
