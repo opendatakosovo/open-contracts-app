@@ -64,8 +64,20 @@ export class EditContractComponent implements OnInit {
         this.formatDates(this.contract);
         this.initAnnexes();
         this.initInstallments();
-        if (this.contract.contract.implementationDeadline !== undefined && this.contract.contract.implementationDeadline !== '') {
+        if (this.contract.contract.implementationDeadline !== undefined && this.contract.contract.implementationDeadline !== '' && !this.contract.contract.implementationDeadline.includes('-')) {
           this.implementationDeadline = this.contract.contract.implementationDeadline.split(' ');
+        } else if (this.contract.contract.implementationDeadline.includes('-')) {
+          this.implementationDeadline = this.contract.contract.implementationDeadline.split('-');
+          if (this.implementationDeadline[1].includes(' undefined')) {
+            this.implementationDeadline[1] = this.implementationDeadline[1].replace(' undefined', '');
+          }
+          if (this.implementationDeadline[1] === 'muaj') {
+            this.implementationDeadline[1] = 'Muaj';
+          } else if (this.implementationDeadline[1] === 'ditë' || this.implementationDeadline[1] === 'dite' || this.implementationDeadline[1] === 'Dite') {
+            this.implementationDeadline[1] = 'Ditë';
+          } else if (this.implementationDeadline[1] === 'vite') {
+            this.implementationDeadline[1] = 'Vite';
+          }
         }
       });
     this.form = _fb.group({
