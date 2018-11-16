@@ -121,7 +121,7 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
             this.messages = {
               emptyMessage: `
           <div>
-              <p>Asnjë kontratë nuk përputhet me të dhënat e shypura</p>
+              <p>Asnjë kontratë nuk përputhet me të dhënat e shtypura</p>
           </div>
         `
             };
@@ -248,7 +248,7 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
           this.messages = {
             emptyMessage: `
           <div>
-              <p>Asnjë kontratë nuk përputhet me të dhënat e shypura</p>
+              <p>Asnjë kontratë nuk përputhet me të dhënat e shtypura</p>
           </div>
         `
           };
@@ -322,7 +322,7 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
             this.messages = {
               emptyMessage: `
             <div>
-                <p>Asnjë kontratë nuk përputhet me të dhënat e shypura</p>
+                <p>Asnjë kontratë nuk përputhet me të dhënat e shtypura</p>
             </div>
           `
             };
@@ -356,7 +356,7 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
           this.messages = {
             emptyMessage: `
           <div>
-              <p>Asnjë kontratë nuk përputhet me të dhënat e shypura</p>
+              <p>Asnjë kontratë nuk përputhet me të dhënat e shtypura</p>
           </div>
         `
           };
