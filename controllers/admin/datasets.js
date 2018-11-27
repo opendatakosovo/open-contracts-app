@@ -415,28 +415,54 @@ router.put('/update-csv/:year', (req, res) => {
         }
     }
     Contract.getContractsByYears(year).then(data => {
+        var headerArray = ['Planifikuar','Buxheti', 'Numri prokurimit','Lloji i prokurimit', 'Vlera e prokurimit','Procedura e prokutimiy', 
+        'Klasifikimi(2 shifrat e para te FPP)','Titulli i aktivitetit te prokurimit', 'Data e inicimit të aktivitetit të prokurimit (data e pranimit të kërkesës)',
+        'Data e aprovimit të deklaratës së nevojave dhe disponueshmërisë së mjeteve', 'Data e pranimit të specifikimit teknik (TOR)', 'Data e publikimit të njoftimit për kontratë', 
+        'Ankesat në autoritet', 'Ankesat në OSHP', 'Data e hapjes së ofertave','Nr. i OE që kanë shkarkuar dosjen e tenderit', 'Nr. i OE që kanë dorëzuar ofertat', 
+        'Data e fillimit dhe përfundimit të vlersimit', 'Numri i ofertave të refuzuara', 'Data e aprovimit të Deklaratës së nevojave dhe disponueshmërisë së mjeteve - rikonfirmimi',
+        'Data e publikimit të njoftimit për dhënie të kontratës', 'Data e publikimit të anulimit të njoftimit', 'Letrat Standarde për OE', 'Ankesat në autoritet', 'Ankesat në OSHP', 
+        'Vlera e parashikuar e kontratës', 'OE', 'Afati kohor për pranimin e tenderëve', 'Kriteret për dhënie të kontratës', 'Re-tenderimi', 'Statusi', 'Emri i OE të cilit i është dhënë kontrata',
+        'Data e nënshkrimit të kontratës', 'Afati për implementimin e kontratës', 'Data e mbylljes së kontratës', 'Vlera totale e kontratës, duke përfshirë të gjitha taksat', 
+        'Numri i përgjithshëm i situacioneve për pagesë, sipas kontratës'];
         if (data.length !== 0) {
-            let fast_csv = csv.createWriteStream();
+            let fast_csv = csv.createWriteStream({headers: true});
             let writeStream = fs.createWriteStream(`./prishtina-contracts-importer/data/procurements/${folder}/${year + '.csv'}`);
             fast_csv.pipe(writeStream);
             let largestInstallment = 0;
             let largestAnnex = 0;
             for (row of data) {
-                for (t = 0; t < row.installments.length; t++) {
-                    if (row.installments.length > largestInstallment) {
-                        largestInstallment = row.installments.length;
-                    }
-                }
                 for (t = 0; t < row.contract.annexes.length; t++) {
                     if (row.contract.annexes.length > largestAnnex) {
                         largestAnnex = row.contract.annexes.length;
                     }
                 }
+                for (t = 0; t < row.installments.length; t++) {
+                    if (row.installments.length > largestInstallment) {
+                        largestInstallment = row.installments.length;
+                    }
+                }
             }
+            for(let i = 1; i<=largestAnnex; i++) {
+        
+                headerArray.push('Vlera totale e Aneks kontratës duke përfshirë të gjitha taksat(' + i +')' );
+                headerArray.push('Data e nënshkrimit të Aneks kontratës(' + i +')');
+            }
+            for(let i = 1; i<=largestInstallment; i++) {
+                headerArray.push('Data e pagesës së situacionit(' + i +')');
+                headerArray.push('Shuma e pagesës së situacionit(' + i +')');
+            }
+            headerArray.push('Shuma e zbritjes nga kontrata për shkaqe të ndalesave', 'Data e pagesës së situacionit të fundit', 'Shuma e pagesës së situacionit të fundit',
+                'Çmimi total i paguar për kontratën', 'Drejtoria', 'Emri i zyrtarit të prokurimit')
+            
             for (let i = 0; i < data.length; i++) {
                 function mapRowsData() {
                     var finalDataArr = [];
-
+                    if( i === 0 ) {
+                        for (let i = 0; i < headerArray.length; i++) {
+                            finalDataArr.push(headerArray[i]);
+                            
+                        }
+                    } else {
                     finalDataArr.push([formatPlanned(data[i].planned)]);
                     finalDataArr.push([formatBudget(data[i].budget)]);
                     finalDataArr.push([data[i].procurementNo]);
@@ -526,7 +552,7 @@ router.put('/update-csv/:year', (req, res) => {
                     finalDataArr.push([data[i].contract.totalPayedPriceForContract]);
                     finalDataArr.push([data[i].directorates]);
                     finalDataArr.push([data[i].nameOfProcurementOffical]);
-
+                }
                     return finalDataArr;
                 }
                 fast_csv.write(mapRowsData());
