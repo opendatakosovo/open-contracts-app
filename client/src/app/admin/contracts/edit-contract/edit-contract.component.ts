@@ -230,23 +230,27 @@ export class EditContractComponent implements OnInit {
       this.total = 0;
     }
     if (this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes !== undefined && this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes !== null) {
-      this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes = parseFloat(this.total.toString()).toLocaleString();
+      this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes = parseFloat(this.total.toFixed(2).toString()).toLocaleString(undefined, { minimumFractionDigits: 2 });
     }
     let sumInstallments = 0;
     this.contract.installments.map(installment => {
+      console.log(installment);
       if (installment.installmentAmount1 !== undefined && installment.installmentAmount1 !== null) {
         sumInstallments += parseFloat(installment.installmentAmount1.toString().replace(',', ''));
       } else {
         sumInstallments = 0;
       }
     });
+
+    console.log(sumInstallments);
+
     if (this.contract.lastInstallmentAmount !== undefined) {
       this.totalInstallments = parseFloat(this.contract.lastInstallmentAmount.toString().replace(',', '')) + sumInstallments;
     } else {
       this.totalInstallments = 0;
     }
     if (this.totalInstallments !== undefined) {
-      this.contract.contract.totalPayedPriceForContract = this.totalInstallments.toString().toLocaleString();
+      this.contract.contract.totalPayedPriceForContract = parseFloat(this.totalInstallments.toString()).toLocaleString(undefined, { minimumFractionDigits: 2 });
     }
   }
 
@@ -424,6 +428,15 @@ export class EditContractComponent implements OnInit {
             annex.annexContractSigningDate1 = annex.annexContractSigningDate1 == null ? null : this.dateChange(annex.annexContractSigningDate1);
           }
         }
+
+        ///
+        this.form.value.totalAmountOfContractsIncludingTaxes = parseFloat(this.form.value.totalAmountOfContractsIncludingTaxes.replace(',', '')).toLocaleString(undefined, { minimumFractionDigits: 2 });
+
+        this.form.patchValue({
+          'totalAmountOfContractsIncludingTaxes': this.form.value.totalAmountOfContractsIncludingTaxes
+        });
+        ///
+
         const formData = new FormData();
         formData.append('file', this.filesToUpload, this.filesToUpload['name']);
         formData.append('contract', JSON.stringify(this.contract));
@@ -457,6 +470,7 @@ export class EditContractComponent implements OnInit {
                 confirmButtonText: 'Kthehu te forma'
               });
             } else if (res.err) {
+              console.log(res);
               Swal('Gabim!', 'Kontrata nuk u ndryshua.', 'error');
             } else {
               Swal('Sukses!', 'Kontrata u ndryshua me sukses.', 'success').then((result) => {
@@ -498,6 +512,15 @@ export class EditContractComponent implements OnInit {
             annex.annexContractSigningDate1 = annex.annexContractSigningDate1 == null ? null : this.dateChange(annex.annexContractSigningDate1);
           }
         }
+
+        ///
+        this.form.value.totalAmountOfContractsIncludingTaxes = parseFloat(this.form.value.totalAmountOfContractsIncludingTaxes.replace(',', '')).toLocaleString(undefined, { minimumFractionDigits: 2 });
+
+        this.form.patchValue({
+          'totalAmountOfContractsIncludingTaxes': this.form.value.totalAmountOfContractsIncludingTaxes
+        });
+        ///
+
         const body = {
           requestedContract: this.contract,
           fileToDelete: null,
@@ -522,6 +545,8 @@ export class EditContractComponent implements OnInit {
                 confirmButtonText: 'Kthehu te forma'
               });
             } else if (res.err) {
+              console.log(res);
+
               Swal('Gabim!', 'Kontrata nuk u ndryshua.', 'error');
             } else {
               Swal('Sukses!', 'Kontrata u ndryshua me sukses.', 'success').then((result) => {

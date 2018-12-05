@@ -49,7 +49,7 @@ export class ContractInformationComponent implements OnInit {
           this.discountAmount = 0;
         }
         this.total = this.totalOfAnnexesWithTaxes - this.totalPayedPriceForContract - this.discountAmount;
-        this.total = parseFloat(this.total.toString()).toLocaleString();
+        this.total = parseFloat(this.total.toString()).toLocaleString(undefined, { minimumFractionDigits: 2 });
         if (this.contract.contract.implementationDeadline === null || this.contract.contract.implementationDeadline === '' || this.contract.contract.implementationDeadline === ' undefined' || this.contract.contract.implementationDeadline === 'n-a' || this.contract.contract.implementationDeadline === 'n/a') {
           this.contract.contract.implementationDeadline = '-';
         }
