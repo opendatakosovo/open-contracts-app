@@ -219,34 +219,34 @@ export class EditContractComponent implements OnInit {
     let sumAnnex = 0;
     this.contract.contract.annexes.map(annex => {
       if (annex.totalValueOfAnnexContract1 !== undefined && annex.totalValueOfAnnexContract1 !== null) {
-        sumAnnex += parseFloat(annex.totalValueOfAnnexContract1.toString());
+        sumAnnex += parseFloat(annex.totalValueOfAnnexContract1.toString().replace(',', ''));
       } else {
         sumAnnex = 0;
       }
     });
     if (this.contract.contract.totalAmountOfContractsIncludingTaxes !== undefined && this.contract.contract.totalAmountOfContractsIncludingTaxes !== null) {
-      this.total = parseFloat(this.contract.contract.totalAmountOfContractsIncludingTaxes.toString()) + sumAnnex;
+      this.total = parseFloat(this.contract.contract.totalAmountOfContractsIncludingTaxes.toString().replace(',', '')) + sumAnnex;
     } else {
       this.total = 0;
     }
     if (this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes !== undefined && this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes !== null) {
-      this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes = this.total.toString();
+      this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes = parseFloat(this.total.toString()).toLocaleString();
     }
     let sumInstallments = 0;
     this.contract.installments.map(installment => {
       if (installment.installmentAmount1 !== undefined && installment.installmentAmount1 !== null) {
-        sumInstallments += parseFloat(installment.installmentAmount1.toString());
+        sumInstallments += parseFloat(installment.installmentAmount1.toString().replace(',', ''));
       } else {
         sumInstallments = 0;
       }
     });
     if (this.contract.lastInstallmentAmount !== undefined) {
-      this.totalInstallments = parseFloat(this.contract.lastInstallmentAmount.toString()) + sumInstallments;
+      this.totalInstallments = parseFloat(this.contract.lastInstallmentAmount.toString().replace(',', '')) + sumInstallments;
     } else {
       this.totalInstallments = 0;
     }
     if (this.totalInstallments !== undefined) {
-      this.contract.contract.totalPayedPriceForContract = this.totalInstallments.toString();
+      this.contract.contract.totalPayedPriceForContract = this.totalInstallments.toString().toLocaleString();
     }
   }
 
