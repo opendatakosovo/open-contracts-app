@@ -19,7 +19,7 @@ export class ContractInformationComponent implements OnInit {
   totalOfAnnexesWithTaxes: number;
   totalPayedPriceForContract: number;
   discountAmount: number;
-  total: number;
+  total;
   currentUser: User;
 
   constructor(public contractsService: ContractsService, private router: ActivatedRoute,
@@ -34,21 +34,22 @@ export class ContractInformationComponent implements OnInit {
       .subscribe(data => {
         this.contract = data;
         if (this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes !== '' && this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes !== undefined && this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes !== null && this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes !== 'NaN') {
-          this.totalOfAnnexesWithTaxes = parseFloat(this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes.toString());
+          this.totalOfAnnexesWithTaxes = parseFloat(this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes.toString().replace(',', ''));
         } else {
           this.totalOfAnnexesWithTaxes = 0;
         }
         if (this.contract.contract.totalPayedPriceForContract !== '' && this.contract.contract.totalPayedPriceForContract !== undefined && this.contract.contract.totalPayedPriceForContract !== null && this.contract.contract.totalPayedPriceForContract !== 'NaN') {
-          this.totalPayedPriceForContract = parseFloat(this.contract.contract.totalPayedPriceForContract.toString());
+          this.totalPayedPriceForContract = parseFloat(this.contract.contract.totalPayedPriceForContract.toString().replace(',', ''));
         } else {
           this.totalPayedPriceForContract = 0;
         }
         if (this.contract.contract.discountAmountFromContract !== '' && this.contract.contract.discountAmountFromContract !== undefined && this.contract.contract.discountAmountFromContract !== null && this.contract.contract.discountAmountFromContract !== 'NaN') {
-          this.discountAmount = parseFloat(this.contract.contract.discountAmountFromContract.toString());
+          this.discountAmount = parseFloat(this.contract.contract.discountAmountFromContract.toString().replace(',', ''));
         } else {
           this.discountAmount = 0;
         }
         this.total = this.totalOfAnnexesWithTaxes - this.totalPayedPriceForContract - this.discountAmount;
+        this.total = parseFloat(this.total.toString()).toLocaleString();
         if (this.contract.contract.implementationDeadline === null || this.contract.contract.implementationDeadline === '' || this.contract.contract.implementationDeadline === ' undefined' || this.contract.contract.implementationDeadline === 'n-a' || this.contract.contract.implementationDeadline === 'n/a') {
           this.contract.contract.implementationDeadline = '-';
         }

@@ -192,17 +192,21 @@ export class AddContractComponent implements OnInit {
   calculateValues() {
     let sumAnnex = 0;
     this.contract.contract.annexes.map(annex => {
-      sumAnnex += parseFloat(annex.totalValueOfAnnexContract1.toString());
+      sumAnnex += parseFloat(annex.totalValueOfAnnexContract1.toString().replace(',', ''));
     });
-    this.total = parseFloat(this.contract.contract.totalAmountOfContractsIncludingTaxes.toString()) + sumAnnex;
-    this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes = this.total.toString();
+    console.log('annex ' + sumAnnex);
+    this.total = parseFloat(this.contract.contract.totalAmountOfContractsIncludingTaxes.toString().replace(',', '')) + sumAnnex;
+    console.log('totalAmountOfContractsIncludingTaxes ' + this.contract.contract.totalAmountOfContractsIncludingTaxes.toString());
+    console.log('totla' + this.total);
+
+    this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes = parseFloat(this.total.toString()).toLocaleString();
 
     let sumInstallments = 0;
     this.contract.installments.map(installment => {
-      sumInstallments += parseFloat(installment.installmentAmount1.toString());
+      sumInstallments += parseFloat(installment.installmentAmount1.toString().replace(',', ''));
     });
-    this.totalInstallments = parseFloat(this.contract.lastInstallmentAmount.toString()) + sumInstallments;
-    this.contract.contract.totalPayedPriceForContract = this.totalInstallments.toString();
+    this.totalInstallments = parseFloat(this.contract.lastInstallmentAmount.toString().replace(',', '')) + sumInstallments;
+    this.contract.contract.totalPayedPriceForContract = parseFloat(this.totalInstallments.toString()).toLocaleString();
   }
 
   monDiff(d1, d2): number {
