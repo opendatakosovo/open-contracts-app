@@ -524,7 +524,7 @@
       </div>
       <hr>
       <h4 class="title-situations">Situacionet</h4>
-      <div *ngIf="contract.installments.length > 1">
+      <div *ngIf="contract.installments.length > 0">
         <div *ngFor="let installment of contract.installments; let i = index" class="row">
           <br>
           <div class="col-md-6">
