@@ -28,6 +28,8 @@ export class AddContractComponent implements OnInit {
   endImplementationDeadline: Date;
   arrayInstallments: number[];
   filesToUpload: File = null;
+  docsToUpload: File[] = [];
+  docsFileNames = [];
   contract: Contract;
   directorates: Directorate[];
   bsConfig: Partial<BsDatepickerConfig>;
@@ -40,6 +42,7 @@ export class AddContractComponent implements OnInit {
   total: Number;
   totalInstallments: Number;
   currentUser: User;
+  documents: FormArray;
 
   constructor(public contractsService: ContractsService, public directorateService: DirectorateService, private _fb: FormBuilder, private router: Router, public datasetService: DatasetService) {
 
@@ -106,7 +109,8 @@ export class AddContractComponent implements OnInit {
       directorate: '',
       nameOfProcurementOffical: '',
       annexes: this.formArrayAnnexes,
-      installments: this.formArrayInstallments
+      installments: this.formArrayInstallments,
+      documents: _fb.array([])
     });
     this.initAnnexes();
     this.initInstallments();
@@ -114,6 +118,7 @@ export class AddContractComponent implements OnInit {
   }
 
   @ViewChild('fileInput') fileInput;
+  @ViewChild('docInput') docInput;
 
   ngOnInit() {
     if (this.currentUser.role !== 'superadmin' && this.currentUser.role !== 'admin') {
@@ -124,6 +129,10 @@ export class AddContractComponent implements OnInit {
 
   onClick() {
     this.fileInput.nativeElement.click();
+  }
+
+  docsButtonClick(index) {
+    document.getElementById('doc-' + index).click();
   }
 
   addInstallment(installment: Installment) {
@@ -194,10 +203,7 @@ export class AddContractComponent implements OnInit {
     this.contract.contract.annexes.map(annex => {
       sumAnnex += parseFloat(annex.totalValueOfAnnexContract1.toString().replace(',', ''));
     });
-    console.log('annex ' + sumAnnex);
     this.total = parseFloat(this.contract.contract.totalAmountOfContractsIncludingTaxes.toString().replace(',', '')) + sumAnnex;
-    console.log('totalAmountOfContractsIncludingTaxes ' + this.contract.contract.totalAmountOfContractsIncludingTaxes.toString());
-    console.log('totla' + this.total);
 
     this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes = parseFloat(this.total.toString()).toLocaleString();
 
@@ -213,6 +219,7 @@ export class AddContractComponent implements OnInit {
     return moment(d2).diff(d1, 'months') >= 1 ? moment(d2).diff(d1, 'months') : moment(d2).diff(d1, 'days');
   }
 
+
   fileChangeEvent(event) {
     if (event.target.files.length > 0 || this.filesToUpload == null) {
       this.filesToUpload = event.target.files[0];
@@ -224,6 +231,39 @@ export class AddContractComponent implements OnInit {
         this.message = 'Tipi dokumentit nuk është valid, duhet të jetë i tipit pdf';
       } else {
         this.valid = true;
+      }
+    }
+  }
+
+  addDocument() {
+    this.documents = this.form.get('documents') as FormArray;
+    this.documents.push(
+      this._fb.group({
+        doc: '',
+        error: false,
+        errorMsg: ''
+      })
+    );
+  }
+
+  removeDocument(id) {
+    this.documents.removeAt(id);
+  }
+
+  docsChangeEvent(event, index) {
+    const docsTypes = ['application/msword', 'application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.ms-excel'];
+    if (event.target.files.length > 0) {
+      const theFile = event.target.files[0];
+      if (docsTypes.includes(theFile.type)) {
+        const nameArea = <HTMLInputElement>document.getElementById('docname' + index);
+        nameArea.value = theFile.name;
+        const newFileName = theFile.name.slice(0, -4) + '-' + Date.now() + '.pdf';
+        const newFile = new File([theFile], newFileName);
+        this.docsToUpload.push(newFile);
+        this.docsFileNames.push(newFileName);
+        this.documents.controls[index].setValue({ doc: '', error: false, errorMsg: '' });
+      } else {
+        this.documents.controls[index].setValue({ doc: '', error: true, errorMsg: 'Tipi dokumentit nuk është valid, duhet të jetë i tipit pdf, docx, doc ose xls' });
       }
     }
   }
@@ -247,6 +287,13 @@ export class AddContractComponent implements OnInit {
   addContract(e) {
     e.preventDefault();
     this.calculateValues();
+    // Add documents to form data
+    const docsFormData = new FormData();
+    for (let i = 0; i < this.docsToUpload.length; i++) {
+      docsFormData.append('file', this.docsToUpload[i]);
+    }
+
+    this.contract.documents = this.docsFileNames;
     if (this.form.valid === true) {
       if (this.filesToUpload !== null && this.valid === true) {
         if (this.form.value.implementationDeadlineNumber !== null && this.form.value.implementationDeadlineNumber !== '') {
@@ -298,38 +345,46 @@ export class AddContractComponent implements OnInit {
             Swal.showLoading();
           }
         });
-        this.contractsService.addContract(formData, 'multipart')
-          .takeUntil(this.unsubscribeAll)
-          .subscribe(res => {
-            if (res.existErr) {
-              Swal('Kujdes!', 'Dokumenti Kontratës ekziston!.', 'warning');
-            } else if (res.typeValidation) {
-              Swal('Kujdes!', 'Tipi Dokumentit Kontratës është i gabuar.', 'warning');
-            } else if (res.errVld) {
-              let errList = '';
-              for (const v of res.errVld) {
-                errList += `<li>${v}</li>`;
-              }
-              const htmlData = `<div style="text-align: center;">${errList}</div>`;
-              Swal({
-                title: 'Kujdes!',
-                html: htmlData,
-                width: 750,
-                type: 'info',
-                confirmButtonText: 'Kthehu te forma'
-              });
-            } else if (res.err) {
-              Swal('Gabim!', 'Kontrata nuk u shtua.', 'error');
+        this.contractsService.uploadDocuments(docsFormData)
+          .subscribe(docResponse => {
+            if (docResponse['_body'] === 'Completed') {
+              // Add the contract if documents are uploaded successfully
+              this.contractsService.addContract(formData, 'multipart')
+                .takeUntil(this.unsubscribeAll)
+                .subscribe(res => {
+                  if (res.existErr) {
+                    Swal('Kujdes!', 'Dokumenti Kontratës ekziston!.', 'warning');
+                  } else if (res.typeValidation) {
+                    Swal('Kujdes!', 'Tipi Dokumentit Kontratës është i gabuar.', 'warning');
+                  } else if (res.errVld) {
+                    let errList = '';
+                    for (const v of res.errVld) {
+                      errList += `<li>${v}</li>`;
+                    }
+                    const htmlData = `<div style="text-align: center;">${errList}</div>`;
+                    Swal({
+                      title: 'Kujdes!',
+                      html: htmlData,
+                      width: 750,
+                      type: 'info',
+                      confirmButtonText: 'Kthehu te forma'
+                    });
+                  } else if (res.err) {
+                    Swal('Gabim!', 'Kontrata nuk u shtua.', 'error');
+                  } else {
+                    Swal('Sukses!', 'Kontrata u shtua me sukses.', 'success').then((result) => {
+                      this.datasetService.updateCsv(this.contract.year, this.contract)
+                        .takeUntil(this.unsubscribeAll)
+                        .subscribe(data => {
+                        });
+                      if (result.value) {
+                        this.router.navigate(['/dashboard/contracts']);
+                      }
+                    });
+                  }
+                });
             } else {
-              Swal('Sukses!', 'Kontrata u shtua me sukses.', 'success').then((result) => {
-                this.datasetService.updateCsv(this.contract.year, this.contract)
-                  .takeUntil(this.unsubscribeAll)
-                  .subscribe(data => {
-                  });
-                if (result.value) {
-                  this.router.navigate(['/dashboard/contracts']);
-                }
-              });
+              Swal('Gabim!', 'Kontrata nuk u shtua.', 'error');
             }
           });
       } else if (this.filesToUpload === null) {
@@ -371,34 +426,43 @@ export class AddContractComponent implements OnInit {
             annex.annexContractSigningDate1 = annex.annexContractSigningDate1 == null ? null : this.dateChange(annex.annexContractSigningDate1);
           }
         }
-        this.contractsService.addContract(this.contract)
-          .takeUntil(this.unsubscribeAll)
-          .subscribe(res => {
-            if (res.errVld) {
-              let errList = '';
-              for (const v of res.errVld) {
-                errList += `<li>${v}</li>`;
-              }
-              const htmlData = `<div style="text-align: center;">${errList}</div>`;
-              Swal({
-                title: 'Kujdes!',
-                html: htmlData,
-                width: 750,
-                type: 'info',
-                confirmButtonText: 'Kthehu te forma'
-              });
-            } else if (res.err) {
-              Swal('Gabim!', 'Kontrata nuk u shtua.', 'error');
+
+        this.contractsService.uploadDocuments(docsFormData)
+          .subscribe(docResponse => {
+            if (docResponse['_body'] === 'Completed') {
+              // Add the contract if documents are uploaded successfully
+              this.contractsService.addContract(this.contract)
+                .takeUntil(this.unsubscribeAll)
+                .subscribe(res => {
+                  if (res.errVld) {
+                    let errList = '';
+                    for (const v of res.errVld) {
+                      errList += `<li>${v}</li>`;
+                    }
+                    const htmlData = `<div style="text-align: center;">${errList}</div>`;
+                    Swal({
+                      title: 'Kujdes!',
+                      html: htmlData,
+                      width: 750,
+                      type: 'info',
+                      confirmButtonText: 'Kthehu te forma'
+                    });
+                  } else if (res.err) {
+                    Swal('Gabim!', 'Kontrata nuk u shtua.', 'error');
+                  } else {
+                    Swal('Sukses!', 'Kontrata u shtua me sukses.', 'success').then((result) => {
+                      this.datasetService.updateCsv(this.contract.year, this.contract)
+                        .takeUntil(this.unsubscribeAll)
+                        .subscribe(data => {
+                        });
+                      if (result.value) {
+                        this.router.navigate(['/dashboard/contracts']);
+                      }
+                    });
+                  }
+                });
             } else {
-              Swal('Sukses!', 'Kontrata u shtua me sukses.', 'success').then((result) => {
-                this.datasetService.updateCsv(this.contract.year, this.contract)
-                  .takeUntil(this.unsubscribeAll)
-                  .subscribe(data => {
-                  });
-                if (result.value) {
-                  this.router.navigate(['/dashboard/contracts']);
-                }
-              });
+              Swal('Gabim!', 'Kontrata nuk u shtua.', 'error');
             }
           });
       }
@@ -410,4 +474,11 @@ export class AddContractComponent implements OnInit {
     const oldDate = new Date(date);
     return new Date(oldDate.getTime() + Math.abs(oldDate.getTimezoneOffset() * 60000));
   }
+
+  get formData() {
+    return <FormArray>this.form.get('documents');
+  }
+
+
+
 }

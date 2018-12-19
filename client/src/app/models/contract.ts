@@ -68,6 +68,7 @@ export class Contract {
     };
     year?: Number;
     flagStatus?: Number;
+    documents: String[];
 
 
     constructor() {
@@ -129,6 +130,7 @@ export class Contract {
         };
         this.year = 0;
         this.flagStatus = 1;
+        this.documents = [];
     }
 
 }

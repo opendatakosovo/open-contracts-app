@@ -40,6 +40,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Body parser middleware
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(helmet());
 
@@ -57,6 +58,11 @@ app.use(require('./controllers'));
 // Route all upload files
 app.get('/uploads/:filename', (req, res) => {
   res.sendFile(path.join(__dirname, `uploads/${req.params.filename}`));
+})
+
+// Route all documents files
+app.get('/documents/:filename', (req, res) => {
+  res.sendFile(path.join(__dirname, `documents/${req.params.filename}`));
 })
 
 // Route all dataset files

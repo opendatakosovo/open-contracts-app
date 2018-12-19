@@ -80,7 +80,8 @@ const ContractSchema = mongoose.Schema({
     year: { type: Number },
     flagStatus: { type: Number, default: 1 },
     fppClassification: { type: Number },
-    imported: { type: Boolean, default: false }
+    imported: { type: Boolean, default: false },
+    documents: [{ type: String }]
 }, schemaOptions);
 
 

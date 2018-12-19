@@ -652,6 +652,20 @@
           </div>
         </div>
       </div>
+      <div class="row mb-2">
+        <br>
+        <div class="col-md-12">
+          <label>Dokumentet</label>
+          <div *ngIf="contract.documents == null || contract.documents.length === 0; else showDocs">
+            <p>-</p>
+          </div>
+          <ng-template #showDocs>
+            <div *ngFor="let document of contract.documents">
+              <a href="/documents/{{document}}" target="_blank">{{ document }}</a>
+            </div>
+          </ng-template>
+        </div>
+      </div>
       <div class="row">
         <br>
         <div class="col-md-12" id="last-row">
@@ -665,6 +679,7 @@
           <app-contract-comments></app-contract-comments>
         </div>
       </div>
+
     </div>
   </form>
 </div>
