@@ -481,10 +481,10 @@
         </div>
         <div class="col-md-6">
           <label>Vlera totale e kontratës, duke përfshirë të gjitha taksat etj.</label>
-          <div *ngIf="!contract.contract.totalAmountOfContractsIncludingTaxes">
+          <div *ngIf="contract.contract.totalAmountOfContractsIncludingTaxes == '' || contract.contract.totalAmountOfContractsIncludingTaxes == null || contract.contract.totalAmountOfContractsIncludingTaxes == 'NaN'">
             <p>-</p>
           </div>
-          <div *ngIf="contract.contract.totalAmountOfContractsIncludingTaxes">
+          <div *ngIf="contract.contract.totalAmountOfContractsIncludingTaxes != '' && contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes != null && contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes != 'NaN'">
             <p>{{ contract.contract.totalAmountOfContractsIncludingTaxes }} &euro;</p>
           </div>
         </div>

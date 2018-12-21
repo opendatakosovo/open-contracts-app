@@ -293,10 +293,10 @@
         </div>
       </ng-template>
       <ng-template let-row="row" ngx-datatable-cell-template>
-        <p *ngIf="row.contract.totalAmountOfContractsIncludingTaxes == ''">
+        <p *ngIf="contract.contract.totalAmountOfContractsIncludingTaxes == '' || contract.contract.totalAmountOfContractsIncludingTaxes == null || contract.contract.totalAmountOfContractsIncludingTaxes == 'NaN'">
           -
         </p>
-        <p *ngIf="row.contract.totalAmountOfContractsIncludingTaxes != ''">
+        <p *ngIf="contract.contract.totalAmountOfContractsIncludingTaxes != '' && contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes != null && contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes != 'NaN'">">
           {{ row.contract.totalAmountOfContractsIncludingTaxes }} &euro;
         </p>
       </ng-template>
