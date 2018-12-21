@@ -55,7 +55,8 @@
         "contractSigningNotification": "Njoftim për nënshkrimin e kontratës",
         "procurementPlans": "Planet e prokurimit",
         "designAwardNotification": "Njoftim për konkurs të projektimit",
-        "priorNotification": "Njoftim paraprak"
+        "priorNotification": "Njoftim paraprak",
+        "procurementReview": "Vendimet e Organit shqyrtues të prokurimit"
     },
     "aboutUs": {
         "title": "Pse kontratat e nënshkruara publike?",
