@@ -312,4 +312,5 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
       });
     this.table.offset = 0;
   }
+
 }

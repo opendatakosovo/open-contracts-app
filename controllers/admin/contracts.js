@@ -441,6 +441,7 @@ router.post("/", passport.authenticate('jwt', { session: false }), authorize("su
         }
 
         let contract = new Contract(requestedContract);
+        console.log(contract);
         contract.contract.file = fileName;
         contract.company.slug = slugify(requestedContract.company.name)
         contract.company.headquarters.slug = slugify(requestedContract.company.headquarters.name);
@@ -1071,6 +1072,55 @@ router.post('/filter', (req, res) => {
             });
     }
 });
+
+
+
+///////////////////////////////////////////////////////////
+////////////////// Upload documents ///////////////////////
+///////////////////////////////////////////////////////////
+
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+    destination(req, file, cb) {
+        cb(null, './documents')
+    },
+    filename(req, file, cb) {
+        cb(null, `${file.originalname}`)
+    }
+})
+
+const upload1 = multer({ storage: storage }).array('file', 10);
+
+router.post('/upload/documents', (req, res) => {
+    upload1(req, res, function (err) {
+        if (err) {
+            return res.end("Failed");
+        }
+        res.end("Completed");
+    });
+});
+
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////
+/////////////// Delete documents ///////////////////
+///////////////////////////////////////////////////////////
+router.post('/delete/documents', (req, res) => {
+    if (req.body.length > 0) {
+        const docsToDeleteArr = req.body;
+        docsToDeleteArr.forEach(doc => fs.unlink(`./documents/${doc}`, err => {
+            if (err) {
+                return;
+            }
+        }));
+    }
+    res.end("Completed");
+});
+
+
 
 
 

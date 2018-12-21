@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, AfterViewChecked } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Contract } from '../../../models/contract';
 import { Directorate } from '../../../models/directorates';
@@ -19,7 +19,7 @@ import { DatasetService } from '../../../service/dataset.service';
   templateUrl: './edit-contract.component.html',
   styleUrls: ['./edit-contract.component.css']
 })
-export class EditContractComponent implements OnInit {
+export class EditContractComponent implements OnInit, AfterViewChecked {
   private unsubscribeAll: Subject<any> = new Subject<any>();
   id: string;
   startOfEvaluationDate: Date;
@@ -42,6 +42,11 @@ export class EditContractComponent implements OnInit {
   @ViewChild('fileInput') fileInput;
   implementationDeadline = [];
   currentUser: User;
+  documents: FormArray;
+  contractDocsNames = [];
+  docsToDelete = [];
+  docsToUpload = [];
+
   constructor(public contractsService: ContractsService, private router: ActivatedRoute, public directorateService: DirectorateService, private _fb: FormBuilder, private route: Router, public datasetService: DatasetService) {
     this.directorates = [];
     this.contract = new Contract();
@@ -52,6 +57,10 @@ export class EditContractComponent implements OnInit {
       .takeUntil(this.unsubscribeAll)
       .subscribe(data => {
         this.contract = data;
+        for (let i = 0; i < this.contract.documents.length; i++) {
+          this.contractDocsNames.push(this.contract.documents[i]);
+          this.addDocument();
+        }
         if (data.bidOpeningDateTime === null) {
           this.contract.bidOpeningDate = data.bidOpeningDateTime;
         }
@@ -132,6 +141,7 @@ export class EditContractComponent implements OnInit {
       nameOfProcurementOffical: '',
       annexes: this.formArrayAnnexes,
       installments: this.formArrayInstallments,
+      documents: _fb.array([])
     });
     this.directorateService.getAllDirectorates()
       .takeUntil(this.unsubscribeAll)
@@ -139,6 +149,10 @@ export class EditContractComponent implements OnInit {
         this.directorates = data;
       });
     this.currentUser = JSON.parse(localStorage.getItem('user'));
+  }
+
+  ngAfterViewChecked() {
+    this.addDocumentNames();
   }
 
   onClick() {
@@ -235,15 +249,12 @@ export class EditContractComponent implements OnInit {
     }
     let sumInstallments = 0;
     this.contract.installments.map(installment => {
-      console.log(installment);
       if (installment.installmentAmount1 !== undefined && installment.installmentAmount1 !== null) {
         sumInstallments += parseFloat(installment.installmentAmount1.toString().replace(/,/g, ''));
       } else {
         sumInstallments = 0;
       }
     });
-
-    console.log(sumInstallments);
 
     if (this.contract.lastInstallmentAmount !== undefined) {
       this.totalInstallments = parseFloat(this.contract.lastInstallmentAmount.toString().replace(/,/g, '')) + sumInstallments;
@@ -399,6 +410,15 @@ export class EditContractComponent implements OnInit {
   updateContract(e) {
     e.preventDefault();
     this.calculateValues();
+
+    const docsFormData = new FormData();
+    for (let i = 0; i < this.docsToUpload.length; i++) {
+      docsFormData.append('file', this.docsToUpload[i]);
+    }
+
+
+    this.contract.documents = this.contractDocsNames;
+
     if (this.form.valid === true) {
       if (this.filesToUpload !== null && this.valid === true) {
         if (this.form.value.implementationDeadlineNumber !== null && this.form.value.implementationDeadlineNumber !== '' && this.form.value.implementationDeadlineNumber !== undefined) {
@@ -450,40 +470,54 @@ export class EditContractComponent implements OnInit {
             Swal.showLoading();
           }
         });
-        this.contractsService.updateContract(this.id, formData, 'multipart')
-          .takeUntil(this.unsubscribeAll)
-          .subscribe(res => {
-            if (res.existErr) {
-              Swal('Kujdes!', 'Dokumenti Kontratës ekziston!.', 'warning');
-            } else if (res.typeValidation) {
-              Swal('Kujdes!', 'Tipi Dokumentit Kontratës është i gabuar.', 'warning');
-            } else if (res.errVld) {
-              let errList = '';
-              for (const v of res.errVld) {
-                errList += `<li>${v}</li>`;
-              }
-              const htmlData = `<div style="text-align: center;">${errList}</div>`;
-              Swal({
-                title: 'Kujdes!',
-                html: htmlData,
-                width: 750,
-                type: 'info',
-                confirmButtonText: 'Kthehu te forma'
-              });
-            } else if (res.err) {
-              console.log(res);
-              Swal('Gabim!', 'Kontrata nuk u ndryshua.', 'error');
-            } else {
-              Swal('Sukses!', 'Kontrata u ndryshua me sukses.', 'success').then((result) => {
-                this.datasetService.updateCsv(this.contract.year, this.contract)
-                  .takeUntil(this.unsubscribeAll)
-                  .subscribe(data => {
-                  });
-                if (result.value) {
-                  this.route.navigate(['/dashboard/contracts']);
-                }
-              });
+
+        this.contractsService.deleteDocuments(this.docsToDelete)
+          .subscribe(docsRes => {
+            if (docsRes['_body'] === 'Completed') {
+              this.contractsService.uploadDocuments(docsFormData)
+                .subscribe(docsUploadRes => {
+                  if (docsUploadRes['_body'] === 'Completed') {
+
+                    this.contractsService.updateContract(this.id, formData, 'multipart')
+                      .takeUntil(this.unsubscribeAll)
+                      .subscribe(res => {
+                        if (res.existErr) {
+                          Swal('Kujdes!', 'Dokumenti Kontratës ekziston!.', 'warning');
+                        } else if (res.typeValidation) {
+                          Swal('Kujdes!', 'Tipi Dokumentit Kontratës është i gabuar.', 'warning');
+                        } else if (res.errVld) {
+                          let errList = '';
+                          for (const v of res.errVld) {
+                            errList += `<li>${v}</li>`;
+                          }
+                          const htmlData = `<div style="text-align: center;">${errList}</div>`;
+                          Swal({
+                            title: 'Kujdes!',
+                            html: htmlData,
+                            width: 750,
+                            type: 'info',
+                            confirmButtonText: 'Kthehu te forma'
+                          });
+                        } else if (res.err) {
+                          console.log(res);
+                          Swal('Gabim!', 'Kontrata nuk u ndryshua.', 'error');
+                        } else {
+                          Swal('Sukses!', 'Kontrata u ndryshua me sukses.', 'success').then((result) => {
+                            this.datasetService.updateCsv(this.contract.year, this.contract)
+                              .takeUntil(this.unsubscribeAll)
+                              .subscribe(data => {
+                              });
+                            if (result.value) {
+                              this.route.navigate(['/dashboard/contracts']);
+                            }
+                          });
+                        }
+                      });
+                  }
+                  Swal('Gabim!', 'Kontrata nuk u ndryshua.', 'error');
+                });
             }
+            Swal('Gabim!', 'Kontrata nuk u ndryshua.', 'error');
           });
       } else if (this.filesToUpload === null) {
         if (this.form.value.implementationDeadlineNumber !== null && this.form.value.implementationDeadlineNumber !== '' && this.form.value.implementationDeadlineNumber !== undefined) {
@@ -529,37 +563,51 @@ export class EditContractComponent implements OnInit {
         if (this.fileToDelete !== '') {
           body.fileToDelete = this.fileToDelete;
         }
-        this.contractsService.updateContract(this.id, body)
-          .takeUntil(this.unsubscribeAll)
-          .subscribe(res => {
-            if (res.errVld) {
-              let errList = '';
-              for (const v of res.errVld) {
-                errList += `<li>${v}</li>`;
-              }
-              const htmlData = `<div style="text-align: center;">${errList}</div>`;
-              Swal({
-                title: 'Kujdes!',
-                html: htmlData,
-                width: 750,
-                type: 'info',
-                confirmButtonText: 'Kthehu te forma'
-              });
-            } else if (res.err) {
-              console.log(res);
 
-              Swal('Gabim!', 'Kontrata nuk u ndryshua.', 'error');
-            } else {
-              Swal('Sukses!', 'Kontrata u ndryshua me sukses.', 'success').then((result) => {
-                this.datasetService.updateCsv(this.contract.year, this.contract)
-                  .takeUntil(this.unsubscribeAll)
-                  .subscribe(data => {
-                  });
-                if (result.value) {
-                  this.route.navigate(['/dashboard/contracts']);
-                }
-              });
+        this.contractsService.deleteDocuments(this.docsToDelete)
+          .subscribe(docsRes => {
+            if (docsRes['_body'] === 'Completed') {
+              this.contractsService.uploadDocuments(docsFormData)
+                .subscribe(docsUploadRes => {
+                  if (docsUploadRes['_body'] === 'Completed') {
+
+                    this.contractsService.updateContract(this.id, body)
+                      .takeUntil(this.unsubscribeAll)
+                      .subscribe(res => {
+                        if (res.errVld) {
+                          let errList = '';
+                          for (const v of res.errVld) {
+                            errList += `<li>${v}</li>`;
+                          }
+                          const htmlData = `<div style="text-align: center;">${errList}</div>`;
+                          Swal({
+                            title: 'Kujdes!',
+                            html: htmlData,
+                            width: 750,
+                            type: 'info',
+                            confirmButtonText: 'Kthehu te forma'
+                          });
+                        } else if (res.err) {
+                          console.log(res);
+
+                          Swal('Gabim!', 'Kontrata nuk u ndryshua.', 'error');
+                        } else {
+                          Swal('Sukses!', 'Kontrata u ndryshua me sukses.', 'success').then((result) => {
+                            this.datasetService.updateCsv(this.contract.year, this.contract)
+                              .takeUntil(this.unsubscribeAll)
+                              .subscribe(data => {
+                              });
+                            if (result.value) {
+                              this.route.navigate(['/dashboard/contracts']);
+                            }
+                          });
+                        }
+                      });
+                  }
+                  Swal('Gabim!', 'Kontrata nuk u ndryshua.', 'error');
+                });
             }
+            Swal('Gabim!', 'Kontrata nuk u ndryshua.', 'error');
           });
       }
     }
@@ -574,6 +622,67 @@ export class EditContractComponent implements OnInit {
     this.hasFileToDelete = true;
 
   }
+
+
+
+  ///////////// Documents ////////////////
+
+  docsButtonClick(index) {
+    document.getElementById('doc-' + index).click();
+  }
+
+  addDocumentNames() {
+    for (let i = 0; i < this.contractDocsNames.length; i++) {
+      // Add document name to input text
+      const nameArea = <HTMLInputElement>document.getElementById('docname' + i);
+      nameArea.value = this.contractDocsNames[i].toString();
+    }
+  }
+
+  addDocument() {
+    this.documents = this.form.get('documents') as FormArray;
+    this.documents.push(
+      this._fb.group({
+        doc: '',
+        error: false,
+        errorMsg: ''
+      })
+    );
+  }
+
+  removeDocument(id) {
+    this.documents.removeAt(id);
+    this.docsToDelete.push(this.contract.documents[id]);
+    this.contractDocsNames = this.contractDocsNames.filter((doc) => {
+      return doc !== this.contract.documents[id];
+    });
+  }
+
+  docsChangeEvent(event, index) {
+    const docsTypes = ['application/msword', 'application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.ms-excel'];
+    if (event.target.files.length > 0) {
+      const theFile = event.target.files[0];
+      if (docsTypes.includes(theFile.type)) {
+        const nameArea = <HTMLInputElement>document.getElementById('docname' + index);
+        nameArea.value = theFile.name;
+        const newFileName = theFile.name.slice(0, -4) + '-' + Date.now() + '.pdf';
+        const newFile = new File([theFile], newFileName);
+        this.docsToUpload.push(newFile);
+        this.contractDocsNames.push(newFileName);
+        this.documents.controls[index].setValue({ doc: '', error: false, errorMsg: '' });
+      } else {
+        this.documents.controls[index].setValue({ doc: '', error: true, errorMsg: 'Tipi dokumentit nuk është valid, duhet të jetë i tipit pdf, docx, doc ose xls' });
+      }
+    }
+  }
+
+
+  ///////////// Documents ////////////////
+
+  get formData() {
+    return <FormArray>this.form.get('documents');
+  }
+
 }
 
 

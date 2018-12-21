@@ -64,4 +64,12 @@ export class ContractsService {
   serverSortContractsDescending(data) {
     return this.http.postWithAuth(`${this.APIUrl}/contracts/page/descending`, data).map(res => res.json());
   }
+
+  uploadDocuments(data) {
+    return this.http.uploadFiles(`${this.APIUrl}/contracts/upload/documents`, data).map(res => res);
+  }
+
+  deleteDocuments(data) {
+    return this.http.postWithAuth(`${this.APIUrl}/contracts/delete/documents`, data).map(res => res);
+  }
 }

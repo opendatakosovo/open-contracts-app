@@ -684,13 +684,43 @@
                     <i class="fa fa-chevron-left" aria-hidden="true"></i>
                   </button>
                 </div>
-                <input type="text" class="form-control" placeholder="Bashkangjit dokumentin" id="name-area" aria-label="upload file"
+                <input type="text" class="form-control" placeholder="Bashkangjit kontratën" id="name-area" aria-label="upload file"
                   aria-describedby="basic-addon2" [style.border-color]="!valid && touched ? 'red' : '#ced4da'" disabled>
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary" type="button" (click)="onClick()">Bashkangjit</button>
                 </div>
               </div>
               <div *ngIf=" !valid && touched" class="error-msg">{{message}}</div>
+            </div>
+
+            <div formArrayName="documents" *ngFor="let document of formData.controls; let i = index;">
+              <p class="mb-0" *ngIf="i == 0">Dokumente</p>
+              <div class="form-group" id="upload-document">
+                <input type="file" name="docFile" [id]="'doc-'+i" (change)="docsChangeEvent($event, i)" style="display: none">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend" id="button-addon3">
+                    <button class="btn btn-outline-secondary" type="button" (click)="removeDocument(i)">
+                      <i class="fa fa-times" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                  <input type="text" class="form-control" placeholder="Bashkangjit dokumentin" [id]="'docname'+i"
+                    aria-label="upload file" aria-describedby="basic-addon2" [style.border-color]="document.controls.error.value ? 'red' : '#ced4da'"
+                    disabled>
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" (click)="docsButtonClick(i)">Bashkangjit</button>
+                  </div>
+                </div>
+                <div *ngIf="document.controls.error.value" class="error-msg">{{document.controls.errorMsg.value}}</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div>
+                <button *ngIf="formData.controls.length < 10" type="button" data-toggle="tooltip" title="Bashkangjit dokumentin"
+                  class="btn btn-outline-primary buttons button-exec" (click)="addDocument()">
+                  <span class="fa fa-plus"></span> {{ form.get('documents').controls.length === 0 ? 'Bashkangjit
+                  dokument' : 'Bashkangjit dokument tjetër' }}
+                </button>
+              </div>
             </div>
           </div>
         </div>

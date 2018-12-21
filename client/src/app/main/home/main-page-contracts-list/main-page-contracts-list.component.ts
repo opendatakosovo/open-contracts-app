@@ -371,4 +371,5 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
       }
     });
   }
+
 }
