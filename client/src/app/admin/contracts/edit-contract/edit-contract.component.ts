@@ -219,13 +219,14 @@ export class EditContractComponent implements OnInit {
     let sumAnnex = 0;
     this.contract.contract.annexes.map(annex => {
       if (annex.totalValueOfAnnexContract1 !== undefined && annex.totalValueOfAnnexContract1 !== null) {
-        sumAnnex += parseFloat(annex.totalValueOfAnnexContract1.toString().replace(',', ''));
+        sumAnnex += parseFloat(annex.totalValueOfAnnexContract1.toString().replace(/,/g, ''));
       } else {
         sumAnnex = 0;
       }
     });
+    console.log(this.contract.contract.totalAmountOfContractsIncludingTaxes);
     if (this.contract.contract.totalAmountOfContractsIncludingTaxes !== undefined && this.contract.contract.totalAmountOfContractsIncludingTaxes !== null) {
-      this.total = parseFloat(this.contract.contract.totalAmountOfContractsIncludingTaxes.toString().replace(',', '')) + sumAnnex;
+      this.total = parseFloat(this.contract.contract.totalAmountOfContractsIncludingTaxes.toString().replace(/,/g, '')) + sumAnnex;
     } else {
       this.total = 0;
     }
@@ -236,7 +237,7 @@ export class EditContractComponent implements OnInit {
     this.contract.installments.map(installment => {
       console.log(installment);
       if (installment.installmentAmount1 !== undefined && installment.installmentAmount1 !== null) {
-        sumInstallments += parseFloat(installment.installmentAmount1.toString().replace(',', ''));
+        sumInstallments += parseFloat(installment.installmentAmount1.toString().replace(/,/g, ''));
       } else {
         sumInstallments = 0;
       }
@@ -245,7 +246,7 @@ export class EditContractComponent implements OnInit {
     console.log(sumInstallments);
 
     if (this.contract.lastInstallmentAmount !== undefined) {
-      this.totalInstallments = parseFloat(this.contract.lastInstallmentAmount.toString().replace(',', '')) + sumInstallments;
+      this.totalInstallments = parseFloat(this.contract.lastInstallmentAmount.toString().replace(/,/g, '')) + sumInstallments;
     } else {
       this.totalInstallments = 0;
     }
@@ -430,7 +431,7 @@ export class EditContractComponent implements OnInit {
         }
 
         ///
-        this.form.value.totalAmountOfContractsIncludingTaxes = parseFloat(this.form.value.totalAmountOfContractsIncludingTaxes.replace(',', '')).toLocaleString(undefined, { minimumFractionDigits: 2 });
+        this.form.value.totalAmountOfContractsIncludingTaxes = parseFloat(this.form.value.totalAmountOfContractsIncludingTaxes.replace(/,/g, '')).toLocaleString(undefined, { minimumFractionDigits: 2 });
 
         this.form.patchValue({
           'totalAmountOfContractsIncludingTaxes': this.form.value.totalAmountOfContractsIncludingTaxes
@@ -514,7 +515,7 @@ export class EditContractComponent implements OnInit {
         }
 
         ///
-        this.form.value.totalAmountOfContractsIncludingTaxes = parseFloat(this.form.value.totalAmountOfContractsIncludingTaxes.replace(',', '')).toLocaleString(undefined, { minimumFractionDigits: 2 });
+        this.form.value.totalAmountOfContractsIncludingTaxes = parseFloat(this.form.value.totalAmountOfContractsIncludingTaxes.replace(/,/g, '')).toLocaleString(undefined, { minimumFractionDigits: 2 });
 
         this.form.patchValue({
           'totalAmountOfContractsIncludingTaxes': this.form.value.totalAmountOfContractsIncludingTaxes

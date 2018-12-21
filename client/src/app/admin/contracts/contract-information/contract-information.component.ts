@@ -34,17 +34,17 @@ export class ContractInformationComponent implements OnInit {
       .subscribe(data => {
         this.contract = data;
         if (this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes !== '' && this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes !== undefined && this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes !== null && this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes !== 'NaN') {
-          this.totalOfAnnexesWithTaxes = parseFloat(this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes.toString().replace(',', ''));
+          this.totalOfAnnexesWithTaxes = parseFloat(this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes.toString().replace(/,/g, ''));
         } else {
           this.totalOfAnnexesWithTaxes = 0;
         }
         if (this.contract.contract.totalPayedPriceForContract !== '' && this.contract.contract.totalPayedPriceForContract !== undefined && this.contract.contract.totalPayedPriceForContract !== null && this.contract.contract.totalPayedPriceForContract !== 'NaN') {
-          this.totalPayedPriceForContract = parseFloat(this.contract.contract.totalPayedPriceForContract.toString().replace(',', ''));
+          this.totalPayedPriceForContract = parseFloat(this.contract.contract.totalPayedPriceForContract.toString().replace(/,/g, ''));
         } else {
           this.totalPayedPriceForContract = 0;
         }
         if (this.contract.contract.discountAmountFromContract !== '' && this.contract.contract.discountAmountFromContract !== undefined && this.contract.contract.discountAmountFromContract !== null && this.contract.contract.discountAmountFromContract !== 'NaN') {
-          this.discountAmount = parseFloat(this.contract.contract.discountAmountFromContract.toString().replace(',', ''));
+          this.discountAmount = parseFloat(this.contract.contract.discountAmountFromContract.toString().replace(/,/g, ''));
         } else {
           this.discountAmount = 0;
         }
