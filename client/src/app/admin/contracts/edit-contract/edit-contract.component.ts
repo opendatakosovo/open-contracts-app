@@ -238,8 +238,7 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
         sumAnnex = 0;
       }
     });
-    console.log(this.contract.contract.totalAmountOfContractsIncludingTaxes);
-    if (this.contract.contract.totalAmountOfContractsIncludingTaxes !== undefined && this.contract.contract.totalAmountOfContractsIncludingTaxes !== null) {
+    if (this.contract.contract.totalAmountOfContractsIncludingTaxes) {
       this.total = parseFloat(this.contract.contract.totalAmountOfContractsIncludingTaxes.toString().replace(/,/g, '')) + sumAnnex;
     } else {
       this.total = 0;
@@ -451,11 +450,13 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
         }
 
         ///
-        this.form.value.totalAmountOfContractsIncludingTaxes = parseFloat(this.form.value.totalAmountOfContractsIncludingTaxes.replace(/,/g, '')).toLocaleString(undefined, { minimumFractionDigits: 2 });
+        if (this.form.value.totalAmountOfContractsIncludingTaxes) {
+          this.form.value.totalAmountOfContractsIncludingTaxes = parseFloat(this.form.value.totalAmountOfContractsIncludingTaxes.replace(/,/g, '')).toLocaleString(undefined, { minimumFractionDigits: 2 });
 
-        this.form.patchValue({
-          'totalAmountOfContractsIncludingTaxes': this.form.value.totalAmountOfContractsIncludingTaxes
-        });
+          this.form.patchValue({
+            'totalAmountOfContractsIncludingTaxes': this.form.value.totalAmountOfContractsIncludingTaxes
+          });
+        }
         ///
 
         const formData = new FormData();
@@ -549,11 +550,13 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
         }
 
         ///
-        this.form.value.totalAmountOfContractsIncludingTaxes = parseFloat(this.form.value.totalAmountOfContractsIncludingTaxes.replace(/,/g, '')).toLocaleString(undefined, { minimumFractionDigits: 2 });
+        if (this.form.value.totalAmountOfContractsIncludingTaxes) {
+          this.form.value.totalAmountOfContractsIncludingTaxes = parseFloat(this.form.value.totalAmountOfContractsIncludingTaxes.replace(/,/g, '')).toLocaleString(undefined, { minimumFractionDigits: 2 });
 
-        this.form.patchValue({
-          'totalAmountOfContractsIncludingTaxes': this.form.value.totalAmountOfContractsIncludingTaxes
-        });
+          this.form.patchValue({
+            'totalAmountOfContractsIncludingTaxes': this.form.value.totalAmountOfContractsIncludingTaxes
+          });
+        }
         ///
 
         const body = {

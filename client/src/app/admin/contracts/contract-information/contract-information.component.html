@@ -609,10 +609,10 @@
           <label>Çmimi total i papaguar për kontratën (Në këtë çmim është përfshirë edhe shuma e zbritjes për shkak të
             ndalesave)</label>
           <div>
-            <div *ngIf="total == 0">
+            <div *ngIf="!total">
               <p class="highlighted-values">-</p>
             </div>
-            <div *ngIf="total != 0">
+            <div *ngIf="total">
               <p class="highlighted-values">{{ total }} &euro;</p>
             </div>
           </div>
