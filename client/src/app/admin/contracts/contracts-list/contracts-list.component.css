@@ -94,7 +94,7 @@ i {
 .contracts-filter-form .form-input {
     margin-right: 20px;
     border: 1px #32a6bd solid;
-    width: 22%;
+    width: 18%;
     font-family: 'Roboto', sans-serif;
     font-size: 20px;
     font-weight: 100;
@@ -118,7 +118,7 @@ i {
     border: 1px #32a6bd solid;
     -webkit-appearance: none;
     -moz-appearance: none;
-    width: 23%;
+    width: 18%;
     font-family: 'Roboto', sans-serif;
     font-size: 20px;
     font-weight: 100;
