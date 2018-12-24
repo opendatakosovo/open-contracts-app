@@ -38,6 +38,7 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
     referenceDate: new Date(),
     value: '',
     year: '',
+    procurementNo: '',
     pageInfo: new Page()
   };
   offsetX: number;
@@ -66,6 +67,7 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
       referenceDate: null,
       value: '',
       year: '2018',
+      procurementNo: '',
       pageInfo: {
         pageNumber: 0,
         size: 10,
