@@ -61,6 +61,9 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
           this.contractDocsNames.push(this.contract.documents[i]);
           this.addDocument();
         }
+        if (this.contract.contract.totalAmountOfContractsIncludingTaxes === 'NaN') {
+          this.contract.contract.totalAmountOfContractsIncludingTaxes = '0';
+        }
         if (data.bidOpeningDateTime === null) {
           this.contract.bidOpeningDate = data.bidOpeningDateTime;
         }
@@ -325,6 +328,10 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
 
     if (contract.company.standardDocuments != null) {
       contract.company.standardDocuments = new Date(contract.company.standardDocuments);
+    }
+    console.log(contract.contract.totalAmountOfContractsIncludingTaxes === 'NaN');
+    if (contract.contract.totalAmountOfContractsIncludingTaxes === NaN) {
+      contract.contract.totalAmountOfContractsIncludingTaxes = '0';
     }
 
     for (const installment of contract.installments) {
