@@ -13,11 +13,12 @@
           [bsConfig]="bsConfig" name="date" id="date" class="form-control form-select" [(ngModel)]="search.date">
         <input type="text" (keyup)="onType()" [(ngModel)]="search.value" name="value" class="form-control form-input"
           placeholder="Vlera">
+        <input (keyup)="onType()" [(ngModel)]="search.procurementNo" name="procurementNo" class="form-control form-input"
+          placeholder="Numri i prokurimit">
       </form>
     </div>
   </div>
 </div>
-
 <div id="table">
   <ngx-datatable #table class="bootstrap" columnMode="'force'" [rows]="rows" [headerHeight]="'auto'" [summaryRow]="false"
     [summaryPosition]="'bottom'" [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements"
@@ -79,6 +80,18 @@
             <i class="fa fa-trash" aria-hidden="true" [attr.data-id]="row._id"></i>
           </a>
         </span>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="procurement-number" prop="procurementNo">
+      <ng-template let-column="column" ngx-datatable-header-template>
+        <span (click)="sortContracts('procurementNo')">
+          <p class="column-header">Nr. i prokurimit</p>
+        </span>
+        <div class="sort-icons">
+          <span id="sort" (click)="sortContracts('procurementNo')">
+            <i class="fa fa-sort" aria-hidden="true"></i>
+          </span>
+        </div>
       </ng-template>
     </ngx-datatable-column>
     <ngx-datatable-column name="activity-title" prop="activityTitle">

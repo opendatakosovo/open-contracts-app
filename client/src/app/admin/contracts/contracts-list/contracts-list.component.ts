@@ -42,6 +42,7 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
     date: new Date(),
     referenceDate: new Date(),
     value: '',
+    procurementNo: '',
     year: '',
     pageInfo: new Page()
   };
@@ -74,6 +75,7 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
       date: null,
       referenceDate: null,
       value: '',
+      procurementNo: '',
       year: 'any',
       pageInfo: {
         pageNumber: 0,
@@ -238,6 +240,7 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
     this.contractsService.filterContractDashboard(this.search, this.currentUser.role, this.currentUser.directorateName)
       .takeUntil(this.unsubscribeAll)
       .subscribe(data => {
+        console.log(1);
         this.page = data.page;
         this.rows = data.data;
         if (data.data.length === 0) {
