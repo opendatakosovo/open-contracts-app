@@ -114,6 +114,10 @@ module.exports.latestContracts = (callback) => {
     Contract.find({ "year": { "$gte": 2018 } }, callback);
 }
 
+module.exports.countLatestContracts = () => {
+    return Contract.find({ "year": { "$gte": 2018 } }).count();
+}
+
 module.exports.countContracts = (role, directorateName) => {
     if (role == "superadmin" || role == "admin" || role == null) {
         return Contract.count();
@@ -122,9 +126,7 @@ module.exports.countContracts = (role, directorateName) => {
     }
 }
 
-module.exports.countLatestContracts = () => {
-    return Contract.find({ "year": { "$gte": 2018 } }).count();
-}
+
 
 
 // Data Visualizations
@@ -294,7 +296,7 @@ let parks = ['Drejtoria e parqeve', 'Parqeve', 'Drejtoria parqeve'];
 module.exports.filterStringFieldsInContracts = (text, year, role, directorateName) => {
     let filter = [];
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match": {
@@ -320,7 +322,7 @@ module.exports.filterStringFieldsInContractsCount = (text, year, role, directora
     let filter = [];
 
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
 
     filter.push(
@@ -434,7 +436,7 @@ module.exports.filterByDirectorate = (directorate, year, role, directorateName) 
     }
 
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -531,7 +533,7 @@ module.exports.filterByDirectorateCount = (directorate, year, role, directorateN
     }
 
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -552,7 +554,7 @@ module.exports.filterByDate = (date, referenceDate, year, role, directorateName)
     }
 
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -599,7 +601,7 @@ module.exports.filterByDateCount = (date, referenceDate, year, role, directorate
     }
 
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -650,7 +652,7 @@ module.exports.filterByValue = (value, year, role, directorateName) => {
     }
 
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -671,7 +673,7 @@ module.exports.filterByValueCount = (value, year, role, directorateName) => {
         filter.push({ "$match": { "directorates": directorateName } })
     }
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -776,7 +778,7 @@ module.exports.filterByStringAndDirectorate = (text, directorate, year, role, di
         filter.push({ "$match": { "directorates": directorateName } })
     }
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -885,7 +887,7 @@ module.exports.filterByStringAndDirectorateCount = (text, directorate, year, rol
     }
 
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -997,7 +999,7 @@ module.exports.filterbyStringDirectorateDate = (text, directorate, date, referen
     }
 
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -1137,7 +1139,7 @@ module.exports.filterbyStringDirectorateDateCount = (text, directorate, date, re
     }
 
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -1280,7 +1282,7 @@ module.exports.filterByStringDirectorateDateValue = (text, directorate, date, re
     }
 
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -1425,7 +1427,7 @@ module.exports.filterByStringDirectorateDateValueCount = (text, directorate, dat
         filter.push({ "$match": { "directorates": directorateName } })
     }
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -1492,7 +1494,7 @@ module.exports.filterByStringDate = (text, date, referenceDate, year, role, dire
         filter.push({ "$match": { "directorates": directorateName } })
     }
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -1549,7 +1551,7 @@ module.exports.filterByStringDateCount = (text, date, referenceDate, year, role,
         filter.push({ "$match": { "directorates": directorateName } })
     }
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -1609,7 +1611,7 @@ module.exports.filterByStringValue = (text, value, year, role, directorateName) 
         filter.push({ "$match": { "directorates": directorateName } })
     }
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -1637,7 +1639,7 @@ module.exports.filterByStringValueCount = (text, value, year) => {
     let filter = [];
 
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -1752,7 +1754,7 @@ module.exports.filterbyDirectorateDate = (directorate, date, referenceDate, year
         filter.push({ "$match": { "directorates": directorateName } })
     }
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -1886,7 +1888,7 @@ module.exports.filterbyDirectorateDateCount = (directorate, date, referenceDate,
     }
 
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -2023,7 +2025,7 @@ module.exports.filterByDirectorateValue = (directorate, value, year, role, direc
     }
 
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -2130,7 +2132,7 @@ module.exports.filterByDirectorateValueCount = (directorate, value, year, role, 
     }
 
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -2159,7 +2161,7 @@ module.exports.filterByDateValue = (date, referenceDate, value, year, role, dire
         filter.push({ "$match": { "directorates": directorateName } })
     }
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -2217,7 +2219,7 @@ module.exports.filterByDateValueCount = (date, referenceDate, value, year, role,
     }
 
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -2359,7 +2361,7 @@ module.exports.filterByDirectorateDateValue = (directorate, date, referenceDate,
         filter.push({ "$match": { "directorates": directorateName } })
     }
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
 
     filter.push({
@@ -2500,7 +2502,7 @@ module.exports.filterByDirectorateDateValueCount = (directorate, date, reference
     }
 
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -2643,7 +2645,7 @@ module.exports.filterByStringDirectorateValue = (text, directorate, value, year,
     }
 
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -2756,7 +2758,7 @@ module.exports.filterByStringDirectorateValueCount = (text, directorate, value, 
         filter.push({ "$match": { "directorates": directorateName } })
     }
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -2793,7 +2795,7 @@ module.exports.filterByStringDateValue = (text, date, referenceDate, value, year
         filter.push({ "$match": { "directorates": directorateName } })
     }
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -2856,7 +2858,7 @@ module.exports.filterByStringDateValueCount = (text, date, referenceDate, value,
         filter.push({ "$match": { "directorates": directorateName } })
     }
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -2924,7 +2926,7 @@ module.exports.filterByProcurementNo = (procurementNo, year, role, directorateNa
     }
 
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -2943,7 +2945,7 @@ module.exports.filterByProcurementNoCount = (procurementNo, year, role, director
     }
 
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -2965,7 +2967,7 @@ module.exports.filterByProcurementNoString = (procurementNo, text, year, role, d
     }
 
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match": {
@@ -2992,7 +2994,7 @@ module.exports.filterByProcurementNoStringCount = (procurementNo, text, year, ro
     }
 
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -3103,7 +3105,7 @@ module.exports.filterByProcurementNoDirectorate = (procurementNo, directorate, y
         filter.push({ "$match": { "directorates": directorateName } })
     }
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -3208,7 +3210,7 @@ module.exports.filterByProcurementNoDirectorateCount = (procurementNo, directora
     }
 
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -3314,7 +3316,7 @@ module.exports.filterByProcurementNoDirectorateString = (procurementNo, text, di
         filter.push({ "$match": { "directorates": directorateName } })
     }
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -3425,7 +3427,7 @@ module.exports.filterByProcurementNoDirectorateStringCount = (procurementNo, tex
     }
 
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -3458,7 +3460,7 @@ module.exports.filterByProcurementNoValue = (procurementNo, value, year, role, d
     }
 
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -3487,7 +3489,7 @@ module.exports.filterByProcurementNoValueCount = (procurementNo, value, year, ro
         filter.push({ "$match": { "directorates": directorateName } })
     }
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -3517,7 +3519,7 @@ module.exports.filterByProcurementNoValueString = (procurementNo, text, value, y
         filter.push({ "$match": { "directorates": directorateName } })
     }
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -3551,7 +3553,7 @@ module.exports.filterByProcurementNoValueStringCount = (procurementNo, text, val
         filter.push({ "$match": { "directorates": directorateName } })
     }
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -3669,7 +3671,7 @@ module.exports.filterByProcurementNoDirectorateValue = (procurementNo, directora
     }
 
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -3778,7 +3780,7 @@ module.exports.filterByProcurementNoDirectorateValueCount = (procurementNo, dire
     }
 
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -3890,7 +3892,7 @@ module.exports.filterByProcurementNoStringDirectorateValue = (procurementNo, tex
     }
 
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -4005,7 +4007,7 @@ module.exports.filterByProcurementNoStringDirectorateValueCount = (procurementNo
     }
 
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -4041,7 +4043,7 @@ module.exports.filterByProcurementNoDate = (procurementNo, date, referenceDate, 
         filter.push({ "$match": { "directorates": directorateName } })
     }
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -4095,7 +4097,7 @@ module.exports.filterByProcurementNoDateCount = (procurementNo, date, referenceD
         filter.push({ "$match": { "directorates": directorateName } })
     }
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -4151,7 +4153,7 @@ module.exports.filterByProcurementNoStringDate = (procurementNo, text, date, ref
         filter.push({ "$match": { "directorates": directorateName } })
     }
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -4212,7 +4214,7 @@ module.exports.filterByProcurementNoStringDateCount = (procurementNo, text, date
         filter.push({ "$match": { "directorates": directorateName } })
     }
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -4356,7 +4358,7 @@ module.exports.filterByProcurementNoDirectorateDate = (procurementNo, directorat
     }
 
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -4491,7 +4493,7 @@ module.exports.filterByProcurementNoDirectorateDateCount = (procurementNo, direc
     }
 
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -4629,7 +4631,7 @@ module.exports.filterByProcurementNoStringDirectorateDate = (procurementNo, text
     }
 
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -4771,7 +4773,7 @@ module.exports.filterByProcurementNoStringDirectorateDateCount = (procurementNo,
     }
 
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -4834,7 +4836,7 @@ module.exports.filterByProcurementNoDateValue = (procurementNo, value, date, ref
         filter.push({ "$match": { "directorates": directorateName } })
     }
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -4895,7 +4897,7 @@ module.exports.filterByProcurementNoDateValueCount = (procurementNo, value, date
     }
 
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -4957,7 +4959,7 @@ module.exports.filterByProcurementNoStringDateValue = (procurementNo, text, valu
         filter.push({ "$match": { "directorates": directorateName } })
     }
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -5025,7 +5027,7 @@ module.exports.filterByProcurementNoStringDateValueCount = (procurementNo, text,
     }
 
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -5175,7 +5177,7 @@ module.exports.filterbyProcurementNoDirectorateValueDate = (procurementNo, direc
         filter.push({ "$match": { "directorates": directorateName } })
     }
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -5317,7 +5319,7 @@ module.exports.filterbyProcurementNoDirectorateValueDateCount = (procurementNo, 
     }
 
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -5461,7 +5463,7 @@ module.exports.filterbyProcurementNoStringDirectorateValueDate = (procurementNo,
         filter.push({ "$match": { "directorates": directorateName } })
     }
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -5610,7 +5612,7 @@ module.exports.filterbyProcurementNoStringDirectorateValueDateCount = (procureme
     }
 
     if (year !== 'any') {
-        filter.push({ "$match": { "year": { "$gte": 2018 } } })
+        filter.push({ "$match": { "year": year } })
     }
     filter.push({
         "$match":
@@ -5673,3 +5675,28 @@ module.exports.filterbyProcurementNoStringDirectorateValueDateCount = (procureme
         })
     return Contract.aggregate(filter);
 }
+
+module.exports.filterContractsbyYear = (year, role, directorateName) => {
+    let filter = [];
+    if (year !== 'any') {
+        filter.push({ "$match": { "year": year } })
+    }
+    if (role != "superadmin" && role != "admin" && role != null) {
+        filter.push({ "$match": { "directorates": directorateName } })
+    }
+    return Contract.aggregate(filter);
+}
+
+module.exports.filterContractsbyYearCount = (year, role, directorateName) => {
+    let filter = [];
+    if (year !== 'any') {
+        filter.push({ "$match": { "year": year } }, {
+            "$count": "total"
+        })
+    }
+    if (role != "superadmin" && role != "admin" && role != null) {
+        filter.push({ "$match": { "directorates": directorateName } })
+    }
+    return Contract.aggregate(filter);
+}
+

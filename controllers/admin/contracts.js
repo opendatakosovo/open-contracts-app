@@ -598,6 +598,9 @@ router.post('/filter', (req, res) => {
     let referenceDate = req.body.referenceDate;
     let value = req.body.value;
     let year = req.body.year;
+    if (req.body.year !== 'any') {
+        year = parseInt(year);
+    }
     let procurementNo = req.body.procurementNo;
     if (procurementNo !== '') {
         procurementNo = parseInt(procurementNo);
@@ -615,6 +618,7 @@ router.post('/filter', (req, res) => {
         directorateName = null;
     }
     if (string !== '' && directorate === '' & date === null && value === '' && procurementNo === '') {
+        console.log(year);
         Contract.filterStringFieldsInContractsCount(string, year, role, directorateName)
             .then(totalElements => {
                 totalElements.forEach(element => {
@@ -1443,7 +1447,7 @@ router.post('/filter', (req, res) => {
             }).then(response => {
                 res.json(response);
             })
-    } else if (string === '' && directorate === '' & date === null && value === '' && year !== 'any' && procurementNo === '') {
+    } else if (string === '' && directorate === '' & date === null && value === '' && year === 2018 && procurementNo === '') {
         Contract.countLatestContracts()
             .then(totalElements => {
                 page.totalElements = totalElements;
@@ -1468,7 +1472,7 @@ router.post('/filter', (req, res) => {
             .then(response => {
                 res.json(response)
             });
-    } else {
+    } else if (string === '' && directorate === '' & date === null && value === '' && year === 'any' && procurementNo === '') {
         Contract.countContracts(role, directorateName)
             .then(totalElements => {
                 page.totalElements = totalElements;
@@ -1493,6 +1497,33 @@ router.post('/filter', (req, res) => {
             .then(response => {
                 res.json(response)
             });
+    } else {
+        console.log(year);
+        Contract.filterContractsbyYearCount(year, role, directorateName)
+            .then(totalElements => {
+                totalElements.forEach(element => {
+                    page.totalElements = element.total
+                });
+                return page;
+            })
+            .then(page => {
+                page.totalPages = Math.round(page.totalElements / page.size)
+                return page;
+            })
+            .then(page => {
+                page.skipPages = page.size * page.pageNumber
+                return page;
+            })
+            .then(page => {
+                return Contract.filterContractsbyYear(year, role, directorateName).skip(page.skipPages).limit(page.size).then(result => {
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = result;
+                    return response;
+                });
+            }).then(response => {
+                res.json(response);
+            })
     }
 });
 

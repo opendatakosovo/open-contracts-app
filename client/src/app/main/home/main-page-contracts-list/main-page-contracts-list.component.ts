@@ -37,7 +37,7 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
     date: new Date(),
     referenceDate: new Date(),
     value: '',
-    year: '',
+    year: null,
     procurementNo: '',
     pageInfo: new Page()
   };
@@ -66,7 +66,7 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
       date: null,
       referenceDate: null,
       value: '',
-      year: '2018',
+      year: 2018,
       procurementNo: '',
       pageInfo: {
         pageNumber: 0,
