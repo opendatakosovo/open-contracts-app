@@ -15,6 +15,10 @@
           placeholder="Vlera">
         <input (keyup)="onType()" [(ngModel)]="search.procurementNo" name="procurementNo" class="form-control form-input"
           placeholder="Numri i prokurimit">
+        <select (change)="onChangeYear($event)" class="form-control form-select">
+          <option value="any">Te gjitha vitet</option>
+          <option *ngFor="let year of years" value="{{year.year}}">{{year.year}}</option>
+        </select>
       </form>
     </div>
   </div>
