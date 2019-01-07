@@ -21,7 +21,8 @@ export class ContractInformationComponent implements OnInit {
   discountAmount: number;
   total: number;
   currentUser: User;
-
+  lastTransactionDate: Date;
+  lastTransactionAmount: Number;
   constructor(public contractsService: ContractsService, private router: ActivatedRoute,
     public checkIfServerDown: CheckIfServerDown,
     private checkIfUserIsActive: CheckIfUserIsActive) {
@@ -33,29 +34,34 @@ export class ContractInformationComponent implements OnInit {
       .takeUntil(this.unsubscribeAll)
       .subscribe(data => {
         this.contract = data;
-        if (this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes !== '' && this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes !== undefined && this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes !== null && this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes !== 'NaN') {
-          this.totalOfAnnexesWithTaxes = parseFloat(this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes.toString());
+        if (this.contract.releases[0].contracts[0].implementation.transactions.length <= 0) {
+          const i = this.contract.releases[0].contracts[0].implementation.transactions.length;
+          this.lastTransactionDate = this.contract.releases[0].contracts[0].implementation.transactions[i].date;
+          this.lastTransactionAmount = this.contract.releases[0].contracts[0].implementation.transactions[i].value.amount;
+        }
+        if (this.contract.releases[0].contracts[0].value.amount !== 0 && this.contract.releases[0].contracts[0].value.amount !== undefined && this.contract.releases[0].contracts[0].value.amount !== null) {
+          this.totalOfAnnexesWithTaxes = parseFloat(this.contract.releases[0].contracts[0].value.amount.toString());
         } else {
           this.totalOfAnnexesWithTaxes = 0;
         }
-        if (this.contract.contract.totalPayedPriceForContract !== '' && this.contract.contract.totalPayedPriceForContract !== undefined && this.contract.contract.totalPayedPriceForContract !== null && this.contract.contract.totalPayedPriceForContract !== 'NaN') {
-          this.totalPayedPriceForContract = parseFloat(this.contract.contract.totalPayedPriceForContract.toString());
+        if (this.contract.releases[0].contracts[0].implementation.finalValue.amount !== 0 && this.contract.releases[0].contracts[0].implementation.finalValue.amount !== undefined && this.contract.releases[0].contracts[0].implementation.finalValue.amount !== null) {
+          this.totalPayedPriceForContract = parseFloat(this.contract.releases[0].contracts[0].implementation.finalValue.amount.toString());
         } else {
           this.totalPayedPriceForContract = 0;
         }
-        if (this.contract.contract.discountAmountFromContract !== '' && this.contract.contract.discountAmountFromContract !== undefined && this.contract.contract.discountAmountFromContract !== null && this.contract.contract.discountAmountFromContract !== 'NaN') {
-          this.discountAmount = parseFloat(this.contract.contract.discountAmountFromContract.toString());
+        if (this.contract.releases[0].contracts[0].deductionAmountFromContract.value.amount !== 0 && this.contract.releases[0].contracts[0].deductionAmountFromContract.value.amount !== undefined && this.contract.releases[0].contracts[0].deductionAmountFromContract.value.amount !== null) {
+          this.discountAmount = parseFloat(this.contract.releases[0].contracts[0].deductionAmountFromContract.value.amount.toString());
         } else {
           this.discountAmount = 0;
         }
         this.total = this.totalOfAnnexesWithTaxes - this.totalPayedPriceForContract - this.discountAmount;
-        if (this.contract.contract.implementationDeadline === null || this.contract.contract.implementationDeadline === '' || this.contract.contract.implementationDeadline === ' undefined' || this.contract.contract.implementationDeadline === 'n-a' || this.contract.contract.implementationDeadline === 'n/a') {
-          this.contract.contract.implementationDeadline = '-';
+        if (this.contract.releases[0].contracts[0].period.durationInDays === null || this.contract.releases[0].contracts[0].period.durationInDays === '' || this.contract.releases[0].contracts[0].period.durationInDays === ' undefined' || this.contract.releases[0].contracts[0].period.durationInDays === 'n-a' || this.contract.releases[0].contracts[0].period.durationInDays === 'n/a') {
+          this.contract.releases[0].contracts[0].period.durationInDays = '-';
         }
-        if (this.contract.contract.implementationDeadline !== '' && this.contract.contract.implementationDeadline !== '') {
-          const implementationDeadlineValues = this.contract.contract.implementationDeadline.includes(' undefined');
+        if (this.contract.releases[0].contracts[0].period.durationInDays !== '' && this.contract.releases[0].contracts[0].period.durationInDays !== '') {
+          const implementationDeadlineValues = this.contract.releases[0].contracts[0].period.durationInDays.includes(' undefined');
           if (implementationDeadlineValues) {
-            this.contract.contract.implementationDeadline = this.contract.contract.implementationDeadline.replace(' undefined', '');
+            this.contract.releases[0].contracts[0].period.durationInDays = this.contract.releases[0].contracts[0].period.durationInDays.replace(' undefined', '');
           }
         }
       },

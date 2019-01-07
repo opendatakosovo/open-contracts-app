@@ -1,10 +1,10 @@
 export class Annex {
-    totalValueOfAnnexContract1: String;
-    annexContractSigningDate1: Date;
+    description?: String;
+    date?: Date;
 
     constructor() {
-        this.totalValueOfAnnexContract1 = '';
-        this.annexContractSigningDate1 = null;
+        this.description = '';
+        this.date = null;
     }
 
 }

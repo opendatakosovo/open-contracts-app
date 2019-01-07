@@ -53,31 +53,19 @@ export class EditContractComponent implements OnInit {
       .subscribe(data => {
         this.contract = data;
         if (data.bidOpeningDateTime === null) {
-          this.contract.bidOpeningDate = data.bidOpeningDateTime;
+          this.contract.releases[0].tender.tenderPeriod.startDate = data.bidOpeningDateTime;
         }
-        if (this.contract.contract.file !== '') {
+        if (this.contract.releases[0].contracts[0].documents[0].title !== '') {
           const nameArea = <HTMLInputElement>document.getElementById('name-area');
-          nameArea.value = this.contract.contract.file.toString();
+          nameArea.value = this.contract.releases[0].contracts[0].documents[0].title.toString();
           this.hasFileToDelete = true;
         }
-        this.checkBudget(this.contract.budget);
+        this.checkBudget(this.contract.releases[0].planning.budget.description);
         this.formatDates(this.contract);
         this.initAnnexes();
         this.initInstallments();
-        if (this.contract.contract.implementationDeadline !== undefined && this.contract.contract.implementationDeadline !== '' && !this.contract.contract.implementationDeadline.includes('-')) {
-          this.implementationDeadline = this.contract.contract.implementationDeadline.split(' ');
-        } else if (this.contract.contract.implementationDeadline.includes('-')) {
-          this.implementationDeadline = this.contract.contract.implementationDeadline.split('-');
-          if (this.implementationDeadline[1].includes(' undefined')) {
-            this.implementationDeadline[1] = this.implementationDeadline[1].replace(' undefined', '');
-          }
-          if (this.implementationDeadline[1] === 'muaj') {
-            this.implementationDeadline[1] = 'Muaj';
-          } else if (this.implementationDeadline[1] === 'ditë' || this.implementationDeadline[1] === 'dite' || this.implementationDeadline[1] === 'Dite') {
-            this.implementationDeadline[1] = 'Ditë';
-          } else if (this.implementationDeadline[1] === 'vite') {
-            this.implementationDeadline[1] = 'Vite';
-          }
+        if (this.contract.releases[0].contracts[0].period.durationInDays !== undefined && this.contract.releases[0].contracts[0].period.durationInDays !== '') {
+          this.implementationDeadline = this.contract.releases[0].contracts[0].period.durationInDays.split(' ');
         }
       });
     this.form = _fb.group({
@@ -136,7 +124,11 @@ export class EditContractComponent implements OnInit {
     this.directorateService.getAllDirectorates()
       .takeUntil(this.unsubscribeAll)
       .subscribe(data => {
-        this.directorates = data;
+        data.forEach(element => {
+          if (element.directorateIsActive === true) {
+            this.directorates.push(element);
+          }
+        });
       });
     this.currentUser = JSON.parse(localStorage.getItem('user'));
   }
@@ -147,63 +139,69 @@ export class EditContractComponent implements OnInit {
 
   addInstallment(installment: Installment) {
     return this._fb.group({
-      installmentAmount1: '',
-      installmentPayDate1: null
+      value: {
+        amount: 0
+      },
+      date: null
     });
   }
 
   addNewInstallment() {
-    this.contract.installments.push({
-      installmentAmount1: '',
-      installmentPayDate1: null
+    this.contract.releases[0].contracts[0].implementation.transactions.push({
+      value: {
+        amount: 0
+      },
+      date: null
     });
     const arrControl = this.formArrayInstallments;
     arrControl.push(this.addInstallment({
-      installmentAmount1: '',
-      installmentPayDate1: null
+      value: {
+        amount: 0
+      },
+      date: null
     }));
   }
 
   removeInstallment(i) {
-    this.contract.installments.splice(i, 1);
+    this.contract.releases[0].contracts[0].implementation.transactions.splice(i, 1);
     const arrControl = this.formArrayInstallments;
     arrControl.removeAt(i);
   }
 
   initInstallments() {
     const arrControl = this.formArrayInstallments;
-    this.contract.installments.map(installment => {
+    this.contract.releases[0].contracts[0].implementation.transactions.map(installment => {
       arrControl.push(this.addInstallment(installment));
     });
   }
 
   addAnnex(annex: Annex) {
     return this._fb.group({
-      totalValueOfAnnexContract1: annex.totalValueOfAnnexContract1,
-      annexContractSigningDate1: annex.annexContractSigningDate1
+      description: annex.description,
+      date: annex.date
     });
   }
 
   addNewAnnex() {
-    this.contract.contract.annexes.push({
-      totalValueOfAnnexContract1: '',
-      annexContractSigningDate1: null
+    this.contract.releases[0].contracts[0].amendments.push({
+      description: '',
+      date: null
     });
     const arrControl = this.formArrayAnnexes;
     arrControl.push(this.addAnnex({
-      totalValueOfAnnexContract1: '',
-      annexContractSigningDate1: null
+      description: '',
+      date: null
     }));
   }
   removeAnnex(i) {
-    this.contract.contract.annexes.splice(i, 1);
+    this.contract.releases[0].contracts[0].amendments.splice(i, 1);
     const arrControl = this.formArrayAnnexes;
     arrControl.removeAt(i);
   }
 
   initAnnexes() {
     const arrControl = this.formArrayAnnexes;
-    this.contract.contract.annexes.map(annex => {
+    this.contract.releases[0].contracts[0].amendments.map(annex => {
       arrControl.push(this.addAnnex(annex));
     });
   }
@@ -217,36 +215,37 @@ export class EditContractComponent implements OnInit {
 
   calculateValues() {
     let sumAnnex = 0;
-    this.contract.contract.annexes.map(annex => {
-      if (annex.totalValueOfAnnexContract1 !== undefined && annex.totalValueOfAnnexContract1 !== null) {
-        sumAnnex += parseFloat(annex.totalValueOfAnnexContract1.toString());
+    this.contract.releases[0].contracts[0].amendments.map(annex => {
+      if (annex.description !== undefined && annex.description !== null) {
+        sumAnnex += parseFloat(annex.description.toString());
       } else {
         sumAnnex = 0;
       }
     });
-    if (this.contract.contract.totalAmountOfContractsIncludingTaxes !== undefined && this.contract.contract.totalAmountOfContractsIncludingTaxes !== null) {
-      this.total = parseFloat(this.contract.contract.totalAmountOfContractsIncludingTaxes.toString()) + sumAnnex;
+    if (this.contract.releases[0].contracts[0].value.amount !== undefined && this.contract.releases[0].contracts[0].value.amount !== null && this.contract.releases[0].contracts[0].value.amount !== 0) {
+      this.total = parseFloat(this.contract.releases[0].contracts[0].value.amount.toString()) + sumAnnex;
     } else {
       this.total = 0;
     }
-    if (this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes !== undefined && this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes !== null) {
-      this.contract.contract.totalAmountOfAllAnnexContractsIncludingTaxes = this.total.toString();
+    if (this.contract.releases[0].contracts[0].value.amount !== undefined && this.contract.releases[0].contracts[0].value.amount !== null) {
+      this.contract.releases[0].contracts[0].value.amount = this.total;
     }
     let sumInstallments = 0;
-    this.contract.installments.map(installment => {
-      if (installment.installmentAmount1 !== undefined && installment.installmentAmount1 !== null) {
-        sumInstallments += parseFloat(installment.installmentAmount1.toString());
+    this.contract.releases[0].contracts[0].implementation.transactions.map(installment => {
+      if (installment.value.amount !== undefined && installment.value.amount !== null) {
+        sumInstallments += parseFloat(installment.value.amount.toString());
       } else {
         sumInstallments = 0;
       }
     });
-    if (this.contract.lastInstallmentAmount !== undefined) {
-      this.totalInstallments = parseFloat(this.contract.lastInstallmentAmount.toString()) + sumInstallments;
+    const i = this.contract.releases[0].contracts[0].implementation.transactions.length;
+    if (this.contract.releases[0].contracts[0].implementation.transactions[i - 1] !== undefined) {
+      this.totalInstallments = parseFloat(this.contract.releases[0].contracts[0].implementation.transactions.toString()) + sumInstallments;
     } else {
       this.totalInstallments = 0;
     }
     if (this.totalInstallments !== undefined) {
-      this.contract.contract.totalPayedPriceForContract = this.totalInstallments.toString();
+      this.contract.releases[0].contracts[0].implementation.finalValue.amount = this.totalInstallments;
     }
   }
 
@@ -260,8 +259,8 @@ export class EditContractComponent implements OnInit {
       contract.approvalDateOfFunds = new Date(contract.approvalDateOfFunds);
     }
 
-    if (contract.bidOpeningDate !== null) {
-      contract.bidOpeningDate = new Date(contract.bidOpeningDate);
+    if (contract.releases[0].tender.tenderPeriod.startDate !== null) {
+      contract.releases[0].tender.tenderPeriod.startDate = new Date(contract.releases[0].tender.tenderPeriod.startDate);
     }
 
     if (contract.cancellationNoticeDate !== null) {
@@ -292,8 +291,8 @@ export class EditContractComponent implements OnInit {
       contract.torDate = new Date(contract.torDate);
     }
 
-    if (contract.contract.closingDate !== null) {
-      contract.contract.closingDate = new Date(contract.contract.closingDate);
+    if (contract.releases[0].contracts[0].period.endDate !== null) {
+      contract.releases[0].contracts[0].period.endDate = new Date(contract.releases[0].contracts[0].period.endDate);
     }
 
     if (contract.contract.publicationDate !== null) {
@@ -304,8 +303,8 @@ export class EditContractComponent implements OnInit {
       contract.contract.publicationDateOfGivenContract = new Date(contract.contract.publicationDateOfGivenContract);
     }
 
-    if (contract.contract.signingDate != null) {
-      contract.contract.signingDate = new Date(contract.contract.signingDate);
+    if (contract.releases[0].contracts[0].period.startDate != null) {
+      contract.releases[0].contracts[0].period.startDate = new Date(contract.releases[0].contracts[0].period.startDate);
     }
 
     if (contract.company.standardDocuments != null) {
@@ -346,21 +345,16 @@ export class EditContractComponent implements OnInit {
     }
   }
   addBudgetValue(event) {
-    if (this.contract.budget === [] || this.contract.budget === null) {
-      this.contract.budget = [];
-    } else if (this.contract.budget[0] === '') {
-      this.contract.budget = [];
-    }
     if (event.target.checked === false) {
-      this.contract.budget.splice(this.contract.budget.indexOf(event.target.value), 1);
+      this.contract.releases[0].planning.budget.description.slice(this.contract.releases[0].planning.budget.description.indexOf(event.target.value), 1);
     } else if (event.target.checked === true) {
-      this.contract.budget.push(event.target.value);
+      this.contract.releases[0].planning.budget.description = this.contract.releases[0].planning.budget.description + ' ' + event.target.value;
     }
   }
 
   fileChangeEvent(event) {
     if (this.hasFileToDelete === true) {
-      this.fileToDelete = this.contract.contract.file;
+      this.fileToDelete = this.contract.releases[0].contracts[0].documents[0].title;
       this.hasFileToDelete = false;
     }
     if (event.target.files.length > 0 || this.filesToUpload == null) {
@@ -382,7 +376,7 @@ export class EditContractComponent implements OnInit {
       this.filesToUpload = null;
     }
     if (this.hasFileToDelete === true) {
-      this.fileToDelete = this.contract.contract.file;
+      this.fileToDelete = this.contract.releases[0].contracts[0].documents[0].title;
       this.hasFileToDelete = false;
     }
     const nameArea = <HTMLInputElement>document.getElementById('name-area');
@@ -396,32 +390,39 @@ export class EditContractComponent implements OnInit {
     this.calculateValues();
     if (this.form.valid === true) {
       if (this.filesToUpload !== null && this.valid === true) {
-        if (this.form.value.implementationDeadlineNumber !== null && this.form.value.implementationDeadlineNumber !== '' && this.form.value.implementationDeadlineNumber !== undefined) {
-          this.contract.contract.implementationDeadline = this.form.value.implementationDeadlineNumber + ' ' + this.form.value.implementationDeadlineDuration;
+        if (this.form.value.implementationDeadlineNumber !== null && this.form.value.implementationDeadlineDuration !== '') {
+          this.contract.releases[0].tender.contractPeriod.durationInDays = this.form.value.implementationDeadlineNumber + ' ' + this.form.value.implementationDeadlineDuration;
+
+          this.contract.releases[0].awards[0].contractPeriod.durationInDays = this.form.value.implementationDeadlineNumber + ' ' + this.form.value.implementationDeadlineDuration;
+
+          this.contract.releases[0].contracts[0].period.durationInDays = this.form.value.implementationDeadlineNumber + ' ' + this.form.value.implementationDeadlineDuration;
         } else {
-          this.contract.contract.implementationDeadline = '';
+          this.contract.releases[0].tender.contractPeriod.durationInDays = '';
+          this.contract.releases[0].awards[0].contractPeriod.durationInDays = '';
+          this.contract.releases[0].contracts[0].period.durationInDays = '';
         }
-        this.contract.approvalDateOfFunds = this.contract.approvalDateOfFunds == null ? null : this.dateChange(this.contract.approvalDateOfFunds);
-        this.contract.bidOpeningDate = this.contract.bidOpeningDate == null ? null : this.dateChange(this.contract.bidOpeningDate);
-        this.contract.endingOfEvaluationDate = this.contract.endingOfEvaluationDate == null ? null : this.dateChange(this.contract.endingOfEvaluationDate);
-        this.contract.initiationDate = this.contract.initiationDate == null ? null : this.dateChange(this.contract.initiationDate);
-        this.contract.cancellationNoticeDate = this.contract.cancellationNoticeDate == null ? null : this.dateChange(this.contract.cancellationNoticeDate);
-        this.contract.reapprovalDate = this.contract.reapprovalDate == null ? null : this.dateChange(this.contract.reapprovalDate);
-        this.contract.startingOfEvaluationDate = this.contract.startingOfEvaluationDate == null ? null : this.dateChange(this.contract.startingOfEvaluationDate);
-        this.contract.lastInstallmentPayDate = this.contract.lastInstallmentPayDate == null ? null : this.dateChange(this.contract.lastInstallmentPayDate);
-        this.contract.contract.publicationDate = this.contract.contract.publicationDate == null ? null : this.dateChange(this.contract.contract.publicationDate);
-        this.contract.contract.publicationDateOfGivenContract = this.contract.contract.publicationDateOfGivenContract == null ? null : this.dateChange(this.contract.contract.publicationDateOfGivenContract);
-        this.contract.contract.closingDate = this.contract.contract.closingDate == null ? null : this.dateChange(this.contract.contract.closingDate);
-        this.contract.contract.signingDate = this.contract.contract.signingDate == null ? null : this.dateChange(this.contract.contract.signingDate);
-        if (this.contract.installments.length > 1) {
-          for (const installment of this.contract.installments) {
-            installment.installmentPayDate1 = installment.installmentPayDate1 == null ? null : this.dateChange(installment.installmentPayDate1);
+        this.contract.releases[0].planning.milestones[1].dateMet = this.contract.releases[0].planning.milestones[1].dateMet == null ? null : this.dateChange(this.contract.releases[0].planning.milestones[1].dateMet);
+        this.contract.releases[0].tender.tenderPeriod.startDate = this.contract.releases[0].tender.tenderPeriod.startDate == null ? null : this.dateChange(this.contract.releases[0].tender.tenderPeriod.startDate);
+        this.contract.releases[0].tender.awardPeriod.endDate = this.contract.releases[0].tender.awardPeriod.endDate == null ? null : this.dateChange(this.contract.releases[0].tender.awardPeriod.endDate);
+        this.contract.releases[0].planning.milestones[0].dateMet = this.contract.releases[0].planning.milestones[0].dateMet == null ? null : this.dateChange(this.contract.releases[0].planning.milestones[0].dateMet);
+        this.contract.releases[0].tender.milestones[1].dateMet = this.contract.releases[0].tender.milestones[1].dateMet == null ? null : this.dateChange(this.contract.releases[0].tender.milestones[1].dateMet);
+        this.contract.releases[0].planning.milestones[3].dateMet = this.contract.releases[0].planning.milestones[3].dateMet == null ? null : this.dateChange(this.contract.releases[0].planning.milestones[3].dateMet);
+        this.contract.releases[0].tender.awardPeriod.startDate = this.contract.releases[0].tender.awardPeriod.startDate == null ? null : this.dateChange(this.contract.releases[0].tender.awardPeriod.startDate);
+        const i = this.contract.releases[0].contracts[0].implementation.transactions.length;
+        this.contract.releases[0].contracts[0].implementation.transactions[i - 1].date = this.contract.releases[0].contracts[0].implementation.transactions[i - 1].date == null ? null : this.dateChange(this.contract.releases[0].contracts[0].implementation.transactions[i - 1].date);
+        this.contract.releases[0].tender.date = this.contract.releases[0].tender.date == null ? null : this.dateChange(this.contract.releases[0].tender.date);
+        this.contract.releases[0].awards[0].date = this.contract.releases[0].awards[0].date == null ? null : this.dateChange(this.contract.releases[0].awards[0].date);
+        this.contract.releases[0].contracts[0].period.endDate = this.contract.releases[0].contracts[0].period.endDate == null ? null : this.dateChange(this.contract.releases[0].contracts[0].period.endDate);
+        this.contract.releases[0].contracts[0].period.startDate = this.contract.releases[0].contracts[0].period.startDate == null ? null : this.dateChange(this.contract.releases[0].contracts[0].period.startDate);
+        if (this.contract.releases[0].contracts[0].implementation.transactions.length > 1) {
+          for (const installment of this.contract.releases[0].contracts[0].implementation.transactions) {
+            installment.date = installment.date == null ? null : this.dateChange(installment.date);
           }
         }
 
-        if (this.contract.contract.annexes.length > 1) {
-          for (const annex of this.contract.contract.annexes) {
-            annex.annexContractSigningDate1 = annex.annexContractSigningDate1 == null ? null : this.dateChange(annex.annexContractSigningDate1);
+        if (this.contract.releases[0].contracts[0].amendments.length > 1) {
+          for (const annex of this.contract.releases[0].contracts[0].amendments) {
+            annex.date = annex.date == null ? null : this.dateChange(annex.date);
           }
         }
         const formData = new FormData();
@@ -460,10 +461,10 @@ export class EditContractComponent implements OnInit {
               Swal('Gabim!', 'Kontrata nuk u ndryshua.', 'error');
             } else {
               Swal('Sukses!', 'Kontrata u ndryshua me sukses.', 'success').then((result) => {
-                this.datasetService.updateCsv(this.contract.year, this.contract)
-                  .takeUntil(this.unsubscribeAll)
-                  .subscribe(data => {
-                  });
+                // this.datasetService.updateCsv(this.contract.year, this.contract)
+                //   .takeUntil(this.unsubscribeAll)
+                //   .subscribe(data => {
+                //   });
                 if (result.value) {
                   this.route.navigate(['/dashboard/contracts']);
                 }
@@ -471,31 +472,38 @@ export class EditContractComponent implements OnInit {
             }
           });
       } else if (this.filesToUpload === null) {
-        if (this.form.value.implementationDeadlineNumber !== null && this.form.value.implementationDeadlineNumber !== '' && this.form.value.implementationDeadlineNumber !== undefined) {
-          this.contract.contract.implementationDeadline = this.form.value.implementationDeadlineNumber + ' ' + this.form.value.implementationDeadlineDuration;
+        if (this.form.value.implementationDeadlineNumber !== null && this.form.value.implementationDeadlineDuration !== '') {
+          this.contract.releases[0].tender.contractPeriod.durationInDays = this.form.value.implementationDeadlineNumber + ' ' + this.form.value.implementationDeadlineDuration;
+
+          this.contract.releases[0].awards[0].contractPeriod.durationInDays = this.form.value.implementationDeadlineNumber + ' ' + this.form.value.implementationDeadlineDuration;
+
+          this.contract.releases[0].contracts[0].period.durationInDays = this.form.value.implementationDeadlineNumber + ' ' + this.form.value.implementationDeadlineDuration;
         } else {
-          this.contract.contract.implementationDeadline = '';
+          this.contract.releases[0].tender.contractPeriod.durationInDays = '';
+          this.contract.releases[0].awards[0].contractPeriod.durationInDays = '';
+          this.contract.releases[0].contracts[0].period.durationInDays = '';
         }
-        this.contract.approvalDateOfFunds = this.contract.approvalDateOfFunds == null ? null : this.dateChange(this.contract.approvalDateOfFunds);
-        this.contract.bidOpeningDate = this.contract.bidOpeningDate == null ? null : this.dateChange(this.contract.bidOpeningDate);
-        this.contract.endingOfEvaluationDate = this.contract.endingOfEvaluationDate == null ? null : this.dateChange(this.contract.endingOfEvaluationDate);
-        this.contract.initiationDate = this.contract.initiationDate == null ? null : this.dateChange(this.contract.initiationDate);
-        this.contract.cancellationNoticeDate = this.contract.cancellationNoticeDate == null ? null : this.dateChange(this.contract.cancellationNoticeDate);
-        this.contract.reapprovalDate = this.contract.reapprovalDate == null ? null : this.dateChange(this.contract.reapprovalDate);
-        this.contract.startingOfEvaluationDate = this.contract.startingOfEvaluationDate == null ? null : this.dateChange(this.contract.startingOfEvaluationDate);
-        this.contract.lastInstallmentPayDate = this.contract.lastInstallmentPayDate == null ? null : this.dateChange(this.contract.lastInstallmentPayDate);
-        this.contract.contract.publicationDate = this.contract.contract.publicationDate == null ? null : this.dateChange(this.contract.contract.publicationDate);
-        this.contract.contract.publicationDateOfGivenContract = this.contract.contract.publicationDateOfGivenContract == null ? null : this.dateChange(this.contract.contract.publicationDateOfGivenContract);
-        this.contract.contract.closingDate = this.contract.contract.closingDate == null ? null : this.dateChange(this.contract.contract.closingDate);
-        this.contract.contract.signingDate = this.contract.contract.signingDate == null ? null : this.dateChange(this.contract.contract.signingDate);
-        if (this.contract.installments.length > 1) {
-          for (const installment of this.contract.installments) {
-            installment.installmentPayDate1 = installment.installmentPayDate1 == null ? null : this.dateChange(installment.installmentPayDate1);
+        this.contract.releases[0].planning.milestones[1].dateMet = this.contract.releases[0].planning.milestones[1].dateMet == null ? null : this.dateChange(this.contract.releases[0].planning.milestones[1].dateMet);
+        this.contract.releases[0].tender.tenderPeriod.startDate = this.contract.releases[0].tender.tenderPeriod.startDate == null ? null : this.dateChange(this.contract.releases[0].tender.tenderPeriod.startDate);
+        this.contract.releases[0].tender.awardPeriod.endDate = this.contract.releases[0].tender.awardPeriod.endDate == null ? null : this.dateChange(this.contract.releases[0].tender.awardPeriod.endDate);
+        this.contract.releases[0].planning.milestones[0].dateMet = this.contract.releases[0].planning.milestones[0].dateMet == null ? null : this.dateChange(this.contract.releases[0].planning.milestones[0].dateMet);
+        this.contract.releases[0].tender.milestones[1].dateMet = this.contract.releases[0].tender.milestones[1].dateMet == null ? null : this.dateChange(this.contract.releases[0].tender.milestones[1].dateMet);
+        this.contract.releases[0].planning.milestones[3].dateMet = this.contract.releases[0].planning.milestones[3].dateMet == null ? null : this.dateChange(this.contract.releases[0].planning.milestones[3].dateMet);
+        this.contract.releases[0].tender.awardPeriod.startDate = this.contract.releases[0].tender.awardPeriod.startDate == null ? null : this.dateChange(this.contract.releases[0].tender.awardPeriod.startDate);
+        const i = this.contract.releases[0].contracts[0].implementation.transactions.length;
+        this.contract.releases[0].contracts[0].implementation.transactions[i - 1].date = this.contract.releases[0].contracts[0].implementation.transactions[i - 1].date == null ? null : this.dateChange(this.contract.releases[0].contracts[0].implementation.transactions[i - 1].date);
+        this.contract.releases[0].tender.date = this.contract.releases[0].tender.date == null ? null : this.dateChange(this.contract.releases[0].tender.date);
+        this.contract.releases[0].awards[0].date = this.contract.releases[0].awards[0].date == null ? null : this.dateChange(this.contract.releases[0].awards[0].date);
+        this.contract.releases[0].contracts[0].period.endDate = this.contract.releases[0].contracts[0].period.endDate == null ? null : this.dateChange(this.contract.releases[0].contracts[0].period.endDate);
+        this.contract.releases[0].contracts[0].period.startDate = this.contract.releases[0].contracts[0].period.startDate == null ? null : this.dateChange(this.contract.releases[0].contracts[0].period.startDate);
+        if (this.contract.releases[0].contracts[0].implementation.transactions.length > 1) {
+          for (const installment of this.contract.releases[0].contracts[0].implementation.transactions) {
+            installment.date = installment.date == null ? null : this.dateChange(installment.date);
           }
         }
-        if (this.contract.contract.annexes.length > 1) {
-          for (const annex of this.contract.contract.annexes) {
-            annex.annexContractSigningDate1 = annex.annexContractSigningDate1 == null ? null : this.dateChange(annex.annexContractSigningDate1);
+        if (this.contract.releases[0].contracts[0].amendments.length > 1) {
+          for (const annex of this.contract.releases[0].contracts[0].amendments) {
+            annex.date = annex.date == null ? null : this.dateChange(annex.date);
           }
         }
         const body = {
@@ -525,10 +533,10 @@ export class EditContractComponent implements OnInit {
               Swal('Gabim!', 'Kontrata nuk u ndryshua.', 'error');
             } else {
               Swal('Sukses!', 'Kontrata u ndryshua me sukses.', 'success').then((result) => {
-                this.datasetService.updateCsv(this.contract.year, this.contract)
-                  .takeUntil(this.unsubscribeAll)
-                  .subscribe(data => {
-                  });
+                // this.datasetService.updateCsv(this.contract.year, this.contract)
+                //   .takeUntil(this.unsubscribeAll)
+                //   .subscribe(data => {
+                //   });
                 if (result.value) {
                   this.route.navigate(['/dashboard/contracts']);
                 }
@@ -544,7 +552,7 @@ export class EditContractComponent implements OnInit {
       this.filesToUpload = null;
     }
     const nameArea = <HTMLInputElement>document.getElementById('name-area');
-    nameArea.value = this.contract.contract.file.toString();
+    nameArea.value = this.contract.releases[0].contracts[0].documents[0].title.toString();
     this.hasFileToDelete = true;
 
   }

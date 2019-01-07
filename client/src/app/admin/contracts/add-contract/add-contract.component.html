@@ -17,7 +17,7 @@
           <div class="col-12 form-group">
             <label for="activityTitle">Titulli i aktivitetit të prokurimit</label>
             <input type="text" name="activityTitle" id="activityTitle" class="form-control" [ngClass]="{'errInput': !form.controls.activityTitle.valid && (form.controls.activityTitle.touched || contractForm.submitted) }"
-              formControlName="activityTitle" [(ngModel)]="contract.activityTitle" required>
+              formControlName="activityTitle" [(ngModel)]="contract.releases[0].tender.title" required>
             <div [hidden]="form.controls.activityTitle.valid || (!form.controls.activityTitle.touched && !contractForm.submitted)"
               class="error-msg">Titulli i aktivitetit të prokurimit duhet plotësuar</div>
           </div>
@@ -26,7 +26,7 @@
           <div class="col-md-3 form-group">
             <label>Nr. rendor i prokurimit</label>
             <input type="number" name="procurementNo" id="procurementNo" formControlName="procurementNo" [ngClass]="{'errInput': !form.controls.procurementNo.valid && (form.controls.procurementNo.touched || contractForm.submitted) }"
-              [(ngModel)]="contract.procurementNo" class="form-control" required>
+              [(ngModel)]="contract.releases[0].tender.id" class="form-control" required>
             <div [hidden]="form.controls.procurementNo.valid || (!form.controls.procurementNo.touched && !contractForm.submitted)"
               class="error-msg">Nr. rendor i prokurimit duhet plotësuar</div>
           </div>
@@ -34,43 +34,43 @@
             <div class="form-group">
               <label>Lloji i prokurimit</label>
               <select name="procurementType" id="procurementType" placeholder="Zgjedh" class="form-control"
-                formControlName="procurementType" [(ngModel)]="contract.procurementType">
+                formControlName="procurementType" [(ngModel)]="contract.releases[0].tender.additionalProcurementCategories">
                 <option value="" selected>Zgjedh llojin</option>
-                <option value="Furnizim">Furnizim</option>
-                <option value="Shërbime">Shërbime</option>
-                <option value="Shërbime këshillimi">Shërbime këshillimi</option>
-                <option value="Konkurs projektimi">Konkurs projektimi</option>
-                <option value="Punë">Punë</option>
-                <option value="Punë me koncesion">Punë me koncesion</option>
-                <option value="Pronë e palujtshme">Pronë e palujtshme</option>
+                <option value="goods">Furnizim</option>
+                <option value="services">Shërbime</option>
+                <option value="consultingServices">Shërbime këshillimi</option>
+                <option value="designContest">Konkurs projektimi</option>
+                <option value="works">Punë</option>
+                <option value="concessionWorks">Punë me koncesion</option>
+                <option value="immovableProperty">Pronë e palujtshme</option>
               </select>
             </div>
           </div>
           <div class="col-md-3 form-group">
             <label>Vlera e prokurimit</label>
             <select name="procurementValue" id="procurementValue" placeholder="Zgjedh" class="form-control"
-              formControlName="procurementValue" [(ngModel)]="contract.procurementValue">
+              formControlName="procurementValue" [(ngModel)]="contract.releases[0].tender.estimatedSizeOfProcurementValue.estimatedValue">
               <option value="" selected>Zgjedh vlerën</option>
-              <option value="Vlerë e madhe">Vlerë e madhe</option>
-              <option value="Vlerë e mesme">Vlerë e mesme</option>
-              <option value="Vlerë e vogël">Vlerë e vogël</option>
-              <option value="Vlerë minimale">Vlerë minimale</option>
+              <option value="bigValue">Vlerë e madhe</option>
+              <option value="mediumValue">Vlerë e mesme</option>
+              <option value="smallValue">Vlerë e vogël</option>
+              <option value="minimalValue">Vlerë minimale</option>
             </select>
           </div>
           <div class="col-md-3 form-group">
             <label>Procedura prokurimit</label>
             <select name="procurementProcedure" id="procurementProcedure" placeholder="Zgjedh" class="form-control"
-              formControlName="procurementProcedure" [(ngModel)]="contract.procurementProcedure">
+              formControlName="procurementProcedure" [(ngModel)]="contract.releases[0].tender.procurementMethodRationale">
               <option value="" selected>Zgjedh procedurën</option>
-              <option value="Procedura e hapur">Procedura e hapur</option>
-              <option value="Procedura e kufizuar">Procedura e kufizuar</option>
-              <option value="Konkurs projektimi">Konkurs projektimi</option>
-              <option value="Procedura e negociuar pas publikimit të njoftimit të kontratës">Procedura e negociuar pas
+              <option value="openProcedure">Procedura e hapur</option>
+              <option value="limitedProcedure">Procedura e kufizuar</option>
+              <option value="designContest">Konkurs projektimi</option>
+              <option value="negociatedProcedureAfterAwardNotice">Procedura e negociuar pas
                 publikimit të njoftimit të kontratës</option>
-              <option value="Procedura e negociuar pa publikim të njoftimit të kontratës">Procedura e negociuar pa
+              <option value="negociatedProcedureWithoutAwardNotice">Procedura e negociuar pa
                 publikim të njoftimit të kontratës</option>
-              <option value="Procedura e kuotimit të Çmimeve">Procedura e kuotimit të Çmimeve</option>
-              <option value="Procedura vlerës minimale">Procedura vlerës minimale</option>
+              <option value="quotationValueProcedure">Procedura e kuotimit të Çmimeve</option>
+              <option value="minimalValueProcedure">Procedura e vlerës minimale</option>
             </select>
           </div>
         </div>
@@ -79,7 +79,7 @@
             <label for="fppClassification">Klasifikimi (2 shifrat e para të FPP)</label>
             <input type="number" name="fppClassification" id="fppClassification" class="form-control" formControlName="fppClassification"
               [ngClass]="{'errInput': !form.controls.fppClassification.valid && (form.controls.fppClassification.touched || contractForm.submitted) }"
-              [(ngModel)]="contract.fppClassification">
+              [(ngModel)]="contract.releases[0].tender.items[0].quantity">
             <div [hidden]="form.controls.fppClassification.valid || (!form.controls.fppClassification.touched && !contractForm.submitted)"
               class="error-msg">Klasifikimi duhet të përbëhet prej dy karaktereve</div>
           </div>
@@ -88,15 +88,15 @@
               <label class="radioButtonLabel">Planifikuar:</label>
               <br>
               <div class="form-check">
-                <input class="form-check-input" type="radio" formControlName="planned" [(ngModel)]="contract.planned"
-                  name="planned" id="yes" value="1" checked>
+                <input class="form-check-input" type="radio" formControlName="planned" [(ngModel)]="planned" name="planned"
+                  id="yes" value="po" checked>
                 <label class="form-check-label" for="yes">
                   Po
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="planned" formControlName="planned" [(ngModel)]="contract.planned"
-                  id="no" value="2">
+                <input class="form-check-input" type="radio" name="planned" formControlName="planned" [(ngModel)]="planned"
+                  id="no" value="jo">
                 <label class="form-check-label" for="no">
                   Jo
                 </label>
@@ -134,28 +134,29 @@
         <div class="row">
           <div class="col-md-6 form-group">
             <label for="initiationDate">Data e inicimit të aktivitetit të prokurimit (data e pranimit të kërkesës)</label>
-            <input [(bsValue)]="contract.initiationDate" bsDatepicker placeholder="Zgjedhni datën" [bsConfig]="bsConfig"
-              class="form-control" type="text" name="initiationDate" id="initiationDate" formControlName="initiationDate"
-              [(ngModel)]="contract.initiationDate">
+            <input [(bsValue)]="contract.releases[0].planning.milestones[0].dateMet" bsDatepicker placeholder="Zgjedhni datën"
+              [bsConfig]="bsConfig" class="form-control" type="text" name="initiationDate" id="initiationDate"
+              formControlName="initiationDate" [(ngModel)]="contract.releases[0].planning.milestones[0].dateMet">
           </div>
           <div class="col-md-6 form-group">
             <label>Data e aprovimit të deklaratës së nevojave dhe disponueshmërisë së mjeteve</label>
-            <input [(bsValue)]="contract.approvalDateOfFunds" bsDatepicker placeholder="Zgjedhni datën" [bsConfig]="bsConfig"
-              name="approvalDateOfFunds" id="approvalDateOfFunds" formControlName="approvalDateOfFunds" [(ngModel)]="contract.approvalDateOfFunds"
-              class="form-control">
+            <input [(bsValue)]="contract.releases[0].planning.milestones[1].dateMet" bsDatepicker placeholder="Zgjedhni datën"
+              [bsConfig]="bsConfig" name="approvalDateOfFunds" id="approvalDateOfFunds" formControlName="approvalDateOfFunds"
+              [(ngModel)]="contract.releases[0].planning.milestones[1].dateMet" class="form-control">
           </div>
         </div>
         <div class="row">
           <div class="col-md-6 form-group">
             <label>Data e pranimit të specifikimit teknik (TOR)</label>
-            <input [(bsValue)]="contract.torDate" bsDatepicker placeholder="Zgjedhni datën" [bsConfig]="bsConfig" name="torDate"
-              id="torDate" formControlName="torDate" [(ngModel)]="contract.torDate" class="form-control">
+            <input [(bsValue)]="contract.releases[0].planning.milestones[2].dateMet" bsDatepicker placeholder="Zgjedhni datën"
+              [bsConfig]="bsConfig" name="torDate" id="torDate" formControlName="torDate" [(ngModel)]="contract.releases[0].planning.milestones[2].dateMet"
+              class="form-control">
           </div>
           <div class="col-md-6 form-group">
             <label for="contractPublicationDate">Data e publikimit të njoftimit për kontratë</label>
-            <input [(bsValue)]="contract.contract.publicationDate" bsDatepicker placeholder="Zgjedhni datën" [bsConfig]="bsConfig"
+            <input [(bsValue)]="contract.releases[0].tender.date" bsDatepicker placeholder="Zgjedhni datën" [bsConfig]="bsConfig"
               name="publicationDate" id="publicationDate" value="" class="form-control" formControlName="publicationDate"
-              [(ngModel)]="contract.contract.publicationDate">
+              [(ngModel)]="contract.releases[0].tender.date">
           </div>
         </div>
         <div class="row">
@@ -165,14 +166,14 @@
               <br>
               <div class="form-check">
                 <input class="form-check-input" type="radio" name="complaintsToAuthority1" formControlName='complaintsToAuthority1'
-                  [(ngModel)]="contract.complaintsToAuthority1" id="negative" value="1">
+                  [(ngModel)]="contract.releases[0].tender.hasEnquiries" id="negative" value="false">
                 <label class="form-check-label" for="negative">
                   Negative
                 </label>
               </div>
               <div class="form-check">
                 <input class="form-check-input" type="radio" name="complaintsToAuthority1" formControlName='complaintsToAuthority1'
-                  [(ngModel)]="contract.complaintsToAuthority1" id="positive" value="2">
+                  [(ngModel)]="contract.releases[0].tender.hasEnquiries" id="positive" value="true">
                 <label class="form-check-label" for="positive">
                   Pozitive
                 </label>
@@ -185,14 +186,14 @@
               <br>
               <div class="form-check">
                 <input class="form-check-input" type="radio" name="complaintsToOshp1" formControlName="complaintsToOshp1"
-                  [(ngModel)]="contract.complaintsToOshp1" id="negativeOshp" value="1">
+                  [(ngModel)]="contract.releases[0].tender.hasComplaints" id="negativeOshp" value="false">
                 <label class="form-check-label" for="negativeOshp">
                   Negative
                 </label>
               </div>
               <div class="form-check">
                 <input class="form-check-input" type="radio" name="complaintsToOshp1" formControlName="complaintsToOshp1"
-                  [(ngModel)]="contract.complaintsToOshp1" id="positiveOshp" value="2">
+                  [(ngModel)]="contract.releases[0].tender.hasComplaints" id="positiveOshp" value="true">
                 <label class="form-check-label" for="positiveOshp">
                   Pozitive
                 </label>
@@ -204,9 +205,9 @@
           <div class="col-md-12">
             <br>
             <label>Data e hapjes së ofertave</label>
-            <input [(bsValue)]="contract.bidOpeningDate" bsDatepicker placeholder="Zgjedhni datën" [bsConfig]="bsConfig"
-              name="bidOpeningDate" id="bidOpeningDate" formControlName='bidOpeningDate' [(ngModel)]="contract.bidOpeningDate"
-              class="form-control">
+            <input [(bsValue)]="contract.releases[0].tender.tenderPeriod.startDate" bsDatepicker placeholder="Zgjedhni datën"
+              [bsConfig]="bsConfig" name="bidOpeningDate" id="bidOpeningDate" formControlName='bidOpeningDate'
+              [(ngModel)]="contract.releases[0].tender.tenderPeriod.startDate" class="form-control">
           </div>
         </div>
         <div class="row">
@@ -214,63 +215,62 @@
             <br>
             <label for="noOfCompaniesWhoDownloadedTenderDoc">Nr. i OE që kanë shkarkuar dosjen e tenderit</label>
             <input type="number" name="noOfCompaniesWhoDownloadedTenderDoc" id="noOfCompaniesWhoDownloadedTenderDoc"
-              formControlName="noOfCompaniesWhoDownloadedTenderDoc" [(ngModel)]='contract.noOfCompaniesWhoDownloadedTenderDoc'
+              formControlName="noOfCompaniesWhoDownloadedTenderDoc" [(ngModel)]='contract.releases[0].bids.statistics[0].value'
               class="form-control">
           </div>
           <div class="col-6 form-group">
             <br>
             <label for="noOfCompaniesWhoSubmited">Nr. i OE që kanë dorëzuar ofertat</label>
             <input type="number" name="noOfCompaniesWhoSubmited" id="noOfCompaniesWhoSubmited" class="form-control"
-              formControlName="noOfCompaniesWhoSubmited" [(ngModel)]="contract.noOfCompaniesWhoSubmited">
+              formControlName="noOfCompaniesWhoSubmited" [(ngModel)]="contract.releases[0].tender.numberOfTenderers">
           </div>
         </div>
         <div class="row">
           <div class="col-md-3">
             <label for="startOfEvaluationDate" style="width:270px">Data e fillimit dhe përfundimit të vlersimit</label>
-            <input [(bsValue)]="contract.startingOfEvaluationDate" bsDatepicker placeholder="Zgjedhni datën fillimit"
+            <input [(bsValue)]="contract.releases[0].tender.awardPeriod.startDate" bsDatepicker placeholder="Zgjedhni datën fillimit"
               [bsConfig]="bsConfig" name="startingOfEvaluationDate" id="startingOfEvaluationDate" formControlName='startingOfEvaluationDate'
-              [(ngModel)]="contract.startingOfEvaluationDate" class="form-control" placeholder="Zgjedhni datën e fillimit">
+              [(ngModel)]="contract.releases[0].tender.awardPeriod.startDate" class="form-control" placeholder="Zgjedhni datën e fillimit">
           </div>
           <div class="col-md-3" style="padding-top: 29px;">
-            <input [(bsValue)]="contract.endingOfEvaluationDate" bsDatepicker placeholder="Zgjedhni datën përfundimit"
+            <input [(bsValue)]="contract.releases[0].tender.awardPeriod.endDate" bsDatepicker placeholder="Zgjedhni datën përfundimit"
               [bsConfig]="bsConfig" name="endingOfEvaluationDate" id="endingOfEvaluationDate" formControlName="endingOfEvaluationDate"
-              [(ngModel)]="contract.endingOfEvaluationDate" class="form-control" placeholder="Zgjedhni datën e përfundimit">
+              [(ngModel)]="contract.releases[0].tender.awardPeriod.endDate" class="form-control" placeholder="Zgjedhni datën e përfundimit">
           </div>
           <div class="col-md-6">
             <label for="noOfRefusedBids">Numri i ofertave të refuzuara</label>
             <input type="number" name="noOfRefusedBids" id="noOfRefusedBids" formControlName='noOfRefusedBids'
-              [(ngModel)]="contract.noOfRefusedBids" class="form-control">
+              [(ngModel)]="contract.releases[0].bids.statistics[1].value" class="form-control">
           </div>
         </div>
         <div class="row">
           <div class="col-md-6">
             <br>
             <label>Data e aprovimit të Deklaratës së nevojave dhe disponueshmërisë së mjeteve - rikonfirmimi</label>
-            <input [(bsValue)]="contract.reapprovalDate" bsDatepicker placeholder="Zgjedhni datën" [bsConfig]="bsConfig"
-              name="reapprovalDate" id="reapprovalDate" formControlName="reapprovalDate" [(ngModel)]="contract.reapprovalDate"
-              #contractReapprovalDate class="form-control">
+            <input [(bsValue)]="contract.releases[0].planning.milestones[3].dateMet" bsDatepicker placeholder="Zgjedhni datën"
+              [bsConfig]="bsConfig" name="reapprovalDate" id="reapprovalDate" formControlName="reapprovalDate"
+              [(ngModel)]="contract.releases[0].planning.milestones[3].dateMet" #contractReapprovalDate class="form-control">
           </div>
           <div class="col-md-6">
             <br>
             <label for="standardDocuments">Letrat Standarde për OE</label>
-            <input [(bsValue)]="contract.company.standardDocuments" bsDatepicker placeholder="Zgjedhni datën"
+            <input [(bsValue)]="contract.releases[0].tender.milestones[0].dateMet" bsDatepicker placeholder="Zgjedhni datën"
               [bsConfig]="bsConfig" name="standardDocuments" id="standardDocuments" formControlName='standardDocuments'
-              [(ngModel)]="contract.company.standardDocuments" #contractStandardDocuments class="form-control">
+              [(ngModel)]="contract.releases[0].tender.milestones[0].dateMet" #contractStandardDocuments class="form-control">
           </div>
         </div>
         <div class="row">
           <div class="col-6 form-group">
             <label for="publicationDateOfGivenContract">Data e publikimit të njoftimit për dhënie të kontratës</label>
-            <input [(bsValue)]="contract.contract.publicationDateOfGivenContract" bsDatepicker placeholder="Zgjedhni datën"
+            <input [(bsValue)]="contract.releases[0].awards[0].date" bsDatepicker placeholder="Zgjedhni datën"
               [bsConfig]="bsConfig" name="publicationDateOfGivenContract" id="publicationDateOfGivenContract"
-              formControlName="publicationDateOfGivenContract" [(ngModel)]="contract.contract.publicationDateOfGivenContract"
-              class="form-control">
+              formControlName="publicationDateOfGivenContract" [(ngModel)]="contract.releases[0].awards[0].date" class="form-control">
           </div>
           <div class="col-6 form-group">
             <label for="cancellationNoticeDate">Data e publikimit të anulimit të njoftimit</label>
-            <input [(bsValue)]="contract.cancellationNoticeDate" bsDatepicker placeholder="Zgjedhni datën" [bsConfig]="bsConfig"
-              name="cancellationNoticeDate" id="cancellationNoticeDate" class="form-control" formControlName='cancellationNoticeDate'
-              [(ngModel)]="contract.cancellationNoticeDate">
+            <input [(bsValue)]="contract.releases[0].tender.milestones[1].dateMet" bsDatepicker placeholder="Zgjedhni datën"
+              [bsConfig]="bsConfig" name="cancellationNoticeDate" id="cancellationNoticeDate" class="form-control"
+              formControlName='cancellationNoticeDate' [(ngModel)]="contract.releases[0].tender.milestones[1].dateMet">
           </div>
         </div>
         <div class="row">
@@ -280,21 +280,21 @@
               <br>
               <div class="form-check">
                 <input class="form-check-input" type="radio" name="complaintsToAuthority2" formControlName="complaintsToAuthority2"
-                  [(ngModel)]="contract.complaintsToAuthority2" id="none" value="0" checked>
+                  [(ngModel)]="contract.releases[0].awards[0].enquiryType" id="none" value="none" checked>
                 <label class="form-check-label" for="none">
                   Nuk ka
                 </label>
               </div>
               <div class="form-check">
                 <input class="form-check-input" type="radio" name="complaintsToAuthority2" formControlName="complaintsToAuthority2"
-                  [(ngModel)]="contract.complaintsToAuthority2" id="negative1" value="1">
+                  [(ngModel)]="contract.releases[0].awards[0].enquiryType" id="negative1" value="negative">
                 <label class="form-check-label" for="negative1">
                   Negative
                 </label>
               </div>
               <div class="form-check">
                 <input class="form-check-input" type="radio" name="complaintsToAuthority2" formControlName="complaintsToAuthority2"
-                  [(ngModel)]="contract.complaintsToAuthority2" id="positive1" value="2">
+                  [(ngModel)]="contract.releases[0].awards[0].enquiryType" id="positive1" value="positive">
                 <label class="form-check-label" for="positive1">
                   Pozitive
                 </label>
@@ -307,21 +307,21 @@
               <br>
               <div class="form-check">
                 <input class="form-check-input" type="radio" name="complaintsToOshp2" formControlName="complaintsToOshp2"
-                  [(ngModel)]="contract.complaintsToOshp2" id="noneOshp" value="0" checked>
+                  [(ngModel)]="contract.releases[0].awards[0].complaintType" id="noneOshp" value="none" checked>
                 <label class="form-check-label" for="noneOshp">
                   Nuk ka
                 </label>
               </div>
               <div class="form-check">
                 <input class="form-check-input" type="radio" name="complaintsToOshp2" formControlName="complaintsToOshp2"
-                  [(ngModel)]="contract.complaintsToOshp2" id="negativeOshp1" value="1">
+                  [(ngModel)]="contract.releases[0].awards[0].complaintType" id="negativeOshp1" value="negative">
                 <label class="form-check-label" for="negativeOshp1">
                   Negative
                 </label>
               </div>
               <div class="form-check">
                 <input class="form-check-input" type="radio" name="complaintsToOshp2" formControlName="complaintsToOshp2"
-                  [(ngModel)]="contract.complaintsToOshp2" id="positiveOshp1" value="2">
+                  [(ngModel)]="contract.releases[0].awards[0].complaintType" id="positiveOshp1" value="positive">
                 <label class="form-check-label" for="positiveOshp1">
                   Pozitive
                 </label>
@@ -333,7 +333,7 @@
           <div class="col-6 form-group">
             <br>
             <label for="predictedValue">Vlera e parashikuar e kontratës</label>
-            <input type="text" name="predictedValue" id="predictedValue" formControlName='predictedValue' [(ngModel)]="contract.contract.predictedValue"
+            <input type="text" name="predictedValue" id="predictedValue" formControlName='predictedValue' [(ngModel)]="contract.releases[0].planning.budget.amount.amount"
               class="form-control">
           </div>
           <div class="col-md-6" style="padding-top: 21px;">
@@ -341,15 +341,15 @@
               <label class="radioButtonLabel">OE:</label>
               <br>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="type" formControlName="type" [(ngModel)]="contract.company.type"
-                  id="local" value="Vendore" checked>
+                <input class="form-check-input" type="radio" name="type" formControlName="type" [(ngModel)]="contract.releases[0].parties[0].details.local"
+                  id="local" value="true" checked>
                 <label class="form-check-label" for="local">
                   Vendore
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="type" formControlName="type" [(ngModel)]="contract.company.type"
-                  id="Jo vendore" value="notLocal">
+                <input class="form-check-input" type="radio" name="type" formControlName="type" [(ngModel)]="contract.releases[0].parties[0].details.local"
+                  id="Jo vendore" value="false">
                 <label class="form-check-label" for="notLocal">
                   Jo vendore
                 </label>
@@ -364,14 +364,15 @@
               <br>
               <div class="form-check">
                 <input class="form-check-input" type="radio" name="applicationDeadlineType" formControlName="applicationDeadlineType"
-                  [(ngModel)]="contract.applicationDeadlineType" id="normal" value="1" checked>
+                  [(ngModel)]="contract.releases[0].tender.procedure.isAcceleratedProcedure" id="normal" value="true"
+                  checked>
                 <label class="form-check-label" for="normal">
                   Afati kohor normal
                 </label>
               </div>
               <div class="form-check">
                 <input class="form-check-input" type="radio" name="applicationDeadlineType" formControlName="applicationDeadlineType"
-                  [(ngModel)]="contract.applicationDeadlineType" id="shortened" value="2">
+                  [(ngModel)]="contract.releases[0].tender.procedure.isAcceleratedProcedure" id="shortened" value="false">
                 <label class="form-check-label" for="shortened">
                   Afati kohor i shkurtuar
                 </label>
@@ -383,23 +384,23 @@
               <label class="radioButtonLabel">Kriteret për dhënie të kontratës:</label>
               <br>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="criteria" formControlName="criteria" [(ngModel)]="contract.contract.criteria"
-                  id="lowPrice" value="Çmimi më i ulët" checked>
-                <label class="form-check-label" for="lowPrice">
+                <input class="form-check-input" type="radio" name="criteria" formControlName="criteria" [(ngModel)]="contract.releases[0].tender.awardCriteria"
+                  id="lowPrice" value="lowPrice" checked>
+                <label class="form-check-label" for="priceOnly">
                   Çmimi më i ulët
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="criteria" formControlName="criteria" [(ngModel)]="contract.contract.criteria"
-                  id="economicallyFavorable" value="Tenderi ekonomikisht më i favorshëm">
+                <input class="form-check-input" type="radio" name="criteria" formControlName="criteria" [(ngModel)]="contract.releases[0].tender.awardCriteria"
+                  id="economicallyFavorable" value="costOnly">
                 <label class="form-check-label" for="economicallyFavorable">
                   Tenderi ekonomikisht më i favorshëm
                 </label>
               </div>
               <div class="form-check">
                 <br>
-                <input class="form-check-input" type="radio" name="criteria" formControlName="criteria" [(ngModel)]="contract.contract.criteria"
-                  id="pointPriceLower" value="Çmimi më i ulët me poentim">
+                <input class="form-check-input" type="radio" name="criteria" formControlName="criteria" [(ngModel)]="contract.releases[0].tender.awardCriteria"
+                  id="pointPriceLower" value="ratedCriteria">
                 <label class="form-check-label" for="pointPriceLower">
                   Çmimi më i ulët me poentim
                 </label>
@@ -412,14 +413,14 @@
             <br>
             <label for="retender">Re-tenderimi</label>
             <div class="form-check">
-              <input class="form-check-input" type="radio" name="retender" formControlName="retender" [(ngModel)]="contract.retender"
+              <input class="form-check-input" type="radio" name="retender" formControlName="retender" [(ngModel)]="retender"
                 id="po" value="Po" checked>
               <label class="form-check-label" for="po">
                 Po
               </label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="radio" name="retender" formControlName="retender" [(ngModel)]="contract.retender"
+              <input class="form-check-input" type="radio" name="retender" formControlName="retender" [(ngModel)]="retender"
                 id="jo" value="jo" checked>
               <label class="form-check-label" for="jo">
                 Jo
@@ -431,29 +432,29 @@
               <label class="radioButtonLabel">Statusi:</label>
               <br>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="status" formControlName="status" [(ngModel)]="contract.status"
-                  id="published" value="1" checked>
+                <input class="form-check-input" type="radio" name="status" formControlName="status" [(ngModel)]="tenderStatus"
+                  id="published" value="published" checked>
                 <label class="form-check-label" for="published">
                   Publikuar
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="status" formControlName="status" [(ngModel)]="contract.status"
-                  id="evaluation" value="2">
+                <input class="form-check-input" type="radio" name="status" formControlName="status" [(ngModel)]="tenderStatus"
+                  id="evaluation" value="evaluation">
                 <label class="form-check-label" for="evaluation">
                   Vlerësim
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="status" formControlName="status" [(ngModel)]="contract.status"
-                  id="cancelled" value="3">
+                <input class="form-check-input" type="radio" name="status" formControlName="status" [(ngModel)]="tenderStatus"
+                  id="cancelled" value="cancelled">
                 <label class="form-check-label" for="cancelled">
                   Anuluar
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="status" formControlName="status" [(ngModel)]="contract.status"
-                  id="contracted" value="4">
+                <input class="form-check-input" type="radio" name="status" formControlName="status" [(ngModel)]="tenderStatus"
+                  id="contracted" value="contracted">
                 <label class="form-check-label" for="contracted">
                   Kontraktuar
                 </label>
@@ -464,20 +465,21 @@
         <div class="row" id="oe-informations">
           <div class="col-6 form-group">
             <label for="nameOfContractedOe">Emri i OE të cilit i është dhënë kontrata</label>
-            <input type="text" name="name" id="nameOfContractedOe" formControlName="companyName" [(ngModel)]="contract.company.name"
+            <input type="text" name="name" id="nameOfContractedOe" formControlName="companyName" [(ngModel)]="contract.releases[0].tender.tenderers.name"
               class="form-control">
           </div>
           <div class="col-6 form-group">
             <label for="headquartersName">Selia e OE</label>
             <input type="text" name="headquartersName" id="headquartersName" formControlName='headquartersName'
-              [(ngModel)]="contract.company.headquarters.name" class="form-control">
+              [(ngModel)]="contract.releases[0].parties[0].address.region" class="form-control">
           </div>
         </div>
         <div class="row">
           <div class="col-12 form-group">
             <label for="signingDate">Data e nënshkrimit të kontratës</label>
-            <input [(bsValue)]="contract.contract.signingDate" bsDatepicker placeholder="Zgjedhni datën" [bsConfig]="bsConfig"
-              name="signingDate" id="signingDate" class="form-control" formControlName="signingDate" [(ngModel)]="contract.contract.signingDate">
+            <input [(bsValue)]="contract.releases[0].contracts[0].period.startDate" bsDatepicker placeholder="Zgjedhni datën"
+              [bsConfig]="bsConfig" name="signingDate" id="signingDate" class="form-control" formControlName="signingDate"
+              [(ngModel)]="contract.releases[0].contracts[0].period.startDate">
           </div>
         </div>
         <div class="row">
@@ -490,23 +492,24 @@
               <select name="implementationDeadlineDuration" formControlName="implementationDeadlineDuration" style="width: 70%; margin: 0px;"
                 class="form-control">
                 <option value="" selected>Afati kohor</option>
-                <option value="Ditë">Ditë</option>
-                <option value="Muaj">Muaj</option>
-                <option value="Vite">Vite</option>
+                <option value="ditë">Ditë</option>
+                <option value="muaj">Muaj</option>
+                <option value="vite">Vite</option>
               </select>
             </div>
           </div>
           <div class="col-6 form-group">
             <label for="closingDate">Data e mbylljes së kontratës</label>
-            <input [(bsValue)]="contract.contract.closingDate" bsDatepicker placeholder="Zgjedhni datën" [bsConfig]="bsConfig"
-              name="closingDate" id="closingDate" class="form-control" formControlName="closingDate" [(ngModel)]="contract.contract.closingDate">
+            <input [(bsValue)]="contract.releases[0].contracts[0].period.endDate" bsDatepicker placeholder="Zgjedhni datën"
+              [bsConfig]="bsConfig" name="closingDate" id="closingDate" class="form-control" formControlName="closingDate"
+              [(ngModel)]="contract.releases[0].contracts[0].period.endDate">
           </div>
         </div>
         <div class="row">
           <div class="col-12 form-group">
             <label for="noOfPaymentInstallments">Numri i përgjithshëm i situacioneve për pagesë, sipas kontratës</label>
             <input type="number" name="noOfPaymentInstallments" id="noOfPaymentInstallments" formControlName="noOfPaymentInstallments"
-              [(ngModel)]="contract.noOfPaymentInstallments" class="form-control">
+              [(ngModel)]="contract.releases[0].contracts[0].expectedNumberOfTransactions" class="form-control">
           </div>
         </div>
         <div class="row">
@@ -514,7 +517,7 @@
             <label for="totalAmountOfContractsIncludingTaxes">Vlera totale e kontratës, duke përfshirë të gjitha taksat
               etj.</label>
             <input type="text" name="totalAmountOfContractsIncludingTaxes" id="totalAmountOfContractsIncludingTaxes"
-              formControlName='totalAmountOfContractsIncludingTaxes' [(ngModel)]="contract.contract.totalAmountOfContractsIncludingTaxes"
+              formControlName='totalAmountOfContractsIncludingTaxes' [(ngModel)]="contract.releases[0].tender.value.amount"
               class="form-control">
           </div>
         </div>
@@ -536,15 +539,15 @@
               <div class="col-md-6">
                 <label for="noOfPaymentInstallments{{i}}">
                   <span class="nrOf">{{i+1}})</span> Vlera totale e Aneks kontratës duke përfshirë të gjitha taksat</label>
-                <input type="text" formControlName="totalValueOfAnnexContract1" id="noOfPaymentInstallments{{i}}" class="form-control"
-                  [(ngModel)]="contract.contract.annexes[i].totalValueOfAnnexContract1">
+                <input type="text" formControlName="description" id="noOfPaymentInstallments{{i}}" class="form-control"
+                  [(ngModel)]="contract.releases[0].contracts[0].amendments[i].description">
               </div>
               <div class="col-md-5">
                 <label for="annexContractSigningDate{{i}}">
                   Data e nënshkrimit të Aneks kontratës</label>
-                <input [(bsValue)]="contract.contract.annexes[i].annexContractSigningDate1" bsDatepicker id="annexContractSigningDate{{i}}"
-                  placeholder="Zgjedhni datën" [bsConfig]="bsConfig" class="form-control" formControlName="annexContractSigningDate1"
-                  [(ngModel)]="contract.contract.annexes[i].annexContractSigningDate1">
+                <input [(bsValue)]="contract.releases[0].contracts[0].amendments[i].date" bsDatepicker id="annexContractSigningDate{{i}}"
+                  placeholder="Zgjedhni datën" [bsConfig]="bsConfig" class="form-control" formControlName="date"
+                  [(ngModel)]="contract.releases[0].contracts[0].amendments[i].date">
               </div>
               <div class="col-md-1">
                 <button type="button" data-toggle="tooltip" [attr.data-annexDeleteId]="i" title="Fshi aneksin" class="btn btn-outline-primary
@@ -576,14 +579,14 @@
               <div class="col-md-6">
                 <label for="installmentAmount1{{i+1}}">
                   <span class="nrOf">{{i+1}})</span> Shuma e pagesës së situacionit</label>
-                <input type="text" formControlName="installmentAmount1" name="installmentAmount1{{i+1}}" id="installmentAmount1{{i+1}}"
-                  class="form-control" [(ngModel)]="contract.installments[i].installmentAmount1">
+                <input type="text" formControlName="value" name="installmentAmount1{{i+1}}" id="installmentAmount1{{i+1}}"
+                  class="form-control" [(ngModel)]="contract.releases[0].contracts[0].implementation.transactions[i].value.amount">
               </div>
               <div class="col-md-5">
                 <label for="installmentPayDate{{i}}">Data e pagesës së situacionit</label>
-                <input [(bsValue)]="contract.installments[i].installmentPayDate1" bsDatepicker placeholder="Zgjedhni datën"
-                  [bsConfig]="bsConfig" name="installmentPayDate{{i+1}}}" id="installmentPayDate{{i}}" class="form-control"
-                  formControlName="installmentPayDate1" [(ngModel)]="contract.installments[i].installmentPayDate1">
+                <input [(bsValue)]="contract.releases[0].contracts[0].implementation.transactions[i].date" bsDatepicker
+                  placeholder="Zgjedhni datën" [bsConfig]="bsConfig" name="installmentPayDate{{i+1}}}" id="installmentPayDate{{i}}"
+                  class="form-control" formControlName="date" [(ngModel)]="contract.releases[0].contracts[0].implementation.transactions[i].date">
               </div>
               <div class="col-md-1">
                 <button type="button" data-toggle="tooltip" [attr.data-annexDeleteId]="i" title="Fshi aneksin" class="btn btn-outline-primary
@@ -599,21 +602,21 @@
         <div class="row">
           <div class="col-md-6">
             <label for="lastInstallmentPayDate">Data e pagesës së situacionit të fundit</label>
-            <input [(bsValue)]="contract.lastInstallmentPayDate" bsDatepicker placeholder="Zgjedhni datën" [bsConfig]="bsConfig"
-              name="lastInstallmentPayDate" id="lastInstallmentPayDate" formControlName="lastInstallmentPayDate"
-              (bsValueChange)="dateChange($event)" [(ngModel)]="contract.lastInstallmentPayDate" class="form-control">
+            <input [(bsValue)]="lastTransaction" bsDatepicker placeholder="Zgjedhni datën" [bsConfig]="bsConfig" name="lastInstallmentPayDate"
+              id="lastInstallmentPayDate" formControlName="lastInstallmentPayDate" (bsValueChange)="dateChange($event)"
+              [(ngModel)]="lastTransaction" class="form-control">
           </div>
           <div class="col-md-6">
             <label for="lastInstallmentAmount">Shuma e pagesës së situacionit të fundit</label>
             <input type="number" name="lastInstallmentAmount" id="lastInstallmentAmount" formControlName="lastInstallmentAmount"
-              [(ngModel)]="contract.lastInstallmentAmount" class="form-control">
+              [(ngModel)]="lastTransactionAmount" class="form-control">
           </div>
         </div>
         <div class="row">
           <div class="col-md-12">
             <label>Shuma e zbritjes nga kontrata për shkaqe të ndalesave</label>
             <input type="text" name="discountAmountFromContract" id="discountAmount" formControlName="discountAmountFromContract"
-              formControlName="discountAmountFromContract" [(ngModel)]="contract.contract.discountAmountFromContract"
+              formControlName="discountAmountFromContract" [(ngModel)]="contract.releases[0].contracts[0].deductionAmountFromContract.value.amount"
               class="form-control">
           </div>
         </div>
@@ -629,7 +632,7 @@
             <div class="form-group">
               <label for="directorates">Drejtoritë</label>
               <select name="directorates" id="directorates" placeholder="Zgjedh" class="form-control" formControlName="directorate"
-                [(ngModel)]="contract.directorates">
+                [(ngModel)]="contract.releases[0].parties[1].name">
                 <option value="" selected>Zgjedh drejtorinë</option>
                 <option *ngFor="let directorate of directorates" value="{{directorate.directorateName}}">
                   {{directorate.directorateName}}</option>
@@ -662,7 +665,7 @@
           <div class="col-md-12">
             <label for="nameOfProcurementOffical">Emri i zyrtarit të prokurimit</label>
             <input type="text" name="nameOfProcurementOffical" id="nameOfProcurementOffical" formControlName="nameOfProcurementOffical"
-              [(ngModel)]="contract.nameOfProcurementOffical" class="form-control">
+              [(ngModel)]="contract.releases[0].parties[1].contactPoint.name" class="form-control">
           </div>
         </div>
       </div>
