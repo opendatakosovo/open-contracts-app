@@ -171,7 +171,7 @@ router.post("/latest-contracts/page", (req, res) => {
             return page;
         })
         .then(page => {
-            return Contract.find({ "year": new Date().getFullYear() }).sort({ "createdAt": -1 }).skip(page.skipPages).limit(page.size).then(result => {
+            return Contract.find({ "year": { "$gte": 2018 } }).sort({ "createdAt": -1 }).skip(page.skipPages).limit(page.size).then(result => {
                 delete page.skipPages;
                 response.page = page;
                 response.data = result;
