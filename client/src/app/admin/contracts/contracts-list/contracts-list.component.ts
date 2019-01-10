@@ -14,6 +14,7 @@ import { User } from '../../../models/user';
 import { CheckIfServerDown } from '../../../utils/CheckIfServerDown';
 import { CheckIfUserIsActive } from '../../../utils/CheckIfUserIsActive';
 import { DatasetService } from '../../../service/dataset.service';
+import { DataService } from '../../../service/data.service';
 
 @Component({
   selector: 'app-contracts-list',
@@ -36,22 +37,23 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
   isSortedAsc: Boolean;
   private ref: ChangeDetectorRef;
   private datatableBodyElement: Element;
+  years;
   search = {
     string: '',
     directorate: '',
     date: new Date(),
     referenceDate: new Date(),
     value: '',
+    procurementNo: '',
     year: '',
     pageInfo: new Page()
   };
   offsetX: number;
 
   @ViewChild('table') table: DatatableComponent;
-
   constructor(public contractsService: ContractsService, private modalService: BsModalService, ref: ChangeDetectorRef,
     public directorateService: DirectorateService, public checkIfServerDown: CheckIfServerDown,
-    private checkIfUserIsActive: CheckIfUserIsActive, public datasetService: DatasetService) {
+    private checkIfUserIsActive: CheckIfUserIsActive, public datasetService: DatasetService, public dataService: DataService) {
     this.page.pageNumber = 0;
     this.page.size = 10;
     this.contractModal = new Contract();
@@ -74,6 +76,7 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
       date: null,
       referenceDate: null,
       value: '',
+      procurementNo: '',
       year: 'any',
       pageInfo: {
         pageNumber: 0,
@@ -83,6 +86,12 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
         column: ''
       }
     };
+    this.dataService.getContractYears(2009)
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(res => {
+        this.years = res;
+
+      });
     this.currentUser = JSON.parse(localStorage.getItem('user'));
   }
 
@@ -243,7 +252,7 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
           this.messages = {
             emptyMessage: `
             <div>
-                <p>Asnjë kontratë nuk përputhet me të dhënat e shypura</p>
+                <p>Asnjë kontratë nuk përputhet me të dhënat e shtypura</p>
             </div>
           `
           };
@@ -272,7 +281,7 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
           this.messages = {
             emptyMessage: `
             <div>
-                <p>Asnjë kontratë nuk përputhet me të dhënat e shypura</p>
+                <p>Asnjë kontratë nuk përputhet me të dhënat e shtypura</p>
             </div>
           `
           };
@@ -303,7 +312,7 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
           this.messages = {
             emptyMessage: `
           <div>
-              <p>Asnjë kontratë nuk përputhet me të dhënat e shypura</p>
+              <p>Asnjë kontratë nuk përputhet me të dhënat e shtypura</p>
           </div>
         `
           };
@@ -311,4 +320,25 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
       });
     this.table.offset = 0;
   }
+
+  onChangeYear(event) {
+    this.search.year = event.target.value;
+    this.contractsService.filterContract(this.search)
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(data => {
+        this.page = data.page;
+        this.rows = data.data;
+        if (data.data.length === 0) {
+          this.messages = {
+            emptyMessage: `
+          <div>
+              <p>Asnjë kontratë nuk përputhet me të dhënat e shtypura</p>
+          </div>
+        `
+          };
+        }
+      });
+    this.table.offset = 0;
+  }
+
 }

@@ -55,7 +55,8 @@
         "contractSigningNotification": "Obaveštenje o potpisivanju ugovora",
         "procurementPlans": "Planovi javne nabavke",
         "designAwardNotification": "Obaveštenje o konkursu projektovanja",
-        "priorNotification": "Prethodno obaveštenje"
+        "priorNotification": "Prethodno obaveštenje",
+        "procurementReview": "Odluke organa za razmatranje nabavki"
     },
     "aboutUs": {
         "title": "O Stranici",

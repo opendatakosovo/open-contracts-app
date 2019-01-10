@@ -1,5 +1,6 @@
 import { Annex } from './annex';
 import { Installment } from './installment';
+import { Document } from './document';
 export class Contract {
     _id?: String;
     uri?: String;
@@ -176,6 +177,7 @@ export class Contract {
                     durationInDays?: String
                 },
                 awardCriteria?: String,
+                documents?: Document[],
                 milestones?: [
                     {
                         id?: String,
@@ -299,6 +301,8 @@ export class Contract {
         implementationDeadlineSlug?: String,
     };
     year?: Number;
+    documents: String[];
+
 
     constructor() {
         this.uri = '';
@@ -382,7 +386,7 @@ export class Contract {
                 documents: [
                     {
                         id: '',
-                        documentType: 'procurementPlan'
+                        documentType: ''
                     }
                 ],
                 milestones: [
@@ -463,6 +467,7 @@ export class Contract {
                     endDate: null,
                     durationInDays: ''
                 },
+                documents: [],
                 milestones: [
                     {
                         id: '',
@@ -583,6 +588,7 @@ export class Contract {
             totalAmountOfContractsIncludingTaxesSlug: ''
         };
         this.year = 0;
+        this.documents = [];
     }
 
 }

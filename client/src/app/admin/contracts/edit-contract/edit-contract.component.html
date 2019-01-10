@@ -120,14 +120,14 @@
               <br>
               <div class="form-check">
                 <input class="form-check-input" type="radio" formControlName="planned" [(ngModel)]="planned" name="planned"
-                  id="yes" value="1" checked>
+                  id="yes" value="po" checked>
                 <label class="form-check-label" for="yes">
                   Po
                 </label>
               </div>
               <div class="form-check">
                 <input class="form-check-input" type="radio" name="planned" formControlName="planned" [(ngModel)]="planned"
-                  id="no" value="2">
+                  id="no" value="jo">
                 <label class="form-check-label" for="no">
                   Jo
                 </label>
@@ -415,8 +415,8 @@
               <label class="radioButtonLabel">Kriteret për dhënie të kontratës:</label>
               <br>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="criteria" formControlName="lowPrice" [(ngModel)]="contract.releases[0].tender.awardCriteria"
-                  id="lowPrice" value="Çmimi më i ulët" checked>
+                <input class="form-check-input" type="radio" name="criteria" formControlName="criteria" [(ngModel)]="contract.releases[0].tender.awardCriteria"
+                  id="lowPrice" value="lowPrice" checked>
                 <label class="form-check-label" for="priceOnly">
                   Çmimi më i ulët
                 </label>
@@ -570,14 +570,14 @@
               <div class="col-md-6">
                 <label for="noOfPaymentInstallments{{i}}">
                   <span class="nrOf">{{i+1}})</span> Vlera totale e Aneks kontratës duke përfshirë të gjitha taksat</label>
-                <input type="text" formControlName="totalValueOfAnnexContract1" id="noOfPaymentInstallments{{i}}" class="form-control"
+                <input type="text" formControlName="description" id="noOfPaymentInstallments{{i}}" class="form-control"
                   [(ngModel)]="contract.releases[0].contracts[0].amendments[i].description">
               </div>
               <div class="col-md-5">
                 <label for="annexContractSigningDate{{i}}">
                   Data e nënshkrimit të Aneks kontratës</label>
                 <input [(bsValue)]="contract.releases[0].contracts[0].amendments[i].date" bsDatepicker id="annexContractSigningDate{{i}}"
-                  placeholder="Zgjedhni datën" [bsConfig]="bsConfig" class="form-control" formControlName="annexContractSigningDate1"
+                  placeholder="Zgjedhni datën" [bsConfig]="bsConfig" class="form-control" formControlName="date"
                   [(ngModel)]="contract.releases[0].contracts[0].amendments[i].date">
               </div>
               <div class="col-md-1">
@@ -610,14 +610,14 @@
               <div class="col-md-6">
                 <label for="installmentAmount1{{i+1}}">
                   <span class="nrOf">{{i+1}})</span> Shuma e pagesës së situacionit</label>
-                <input type="text" formControlName="installmentAmount1" name="installmentAmount1{{i+1}}" id="installmentAmount1{{i+1}}"
+                <input type="text" formControlName="value" name="installmentAmount1{{i+1}}" id="installmentAmount1{{i+1}}"
                   class="form-control" [(ngModel)]="contract.releases[0].contracts[0].implementation.transactions[i].value.amount">
               </div>
               <div class="col-md-5">
                 <label for="installmentPayDate{{i}}">Data e pagesës së situacionit</label>
                 <input [(bsValue)]="contract.releases[0].contracts[0].implementation.transactions[i].date" bsDatepicker
                   placeholder="Zgjedhni datën" [bsConfig]="bsConfig" name="installmentPayDate{{i+1}}}" id="installmentPayDate{{i}}"
-                  class="form-control" formControlName="installmentPayDate1" [(ngModel)]="contract.releases[0].contracts[0].implementation.transactions[i].date">
+                  class="form-control" formControlName="date" [(ngModel)]="contract.releases[0].contracts[0].implementation.transactions[i].date">
               </div>
               <div class="col-md-1">
                 <button type="button" data-toggle="tooltip" [attr.data-annexDeleteId]="i" title="Fshi aneksin" class="btn btn-outline-primary
@@ -633,15 +633,14 @@
         <div class="row">
           <div class="col-md-6">
             <label for="lastInstallmentPayDate">Data e pagesës së situacionit të fundit</label>
-            <input [(bsValue)]="contract.releases[0].contracts[0].implementation.transactions[i+1].date" bsDatepicker
-              placeholder="Zgjedhni datën" [bsConfig]="bsConfig" name="lastInstallmentPayDate" id="lastInstallmentPayDate"
-              formControlName="lastInstallmentPayDate" (bsValueChange)="dateChange($event)" [(ngModel)]="contract.releases[0].contracts[0].implementation.transactions[i+1].date"
-              class="form-control">
+            <input [(bsValue)]="lastTransaction" bsDatepicker placeholder="Zgjedhni datën" [bsConfig]="bsConfig" name="lastInstallmentPayDate"
+              id="lastInstallmentPayDate" formControlName="lastInstallmentPayDate" (bsValueChange)="dateChange($event)"
+              [(ngModel)]="lastTransaction" class="form-control">
           </div>
           <div class="col-md-6">
             <label for="lastInstallmentAmount">Shuma e pagesës së situacionit të fundit</label>
             <input type="number" name="lastInstallmentAmount" id="lastInstallmentAmount" formControlName="lastInstallmentAmount"
-              [(ngModel)]="contract.releases[0].contracts[0].implementation.transactions[i+1].value.amount" class="form-control">
+              [(ngModel)]="lastTransactionAmount" class="form-control">
           </div>
         </div>
         <div class="row">
@@ -688,13 +687,43 @@
                     <i class="fa fa-chevron-left" aria-hidden="true"></i>
                   </button>
                 </div>
-                <input type="text" class="form-control" placeholder="Bashkangjit dokumentin" id="name-area" aria-label="upload file"
+                <input type="text" class="form-control" placeholder="Bashkangjit kontratën" id="name-area" aria-label="upload file"
                   aria-describedby="basic-addon2" [style.border-color]="!valid && touched ? 'red' : '#ced4da'" disabled>
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary" type="button" (click)="onClick()">Bashkangjit</button>
                 </div>
               </div>
               <div *ngIf=" !valid && touched" class="error-msg">{{message}}</div>
+            </div>
+
+            <div formArrayName="documents" *ngFor="let document of formData.controls; let i = index;">
+              <p class="mb-0" *ngIf="i == 0">Dokumente</p>
+              <div class="form-group" id="upload-document">
+                <input type="file" name="docFile" [id]="'doc-'+i" (change)="docsChangeEvent($event, i)" style="display: none">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend" id="button-addon3">
+                    <button class="btn btn-outline-secondary" type="button" (click)="removeDocument(i)">
+                      <i class="fa fa-times" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                  <input type="text" class="form-control" placeholder="Bashkangjit dokumentin" [id]="'docname'+i"
+                    aria-label="upload file" aria-describedby="basic-addon2" [style.border-color]="document.controls.error.value ? 'red' : '#ced4da'"
+                    disabled>
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" (click)="docsButtonClick(i)">Bashkangjit</button>
+                  </div>
+                </div>
+                <div *ngIf="document.controls.error.value" class="error-msg">{{document.controls.errorMsg.value}}</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div>
+                <button *ngIf="formData.controls.length < 10" type="button" data-toggle="tooltip" title="Bashkangjit dokumentin"
+                  class="btn btn-outline-primary buttons button-exec" (click)="addDocument()">
+                  <span class="fa fa-plus"></span> {{ form.get('documents').controls.length === 0 ? 'Bashkangjit
+                  dokument' : 'Bashkangjit dokument tjetër' }}
+                </button>
+              </div>
             </div>
           </div>
         </div>

@@ -55,7 +55,8 @@
         "contractSigningNotification": "Notification for contract signing",
         "procurementPlans": "Procurement plans",
         "designAwardNotification": "Notification for design vacancy",
-        "priorNotification": "Prior Notification"
+        "priorNotification": "Prior Notification",
+        "procurementReview": "Procurement review body's decisions"
     },
     "aboutUs": {
         "title": "About Us",

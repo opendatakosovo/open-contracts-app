@@ -37,7 +37,8 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
     date: new Date(),
     referenceDate: new Date(),
     value: '',
-    year: '',
+    year: null,
+    procurementNo: '',
     pageInfo: new Page()
   };
   offsetX: number;
@@ -65,7 +66,8 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
       date: null,
       referenceDate: null,
       value: '',
-      year: '2018',
+      year: 2018,
+      procurementNo: '',
       pageInfo: {
         pageNumber: 0,
         size: 10,
@@ -121,7 +123,7 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
             this.messages = {
               emptyMessage: `
           <div>
-              <p>Asnjë kontratë nuk përputhet me të dhënat e shypura</p>
+              <p>Asnjë kontratë nuk përputhet me të dhënat e shtypura</p>
           </div>
         `
             };
@@ -248,7 +250,7 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
           this.messages = {
             emptyMessage: `
           <div>
-              <p>Asnjë kontratë nuk përputhet me të dhënat e shypura</p>
+              <p>Asnjë kontratë nuk përputhet me të dhënat e shtypura</p>
           </div>
         `
           };
@@ -322,7 +324,7 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
             this.messages = {
               emptyMessage: `
             <div>
-                <p>Asnjë kontratë nuk përputhet me të dhënat e shypura</p>
+                <p>Asnjë kontratë nuk përputhet me të dhënat e shtypura</p>
             </div>
           `
             };
@@ -356,7 +358,7 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
           this.messages = {
             emptyMessage: `
           <div>
-              <p>Asnjë kontratë nuk përputhet me të dhënat e shypura</p>
+              <p>Asnjë kontratë nuk përputhet me të dhënat e shtypura</p>
           </div>
         `
           };
@@ -371,4 +373,5 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
       }
     });
   }
+
 }

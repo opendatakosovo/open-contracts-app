@@ -7,13 +7,17 @@
   </div>
   <div class="alert alert-info alert-dismissible fade show" role="alert">
     <p>
-      <strong>{{ 'datatable.searchContract' | translate }}:</strong> "{{ 'datatable.activityTitle' | translate }}", "{{ 'datatable.name'
+      <strong>{{ 'datatable.searchContract' | translate }}:</strong> "{{ 'datatable.activityTitle' | translate }}", "{{
+      'datatable.name'
       | translate }}", "{{ 'datatable.implementationDeadline' | translate }}"!</p>
     <p>
-      <strong>{{ 'datatable.chooseDate' | translate }}: </strong>"{{ 'datatable.publicationDate' | translate }}", "{{ 'datatable.publicationDateOfGivenContract'
-      | translate }}", "{{ 'datatable.cancellationNoticeDate' | translate }}", "{{ 'datatable.signingDate' | translate }}"!</p>
+      <strong>{{ 'datatable.chooseDate' | translate }}: </strong>"{{ 'datatable.publicationDate' | translate }}", "{{
+      'datatable.publicationDateOfGivenContract'
+      | translate }}", "{{ 'datatable.cancellationNoticeDate' | translate }}", "{{ 'datatable.signingDate' | translate
+      }}"!</p>
     <p>
-      <strong>{{ 'datatable.value' | translate }}:</strong> "{{ 'datatable.predictedValue' | translate }}", "{{ 'datatable.totalAmountOfContractsIncludingTaxes'
+      <strong>{{ 'datatable.value' | translate }}:</strong> "{{ 'datatable.predictedValue' | translate }}", "{{
+      'datatable.totalAmountOfContractsIncludingTaxes'
       | translate }}" </p>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
@@ -22,23 +26,27 @@
   <div class="row">
     <div class="col-lg-12 search text-center contracts-filter-form">
       <form action="" class="form-inline form-group">
-        <input type="text" (keyup)="onType()" [(ngModel)]="search.string" name="string" class="form-control form-input" placeholder="{{ 'datatable.searchContract' | translate }}">
+        <input type="text" (keyup)="onType()" [(ngModel)]="search.string" name="string" class="form-control form-input"
+          placeholder="{{ 'datatable.searchContract' | translate }}">
         <select class="form-control form-select" (change)="onChange()" [(ngModel)]="search.directorate" name="directorate">
           <option value="">{{ 'visualisations.allYears' | translate }}</option>
-          <option *ngFor="let directorate of directorates" value="{{directorate.directorateName}}"> {{directorate.directorateName}}</option>
+          <option *ngFor="let directorate of directorates" value="{{directorate.directorateName}}">
+            {{directorate.directorateName}}</option>
         </select>
-        <input (input)="onDateInputChange($event)" (ngModelChange)="onDatePick($event)" bsDatepicker placeholder="MM/DD/YYYY" [bsConfig]="bsConfig"
-          name="date" id="date" class="form-control form-select" [(ngModel)]="search.date">
-        <input type="text" (keyup)="onType()" [(ngModel)]="search.value" name="value" class="form-control form-input" placeholder="{{ 'datatable.value' | translate }}">
+        <input (input)="onDateInputChange($event)" (ngModelChange)="onDatePick($event)" bsDatepicker placeholder="MM/DD/YYYY"
+          [bsConfig]="bsConfig" name="date" id="date" class="form-control form-select" [(ngModel)]="search.date">
+        <input type="text" (keyup)="onType()" [(ngModel)]="search.value" name="value" class="form-control form-input"
+          placeholder="{{ 'datatable.value' | translate }}">
       </form>
     </div>
   </div>
 </div>
 
 <div id="table1">
-  <ngx-datatable #table class="bootstrap" columnMode="'force'" [rows]="rows" [headerHeight]="'auto'" [summaryRow]="false" [summaryPosition]="'bottom'"
-    [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements" [offset]="page.pageNumber"
-    [limit]="page.size" [messages]="messages" [scrollbarH]="true" (page)='setPage($event)' [externalSorting]="true" (scroll)="onTableScroll($event)">
+  <ngx-datatable #table class="bootstrap" columnMode="'force'" [rows]="rows" [headerHeight]="'auto'" [summaryRow]="false"
+    [summaryPosition]="'bottom'" [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements"
+    [offset]="page.pageNumber" [limit]="page.size" [messages]="messages" [scrollbarH]="true" (page)='setPage($event)'
+    [externalSorting]="true" (scroll)="onTableScroll($event)">
     <ngx-datatable-column name="activity-title" prop="activityTitle">
       <ng-template let-column="column" ngx-datatable-header-template>
         <span (click)="sortContracts('activityTitleSlug')">
@@ -279,6 +287,29 @@
         </p>
       </ng-template>
     </ngx-datatable-column>
+    <ngx-datatable-column name="documents" prop="documents">
+      <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+        <span>
+          <p class="column-header">Shiko dosjen e tenderit</p>
+        </span>
+      </ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <p *ngIf="row.documents == null || row.documents.length === 0; else showDocs">
+          -
+        </p>
+        <ng-template #showDocs>
+          <p>
+            <span *ngFor="let document of row.documents">
+              <a class="view-icon" href="./documents/{{document}}" target="_blank">
+                <i class="fa fa-file-text-o" style="margin-top: 1.5px; cursor: pointer; font-size: 20px" aria-hidden="true"></i>
+              </a>
+
+            </span>
+          </p>
+        </ng-template>
+
+      </ng-template>
+    </ngx-datatable-column>
     <ngx-datatable-column>
       <ng-template let-column="column" ngx-datatable-header-template>
         <p class="column-header">Shiko kontratën e plotë</p>
@@ -296,16 +327,18 @@
         </span>
       </ng-template>
     </ngx-datatable-column>
+
     <ngx-datatable-footer>
       <ng-template ngx-datatable-footer-template let-rowCount="rowCount" let-pageSize="pageSize" let-selectedCount="selectedCount"
         let-curPage="curPage" let-offset="offset">
         <div style="padding: 5px 10px;width: 50%;">
-          {{ 'datatable.contracts' | translate }} {{rowCount}} | {{ 'datatable.displayedContracts' | translate }} {{pageSize}} | {{
+          {{ 'datatable.contracts' | translate }} {{rowCount}} | {{ 'datatable.displayedContracts' | translate }}
+          {{pageSize}} | {{
           'datatable.page' | translate }} {{curPage}}
         </div>
-        <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'" [pagerRightArrowIcon]="'datatable-icon-right'" [pagerPreviousIcon]="'datatable-icon-prev'"
-          [pagerNextIcon]="'datatable-icon-skip'" [page]="curPage" [size]="pageSize" [count]="rowCount" [hidden]="!((rowCount / pageSize) > 1)"
-          (change)="table.onFooterPage($event)">
+        <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'" [pagerRightArrowIcon]="'datatable-icon-right'"
+          [pagerPreviousIcon]="'datatable-icon-prev'" [pagerNextIcon]="'datatable-icon-skip'" [page]="curPage" [size]="pageSize"
+          [count]="rowCount" [hidden]="!((rowCount / pageSize) > 1)" (change)="table.onFooterPage($event)">
         </datatable-pager>
       </ng-template>
     </ngx-datatable-footer>

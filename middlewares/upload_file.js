@@ -1,5 +1,7 @@
 const multer = require('../utils/storage');
 const upload = multer.single('file');
+
+multer.array
 module.exports = (req, res, next) => {
     const contentType = req.headers['content-type'];
     if (contentType.indexOf('application/json') == -1) {

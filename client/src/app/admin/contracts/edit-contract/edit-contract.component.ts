@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, AfterViewChecked } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Contract } from '../../../models/contract';
 import { Directorate } from '../../../models/directorates';
@@ -14,12 +14,13 @@ import { Router } from '@angular/router';
 import { User } from '../../../models/user';
 import { CustomValidator } from '../../../validators/custom-validator';
 import { DatasetService } from '../../../service/dataset.service';
+import { TreeNode } from '@angular/router/src/utils/tree';
 @Component({
   selector: 'app-edit-contract',
   templateUrl: './edit-contract.component.html',
   styleUrls: ['./edit-contract.component.css']
 })
-export class EditContractComponent implements OnInit {
+export class EditContractComponent implements OnInit, AfterViewChecked {
   private unsubscribeAll: Subject<any> = new Subject<any>();
   id: string;
   startOfEvaluationDate: Date;
@@ -42,6 +43,18 @@ export class EditContractComponent implements OnInit {
   @ViewChild('fileInput') fileInput;
   implementationDeadline = [];
   currentUser: User;
+  documents: FormArray;
+  contractDocsNames = [];
+  docsToDelete = [];
+  docsToUpload = [];
+  lastTransaction: Date;
+  lastTransactionAmount: number;
+  planned: string;
+  payeeId: string;
+  payerId: string;
+  retender: string;
+  tenderStatus: string;
+
   constructor(public contractsService: ContractsService, private router: ActivatedRoute, public directorateService: DirectorateService, private _fb: FormBuilder, private route: Router, public datasetService: DatasetService) {
     this.directorates = [];
     this.contract = new Contract();
@@ -52,6 +65,10 @@ export class EditContractComponent implements OnInit {
       .takeUntil(this.unsubscribeAll)
       .subscribe(data => {
         this.contract = data;
+        for (let i = 0; i < this.contract.documents.length; i++) {
+          this.contractDocsNames.push(this.contract.documents[i]);
+          this.addDocument();
+        }
         if (data.bidOpeningDateTime === null) {
           this.contract.releases[0].tender.tenderPeriod.startDate = data.bidOpeningDateTime;
         }
@@ -120,6 +137,7 @@ export class EditContractComponent implements OnInit {
       nameOfProcurementOffical: '',
       annexes: this.formArrayAnnexes,
       installments: this.formArrayInstallments,
+      documents: _fb.array([])
     });
     this.directorateService.getAllDirectorates()
       .takeUntil(this.unsubscribeAll)
@@ -133,32 +151,60 @@ export class EditContractComponent implements OnInit {
     this.currentUser = JSON.parse(localStorage.getItem('user'));
   }
 
+  ngAfterViewChecked() {
+    this.addDocumentNames();
+  }
+
   onClick() {
     this.fileInput.nativeElement.click();
   }
 
   addInstallment(installment: Installment) {
     return this._fb.group({
-      value: {
-        amount: 0
-      },
-      date: null
+      id: installment.id,
+      date: installment.date,
+      value: installment.value.amount,
+      payerId: installment.payer.id,
+      payerName: installment.payer.name,
+      payeeId: installment.payee.id,
+      payeeName: installment.payee.name,
+      currency: installment.value.currency
     });
   }
 
   addNewInstallment() {
     this.contract.releases[0].contracts[0].implementation.transactions.push({
-      value: {
-        amount: 0
+      id: '',
+      date: null,
+      payer: {
+        id: '',
+        name: ''
       },
-      date: null
+      payee: {
+        id: '',
+        name: ''
+      },
+      value: {
+        amount: 0,
+        currency: 'EUR'
+      }
     });
     const arrControl = this.formArrayInstallments;
     arrControl.push(this.addInstallment({
-      value: {
-        amount: 0
+      id: '',
+      date: null,
+      payer: {
+        id: '',
+        name: ''
       },
-      date: null
+      payee: {
+        id: '',
+        name: ''
+      },
+      value: {
+        amount: 0,
+        currency: 'EUR'
+      }
     }));
   }
 
@@ -211,6 +257,25 @@ export class EditContractComponent implements OnInit {
       this.route.navigate(['/dashboard']);
     }
     this.bsConfig = Object.assign({}, { containerClass: 'theme-blue', dateInputFormat: 'DD/MM/YYYY' });
+    if (this.contract.releases[0].planning.documents[0].documentType && this.contract.releases[0].planning.documents[0].documentType === 'procurementPlan') {
+      this.planned = 'po';
+    } else {
+      this.planned = 'jo';
+    }
+    if (this.contract.releases[0].relatedProcesses[0].relationship && this.contract.releases[0].relatedProcesses[0].relationship === 'unsuccessfulProcess') {
+      this.retender = 'Po';
+    } else {
+      this.retender = 'jo';
+    }
+    if (this.contract.releases[0].tender.status === 'active' && (this.contract.releases[0].tender.awardPeriod.startDate && this.contract.releases[0].tender.awardPeriod.endDate)) {
+      this.tenderStatus = 'evaluation';
+    } else if (this.contract.releases[0].tender.status === 'active') {
+      this.tenderStatus = 'published';
+    } else if (this.contract.releases[0].tender.status === 'cancelled') {
+      this.tenderStatus = 'cancelled';
+    } else if (this.contract.releases[0].tender.status === 'complete') {
+      this.tenderStatus = 'contracted';
+    }
   }
 
   calculateValues() {
@@ -222,14 +287,11 @@ export class EditContractComponent implements OnInit {
         sumAnnex = 0;
       }
     });
-    if (this.contract.releases[0].contracts[0].value.amount !== undefined && this.contract.releases[0].contracts[0].value.amount !== null && this.contract.releases[0].contracts[0].value.amount !== 0) {
-      this.total = parseFloat(this.contract.releases[0].contracts[0].value.amount.toString()) + sumAnnex;
-    } else {
-      this.total = 0;
+    if (this.contract.releases[0].tender.value.amount === undefined || this.contract.releases[0].tender.value.amount === null) {
+      this.contract.releases[0].tender.value.amount = 0;
     }
-    if (this.contract.releases[0].contracts[0].value.amount !== undefined && this.contract.releases[0].contracts[0].value.amount !== null) {
-      this.contract.releases[0].contracts[0].value.amount = this.total;
-    }
+    this.total = parseFloat(this.contract.releases[0].tender.value.amount.toString()) + sumAnnex;
+    this.contract.releases[0].contracts[0].value.amount = this.total;
     let sumInstallments = 0;
     this.contract.releases[0].contracts[0].implementation.transactions.map(installment => {
       if (installment.value.amount !== undefined && installment.value.amount !== null) {
@@ -238,15 +300,7 @@ export class EditContractComponent implements OnInit {
         sumInstallments = 0;
       }
     });
-    const i = this.contract.releases[0].contracts[0].implementation.transactions.length;
-    if (this.contract.releases[0].contracts[0].implementation.transactions[i - 1] !== undefined) {
-      this.totalInstallments = parseFloat(this.contract.releases[0].contracts[0].implementation.transactions.toString()) + sumInstallments;
-    } else {
-      this.totalInstallments = 0;
-    }
-    if (this.totalInstallments !== undefined) {
-      this.contract.releases[0].contracts[0].implementation.finalValue.amount = this.totalInstallments;
-    }
+    this.contract.releases[0].contracts[0].implementation.finalValue.amount = sumInstallments;
   }
 
   dateChange(date) {
@@ -255,71 +309,74 @@ export class EditContractComponent implements OnInit {
   }
 
   formatDates(contract) {
-    if (contract.approvalDateOfFunds !== null) {
-      contract.approvalDateOfFunds = new Date(contract.approvalDateOfFunds);
+    if (contract.releases[0].planning.milestones[1].dateMet !== null) {
+      contract.releases[0].planning.milestones[1].dateMet = new Date(contract.releases[0].planning.milestones[1].dateMet);
     }
 
     if (contract.releases[0].tender.tenderPeriod.startDate !== null) {
       contract.releases[0].tender.tenderPeriod.startDate = new Date(contract.releases[0].tender.tenderPeriod.startDate);
     }
 
-    if (contract.cancellationNoticeDate !== null) {
-      contract.cancellationNoticeDate = new Date(contract.cancellationNoticeDate);
+    if (contract.releases[0].tender.milestones[1].dateMet !== null) {
+      contract.releases[0].tender.milestones[1].dateMet = new Date(contract.releases[0].tender.milestones[1].dateMet);
     }
 
-    if (contract.endingOfEvaluationDate !== null) {
-      contract.endingOfEvaluationDate = new Date(contract.endingOfEvaluationDate);
+    if (contract.releases[0].tender.awardPeriod.endDate !== null) {
+      contract.releases[0].tender.awardPeriod.endDate = new Date(contract.releases[0].tender.awardPeriod.endDate);
     }
 
-    if (contract.initiationDate !== null) {
-      contract.initiationDate = new Date(contract.initiationDate);
+    if (contract.releases[0].planning.milestones[0].dateMet !== null) {
+      contract.releases[0].planning.milestones[0].dateMet = new Date(contract.releases[0].planning.milestones[0].dateMet);
     }
 
     if (contract.lastInstallmentPayDate !== null) {
       contract.lastInstallmentPayDate = new Date(contract.lastInstallmentPayDate);
     }
 
-    if (contract.reapprovalDate !== null) {
-      contract.reapprovalDate = new Date(contract.reapprovalDate);
+    if (contract.releases[0].planning.milestones[3].dateMet !== null) {
+      contract.releases[0].planning.milestones[3].dateMet = new Date(contract.releases[0].planning.milestones[3].dateMet);
     }
 
-    if (contract.startingOfEvaluationDate !== null) {
-      contract.startingOfEvaluationDate = new Date(contract.startingOfEvaluationDate);
+    if (contract.releases[0].tender.awardPeriod.startDate !== null) {
+      contract.releases[0].tender.awardPeriod.startDate = new Date(contract.releases[0].tender.awardPeriod.startDate);
     }
 
-    if (contract.torDate !== null) {
-      contract.torDate = new Date(contract.torDate);
+    if (contract.releases[0].planning.milestones[2].dateMet !== null) {
+      contract.releases[0].planning.milestones[2].dateMet = new Date(contract.releases[0].planning.milestones[2].dateMet);
     }
 
     if (contract.releases[0].contracts[0].period.endDate !== null) {
       contract.releases[0].contracts[0].period.endDate = new Date(contract.releases[0].contracts[0].period.endDate);
     }
 
-    if (contract.contract.publicationDate !== null) {
-      contract.contract.publicationDate = new Date(contract.contract.publicationDate);
+    if (contract.releases[0].tender.date !== null) {
+      contract.releases[0].tender.date = new Date(contract.releases[0].tender.date);
     }
 
-    if (contract.contract.publicationDateOfGivenContract !== null) {
-      contract.contract.publicationDateOfGivenContract = new Date(contract.contract.publicationDateOfGivenContract);
+    if (contract.releases[0].awards[0].date !== null) {
+      contract.releases[0].awards[0].date = new Date(contract.releases[0].awards[0].date);
     }
 
     if (contract.releases[0].contracts[0].period.startDate != null) {
       contract.releases[0].contracts[0].period.startDate = new Date(contract.releases[0].contracts[0].period.startDate);
     }
 
-    if (contract.company.standardDocuments != null) {
-      contract.company.standardDocuments = new Date(contract.company.standardDocuments);
+    if (contract.releases[0].tender.milestones[0].dateMet != null) {
+      contract.releases[0].tender.milestones[0].dateMet = new Date(contract.releases[0].tender.milestones[0].dateMet);
+    }
+    if (contract.releases[0].tender.value.amount === NaN) {
+      contract.releases[0].tender.value.amount = 0;
     }
 
-    for (const installment of contract.installments) {
-      if (installment.installmentPayDate1 !== null) {
-        installment.installmentPayDate1 = new Date(installment.installmentPayDate1);
+    for (const installment of contract.releases[0].contracts[0].implementation.transactions) {
+      if (installment.date !== null) {
+        installment.date = new Date(installment.date);
       }
     }
 
-    for (const annex of contract.contract.annexes) {
-      if (annex.annexContractSigningDate1 !== null) {
-        annex.annexContractSigningDate1 = new Date(annex.annexContractSigningDate1);
+    for (const annex of contract.releases[0].contracts[0].amendments) {
+      if (annex.date !== null) {
+        annex.date = new Date(annex.date);
       }
     }
   }
@@ -385,46 +442,327 @@ export class EditContractComponent implements OnInit {
     this.touched = false;
   }
 
+  milestoneId(code) {
+    const milestones_id = Math.random().toString(36).substr(2, 9) + '-' + code;
+    return milestones_id;
+  }
+
+  ocidMaker(value) {
+    let year;
+    let ocid = '';
+    if (this.contract.year !== null && this.contract.year !== undefined) {
+      const foo = '' + this.contract.year;
+      year = foo.slice(2, 4);
+    } else {
+      year = 0;
+    }
+    ocid = 'ocds-3n5h6d-' + this.contract.releases[0].tender.id + '-' + year + value;
+    return ocid;
+  }
+
+  changeValues() {
+    this.payeeId = Math.random().toString(36).substr(2, 9) + '-payee';
+    this.payerId = Math.random().toString(36).substr(2, 9) + '-payer';
+    if (this.form.value.implementationDeadlineNumber !== null && this.form.value.implementationDeadlineDuration !== '') {
+      this.contract.releases[0].tender.contractPeriod.durationInDays = this.form.value.implementationDeadlineNumber + ' ' + this.form.value.implementationDeadlineDuration;
+
+      this.contract.releases[0].awards[0].contractPeriod.durationInDays = this.form.value.implementationDeadlineNumber + ' ' + this.form.value.implementationDeadlineDuration;
+
+      this.contract.releases[0].contracts[0].period.durationInDays = this.form.value.implementationDeadlineNumber + ' ' + this.form.value.implementationDeadlineDuration;
+    } else {
+      this.contract.releases[0].tender.contractPeriod.durationInDays = '';
+      this.contract.releases[0].awards[0].contractPeriod.durationInDays = '';
+      this.contract.releases[0].contracts[0].period.durationInDays = '';
+    }
+    this.contract.releases[0].planning.milestones[1].dateMet = this.contract.releases[0].planning.milestones[1].dateMet == null ? null : this.dateChange(this.contract.releases[0].planning.milestones[1].dateMet);
+    this.contract.releases[0].tender.tenderPeriod.startDate = this.contract.releases[0].tender.tenderPeriod.startDate == null ? null : this.dateChange(this.contract.releases[0].tender.tenderPeriod.startDate);
+    this.contract.releases[0].tender.awardPeriod.endDate = this.contract.releases[0].tender.awardPeriod.endDate == null ? null : this.dateChange(this.contract.releases[0].tender.awardPeriod.endDate);
+    this.contract.releases[0].planning.milestones[0].dateMet = this.contract.releases[0].planning.milestones[0].dateMet == null ? null : this.dateChange(this.contract.releases[0].planning.milestones[0].dateMet);
+    this.contract.releases[0].tender.milestones[1].dateMet = this.contract.releases[0].tender.milestones[1].dateMet == null ? null : this.dateChange(this.contract.releases[0].tender.milestones[1].dateMet);
+    this.contract.releases[0].planning.milestones[3].dateMet = this.contract.releases[0].planning.milestones[3].dateMet == null ? null : this.dateChange(this.contract.releases[0].planning.milestones[3].dateMet);
+    this.contract.releases[0].tender.awardPeriod.startDate = this.contract.releases[0].tender.awardPeriod.startDate == null ? null : this.dateChange(this.contract.releases[0].tender.awardPeriod.startDate);
+    const i = this.contract.releases[0].contracts[0].implementation.transactions.length;
+    if (i > 0) {
+      this.contract.releases[0].contracts[0].implementation.transactions[i - 1].date = this.contract.releases[0].contracts[0].implementation.transactions[i - 1].date == null ? null : this.dateChange(this.contract.releases[0].contracts[0].implementation.transactions[i - 1].date);
+    }
+    this.contract.releases[0].tender.date = this.contract.releases[0].tender.date == null ? null : this.dateChange(this.contract.releases[0].tender.date);
+    this.contract.releases[0].awards[0].date = this.contract.releases[0].awards[0].date == null ? null : this.dateChange(this.contract.releases[0].awards[0].date);
+    this.contract.releases[0].contracts[0].period.endDate = this.contract.releases[0].contracts[0].period.endDate == null ? null : this.dateChange(this.contract.releases[0].contracts[0].period.endDate);
+    this.contract.releases[0].contracts[0].period.startDate = this.contract.releases[0].contracts[0].period.startDate == null ? null : this.dateChange(this.contract.releases[0].contracts[0].period.startDate);
+    if (this.contract.releases[0].contracts[0].implementation.transactions.length > 1) {
+      for (const installment of this.contract.releases[0].contracts[0].implementation.transactions) {
+        installment.date = installment.date == null ? null : this.dateChange(installment.date);
+      }
+    }
+    if (this.contract.releases[0].contracts[0].amendments.length > 1) {
+      for (const annex of this.contract.releases[0].contracts[0].amendments) {
+        annex.date = annex.date == null ? null : this.dateChange(annex.date);
+      }
+    }
+    // if (this.form.value.totalAmountOfContractsIncludingTaxes) {
+    //   this.form.value.totalAmountOfContractsIncludingTaxes = parseFloat(this.form.value.totalAmountOfContractsIncludingTaxes.replace(/,/g, '')).toLocaleString(undefined, { minimumFractionDigits: 2 });
+    //   this.form.patchValue({
+    //     'totalAmountOfContractsIncludingTaxes': this.form.value.totalAmountOfContractsIncludingTaxes
+    //   });
+    // }
+    // Map the additional procurement category for main procurement
+    if (this.contract.releases[0].tender.additionalProcurementCategories === 'goods') {
+      this.contract.releases[0].tender.mainProcurementCategory = 'goods';
+    } else if (this.contract.releases[0].tender.additionalProcurementCategories === 'works' || this.contract.releases[0].tender.additionalProcurementCategories === 'concessionWorks' || this.contract.releases[0].tender.additionalProcurementCategories === 'designContest' || this.contract.releases[0].tender.additionalProcurementCategories === 'immovableProperty') {
+      this.contract.releases[0].tender.mainProcurementCategory = 'works';
+    } else if (this.contract.releases[0].tender.additionalProcurementCategories === 'services' || this.contract.releases[0].tender.additionalProcurementCategories === 'consultingServices') {
+      this.contract.releases[0].tender.mainProcurementCategory = 'services';
+    }
+    // Map the procurement method rationale for procurement method
+    if (this.contract.releases[0].tender.procurementMethodRationale === 'openProcedure' || this.contract.releases[0].tender.procurementMethodRationale === 'negociatedProcedureAfterAwardNotice') {
+      this.contract.releases[0].tender.procurementMethod = 'open';
+    } else if (this.contract.releases[0].tender.procurementMethodRationale === 'limitedProcedure' || this.contract.releases[0].tender.procurementMethodRationale === 'quotationValueProcedure') {
+      this.contract.releases[0].tender.procurementMethod = 'limited';
+    } else if (this.contract.releases[0].tender.procurementMethodRationale === 'negociatedProcedureWithoutAwardNotice') {
+      this.contract.releases[0].tender.procurementMethod = 'direct';
+    } else if (this.contract.releases[0].tender.procurementMethodRationale === 'designContest' || this.contract.releases[0].tender.procurementMethodRationale === 'minimalValueProcedure') {
+      this.contract.releases[0].tender.procurementMethod = 'selective';
+    }
+    // Fill the item tender with the fppClassification number
+    if (this.contract.releases[0].tender.items[0].quantity !== 0 && this.contract.releases[0].tender.items[0].quantity !== null) {
+      this.contract.releases[0].tender.items[0].id = Math.random().toString(36).substr(2, 9) + '-CPV' + '-' + this.contract.releases[0].tender.items[0].quantity;
+    }
+    // Check if it is planned or not to fill the planning documents
+    if (this.planned === 'po' && this.contract.releases[0].planning.documents[0].documentType !== 'procurementPlan') {
+      this.contract.releases[0].planning.documents[0].id = Math.random().toString(36).substr(2, 9) + '-procurementPlan';
+      this.contract.releases[0].planning.documents[0].documentType = 'procurementPlan';
+    }
+    // Push planning milestones
+    if (this.contract.releases[0].planning.milestones[0].dateMet !== null && this.contract.releases[0].planning.milestones[0].id === '') {
+      this.contract.releases[0].planning.milestones[0].id = this.milestoneId('initiationDate');
+      this.contract.releases[0].planning.milestones[0].title = 'Data e inicimit të aktivitetit të prokurimit (data e pranimit të kërkesës)';
+      this.contract.releases[0].planning.milestones[0].type = 'preProcurement';
+      this.contract.releases[0].planning.milestones[0].code = 'initiationDate';
+      this.contract.releases[0].planning.milestones[0].status = 'met';
+    }
+    if (this.contract.releases[0].planning.milestones[1].dateMet !== null && this.contract.releases[0].planning.milestones[1].id === '') {
+      this.contract.releases[0].planning.milestones[1].id = this.milestoneId('approvalDateOfFunds');
+      this.contract.releases[0].planning.milestones[1].title = 'Data e aprovimit të deklaratës së nevojave dhe disponueshmërisë së mjeteve';
+      this.contract.releases[0].planning.milestones[1].type = 'approval';
+      this.contract.releases[0].planning.milestones[1].code = 'approvalDateOfFunds';
+      this.contract.releases[0].planning.milestones[1].status = 'met';
+    }
+    if (this.contract.releases[0].planning.milestones[2].dateMet !== null && this.contract.releases[0].planning.milestones[2].id === '') {
+      this.contract.releases[0].planning.milestones[2].id = this.milestoneId('torDate');
+      this.contract.releases[0].planning.milestones[2].title = 'Data e pranimit të specifikimit teknik (TOR)';
+      this.contract.releases[0].planning.milestones[2].type = 'assessment';
+      this.contract.releases[0].planning.milestones[2].code = 'torDate';
+      this.contract.releases[0].planning.milestones[2].status = 'met';
+    }
+    if (this.contract.releases[0].planning.milestones[3].dateMet !== null && this.contract.releases[0].planning.milestones[3].id === '') {
+      this.contract.releases[0].planning.milestones[3].id = this.milestoneId('reapprovalDate');
+      this.contract.releases[0].planning.milestones[3].title = 'Data e aprovimit të Deklaratës së nevojave dhe disponueshmërisë së mjeteve - rikonfirmimi';
+      this.contract.releases[0].planning.milestones[3].type = 'approval';
+      this.contract.releases[0].planning.milestones[3].code = 'reapprovalDate';
+      this.contract.releases[0].planning.milestones[3].status = 'met';
+    }
+    // Fill the bids statistics
+    if ((this.contract.releases[0].bids.statistics[0].value !== 0 || this.contract.releases[0].bids.statistics[0].value !== null) && this.contract.releases[0].bids.statistics[0].id === '') {
+      this.contract.releases[0].bids.statistics[0].id = '0001';
+      this.contract.releases[0].bids.statistics[0].measure = 'numberOfDownloads';
+      this.contract.releases[0].bids.statistics[0].notes = 'Nr. i OE që kanë shkarkuar dosjen e tenderit';
+    }
+    if ((this.contract.releases[0].bids.statistics[1].value !== 0 || this.contract.releases[0].bids.statistics[1].value !== null) && this.contract.releases[0].bids.statistics[1].id === '') {
+      this.contract.releases[0].bids.statistics[1].id = '0002';
+      this.contract.releases[0].bids.statistics[1].measure = 'numberOfRefusedBids';
+      this.contract.releases[0].bids.statistics[1].notes = 'Numri i ofertave të refuzuara';
+    }
+    // Fill tender milestones
+    if (this.contract.releases[0].tender.milestones[0].dateMet !== null || this.contract.releases[0].tender.milestones[0].id === '') {
+      this.contract.releases[0].tender.milestones[0].id = this.milestoneId('standardDocuments');
+      this.contract.releases[0].tender.milestones[0].title = 'Letrat Standarde për OE';
+      this.contract.releases[0].tender.milestones[0].type = 'engagement';
+      this.contract.releases[0].tender.milestones[0].code = 'standardDocuments';
+      this.contract.releases[0].tender.milestones[0].status = 'met';
+    }
+    if (this.contract.releases[0].tender.milestones[1].dateMet !== null || this.contract.releases[0].tender.milestones[1].id === '') {
+      this.contract.releases[0].tender.milestones[1].id = this.milestoneId('cancellationNoticeDate');
+      this.contract.releases[0].tender.milestones[1].title = 'Data e publikimit të anulimit të njoftimit';
+      this.contract.releases[0].tender.milestones[1].type = 'approval';
+      this.contract.releases[0].tender.milestones[1].code = 'cancellationNoticeDate';
+      this.contract.releases[0].tender.milestones[1].status = 'met';
+    }
+    // Map enquiries based on enquiry type
+    if (this.contract.releases[0].awards[0].enquiryType) {
+      if (this.contract.releases[0].awards[0].enquiryType === 'none' || this.contract.releases[0].awards[0].enquiryType === 'negative') {
+        this.contract.releases[0].awards[0].hasEnquiries = false;
+      } else if (this.contract.releases[0].awards[0].enquiryType === 'positive') {
+        this.contract.releases[0].awards[0].hasEnquiries = true;
+      }
+    }
+    // Map complaints based on complaint type
+    if (this.contract.releases[0].awards[0].complaintType) {
+      if (this.contract.releases[0].awards[0].complaintType === 'none' || this.contract.releases[0].awards[0].complaintType === 'negative') {
+        this.contract.releases[0].awards[0].hasComplaints = false;
+      } else if (this.contract.releases[0].awards[0].complaintType === 'positive') {
+        this.contract.releases[0].awards[0].hasComplaints = true;
+      }
+    }
+    // Fill the company party
+    this.contract.releases[0].parties[0].name = this.contract.releases[0].tender.tenderers.name;
+    this.contract.releases[0].parties[0].roles = [
+      'supplier',
+      'tenderer',
+      'payee'
+    ];
+    if (this.contract.releases[0].parties[0].id === '') {
+      this.contract.releases[0].parties[0].id = this.payeeId;
+    }
+    // Fill the payer party
+    if (this.contract.releases[0].parties[1].id === '') {
+      this.contract.releases[0].parties[1].address.region = 'Prishtinë';
+      this.contract.releases[0].parties[1].address.postalCode = '10000';
+      this.contract.releases[0].parties[1].address.countryName = 'Kosovë';
+      this.contract.releases[0].parties[1].contactPoint.url = 'https://kk.rks-gov.net/prishtine/';
+      this.contract.releases[0].parties[1].roles = [
+        'buyer',
+        'payer',
+        'procuringEntity'
+      ];
+      this.contract.releases[0].parties[1].id = this.payerId;
+    }
+    // Check retender value to fill related process
+    if ((this.retender === 'po' || this.retender === 'Po') && this.contract.releases[0].relatedProcesses[0].relationship !== 'unsuccessfulProcess') {
+      this.contract.releases[0].relatedProcesses[0].relationship = 'unsuccessfulProcess';
+    } else {
+      this.contract.releases[0].relatedProcesses[0].relationship = '';
+    }
+    // Map the tender status
+    if (this.tenderStatus === 'published' || this.tenderStatus === 'evaluation') {
+      this.contract.releases[0].tender.status = 'active';
+    } else if (this.tenderStatus === 'cancelled') {
+      this.contract.releases[0].tender.status = 'cancelled';
+    } else if (this.tenderStatus === 'contracted') {
+      this.contract.releases[0].tender.status = 'complete';
+    }
+    // Fill other fields with the company name
+    this.contract.releases[0].awards[0].suppliers[0].name = this.contract.releases[0].tender.tenderers.name;
+    if (this.contract.releases[0].contracts[0].implementation.transactions.length > 0) {
+      for (const transaction of this.contract.releases[0].contracts[0].implementation.transactions) {
+        transaction.payee.name = this.contract.releases[0].tender.tenderers.name;
+      }
+    }
+    // Fill other fields with the signing date
+    this.contract.releases[0].tender.contractPeriod.startDate = this.contract.releases[0].contracts[0].period.startDate;
+    this.contract.releases[0].awards[0].contractPeriod.startDate = this.contract.releases[0].contracts[0].period.startDate;
+    // Fill other fields with the ending date
+    this.contract.releases[0].tender.contractPeriod.endDate = this.contract.releases[0].contracts[0].period.endDate;
+    this.contract.releases[0].awards[0].contractPeriod.endDate = this.contract.releases[0].contracts[0].period.endDate;
+    // Fill the transactions
+    if (this.contract.releases[0].contracts[0].implementation.transactions.length > 0) {
+      for (const transaction of this.contract.releases[0].contracts[0].implementation.transactions) {
+        if (transaction.id === '' && transaction.payee.id === '' && transaction.payer.id === '') {
+          transaction.id = Math.random().toString(36).substr(2, 9) + '-transaction';
+          transaction.payee.id = this.payeeId;
+          transaction.payer.id = this.payerId;
+        }
+      }
+    }
+    // Check for the last transaction
+    const length = this.contract.releases[0].contracts[0].implementation.transactions.length;
+    if (this.contract.releases[0].contracts[0].implementation.transactions[length] && this.contract.releases[0].contracts[0].implementation.transactions[length].id === '') {
+      this.contract.releases[0].contracts[0].implementation.transactions[length].id = Math.random().toString(36).substr(2, 9) + '-last-transaction';
+    }
+    // Fill other fields with the directorate names
+    this.contract.releases[0].buyer.name = this.contract.releases[0].parties[1].name;
+    if (this.contract.releases[0].contracts[0].implementation.transactions.length > 0) {
+      for (const transaction of this.contract.releases[0].contracts[0].implementation.transactions) {
+        transaction.payer.name = this.contract.releases[0].parties[1].name;
+      }
+    }
+    // Planning, awards, contracts id and ocid
+    if (this.contract.releases[0].planning.budget.id === '') {
+      this.contract.releases[0].planning.budget.id = this.ocidMaker('-planning');
+    }
+    if (this.contract.releases[0].awards[0].id === '') {
+      this.contract.releases[0].awards[0].id = this.ocidMaker('-award');
+    }
+    if (this.contract.releases[0].contracts[0].id === '') {
+      this.contract.releases[0].contracts[0].id = this.ocidMaker('-contract');
+    }
+    if (this.contract.releases[0].ocid === '') {
+      this.contract.releases[0].ocid = this.ocidMaker('');
+    }
+    if (this.contract.releases[0].id === '') {
+      this.contract.releases[0].id = this.ocidMaker('-contract');
+    }
+    if (this.contract.releases[0].contracts[0].awardID === '') {
+      this.contract.releases[0].contracts[0].awardID = this.contract.releases[0].awards[0].id;
+    }
+    // Tenderers id
+    if (this.contract.releases[0].tender.tenderers.name && this.contract.releases[0].tender.tenderers.name !== '' && this.contract.releases[0].tender.tenderers.id === '') {
+      this.contract.releases[0].tender.tenderers.id = this.payeeId;
+    }
+    // Find the starting and ending date of evaluation in days
+    if (this.contract.releases[0].tender.awardPeriod.startDate && this.contract.releases[0].tender.awardPeriod.endDate && this.contract.releases[0].tender.awardPeriod.durationInDays === '') {
+      // Get 1 day in milliseconds
+      const one_day = 1000 * 60 * 60 * 24;
+
+      // Convert both dates to milliseconds
+      const date1_ms = this.contract.releases[0].tender.awardPeriod.startDate.getTime();
+      const date2_ms = this.contract.releases[0].tender.awardPeriod.endDate.getTime();
+
+      // Calculate the difference in milliseconds
+      const difference_ms = date2_ms - date1_ms;
+
+      // Convert back to days and return
+      this.contract.releases[0].tender.awardPeriod.durationInDays = Math.round(difference_ms / one_day) + ' ditë';
+    }
+    // Buyer, supplier id
+    if (this.contract.releases[0].buyer.id === '') {
+      this.contract.releases[0].buyer.id = this.payerId;
+    }
+    if (this.contract.releases[0].awards[0].suppliers[0].id === '') {
+      this.contract.releases[0].awards[0].suppliers[0].id = this.payeeId;
+    }
+    // Convert string values to numbers
+    this.contract.contract.predictedValueSlug = this.form.value.predictedValue.toString().replace(/[,]+/g, '');
+    this.contract.releases[0].planning.budget.amount.amount = Number(this.form.value.predictedValue.toString().replace(/[^0-9\.-]+/g, ''));
+    this.contract.contract.totalAmountOfContractsIncludingTaxesSlug = this.form.value.totalAmountOfContractsIncludingTaxes.toString().replace(/[,]+/g, '');
+    this.contract.releases[0].tender.value.amount = Number(this.form.value.totalAmountOfContractsIncludingTaxes.toString().replace(/[^0-9\.-]+/g, ''));
+    this.contract.releases[0].contracts[0].deductionAmountFromContract.value.amount = Number(this.form.value.discountAmountFromContract.toString().replace(/[^0-9\.-]+/g, ''));
+    // Published date
+    this.contract.publishedDate = new Date();
+    // Fill the uri with the link to the copy of this package
+    if (this.contract.uri === '') {
+      this.contract.uri = `https://kontratatehapura.prishtinaonline.com/contracts/json/${this.contract.releases[0].ocid}`;
+    }
+    // Date signed
+    this.contract.releases[0].contracts[0].dateSigned = this.contract.releases[0].contracts[0].period.startDate;
+    // Overall date
+    if (this.contract.releases[0].date === null) {
+      this.contract.releases[0].date = new Date();
+    }
+  }
+
   updateContract(e) {
     e.preventDefault();
     this.calculateValues();
+
+    const docsFormData = new FormData();
+    for (let i = 0; i < this.docsToUpload.length; i++) {
+      docsFormData.append('file', this.docsToUpload[i]);
+      this.contract.releases[0].tender.documents.push(
+        {
+          documentType: 'tenderNotice',
+          title: this.docsToUpload[i].name.replace('.pdf', ''),
+          url: 'https://kontratatehapura.prishtinaonline.com/documents/' + this.docsToUpload[i].name,
+          format: 'application/pdf',
+          language: 'sq',
+          id: Math.random().toString(36).substr(2, 9) + '-tenderNotice'
+        }
+      );
+    }
+    this.contract.documents = this.contractDocsNames;
+
     if (this.form.valid === true) {
       if (this.filesToUpload !== null && this.valid === true) {
-        if (this.form.value.implementationDeadlineNumber !== null && this.form.value.implementationDeadlineDuration !== '') {
-          this.contract.releases[0].tender.contractPeriod.durationInDays = this.form.value.implementationDeadlineNumber + ' ' + this.form.value.implementationDeadlineDuration;
-
-          this.contract.releases[0].awards[0].contractPeriod.durationInDays = this.form.value.implementationDeadlineNumber + ' ' + this.form.value.implementationDeadlineDuration;
-
-          this.contract.releases[0].contracts[0].period.durationInDays = this.form.value.implementationDeadlineNumber + ' ' + this.form.value.implementationDeadlineDuration;
-        } else {
-          this.contract.releases[0].tender.contractPeriod.durationInDays = '';
-          this.contract.releases[0].awards[0].contractPeriod.durationInDays = '';
-          this.contract.releases[0].contracts[0].period.durationInDays = '';
-        }
-        this.contract.releases[0].planning.milestones[1].dateMet = this.contract.releases[0].planning.milestones[1].dateMet == null ? null : this.dateChange(this.contract.releases[0].planning.milestones[1].dateMet);
-        this.contract.releases[0].tender.tenderPeriod.startDate = this.contract.releases[0].tender.tenderPeriod.startDate == null ? null : this.dateChange(this.contract.releases[0].tender.tenderPeriod.startDate);
-        this.contract.releases[0].tender.awardPeriod.endDate = this.contract.releases[0].tender.awardPeriod.endDate == null ? null : this.dateChange(this.contract.releases[0].tender.awardPeriod.endDate);
-        this.contract.releases[0].planning.milestones[0].dateMet = this.contract.releases[0].planning.milestones[0].dateMet == null ? null : this.dateChange(this.contract.releases[0].planning.milestones[0].dateMet);
-        this.contract.releases[0].tender.milestones[1].dateMet = this.contract.releases[0].tender.milestones[1].dateMet == null ? null : this.dateChange(this.contract.releases[0].tender.milestones[1].dateMet);
-        this.contract.releases[0].planning.milestones[3].dateMet = this.contract.releases[0].planning.milestones[3].dateMet == null ? null : this.dateChange(this.contract.releases[0].planning.milestones[3].dateMet);
-        this.contract.releases[0].tender.awardPeriod.startDate = this.contract.releases[0].tender.awardPeriod.startDate == null ? null : this.dateChange(this.contract.releases[0].tender.awardPeriod.startDate);
-        const i = this.contract.releases[0].contracts[0].implementation.transactions.length;
-        this.contract.releases[0].contracts[0].implementation.transactions[i - 1].date = this.contract.releases[0].contracts[0].implementation.transactions[i - 1].date == null ? null : this.dateChange(this.contract.releases[0].contracts[0].implementation.transactions[i - 1].date);
-        this.contract.releases[0].tender.date = this.contract.releases[0].tender.date == null ? null : this.dateChange(this.contract.releases[0].tender.date);
-        this.contract.releases[0].awards[0].date = this.contract.releases[0].awards[0].date == null ? null : this.dateChange(this.contract.releases[0].awards[0].date);
-        this.contract.releases[0].contracts[0].period.endDate = this.contract.releases[0].contracts[0].period.endDate == null ? null : this.dateChange(this.contract.releases[0].contracts[0].period.endDate);
-        this.contract.releases[0].contracts[0].period.startDate = this.contract.releases[0].contracts[0].period.startDate == null ? null : this.dateChange(this.contract.releases[0].contracts[0].period.startDate);
-        if (this.contract.releases[0].contracts[0].implementation.transactions.length > 1) {
-          for (const installment of this.contract.releases[0].contracts[0].implementation.transactions) {
-            installment.date = installment.date == null ? null : this.dateChange(installment.date);
-          }
-        }
-
-        if (this.contract.releases[0].contracts[0].amendments.length > 1) {
-          for (const annex of this.contract.releases[0].contracts[0].amendments) {
-            annex.date = annex.date == null ? null : this.dateChange(annex.date);
-          }
-        }
+        this.changeValues();
         const formData = new FormData();
         formData.append('file', this.filesToUpload, this.filesToUpload['name']);
         formData.append('contract', JSON.stringify(this.contract));
@@ -437,75 +775,56 @@ export class EditContractComponent implements OnInit {
             Swal.showLoading();
           }
         });
-        this.contractsService.updateContract(this.id, formData, 'multipart')
-          .takeUntil(this.unsubscribeAll)
-          .subscribe(res => {
-            if (res.existErr) {
-              Swal('Kujdes!', 'Dokumenti Kontratës ekziston!.', 'warning');
-            } else if (res.typeValidation) {
-              Swal('Kujdes!', 'Tipi Dokumentit Kontratës është i gabuar.', 'warning');
-            } else if (res.errVld) {
-              let errList = '';
-              for (const v of res.errVld) {
-                errList += `<li>${v}</li>`;
-              }
-              const htmlData = `<div style="text-align: center;">${errList}</div>`;
-              Swal({
-                title: 'Kujdes!',
-                html: htmlData,
-                width: 750,
-                type: 'info',
-                confirmButtonText: 'Kthehu te forma'
-              });
-            } else if (res.err) {
-              Swal('Gabim!', 'Kontrata nuk u ndryshua.', 'error');
-            } else {
-              Swal('Sukses!', 'Kontrata u ndryshua me sukses.', 'success').then((result) => {
-                // this.datasetService.updateCsv(this.contract.year, this.contract)
-                //   .takeUntil(this.unsubscribeAll)
-                //   .subscribe(data => {
-                //   });
-                if (result.value) {
-                  this.route.navigate(['/dashboard/contracts']);
-                }
-              });
+
+        this.contractsService.deleteDocuments(this.docsToDelete)
+          .subscribe(docsRes => {
+            if (docsRes['_body'] === 'Completed') {
+              this.contractsService.uploadDocuments(docsFormData)
+                .subscribe(docsUploadRes => {
+                  if (docsUploadRes['_body'] === 'Completed') {
+
+                    this.contractsService.updateContract(this.id, formData, 'multipart')
+                      .takeUntil(this.unsubscribeAll)
+                      .subscribe(res => {
+                        if (res.existErr) {
+                          Swal('Kujdes!', 'Dokumenti Kontratës ekziston!', 'warning');
+                        } else if (res.typeValidation) {
+                          Swal('Kujdes!', 'Tipi Dokumentit Kontratës është i gabuar.', 'warning');
+                        } else if (res.errVld) {
+                          let errList = '';
+                          for (const v of res.errVld) {
+                            errList += `<li>${v}</li>`;
+                          }
+                          const htmlData = `<div style="text-align: center;">${errList}</div>`;
+                          Swal({
+                            title: 'Kujdes!',
+                            html: htmlData,
+                            width: 750,
+                            type: 'info',
+                            confirmButtonText: 'Kthehu te forma'
+                          });
+                        } else if (res.err) {
+                          Swal('Gabim!', 'Kontrata nuk u ndryshua.', 'error');
+                        } else {
+                          Swal('Sukses!', 'Kontrata u ndryshua me sukses.', 'success').then((result) => {
+                            this.datasetService.updateCsv(this.contract.year, this.contract)
+                              .takeUntil(this.unsubscribeAll)
+                              .subscribe(data => {
+                              });
+                            if (result.value) {
+                              this.route.navigate(['/dashboard/contracts']);
+                            }
+                          });
+                        }
+                      });
+                  }
+                  Swal('Gabim!', 'Kontrata nuk u ndryshua.', 'error');
+                });
             }
+            Swal('Gabim!', 'Kontrata nuk u ndryshua.', 'error');
           });
       } else if (this.filesToUpload === null) {
-        if (this.form.value.implementationDeadlineNumber !== null && this.form.value.implementationDeadlineDuration !== '') {
-          this.contract.releases[0].tender.contractPeriod.durationInDays = this.form.value.implementationDeadlineNumber + ' ' + this.form.value.implementationDeadlineDuration;
-
-          this.contract.releases[0].awards[0].contractPeriod.durationInDays = this.form.value.implementationDeadlineNumber + ' ' + this.form.value.implementationDeadlineDuration;
-
-          this.contract.releases[0].contracts[0].period.durationInDays = this.form.value.implementationDeadlineNumber + ' ' + this.form.value.implementationDeadlineDuration;
-        } else {
-          this.contract.releases[0].tender.contractPeriod.durationInDays = '';
-          this.contract.releases[0].awards[0].contractPeriod.durationInDays = '';
-          this.contract.releases[0].contracts[0].period.durationInDays = '';
-        }
-        this.contract.releases[0].planning.milestones[1].dateMet = this.contract.releases[0].planning.milestones[1].dateMet == null ? null : this.dateChange(this.contract.releases[0].planning.milestones[1].dateMet);
-        this.contract.releases[0].tender.tenderPeriod.startDate = this.contract.releases[0].tender.tenderPeriod.startDate == null ? null : this.dateChange(this.contract.releases[0].tender.tenderPeriod.startDate);
-        this.contract.releases[0].tender.awardPeriod.endDate = this.contract.releases[0].tender.awardPeriod.endDate == null ? null : this.dateChange(this.contract.releases[0].tender.awardPeriod.endDate);
-        this.contract.releases[0].planning.milestones[0].dateMet = this.contract.releases[0].planning.milestones[0].dateMet == null ? null : this.dateChange(this.contract.releases[0].planning.milestones[0].dateMet);
-        this.contract.releases[0].tender.milestones[1].dateMet = this.contract.releases[0].tender.milestones[1].dateMet == null ? null : this.dateChange(this.contract.releases[0].tender.milestones[1].dateMet);
-        this.contract.releases[0].planning.milestones[3].dateMet = this.contract.releases[0].planning.milestones[3].dateMet == null ? null : this.dateChange(this.contract.releases[0].planning.milestones[3].dateMet);
-        this.contract.releases[0].tender.awardPeriod.startDate = this.contract.releases[0].tender.awardPeriod.startDate == null ? null : this.dateChange(this.contract.releases[0].tender.awardPeriod.startDate);
-        const i = this.contract.releases[0].contracts[0].implementation.transactions.length;
-        this.contract.releases[0].contracts[0].implementation.transactions[i - 1].date = this.contract.releases[0].contracts[0].implementation.transactions[i - 1].date == null ? null : this.dateChange(this.contract.releases[0].contracts[0].implementation.transactions[i - 1].date);
-        this.contract.releases[0].tender.date = this.contract.releases[0].tender.date == null ? null : this.dateChange(this.contract.releases[0].tender.date);
-        this.contract.releases[0].awards[0].date = this.contract.releases[0].awards[0].date == null ? null : this.dateChange(this.contract.releases[0].awards[0].date);
-        this.contract.releases[0].contracts[0].period.endDate = this.contract.releases[0].contracts[0].period.endDate == null ? null : this.dateChange(this.contract.releases[0].contracts[0].period.endDate);
-        this.contract.releases[0].contracts[0].period.startDate = this.contract.releases[0].contracts[0].period.startDate == null ? null : this.dateChange(this.contract.releases[0].contracts[0].period.startDate);
-        if (this.contract.releases[0].contracts[0].implementation.transactions.length > 1) {
-          for (const installment of this.contract.releases[0].contracts[0].implementation.transactions) {
-            installment.date = installment.date == null ? null : this.dateChange(installment.date);
-          }
-        }
-        if (this.contract.releases[0].contracts[0].amendments.length > 1) {
-          for (const annex of this.contract.releases[0].contracts[0].amendments) {
-            annex.date = annex.date == null ? null : this.dateChange(annex.date);
-          }
-        }
+        this.changeValues();
         const body = {
           requestedContract: this.contract,
           fileToDelete: null,
@@ -513,35 +832,51 @@ export class EditContractComponent implements OnInit {
         if (this.fileToDelete !== '') {
           body.fileToDelete = this.fileToDelete;
         }
-        this.contractsService.updateContract(this.id, body)
-          .takeUntil(this.unsubscribeAll)
-          .subscribe(res => {
-            if (res.errVld) {
-              let errList = '';
-              for (const v of res.errVld) {
-                errList += `<li>${v}</li>`;
-              }
-              const htmlData = `<div style="text-align: center;">${errList}</div>`;
-              Swal({
-                title: 'Kujdes!',
-                html: htmlData,
-                width: 750,
-                type: 'info',
-                confirmButtonText: 'Kthehu te forma'
-              });
-            } else if (res.err) {
-              Swal('Gabim!', 'Kontrata nuk u ndryshua.', 'error');
-            } else {
-              Swal('Sukses!', 'Kontrata u ndryshua me sukses.', 'success').then((result) => {
-                // this.datasetService.updateCsv(this.contract.year, this.contract)
-                //   .takeUntil(this.unsubscribeAll)
-                //   .subscribe(data => {
-                //   });
-                if (result.value) {
-                  this.route.navigate(['/dashboard/contracts']);
-                }
-              });
+
+        this.contractsService.deleteDocuments(this.docsToDelete)
+          .subscribe(docsRes => {
+            if (docsRes['_body'] === 'Completed') {
+              this.contractsService.uploadDocuments(docsFormData)
+                .subscribe(docsUploadRes => {
+                  if (docsUploadRes['_body'] === 'Completed') {
+
+                    this.contractsService.updateContract(this.id, body)
+                      .takeUntil(this.unsubscribeAll)
+                      .subscribe(res => {
+                        if (res.errVld) {
+                          let errList = '';
+                          for (const v of res.errVld) {
+                            errList += `<li>${v}</li>`;
+                          }
+                          const htmlData = `<div style="text-align: center;">${errList}</div>`;
+                          Swal({
+                            title: 'Kujdes!',
+                            html: htmlData,
+                            width: 750,
+                            type: 'info',
+                            confirmButtonText: 'Kthehu te forma'
+                          });
+                        } else if (res.err) {
+                          console.log(res);
+
+                          Swal('Gabim!', 'Kontrata nuk u ndryshua.', 'error');
+                        } else {
+                          Swal('Sukses!', 'Kontrata u ndryshua me sukses.', 'success').then((result) => {
+                            this.datasetService.updateCsv(this.contract.year, this.contract)
+                              .takeUntil(this.unsubscribeAll)
+                              .subscribe(data => {
+                              });
+                            if (result.value) {
+                              this.route.navigate(['/dashboard/contracts']);
+                            }
+                          });
+                        }
+                      });
+                  }
+                  Swal('Gabim!', 'Kontrata nuk u ndryshua.', 'error');
+                });
             }
+            Swal('Gabim!', 'Kontrata nuk u ndryshua.', 'error');
           });
       }
     }
@@ -556,6 +891,67 @@ export class EditContractComponent implements OnInit {
     this.hasFileToDelete = true;
 
   }
+
+
+
+  ///////////// Documents ////////////////
+
+  docsButtonClick(index) {
+    document.getElementById('doc-' + index).click();
+  }
+
+  addDocumentNames() {
+    for (let i = 0; i < this.contractDocsNames.length; i++) {
+      // Add document name to input text
+      const nameArea = <HTMLInputElement>document.getElementById('docname' + i);
+      nameArea.value = this.contractDocsNames[i].toString();
+    }
+  }
+
+  addDocument() {
+    this.documents = this.form.get('documents') as FormArray;
+    this.documents.push(
+      this._fb.group({
+        doc: '',
+        error: false,
+        errorMsg: ''
+      })
+    );
+  }
+
+  removeDocument(id) {
+    this.documents.removeAt(id);
+    this.docsToDelete.push(this.contract.documents[id]);
+    this.contractDocsNames = this.contractDocsNames.filter((doc) => {
+      return doc !== this.contract.documents[id];
+    });
+  }
+
+  docsChangeEvent(event, index) {
+    const docsTypes = ['application/msword', 'application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.ms-excel'];
+    if (event.target.files.length > 0) {
+      const theFile = event.target.files[0];
+      if (docsTypes.includes(theFile.type)) {
+        const nameArea = <HTMLInputElement>document.getElementById('docname' + index);
+        nameArea.value = theFile.name;
+        const newFileName = theFile.name.slice(0, -4) + '-' + Date.now() + '.pdf';
+        const newFile = new File([theFile], newFileName);
+        this.docsToUpload.push(newFile);
+        this.contractDocsNames.push(newFileName);
+        this.documents.controls[index].setValue({ doc: '', error: false, errorMsg: '' });
+      } else {
+        this.documents.controls[index].setValue({ doc: '', error: true, errorMsg: 'Tipi dokumentit nuk është valid, duhet të jetë i tipit pdf, docx, doc ose xls' });
+      }
+    }
+  }
+
+
+  ///////////// Documents ////////////////
+
+  get formData() {
+    return <FormArray>this.form.get('documents');
+  }
+
 }
 
 

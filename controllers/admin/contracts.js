@@ -171,7 +171,7 @@ router.post("/latest-contracts/page", (req, res) => {
             return page;
         })
         .then(page => {
-            return Contract.find({ "year": new Date().getFullYear() }).sort({ "createdAt": -1 }).skip(page.skipPages).limit(page.size).then(result => {
+            return Contract.find({ "year": { "$gte": 2018 } }).sort({ "createdAt": -1 }).skip(page.skipPages).limit(page.size).then(result => {
                 delete page.skipPages;
                 response.page = page;
                 response.data = result;
@@ -519,8 +519,8 @@ router.delete('/:id', passport.authenticate('jwt', { session: false }), authoriz
 });
 
 // Get contract by id and send as JSON file response
-router.get('/json/:id', (req, res) => {
-    Contract.getContractById(req.params.id, (err, contract) => {
+router.get('/json/:ocid', (req, res) => {
+    Contract.getContractByOcidJson(req.params.ocid, (err, contract) => {
         if (contract.length !== 0) {
             let fileName = `${req.params.id}.json`;
             let mimeType = 'application/json';
@@ -543,27 +543,27 @@ router.put('/update-all', (req, res) => {
             if (row.bidOpeningDate === undefined) {
                 row.bidOpeningDate = null;
             }
-            if (row.contract.totalAmountOfContractsIncludingTaxes !== "" && row.contract.totalAmountOfContractsIncludingTaxes !== undefined && row.contract.totalAmountOfContractsIncludingTaxes !== null) {
+            if (row.contract.totalAmountOfContractsIncludingTaxes !== "" && row.contract.totalAmountOfContractsIncludingTaxes !== undefined && row.contract.totalAmountOfContractsIncludingTaxes !== null && row.contract.totalAmountOfContractsIncludingTaxes !== 'NaN') {
                 row.contract.totalAmountOfContractsIncludingTaxes = Number(row.contract.totalAmountOfContractsIncludingTaxes.replace(/[^0-9\.-]+/g, ""));
             } else {
                 row.contract.totalAmountOfContractsIncludingTaxes = 0;
             }
-            if (row.contract.predictedValue !== "" && row.contract.predictedValue !== undefined && row.contract.predictedValue !== null) {
+            if (row.contract.predictedValue !== "" && row.contract.predictedValue !== undefined && row.contract.predictedValue !== null && row.contract.predictedValue !== 'NaN') {
                 row.contract.predictedValue = Number(row.contract.predictedValue.replace(/[^0-9\.-]+/g, ""));
             } else {
                 row.contract.predictedValue = 0;
             }
-            if (row.contract.totalAmountOfAllAnnexContractsIncludingTaxes !== '' && row.contract.totalAmountOfAllAnnexContractsIncludingTaxes !== undefined && row.contract.totalAmountOfAllAnnexContractsIncludingTaxes !== null) {
+            if (row.contract.totalAmountOfAllAnnexContractsIncludingTaxes !== '' && row.contract.totalAmountOfAllAnnexContractsIncludingTaxes !== undefined && row.contract.totalAmountOfAllAnnexContractsIncludingTaxes !== null && row.contract.totalAmountOfAllAnnexContractsIncludingTaxes !== 'NaN') {
                 row.contract.totalAmountOfAllAnnexContractsIncludingTaxes = Number(row.contract.totalAmountOfAllAnnexContractsIncludingTaxes.replace(/[^0-9\.-]+/g, ""));
             } else {
                 row.contract.totalAmountOfAllAnnexContractsIncludingTaxes = 0;
             }
-            if (row.contract.totalPayedPriceForContract !== '' && row.contract.totalPayedPriceForContract !== undefined && row.contract.totalPayedPriceForContract !== null) {
+            if (row.contract.totalPayedPriceForContract !== '' && row.contract.totalPayedPriceForContract !== undefined && row.contract.totalPayedPriceForContract !== null && row.contract.totalPayedPriceForContract !== 'NaN') {
                 row.contract.totalPayedPriceForContract = Number(row.contract.totalPayedPriceForContract.replace(/[^0-9\.-]+/g, ""));
             } else {
                 row.contract.totalPayedPriceForContract = 0;
             }
-            if (row.contract.discountAmountFromContract !== '' && row.contract.discountAmountFromContract !== undefined && row.contract.discountAmountFromContract !== null) {
+            if (row.contract.discountAmountFromContract !== '' && row.contract.discountAmountFromContract !== undefined && row.contract.discountAmountFromContract !== null && row.contract.discountAmountFromContract !== 'NaN') {
                 row.contract.discountAmountFromContract = Number(row.contract.discountAmountFromContract.replace(/[^0-9\.-]+/g, ""));
             } else {
                 row.contract.discountAmountFromContract = 0;
@@ -859,6 +859,21 @@ router.put('/update-all', (req, res) => {
                 }
                 return documents;
             }
+            let tenderDocuments = () => {
+                if (row.contract.documents.length > 0) {
+                    for (document of row.contract.documents) {
+                        documents.push({
+                            "id": documentId('tenderNotice'),
+                            "documentType": "tenderNotice",
+                            "title": document,
+                            "url": `https://kontratatehapura.prishtinaonline.com/documents/${document}`,
+                            "format": "application/pdf",
+                            "language": "sq"
+                        })
+                    }
+                }
+                return documents;
+            }
             let tenderStatus;
             let tendersStatus = () => {
                 if (row.status === '1' || row.status === 'publikuar') {
@@ -884,7 +899,7 @@ router.put('/update-all', (req, res) => {
                 return local;
             }
             updatedDataObject = {
-                "uri": `https://kontratatehapura.prishtinaonline.com/contracts/json/${row._id}`,
+                "uri": `https://kontratatehapura.prishtinaonline.com/contracts/json/${ocidMaker("")}`,
                 "version": "1.1",
                 "publishedDate": row.createdAt,
                 "extensions": [
@@ -1043,6 +1058,7 @@ router.put('/update-all', (req, res) => {
                                 "id": buyerId,
                                 "name": row.directorates
                             },
+                            "documents": tenderDocuments(),
                             "milestones": [
                                 {
                                     "id": milestoneId('standardDocuments'),
@@ -1220,21 +1236,25 @@ router.put('/update-contract/:id', passport.authenticate('jwt', { session: false
         if (contentType.indexOf('application/json') == -1) {
             requestedContract = JSON.parse(req.body.contract);
             requestedContract.releases[0].contracts[0].documents[0].title = req.file.originalname;
-            requestedContract.directoratesSlug = slugify(requestedContract.directorates);
+            requestedContract.directoratesSlug = slugify(requestedContract.releases[0].buyer.name);
             requestedContract.activityTitleSlug = slugify(requestedContract.releases[0].tender.title);
-            requestedContract.contract.predictedValueSlug = requestedContract.releases[0].tender.value.amount.replace(/[,]+/g, '');
-            requestedContract.contract.totalAmountOfContractsIncludingTaxesSlug = requestedContract.releases[0].awards[0].value.amount.replace(/[,]+/g, '');
+            requestedContract.contract.predictedValueSlug = requestedContract.releases[0].planning.budget.amount.amount.toString().replace(/[,]+/g, '');
+            requestedContract.contract.totalAmountOfContractsIncludingTaxesSlug = requestedContract.releases[0].tender.value.amount.toString().replace(/[,]+/g, '');
+            requestedContract.company.slug = slugify(requestedContract.releases[0].tender.tenderers.name);
+            requestedContract.company.headquarters.slug = slugify(requestedContract.releases[0].parties[0].address.region);
         } else {
             requestedContract = req.body.requestedContract;
-            requestedContract.directoratesSlug = slugify(requestedContract.directorates);
+            requestedContract.directoratesSlug = slugify(requestedContract.releases[0].buyer.name);
             requestedContract.activityTitleSlug = slugify(requestedContract.releases[0].tender.title);
-            requestedContract.contract.predictedValueSlug = requestedContract.releases[0].tender.value.amount.replace(/[,]+/g, '');
-            requestedContract.contract.totalAmountOfContractsIncludingTaxesSlug = requestedContract.releases[0].awards[0].value.amount.replace(/[,]+/g, '');
+            requestedContract.contract.predictedValueSlug = requestedContract.releases[0].planning.budget.amount.amount.toString().replace(/[,]+/g, '');
+            requestedContract.contract.totalAmountOfContractsIncludingTaxesSlug = requestedContract.releases[0].tender.value.amount.toString().replace(/[,]+/g, '');
+            requestedContract.company.slug = slugify(requestedContract.releases[0].tender.tenderers.name);
+            requestedContract.company.headquarters.slug = slugify(requestedContract.releases[0].parties[0].address.region);
             if (requestedContract.implementationDeadlineSlug !== null || requestedContract.implementationDeadlineSlug !== '' || requestedContract.implementationDeadlineSlug !== undefined) {
-                requestedContract.implementationDeadlineSlug = slugify(requestedContract.contract.implementationDeadline);
+                requestedContract.implementationDeadlineSlug = slugify(requestedContract.releases[0].contracts[0].period.durationInDays);
             }
             if (req.body.fileToDelete != null) {
-                requestedContract.contract.file = "";
+                requestedContract.releases[0].contracts[0].documents[0].title = "";
             }
         }
         Contract.updateContract(contractId, requestedContract, (err, contract) => {
@@ -1269,6 +1289,13 @@ router.post('/filter', (req, res) => {
     let referenceDate = req.body.referenceDate;
     let value = req.body.value;
     let year = req.body.year;
+    if (req.body.year !== 'any') {
+        year = parseInt(year);
+    }
+    let procurementNo = req.body.procurementNo;
+    if (procurementNo !== '') {
+        procurementNo = parseInt(procurementNo);
+    }
     let role;
     let directorateName;
     if (req.query.role != null) {
@@ -1276,14 +1303,13 @@ router.post('/filter', (req, res) => {
     } else {
         role = null;
     }
-
     if (req.query.directorate != null) {
         directorateName = req.query.directorate;
     } else {
         directorateName = null;
     }
-
-    if (string !== '' && directorate === '' & date === null && value === '') {
+    if (string !== '' && directorate === '' & date === null && value === '' && procurementNo === '') {
+        console.log(year);
         Contract.filterStringFieldsInContractsCount(string, year, role, directorateName)
             .then(totalElements => {
                 totalElements.forEach(element => {
@@ -1310,7 +1336,7 @@ router.post('/filter', (req, res) => {
             }).then(response => {
                 res.json(response);
             })
-    } else if (string === '' && directorate !== '' & date === null && value === '') {
+    } else if (string === '' && directorate !== '' & date === null && value === '' && procurementNo === '') {
         Contract.filterByDirectorateCount(directorate, year, role, directorateName)
             .then(totalElements => {
                 totalElements.forEach(element => {
@@ -1337,7 +1363,7 @@ router.post('/filter', (req, res) => {
             }).then(response => {
                 res.json(response);
             })
-    } else if (string === '' && directorate === '' & date !== null && value === '') {
+    } else if (string === '' && directorate === '' & date !== null && value === '' && procurementNo === '') {
         Contract.filterByDateCount(date, referenceDate, year, role, directorateName)
             .then(totalElements => {
                 totalElements.forEach(element => {
@@ -1364,7 +1390,7 @@ router.post('/filter', (req, res) => {
             }).then(response => {
                 res.json(response);
             })
-    } else if (string === '' && directorate === '' & date === null && value !== '') {
+    } else if (string === '' && directorate === '' & date === null && value !== '' && procurementNo === '') {
         Contract.filterByValueCount(value, year, role, directorateName)
             .then(totalElements => {
                 totalElements.forEach(element => {
@@ -1391,7 +1417,7 @@ router.post('/filter', (req, res) => {
             }).then(response => {
                 res.json(response);
             })
-    } else if (string !== '' && directorate !== '' & date === null && value === '') {
+    } else if (string !== '' && directorate !== '' & date === null && value === '' && procurementNo === '') {
         Contract.filterByStringAndDirectorateCount(string, directorate, year, role, directorateName)
             .then(totalElements => {
                 totalElements.forEach(element => {
@@ -1418,7 +1444,7 @@ router.post('/filter', (req, res) => {
             }).then(response => {
                 res.json(response);
             })
-    } else if (string !== '' && directorate !== '' & date !== null && value === '') {
+    } else if (string !== '' && directorate !== '' & date !== null && value === '' && procurementNo === '') {
         Contract.filterbyStringDirectorateDateCount(string, directorate, date, referenceDate, year, role, directorateName)
             .then(totalElements => {
                 totalElements.forEach(element => {
@@ -1445,7 +1471,7 @@ router.post('/filter', (req, res) => {
             }).then(response => {
                 res.json(response);
             })
-    } else if (string !== '' && directorate !== '' & date !== null && value !== '') {
+    } else if (string !== '' && directorate !== '' & date !== null && value !== '' && procurementNo === '') {
         Contract.filterByStringDirectorateDateValueCount(string, directorate, date, referenceDate, value, year, role, directorateName)
             .then(totalElements => {
                 totalElements.forEach(element => {
@@ -1472,7 +1498,7 @@ router.post('/filter', (req, res) => {
             }).then(response => {
                 res.json(response);
             })
-    } else if (string !== '' && directorate === '' & date !== null && value === '') {
+    } else if (string !== '' && directorate === '' & date !== null && value === '' && procurementNo === '') {
         Contract.filterByStringDateCount(string, date, referenceDate, year, role, directorateName)
             .then(totalElements => {
                 totalElements.forEach(element => {
@@ -1499,7 +1525,7 @@ router.post('/filter', (req, res) => {
             }).then(response => {
                 res.json(response);
             })
-    } else if (string !== '' && directorate === '' & date === null && value !== '') {
+    } else if (string !== '' && directorate === '' & date === null && value !== '' && procurementNo === '') {
         Contract.filterByStringValueCount(string, value, year, role, directorateName)
             .then(totalElements => {
                 totalElements.forEach(element => {
@@ -1526,10 +1552,9 @@ router.post('/filter', (req, res) => {
             }).then(response => {
                 res.json(response);
             })
-    } else if (string === '' && directorate !== '' & date !== null && value === '') {
+    } else if (string === '' && directorate !== '' & date !== null && value === '' && procurementNo === '') {
         Contract.filterbyDirectorateDateCount(directorate, date, referenceDate, year, role, directorateName)
             .then(totalElements => {
-                console.log(totalElements);
                 totalElements.forEach(element => {
                     page.totalElements = element.total
                 });
@@ -1554,7 +1579,7 @@ router.post('/filter', (req, res) => {
             }).then(response => {
                 res.json(response);
             })
-    } else if (string === '' && directorate !== '' & date === null && value !== '') {
+    } else if (string === '' && directorate !== '' & date === null && value !== '' && procurementNo === '') {
         Contract.filterByDirectorateValueCount(directorate, value, year, role, directorateName)
             .then(totalElements => {
                 totalElements.forEach(element => {
@@ -1581,7 +1606,7 @@ router.post('/filter', (req, res) => {
             }).then(response => {
                 res.json(response);
             })
-    } else if (string === '' && directorate === '' & date !== null && value !== '') {
+    } else if (string === '' && directorate === '' & date !== null && value !== '' && procurementNo === '') {
         Contract.filterByDateValueCount(date, referenceDate, value, year, role, directorateName)
             .then(totalElements => {
                 totalElements.forEach(element => {
@@ -1608,7 +1633,7 @@ router.post('/filter', (req, res) => {
             }).then(response => {
                 res.json(response);
             })
-    } else if (string === '' && directorate !== '' & date !== null && value !== '') {
+    } else if (string === '' && directorate !== '' & date !== null && value !== '' && procurementNo === '') {
         Contract.filterByDirectorateDateValueCount(directorate, date, referenceDate, value, year, role, directorateName)
             .then(totalElements => {
                 totalElements.forEach(element => {
@@ -1635,7 +1660,7 @@ router.post('/filter', (req, res) => {
             }).then(response => {
                 res.json(response);
             })
-    } else if (string !== '' && directorate !== '' & date === null && value !== '') {
+    } else if (string !== '' && directorate !== '' & date === null && value !== '' && procurementNo === '') {
         Contract.filterByStringDirectorateValueCount(string, directorate, value, year, role, directorateName)
             .then(totalElements => {
                 totalElements.forEach(element => {
@@ -1662,7 +1687,7 @@ router.post('/filter', (req, res) => {
             }).then(response => {
                 res.json(response);
             })
-    } else if (string !== '' && directorate === '' & date !== null && value !== '') {
+    } else if (string !== '' && directorate === '' & date !== null && value !== '' && procurementNo === '') {
         Contract.filterByStringDateValueCount(string, date, referenceDate, value, year, role, directorateName)
             .then(totalElements => {
                 totalElements.forEach(element => {
@@ -1689,7 +1714,431 @@ router.post('/filter', (req, res) => {
             }).then(response => {
                 res.json(response);
             })
-    } else if (string === '' && directorate === '' & date === null && value === '' && year !== 'any') {
+    } else if (string === '' && directorate === '' && date === null && value === '' && procurementNo !== '') {
+        Contract.filterByProcurementNoCount(procurementNo, year, role, directorateName)
+            .then(totalElements => {
+                totalElements.forEach(element => {
+                    page.totalElements = element.total
+                });
+                return page;
+            })
+            .then(page => {
+                page.totalPages = Math.round(page.totalElements / page.size)
+                return page;
+            })
+            .then(page => {
+                page.skipPages = page.size * page.pageNumber
+                return page;
+            })
+            .then(page => {
+                return Contract.filterByProcurementNo(procurementNo, year, role, directorateName).skip(page.skipPages).
+                    limit(page.size).then(result => {
+                        delete page.skipPages;
+                        response.page = page;
+                        response.data = result;
+                        return response;
+                    });
+            }).then(response => {
+                res.json(response);
+            })
+    } else if (string !== '' && directorate === '' && date === null && value === '' && procurementNo !== '') {
+        Contract.filterByProcurementNoStringCount(procurementNo, string, year, role, directorateName)
+            .then(totalElements => {
+                totalElements.forEach(element => {
+                    page.totalElements = element.total
+                });
+                return page;
+            })
+            .then(page => {
+                page.totalPages = Math.round(page.totalElements / page.size)
+                return page;
+            })
+            .then(page => {
+                page.skipPages = page.size * page.pageNumber
+                return page;
+            })
+            .then(page => {
+                return Contract.filterByProcurementNoString(procurementNo, string, year, role, directorateName).skip(page.skipPages).
+                    limit(page.size).then(result => {
+                        delete page.skipPages;
+                        response.page = page;
+                        response.data = result;
+                        return response;
+                    });
+            }).then(response => {
+                res.json(response);
+            })
+    } else if (string === '' && directorate !== '' & date === null && value === '' && procurementNo !== '') {
+        Contract.filterByProcurementNoDirectorateCount(procurementNo, directorate, year, role, directorateName)
+            .then(totalElements => {
+                totalElements.forEach(element => {
+                    page.totalElements = element.total
+                });
+                return page;
+            })
+            .then(page => {
+                page.totalPages = Math.round(page.totalElements / page.size)
+                return page;
+            })
+            .then(page => {
+                page.skipPages = page.size * page.pageNumber
+                return page;
+            })
+            .then(page => {
+                return Contract.filterByProcurementNoDirectorate(procurementNo, directorate, year, role, directorateName).skip(page.skipPages).
+                    limit(page.size).then(result => {
+                        delete page.skipPages;
+                        response.page = page;
+                        response.data = result;
+                        return response;
+                    });
+            }).then(response => {
+                res.json(response);
+            })
+    } else if (string !== '' && directorate !== '' & date === null && value === '' && procurementNo !== '') {
+        Contract.filterByProcurementNoDirectorateStringCount(procurementNo, string, directorate, year, role, directorateName)
+            .then(totalElements => {
+                totalElements.forEach(element => {
+                    page.totalElements = element.total
+                });
+                return page;
+            })
+            .then(page => {
+                page.totalPages = Math.round(page.totalElements / page.size)
+                return page;
+            })
+            .then(page => {
+                page.skipPages = page.size * page.pageNumber
+                return page;
+            })
+            .then(page => {
+                return Contract.filterByProcurementNoDirectorateString(procurementNo, string, directorate, year, role, directorateName).skip(page.skipPages).
+                    limit(page.size).then(result => {
+                        delete page.skipPages;
+                        response.page = page;
+                        response.data = result;
+                        return response;
+                    });
+            }).then(response => {
+                res.json(response);
+            })
+    } else if (string === '' && directorate === '' & date === null && value !== '' && procurementNo !== '') {
+        Contract.filterByProcurementNoValueCount(procurementNo, value, year, role, directorateName)
+            .then(totalElements => {
+                totalElements.forEach(element => {
+                    page.totalElements = element.total
+                });
+                return page;
+            })
+            .then(page => {
+                page.totalPages = Math.round(page.totalElements / page.size)
+                return page;
+            })
+            .then(page => {
+                page.skipPages = page.size * page.pageNumber
+                return page;
+            })
+            .then(page => {
+                return Contract.filterByProcurementNoValue(procurementNo, value, year, role, directorateName).skip(page.skipPages).
+                    limit(page.size).then(result => {
+                        delete page.skipPages;
+                        response.page = page;
+                        response.data = result;
+                        return response;
+                    });
+            }).then(response => {
+                res.json(response);
+            })
+    } else if (string !== '' && directorate === '' & date === null && value !== '' && procurementNo !== '') {
+        Contract.filterByProcurementNoValueStringCount(procurementNo, string, value, year, role, directorateName)
+            .then(totalElements => {
+                totalElements.forEach(element => {
+                    page.totalElements = element.total
+                });
+                return page;
+            })
+            .then(page => {
+                page.totalPages = Math.round(page.totalElements / page.size)
+                return page;
+            })
+            .then(page => {
+                page.skipPages = page.size * page.pageNumber
+                return page;
+            })
+            .then(page => {
+                return Contract.filterByProcurementNoValueString(procurementNo, string, value, year, role, directorateName).skip(page.skipPages).
+                    limit(page.size).then(result => {
+                        delete page.skipPages;
+                        response.page = page;
+                        response.data = result;
+                        return response;
+                    });
+            }).then(response => {
+                res.json(response);
+            })
+    } else if (string === '' && directorate !== '' & date === null && value !== '' && procurementNo !== '') {
+        Contract.filterByProcurementNoDirectorateValueCount(procurementNo, directorate, value, year, role, directorateName)
+            .then(totalElements => {
+                totalElements.forEach(element => {
+                    page.totalElements = element.total
+                });
+                return page;
+            })
+            .then(page => {
+                page.totalPages = Math.round(page.totalElements / page.size)
+                return page;
+            })
+            .then(page => {
+                page.skipPages = page.size * page.pageNumber
+                return page;
+            })
+            .then(page => {
+                return Contract.filterByProcurementNoDirectorateValue(procurementNo, directorate, value, year, role, directorateName).skip(page.skipPages).
+                    limit(page.size).then(result => {
+                        delete page.skipPages;
+                        response.page = page;
+                        response.data = result;
+                        return response;
+                    });
+            }).then(response => {
+                res.json(response);
+            })
+    } else if (string !== '' && directorate !== '' & date === null && value !== '' && procurementNo !== '') {
+        Contract.filterByProcurementNoStringDirectorateValueCount(procurementNo, string, directorate, value, year, role, directorateName)
+            .then(totalElements => {
+                totalElements.forEach(element => {
+                    page.totalElements = element.total
+                });
+                return page;
+            })
+            .then(page => {
+                page.totalPages = Math.round(page.totalElements / page.size)
+                return page;
+            })
+            .then(page => {
+                page.skipPages = page.size * page.pageNumber
+                return page;
+            })
+            .then(page => {
+                return Contract.filterByProcurementNoStringDirectorateValue(procurementNo, string, directorate, value, year, role, directorateName).skip(page.skipPages).
+                    limit(page.size).then(result => {
+                        delete page.skipPages;
+                        response.page = page;
+                        response.data = result;
+                        return response;
+                    });
+            }).then(response => {
+                res.json(response);
+            })
+    } else if (string === '' && directorate === '' & date !== null && value === '' && procurementNo !== '') {
+        Contract.filterByProcurementNoDateCount(procurementNo, date, referenceDate, year, role, directorateName)
+            .then(totalElements => {
+                totalElements.forEach(element => {
+                    page.totalElements = element.total
+                });
+                return page;
+            })
+            .then(page => {
+                page.totalPages = Math.round(page.totalElements / page.size)
+                return page;
+            })
+            .then(page => {
+                page.skipPages = page.size * page.pageNumber
+                return page;
+            })
+            .then(page => {
+                return Contract.filterByProcurementNoDate(procurementNo, date, referenceDate, year, role, directorateName).skip(page.skipPages).limit(page.size).then(result => {
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = result;
+                    return response;
+                });
+            }).then(response => {
+                res.json(response);
+            })
+    } else if (string !== '' && directorate === '' & date !== null && value === '' && procurementNo !== '') {
+        Contract.filterByProcurementNoStringDateCount(procurementNo, string, date, referenceDate, year, role, directorateName)
+            .then(totalElements => {
+                totalElements.forEach(element => {
+                    page.totalElements = element.total
+                });
+                return page;
+            })
+            .then(page => {
+                page.totalPages = Math.round(page.totalElements / page.size)
+                return page;
+            })
+            .then(page => {
+                page.skipPages = page.size * page.pageNumber
+                return page;
+            })
+            .then(page => {
+                return Contract.filterByProcurementNoStringDate(procurementNo, string, date, referenceDate, year, role, directorateName).skip(page.skipPages).limit(page.size).then(result => {
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = result;
+                    return response;
+                });
+            }).then(response => {
+                res.json(response);
+            })
+    } else if (string === '' && directorate !== '' & date !== null && value === '' && procurementNo !== '') {
+        Contract.filterByProcurementNoDirectorateDateCount(procurementNo, directorate, date, referenceDate, year, role, directorateName)
+            .then(totalElements => {
+                totalElements.forEach(element => {
+                    page.totalElements = element.total
+                });
+                return page;
+            })
+            .then(page => {
+                page.totalPages = Math.round(page.totalElements / page.size)
+                return page;
+            })
+            .then(page => {
+                page.skipPages = page.size * page.pageNumber
+                return page;
+            })
+            .then(page => {
+                return Contract.filterByProcurementNoDirectorateDate(procurementNo, directorate, date, referenceDate, year, role, directorateName).skip(page.skipPages).limit(page.size).then(result => {
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = result;
+                    return response;
+                });
+            }).then(response => {
+                res.json(response);
+            })
+    } else if (string !== '' && directorate !== '' & date !== null && value === '' && procurementNo !== '') {
+        Contract.filterByProcurementNoStringDirectorateDateCount(procurementNo, string, directorate, date, referenceDate, year, role, directorateName)
+            .then(totalElements => {
+                totalElements.forEach(element => {
+                    page.totalElements = element.total
+                });
+                return page;
+            })
+            .then(page => {
+                page.totalPages = Math.round(page.totalElements / page.size)
+                return page;
+            })
+            .then(page => {
+                page.skipPages = page.size * page.pageNumber
+                return page;
+            })
+            .then(page => {
+                return Contract.filterByProcurementNoStringDirectorateDate(procurementNo, string, directorate, date, referenceDate, year, role, directorateName).skip(page.skipPages).limit(page.size).then(result => {
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = result;
+                    return response;
+                });
+            }).then(response => {
+                res.json(response);
+            })
+    } else if (string === '' && directorate === '' & date !== null && value !== '' && procurementNo !== '') {
+        Contract.filterByProcurementNoDateValueCount(procurementNo, value, date, referenceDate, year, role, directorateName)
+            .then(totalElements => {
+                totalElements.forEach(element => {
+                    page.totalElements = element.total
+                });
+                return page;
+            })
+            .then(page => {
+                page.totalPages = Math.round(page.totalElements / page.size)
+                return page;
+            })
+            .then(page => {
+                page.skipPages = page.size * page.pageNumber
+                return page;
+            })
+            .then(page => {
+                return Contract.filterByProcurementNoDateValue(procurementNo, value, date, referenceDate, year, role, directorateName).skip(page.skipPages).limit(page.size).then(result => {
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = result;
+                    return response;
+                });
+            }).then(response => {
+                res.json(response);
+            })
+    } else if (string !== '' && directorate === '' & date !== null && value !== '' && procurementNo !== '') {
+        Contract.filterByProcurementNoStringDateValueCount(procurementNo, string, value, date, referenceDate, year, role, directorateName)
+            .then(totalElements => {
+                totalElements.forEach(element => {
+                    page.totalElements = element.total
+                });
+                return page;
+            })
+            .then(page => {
+                page.totalPages = Math.round(page.totalElements / page.size)
+                return page;
+            })
+            .then(page => {
+                page.skipPages = page.size * page.pageNumber
+                return page;
+            })
+            .then(page => {
+                return Contract.filterByProcurementNoStringDateValue(procurementNo, string, value, date, referenceDate, year, role, directorateName).skip(page.skipPages).limit(page.size).then(result => {
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = result;
+                    return response;
+                });
+            }).then(response => {
+                res.json(response);
+            })
+    } else if (string === '' && directorate !== '' & date !== null && value !== '' && procurementNo !== '') {
+        Contract.filterbyProcurementNoDirectorateValueDateCount(procurementNo, directorate, value, date, referenceDate, year, role, directorateName)
+            .then(totalElements => {
+                totalElements.forEach(element => {
+                    page.totalElements = element.total
+                });
+                return page;
+            })
+            .then(page => {
+                page.totalPages = Math.round(page.totalElements / page.size)
+                return page;
+            })
+            .then(page => {
+                page.skipPages = page.size * page.pageNumber
+                return page;
+            })
+            .then(page => {
+                return Contract.filterbyProcurementNoDirectorateValueDate(procurementNo, directorate, value, date, referenceDate, year, role, directorateName).skip(page.skipPages).limit(page.size).then(result => {
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = result;
+                    return response;
+                });
+            }).then(response => {
+                res.json(response);
+            })
+    } else if (string !== '' && directorate !== '' & date !== null && value !== '' && procurementNo !== '') {
+        Contract.filterbyProcurementNoStringDirectorateValueDateCount(procurementNo, string, directorate, value, date, referenceDate, year, role, directorateName)
+            .then(totalElements => {
+                totalElements.forEach(element => {
+                    page.totalElements = element.total
+                });
+                return page;
+            })
+            .then(page => {
+                page.totalPages = Math.round(page.totalElements / page.size)
+                return page;
+            })
+            .then(page => {
+                page.skipPages = page.size * page.pageNumber
+                return page;
+            })
+            .then(page => {
+                return Contract.filterbyProcurementNoStringDirectorateValueDate(procurementNo, string, directorate, value, date, referenceDate, year, role, directorateName).skip(page.skipPages).limit(page.size).then(result => {
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = result;
+                    return response;
+                });
+            }).then(response => {
+                res.json(response);
+            })
+    } else if (string === '' && directorate === '' & date === null && value === '' && year === 2018 && procurementNo === '') {
         Contract.countLatestContracts()
             .then(totalElements => {
                 page.totalElements = totalElements;
@@ -1714,7 +2163,7 @@ router.post('/filter', (req, res) => {
             .then(response => {
                 res.json(response)
             });
-    } else {
+    } else if (string === '' && directorate === '' & date === null && value === '' && year === 'any' && procurementNo === '') {
         Contract.countContracts(role, directorateName)
             .then(totalElements => {
                 page.totalElements = totalElements;
@@ -1739,8 +2188,84 @@ router.post('/filter', (req, res) => {
             .then(response => {
                 res.json(response)
             });
+    } else {
+        console.log(year);
+        Contract.filterContractsbyYearCount(year, role, directorateName)
+            .then(totalElements => {
+                totalElements.forEach(element => {
+                    page.totalElements = element.total
+                });
+                return page;
+            })
+            .then(page => {
+                page.totalPages = Math.round(page.totalElements / page.size)
+                return page;
+            })
+            .then(page => {
+                page.skipPages = page.size * page.pageNumber
+                return page;
+            })
+            .then(page => {
+                return Contract.filterContractsbyYear(year, role, directorateName).skip(page.skipPages).limit(page.size).then(result => {
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = result;
+                    return response;
+                });
+            }).then(response => {
+                res.json(response);
+            })
     }
 });
+
+
+
+///////////////////////////////////////////////////////////
+////////////////// Upload documents ///////////////////////
+///////////////////////////////////////////////////////////
+
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+    destination(req, file, cb) {
+        cb(null, './documents')
+    },
+    filename(req, file, cb) {
+        cb(null, `${file.originalname}`)
+    }
+})
+
+const upload1 = multer({ storage: storage }).array('file', 10);
+
+router.post('/upload/documents', (req, res) => {
+    upload1(req, res, function (err) {
+        if (err) {
+            return res.end("Failed");
+        }
+        res.end("Completed");
+    });
+});
+
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////
+/////////////// Delete documents ///////////////////
+///////////////////////////////////////////////////////////
+router.post('/delete/documents', (req, res) => {
+    if (req.body.length > 0) {
+        const docsToDeleteArr = req.body;
+        docsToDeleteArr.forEach(doc => fs.unlink(`./documents/${doc}`, err => {
+            if (err) {
+                return;
+            }
+        }));
+    }
+    res.end("Completed");
+});
+
+
 
 
 

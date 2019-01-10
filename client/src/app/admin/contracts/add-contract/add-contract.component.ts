@@ -27,6 +27,8 @@ export class AddContractComponent implements OnInit {
   endImplementationDeadline: Date;
   arrayInstallments: number[];
   filesToUpload: File = null;
+  docsToUpload: File[] = [];
+  docsFileNames = [];
   contract: Contract;
   directorates: Directorate[];
   bsConfig: Partial<BsDatepickerConfig>;
@@ -36,17 +38,19 @@ export class AddContractComponent implements OnInit {
   message: string;
   formArrayAnnexes: FormArray;
   formArrayInstallments: FormArray;
-  total: Number;
-  totalInstallments: Number;
+  total: number;
+  totalInstallments: number;
   currentUser: User;
   lastTransaction: Date;
-  lastTransactionAmount: Number;
-  budget: String;
-  planned: String;
-  retender: String;
+  lastTransactionAmount: number;
+  budget: string;
+  planned: string;
+  retender: string;
   payeeId: string;
   payerId: string;
   tenderStatus: string;
+  documents: FormArray;
+
   constructor(public contractsService: ContractsService, public directorateService: DirectorateService, private _fb: FormBuilder, private router: Router, public datasetService: DatasetService) {
     this.directorates = [];
     this.contract = new Contract();
@@ -111,7 +115,8 @@ export class AddContractComponent implements OnInit {
       directorate: '',
       nameOfProcurementOffical: '',
       annexes: this.formArrayAnnexes,
-      installments: this.formArrayInstallments
+      installments: this.formArrayInstallments,
+      documents: _fb.array([])
     });
     this.initAnnexes();
     this.initInstallments();
@@ -120,6 +125,7 @@ export class AddContractComponent implements OnInit {
   }
 
   @ViewChild('fileInput') fileInput;
+  @ViewChild('docInput') docInput;
 
   ngOnInit() {
     if (this.currentUser.role !== 'superadmin' && this.currentUser.role !== 'admin') {
@@ -130,6 +136,10 @@ export class AddContractComponent implements OnInit {
 
   onClick() {
     this.fileInput.nativeElement.click();
+  }
+
+  docsButtonClick(index) {
+    document.getElementById('doc-' + index).click();
   }
 
   addInstallment(installment: Installment) {
@@ -231,23 +241,23 @@ export class AddContractComponent implements OnInit {
     this.contract.releases[0].contracts[0].amendments.map(annex => {
       sumAnnex += parseFloat(annex.description.toString());
     });
-    this.total = parseFloat(this.contract.releases[0].contracts[0].value.amount.toString()) + sumAnnex;
+    this.total = parseFloat(this.contract.releases[0].tender.value.amount.toString()) + sumAnnex;
     this.contract.releases[0].contracts[0].value.amount = parseFloat(this.total.toString());
-
     let sumInstallments = 0;
     this.contract.releases[0].contracts[0].implementation.transactions.map(installment => {
       sumInstallments += parseFloat(installment.value.amount.toString());
     });
     if (this.contract.releases[0].contracts[0].implementation.transactions.length > 0) {
-      const i = this.contract.releases[0].contracts[0].implementation.transactions.length;
-      this.totalInstallments = parseFloat(this.contract.releases[0].contracts[0].implementation.transactions[i - 1].value.amount.toString()) + sumInstallments;
-      this.contract.releases[0].contracts[0].implementation.finalValue.amount = parseFloat(this.totalInstallments.toString());
+      this.contract.releases[0].contracts[0].implementation.finalValue.amount = sumInstallments;
+    } else {
+      this.contract.releases[0].contracts[0].implementation.finalValue.amount = 0;
     }
   }
 
   monDiff(d1, d2): number {
     return moment(d2).diff(d1, 'months') >= 1 ? moment(d2).diff(d1, 'months') : moment(d2).diff(d1, 'days');
   }
+
 
   fileChangeEvent(event) {
     if (event.target.files.length > 0 || this.filesToUpload == null) {
@@ -260,6 +270,39 @@ export class AddContractComponent implements OnInit {
         this.message = 'Tipi dokumentit nuk është valid, duhet të jetë i tipit pdf';
       } else {
         this.valid = true;
+      }
+    }
+  }
+
+  addDocument() {
+    this.documents = this.form.get('documents') as FormArray;
+    this.documents.push(
+      this._fb.group({
+        doc: '',
+        error: false,
+        errorMsg: ''
+      })
+    );
+  }
+
+  removeDocument(id) {
+    this.documents.removeAt(id);
+  }
+
+  docsChangeEvent(event, index) {
+    const docsTypes = ['application/msword', 'application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.ms-excel'];
+    if (event.target.files.length > 0) {
+      const theFile = event.target.files[0];
+      if (docsTypes.includes(theFile.type)) {
+        const nameArea = <HTMLInputElement>document.getElementById('docname' + index);
+        nameArea.value = theFile.name;
+        const newFileName = theFile.name.slice(0, -4) + '-' + Date.now() + '.pdf';
+        const newFile = new File([theFile], newFileName);
+        this.docsToUpload.push(newFile);
+        this.docsFileNames.push(newFileName);
+        this.documents.controls[index].setValue({ doc: '', error: false, errorMsg: '' });
+      } else {
+        this.documents.controls[index].setValue({ doc: '', error: true, errorMsg: 'Tipi dokumentit nuk është valid, duhet të jetë i tipit pdf, docx, doc ose xls' });
       }
     }
   }
@@ -343,7 +386,7 @@ export class AddContractComponent implements OnInit {
       const installmentIndex = this.contract.releases[0].contracts[0].implementation.transactions.length;
       this.lastTransaction = this.contract.releases[0].contracts[0].implementation.transactions[installmentIndex - 1].date;
       this.lastTransaction = this.lastTransaction == null ? null : this.dateChange(this.lastTransaction);
-      this.lastTransactionAmount = this.contract.releases[0].contracts[0].implementation.transactions[installmentIndex - 1].value.amount;
+      this.lastTransactionAmount = Number(this.contract.releases[0].contracts[0].implementation.transactions[installmentIndex - 1].value.amount);
     }
     if (this.contract.releases[0].contracts[0].amendments.length > 0) {
       for (const annex of this.contract.releases[0].contracts[0].amendments) {
@@ -368,7 +411,7 @@ export class AddContractComponent implements OnInit {
     } else if (this.contract.releases[0].tender.procurementMethodRationale === 'designContest' || this.contract.releases[0].tender.procurementMethodRationale === 'minimalValueProcedure') {
       this.contract.releases[0].tender.procurementMethod = 'selective';
     }
-    // Fill the items for awards and contracts with the fppClassification number
+    // Fill the item tender with the fppClassification number
     if (this.contract.releases[0].tender.items[0].quantity !== 0 && this.contract.releases[0].tender.items[0].quantity !== null) {
       this.contract.releases[0].tender.items[0].id = Math.random().toString(36).substr(2, 9) + '-CPV' + '-' + this.contract.releases[0].tender.items[0].quantity;
     }
@@ -418,14 +461,14 @@ export class AddContractComponent implements OnInit {
       this.contract.releases[0].bids.statistics[1].notes = 'Numri i ofertave të refuzuara';
     }
     // Fill tender milestones
-    if (this.contract.releases[0].tender.milestones[0] !== null) {
+    if (this.contract.releases[0].tender.milestones[0].dateMet !== null) {
       this.contract.releases[0].tender.milestones[0].id = this.milestoneId('standardDocuments');
       this.contract.releases[0].tender.milestones[0].title = 'Letrat Standarde për OE';
       this.contract.releases[0].tender.milestones[0].type = 'engagement';
       this.contract.releases[0].tender.milestones[0].code = 'standardDocuments';
       this.contract.releases[0].tender.milestones[0].status = 'met';
     }
-    if (this.contract.releases[0].tender.milestones[1] !== null) {
+    if (this.contract.releases[0].tender.milestones[1].dateMet !== null) {
       this.contract.releases[0].tender.milestones[1].id = this.milestoneId('cancellationNoticeDate');
       this.contract.releases[0].tender.milestones[1].title = 'Data e publikimit të anulimit të njoftimit';
       this.contract.releases[0].tender.milestones[1].type = 'approval';
@@ -481,8 +524,10 @@ export class AddContractComponent implements OnInit {
     }
     // Fill other fields with the company name
     this.contract.releases[0].awards[0].suppliers[0].name = this.contract.releases[0].tender.tenderers.name;
-    for (const transaction of this.contract.releases[0].contracts[0].implementation.transactions) {
-      transaction.payee.name = this.contract.releases[0].tender.tenderers.name;
+    if (this.contract.releases[0].contracts[0].implementation.transactions.length > 0) {
+      for (const transaction of this.contract.releases[0].contracts[0].implementation.transactions) {
+        transaction.payee.name = this.contract.releases[0].tender.tenderers.name;
+      }
     }
     // Fill other fields with the signing date
     this.contract.releases[0].tender.contractPeriod.startDate = this.contract.releases[0].contracts[0].period.startDate;
@@ -511,9 +556,11 @@ export class AddContractComponent implements OnInit {
     this.contract.releases[0].contracts[0].id = this.ocidMaker('-contract');
     this.contract.releases[0].ocid = this.ocidMaker('');
     this.contract.releases[0].id = this.ocidMaker('-contract');
-    this.contract.releases[0].contracts[0].awardID = this.ocidMaker('-award');
+    this.contract.releases[0].contracts[0].awardID = this.contract.releases[0].awards[0].id;
     // Tenderers id
-    this.contract.releases[0].tender.tenderers.id = this.payeeId;
+    if (this.contract.releases[0].tender.tenderers.name && this.contract.releases[0].tender.tenderers.name !== '') {
+      this.contract.releases[0].tender.tenderers.id = this.payeeId;
+    }
     // Find the starting and ending date of evaluation in days
     if (this.contract.releases[0].tender.awardPeriod.startDate && this.contract.releases[0].tender.awardPeriod.endDate) {
       // Get 1 day in milliseconds
@@ -532,11 +579,41 @@ export class AddContractComponent implements OnInit {
     // Buyer, supplier id
     this.contract.releases[0].buyer.id = this.payerId;
     this.contract.releases[0].awards[0].suppliers[0].id = this.payeeId;
+    // Convert string values to numbers
+    this.contract.contract.predictedValueSlug = this.form.value.predictedValue.toString().replace(/[,]+/g, '');
+    this.contract.releases[0].planning.budget.amount.amount = Number(this.form.value.predictedValue.toString().replace(/[^0-9\.-]+/g, ''));
+    this.contract.contract.totalAmountOfContractsIncludingTaxesSlug = this.form.value.totalAmountOfContractsIncludingTaxes.toString().replace(/[,]+/g, '');
+    this.contract.releases[0].tender.value.amount = Number(this.form.value.totalAmountOfContractsIncludingTaxes.toString().replace(/[^0-9\.-]+/g, ''));
+    this.contract.releases[0].contracts[0].deductionAmountFromContract.value.amount = Number(this.form.value.discountAmountFromContract.toString().replace(/[^0-9\.-]+/g, ''));
+    // Published date
+    this.contract.publishedDate = new Date();
+    // Fill the uri with the link to the copy of this package
+    this.contract.uri = `https://kontratatehapura.prishtinaonline.com/contracts/json/${this.contract.releases[0].ocid}`;
+    // Date signed
+    this.contract.releases[0].contracts[0].dateSigned = this.contract.releases[0].contracts[0].period.startDate;
+    // Overall date
+    this.contract.releases[0].date = new Date();
   }
 
   addContract(e) {
     e.preventDefault();
     this.calculateValues();
+    // Add documents to form data
+    const docsFormData = new FormData();
+    for (let i = 0; i < this.docsToUpload.length; i++) {
+      docsFormData.append('file', this.docsToUpload[i]);
+      this.contract.releases[0].tender.documents.push(
+        {
+          documentType: 'tenderNotice',
+          title: this.docsToUpload[i].name.replace('.pdf', ''),
+          url: 'https://kontratatehapura.prishtinaonline.com/documents/' + this.docsToUpload[i].name,
+          format: 'application/pdf',
+          language: 'sq',
+          id: Math.random().toString(36).substr(2, 9) + '-tenderNotice'
+        }
+      );
+    }
+    this.contract.documents = this.docsFileNames;
     if (this.form.valid === true) {
       if (this.filesToUpload !== null && this.valid === true) {
         this.changeValues();
@@ -555,28 +632,44 @@ export class AddContractComponent implements OnInit {
             Swal.showLoading();
           }
         });
-        this.contractsService.addContract(formData, 'multipart')
-          .takeUntil(this.unsubscribeAll)
-          .subscribe(res => {
-            if (res.existErr) {
-              Swal('Kujdes!', 'Dokumenti Kontratës ekziston!.', 'warning');
-            } else if (res.typeValidation) {
-              Swal('Kujdes!', 'Tipi Dokumentit Kontratës është i gabuar.', 'warning');
-            } else if (res.errVld) {
-              let errList = '';
-              for (const v of res.errVld) {
-                errList += `<li>${v}</li>`;
-              }
-              const htmlData = `<div style="text-align: center;">${errList}</div>`;
-              Swal({
-                title: 'Kujdes!',
-                html: htmlData,
-                width: 750,
-                type: 'info',
-                confirmButtonText: 'Kthehu te forma'
-              });
-            } else if (res.err) {
-              Swal('Gabim!', 'Kontrata nuk u shtua.', 'error');
+        this.contractsService.uploadDocuments(docsFormData)
+          .subscribe(docResponse => {
+            if (docResponse['_body'] === 'Completed') {
+              // Add the contract if documents are uploaded successfully
+              this.contractsService.addContract(formData, 'multipart')
+                .takeUntil(this.unsubscribeAll)
+                .subscribe(res => {
+                  if (res.existErr) {
+                    Swal('Kujdes!', 'Dokumenti Kontratës ekziston!.', 'warning');
+                  } else if (res.typeValidation) {
+                    Swal('Kujdes!', 'Tipi Dokumentit Kontratës është i gabuar.', 'warning');
+                  } else if (res.errVld) {
+                    let errList = '';
+                    for (const v of res.errVld) {
+                      errList += `<li>${v}</li>`;
+                    }
+                    const htmlData = `<div style="text-align: center;">${errList}</div>`;
+                    Swal({
+                      title: 'Kujdes!',
+                      html: htmlData,
+                      width: 750,
+                      type: 'info',
+                      confirmButtonText: 'Kthehu te forma'
+                    });
+                  } else if (res.err) {
+                    Swal('Gabim!', 'Kontrata nuk u shtua.', 'error');
+                  } else {
+                    Swal('Sukses!', 'Kontrata u shtua me sukses.', 'success').then((result) => {
+                      this.datasetService.updateCsv(this.contract.year, this.contract)
+                        .takeUntil(this.unsubscribeAll)
+                        .subscribe(data => {
+                        });
+                      if (result.value) {
+                        this.router.navigate(['/dashboard/contracts']);
+                      }
+                    });
+                  }
+                });
             } else {
               Swal('Sukses!', 'Kontrata u shtua me sukses.', 'success').then((result) => {
                 // this.datasetService.updateCsv(this.contract.year, this.contract)
@@ -630,4 +723,11 @@ export class AddContractComponent implements OnInit {
     const oldDate = new Date(date);
     return new Date(oldDate.getTime() + Math.abs(oldDate.getTimezoneOffset() * 60000));
   }
+
+  get formData() {
+    return <FormArray>this.form.get('documents');
+  }
+
+
+
 }

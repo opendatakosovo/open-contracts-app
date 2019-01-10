@@ -19,7 +19,7 @@ export class ContractInformationComponent implements OnInit {
   totalOfAnnexesWithTaxes: number;
   totalPayedPriceForContract: number;
   discountAmount: number;
-  total: number;
+  total;
   currentUser: User;
   lastTransactionDate: Date;
   lastTransactionAmount: Number;
@@ -34,10 +34,10 @@ export class ContractInformationComponent implements OnInit {
       .takeUntil(this.unsubscribeAll)
       .subscribe(data => {
         this.contract = data;
-        if (this.contract.releases[0].contracts[0].implementation.transactions.length <= 0) {
+        if (this.contract.releases[0].contracts[0].implementation.transactions.length > 0) {
           const i = this.contract.releases[0].contracts[0].implementation.transactions.length;
-          this.lastTransactionDate = this.contract.releases[0].contracts[0].implementation.transactions[i].date;
-          this.lastTransactionAmount = this.contract.releases[0].contracts[0].implementation.transactions[i].value.amount;
+          this.lastTransactionDate = this.contract.releases[0].contracts[0].implementation.transactions[i - 1].date;
+          this.lastTransactionAmount = this.contract.releases[0].contracts[0].implementation.transactions[i - 1].value.amount;
         }
         if (this.contract.releases[0].contracts[0].value.amount !== 0 && this.contract.releases[0].contracts[0].value.amount !== undefined && this.contract.releases[0].contracts[0].value.amount !== null) {
           this.totalOfAnnexesWithTaxes = parseFloat(this.contract.releases[0].contracts[0].value.amount.toString());
