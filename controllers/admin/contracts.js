@@ -851,7 +851,7 @@ router.put('/update-all', (req, res) => {
             }
             let documents = [];
             let contractDocument = () => {
-                if (row.contract.file) {
+                if (row.contract.file !== '' && row.contract.file) {
                     documents.push({
                         "id": documentId('contractSigned'),
                         "documentType": "contractSigned",
@@ -860,12 +860,21 @@ router.put('/update-all', (req, res) => {
                         "format": "application/pdf",
                         "language": "sq"
                     })
+                } else {
+                    documents.push({
+                        "id": '',
+                        "documentType": "",
+                        "title": '',
+                        "url": '',
+                        "format": "",
+                        "language": ""
+                    })
                 }
                 return documents;
             }
             let tenderDocuments = () => {
-                if (row.contract.documents.length > 0) {
-                    for (document of row.contract.documents) {
+                if (row.documents.length > 0) {
+                    for (document of row.documents) {
                         documents.push({
                             "id": documentId('tenderNotice'),
                             "documentType": "tenderNotice",
