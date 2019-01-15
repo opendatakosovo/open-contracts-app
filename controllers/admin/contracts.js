@@ -851,7 +851,7 @@ router.put('/update-all', (req, res) => {
             }
             let documents = [];
             let contractDocument = () => {
-                if (row.contract.file) {
+                if (row.contract.file !== '' && row.contract.file) {
                     documents.push({
                         "id": documentId('contractSigned'),
                         "documentType": "contractSigned",
@@ -859,6 +859,15 @@ router.put('/update-all', (req, res) => {
                         "url": `https://kontratatehapura.prishtinaonline.com/uploads/${row.contract.file}`,
                         "format": "application/pdf",
                         "language": "sq"
+                    })
+                } else {
+                    documents.push({
+                        "id": '',
+                        "documentType": "",
+                        "title": '',
+                        "url": '',
+                        "format": "",
+                        "language": ""
                     })
                 }
                 return documents;
