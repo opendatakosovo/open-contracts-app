@@ -139,7 +139,7 @@
               <label class="checkbox-label">Buxheti</label>
               <br>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" forname="budget" (click)="addBudgetValue($event)" id="ownSources"
+                <input class="form-check-input" type="checkbox" name="budget" (click)="addBudgetValue($event)" id="ownSources"
                   value="Të hyra vetanake">
                 <label class="form-check-label" for="ownSources">
                   Të hyra vetanake
@@ -197,14 +197,14 @@
               <br>
               <div class="form-check">
                 <input class="form-check-input" type="radio" name="complaintsToAuthority1" formControlName='complaintsToAuthority1'
-                  [(ngModel)]="contract.releases[0].tender.hasEnquiries" id="negative" value="false">
+                  [(ngModel)]="contract.releases[0].tender.hasEnquiries" id="negative" [value]="false">
                 <label class="form-check-label" for="negative">
                   Negative
                 </label>
               </div>
               <div class="form-check">
                 <input class="form-check-input" type="radio" name="complaintsToAuthority1" formControlName='complaintsToAuthority1'
-                  [(ngModel)]="contract.releases[0].tender.hasEnquiries" id="positive" value="true">
+                  [(ngModel)]="contract.releases[0].tender.hasEnquiries" id="positive" [value]="true">
                 <label class="form-check-label" for="positive">
                   Pozitive
                 </label>
@@ -217,14 +217,14 @@
               <br>
               <div class="form-check">
                 <input class="form-check-input" type="radio" name="complaintsToOshp1" formControlName="complaintsToOshp1"
-                  [(ngModel)]="contract.releases[0].tender.hasComplaints" id="negativeOshp" value="false">
+                  [(ngModel)]="contract.releases[0].tender.hasComplaints" id="negativeOshp" [value]="false">
                 <label class="form-check-label" for="negativeOshp">
                   Negative
                 </label>
               </div>
               <div class="form-check">
                 <input class="form-check-input" type="radio" name="complaintsToOshp1" formControlName="complaintsToOshp1"
-                  [(ngModel)]="contract.releases[0].tender.hasComplaints" id="positiveOshp" value="true">
+                  [(ngModel)]="contract.releases[0].tender.hasComplaints" id="positiveOshp" [value]="true">
                 <label class="form-check-label" for="positiveOshp">
                   Pozitive
                 </label>
@@ -373,14 +373,14 @@
               <br>
               <div class="form-check">
                 <input class="form-check-input" type="radio" name="type" formControlName="type" [(ngModel)]="contract.releases[0].parties[0].details.local"
-                  id="local" value="true" checked>
+                  id="local" [value]="true" checked>
                 <label class="form-check-label" for="local">
                   Vendore
                 </label>
               </div>
               <div class="form-check">
                 <input class="form-check-input" type="radio" name="type" formControlName="type" [(ngModel)]="contract.releases[0].parties[0].details.local"
-                  id="notLocal" value="false">
+                  id="notLocal" [value]="false">
                 <label class="form-check-label" for="notLocal">
                   Jo vendore
                 </label>
@@ -395,7 +395,7 @@
               <br>
               <div class="form-check">
                 <input class="form-check-input" type="radio" name="applicationDeadlineType" formControlName="applicationDeadlineType"
-                  [(ngModel)]="contract.releases[0].tender.procedure.isAcceleratedProcedure" id="normal" value="true"
+                  [(ngModel)]="contract.releases[0].tender.procedure.isAcceleratedProcedure" id="normal" [value]="true"
                   checked>
                 <label class="form-check-label" for="normal">
                   Afati kohor normal
@@ -403,7 +403,7 @@
               </div>
               <div class="form-check">
                 <input class="form-check-input" type="radio" name="applicationDeadlineType" formControlName="applicationDeadlineType"
-                  [(ngModel)]="contract.releases[0].tender.procedure.isAcceleratedProcedure" id="shortened" value="false">
+                  [(ngModel)]="contract.releases[0].tender.procedure.isAcceleratedProcedure" id="shortened" [value]="false">
                 <label class="form-check-label" for="shortened">
                   Afati kohor i shkurtuar
                 </label>
@@ -682,7 +682,7 @@
                     type="button" (click)="removeFile()">
                     <i class="fa fa-times" aria-hidden="true"></i>
                   </button>
-                  <button (click)="bringBackFile()" *ngIf="hasFileToDelete == false && contract.contract.file !== ''"
+                  <button (click)="bringBackFile()" *ngIf="hasFileToDelete == false && contract.releases[0].contracts[0].documents[0].title !== ''"
                     class="btn btn-outline-secondary" type="button">
                     <i class="fa fa-chevron-left" aria-hidden="true"></i>
                   </button>

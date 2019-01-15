@@ -22,7 +22,12 @@ export class ContractInformationComponent implements OnInit {
   total;
   currentUser: User;
   lastTransactionDate: Date;
-  lastTransactionAmount: Number;
+  lastTransactionAmount: number;
+  planned: string;
+  criteria: string;
+  retender: string;
+  tenderStatus: string;
+
   constructor(public contractsService: ContractsService, private router: ActivatedRoute,
     public checkIfServerDown: CheckIfServerDown,
     private checkIfUserIsActive: CheckIfUserIsActive) {
@@ -37,7 +42,7 @@ export class ContractInformationComponent implements OnInit {
         if (this.contract.releases[0].contracts[0].implementation.transactions.length > 0) {
           const i = this.contract.releases[0].contracts[0].implementation.transactions.length;
           this.lastTransactionDate = this.contract.releases[0].contracts[0].implementation.transactions[i - 1].date;
-          this.lastTransactionAmount = this.contract.releases[0].contracts[0].implementation.transactions[i - 1].value.amount;
+          this.lastTransactionAmount = Number(this.contract.releases[0].contracts[0].implementation.transactions[i - 1].value.amount);
         }
         if (this.contract.releases[0].contracts[0].value.amount !== 0 && this.contract.releases[0].contracts[0].value.amount !== undefined && this.contract.releases[0].contracts[0].value.amount !== null) {
           this.totalOfAnnexesWithTaxes = parseFloat(this.contract.releases[0].contracts[0].value.amount.toString());
@@ -63,6 +68,32 @@ export class ContractInformationComponent implements OnInit {
           if (implementationDeadlineValues) {
             this.contract.releases[0].contracts[0].period.durationInDays = this.contract.releases[0].contracts[0].period.durationInDays.replace(' undefined', '');
           }
+        }
+        if (this.contract.releases[0].planning.documents[0].documentType && this.contract.releases[0].planning.documents[0].documentType === 'procurementPlan') {
+          this.planned = 'Po';
+        } else {
+          this.planned = 'Jo';
+        }
+        if (this.contract.releases[0].tender.awardCriteria === 'lowPrice') {
+          this.criteria = 'Çmimi më i ulët';
+        } else if (this.contract.releases[0].tender.awardCriteria === 'costOnly') {
+          this.criteria = 'Tenderi ekonomikisht më i favorshëm';
+        } else if (this.contract.releases[0].tender.awardCriteria === 'ratedCriteria') {
+          this.criteria = 'Çmimi më i ulët me poentim';
+        }
+        if (this.contract.releases[0].relatedProcesses[0].relationship && this.contract.releases[0].relatedProcesses[0].relationship === 'unsuccessfulProcess') {
+          this.retender = 'Po';
+        } else {
+          this.retender = 'Jo';
+        }
+        if (this.contract.releases[0].tender.status === 'active' && (this.contract.releases[0].tender.awardPeriod.startDate && this.contract.releases[0].tender.awardPeriod.endDate)) {
+          this.tenderStatus = 'evaluation';
+        } else if (this.contract.releases[0].tender.status === 'active') {
+          this.tenderStatus = 'published';
+        } else if (this.contract.releases[0].tender.status === 'cancelled') {
+          this.tenderStatus = 'cancelled';
+        } else if (this.contract.releases[0].tender.status === 'complete') {
+          this.tenderStatus = 'contracted';
         }
       },
         err => {

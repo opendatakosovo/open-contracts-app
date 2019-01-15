@@ -62,7 +62,6 @@ router.get('/get-contracts-by-contractor/:companyName', (req, res) => {
 router.get('/get-directorates-of-contracts', (req, res) => {
     Contract.getDirectoratesInContracts()
         .then(data => {
-
             let d = {
                 adminObj: { name: 'Administratë', y: 0 },
                 eduObj: { name: 'Arsim', y: 0 },
@@ -82,9 +81,9 @@ router.get('/get-directorates-of-contracts', (req, res) => {
                 parkObj: { name: 'Parqeve', y: 0 },
             }
             let toBeRemoved = [];
-
             // Process some data
             data.map((row, i) => {
+                row.name = row.name[0];
                 if (row.name == '') {
                     row.name = 'E pacaktuar';
                     toBeRemoved.push(i);
@@ -438,13 +437,11 @@ router.get('/get-directorates-of-contracts', (req, res) => {
                     toBeRemoved.push(i);
                 }
             });
-
             for (const k in d) {
                 if (d[k].y !== 0) {
                     data.push(d[k]);
                 }
             }
-
             for (let i = data.length; i >= 0; i--) {
                 for (index of toBeRemoved) {
                     if (index == parseInt(i)) {
@@ -452,7 +449,6 @@ router.get('/get-directorates-of-contracts', (req, res) => {
                     }
                 }
             }
-
             data.sort(compareValues('y', 'desc'));
             res.json(data);
         }).catch(err => {
@@ -464,35 +460,27 @@ router.get('/get-directorates-of-contracts', (req, res) => {
 router.get('/top-ten-contracts-with-highest-amount-by-year/:year', (req, res) => {
     Contract.getContractsMostByTotalAmountOfContract(req.params.year)
         .then(data => {
-
             // Processing some data
             // First we have to loop through the data and convert string currencies to numbers and find the difference between predicted value and total amount of contracts
             for (row of data) {
-                row.totalAmountOfContractsIncludingTaxes = Number(row.totalAmountOfContractsIncludingTaxes.replace(/[^0-9\.-]+/g, ""));
-                row.predictedValue = Number(row.predictedValue.replace(/[^0-9\.-]+/g, ""));
                 row.differenceAmountBetweenPredictedAndTotal = row.totalAmountOfContractsIncludingTaxes > row.predictedValue ? row.totalAmountOfContractsIncludingTaxes - row.predictedValue : row.predictedValue - row.totalAmountOfContractsIncludingTaxes;
             }
 
             // Secondly we have compare and sort the data by the highest total amount
             data.sort(compareValues('totalAmountOfContractsIncludingTaxes', 'desc'));
-
             // Thirdly we loop again and convert back the numbers to currency strings with two decimals and format some other data
             for (row of data) {
-                row.totalAmountOfContractsIncludingTaxes = row.totalAmountOfContractsIncludingTaxes.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
-                row.predictedValue = row.predictedValue.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
-                row.differenceAmountBetweenPredictedAndTotal = row.differenceAmountBetweenPredictedAndTotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
                 row.companyName = row.companyName.trim();
-                if (row.publicationDateOfGivenContract == null) {
+                if (row.publicationDateOfGivenContract === null) {
                     row.publicationDateOfGivenContract = "-";
                 }
-                if (row.signingDate == null) {
+                if (row.signingDate === null) {
                     row.signingDate = "-";
                 }
             }
 
             // Finally we limit the data array to get only the first tenth of contracts
             data.splice(10, data.length);
-
             // Serving data
             res.json(data);
         }).catch(err => {
@@ -504,13 +492,13 @@ router.get('/contracts-count-by-procurement-category-and-year/:category/:year', 
     let c = req.params.category;
     switch (c) {
         case 'type':
-            c = 'procurementType'
+            c = 'releases.tender.additionalProcurementCategories'
             break;
         case 'value':
-            c = 'procurementValue'
+            c = 'releases.tender.estimatedSizeOfProcurementValue.estimatedValue'
             break;
         case 'procedure':
-            c = 'procurementProcedure'
+            c = 'releases.tender.procurementMethodRationale'
             break;
         default:
             c = 'Not valid';
@@ -622,32 +610,32 @@ router.get('/directorates', passport.authenticate('jwt', { session: false }), (r
 });
 
 // Contracts
-router.get('/contracts', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.get('/contracts', (req, res) => {
     let obj = {};
     Contract.getTotalContracts()
         .then(tc => {
             obj['totalContracts'] = tc;
             return obj;
         }).then(obj => {
-            return Contract.getTotalContractsbyFlagStatus(0)
+            return Contract.getTotalContractsbyFlagStatus('')
                 .then(totalCDefaultFlag => {
                     obj['totalContractsWithoutFlagStatus'] = totalCDefaultFlag;
                     return obj;
                 })
         }).then(obj => {
-            return Contract.getTotalContractsbyFlagStatus(1)
+            return Contract.getTotalContractsbyFlagStatus('pending')
                 .then(totalCPendingFlag => {
                     obj['totalPendingContracts'] = totalCPendingFlag;
                     return obj;
                 })
         }).then(obj => {
-            return Contract.getTotalContractsbyFlagStatus(2)
+            return Contract.getTotalContractsbyFlagStatus('active')
                 .then(totalCCompletedFlag => {
                     obj['totalCompletedContracts'] = totalCCompletedFlag;
                     return obj;
                 })
         }).then(obj => {
-            return Contract.getTotalContractsbyFlagStatus(3)
+            return Contract.getTotalContractsbyFlagStatus('cancelled')
                 .then(totalCRejectedFlag => {
                     obj['totalRefusedContracts'] = totalCRejectedFlag;
                     return obj;

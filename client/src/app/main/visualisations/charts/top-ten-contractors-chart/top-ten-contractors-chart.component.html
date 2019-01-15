@@ -21,18 +21,19 @@
             <h5>{{ 'visualisations.allContractsOfOE' | translate }}: {{oeName}}</h5>
         </div>
     </div>
-    <ngx-datatable #table [rows]="rows" class="bootstrap" columnMode="'force'" [headerHeight]="'auto'" [summaryRow]="false" [summaryPosition]="'bottom'"
-        [footerHeight]="50" [rowHeight]="'auto'" [limit]="10" [scrollbarH]="true" [messages]="messages">
+    <ngx-datatable #table [rows]="rows" class="bootstrap" columnMode="'force'" [headerHeight]="'auto'" [summaryRow]="false"
+        [summaryPosition]="'bottom'" [footerHeight]="50" [rowHeight]="'auto'" [limit]="10" [scrollbarH]="true"
+        [messages]="messages">
         <ngx-datatable-column>
             <ng-template let-column="column" ngx-datatable-header-template>
                 <p class="column-header">{{ 'datatable.activityTitle' | translate }}</p>
             </ng-template>
             <ng-template let-row="row" ngx-datatable-cell-template>
-                <p *ngIf="row.activityTitle == ''">
+                <p *ngIf="row.releases[0].tender.title == ''">
                     -
                 </p>
-                <p *ngIf="row.activityTitle != ''">
-                    {{ row.activityTitle }}
+                <p *ngIf="row.releases[0].tender.title != ''">
+                    {{ row.releases[0].tender.title }}
                 </p>
             </ng-template>
         </ngx-datatable-column>
@@ -41,11 +42,11 @@
                 <p class="column-header">{{ 'datatable.publicationDate' | translate }}</p>
             </ng-template>
             <ng-template let-row="row" ngx-datatable-cell-template>
-                <p *ngIf="row.contract.publicationDate == null">
+                <p *ngIf="row.releases[0].tender.date == null">
                     -
                 </p>
-                <p *ngIf="row.contract.publicationDate != null">
-                    {{ row.contract.publicationDate | date: 'dd/MM/yyyy' }}
+                <p *ngIf="row.releases[0].tender.date != null">
+                    {{ row.releases[0].tender.date | date: 'dd/MM/yyyy' }}
                 </p>
             </ng-template>
         </ngx-datatable-column>
@@ -54,11 +55,11 @@
                 <p class="column-header">{{ 'datatable.noOfCompaniesWhoDownloadedTenderDoc' | translate }}</p>
             </ng-template>
             <ng-template let-row="row" ngx-datatable-cell-template>
-                <p *ngIf="row.noOfCompaniesWhoDownloadedTenderDoc == null">
+                <p *ngIf="row.releases[0].bids.statistics[0].value == null">
                     -
                 </p>
-                <p *ngIf="row.noOfCompaniesWhoDownloadedTenderDoc != null">
-                    {{ row.noOfCompaniesWhoDownloadedTenderDoc }}
+                <p *ngIf="row.releases[0].bids.statistics[0].value  != null">
+                    {{ row.releases[0].bids.statistics[0].value }}
                 </p>
             </ng-template>
         </ngx-datatable-column>
@@ -67,11 +68,11 @@
                 <p class="column-header">{{ 'datatable.publicationDateOfGivenContract' | translate }}</p>
             </ng-template>
             <ng-template let-row="row" ngx-datatable-cell-template>
-                <p *ngIf="row.contract.publicationDateOfGivenContract == null">
+                <p *ngIf="row.releases[0].awards[0].date == null">
                     -
                 </p>
-                <p *ngIf="row.contract.publicationDateOfGivenContract != null">
-                    {{ row.contract.publicationDateOfGivenContract | date: 'dd/MM/yyyy' }}
+                <p *ngIf="row.releases[0].awards[0].date != null">
+                    {{ row.releases[0].awards[0].date | date: 'dd/MM/yyyy' }}
                 </p>
             </ng-template>
         </ngx-datatable-column>
@@ -80,11 +81,11 @@
                 <p class="column-header">{{ 'datatable.cancellationNoticeDate' | translate }}</p>
             </ng-template>
             <ng-template let-row="row" ngx-datatable-cell-template>
-                <p *ngIf="row.cancellationNoticeDate == null">
+                <p *ngIf="row.releases[0].tender.milestones[1].date == null">
                     -
                 </p>
-                <p *ngIf="row.cancellationNoticeDate != null">
-                    {{ row.cancellationNoticeDate | date: 'dd/MM/yyyy' }}
+                <p *ngIf="row.releases[0].tender.milestones[1].date != null">
+                    {{ row.releases[0].tender.milestones[1].date | date: 'dd/MM/yyyy' }}
                 </p>
             </ng-template>
         </ngx-datatable-column>
@@ -93,11 +94,11 @@
                 <p class="column-header">{{ 'datatable.predictedValue' | translate }}</p>
             </ng-template>
             <ng-template let-row="row" ngx-datatable-cell-template>
-                <p *ngIf="row.contract.predictedValue == ''">
+                <p *ngIf="row.releases[0].planning.budget.amount.amount == 0">
                     -
                 </p>
-                <p *ngIf="row.contract.predictedValue != ''">
-                    {{ row.contract.predictedValue }} &euro;
+                <p *ngIf="row.releases[0].planning.budget.amount.amount != 0">
+                    {{ row.releases[0].planning.budget.amount.amount }} &euro;
                 </p>
             </ng-template>
         </ngx-datatable-column>
@@ -106,11 +107,11 @@
                 <p class="column-header">{{ 'datatable.name' | translate }}</p>
             </ng-template>
             <ng-template let-row="row" ngx-datatable-cell-template>
-                <p *ngIf="row.company.name == ''">
+                <p *ngIf="row.releases[0].tender.tenderers.name == ''">
                     -
                 </p>
-                <p *ngIf="row.company.name != ''">
-                    {{ row.company.name }}
+                <p *ngIf="row.releases[0].tender.tenderers.name != ''">
+                    {{ row.releases[0].tender.tenderers.name }}
                 </p>
             </ng-template>
         </ngx-datatable-column>
@@ -119,11 +120,11 @@
                 <p class="column-header">{{ 'datatable.signingDate' | translate }}</p>
             </ng-template>
             <ng-template let-row="row" ngx-datatable-cell-template>
-                <p *ngIf="row.contract.signingDate == null">
+                <p *ngIf="row.releases[0].contracts[0].period.startDate == null">
                     -
                 </p>
-                <p *ngIf="row.contract.signingDate != null">
-                    {{ row.contract.signingDate | date: 'dd/MM/yyyy' }}
+                <p *ngIf="row.releases[0].contracts[0].period.startDate != null">
+                    {{ row.releases[0].contracts[0].period.startDate | date: 'dd/MM/yyyy' }}
                 </p>
             </ng-template>
         </ngx-datatable-column>
@@ -132,11 +133,11 @@
                 <p class="column-header">{{ 'datatable.implementationDeadline' | translate }}</p>
             </ng-template>
             <ng-template let-row="row" ngx-datatable-cell-template>
-                <p *ngIf="row.contract.implementationDeadline == null">
+                <p *ngIf="row.releases[0].contracts[0].period.durationInDays == null || row.releases[0].contracts[0].period.durationInDays == 'undefined' || row.releases[0].contracts[0].period.durationInDays == 'undefined ' || row.releases[0].contracts[0].period.durationInDays == 'undefined undefined' || row.releases[0].contracts[0].period.durationInDays == ' undefined' || row.releases[0].contracts[0].period.durationInDays == 'n/a'">
                     -
                 </p>
-                <p *ngIf="row.contract.implementationDeadline != null">
-                    {{ row.contract.implementationDeadline }}
+                <p *ngIf="row.releases[0].contracts[0].period.durationInDays != null && row.releases[0].contracts[0].period.durationInDays !== 'undefined' && row.releases[0].contracts[0].period.durationInDays !== 'undefined ' && row.releases[0].contracts[0].period.durationInDays !== 'undefined undefined' && row.releases[0].contracts[0].period.durationInDays !== ' undefined' && row.releases[0].contracts[0].period.durationInDays !== 'n/a'">
+                    {{ row.releases[0].contracts[0].period.durationInDays }}
                 </p>
             </ng-template>
         </ngx-datatable-column>
@@ -145,11 +146,11 @@
                 <p class="column-header">{{ 'datatable.totalAmountOfContractsIncludingTaxes' | translate }}</p>
             </ng-template>
             <ng-template let-row="row" ngx-datatable-cell-template>
-                <p *ngIf="row.contract.totalAmountOfContractsIncludingTaxes == ''">
+                <p *ngIf="row.releases[0].tender.value.amount == 0">
                     -
                 </p>
-                <p *ngIf="row.contract.totalAmountOfContractsIncludingTaxes != ''">
-                    {{ row.contract.totalAmountOfContractsIncludingTaxes }} &euro;
+                <p *ngIf="row.releases[0].tender.value.amount != 0">
+                    {{ row.releases[0].tender.value.amount }} &euro;
                 </p>
             </ng-template>
         </ngx-datatable-column>
@@ -158,24 +159,25 @@
                 <p class="column-header">{{ 'datatable.directorate' | translate }}</p>
             </ng-template>
             <ng-template let-row="row" ngx-datatable-cell-template>
-                <p *ngIf="row.directorates == null || row.directorates == ''">
+                <p *ngIf="row.releases[0].buyer.name == null || row.releases[0].buyer.name == ''">
                     -
                 </p>
-                <p *ngIf="row.directorates != null">
-                    {{ row.directorates }}
+                <p *ngIf="row.releases[0].buyer.name != null">
+                    {{ row.releases[0].buyer.name }}
                 </p>
             </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-footer>
-            <ng-template ngx-datatable-footer-template let-rowCount="rowCount" let-pageSize="pageSize" let-selectedCount="selectedCount"
-                let-curPage="curPage" let-offset="offset">
+            <ng-template ngx-datatable-footer-template let-rowCount="rowCount" let-pageSize="pageSize"
+                let-selectedCount="selectedCount" let-curPage="curPage" let-offset="offset">
                 <div style="padding: 5px 10px;width: 50%;">
-                    {{ 'datatable.contracts' | translate }} {{rowCount}} | {{ 'datatable.displayedContracts' | translate }} {{pageSize}} | {{
+                    {{ 'datatable.contracts' | translate }} {{rowCount}} | {{ 'datatable.displayedContracts' |
+                    translate }} {{pageSize}} | {{
                     'datatable.page' | translate }} {{curPage}}
                 </div>
-                <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'" [pagerRightArrowIcon]="'datatable-icon-right'" [pagerPreviousIcon]="'datatable-icon-prev'"
-                    [pagerNextIcon]="'datatable-icon-skip'" [page]="curPage" [size]="pageSize" [count]="rowCount" [hidden]="!((rowCount / pageSize) > 1)"
-                    (change)="table.onFooterPage($event)">
+                <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'" [pagerRightArrowIcon]="'datatable-icon-right'"
+                    [pagerPreviousIcon]="'datatable-icon-prev'" [pagerNextIcon]="'datatable-icon-skip'" [page]="curPage"
+                    [size]="pageSize" [count]="rowCount" [hidden]="!((rowCount / pageSize) > 1)" (change)="table.onFooterPage($event)">
                 </datatable-pager>
             </ng-template>
         </ngx-datatable-footer>

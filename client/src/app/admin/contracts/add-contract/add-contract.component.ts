@@ -613,7 +613,7 @@ export class AddContractComponent implements OnInit {
         }
       );
     }
-    this.contract.documents = this.docsFileNames;
+    this.contract.releases[0].tender.documents = this.docsFileNames;
     if (this.form.valid === true) {
       if (this.filesToUpload !== null && this.valid === true) {
         this.changeValues();

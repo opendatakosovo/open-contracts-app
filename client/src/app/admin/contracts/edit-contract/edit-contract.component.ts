@@ -54,6 +54,7 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
   payerId: string;
   retender: string;
   tenderStatus: string;
+  budget: string;
 
   constructor(public contractsService: ContractsService, private router: ActivatedRoute, public directorateService: DirectorateService, private _fb: FormBuilder, private route: Router, public datasetService: DatasetService) {
     this.directorates = [];
@@ -65,8 +66,8 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
       .takeUntil(this.unsubscribeAll)
       .subscribe(data => {
         this.contract = data;
-        for (let i = 0; i < this.contract.documents.length; i++) {
-          this.contractDocsNames.push(this.contract.documents[i]);
+        for (let i = 0; i < this.contract.releases[0].tender.documents.length; i++) {
+          this.contractDocsNames.push(this.contract.releases[0].tender.documents[i]);
           this.addDocument();
         }
         if (data.bidOpeningDateTime === null) {
@@ -83,6 +84,25 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
         this.initInstallments();
         if (this.contract.releases[0].contracts[0].period.durationInDays !== undefined && this.contract.releases[0].contracts[0].period.durationInDays !== '') {
           this.implementationDeadline = this.contract.releases[0].contracts[0].period.durationInDays.split(' ');
+        }
+        if (this.contract.releases[0].planning.documents[0].documentType && this.contract.releases[0].planning.documents[0].documentType === 'procurementPlan') {
+          this.planned = 'po';
+        } else {
+          this.planned = 'jo';
+        }
+        if (this.contract.releases[0].relatedProcesses[0].relationship && this.contract.releases[0].relatedProcesses[0].relationship === 'unsuccessfulProcess') {
+          this.retender = 'Po';
+        } else {
+          this.retender = 'jo';
+        }
+        if (this.contract.releases[0].tender.status === 'active' && (this.contract.releases[0].tender.awardPeriod.startDate && this.contract.releases[0].tender.awardPeriod.endDate)) {
+          this.tenderStatus = 'evaluation';
+        } else if (this.contract.releases[0].tender.status === 'active') {
+          this.tenderStatus = 'published';
+        } else if (this.contract.releases[0].tender.status === 'cancelled') {
+          this.tenderStatus = 'cancelled';
+        } else if (this.contract.releases[0].tender.status === 'complete') {
+          this.tenderStatus = 'contracted';
         }
       });
     this.form = _fb.group({
@@ -257,25 +277,6 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
       this.route.navigate(['/dashboard']);
     }
     this.bsConfig = Object.assign({}, { containerClass: 'theme-blue', dateInputFormat: 'DD/MM/YYYY' });
-    if (this.contract.releases[0].planning.documents[0].documentType && this.contract.releases[0].planning.documents[0].documentType === 'procurementPlan') {
-      this.planned = 'po';
-    } else {
-      this.planned = 'jo';
-    }
-    if (this.contract.releases[0].relatedProcesses[0].relationship && this.contract.releases[0].relatedProcesses[0].relationship === 'unsuccessfulProcess') {
-      this.retender = 'Po';
-    } else {
-      this.retender = 'jo';
-    }
-    if (this.contract.releases[0].tender.status === 'active' && (this.contract.releases[0].tender.awardPeriod.startDate && this.contract.releases[0].tender.awardPeriod.endDate)) {
-      this.tenderStatus = 'evaluation';
-    } else if (this.contract.releases[0].tender.status === 'active') {
-      this.tenderStatus = 'published';
-    } else if (this.contract.releases[0].tender.status === 'cancelled') {
-      this.tenderStatus = 'cancelled';
-    } else if (this.contract.releases[0].tender.status === 'complete') {
-      this.tenderStatus = 'contracted';
-    }
   }
 
   calculateValues() {
@@ -382,31 +383,25 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
   }
 
   checkBudget(budgets) {
-    if (budgets != null) {
-      for (const budget of budgets) {
-        if (budget === 'Buxheti i Kosovës') {
-          const checkButton = <HTMLInputElement>document.getElementById('kosovoBudget');
-          checkButton.checked = true;
-        }
+    if (budgets.includes('Buxheti i Kosovës')) {
+      const checkButton = <HTMLInputElement>document.getElementById('kosovoBudget');
+      checkButton.checked = true;
+    }
 
-        if (budget === 'Të hyra vetanake') {
-          const checkButton = <HTMLInputElement>document.getElementById('ownSources');
-          checkButton.checked = true;
-        }
+    if (budgets.includes('Të hyra vetanake')) {
+      const checkButton = <HTMLInputElement>document.getElementById('ownSources');
+      checkButton.checked = true;
+    }
 
-        if (budget === 'Donacion') {
-          const checkButton = <HTMLInputElement>document.getElementById('donation');
-          checkButton.checked = true;
-        }
-      }
+    if (budgets.includes('Donacion')) {
+      const checkButton = <HTMLInputElement>document.getElementById('donation');
+      checkButton.checked = true;
     }
   }
+
   addBudgetValue(event) {
-    if (event.target.checked === false) {
-      this.contract.releases[0].planning.budget.description.slice(this.contract.releases[0].planning.budget.description.indexOf(event.target.value), 1);
-    } else if (event.target.checked === true) {
-      this.contract.releases[0].planning.budget.description = this.contract.releases[0].planning.budget.description + ' ' + event.target.value;
-    }
+    this.budget = this.budget + ' ' + event.target.value;
+    this.contract.releases[0].planning.budget.description = this.budget;
   }
 
   fileChangeEvent(event) {
@@ -758,7 +753,7 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
         }
       );
     }
-    this.contract.documents = this.contractDocsNames;
+    this.contract.releases[0].tender.documents = this.contractDocsNames;
 
     if (this.form.valid === true) {
       if (this.filesToUpload !== null && this.valid === true) {
@@ -921,9 +916,9 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
 
   removeDocument(id) {
     this.documents.removeAt(id);
-    this.docsToDelete.push(this.contract.documents[id]);
+    this.docsToDelete.push(this.contract.releases[0].tender.documents[id]);
     this.contractDocsNames = this.contractDocsNames.filter((doc) => {
-      return doc !== this.contract.documents[id];
+      return doc !== this.contract.releases[0].tender.documents[id];
     });
   }
 

@@ -6,8 +6,8 @@ import { Chart } from 'angular-highcharts';
 import { UserData } from './UserData';
 import { DirectorateData } from './DirectorateData';
 import { ContractData } from './ContractData';
-import { DashboardLayoutComponent} from "../../layouts/dashboard-page-layout/dashboard-layout/dashboard-layout.component";
-import { CheckIfServerDown} from "../../utils/CheckIfServerDown";
+import { DashboardLayoutComponent } from '../../layouts/dashboard-page-layout/dashboard-layout/dashboard-layout.component';
+import { CheckIfServerDown } from '../../utils/CheckIfServerDown';
 import { UserService } from '../../service/user.service';
 import { CheckIfUserIsActive } from '../../utils/CheckIfUserIsActive';
 
@@ -27,12 +27,12 @@ export class DashboardComponent implements OnInit {
   contractsByFlagStatusChart: Chart;
 
   constructor(public dataService: DataService, private checkIfServerDown: CheckIfServerDown,
-  private checkIfUserIsActive: CheckIfUserIsActive) {
+    private checkIfUserIsActive: CheckIfUserIsActive) {
     this.userData = new UserData();
     this.directorateData = new DirectorateData();
     this.contractData = new ContractData();
 
-    
+
   }
 
   ngOnInit() {
@@ -47,19 +47,19 @@ export class DashboardComponent implements OnInit {
         this.renderUsersByRoleChart(this.userData.totalAdminUsers, this.userData.totalSimpleUsers);
       }, err => {
         console.log(err);
-          this.checkIfServerDown.check(err.status)
+        this.checkIfServerDown.check(err.status);
       });
 
     this.dataService.getDirectorateData()
-        .takeUntil(this.unsubscribeAll)
-        .subscribe(directorateDataRes => {
-          this.directorateData = directorateDataRes;
-          this.renderDirectoratesByStatusChart(this.directorateData.totalActiveDirectorates, this.directorateData.totalInactiveDirectorates);
-        }, err => {
-          console.log(err);
-            this.checkIfServerDown.check(err.status)
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(directorateDataRes => {
+        this.directorateData = directorateDataRes;
+        this.renderDirectoratesByStatusChart(this.directorateData.totalActiveDirectorates, this.directorateData.totalInactiveDirectorates);
+      }, err => {
+        console.log(err);
+        this.checkIfServerDown.check(err.status);
 
-        });
+      });
 
     this.dataService.getContractsData()
       .takeUntil(this.unsubscribeAll)
@@ -68,7 +68,7 @@ export class DashboardComponent implements OnInit {
         this.renderContractsByFlagStatusChart(this.contractData.totalContractsWithoutFlagStatus, this.contractData.totalPendingContracts, this.contractData.totalCompletedContracts, this.contractData.totalRefusedContracts);
       }, err => {
         console.log(err);
-          this.checkIfServerDown.check(err.status)
+        this.checkIfServerDown.check(err.status);
       });
   }
 
@@ -95,13 +95,13 @@ export class DashboardComponent implements OnInit {
         name: 'Numri',
         color: '#17a2b8',
         data: [{
-            name: 'Pa drejtori',
-            y: totalUsersWithoutDirectorate,
-            color: '#17a2b8'
-          }, {
-            name: 'Me drejtori',
-            y: totalUsersWithDirectorate
-          }
+          name: 'Pa drejtori',
+          y: totalUsersWithoutDirectorate,
+          color: '#17a2b8'
+        }, {
+          name: 'Me drejtori',
+          y: totalUsersWithDirectorate
+        }
         ]
       }]
     });
@@ -163,14 +163,14 @@ export class DashboardComponent implements OnInit {
       series: [{
         name: 'Statusi',
         data: [{
-            name: 'Aktive',
-            y: totalActiveDirectorates,
-            color: '#353a40'
-          }, {
-            name: 'Jo Aktive',
-            y: totalInactiveDirectorates,
-            color: '#17a2b8'
-          }
+          name: 'Aktive',
+          y: totalActiveDirectorates,
+          color: '#353a40'
+        }, {
+          name: 'Jo Aktive',
+          y: totalInactiveDirectorates,
+          color: '#17a2b8'
+        }
         ]
       }]
     });
@@ -198,19 +198,19 @@ export class DashboardComponent implements OnInit {
       series: [{
         name: 'Statusi',
         data: [{
-            name: 'Pa status',
-            y: totalContractsWithoutFlagStatus,
-            color: '#17a2b8'
-          }, {
-            name: 'Pezull',
-            y: totalPendingContracts
-          }, {
-            name: 'Përfunduar me sukses',
-            y: totalCompletedContracts
-          }, {
-            name: 'E refuzuar',
-            y: totalRefusedContracts
-          }
+          name: 'Pa status',
+          y: totalContractsWithoutFlagStatus,
+          color: '#17a2b8'
+        }, {
+          name: 'Pezull',
+          y: totalPendingContracts
+        }, {
+          name: 'Përfunduar me sukses',
+          y: totalCompletedContracts
+        }, {
+          name: 'E refuzuar',
+          y: totalRefusedContracts
+        }
         ]
       }]
     });

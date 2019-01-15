@@ -36,9 +36,13 @@
         <td [ngClass]="getClassByValue(contract.predictedValue, contract.totalAmountOfContractsIncludingTaxes)">{{contract.differenceAmountBetweenPredictedAndTotal}}
           €
         </td>
-        <td>{{contract.publicationDateOfGivenContract == "-" ? contract.publicationDateOfGivenContract : contract.publicationDateOfGivenContract
+        <td>{{contract.publicationDateOfGivenContract === "-" ? contract.publicationDateOfGivenContract :
+          contract.publicationDateOfGivenContract
           | date: 'dd/MM/yyyy'}}</td>
-        <td>{{contract.signingDate == "Nuk ka të dhëna" ? contract.signingDate : contract.signingDate | date: 'dd/MM/yyyy'}}</td>
+        <td>{{contract.signingDate == "-" ? contract.signingDate : contract.signingDate
+          |
+          date:
+          'dd/MM/yyyy'}}</td>
       </tr>
     </tbody>
   </table>

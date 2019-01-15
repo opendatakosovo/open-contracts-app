@@ -18,7 +18,7 @@ export class ContractBySigningDatePublicationDateChartComponent implements OnIni
   year: string;
   lang: string;
   constructor(public dataService: DataService, public translate: TranslateService) {
-    this.year = '2018';
+    this.year = 'any';
     this.dataService.getContractYears(2017)
       .takeUntil(this.unsubscribeAll)
       .subscribe(res => {
@@ -85,12 +85,12 @@ export class ContractBySigningDatePublicationDateChartComponent implements OnIni
       publicationDatesOfGivenContracts: [],
       activityTitles: []
     };
-    for (const conctract of contracts) {
-      const signingDate = new Date(conctract.signingDate);
-      const publicationDateOfGivenContract = new Date(conctract.publicationDateOfGivenContract);
+    for (const contract of contracts) {
+      const signingDate = new Date(contract.signingDate);
+      const publicationDateOfGivenContract = new Date(contract.publicationDateOfGivenContract);
       dataToReturn.signingDates.push(Date.parse(signingDate.toDateString()));
       dataToReturn.publicationDatesOfGivenContracts.push(Date.parse(publicationDateOfGivenContract.toDateString()));
-      dataToReturn.activityTitles.push(conctract.activityTitle);
+      dataToReturn.activityTitles.push(contract.activityTitle);
     }
     return dataToReturn;
   }

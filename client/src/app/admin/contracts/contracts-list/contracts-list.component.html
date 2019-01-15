@@ -97,6 +97,14 @@
           </span>
         </div>
       </ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <p *ngIf="row.releases[0].tender.id == ''">
+          -
+        </p>
+        <p *ngIf="row.releases[0].tender.id != ''">
+          {{ row.releases[0].tender.id }}
+        </p>
+      </ng-template>
     </ngx-datatable-column>
     <ngx-datatable-column name="activity-title" prop="activityTitle">
       <ng-template let-column="column" ngx-datatable-header-template>
@@ -118,7 +126,7 @@
         </p>
       </ng-template>
     </ngx-datatable-column>
-    <ngx-datatable-column name="publication-date" prop="releases[0].tender.date">
+    <ngx-datatable-column name="publication-date" prop="publicationDate">
       <ng-template let-column="column" ngx-datatable-header-template>
         <span (click)="sortContracts('publicationDate')">
           <p class="column-header">Data e publikimit të njoftimit për kontratë</p>
@@ -270,11 +278,11 @@
         </div>
       </ng-template>
       <ng-template let-row="row" ngx-datatable-cell-template>
-        <p *ngIf="row.releases[0].contracts[0].period.startDat == null">
+        <p *ngIf="row.releases[0].contracts[0].period.startDate == null">
           -
         </p>
-        <p *ngIf="row.releases[0].contracts[0].period.startDat != null">
-          {{ row.releases[0].contracts[0].period.startDat | date: 'dd/MM/yyyy' }}
+        <p *ngIf="row.releases[0].contracts[0].period.startDate != null">
+          {{ row.releases[0].contracts[0].period.startDate | date: 'dd/MM/yyyy' }}
         </p>
       </ng-template>
     </ngx-datatable-column>
@@ -333,7 +341,7 @@
         <p *ngIf="row.releases[0].parties[1].name == null || row.releases[0].parties[1].name == ''">
           -
         </p>
-        <p *ngIf="row.releases[0].parties[1].name != null">
+        <p *ngIf="row.releases[0].parties[1].name != null && row.releases[0].parties[1].name != ''">
           {{ row.releases[0].parties[1].name }}
         </p>
       </ng-template>
@@ -350,13 +358,13 @@
         </div>
       </ng-template>
       <ng-template let-row="row" ngx-datatable-cell-template>
-        <p *ngIf="row.documents == null || row.documents.length === 0; else showDocs">
+        <p *ngIf="row.releases[0].tender.documents == null || row.releases[0].tender.documents.length === 0; else showDocs">
           -
         </p>
         <ng-template #showDocs>
           <p>
-            <span *ngFor="let document of row.documents">
-              <a class="view-icon" href="./documents/{{document}}" target="_blank">
+            <span *ngFor="let document of row.releases[0].tender.documents">
+              <a class="view-icon" href="./documents/{{document.title}}" target="_blank">
                 <i class="fa fa-file-text-o" style="margin-top: 1.5px; cursor: pointer; font-size: 20px" aria-hidden="true"
                   style="cursor: pointer;"></i>
               </a>

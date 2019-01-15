@@ -190,25 +190,25 @@
         <br>
         <div class="col-md-6">
           <label>Ankesat në autoritet</label>
-          <div *ngIf="contract.releases[0].tender.hasEnquiries == '' || contract.releases[0].tender.hasEnquiries == 'n/a' || contract.releases[0].tender.hasEnquiries == null">
+          <div *ngIf="contract.releases[0].tender.hasEnquiries != false && contract.releases[0].tender.hasEnquiries != true">
             <p>-</p>
           </div>
-          <div *ngIf="contract.releases[0].tender.hasEnquiries == 'false'">
+          <div *ngIf="contract.releases[0].tender.hasEnquiries == false">
             <p>Negative</p>
           </div>
-          <div *ngIf="contract.releases[0].tender.hasEnquiries == 'true'">
+          <div *ngIf="contract.releases[0].tender.hasEnquiries == true">
             <p>Pozitive</p>
           </div>
         </div>
         <div class="col-md-6">
           <label>Ankesat në OSHP</label>
-          <div *ngIf="contract.releases[0].tender.hasComplaints == '' || contract.releases[0].tender.hasComplaints == 'n/a' || contract.releases[0].tender.hasComplaints == null">
+          <div *ngIf="contract.releases[0].tender.hasComplaints != true && contract.releases[0].tender.hasComplaints != false">
             <p>-</p>
           </div>
-          <div *ngIf="contract.releases[0].tender.hasComplaints == 'false'">
+          <div *ngIf="contract.releases[0].tender.hasComplaints === false">
             <p>Negative</p>
           </div>
-          <div *ngIf="contract.releases[0].tender.hasComplaints == 'true'">
+          <div *ngIf="contract.releases[0].tender.hasComplaints === true">
             <p>Pozitive</p>
           </div>
         </div>
@@ -351,13 +351,13 @@
         </div>
         <div class="col-md-6">
           <label>OE</label>
-          <div *ngIf="contract.releases[0].parties[0].details.local == '' || contract.releases[0].parties[0].details.local == 'n/a'">
+          <div *ngIf="contract.releases[0].parties[0].details.local != true && contract.releases[0].parties[0].details.local != false">
             <p>-</p>
           </div>
-          <div *ngIf="contract.releases[0].parties[0].details.local == 'true'">
+          <div *ngIf="contract.releases[0].parties[0].details.local == true">
             <p>Vendore</p>
           </div>
-          <div *ngIf="contract.company.type == 'false'">
+          <div *ngIf="contract.releases[0].parties[0].details.local == false">
             <p>Jo vendore</p>
           </div>
         </div>
@@ -366,13 +366,13 @@
         <br>
         <div class="col-md-6">
           <label>Afati kohor për pranimin e tenderëve</label>
-          <div *ngIf="contract.releases[0].tender.procedure.isAcceleratedProcedure == '' || contract.releases[0].tender.procedure.isAcceleratedProcedure == 'n/a'">
+          <div *ngIf="contract.releases[0].tender.procedure.isAcceleratedProcedure !== true && contract.releases[0].tender.procedure.isAcceleratedProcedure !== false">
             <p>-</p>
           </div>
-          <div *ngIf="contract.releases[0].tender.procedure.isAcceleratedProcedure == 'true'">
+          <div *ngIf="contract.releases[0].tender.procedure.isAcceleratedProcedure === true">
             <p>Afati kohor normal</p>
           </div>
-          <div *ngIf="contract.releases[0].tender.procedure.isAcceleratedProcedure == 'false'">
+          <div *ngIf="contract.releases[0].tender.procedure.isAcceleratedProcedure === false">
             <p>Afati kohor i shkurtuar</p>
           </div>
         </div>
@@ -382,7 +382,7 @@
             <p>-</p>
           </div>
           <div *ngIf="contract.releases[0].tender.awardCriteria != '' && contract.releases[0].tender.awardCriteria != 'n/a'">
-            <p>{{ contract.releases[0].tender.awardCriteria }}</p>
+            <p>{{ criteria }}</p>
           </div>
         </div>
       </div>
@@ -390,28 +390,28 @@
         <br>
         <div class="col-md-6">
           <label>Re-tenderimi</label>
-          <div *ngIf="retender == '' || retender == 'n/a'">
+          <div *ngIf="retender === '' || retender === 'n/a'">
             <p>-</p>
           </div>
-          <div *ngIf="retender != '' && retender != 'n/a'">
+          <div *ngIf="retender !== '' && retender !== 'n/a'">
             <p>{{ retender }}</p>
           </div>
         </div>
         <div class="col-md-6">
           <label>Statusi</label>
-          <div *ngIf="contract.releases[0].tender.status == ''">
+          <div *ngIf="!tenderStatus">
             <p>-</p>
           </div>
-          <div *ngIf="contract.releases[0].tender.status == '1'">
+          <div *ngIf="tenderStatus == 'published'">
             <p>Publikuar</p>
           </div>
-          <div *ngIf="contract.releases[0].tender.status == '2'">
+          <div *ngIf="tenderStatus == 'evaluation'">
             <p>Vlerësim</p>
           </div>
-          <div *ngIf="contract.releases[0].tender.status == '3'">
+          <div *ngIf="tenderStatus == 'cancelled'">
             <p>Anuluar</p>
           </div>
-          <div *ngIf="contract.releases[0].tender.status == '4'">
+          <div *ngIf="tenderStatus == 'contracted'">
             <p>Kontraktuar</p>
           </div>
         </div>
@@ -496,10 +496,10 @@
         <br>
         <div class="col-12">
           <label>Vlera totale e kontratës, duke përfshirë të gjitha anekset dhe të gjitha taksat etj.</label>
-          <div *ngIf="contract.releases[0].contracts[0].value.amount == 0 || contract.releases[0].contracts[0].value.amount == null || contract.releases[0].contracts[0].value.amount == NaN">
+          <div *ngIf="contract.releases[0].contracts[0].value.amount == 0 || contract.releases[0].contracts[0].value.amount == null">
             <p class="highlighted-values">-</p>
           </div>
-          <div *ngIf="contract.releases[0].contracts[0].value.amount != 0 && contract.releases[0].contracts[0].value.amount != null && contract.releases[0].contracts[0].value.amount != NaN">
+          <div *ngIf="contract.releases[0].contracts[0].value.amount != 0 && contract.releases[0].contracts[0].value.amount != null">
             <p class="highlighted-values">{{ contract.releases[0].contracts[0].value.amount }} &euro;</p>
           </div>
         </div>
@@ -527,7 +527,7 @@
       </div>
       <hr>
       <h4 class="title-situations">Situacionet</h4>
-      <div *ngIf="contract.releases[0].contracts[0].implementation.transactions > 1">
+      <div *ngIf="contract.releases[0].contracts[0].implementation.transactions.length > 0">
         <div *ngFor="let installment of contract.releases[0].contracts[0].implementation.transactions; let i = index"
           class="row">
           <br>
@@ -599,10 +599,10 @@
         </div>
         <div class="col-md-6">
           <label>Çmimi total i paguar për kontratën</label>
-          <div *ngIf="!totalPayedPriceForContract || totalPayedPriceForContract == 'NaN'">
+          <div *ngIf="!totalPayedPriceForContract">
             <p class="highlighted-values">-</p>
           </div>
-          <div *ngIf="totalPayedPriceForContract != 'NaN'">
+          <div *ngIf="totalPayedPriceForContract">
             <p class="highlighted-values">{{ totalPayedPriceForContract}} &euro;</p>
           </div>
         </div>
@@ -661,11 +661,11 @@
         <br>
         <div class="col-md-12">
           <label>Dokumentet</label>
-          <div *ngIf="contract.documents == null || contract.documents.length === 0; else showDocs">
+          <div *ngIf="contract.releases[0].tender.documents == null || contract.releases[0].tender.documents.length === 0; else showDocs">
             <p>-</p>
           </div>
           <ng-template #showDocs>
-            <div *ngFor="let document of contract.documents">
+            <div *ngFor="let document of contract.releases[0].tender.documents">
               <a href="/documents/{{document}}" target="_blank">{{ document }}</a>
             </div>
           </ng-template>

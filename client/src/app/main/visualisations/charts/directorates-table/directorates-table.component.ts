@@ -36,7 +36,7 @@ export class DirectoratesTableComponent implements OnInit {
   }
 
   getClassByValue(predictedValue, totalAmount) {
-    if (Number(predictedValue.replace(/[^0-9\.-]+/g, '')) > Number(totalAmount.replace(/[^0-9\.-]+/g, '')) || Number(predictedValue.replace(/[^0-9\.-]+/g, '')) === Number(totalAmount.replace(/[^0-9\.-]+/g, ''))) {
+    if (predictedValue > totalAmount || predictedValue === totalAmount) {
       return 'inactive';
     } else {
       return 'active';

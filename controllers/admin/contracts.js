@@ -56,14 +56,14 @@ router.post("/latest-contracts/page/ascending", (req, res) => {
                 const returnData = [];
                 for (row of data) {
                     row = row.toObject();
-                    row.totalAmountOfContractsIncludingTaxes = Number(row.contract.totalAmountOfContractsIncludingTaxes.replace(/[^0-9\.-]+/g, ""));
-                    row.predictedValue = Number(row.contract.predictedValue.replace(/[^0-9\.-]+/g, ""));
+                    row.totalAmountOfContractsIncludingTaxes = Number(row.releases[0].tender.value.amount.replace(/[^0-9\.-]+/g, ""));
+                    row.predictedValue = Number(row.releases[0].planning.budget.amount.amount.replace(/[^0-9\.-]+/g, ""));
                     row.companyName = row.company.slug;
-                    row.publicationDate = row.contract.publicationDate;
-                    row.publicationDateOfGivenContract = row.contract.publicationDateOfGivenContract;
-                    row.signingDate = row.contract.signingDate;
-                    row.implementationDeadline = row.contract.implementationDeadline;
-                    row.activityTitle1 = row.activityTitle.trim();
+                    row.publicationDate = row.releases[0].tender.date;
+                    row.publicationDateOfGivenContract = row.releases[0].awards[0].date;
+                    row.signingDate = row.releases[0].contracts[0].period.startDate;
+                    row.implementationDeadline = row.releases[0].contracts[0].period.durationInDays;
+                    row.activityTitle1 = row.releases[0].tender.title.trim();
                     returnData.push(row);
                 }
                 returnData.sort(compareValues([page.column], 'asc'));
@@ -116,14 +116,14 @@ router.post("/latest-contracts/page/descending", (req, res) => {
                 const returnData = [];
                 for (row of data) {
                     row = row.toObject();
-                    row.totalAmountOfContractsIncludingTaxes = Number(row.contract.totalAmountOfContractsIncludingTaxes.replace(/[^0-9\.-]+/g, ""));
-                    row.predictedValue = Number(row.contract.predictedValue.replace(/[^0-9\.-]+/g, ""));
+                    row.totalAmountOfContractsIncludingTaxes = Number(row.releases[0].tender.value.amount.replace(/[^0-9\.-]+/g, ""));
+                    row.predictedValue = Number(row.releases[0].planning.budget.amount.amount.replace(/[^0-9\.-]+/g, ""));
                     row.companyName = row.company.slug;
-                    row.publicationDate = row.contract.publicationDate;
-                    row.publicationDateOfGivenContract = row.contract.publicationDateOfGivenContract;
-                    row.signingDate = row.contract.signingDate;
-                    row.implementationDeadline = row.contract.implementationDeadline;
-                    row.activityTitle1 = row.activityTitle.trim();
+                    row.publicationDate = row.releases[0].tender.date;
+                    row.publicationDateOfGivenContract = row.releases[0].awards[0].date;
+                    row.signingDate = row.releases[0].contracts[0].period.startDate;
+                    row.implementationDeadline = row.releases[0].contracts[0].period.durationInDays;
+                    row.activityTitle1 = row.releases[0].tender.title.trim();
                     returnData.push(row);
                 }
                 returnData.sort(compareValues([page.column], 'desc'));
@@ -212,14 +212,15 @@ router.post("/page/ascending", passport.authenticate('jwt', { session: false }),
                     const returnData = [];
                     for (row of data) {
                         row = row.toObject();
-                        row.totalAmountOfContractsIncludingTaxes = Number(row.contract.totalAmountOfContractsIncludingTaxes.replace(/[^0-9\.-]+/g, ""));
-                        row.predictedValue = Number(row.contract.predictedValue.replace(/[^0-9\.-]+/g, ""));
+                        row.totalAmountOfContractsIncludingTaxes = row.releases[0].tender.value.amount;
+                        row.predictedValue = row.releases[0].planning.budget.amount.amount;
                         row.companyName = row.company.slug;
-                        row.publicationDate = row.contract.publicationDate;
-                        row.publicationDateOfGivenContract = row.contract.publicationDateOfGivenContract;
-                        row.signingDate = row.contract.signingDate;
-                        row.implementationDeadline = row.contract.implementationDeadline;
-                        row.activityTitle1 = row.activityTitle.trim();
+                        row.publicationDate = row.releases[0].tender.date;
+                        row.publicationDateOfGivenContract = row.releases[0].awards[0].date;
+                        row.signingDate = row.releases[0].contracts[0].period.startDate;
+                        row.implementationDeadline = row.releases[0].contracts[0].period.durationInDays;
+                        row.activityTitle1 = row.releases[0].tender.title.trim();
+                        row.procurementNo = Number(row.releases[0].tender.id);
                         returnData.push(row);
                     }
                     returnData.sort(compareValues([page.column], 'asc'));
@@ -245,14 +246,15 @@ router.post("/page/ascending", passport.authenticate('jwt', { session: false }),
                     const returnData = [];
                     for (row of data) {
                         row = row.toObject();
-                        row.totalAmountOfContractsIncludingTaxes = Number(row.contract.totalAmountOfContractsIncludingTaxes.replace(/[^0-9\.-]+/g, ""));
-                        row.predictedValue = Number(row.contract.predictedValue.replace(/[^0-9\.-]+/g, ""));
+                        row.totalAmountOfContractsIncludingTaxes = row.releases[0].tender.value.amount;
+                        row.predictedValue = row.releases[0].planning.budget.amount.amount;
                         row.companyName = row.company.slug;
-                        row.publicationDate = row.contract.publicationDate;
-                        row.publicationDateOfGivenContract = row.contract.publicationDateOfGivenContract;
-                        row.signingDate = row.contract.signingDate;
-                        row.implementationDeadline = row.contract.implementationDeadline;
-                        row.activityTitle1 = row.activityTitle.trim();
+                        row.publicationDate = row.releases[0].tender.date;
+                        row.publicationDateOfGivenContract = row.releases[0].awards[0].date;
+                        row.signingDate = row.releases[0].contracts[0].period.startDate;
+                        row.implementationDeadline = row.releases[0].contracts[0].period.durationInDays;
+                        row.activityTitle1 = row.releases[0].tender.title.trim();
+                        row.procurementNo = Number(row.releases[0].tender.id);
                         returnData.push(row);
                     }
                     returnData.sort(compareValues([page.column], 'asc'));
@@ -307,14 +309,15 @@ router.post("/page/descending", passport.authenticate('jwt', { session: false })
                     const returnData = [];
                     for (row of data) {
                         row = row.toObject();
-                        row.totalAmountOfContractsIncludingTaxes = Number(row.contract.totalAmountOfContractsIncludingTaxes.replace(/[^0-9\.-]+/g, ""));
-                        row.predictedValue = Number(row.contract.predictedValue.replace(/[^0-9\.-]+/g, ""));
-                        row.companyName = row.company.name;
-                        row.publicationDate = row.contract.publicationDate;
-                        row.publicationDateOfGivenContract = row.contract.publicationDateOfGivenContract;
-                        row.signingDate = row.contract.signingDate;
-                        row.implementationDeadline = row.contract.implementationDeadline;
-                        row.activityTitle1 = row.activityTitle.trim();
+                        row.totalAmountOfContractsIncludingTaxes = row.releases[0].tender.value.amount;
+                        row.predictedValue = row.releases[0].planning.budget.amount.amount;
+                        row.companyName = row.company.slug;
+                        row.publicationDate = row.releases[0].tender.date;
+                        row.publicationDateOfGivenContract = row.releases[0].awards[0].date;
+                        row.signingDate = row.releases[0].contracts[0].period.startDate;
+                        row.implementationDeadline = row.releases[0].contracts[0].period.durationInDays;
+                        row.activityTitle1 = row.releases[0].tender.title.trim();
+                        row.procurementNo = Number(row.releases[0].tender.id);
                         returnData.push(row);
                     }
                     returnData.sort(compareValues([page.column], 'desc'));
@@ -340,14 +343,15 @@ router.post("/page/descending", passport.authenticate('jwt', { session: false })
                     const returnData = [];
                     for (row of data) {
                         row = row.toObject();
-                        row.totalAmountOfContractsIncludingTaxes = Number(row.contract.totalAmountOfContractsIncludingTaxes.replace(/[^0-9\.-]+/g, ""));
-                        row.predictedValue = Number(row.contract.predictedValue.replace(/[^0-9\.-]+/g, ""));
-                        row.companyName = row.company.name;
-                        row.publicationDate = row.contract.publicationDate;
-                        row.publicationDateOfGivenContract = row.contract.publicationDateOfGivenContract;
-                        row.signingDate = row.contract.signingDate;
-                        row.implementationDeadline = row.contract.implementationDeadline;
-                        row.activityTitle1 = row.activityTitle.trim();
+                        row.totalAmountOfContractsIncludingTaxes = row.releases[0].tender.value.amount;
+                        row.predictedValue = row.releases[0].planning.budget.amount.amount;
+                        row.companyName = row.company.slug;
+                        row.publicationDate = row.releases[0].tender.date;
+                        row.publicationDateOfGivenContract = row.releases[0].awards[0].date;
+                        row.signingDate = row.releases[0].contracts[0].period.startDate;
+                        row.implementationDeadline = row.releases[0].contracts[0].period.durationInDays;
+                        row.activityTitle1 = row.releases[0].tender.title.trim();
+                        row.procurementNo = Number(row.releases[0].tender.id);
                         returnData.push(row);
                     }
                     returnData.sort(compareValues([page.column], 'desc'));
@@ -1309,7 +1313,6 @@ router.post('/filter', (req, res) => {
         directorateName = null;
     }
     if (string !== '' && directorate === '' & date === null && value === '' && procurementNo === '') {
-        console.log(year);
         Contract.filterStringFieldsInContractsCount(string, year, role, directorateName)
             .then(totalElements => {
                 totalElements.forEach(element => {

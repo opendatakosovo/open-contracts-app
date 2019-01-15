@@ -362,22 +362,26 @@ module.exports.countContracts = (role, directorateName) => {
 // Data Visualizations
 
 module.exports.getContractsByYearWithPublicationDateAndSigningDate = (year) => {
-
     return Contract.aggregate([
         {
             $match: year == "any" ? {
-                "contract.signingDate": { $ne: null },
-                "contract.publicationDateOfGivenContract": { $ne: null }
+                "releases.contracts.period.startDate": { $ne: null },
+                "releases.awards.date": { $ne: null }
             } : {
                     $or: [{
                         year: parseInt(year)
                     }],
-                    "contract.signingDate": { $ne: null },
-                    "contract.publicationDateOfGivenContract": { $ne: null },
+                    "releases.contracts.period.startDate": { $ne: null },
+                    "releases.awards.date": { $ne: null },
                 }
         },
-        { $group: { _id: { publicationDateOfGivenContract: "$contract.publicationDateOfGivenContract", signingDate: "$contract.signingDate", activityTitle: '$activityTitle' }, count: { $sum: 1 } } },
-        { $project: { _id: 0, publicationDateOfGivenContract: "$_id.publicationDateOfGivenContract", signingDate: "$_id.signingDate", totalContracts: "$count", activityTitle: '$_id.activityTitle' } }
+        { $group: { _id: { publicationDateOfGivenContract: "$releases.awards.date", signingDate: "$releases.contracts.period.startDate", activityTitle: '$releases.tender.title' }, count: { $sum: 1 } } },
+        { $project: { _id: 0, publicationDateOfGivenContract: "$_id.publicationDateOfGivenContract", signingDate: "$_id.signingDate", totalContracts: "$count", activityTitle: '$_id.activityTitle' } },
+        { $unwind: '$publicationDateOfGivenContract' },
+        { $unwind: '$signingDate' },
+        { $unwind: '$publicationDateOfGivenContract' },
+        { $unwind: '$signingDate' },
+        { $unwind: '$activityTitle' }
     ]);
 }
 
@@ -393,25 +397,28 @@ module.exports.getContractsByYearWithPredictedValueAndTotalAmount = (year) => {
     return Contract.aggregate([
         {
             $match: year == "any" ? {
-                'contract.predictedValue': { $nin: ["", null] },
-                'contract.totalAmountOfContractsIncludingTaxes': { $nin: ["", null] },
+                'releases.planning.budget.amount.amount': { $ne: '' },
+                'releases.tender.value.amount': { $ne: '' },
             } : {
                     year: parseInt(year),
-                    'contract.predictedValue': { $nin: ["", null] },
-                    'contract.totalAmountOfContractsIncludingTaxes': { $nin: ["", null] },
+                    'releases.planning.budget.amount.amount': { $ne: '' },
+                    'releases.tender.value.amount': { $ne: '' },
                 }
         },
-        { $group: { _id: { id: "$_id", activityTitle: "$activityTitle", predictedValue: "$contract.predictedValue", totalAmountOfContractsIncludingTaxes: "$contract.totalAmountOfContractsIncludingTaxes" } } },
+        { $group: { _id: { id: "$_id", activityTitle: "$releases.tender.title", predictedValue: "$releases.planning.budget.amount.amount", totalAmountOfContractsIncludingTaxes: "$releases.tender.value.amount" } } },
         { $project: { _id: 0, id: "$_id.id", activityTitle: "$_id.activityTitle", predictedValue: "$_id.predictedValue", totalAmountOfContractsIncludingTaxes: "$_id.totalAmountOfContractsIncludingTaxes" } },
+        { $unwind: '$activityTitle' },
+        { $unwind: '$predictedValue' },
+        { $unwind: '$totalAmountOfContractsIncludingTaxes' },
         { $sort: { predictedValue: -1 } }
     ]);
 }
 
 module.exports.getTopTenContractors = () => {
     return Contract.aggregate([
-        { $match: { "company.name": { "$ne": "" } } },
+        { $match: { "releases.tender.tenderers.name": { "$ne": "" } } },
         {
-            $group: { _id: "$company.name", count: { $sum: 1 } }
+            $group: { _id: "$releases.tender.tenderers.name", count: { $sum: 1 } }
         },
         { $sort: { count: -1 } },
         { $limit: 10 },
@@ -420,28 +427,28 @@ module.exports.getTopTenContractors = () => {
 }
 
 module.exports.getContractsByContractorCompany = companyName => {
-    return Contract.find({ "company.name": companyName });
+    return Contract.find({ "releases.tender.tenderers.name": companyName });
 }
 
 
 module.exports.getContractsMostByTotalAmountOfContract = year => {
     return Contract.aggregate([
         {
-            $match: year == "any" ? { "contract.totalAmountOfContractsIncludingTaxes": { $ne: '' } } : {
+            $match: year == "any" ? { "releases.tender.value.amount": { $ne: 0 } } : {
                 year: parseInt(year),
-                "contract.totalAmountOfContractsIncludingTaxes": { $ne: '' },
+                "releases.tender.value.amount": { $ne: 0 },
             }
         },
         {
             $group: {
                 _id: {
-                    procurementNo: '$procurementNo',
-                    activityTitle: '$activityTitle',
-                    companyName: '$company.name',
-                    publicationDateOfGivenContract: "$contract.publicationDateOfGivenContract",
-                    signingDate: "$contract.signingDate",
-                    totalAmountOfContractsIncludingTaxes: "$contract.totalAmountOfContractsIncludingTaxes",
-                    predictedValue: "$contract.predictedValue"
+                    procurementNo: '$releases.tender.id',
+                    activityTitle: '$releases.tender.title',
+                    companyName: '$releases.tender.tenderers.name',
+                    publicationDateOfGivenContract: "$releases.awards.date",
+                    signingDate: "$releases.contracts.period.startDate",
+                    totalAmountOfContractsIncludingTaxes: "$releases.tender.value.amount",
+                    predictedValue: "$releases.planning.budget.amount.amount"
                 }
             }
         },
@@ -455,7 +462,16 @@ module.exports.getContractsMostByTotalAmountOfContract = year => {
                 publicationDateOfGivenContract: "$_id.publicationDateOfGivenContract",
                 signingDate: "$_id.signingDate"
             }
-        }
+        },
+        { $unwind: '$activityTitle' },
+        { $unwind: '$totalAmountOfContractsIncludingTaxes' },
+        { $unwind: '$predictedValue' },
+        { $unwind: '$procurementNo' },
+        { $unwind: '$companyName' },
+        { $unwind: '$publicationDateOfGivenContract' },
+        { $unwind: '$publicationDateOfGivenContract' },
+        { $unwind: '$signingDate' },
+        { $unwind: '$signingDate' }
     ]);
 }
 
@@ -465,7 +481,7 @@ module.exports.getContractsByYears = year => {
 
 module.exports.getDirectoratesInContracts = () => {
     return Contract.aggregate([
-        { $group: { _id: "$directorates", count: { $sum: 1 } } },
+        { $group: { _id: "$releases.buyer.name", count: { $sum: 1 } } },
         { $sort: { _id: 1 } },
         { $project: { _id: 0, name: "$_id", y: "$count" } }
     ]);
@@ -491,6 +507,7 @@ module.exports.getContractsCountByProcurementCategoryAndYear = (y, c) => {
 
     agg.push({ $group: { _id: `$${c}`, count: { $sum: 1 } } });
     agg.push({ $project: { _id: 0, "name": "$_id", "y": "$count" } });
+    agg.push({ $unwind: '$name' });
 
 
     return Contract.aggregate(agg);
@@ -499,7 +516,7 @@ module.exports.getContractsCountByProcurementCategoryAndYear = (y, c) => {
 
 /** Dashboard Data **/
 // Get total contracts by flag status
-module.exports.getTotalContractsbyFlagStatus = flagStatus => Contract.find({ flagStatus: flagStatus }).count();
+module.exports.getTotalContractsbyFlagStatus = flagStatus => Contract.find({ "releases.contracts.status": flagStatus }).count();
 
 // Get total contracts
 module.exports.getTotalContracts = () => Contract.find().count();

@@ -45,7 +45,7 @@ export class ContractsCountByProcurementValueAndYearComponent implements OnInit 
         this.lang = langObj.lang;
         this.render();
       });
-      this.render();
+    this.render();
   }
   onChange(event) {
     this.year = event.target.value;
@@ -86,6 +86,27 @@ export class ContractsCountByProcurementValueAndYearComponent implements OnInit 
             hasUndefinedData = true;
             undefinedObj.y += row.y;
             toBeRemoved.push(i);
+          }
+          if (row.name === 'openProcedure') {
+            row.name = 'Procedura e hapur';
+          }
+          if (row.name === 'limitedProcedure') {
+            row.name = 'Procedura e kufizuar';
+          }
+          if (row.name === 'designContest') {
+            row.name = 'Konkurs projektimi';
+          }
+          if (row.name === 'negociatedProcedureAfterAwardNotice') {
+            row.name = 'Procedura e negociuar pas publikimit të njoftimit të kontratës';
+          }
+          if (row.name === 'negociatedProcedureWithoutAwardNotice') {
+            row.name = 'Procedura e negociuar pa publikim të njoftimit të kontratës';
+          }
+          if (row.name === 'quotationValueProcedure') {
+            row.name = 'Procedura e kuotimit të Çmimeve';
+          }
+          if (row.name === 'minimalValueProcedure') {
+            row.name = 'Procedura e vlerës minimale';
           }
         });
 

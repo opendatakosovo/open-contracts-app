@@ -2,9 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Chart } from 'angular-highcharts';
 import { DataService } from '../../../../service/data.service';
-import { DatatableComponent } from '@swimlane/ngx-datatable/src/components/datatable.component';
 import { TranslateService } from '@ngx-translate/core';
-import { lang } from 'moment';
 declare var require: any;
 const translateVis = require('../../../../utils/visualisationTranslation.json');
 @Component({
@@ -84,6 +82,27 @@ export class ContractsCountByProcurementTypeAndYearComponent implements OnInit {
             hasUndefinedData = true;
             undefinedObj.y += row.y;
             toBeRemoved.push(i);
+          }
+          if (row.name === 'services') {
+            row.name = 'Shërbime';
+          }
+          if (row.name === 'goods') {
+            row.name = 'Furnizim';
+          }
+          if (row.name === 'consultingServices') {
+            row.name = 'Shërbime këshillimi';
+          }
+          if (row.name === 'designContest') {
+            row.name = 'Konkurs projektimi';
+          }
+          if (row.name === 'works') {
+            row.name = 'Punë';
+          }
+          if (row.name === 'concessionWorks') {
+            row.name = 'Punë me koncesion';
+          }
+          if (row.name === 'immovableProperty') {
+            row.name = 'Pronë e palujtshme';
           }
         });
 

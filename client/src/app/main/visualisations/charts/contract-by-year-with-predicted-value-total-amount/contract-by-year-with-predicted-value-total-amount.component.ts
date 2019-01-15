@@ -97,8 +97,8 @@ export class ContractByYearWithPredictedValueTotalAmountComponent implements OnI
     };
     for (const contract of contracts) {
       dataToReturn.activityTitles.push(contract.activityTitle);
-      dataToReturn.predictedValues.push(parseFloat(contract.predictedValue.replace(/,/g, '')));
-      dataToReturn.totalAmountValues.push(parseFloat(contract.totalAmountOfContractsIncludingTaxes.replace(/,/g, '')));
+      dataToReturn.predictedValues.push(parseFloat(contract.predictedValue));
+      dataToReturn.totalAmountValues.push(parseFloat(contract.totalAmountOfContractsIncludingTaxes));
     }
     return dataToReturn;
   }

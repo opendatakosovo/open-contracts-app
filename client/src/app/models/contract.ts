@@ -301,7 +301,6 @@ export class Contract {
         implementationDeadlineSlug?: String,
     };
     year?: Number;
-    documents: String[];
 
 
     constructor() {
@@ -588,7 +587,6 @@ export class Contract {
             totalAmountOfContractsIncludingTaxesSlug: ''
         };
         this.year = 0;
-        this.documents = [];
     }
 
 }

@@ -81,6 +81,18 @@ export class ContractsCountByProcurementProcedureAndYearComponent implements OnI
             undefinedObj.y += row.y;
             toBeRemoved.push(i);
           }
+          if (row.name === 'bigValue') {
+            row.name = 'Vlerë e madhe';
+          }
+          if (row.name === 'mediumValue') {
+            row.name = 'Vlerë e mesme';
+          }
+          if (row.name === 'smallValue') {
+            row.name = 'Vlerë e vogël';
+          }
+          if (row.name === 'minimalValue') {
+            row.name = 'Vlerë minimale';
+          }
         });
 
         if (hasUndefinedData) {
