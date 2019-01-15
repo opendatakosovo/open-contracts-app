@@ -134,9 +134,8 @@
         <div class="row">
           <div class="col-md-6 form-group">
             <label for="initiationDate">Data e inicimit të aktivitetit të prokurimit (data e pranimit të kërkesës)</label>
-            <input [(bsValue)]="contract.releases[0].planning.milestones[0].dateMet" bsDatepicker placeholder="Zgjedhni datën"
-              [bsConfig]="bsConfig" class="form-control" type="text" name="initiationDate" id="initiationDate"
-              formControlName="initiationDate" [(ngModel)]="contract.releases[0].planning.milestones[0].dateMet">
+            <input [(bsValue)]="initiationDate" bsDatepicker placeholder="Zgjedhni datën" [bsConfig]="bsConfig" class="form-control"
+              type="text" name="initiationDate" id="initiationDate" formControlName="initiationDate" [(ngModel)]="initiationDate">
           </div>
           <div class="col-md-6 form-group">
             <label>Data e aprovimit të deklaratës së nevojave dhe disponueshmërisë së mjeteve</label>

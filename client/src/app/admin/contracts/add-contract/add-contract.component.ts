@@ -50,6 +50,7 @@ export class AddContractComponent implements OnInit {
   payerId: string;
   tenderStatus: string;
   documents: FormArray;
+  initiationDate: Date;
 
   constructor(public contractsService: ContractsService, public directorateService: DirectorateService, private _fb: FormBuilder, private router: Router, public datasetService: DatasetService) {
     this.directorates = [];
@@ -421,12 +422,15 @@ export class AddContractComponent implements OnInit {
       this.contract.releases[0].planning.documents[0].documentType = 'procurementPlan';
     }
     // Push planning milestones
-    if (this.contract.releases[0].planning.milestones[0].dateMet !== null) {
-      this.contract.releases[0].planning.milestones[0].id = this.milestoneId('initiationDate');
-      this.contract.releases[0].planning.milestones[0].title = 'Data e inicimit të aktivitetit të prokurimit (data e pranimit të kërkesës)';
-      this.contract.releases[0].planning.milestones[0].type = 'preProcurement';
-      this.contract.releases[0].planning.milestones[0].code = 'initiationDate';
-      this.contract.releases[0].planning.milestones[0].status = 'met';
+    if (this.initiationDate !== null) {
+      this.contract.releases[0].planning.milestones.push({
+        id: this.milestoneId('initiationDate'),
+        title: 'Data e inicimit të aktivitetit të prokurimit (data e pranimit të kërkesës)',
+        type: 'preProcurement',
+        code: 'initiationDate',
+        dateMet: this.initiationDate,
+        status: 'met'
+      });
     }
     if (this.contract.releases[0].planning.milestones[1].dateMet !== null) {
       this.contract.releases[0].planning.milestones[1].id = this.milestoneId('approvalDateOfFunds');

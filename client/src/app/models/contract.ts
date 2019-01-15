@@ -1,6 +1,7 @@
 import { Annex } from './annex';
 import { Installment } from './installment';
 import { Document } from './document';
+import { Milestone } from './milestone';
 export class Contract {
     _id?: String;
     uri?: String;
@@ -96,40 +97,7 @@ export class Contract {
                         documentType?: String
                     }
                 ],
-                milestones?: [
-                    {
-                        id?: String,
-                        title?: String,
-                        type?: String,
-                        code?: String,
-                        dateMet?: Date,
-                        status?: String
-                    },
-                    {
-                        id?: String,
-                        title?: String,
-                        type?: String,
-                        code?: String,
-                        dateMet?: Date,
-                        status?: String
-                    },
-                    {
-                        id?: String,
-                        title?: String,
-                        type?: String,
-                        code?: String,
-                        dateMet?: Date,
-                        status?: String
-                    },
-                    {
-                        id?: String,
-                        title?: String,
-                        type?: String,
-                        code?: String,
-                        dateMet?: Date,
-                        status?: String
-                    }
-                ]
+                milestones?: Milestone[]
             },
             tender?: {
                 id?: String,
@@ -178,24 +146,7 @@ export class Contract {
                 },
                 awardCriteria?: String,
                 documents?: Document[],
-                milestones?: [
-                    {
-                        id?: String,
-                        title?: String,
-                        type?: String,
-                        code?: String,
-                        dateMet?: Date,
-                        status?: String
-                    },
-                    {
-                        id?: String,
-                        title?: String,
-                        type?: String,
-                        code?: String,
-                        dateMet?: Date,
-                        status?: String
-                    }
-                ],
+                milestones?: Milestone[],
                 estimatedSizeOfProcurementValue?: {
                     estimatedValue?: String
                 },
@@ -388,40 +339,7 @@ export class Contract {
                         documentType: ''
                     }
                 ],
-                milestones: [
-                    {
-                        id: '',
-                        title: '',
-                        type: '',
-                        code: '',
-                        dateMet: null,
-                        status: ''
-                    },
-                    {
-                        id: '',
-                        title: '',
-                        type: '',
-                        code: '',
-                        dateMet: null,
-                        status: ''
-                    },
-                    {
-                        id: '',
-                        title: '',
-                        type: '',
-                        code: '',
-                        dateMet: null,
-                        status: ''
-                    },
-                    {
-                        id: '',
-                        title: '',
-                        type: '',
-                        code: '',
-                        dateMet: null,
-                        status: ''
-                    }
-                ]
+                milestones: []
             },
             tender: {
                 id: '',
@@ -467,24 +385,7 @@ export class Contract {
                     durationInDays: ''
                 },
                 documents: [],
-                milestones: [
-                    {
-                        id: '',
-                        title: '',
-                        type: '',
-                        code: '',
-                        dateMet: null,
-                        status: ''
-                    },
-                    {
-                        id: '',
-                        title: '',
-                        type: '',
-                        code: '',
-                        dateMet: null,
-                        status: ''
-                    }
-                ],
+                milestones: [],
                 estimatedSizeOfProcurementValue: {
                     estimatedValue: ''
                 },

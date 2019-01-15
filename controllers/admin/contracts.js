@@ -864,8 +864,8 @@ router.put('/update-all', (req, res) => {
                 return documents;
             }
             let tenderDocuments = () => {
-                if (row.contract.documents.length > 0) {
-                    for (document of row.contract.documents) {
+                if (row.documents.length > 0) {
+                    for (document of row.documents) {
                         documents.push({
                             "id": documentId('tenderNotice'),
                             "documentType": "tenderNotice",
