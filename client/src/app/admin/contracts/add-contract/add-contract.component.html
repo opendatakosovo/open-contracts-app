@@ -79,7 +79,7 @@
             <label for="fppClassification">Klasifikimi (2 shifrat e para të FPP)</label>
             <input type="number" name="fppClassification" id="fppClassification" class="form-control" formControlName="fppClassification"
               [ngClass]="{'errInput': !form.controls.fppClassification.valid && (form.controls.fppClassification.touched || contractForm.submitted) }"
-              [(ngModel)]="contract.releases[0].tender.items[0].quantity">
+              [(ngModel)]="fppClassification">
             <div [hidden]="form.controls.fppClassification.valid || (!form.controls.fppClassification.touched && !contractForm.submitted)"
               class="error-msg">Klasifikimi duhet të përbëhet prej dy karaktereve</div>
           </div>
@@ -134,8 +134,9 @@
         <div class="row">
           <div class="col-md-6 form-group">
             <label for="initiationDate">Data e inicimit të aktivitetit të prokurimit (data e pranimit të kërkesës)</label>
-            <input [(bsValue)]="initiationDate" bsDatepicker placeholder="Zgjedhni datën" [bsConfig]="bsConfig" class="form-control"
-              type="text" name="initiationDate" id="initiationDate" formControlName="initiationDate" [(ngModel)]="initiationDate">
+            <input [(bsValue)]="contract.releases[0].planning.milestones[0].dateMet" bsDatepicker placeholder="Zgjedhni datën"
+              [bsConfig]="bsConfig" class="form-control" type="text" name="initiationDate" id="initiationDate"
+              formControlName="initiationDate" [(ngModel)]="contract.releases[0].planning.milestones[0].dateMet">
           </div>
           <div class="col-md-6 form-group">
             <label>Data e aprovimit të deklaratës së nevojave dhe disponueshmërisë së mjeteve</label>
@@ -464,7 +465,7 @@
         <div class="row" id="oe-informations">
           <div class="col-6 form-group">
             <label for="nameOfContractedOe">Emri i OE të cilit i është dhënë kontrata</label>
-            <input type="text" name="name" id="nameOfContractedOe" formControlName="companyName" [(ngModel)]="contract.releases[0].tender.tenderers.name"
+            <input type="text" name="name" id="nameOfContractedOe" formControlName="companyName" [(ngModel)]="contract.releases[0].tender.tenderers[0].name"
               class="form-control">
           </div>
           <div class="col-6 form-group">

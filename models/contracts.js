@@ -72,19 +72,19 @@ const ContractSchema = mongoose.Schema({
             status: { type: String },
             items: [{
                 id: { type: String },
-                description: { type: String, default: 'The CPV number for the services provided' },
+                description: { type: String },
                 classification: {
-                    scheme: { type: String, default: 'CPV' },
-                    id: { type: String, default: 'CPV' },
-                    description: { type: String, default: 'The common procurement vocabulary number' }
+                    scheme: { type: String },
+                    id: { type: String },
+                    description: { type: String }
                 },
                 quantity: { type: Number }
             }],
             numberOfTenderers: { type: Number },
-            tenderers: {
+            tenderers: [{
                 name: { type: String },
                 id: { type: String }
-            },
+            }],
             value: {
                 amount: { type: Number },
                 currency: { type: String, default: 'EUR' }
@@ -420,6 +420,7 @@ module.exports.getTopTenContractors = () => {
         {
             $group: { _id: "$releases.tender.tenderers.name", count: { $sum: 1 } }
         },
+        { $unwind: "$_id" },
         { $sort: { count: -1 } },
         { $limit: 10 },
         { $project: { _id: 0, name: "$_id", y: "$count" } }
@@ -467,6 +468,7 @@ module.exports.getContractsMostByTotalAmountOfContract = year => {
         { $unwind: '$totalAmountOfContractsIncludingTaxes' },
         { $unwind: '$predictedValue' },
         { $unwind: '$procurementNo' },
+        { $unwind: '$companyName' },
         { $unwind: '$companyName' },
         { $unwind: '$publicationDateOfGivenContract' },
         { $unwind: '$publicationDateOfGivenContract' },

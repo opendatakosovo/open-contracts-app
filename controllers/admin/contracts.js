@@ -445,12 +445,20 @@ router.post("/", passport.authenticate('jwt', { session: false }), authorize("su
         }
 
         let contract = new Contract(requestedContract);
-        contract.releases[0].contracts[0].documents[0].title = fileName;
-        contract.company.slug = slugify(requestedContract.releases[0].tender.tenderers.name);
-        contract.company.headquarters.slug = slugify(requestedContract.releases[0].parties[0].address.region);
+        if (contract.releases[0].contracts[0].documents[0]) {
+            contract.releases[0].contracts[0].documents[0].title = fileName;
+        }
+        contract.company.slug = slugify(requestedContract.releases[0].tender.tenderers[0].name);
+        for (party of requestedContract.releases[0].parties) {
+            if (party.details && party.details.local !== null) {
+                contract.company.headquarters.slug = slugify(party.address.region);
+            }
+        }
         contract.activityTitleSlug = slugify(requestedContract.releases[0].tender.title);
         contract.implementationDeadline = slugify(requestedContract.releases[0].contracts[0].period.durationInDays);
-        contract.directorateSlug = slugify(requestedContract.releases[0].buyer.name);
+        if (requestedContract.releases[0].buyer.name) {
+            contract.directorateSlug = slugify(requestedContract.releases[0].buyer.name);
+        }
         contract.contract.predictedValueSlug = requestedContract.releases[0].planning.budget.amount.amount.toString().replace(/[,]+/g, '');
         contract.contract.totalAmountOfContractsIncludingTaxesSlug = requestedContract.releases[0].tender.value.amount.toString().replace(/[,]+/g, '');
         Contract.addContract(contract, (err, contract) => {
@@ -1039,10 +1047,10 @@ router.put('/update-all', (req, res) => {
                                 }
                             ],
                             "numberOfTenderers": row.noOfCompaniesWhoSubmited,
-                            "tenderers": {
+                            "tenderers": [{
                                 "name": row.company.name,
                                 "id": payerId
-                            },
+                            }],
                             "value": {
                                 "amount": row.contract.totalAmountOfContractsIncludingTaxes,
                                 "currency": "EUR"
@@ -1156,13 +1164,13 @@ router.put('/update-all', (req, res) => {
                                     "id": "0001",
                                     "measure": "numberOfDownloads",
                                     "value": row.noOfCompaniesWhoDownloadedTenderDoc,
-                                    "notes": "Nr. i OE që kanë shkarkuar dosjen e tenderit"
+                                    "notes": "Number of the companies who downloaded the tender document"
                                 },
                                 {
                                     "id": "0002",
                                     "measure": "numberOfRefusedBids",
                                     "value": row.noOfRefusedBids,
-                                    "notes": "Numri i ofertave të refuzuara"
+                                    "notes": "Number of the refused bids"
                                 }
                             ]
                         }
@@ -1248,21 +1256,35 @@ router.put('/update-contract/:id', passport.authenticate('jwt', { session: false
         }
         if (contentType.indexOf('application/json') == -1) {
             requestedContract = JSON.parse(req.body.contract);
-            requestedContract.releases[0].contracts[0].documents[0].title = req.file.originalname;
-            requestedContract.directoratesSlug = slugify(requestedContract.releases[0].buyer.name);
+            if (requestedContract.releases[0].contracts[0].documents[0]) {
+                requestedContract.releases[0].contracts[0].documents[0].title = req.file.originalname;
+            }
+            if (requestedContract.releases[0].buyer.name) {
+                requestedContract.directoratesSlug = slugify(requestedContract.releases[0].buyer.name);
+            }
             requestedContract.activityTitleSlug = slugify(requestedContract.releases[0].tender.title);
             requestedContract.contract.predictedValueSlug = requestedContract.releases[0].planning.budget.amount.amount.toString().replace(/[,]+/g, '');
             requestedContract.contract.totalAmountOfContractsIncludingTaxesSlug = requestedContract.releases[0].tender.value.amount.toString().replace(/[,]+/g, '');
-            requestedContract.company.slug = slugify(requestedContract.releases[0].tender.tenderers.name);
-            requestedContract.company.headquarters.slug = slugify(requestedContract.releases[0].parties[0].address.region);
+            requestedContract.company.slug = slugify(requestedContract.releases[0].tender.tenderers[0].name);
+            for (party of requestedContract.releases[0].parties) {
+                if (party.details && party.details.local !== null) {
+                    requestedContract.company.headquarters.slug = slugify(party.address.region);
+                }
+            }
         } else {
             requestedContract = req.body.requestedContract;
-            requestedContract.directoratesSlug = slugify(requestedContract.releases[0].buyer.name);
+            if (requestedContract.releases[0].buyer.name) {
+                requestedContract.directoratesSlug = slugify(requestedContract.releases[0].buyer.name);
+            }
             requestedContract.activityTitleSlug = slugify(requestedContract.releases[0].tender.title);
             requestedContract.contract.predictedValueSlug = requestedContract.releases[0].planning.budget.amount.amount.toString().replace(/[,]+/g, '');
             requestedContract.contract.totalAmountOfContractsIncludingTaxesSlug = requestedContract.releases[0].tender.value.amount.toString().replace(/[,]+/g, '');
-            requestedContract.company.slug = slugify(requestedContract.releases[0].tender.tenderers.name);
-            requestedContract.company.headquarters.slug = slugify(requestedContract.releases[0].parties[0].address.region);
+            requestedContract.company.slug = slugify(requestedContract.releases[0].tender.tenderers[0].name);
+            for (party of requestedContract.releases[0].parties) {
+                if (party.details && party.details.local !== null) {
+                    requestedContract.company.headquarters.slug = slugify(party.address.region);
+                }
+            }
             if (requestedContract.implementationDeadlineSlug !== null || requestedContract.implementationDeadlineSlug !== '' || requestedContract.implementationDeadlineSlug !== undefined) {
                 requestedContract.implementationDeadlineSlug = slugify(requestedContract.releases[0].contracts[0].period.durationInDays);
             }

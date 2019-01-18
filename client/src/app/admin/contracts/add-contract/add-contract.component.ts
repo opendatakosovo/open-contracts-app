@@ -50,7 +50,7 @@ export class AddContractComponent implements OnInit {
   payerId: string;
   tenderStatus: string;
   documents: FormArray;
-  initiationDate: Date;
+  fppClassification: number;
 
   constructor(public contractsService: ContractsService, public directorateService: DirectorateService, private _fb: FormBuilder, private router: Router, public datasetService: DatasetService) {
     this.directorates = [];
@@ -317,7 +317,14 @@ export class AddContractComponent implements OnInit {
   }
 
   addBudgetValue(event) {
-    this.budget = this.budget + ' ' + event.target.value;
+    if (event.target.checked === false) {
+      this.budget = this.budget.replace(event.target.value, '');
+    } else if (event.target.checked === true && !this.budget.includes(event.target.value)) {
+      this.budget = this.budget + ' ' + event.target.value;
+      if (this.budget.includes('  ')) {
+        this.budget = this.budget.replace('  ', ' ');
+      }
+    }
     this.contract.releases[0].planning.budget.description = this.budget;
   }
 
@@ -353,15 +360,6 @@ export class AddContractComponent implements OnInit {
       this.contract.releases[0].awards[0].contractPeriod.durationInDays = '';
       this.contract.releases[0].contracts[0].period.durationInDays = '';
     }
-    this.contract.releases[0].planning.milestones[1].dateMet =
-      this.contract.releases[0].planning.milestones[1].dateMet == null ? null : this.dateChange(this.contract.releases[0].planning.milestones[1].dateMet);
-    this.contract.releases[0].tender.tenderPeriod.startDate = this.contract.releases[0].tender.tenderPeriod.startDate == null ? null : this.dateChange(this.contract.releases[0].tender.tenderPeriod.startDate);
-    this.contract.releases[0].tender.awardPeriod.endDate =
-      this.contract.releases[0].tender.awardPeriod.endDate == null ? null : this.dateChange(this.contract.releases[0].tender.awardPeriod.endDate);
-    this.contract.releases[0].planning.milestones[0].dateMet = this.contract.releases[0].planning.milestones[0].dateMet == null ? null : this.dateChange(this.contract.releases[0].planning.milestones[0].dateMet);
-    this.contract.releases[0].tender.milestones[1].dateMet =
-      this.contract.releases[0].tender.milestones[1].dateMet == null ? null : this.dateChange(this.contract.releases[0].tender.milestones[1].dateMet);
-    this.contract.releases[0].planning.milestones[3].dateMet = this.contract.releases[0].planning.milestones[3].dateMet == null ? null : this.dateChange(this.contract.releases[0].planning.milestones[3].dateMet);
     this.contract.releases[0].tender.awardPeriod.startDate =
       this.contract.releases[0].tender.awardPeriod.startDate == null ? null : this.dateChange(this.contract.releases[0].tender.awardPeriod.startDate);
     if (this.contract.releases[0].contracts[0].implementation.transactions.length > 0) {
@@ -413,24 +411,32 @@ export class AddContractComponent implements OnInit {
       this.contract.releases[0].tender.procurementMethod = 'selective';
     }
     // Fill the item tender with the fppClassification number
-    if (this.contract.releases[0].tender.items[0].quantity !== 0 && this.contract.releases[0].tender.items[0].quantity !== null) {
-      this.contract.releases[0].tender.items[0].id = Math.random().toString(36).substr(2, 9) + '-CPV' + '-' + this.contract.releases[0].tender.items[0].quantity;
+    if (this.fppClassification !== 0 && this.fppClassification !== null) {
+      this.contract.releases[0].tender.items.push({
+        id: Math.random().toString(36).substr(2, 9) + '-CPV' + '-' + this.fppClassification,
+        description: 'The CPV number for the services provided',
+        classification: {
+          scheme: 'CPV',
+          id: 'CPV',
+          description: 'The common procurement vocabulary number'
+        },
+        quantity: this.fppClassification
+      });
     }
     // Check if it is planned or not to fill the planning documents
     if (this.planned === 'po') {
-      this.contract.releases[0].planning.documents[0].id = Math.random().toString(36).substr(2, 9) + '-procurementPlan';
-      this.contract.releases[0].planning.documents[0].documentType = 'procurementPlan';
+      this.contract.releases[0].planning.documents.push({
+        id: Math.random().toString(36).substr(2, 9) + '-procurementPlan',
+        documentType: 'procurementPlan'
+      });
     }
     // Push planning milestones
-    if (this.initiationDate !== null) {
-      this.contract.releases[0].planning.milestones.push({
-        id: this.milestoneId('initiationDate'),
-        title: 'Data e inicimit të aktivitetit të prokurimit (data e pranimit të kërkesës)',
-        type: 'preProcurement',
-        code: 'initiationDate',
-        dateMet: this.initiationDate,
-        status: 'met'
-      });
+    if (this.contract.releases[0].planning.milestones[0].dateMet !== null) {
+      this.contract.releases[0].planning.milestones[0].id = this.milestoneId('initiationDate');
+      this.contract.releases[0].planning.milestones[0].title = 'Data e inicimit të aktivitetit të prokurimit (data e pranimit të kërkesës)';
+      this.contract.releases[0].planning.milestones[0].type = 'preProcurement';
+      this.contract.releases[0].planning.milestones[0].code = 'initiationDate';
+      this.contract.releases[0].planning.milestones[0].status = 'met';
     }
     if (this.contract.releases[0].planning.milestones[1].dateMet !== null) {
       this.contract.releases[0].planning.milestones[1].id = this.milestoneId('approvalDateOfFunds');
@@ -479,6 +485,16 @@ export class AddContractComponent implements OnInit {
       this.contract.releases[0].tender.milestones[1].code = 'cancellationNoticeDate';
       this.contract.releases[0].tender.milestones[1].status = 'met';
     }
+    // Change the dates
+    this.contract.releases[0].planning.milestones[1].dateMet =
+      this.contract.releases[0].planning.milestones[1].dateMet == null ? null : this.dateChange(this.contract.releases[0].planning.milestones[1].dateMet);
+    this.contract.releases[0].tender.tenderPeriod.startDate = this.contract.releases[0].tender.tenderPeriod.startDate == null ? null : this.dateChange(this.contract.releases[0].tender.tenderPeriod.startDate);
+    this.contract.releases[0].tender.awardPeriod.endDate =
+      this.contract.releases[0].tender.awardPeriod.endDate == null ? null : this.dateChange(this.contract.releases[0].tender.awardPeriod.endDate);
+    this.contract.releases[0].planning.milestones[0].dateMet = this.contract.releases[0].planning.milestones[0].dateMet == null ? null : this.dateChange(this.contract.releases[0].planning.milestones[0].dateMet);
+    this.contract.releases[0].tender.milestones[1].dateMet =
+      this.contract.releases[0].tender.milestones[1].dateMet == null ? null : this.dateChange(this.contract.releases[0].tender.milestones[1].dateMet);
+    this.contract.releases[0].planning.milestones[3].dateMet = this.contract.releases[0].planning.milestones[3].dateMet == null ? null : this.dateChange(this.contract.releases[0].planning.milestones[3].dateMet);
     // Map enquiries based on enquiry type
     if (this.contract.releases[0].awards[0].enquiryType) {
       if (this.contract.releases[0].awards[0].enquiryType === 'none' || this.contract.releases[0].awards[0].enquiryType === 'negative') {
@@ -496,24 +512,28 @@ export class AddContractComponent implements OnInit {
       }
     }
     // Fill the company party
-    this.contract.releases[0].parties[0].name = this.contract.releases[0].tender.tenderers.name;
+    this.contract.releases[0].parties[0].name = this.contract.releases[0].tender.tenderers[0].name;
     this.contract.releases[0].parties[0].roles = [
       'supplier',
       'tenderer',
       'payee'
     ];
-    this.contract.releases[0].parties[0].id = this.payeeId;
+    if (this.contract.releases[0].parties[0].id === '') {
+      this.contract.releases[0].parties[0].id = this.payeeId;
+    }
     // Fill the payer party
-    this.contract.releases[0].parties[1].address.region = 'Prishtinë';
-    this.contract.releases[0].parties[1].address.postalCode = '10000';
-    this.contract.releases[0].parties[1].address.countryName = 'Kosovë';
-    this.contract.releases[0].parties[1].contactPoint.url = 'https://kk.rks-gov.net/prishtine/';
-    this.contract.releases[0].parties[1].roles = [
-      'buyer',
-      'payer',
-      'procuringEntity'
-    ];
-    this.contract.releases[0].parties[1].id = this.payerId;
+    if (this.contract.releases[0].parties[1].id === '') {
+      this.contract.releases[0].parties[1].address.region = 'Prishtinë';
+      this.contract.releases[0].parties[1].address.postalCode = '10000';
+      this.contract.releases[0].parties[1].address.countryName = 'Kosovë';
+      this.contract.releases[0].parties[1].contactPoint.url = 'https://kk.rks-gov.net/prishtine/';
+      this.contract.releases[0].parties[1].roles = [
+        'buyer',
+        'payer',
+        'procuringEntity'
+      ];
+      this.contract.releases[0].parties[1].id = this.payerId;
+    }
     // Check retender value to fill related process
     if (this.retender === 'po' || this.retender === 'Po') {
       this.contract.releases[0].relatedProcesses[0].relationship = 'unsuccessfulProcess';
@@ -527,10 +547,10 @@ export class AddContractComponent implements OnInit {
       this.contract.releases[0].tender.status = 'complete';
     }
     // Fill other fields with the company name
-    this.contract.releases[0].awards[0].suppliers[0].name = this.contract.releases[0].tender.tenderers.name;
+    this.contract.releases[0].awards[0].suppliers[0].name = this.contract.releases[0].tender.tenderers[0].name;
     if (this.contract.releases[0].contracts[0].implementation.transactions.length > 0) {
       for (const transaction of this.contract.releases[0].contracts[0].implementation.transactions) {
-        transaction.payee.name = this.contract.releases[0].tender.tenderers.name;
+        transaction.payee.name = this.contract.releases[0].tender.tenderers[0].name;
       }
     }
     // Fill other fields with the signing date
@@ -562,8 +582,8 @@ export class AddContractComponent implements OnInit {
     this.contract.releases[0].id = this.ocidMaker('-contract');
     this.contract.releases[0].contracts[0].awardID = this.contract.releases[0].awards[0].id;
     // Tenderers id
-    if (this.contract.releases[0].tender.tenderers.name && this.contract.releases[0].tender.tenderers.name !== '') {
-      this.contract.releases[0].tender.tenderers.id = this.payeeId;
+    if (this.contract.releases[0].tender.tenderers[0].name && this.contract.releases[0].tender.tenderers[0].name !== '') {
+      this.contract.releases[0].tender.tenderers[0].id = this.payeeId;
     }
     // Find the starting and ending date of evaluation in days
     if (this.contract.releases[0].tender.awardPeriod.startDate && this.contract.releases[0].tender.awardPeriod.endDate) {
@@ -617,16 +637,17 @@ export class AddContractComponent implements OnInit {
         }
       );
     }
-    this.contract.releases[0].tender.documents = this.docsFileNames;
     if (this.form.valid === true) {
       if (this.filesToUpload !== null && this.valid === true) {
         this.changeValues();
-        this.contract.releases[0].contracts[0].documents[0].documentType = 'contractSigned';
-        this.contract.releases[0].contracts[0].documents[0].title = this.filesToUpload.name.replace('.pdf', '');
-        this.contract.releases[0].contracts[0].documents[0].url = 'https://kontratatehapura.prishtinaonline.com/uploads/' + this.filesToUpload.name;
-        this.contract.releases[0].contracts[0].documents[0].format = 'application/pdf';
-        this.contract.releases[0].contracts[0].documents[0].language = 'sq';
-        this.contract.releases[0].contracts[0].documents[0].id = Math.random().toString(36).substr(2, 9) + '-contractSigned';
+        this.contract.releases[0].contracts[0].documents.push({
+          documentType: 'contractSigned',
+          title: this.filesToUpload.name.replace('.pdf', ''),
+          url: `https://kontratatehapura.prishtinaonline.com/uploads/${this.filesToUpload.name}`,
+          format: 'application/pdf',
+          language: 'sq',
+          id: Math.random().toString(36).substr(2, 9) + '-contractSigned'
+        });
         const formData = new FormData();
         formData.append('file', this.filesToUpload, this.filesToUpload['name']);
         formData.append('contract', JSON.stringify(this.contract));

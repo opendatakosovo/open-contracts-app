@@ -258,11 +258,11 @@
         </div>
       </ng-template>
       <ng-template let-row="row" ngx-datatable-cell-template>
-        <p *ngIf="row.releases[0].tender.tenderers.name == ''">
+        <p *ngIf="row.releases[0].tender.tenderers[0].name == ''">
           -
         </p>
-        <p *ngIf="row.releases[0].tender.tenderers.name != ''">
-          {{ row.releases[0].tender.tenderers.name }}
+        <p *ngIf="row.releases[0].tender.tenderers[0].name != ''">
+          {{ row.releases[0].tender.tenderers[0].name }}
         </p>
       </ng-template>
     </ngx-datatable-column>

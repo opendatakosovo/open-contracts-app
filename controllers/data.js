@@ -478,7 +478,6 @@ router.get('/top-ten-contracts-with-highest-amount-by-year/:year', (req, res) =>
                     row.signingDate = "-";
                 }
             }
-
             // Finally we limit the data array to get only the first tenth of contracts
             data.splice(10, data.length);
             // Serving data

@@ -118,10 +118,10 @@
         <br>
         <div class="col-md-4">
           <label>Klasifikimi (2 shifrat e para të FPP)</label>
-          <div *ngIf="!contract.releases[0].tender.items[0].quantity">
+          <div *ngIf="!contract.releases[0].tender.items[0]">
             <p>-</p>
           </div>
-          <div *ngIf="contract.releases[0].tender.items[0].quantity">
+          <div *ngIf="contract.releases[0].tender.items[0]">
             <p>{{ contract.releases[0].tender.items[0].quantity }}</p>
           </div>
         </div>
@@ -420,11 +420,11 @@
         <br>
         <div class="col-6">
           <label>Emri i OE të cilit i është dhënë kontrata</label>
-          <div *ngIf="contract.releases[0].tender.tenderers.name == ''">
+          <div *ngIf="contract.releases[0].tender.tenderers[0].name == ''">
             <p>-</p>
           </div>
-          <div *ngIf="contract.releases[0].tender.tenderers.name!= ''">
-            <p>{{ contract.releases[0].tender.tenderers.name }}</p>
+          <div *ngIf="contract.releases[0].tender.tenderers[0].name != ''">
+            <p>{{ contract.releases[0].tender.tenderers[0].name }}</p>
           </div>
         </div>
         <div class="col-6">
@@ -647,10 +647,10 @@
         <div class="col-md-6">
           <div class="form-group">
             <label>Kontrata</label>
-            <div *ngIf="contract.releases[0].contracts[0].documents[0].title == ''">
+            <div *ngIf="!contract.releases[0].contracts[0].documents[0] || !contract.releases[0].contracts[0].documents[0].title">
               <p>-</p>
             </div>
-            <div *ngIf="contract.releases[0].contracts[0].documents[0].title != ''">
+            <div *ngIf="contract.releases[0].contracts[0].documents[0] && contract.releases[0].contracts[0].documents[0].title !== ''">
               <a href="/uploads/{{contract.releases[0].contracts[0].documents[0].title}}" target="_blank">{{
                 contract.releases[0].contracts[0].documents[0].title}}</a>
             </div>

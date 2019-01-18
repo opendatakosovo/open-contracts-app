@@ -2,6 +2,9 @@ import { Annex } from './annex';
 import { Installment } from './installment';
 import { Document } from './document';
 import { Milestone } from './milestone';
+import { Party } from './party';
+import { Item } from './item';
+import { Statistic } from './statistic';
 export class Contract {
     _id?: String;
     uri?: String;
@@ -21,63 +24,7 @@ export class Contract {
                     relationship?: String;
                 }
             ]
-            parties?: [{
-                identifier?: {
-                    scheme?: String,
-                    id?: String,
-                    legalName?: String,
-                    uri?: String
-                },
-                name?: String,
-                address?: {
-                    streetAddress?: String,
-                    locality?: String,
-                    region?: String,
-                    postalCode?: String,
-                    countryName?: String
-                },
-                contactPoint?: {
-                    name?: String,
-                    email?: String,
-                    telephone?: String,
-                    faxNumber?: String,
-                    url?: String
-                };
-                roles?: String[],
-                id?: String,
-                details?: {
-                    local?: Boolean
-                }
-            },
-                {
-                    identifier?: {
-                        scheme?: String,
-                        id?: String,
-                        legalName?: String,
-                        uri?: String
-                    },
-                    name?: String,
-                    address?: {
-                        streetAddress?: String,
-                        locality?: String,
-                        region?: String,
-                        postalCode?: String,
-                        countryName?: String
-                    },
-                    contactPoint?: {
-                        name?: String,
-                        email?: String,
-                        telephone?: String,
-                        faxNumber?: String,
-                        url?: String
-                    };
-                    roles?: String[],
-                    id?: String,
-                    details?: {
-                        local?: Boolean
-                    }
-                }
-            ],
+            parties?: Party[],
             buyer?: {
                 id?: String,
                 name?: String,
@@ -91,12 +38,7 @@ export class Contract {
                         currency?: String
                     }
                 },
-                documents?: [
-                    {
-                        id?: String,
-                        documentType?: String
-                    }
-                ],
+                documents?: Document[],
                 milestones?: Milestone[]
             },
             tender?: {
@@ -104,23 +46,12 @@ export class Contract {
                 title?: String,
                 date?: Date,
                 status?: String,
-                items?: [
-                    {
-                        id?: String,
-                        description?: String,
-                        classification?: {
-                            scheme?: String,
-                            id?: String,
-                            description?: String
-                        };
-                        quantity?: Number
-                    }
-                ],
+                items?: Item[],
                 numberOfTenderers?: Number,
-                tenderers?: {
+                tenderers?: [{
                     name?: String,
                     id?: String
-                },
+                }],
                 value?: {
                     amount?: Number,
                     currency?: String
@@ -185,14 +116,7 @@ export class Contract {
                     currency?: String
                 };
                 dateSigned?: Date,
-                documents?: [{
-                    id?: String,
-                    documentType?: String,
-                    title?: String,
-                    url?: String,
-                    format?: String,
-                    language?: String
-                }],
+                documents?: Document[],
                 implementation?: {
                     transactions?: Installment[],
                     finalValue?: {
@@ -201,12 +125,7 @@ export class Contract {
                     },
                     finalValueDetails?: String
                 },
-                amendments?: [
-                    {
-                        date?: Date,
-                        description?: String
-                    }
-                ],
+                amendments?: Annex[],
                 expectedNumberOfTransactions?: Number,
                 deductionAmountFromContract?: {
                     value?: {
@@ -216,20 +135,7 @@ export class Contract {
                 }
             }],
             bids?: {
-                statistics?: [
-                    {
-                        id?: String,
-                        measure?: String,
-                        value?: Number,
-                        notes?: String
-                    },
-                    {
-                        id?: String,
-                        measure?: String,
-                        value?: Number,
-                        notes?: String
-                    }
-                ]
+                statistics?: Statistic[]
             }
         }
     ];
@@ -281,16 +187,24 @@ export class Contract {
             parties: [
                 {
                     identifier: {
-                        legalName: ''
+                        scheme: '',
+                        id: '',
+                        legalName: '',
+                        uri: ''
                     },
                     name: '',
                     address: {
+                        streetAddress: '',
+                        locality: '',
                         region: '',
                         postalCode: '',
                         countryName: ''
                     },
                     contactPoint: {
                         name: '',
+                        email: '',
+                        telephone: '',
+                        faxNumber: '',
                         url: ''
                     },
                     roles: [],
@@ -301,23 +215,28 @@ export class Contract {
                 },
                 {
                     identifier: {
-                        legalName: ''
+                        scheme: '',
+                        id: '',
+                        legalName: '',
+                        uri: ''
                     },
                     name: '',
                     address: {
+                        streetAddress: '',
+                        locality: '',
                         region: '',
                         postalCode: '',
                         countryName: ''
                     },
                     contactPoint: {
                         name: '',
+                        email: '',
+                        telephone: '',
+                        faxNumber: '',
                         url: ''
                     },
                     roles: [],
-                    id: '',
-                    details: {
-                        local: null
-                    }
+                    id: ''
                 }
             ],
             buyer: {
@@ -333,34 +252,53 @@ export class Contract {
                         currency: 'EUR'
                     },
                 },
-                documents: [
+                documents: [],
+                milestones: [
                     {
                         id: '',
-                        documentType: ''
+                        title: '',
+                        type: '',
+                        code: '',
+                        dateMet: null,
+                        status: ''
+                    },
+                    {
+                        id: '',
+                        title: '',
+                        type: '',
+                        code: '',
+                        dateMet: null,
+                        status: ''
+                    },
+                    {
+                        id: '',
+                        title: '',
+                        type: '',
+                        code: '',
+                        dateMet: null,
+                        status: ''
+                    },
+                    {
+                        id: '',
+                        title: '',
+                        type: '',
+                        code: '',
+                        dateMet: null,
+                        status: ''
                     }
-                ],
-                milestones: []
+                ]
             },
             tender: {
                 id: '',
                 title: '',
                 date: null,
                 status: '',
-                items: [{
-                    id: '',
-                    description: 'The CPV number for the services provided',
-                    classification: {
-                        scheme: 'CPV',
-                        id: 'CPV',
-                        description: 'The common procurement vocabulary number'
-                    },
-                    quantity: 0
-                }],
+                items: [],
                 numberOfTenderers: 0,
-                tenderers: {
+                tenderers: [{
                     name: '',
                     id: ''
-                },
+                }],
                 value: {
                     amount: 0,
                     currency: 'EUR'
@@ -385,7 +323,24 @@ export class Contract {
                     durationInDays: ''
                 },
                 documents: [],
-                milestones: [],
+                milestones: [
+                    {
+                        id: '',
+                        title: '',
+                        type: '',
+                        code: '',
+                        dateMet: null,
+                        status: ''
+                    },
+                    {
+                        id: '',
+                        title: '',
+                        type: '',
+                        code: '',
+                        dateMet: null,
+                        status: ''
+                    }
+                ],
                 estimatedSizeOfProcurementValue: {
                     estimatedValue: ''
                 },
@@ -424,14 +379,7 @@ export class Contract {
                     currency: 'EUR'
                 },
                 dateSigned: null,
-                documents: [{
-                    id: '',
-                    documentType: '',
-                    title: '',
-                    url: '',
-                    format: '',
-                    language: ''
-                }],
+                documents: [],
                 implementation: {
                     transactions: [],
                     finalValue: {
@@ -440,12 +388,7 @@ export class Contract {
                     },
                     finalValueDetails: 'The total amount of the contract payed'
                 },
-                amendments: [
-                    {
-                        date: null,
-                        description: ''
-                    }
-                ],
+                amendments: [],
                 expectedNumberOfTransactions: 0,
                 deductionAmountFromContract: {
                     value: {
