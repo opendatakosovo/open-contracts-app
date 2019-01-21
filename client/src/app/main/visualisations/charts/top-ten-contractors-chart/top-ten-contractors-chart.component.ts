@@ -54,6 +54,13 @@ export class TopTenContractorsChartComponent implements OnInit {
     this.dataService.getTopTenContractors()
       .takeUntil(this.unsubscribeAll)
       .subscribe(res => {
+        for (const contract of res) {
+          for (let name of contract.name) {
+            if (name === null || name === 'undefined' || name === 'undefined ' || name === 'undefined undefined' || name === ' undefined' || name === 'n/a') {
+              name = '';
+            }
+          }
+        }
         this.chartt = new Chart({
           chart: {
             type: 'pie'

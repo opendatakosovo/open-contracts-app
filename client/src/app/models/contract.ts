@@ -322,6 +322,7 @@ export class Contract {
                     endDate: null,
                     durationInDays: ''
                 },
+                awardCriteria: '',
                 documents: [],
                 milestones: [
                     {

@@ -148,20 +148,36 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
         .subscribe(pagedData => {
           this.page = pagedData.page;
           this.rows = pagedData.data;
+          for (const contract of this.rows) {
+            if (contract.releases[0].contracts[0].period.durationInDays === null || contract.releases[0].contracts[0].period.durationInDays === 'undefined' || contract.releases[0].contracts[0].period.durationInDays === 'undefined ' || contract.releases[0].contracts[0].period.durationInDays === 'undefined undefined' || contract.releases[0].contracts[0].period.durationInDays === ' undefined' || contract.releases[0].contracts[0].period.durationInDays === 'n/a') {
+              contract.releases[0].contracts[0].period.durationInDays = '';
+            }
+          }
         });
-    } else if (this.isSortedAsc === false || this.isSortedDesc === true) {
+    } else if (this.isSortedDesc === true && this.isSortedAsc === false) {
       this.contractsService.serverSortLatestContractsAscending(this.page)
         .takeUntil(this.unsubscribeAll)
         .subscribe(pagedData => {
           this.page = pagedData.page;
           this.rows = pagedData.data;
+          console.log(this.page);
+          for (const contract of this.rows) {
+            if (contract.releases[0].contracts[0].period.durationInDays === null || contract.releases[0].contracts[0].period.durationInDays === 'undefined' || contract.releases[0].contracts[0].period.durationInDays === 'undefined ' || contract.releases[0].contracts[0].period.durationInDays === 'undefined undefined' || contract.releases[0].contracts[0].period.durationInDays === ' undefined' || contract.releases[0].contracts[0].period.durationInDays === 'n/a') {
+              contract.releases[0].contracts[0].period.durationInDays = '';
+            }
+          }
         });
-    } else if (this.isSortedAsc === true || this.isSortedDesc === false) {
+    } else if (this.isSortedAsc === true && this.isSortedDesc === false) {
       this.contractsService.serverSortLatestContractsDescending(this.page)
         .takeUntil(this.unsubscribeAll)
         .subscribe(pagedData => {
           this.page = pagedData.page;
           this.rows = pagedData.data;
+          for (const contract of this.rows) {
+            if (contract.releases[0].contracts[0].period.durationInDays === null || contract.releases[0].contracts[0].period.durationInDays === 'undefined' || contract.releases[0].contracts[0].period.durationInDays === 'undefined ' || contract.releases[0].contracts[0].period.durationInDays === 'undefined undefined' || contract.releases[0].contracts[0].period.durationInDays === ' undefined' || contract.releases[0].contracts[0].period.durationInDays === 'n/a') {
+              contract.releases[0].contracts[0].period.durationInDays = '';
+            }
+          }
         });
     } else {
       this.contractsService.filterContract(this.search)
@@ -169,6 +185,11 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
         .subscribe(data => {
           this.page = data.page;
           this.rows = data.data;
+          for (const contract of this.rows) {
+            if (contract.releases[0].contracts[0].period.durationInDays === null || contract.releases[0].contracts[0].period.durationInDays === 'undefined' || contract.releases[0].contracts[0].period.durationInDays === 'undefined ' || contract.releases[0].contracts[0].period.durationInDays === 'undefined undefined' || contract.releases[0].contracts[0].period.durationInDays === ' undefined' || contract.releases[0].contracts[0].period.durationInDays === 'n/a') {
+              contract.releases[0].contracts[0].period.durationInDays = '';
+            }
+          }
         });
     }
   }

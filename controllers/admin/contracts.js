@@ -625,24 +625,26 @@ router.put('/update-all', (req, res) => {
                     return transactionsArray;
 
                 } else {
-                    transactionsArray = [
-                        {
-                            "id": Math.random().toString(36).substr(2, 9) + "-last-transaction",
-                            "date": row.lastInstallmentPayDate,
-                            "payer": {
-                                "id": buyerId,
-                                "name": row.directorates
-                            },
-                            "payee": {
-                                "id": payerId,
-                                "name": row.company.name
-                            },
-                            "value": {
-                                "amount": row.lastInstallmentAmount,
-                                "currency": "EUR"
+                    if (row.lastInstallmentPayDate !== null && row.lastInstallmentAmount !== null) {
+                        transactionsArray = [
+                            {
+                                "id": Math.random().toString(36).substr(2, 9) + "-last-transaction",
+                                "date": row.lastInstallmentPayDate,
+                                "payer": {
+                                    "id": buyerId,
+                                    "name": row.directorates
+                                },
+                                "payee": {
+                                    "id": payerId,
+                                    "name": row.company.name
+                                },
+                                "value": {
+                                    "amount": row.lastInstallmentAmount,
+                                    "currency": "EUR"
+                                }
                             }
-                        }
-                    ]
+                        ]
+                    }
                     return transactionsArray;
                 }
             }
@@ -867,16 +869,7 @@ router.put('/update-all', (req, res) => {
                         "url": `https://kontratatehapura.prishtinaonline.com/uploads/${row.contract.file}`,
                         "format": "application/pdf",
                         "language": "sq"
-                    })
-                } else {
-                    documents.push({
-                        "id": '',
-                        "documentType": "",
-                        "title": '',
-                        "url": '',
-                        "format": "",
-                        "language": ""
-                    })
+                    });
                 }
                 return documents;
             }
@@ -944,6 +937,21 @@ router.put('/update-all', (req, res) => {
                         "relatedProcesses": relatedProcesses(),
                         "parties": [
                             {
+                                "name": row.company.name,
+                                "address": {
+                                    "region": row.company.headquarters.name
+                                },
+                                "roles": [
+                                    "supplier",
+                                    "tenderer",
+                                    "payee"
+                                ],
+                                "id": payerId,
+                                "details": {
+                                    "local": partyDetails()
+                                }
+                            },
+                            {
                                 "identifier": {
                                     "legalName": 'Komuna e Prishtinës'
                                 },
@@ -963,21 +971,6 @@ router.put('/update-all', (req, res) => {
                                     "procuringEntity"
                                 ],
                                 "id": buyerId
-                            },
-                            {
-                                "name": row.company.name,
-                                "address": {
-                                    "region": row.company.headquarters.name
-                                },
-                                "roles": [
-                                    "supplier",
-                                    "tenderer",
-                                    "payee"
-                                ],
-                                "id": payerId,
-                                "details": {
-                                    "local": partyDetails()
-                                }
                             }
                         ],
                         "buyer": {
