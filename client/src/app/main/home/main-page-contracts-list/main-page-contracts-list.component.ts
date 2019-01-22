@@ -336,9 +336,11 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
       this.search.referenceDate.setDate(this.search.referenceDate.getDate() + 1);
       this.search.date.toISOString();
       this.search.referenceDate.toISOString();
+    console.log(this.search);
       this.contractsService.filterContract(this.search)
         .takeUntil(this.unsubscribeAll)
         .subscribe(data => {
+          console.log(data);
           this.page = data.page;
           this.rows = data.data;
           if (data.data.length === 0) {

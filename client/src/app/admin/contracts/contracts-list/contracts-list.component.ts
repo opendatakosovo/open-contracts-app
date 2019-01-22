@@ -62,7 +62,7 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
     this.ref = ref;
     this.isSortedDesc = false;
     this.isSortedAsc = false;
-    this.directorateService.getAllDirectorates()
+    this.directorateService.getAllPublicDirectorates()
       .takeUntil(this.unsubscribeAll)
       .subscribe(data => {
         this.directorates = data;
