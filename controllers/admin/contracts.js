@@ -56,14 +56,18 @@ router.post("/latest-contracts/page/ascending", (req, res) => {
                 const returnData = [];
                 for (row of data) {
                     row = row.toObject();
-                    row.totalAmountOfContractsIncludingTaxes = Number(row.releases[0].tender.value.amount.replace(/[^0-9\.-]+/g, ""));
-                    row.predictedValue = Number(row.releases[0].planning.budget.amount.amount.replace(/[^0-9\.-]+/g, ""));
+                    row.totalAmountOfContractsIncludingTaxes = row.releases[0].tender.value.amount;
+                    row.predictedValue = row.releases[0].planning.budget.amount.amount;
                     row.companyName = row.company.slug;
                     row.publicationDate = row.releases[0].tender.date;
                     row.publicationDateOfGivenContract = row.releases[0].awards[0].date;
                     row.signingDate = row.releases[0].contracts[0].period.startDate;
                     row.implementationDeadline = row.releases[0].contracts[0].period.durationInDays;
                     row.activityTitle1 = row.releases[0].tender.title.trim();
+                    row.noOfCompaniesWhoDownloadedTenderDoc = row.releases[0].bids.statistics[0].value;
+                    row.noOfCompaniesWhoSubmited = row.releases[0].tender.numberOfTenderers;
+                    row.cancellationNoticeDate = row.releases[0].tender.milestones[1].dateMet;
+                    row.directorates = row.releases[0].parties[1].name;
                     returnData.push(row);
                 }
                 returnData.sort(compareValues([page.column], 'asc'));
@@ -112,18 +116,22 @@ router.post("/latest-contracts/page/descending", (req, res) => {
             page.skipPages = page.size * page.pageNumber
             return page;
         }).then(page => {
-            Contract.find({ "year": new Date().getFullYear() }).then(data => {
+            Contract.find({ "year": { "$gte": 2018 } }).then(data => {
                 const returnData = [];
                 for (row of data) {
                     row = row.toObject();
-                    row.totalAmountOfContractsIncludingTaxes = Number(row.releases[0].tender.value.amount.replace(/[^0-9\.-]+/g, ""));
-                    row.predictedValue = Number(row.releases[0].planning.budget.amount.amount.replace(/[^0-9\.-]+/g, ""));
+                    row.totalAmountOfContractsIncludingTaxes = row.releases[0].tender.value.amount;
+                    row.predictedValue = row.releases[0].planning.budget.amount.amount;
                     row.companyName = row.company.slug;
                     row.publicationDate = row.releases[0].tender.date;
                     row.publicationDateOfGivenContract = row.releases[0].awards[0].date;
                     row.signingDate = row.releases[0].contracts[0].period.startDate;
                     row.implementationDeadline = row.releases[0].contracts[0].period.durationInDays;
                     row.activityTitle1 = row.releases[0].tender.title.trim();
+                    row.noOfCompaniesWhoDownloadedTenderDoc = row.releases[0].bids.statistics[0].value;
+                    row.noOfCompaniesWhoSubmited = row.releases[0].tender.numberOfTenderers;
+                    row.cancellationNoticeDate = row.releases[0].tender.milestones[1].dateMet;
+                    row.directorates = row.releases[0].parties[1].name;
                     returnData.push(row);
                 }
                 returnData.sort(compareValues([page.column], 'desc'));
@@ -220,6 +228,10 @@ router.post("/page/ascending", passport.authenticate('jwt', { session: false }),
                         row.signingDate = row.releases[0].contracts[0].period.startDate;
                         row.implementationDeadline = row.releases[0].contracts[0].period.durationInDays;
                         row.activityTitle1 = row.releases[0].tender.title.trim();
+                        row.noOfCompaniesWhoDownloadedTenderDoc = row.releases[0].bids.statistics[0].value;
+                        row.noOfCompaniesWhoSubmited = row.releases[0].tender.numberOfTenderers;
+                        row.cancellationNoticeDate = row.releases[0].tender.milestones[1].dateMet;
+                        row.directorates = row.releases[0].parties[1].name;
                         row.procurementNo = Number(row.releases[0].tender.id);
                         returnData.push(row);
                     }
@@ -283,6 +295,10 @@ router.post("/page/descending", passport.authenticate('jwt', { session: false })
                         row.signingDate = row.releases[0].contracts[0].period.startDate;
                         row.implementationDeadline = row.releases[0].contracts[0].period.durationInDays;
                         row.activityTitle1 = row.releases[0].tender.title.trim();
+                        row.noOfCompaniesWhoDownloadedTenderDoc = row.releases[0].bids.statistics[0].value;
+                        row.noOfCompaniesWhoSubmited = row.releases[0].tender.numberOfTenderers;
+                        row.cancellationNoticeDate = row.releases[0].tender.milestones[1].dateMet;
+                        row.directorates = row.releases[0].parties[1].name;
                         row.procurementNo = Number(row.releases[0].tender.id);
                         returnData.push(row);
                     }
@@ -332,12 +348,12 @@ router.post("/page", passport.authenticate('jwt', { session: false }), authorize
             return page;
         })
         .then(page => {
-                return Contract.find().sort({ "createdAt": -1 }).skip(page.skipPages).limit(page.size).then(result => {
-                    delete page.skipPages;
-                    response.page = page;
-                    response.data = result;
-                    return response;
-                });
+            return Contract.find().sort({ "createdAt": -1 }).skip(page.skipPages).limit(page.size).then(result => {
+                delete page.skipPages;
+                response.page = page;
+                response.data = result;
+                return response;
+            });
         })
         .then(response => {
             res.json(response)

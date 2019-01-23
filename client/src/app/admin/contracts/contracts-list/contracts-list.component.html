@@ -351,11 +351,6 @@
         <span>
           <p class="column-header">Shiko dosjen e tenderit</p>
         </span>
-        <div class="sort-icons">
-          <span id="sort">
-            <i class="fa fa-sort" aria-hidden="true"></i>
-          </span>
-        </div>
       </ng-template>
       <ng-template let-row="row" ngx-datatable-cell-template>
         <p *ngIf="row.releases[0].tender.documents == null || row.releases[0].tender.documents.length === 0; else showDocs">

@@ -154,7 +154,7 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
             }
           }
         });
-    } else if (this.isSortedDesc === true && this.isSortedAsc === false) {
+    } else if (this.isSortedAsc === false && this.isSortedDesc === true) {
       this.contractsService.serverSortLatestContractsAscending(this.page)
         .takeUntil(this.unsubscribeAll)
         .subscribe(pagedData => {
@@ -238,7 +238,7 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
       this.contractsService.serverSortLatestContractsDescending(this.page)
         .takeUntil(this.unsubscribeAll)
         .subscribe(pagedData => {
-          const descClass = document.getElementById('sort');
+            const descClass = document.getElementById('sort');
           descClass.classList.remove('asc');
           descClass.classList.add('desc');
           this.page = pagedData.page;
@@ -335,11 +335,9 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
       this.search.referenceDate.setDate(this.search.referenceDate.getDate() + 1);
       this.search.date.toISOString();
       this.search.referenceDate.toISOString();
-    console.log(this.search);
       this.contractsService.filterContract(this.search)
         .takeUntil(this.unsubscribeAll)
         .subscribe(data => {
-          console.log(data);
           this.page = data.page;
           this.rows = data.data;
           if (data.data.length === 0) {
