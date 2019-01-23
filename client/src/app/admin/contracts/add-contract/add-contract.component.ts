@@ -740,7 +740,6 @@ export class AddContractComponent implements OnInit {
             }
           });
       }
-
     }
   }
 
@@ -752,7 +751,4 @@ export class AddContractComponent implements OnInit {
   get formData() {
     return <FormArray>this.form.get('documents');
   }
-
-
-
 }

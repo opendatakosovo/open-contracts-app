@@ -815,7 +815,7 @@ router.put('/update-all', (req, res) => {
             let tendersStatus = () => {
                 if (row.status === '1' || row.status === 'publikuar') {
                     tenderStatus = 'active';
-                } else if ((row.status === '2' || row.status === 'vlerësim') && row.startingOfEvaluationDate && row.endingOfEvaluationDate) {
+                } else if (row.status === '2' || row.status === 'vlerësim') {
                     tenderStatus = 'active';
                 } else if (row.status === '3' || row.status === 'anuluar') {
                     tenderStatus = 'cancelled';
