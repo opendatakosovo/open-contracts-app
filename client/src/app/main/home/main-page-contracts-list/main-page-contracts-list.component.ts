@@ -160,7 +160,6 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
         .subscribe(pagedData => {
           this.page = pagedData.page;
           this.rows = pagedData.data;
-          console.log(this.page);
           for (const contract of this.rows) {
             if (contract.releases[0].contracts[0].period.durationInDays === null || contract.releases[0].contracts[0].period.durationInDays === 'undefined' || contract.releases[0].contracts[0].period.durationInDays === 'undefined ' || contract.releases[0].contracts[0].period.durationInDays === 'undefined undefined' || contract.releases[0].contracts[0].period.durationInDays === ' undefined' || contract.releases[0].contracts[0].period.durationInDays === 'n/a') {
               contract.releases[0].contracts[0].period.durationInDays = '';

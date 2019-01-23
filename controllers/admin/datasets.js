@@ -265,296 +265,304 @@ router.put('/update-csv/:year', (req, res) => {
         }
     }
     let formatPlanned = (planned) => {
-        if (planned === 'po' || planned === '1') {
+        if (planned[0].documentType && planned[0].documentType === 'procurementPlan') {
             return '1';
-        } else if (planned === 'jo' || planned === '2') {
+        } else if (!planned[0].documentType && planned[0].documentType !== 'procurementPlan') {
             return '2';
         } else {
             return '';
         }
     }
     let formatBudget = (budget) => {
-        if (budget !== null) {
-            if (budget[0] === "Të hyra vetanake" && budget.length === 1) {
-                return "1";
-            } else if ((budget[0] === "Të hyra vetanake" && budget[1] === "Buxheti i Kosovës") || (budget[1] === "Të hyra vetanake" && budget[0] === "Buxheti i Kosovës") && budget.length === 2) {
-                return "1+2";
-            } else if ((budget[0] === "Të hyra vetanake" && budget[1] === "Buxheti i Kosovës" && budget[2] === "Donacion") || (budget[1] === "Të hyra vetanake" && budget[0] === "Buxheti i Kosovës" && budget[2] === "Donacion") || (budget[2] === "Të hyra vetanake" && budget[0] === "Buxheti i Kosovës" && budget[1] === "Donacion") || (budget[2] === "Të hyra vetanake" && budget[1] === "Buxheti i Kosovës" && budget[0] === "Donacion") || (budget[1] === "Të hyra vetanake" && budget[2] === "Buxheti i Kosovës" && budget[0] === "Donacion")) {
-                return "1+2+3";
-            } else if ((budget[0] === "Të hyra vetanake" && budget[1] === "Donacion") || (budget[1] === "Të hyra vetanake" && budget[0] === "Donacion") && budget.length === 2) {
-                return "1+3";
-            } else if ((budget[0] === "Buxheti i Kosovës" && budget[1] === "Donacion") || (budget[1] === "Buxheti i Kosovës" && budget[0] === "Donacion") && budget.length === 2) {
-                return "2+3";
-            } else if (budget[0] === "Buxheti i Kosovës" && budget.length === 1) {
-                return "2";
-            } else if (budget[0] === "Donacion" && budget.length === 1) {
-                return "3";
-            } else {
-                return '';
-            }
+        if (budget.includes('Të hyra vetanake') && !budget.includes('Buxheti i Kosovës') && !budget.includes('Donacion')) {
+            return '1';
+        } else if (budget.includes('Të hyra vetanake') && budget.includes('Buxheti i Kosovës') && !budget.includes('Donacion')) {
+            return '1+2';
+        } else if (budget.includes('Të hyra vetanake') && budget.includes('Buxheti i Kosovës') && budget.includes('Donacion')) {
+            return '1+2+3';
+        } else if (budget.includes('Të hyra vetanake') && !budget.includes('Buxheti i Kosovës') && budget.includes('Donacion')) {
+            return '1+3';
+        } else if (!budget.includes('Të hyra vetanake') && budget.includes('Buxheti i Kosovës') && budget.includes('Donacion')) {
+            return '2+3';
+        } else if (!budget.includes('Të hyra vetanake') && budget.includes('Buxheti i Kosovës') && !budget.includes('Donacion')) {
+            return '2';
+        } else if (!budget.includes('Të hyra vetanake') && !budget.includes('Buxheti i Kosovës') && budget.includes('Donacion')) {
+            return '3';
         } else {
-            return "";
+            return '';
         }
-
     }
     let formatProcurementType = (type) => {
-        if (type === "Furnizim") {
+        if (type === "goods") {
             return 1;
-        } else if (type === "Shërbime") {
+        } else if (type === "services") {
             return 2;
-        } else if (type === "Shërbime keshillimi") {
+        } else if (type === "consultingServices") {
             return 3;
-        } else if (type === "Konkurs projektimi") {
+        } else if (type === "designContest") {
             return 4;
-        } else if (type === "Punë") {
+        } else if (type === "works") {
             return 5;
-        } else if (type === "Punë me koncesion") {
-            return 4;
-        } else if (type === "Prone e palujtshme") {
-            return 4;
+        } else if (type === "concessionWorks") {
+            return 6;
+        } else if (type === "immovableProperty") {
+            return 7;
         } else {
             return "";
         }
     }
     let formatProcurementValue = (value) => {
-        if (value === "Vlerë e madhe") {
+        if (value === "bigValue") {
             return 1;
-        } else if (value === "Vlerë e mesme") {
+        } else if (value === "mediumValue") {
             return 2;
-        } else if (value === "Vlerë e vogël") {
+        } else if (value === "smallValue") {
             return 3;
-        } else if (value === "Vlerë minimale") {
+        } else if (value === "minimalValue") {
             return 4;
         } else {
             return "";
         }
     }
     let formatProcurementProcedure = (procedure) => {
-        if (procedure === "Procedura e hapur") {
+        if (procedure === "openProcedure") {
             return 1;
-        } else if (procedure === "Procedura e kufizuar") {
+        } else if (procedure === "limitedProcedure") {
             return 2;
-        } else if (procedure === "Konkurs projektimi") {
+        } else if (procedure === "designContest") {
             return 3;
-        } else if (procedure === "Procedura e negociuar pas publikimit të njoftimit të kontratës") {
+        } else if (procedure === "negociatedProcedureAfterAwardNotice") {
             return 4;
-        } else if (procedure === "Procedura e negociuar pa publikimit të njoftimit të kontratës") {
+        } else if (procedure === "negociatedProcedureWithoutAwardNotice") {
             return 5;
-        } else if (procedure === "Procedura e kuotimit të Çmimeve") {
+        } else if (procedure === "quotationValueProcedure") {
             return 6;
-        } else if (procedure === "Procedura e vlerës minimale") {
+        } else if (procedure === "minimalValueProcedure") {
             return 7;
         } else {
             return "";
         }
     }
     let formatComplaints = (complaint) => {
-        if (complaint === "negativ" || complaint === "1") {
+        if (complaint === false) {
             return 1;
-        } else if (complaint === "pozitiv" || complaint === "2") {
+        } else if (complaint === true) {
             return 2;
-        } else if (complaint === 'n/a') {
-            return "n/a";
         } else {
             return "";
         }
     }
     let formatComplaintsSecond = (complaint) => {
-        if (complaint === "nuk ka" || complaint === "0") {
+        if (complaint === "none") {
             return 0;
-        } else if (complaint === "negativ" || complaint === "1") {
+        } else if (complaint === "negative") {
             return 1;
-        } else if (complaint === "pozitiv" || complaint === "2") {
+        } else if (complaint === "positive") {
             return 2;
-        } else if (complaint === "n/a") {
-            return "n/a";
         } else {
             return "";
         }
     }
     let formatCompanyType = (type) => {
-        if (type === "vendor" || type === "OE Vendor" || type === "Vendore") {
-            return 1;
-        } else if (type === "jo vendor" || type === "OE Jo vendor" || type === "notLocal") {
-            return 2;
-        } else if (type === "n/a") {
-            return "n/a";
+        if (type) {
+            if (type === true) {
+                return 1;
+            } else if (type === false) {
+                return 2;
+            } else {
+                return '';
+            }
         } else {
-            return "";
+            return '';
         }
+
     }
     let formatApplicationDeadlineType = (type) => {
-        if (type === "Afati kohor normal" || type === "1") {
+        if (type === true) {
             return 1;
-        } else if (type === "Afati kohor i shkurtuar" || type === "2") {
+        } else if (type === false) {
             return 2;
         } else {
             return "";
         }
     }
     let formatCriteriaType = (criteria) => {
-        if (criteria === "Çmimi më i ulët") {
+        if (criteria === "priceOnly") {
             return 1;
-        } else if (criteria === "Tenderi ekonomikisht më i favorshëm") {
+        } else if (criteria === "costOnly") {
             return 2;
-        } else if (criteria === "Çmimi më i ulët me poentim") {
+        } else if (criteria === "ratedCriteria") {
             return 3;
         } else {
             return "";
         }
     }
-    let formatStatus = (status) => {
-        if (status === "publikuar" || status === "1") {
-            return 1;
-        } else if (status === "vlerësim" || status === "2") {
+    let formatStatus = (status, starting, ending) => {
+        if (status === "active" && starting && ending) {
             return 2;
-        } else if (status === "anuluar" || status === "3") {
+        } else if (status === "active") {
+            return 1;
+        } else if (status === "cancelled") {
             return 3;
-        } else if (status === "kontraktuar" || status === "4") {
+        } else if (status === "complete") {
             return 4;
         } else {
             return "";
         }
     }
+    let fppClassification = (fppNumber) => {
+        if (fppNumber && fppNumber.quantity !== null) {
+            return fppNumber.quantity;
+        } else {
+            return '';
+        }
+    }
+    let retenderChecker = (retender) => {
+        if (retender && retender === 'unsuccessfulProcess') {
+            return 'Po';
+        } else {
+            return 'Jo';
+        }
+    }
     Contract.getContractsByYears(year).then(data => {
-        var headerArray = ['Planifikuar','Buxheti', 'Numri prokurimit','Lloji i prokurimit', 'Vlera e prokurimit','Procedura e prokutimiy', 
-        'Klasifikimi(2 shifrat e para te FPP)','Titulli i aktivitetit te prokurimit', 'Data e inicimit të aktivitetit të prokurimit (data e pranimit të kërkesës)',
-        'Data e aprovimit të deklaratës së nevojave dhe disponueshmërisë së mjeteve', 'Data e pranimit të specifikimit teknik (TOR)', 'Data e publikimit të njoftimit për kontratë', 
-        'Ankesat në autoritet', 'Ankesat në OSHP', 'Data e hapjes së ofertave','Nr. i OE që kanë shkarkuar dosjen e tenderit', 'Nr. i OE që kanë dorëzuar ofertat', 
-        'Data e fillimit dhe përfundimit të vlersimit', 'Numri i ofertave të refuzuara', 'Data e aprovimit të Deklaratës së nevojave dhe disponueshmërisë së mjeteve - rikonfirmimi',
-        'Data e publikimit të njoftimit për dhënie të kontratës', 'Data e publikimit të anulimit të njoftimit', 'Letrat Standarde për OE', 'Ankesat në autoritet', 'Ankesat në OSHP', 
-        'Vlera e parashikuar e kontratës', 'OE', 'Afati kohor për pranimin e tenderëve', 'Kriteret për dhënie të kontratës', 'Re-tenderimi', 'Statusi', 'Emri i OE të cilit i është dhënë kontrata',
-        'Data e nënshkrimit të kontratës', 'Afati për implementimin e kontratës', 'Data e mbylljes së kontratës', 'Vlera totale e kontratës, duke përfshirë të gjitha taksat', 
-        'Numri i përgjithshëm i situacioneve për pagesë, sipas kontratës'];
+        var headerArray = ['Planifikuar', 'Buxheti', 'Numri prokurimit', 'Lloji i prokurimit', 'Vlera e prokurimit', 'Procedura e prokutimiy',
+            'Klasifikimi(2 shifrat e para te FPP)', 'Titulli i aktivitetit te prokurimit', 'Data e inicimit të aktivitetit të prokurimit (data e pranimit të kërkesës)',
+            'Data e aprovimit të deklaratës së nevojave dhe disponueshmërisë së mjeteve', 'Data e pranimit të specifikimit teknik (TOR)', 'Data e publikimit të njoftimit për kontratë',
+            'Ankesat në autoritet', 'Ankesat në OSHP', 'Data e hapjes së ofertave', 'Nr. i OE që kanë shkarkuar dosjen e tenderit', 'Nr. i OE që kanë dorëzuar ofertat',
+            'Data e fillimit dhe përfundimit të vlersimit', 'Numri i ofertave të refuzuara', 'Data e aprovimit të Deklaratës së nevojave dhe disponueshmërisë së mjeteve - rikonfirmimi',
+            'Data e publikimit të njoftimit për dhënie të kontratës', 'Data e publikimit të anulimit të njoftimit', 'Letrat Standarde për OE', 'Ankesat në autoritet', 'Ankesat në OSHP',
+            'Vlera e parashikuar e kontratës', 'OE', 'Afati kohor për pranimin e tenderëve', 'Kriteret për dhënie të kontratës', 'Re-tenderimi', 'Statusi', 'Emri i OE të cilit i është dhënë kontrata',
+            'Data e nënshkrimit të kontratës', 'Afati për implementimin e kontratës', 'Data e mbylljes së kontratës', 'Vlera totale e kontratës, duke përfshirë të gjitha taksat',
+            'Numri i përgjithshëm i situacioneve për pagesë, sipas kontratës'];
         if (data.length !== 0) {
-            let fast_csv = csv.createWriteStream({headers: true});
+            let fast_csv = csv.createWriteStream({ headers: true });
             let writeStream = fs.createWriteStream(`./prishtina-contracts-importer/data/procurements/${folder}/${year + '.csv'}`);
             fast_csv.pipe(writeStream);
             let largestInstallment = 0;
             let largestAnnex = 0;
             for (row of data) {
-                for (t = 0; t < row.contract.annexes.length; t++) {
-                    if (row.contract.annexes.length > largestAnnex) {
-                        largestAnnex = row.contract.annexes.length;
+                for (t = 0; t < row.releases[0].contracts[0].amendments.length; t++) {
+                    if (row.releases[0].contracts[0].amendments.length > largestAnnex) {
+                        largestAnnex = row.releases[0].contracts[0].amendments.length;
                     }
                 }
-                for (t = 0; t < row.installments.length; t++) {
-                    if (row.installments.length > largestInstallment) {
-                        largestInstallment = row.installments.length;
+                for (t = 0; t < row.releases[0].contracts[0].implementation.transactions.length; t++) {
+                    if (row.releases[0].contracts[0].implementation.transactions.length > largestInstallment) {
+                        largestInstallment = row.releases[0].contracts[0].implementation.transactions.length;
                     }
                 }
             }
-            for(let i = 1; i<=largestAnnex; i++) {
-        
-                headerArray.push('Vlera totale e Aneks kontratës duke përfshirë të gjitha taksat(' + i +')' );
-                headerArray.push('Data e nënshkrimit të Aneks kontratës(' + i +')');
+            for (let i = 1; i <= largestAnnex; i++) {
+
+                headerArray.push('Vlera totale e Aneks kontratës duke përfshirë të gjitha taksat(' + i + ')');
+                headerArray.push('Data e nënshkrimit të Aneks kontratës(' + i + ')');
             }
-            for(let i = 1; i<=largestInstallment; i++) {
-                headerArray.push('Data e pagesës së situacionit(' + i +')');
-                headerArray.push('Shuma e pagesës së situacionit(' + i +')');
+            for (let i = 1; i <= largestInstallment; i++) {
+                headerArray.push('Data e pagesës së situacionit(' + i + ')');
+                headerArray.push('Shuma e pagesës së situacionit(' + i + ')');
             }
             headerArray.push('Shuma e zbritjes nga kontrata për shkaqe të ndalesave', 'Data e pagesës së situacionit të fundit', 'Shuma e pagesës së situacionit të fundit',
                 'Çmimi total i paguar për kontratën', 'Drejtoria', 'Emri i zyrtarit të prokurimit')
-            
+
             for (let i = 0; i < data.length; i++) {
                 function mapRowsData() {
                     var finalDataArr = [];
-                    if( i === 0 ) {
+                    if (i === 0) {
                         for (let i = 0; i < headerArray.length; i++) {
                             finalDataArr.push(headerArray[i]);
-                            
+
                         }
                     } else {
-                    finalDataArr.push([formatPlanned(data[i].planned)]);
-                    finalDataArr.push([formatBudget(data[i].budget)]);
-                    finalDataArr.push([data[i].procurementNo]);
-                    finalDataArr.push([formatProcurementType(data[i].procurementType)]);
-                    finalDataArr.push([formatProcurementValue(data[i].procurementValue)]);
-                    finalDataArr.push([formatProcurementProcedure(data[i].procurementProcedure)]);
-                    finalDataArr.push([data[i].fppClassification]);
-                    finalDataArr.push([data[i].activityTitle]);
-                    finalDataArr.push([formatDate(data[i].initiationDate)]);
-                    finalDataArr.push([formatDate(data[i].approvalDateOfFunds)]);
-                    finalDataArr.push([formatDate(data[i].torDate)]);
-                    finalDataArr.push([formatDate(data[i].contract.publicationDate)]);
-                    finalDataArr.push([formatComplaints(data[i].complaintsToAuthority1)]);
-                    finalDataArr.push([formatComplaints(data[i].complaintsToOshp1)]);
-                    finalDataArr.push([formatDate(data[i].bidOpeningDate)]);
-                    finalDataArr.push([data[i].noOfCompaniesWhoDownloadedTenderDoc]);
-                    finalDataArr.push([data[i].noOfCompaniesWhoSubmited]);
-                    finalDataArr.push([formatDate(data[i].startingAndEndingEvaluationDate)]);
-                    finalDataArr.push([data[i].noOfRefusedBids]);
-                    finalDataArr.push([formatDate(data[i].reapprovalDate)]);
-                    finalDataArr.push([formatDate(data[i].contract.publicationDateOfGivenContract)]);
-                    finalDataArr.push([formatDate(data[i].cancellationNoticeDate)]);
-                    finalDataArr.push([formatDate(data[i].company.standardDocuments)]);
-                    finalDataArr.push([formatComplaintsSecond(data[i].complaintsToAuthority2)]);
-                    finalDataArr.push([formatComplaintsSecond(data[i].complaintsToOshp2)]);
-                    finalDataArr.push([data[i].contract.predictedValue]);
-                    finalDataArr.push([formatCompanyType(data[i].company.type)]);
-                    finalDataArr.push([formatApplicationDeadlineType(data[i].applicationDeadlineType)]);
-                    finalDataArr.push([formatCriteriaType(data[i].contract.criteria)]);
-                    finalDataArr.push([data[i].retender]);
-                    finalDataArr.push([formatStatus(data[i].status)]);
-                    finalDataArr.push([data[i].company.name]);
-                    finalDataArr.push([formatDate(data[i].contract.signingDate)]);
-                    finalDataArr.push([formatDate(data[i].contract.implementationDeadline)]);
-                    finalDataArr.push([formatDate(data[i].contract.closingDate)]);
-                    finalDataArr.push([data[i].contract.totalAmountOfContractsIncludingTaxes]);
-                    finalDataArr.push([data[i].noOfPaymentInstallments]);
-                    for (let k = 0; k < largestAnnex; k++) {
-                        if (data[i].contract.annexes.length === largestAnnex) {
-                            finalDataArr.push([formatDate(data[i].contract.annexes[k].annexContractSigningDate1)]);
-                            finalDataArr.push([data[i].contract.annexes[k].totalValueOfAnnexContract1]);
-                        } else if (data[i].contract.annexes[k] === undefined || data[i].contract.annexes[k] === [] || data[i].contract.annexes[k] === '') {
-                            data[i].contract.annexes[k] = [
-                                annexContractSigningDate1 = '',
-                                totalValueOfAnnexContract1 = ''
-                            ];
-                            finalDataArr.push([formatDate(data[i].contract.annexes[k].annexContractSigningDate1)]);
-                            finalDataArr.push([data[i].contract.annexes[k].totalValueOfAnnexContract1]);
-                        } else {
-                            if (k < data[i].contract.annexes.length) {
-                                finalDataArr.push([formatDate(data[i].contract.annexes[k].annexContractSigningDate1)]);
-                                finalDataArr.push([data[i].contract.annexes[k].totalValueOfAnnexContract1]);
+                        finalDataArr.push([formatPlanned(data[i].releases[0].planning.documents)]);
+                        finalDataArr.push([formatBudget(data[i].releases[0].planning.budget.description)]);
+                        finalDataArr.push([data[i].releases[0].tender.id]);
+                        finalDataArr.push([formatProcurementType(data[i].releases[0].tender.additionalProcurementCategories)]);
+                        finalDataArr.push([formatProcurementValue(data[i].releases[0].tender.estimatedSizeOfProcurementValue.estimatedValue)]);
+                        finalDataArr.push([formatProcurementProcedure(data[i].releases[0].tender.procurementMethodRationale)]);
+                        finalDataArr.push([fppClassification(data[i].releases[0].tender.items)]);
+                        finalDataArr.push([data[i].releases[0].tender.title]);
+                        finalDataArr.push([formatDate(data[i].releases[0].planning.milestones[0].dateMet)]);
+                        finalDataArr.push([formatDate(data[i].releases[0].planning.milestones[1].dateMet)]);
+                        finalDataArr.push([formatDate(data[i].releases[0].planning.milestones[2].dateMet)]);
+                        finalDataArr.push([formatDate(data[i].releases[0].tender.date)]);
+                        finalDataArr.push([formatComplaints(data[i].releases[0].tender.hasEnquiries)]);
+                        finalDataArr.push([formatComplaints(data[i].releases[0].tender.hasComplaints)]);
+                        finalDataArr.push([formatDate(data[i].releases[0].tender.tenderPeriod)]);
+                        finalDataArr.push([data[i].releases[0].bids.statistics[0].value]);
+                        finalDataArr.push([data[i].releases[0].tender.numberOfTenderers]);
+                        finalDataArr.push([formatDate(data[i].releases[0].tender.awardPeriod.durationInDays)]);
+                        finalDataArr.push([data[i].releases[0].bids.statistics[1].value]);
+                        finalDataArr.push([formatDate(data[i].releases[0].planning.milestones[3].dateMet)]);
+                        finalDataArr.push([formatDate(data[i].releases[0].awards[0].date)]);
+                        finalDataArr.push([formatDate(data[i].releases[0].tender.milestones[1].dateMet)]);
+                        finalDataArr.push([formatDate(data[i].releases[0].tender.milestones[0].dateMet)]);
+                        finalDataArr.push([formatComplaintsSecond(data[i].releases[0].awards[0].enquiryType)]);
+                        finalDataArr.push([formatComplaintsSecond(data[i].releases[0].awards[0].complaintType)]);
+                        finalDataArr.push([data[i].releases[0].planning.budget.amount.amount]);
+                        finalDataArr.push([formatCompanyType(data[i].releases[0].parties[0].details.local)]);
+                        finalDataArr.push([formatApplicationDeadlineType(data[i].releases[0].tender.procedure.isAcceleratedProcedure)]);
+                        finalDataArr.push([formatCriteriaType(data[i].releases[0].tender.awardCriteria)]);
+                        finalDataArr.push([retenderChecker(data[i].releases[0].relatedProcesses[0].relationship)]);
+                        finalDataArr.push([formatStatus(data[i].releases[0].tender.status, data[i].releases[0].tender.awardPeriod.startDate, data[i].releases[0].tender.awardPeriod.endDate)]);
+                        finalDataArr.push([data[i].releases[0].tender.tenderers[0].name]);
+                        finalDataArr.push([formatDate(data[i].releases[0].contracts[0].period.startDate)]);
+                        finalDataArr.push([formatDate(data[i].releases[0].contracts[0].period.durationInDays)]);
+                        finalDataArr.push([formatDate(data[i].releases[0].contracts[0].period.endDate)]);
+                        finalDataArr.push([data[i].releases[0].tender.value.amount]);
+                        finalDataArr.push([data[i].releases[0].contracts[0].expectedNumberOfTransactions]);
+                        for (let k = 0; k < largestAnnex; k++) {
+                            if (data[i].releases[0].contracts[0].implementation.transactions.length === largestAnnex) {
+                                finalDataArr.push([formatDate(data[i].releases[0].contracts[0].implementation.transactions[k].date)]);
+                                finalDataArr.push([data[i].releases[0].contracts[0].implementation.transactions[k].value.amount]);
+                            } else if (data[i].releases[0].contracts[0].implementation.transactions[k] === undefined || data[i].contract.annexes[k] === [] || data[i].releases[0].contracts[0].implementation.transactions[k] === null) {
+                                data[i].releases[0].contracts[0].implementation.transactions[k] = [
+                                    date = '',
+                                    value.amount = ''
+                                ];
+                                finalDataArr.push([formatDate(data[i].releases[0].contracts[0].implementation.transactions[k].date)]);
+                                finalDataArr.push([data[i].releases[0].contracts[0].implementation.transactions[k].value.amount]);
                             } else {
-                                data[i].contract.annexes[k].annexContractSigningDate1 = '';
-                                data[i].contract.annexes[k].totalValueOfAnnexContract1 = '';
-                                finalDataArr.push([formatDate(data[i].contract.annexes[k].annexContractSigningDate1)]);
-                                finalDataArr.push([data[i].contract.annexes[k].totalValueOfAnnexContract1]);
+                                if (k < data[i].contract.annexes.length) {
+                                    finalDataArr.push([formatDate(data[i].contract.annexes[k].annexContractSigningDate1)]);
+                                    finalDataArr.push([data[i].contract.annexes[k].totalValueOfAnnexContract1]);
+                                } else {
+                                    data[i].contract.annexes[k].annexContractSigningDate1 = '';
+                                    data[i].contract.annexes[k].totalValueOfAnnexContract1 = '';
+                                    finalDataArr.push([formatDate(data[i].contract.annexes[k].annexContractSigningDate1)]);
+                                    finalDataArr.push([data[i].contract.annexes[k].totalValueOfAnnexContract1]);
+                                }
                             }
                         }
-                    }
-                    for (let k = 0; k < largestInstallment; k++) {
-                        if (data[i].installments.length === largestInstallment) {
-                            finalDataArr.push([formatDate(data[i].installments[k].installmentPayDate1)]);
-                            finalDataArr.push([data[i].installments[k].installmentAmount1]);
-                        } else if (data[i].installments[k] === undefined || data[i].installments[k] === [] || data[i].installments[k] === '') {
-                            data[i].installments[k] = [
-                                installmentPayDate1 = '',
-                                installmentAmount1 = ''
-                            ];
-                            finalDataArr.push([formatDate(data[i].installments[k].installmentPayDate1)]);
-                            finalDataArr.push([data[i].installments[k].installmentAmount1]);
-                        } else {
-                            if (k < data[i].installments.length) {
+                        for (let k = 0; k < largestInstallment; k++) {
+                            if (data[i].installments.length === largestInstallment) {
+                                finalDataArr.push([formatDate(data[i].installments[k].installmentPayDate1)]);
+                                finalDataArr.push([data[i].installments[k].installmentAmount1]);
+                            } else if (data[i].installments[k] === undefined || data[i].installments[k] === [] || data[i].installments[k] === '') {
+                                data[i].installments[k] = [
+                                    installmentPayDate1 = '',
+                                    installmentAmount1 = ''
+                                ];
                                 finalDataArr.push([formatDate(data[i].installments[k].installmentPayDate1)]);
                                 finalDataArr.push([data[i].installments[k].installmentAmount1]);
                             } else {
-                                data[i].installments[k].installmentPayDate1 = '';
-                                data[i].installments[k].installmentAmount1 = '';
-                                finalDataArr.push([formatDate(data[i].installments[k].installmentPayDate1)]);
-                                finalDataArr.push([data[i].installments[k].installmentAmount1]);
+                                if (k < data[i].installments.length) {
+                                    finalDataArr.push([formatDate(data[i].installments[k].installmentPayDate1)]);
+                                    finalDataArr.push([data[i].installments[k].installmentAmount1]);
+                                } else {
+                                    data[i].installments[k].installmentPayDate1 = '';
+                                    data[i].installments[k].installmentAmount1 = '';
+                                    finalDataArr.push([formatDate(data[i].installments[k].installmentPayDate1)]);
+                                    finalDataArr.push([data[i].installments[k].installmentAmount1]);
+                                }
                             }
                         }
+                        finalDataArr.push([data[i].contract.discountAmountFromContract]);
+                        finalDataArr.push([formatDate(data[i].lastInstallmentPayDate)]);
+                        finalDataArr.push([data[i].lastInstallmentAmount]);
+                        finalDataArr.push([data[i].contract.totalPayedPriceForContract]);
+                        finalDataArr.push([data[i].directorates]);
+                        finalDataArr.push([data[i].nameOfProcurementOffical]);
                     }
-                    finalDataArr.push([data[i].contract.discountAmountFromContract]);
-                    finalDataArr.push([formatDate(data[i].lastInstallmentPayDate)]);
-                    finalDataArr.push([data[i].lastInstallmentAmount]);
-                    finalDataArr.push([data[i].contract.totalPayedPriceForContract]);
-                    finalDataArr.push([data[i].directorates]);
-                    finalDataArr.push([data[i].nameOfProcurementOffical]);
-                }
                     return finalDataArr;
                 }
                 fast_csv.write(mapRowsData());
