@@ -33,7 +33,12 @@
         <td>{{contract.companyName}}</td>
         <td>{{contract.predictedValue}} €</td>
         <td>{{contract.totalAmountOfContractsIncludingTaxes}} €</td>
-        <td [ngClass]="getClassByValue(contract.predictedValue, contract.totalAmountOfContractsIncludingTaxes)">{{contract.differenceAmountBetweenPredictedAndTotal}}
+        <td *ngIf="contract.predictedValue < contract.totalAmountOfContractsIncludingTaxes" title="Vlera totale e kontratës është më e madhe se vlera e parashikuar e kontratës"
+          data-toggle="tooltip" class="active">{{contract.differenceAmountBetweenPredictedAndTotal}}
+          €
+        </td>
+        <td *ngIf="contract.predictedValue > contract.totalAmountOfContractsIncludingTaxes || contract.predictedValue == contract.totalAmountOfContractsIncludingTaxes"
+          class="inactive">{{contract.differenceAmountBetweenPredictedAndTotal}}
           €
         </td>
         <td>{{contract.publicationDateOfGivenContract === "-" ? contract.publicationDateOfGivenContract :

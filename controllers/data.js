@@ -464,6 +464,7 @@ router.get('/top-ten-contracts-with-highest-amount-by-year/:year', (req, res) =>
             // First we have to loop through the data and convert string currencies to numbers and find the difference between predicted value and total amount of contracts
             for (row of data) {
                 row.differenceAmountBetweenPredictedAndTotal = row.totalAmountOfContractsIncludingTaxes > row.predictedValue ? row.totalAmountOfContractsIncludingTaxes - row.predictedValue : row.predictedValue - row.totalAmountOfContractsIncludingTaxes;
+                row.differenceAmountBetweenPredictedAndTotal = row.differenceAmountBetweenPredictedAndTotal.toFixed(2);
             }
 
             // Secondly we have compare and sort the data by the highest total amount
