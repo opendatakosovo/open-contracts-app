@@ -554,6 +554,52 @@
         </div>
         <div class="row">
           <div class="col-md-1" id="title">
+            <h4>Llotet</h4>
+          </div>
+          <div class="col-md-10" id="line"></div>
+          <div class="col-md-1" id="button">
+            <button type="button" data-toggle="tooltip" title="Shto llotin" class="btn btn-outline-primary buttons button-exec"
+              (click)="addNewLot()">
+              <span class="fa fa-plus"></span>
+            </button>
+          </div>
+        </div>
+        <div formArrayName="lots">
+          <div [formGroupName]='i' *ngFor="let lot of formArrayLots.controls; let i = index">
+            <div class="row">
+              <div class="col-md-5">
+                <label for="valueOfLot{{i+1}}">
+                  <span class="nrOf">{{i+1}})</span> Vlera totale e Llotit</label>
+                <input type="text" formControlName="value" id="valueOfLot{{i}}" class="form-control" [(ngModel)]="contract.releases[0].tender.lots[i].value.amount">
+              </div>
+              <div class="col-sm-6 form-group">
+                <label for="description" style="width:auto;">Afati për implementimin e
+                  llotit</label>
+                <br>
+                <div style="display: flex">
+                  <input type="text" name="description" id="implementationDeadlineNumberLot{{i+1}}" style="width: 30%; margin: 0;"
+                    formControlName="description" class="form-control" [(ngModel)]="implementationDeadlineLot[0]">
+                  <select name="implementationDeadlineDurationLot{{i+1}}" formControlName="id" style="width: 70%; margin: 0px;"
+                    class="form-control" [(ngModel)]="implementationDeadlineLot[1]">
+                    <option value="" selected>Afati kohor</option>
+                    <option value="ditë">Ditë</option>
+                    <option value="muaj">Muaj</option>
+                    <option value="vite">Vite</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-1">
+                <button type="button" data-toggle="tooltip" [attr.data-annexDeleteId]="i" title="Fshi llotin" class="btn btn-outline-primary
+                      buttons button-exec button-del"
+                  (click)="removeLot(i) ">
+                  <span class="fa fa-minus" [attr.data-annexDeleteId]="i"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-1" id="title">
             <h4>Anekset</h4>
           </div>
           <div class="col-md-10" id="line"></div>

@@ -5,6 +5,7 @@ import { Milestone } from './milestone';
 import { Party } from './party';
 import { Item } from './item';
 import { Statistic } from './statistic';
+import { Lot } from './lot';
 export class Contract {
     _id?: String;
     uri?: String;
@@ -83,7 +84,8 @@ export class Contract {
                 },
                 procedure?: {
                     isAcceleratedProcedure?: Boolean
-                }
+                },
+                lots?: Lot[]
             },
             awards?: [{
                 id?: String,
@@ -347,7 +349,8 @@ export class Contract {
                 },
                 procedure: {
                     isAcceleratedProcedure: null
-                }
+                },
+                lots: []
             },
             awards: [{
                 id: '',

@@ -132,8 +132,17 @@ const ContractSchema = mongoose.Schema({
             },
             procedure: {
                 isAcceleratedProcedure: { type: Boolean }
-            }
-
+            },
+            lots: [
+                {
+                    id: { type: String },
+                    description: { type: String },
+                    value: {
+                        amount: { type: Number },
+                        currency: { type: String, default: 'EUR' }
+                    }
+                }
+            ]
         },
         awards: [{
             id: { type: String },
@@ -349,7 +358,7 @@ module.exports.countLatestContracts = () => {
 }
 
 module.exports.countContracts = (role, directorateName) => {
-        return Contract.count();
+    return Contract.count();
 }
 
 
@@ -538,7 +547,7 @@ let inspection = ['Inspekcion', 'Drejtoria e inspektimit', 'Drejtoria e inspekci
 let planning = ['Planifikim strategjik dhe zhvillimit të qëndrueshëm', 'Drejtoria e planifikimit strategjik dhe zhvillimit të qëndrueshëm'];
 let parks = ['Drejtoria e parqeve', 'Parqeve', 'Drejtoria parqeve'];
 
-module.exports.filterStringFieldsInContracts = (text, year)  => {
+module.exports.filterStringFieldsInContracts = (text, year) => {
     let filter = [];
     if (year !== 'any') {
         filter.push({ "$match": { "year": year } })
@@ -677,12 +686,12 @@ module.exports.filterByDirectorate = (directorate, year) => {
     filter.push({
         "$match": {
             "releases.parties": {
-                    "$elemMatch": {
-                            "name": {
-                                    "$in": queryArray
-                                }
-                        }
+                "$elemMatch": {
+                    "name": {
+                        "$in": queryArray
+                    }
                 }
+            }
         }
     })
     return Contract.aggregate(filter);
@@ -778,13 +787,14 @@ module.exports.filterByDirectorateCount = (directorate, year) => {
     filter.push({
         "$match": {
             "releases.parties": {
-                    "$elemMatch": {
-                            "name": {
-                                    "$in": queryArray
-                                }
-                        }
+                "$elemMatch": {
+                    "name": {
+                        "$in": queryArray
+                    }
                 }
-        }},
+            }
+        }
+    },
         {
             "$count": "total"
         })
@@ -825,14 +835,15 @@ module.exports.filterByDate = (date, referenceDate, year) => {
                 },
                 {
                     "releases.tender.milestones": {
-                        "$elemMatch": { 
+                        "$elemMatch": {
                             "dateMet":
-                                    {
-                                        "$gte": new Date(date),
-                                        "$lt": new Date(referenceDate)
-                                    }
+                            {
+                                "$gte": new Date(date),
+                                "$lt": new Date(referenceDate)
+                            }
+                        }
+                    }
                 }
-            }}
             ]
         }
     })
@@ -871,14 +882,15 @@ module.exports.filterByDateCount = (date, referenceDate, year) => {
                 },
                 {
                     "releases.tender.milestones": {
-                        "$elemMatch": { 
+                        "$elemMatch": {
                             "dateMet":
-                                    {
-                                        "$gte": new Date(date),
-                                        "$lt": new Date(referenceDate)
-                                    }
+                            {
+                                "$gte": new Date(date),
+                                "$lt": new Date(referenceDate)
+                            }
+                        }
+                    }
                 }
-            }}
             ]
         }
     }, {
@@ -909,7 +921,7 @@ module.exports.filterByValue = (value, year) => {
 
 module.exports.filterByValueCount = (value, year) => {
     let filter = [];
-    
+
     if (year !== 'any') {
         filter.push({ "$match": { "year": year } })
     }
@@ -1012,7 +1024,7 @@ module.exports.filterByStringAndDirectorate = (text, directorate, year) => {
             queryArray.push(element);
         });
     }
-    
+
     if (year !== 'any') {
         filter.push({ "$match": { "year": year } })
     }
@@ -1027,13 +1039,15 @@ module.exports.filterByStringAndDirectorate = (text, directorate, year) => {
                         { "company.slug": { "$regex": text, "$options": 'i' } }
                     ]
                 },
-                { "releases.parties": {
-                    "$elemMatch": {
+                {
+                    "releases.parties": {
+                        "$elemMatch": {
                             "name": {
-                                    "$in": queryArray
-                                }
+                                "$in": queryArray
+                            }
                         }
-                } }
+                    }
+                }
                 ]
         }
 
@@ -1139,14 +1153,15 @@ module.exports.filterByStringAndDirectorateCount = (text, directorate, year) => 
                         { "company.slug": { "$regex": text, "$options": 'i' } }
                     ]
                 },
-                { "releases.parties": {
-                    "$elemMatch": {
+                {
+                    "releases.parties": {
+                        "$elemMatch": {
                             "name": {
-                                    "$in": queryArray
-                                }
+                                "$in": queryArray
+                            }
                         }
+                    }
                 }
-            }
                 ]
         }
 
@@ -1256,13 +1271,15 @@ module.exports.filterbyStringDirectorateDate = (text, directorate, date, referen
                             { "company.slug": { "$regex": text, "$options": 'i' } }
                         ]
                     },
-                    { "releases.parties": {
-                        "$elemMatch": {
+                    {
+                        "releases.parties": {
+                            "$elemMatch": {
                                 "name": {
-                                        "$in": queryArray
-                                    }
+                                    "$in": queryArray
+                                }
                             }
-                    }},
+                        }
+                    },
                     {
                         "$or": [
                             {
@@ -1288,14 +1305,15 @@ module.exports.filterbyStringDirectorateDate = (text, directorate, date, referen
                             },
                             {
                                 "releases.tender.milestones": {
-                                    "$elemMatch": { 
+                                    "$elemMatch": {
                                         "dateMet":
-                                                {
-                                                    "$gte": new Date(date),
-                                                    "$lt": new Date(referenceDate)
-                                                }
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                    }
+                                }
                             }
-                        }}
                         ]
                     }]
         }
@@ -1401,13 +1419,15 @@ module.exports.filterbyStringDirectorateDateCount = (text, directorate, date, re
                             { "company.slug": { "$regex": text, "$options": 'i' } }
                         ]
                     },
-                    { "releases.parties": {
-                        "$elemMatch": {
+                    {
+                        "releases.parties": {
+                            "$elemMatch": {
                                 "name": {
-                                        "$in": queryArray
-                                    }
+                                    "$in": queryArray
+                                }
                             }
-                    } },
+                        }
+                    },
                     {
                         "$or": [
                             {
@@ -1433,14 +1453,15 @@ module.exports.filterbyStringDirectorateDateCount = (text, directorate, date, re
                             },
                             {
                                 "releases.tender.milestones": {
-                                    "$elemMatch": { 
+                                    "$elemMatch": {
                                         "dateMet":
-                                                {
-                                                    "$gte": new Date(date),
-                                                    "$lt": new Date(referenceDate)
-                                                }
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                    }
+                                }
                             }
-                        }}
                         ]
                     }]
         }
@@ -1550,13 +1571,15 @@ module.exports.filterByStringDirectorateDateValue = (text, directorate, date, re
                         { "company.slug": { "$regex": text, "$options": 'i' } }
                     ]
                 },
-                { "releases.parties": {
-                    "$elemMatch": {
+                {
+                    "releases.parties": {
+                        "$elemMatch": {
                             "name": {
-                                    "$in": queryArray
-                                }
+                                "$in": queryArray
+                            }
                         }
-                }},
+                    }
+                },
                 {
                     "$or": [
                         {
@@ -1582,14 +1605,15 @@ module.exports.filterByStringDirectorateDateValue = (text, directorate, date, re
                         },
                         {
                             "releases.tender.milestones": {
-                                "$elemMatch": { 
+                                "$elemMatch": {
                                     "dateMet":
-                                            {
-                                                "$gte": new Date(date),
-                                                "$lt": new Date(referenceDate)
-                                            }
+                                    {
+                                        "$gte": new Date(date),
+                                        "$lt": new Date(referenceDate)
+                                    }
+                                }
+                            }
                         }
-                    }}
                     ]
                 },
                 {
@@ -1701,13 +1725,15 @@ module.exports.filterByStringDirectorateDateValueCount = (text, directorate, dat
                         { "company.slug": { "$regex": text, "$options": 'i' } }
                     ]
                 },
-                { "releases.parties": {
-                    "$elemMatch": {
+                {
+                    "releases.parties": {
+                        "$elemMatch": {
                             "name": {
-                                    "$in": queryArray
-                                }
+                                "$in": queryArray
+                            }
                         }
-                } },
+                    }
+                },
                 {
                     "$or": [
                         {
@@ -1733,14 +1759,15 @@ module.exports.filterByStringDirectorateDateValueCount = (text, directorate, dat
                         },
                         {
                             "releases.tender.milestones": {
-                                "$elemMatch": { 
+                                "$elemMatch": {
                                     "dateMet":
-                                            {
-                                                "$gte": new Date(date),
-                                                "$lt": new Date(referenceDate)
-                                            }
+                                    {
+                                        "$gte": new Date(date),
+                                        "$lt": new Date(referenceDate)
+                                    }
+                                }
+                            }
                         }
-                    }}
                     ]
                 },
                 {
@@ -1800,14 +1827,15 @@ module.exports.filterByStringDate = (text, date, referenceDate, year) => {
                         },
                         {
                             "releases.tender.milestones": {
-                                "$elemMatch": { 
+                                "$elemMatch": {
                                     "dateMet":
-                                            {
-                                                "$gte": new Date(date),
-                                                "$lt": new Date(referenceDate)
-                                            }
+                                    {
+                                        "$gte": new Date(date),
+                                        "$lt": new Date(referenceDate)
+                                    }
+                                }
+                            }
                         }
-                    }}
                     ]
                 }
                 ]
@@ -1857,14 +1885,15 @@ module.exports.filterByStringDateCount = (text, date, referenceDate, year) => {
                         },
                         {
                             "releases.tender.milestones": {
-                                "$elemMatch": { 
+                                "$elemMatch": {
                                     "dateMet":
-                                            {
-                                                "$gte": new Date(date),
-                                                "$lt": new Date(referenceDate)
-                                            }
+                                    {
+                                        "$gte": new Date(date),
+                                        "$lt": new Date(referenceDate)
+                                    }
+                                }
+                            }
                         }
-                    }}
                     ]
                 }
                 ]
@@ -2026,13 +2055,15 @@ module.exports.filterbyDirectorateDate = (directorate, date, referenceDate, year
         {
             "$and":
                 [
-                    { "releases.parties": {
-                        "$elemMatch": {
+                    {
+                        "releases.parties": {
+                            "$elemMatch": {
                                 "name": {
-                                        "$in": queryArray
-                                    }
+                                    "$in": queryArray
+                                }
                             }
-                    } },
+                        }
+                    },
                     {
                         "$or": [
                             {
@@ -2058,14 +2089,15 @@ module.exports.filterbyDirectorateDate = (directorate, date, referenceDate, year
                             },
                             {
                                 "releases.tender.milestones": {
-                                    "$elemMatch": { 
+                                    "$elemMatch": {
                                         "dateMet":
-                                                {
-                                                    "$gte": new Date(date),
-                                                    "$lt": new Date(referenceDate)
-                                                }
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                    }
+                                }
                             }
-                        }}
                         ]
                     }
                 ]
@@ -2166,13 +2198,15 @@ module.exports.filterbyDirectorateDateCount = (directorate, date, referenceDate,
         {
             "$and":
                 [
-                    { "releases.parties": {
-                        "$elemMatch": {
+                    {
+                        "releases.parties": {
+                            "$elemMatch": {
                                 "name": {
-                                        "$in": queryArray
-                                    }
+                                    "$in": queryArray
+                                }
                             }
-                    } },
+                        }
+                    },
                     {
                         "$or": [
                             {
@@ -2198,14 +2232,15 @@ module.exports.filterbyDirectorateDateCount = (directorate, date, referenceDate,
                             },
                             {
                                 "releases.tender.milestones": {
-                                    "$elemMatch": { 
+                                    "$elemMatch": {
                                         "dateMet":
-                                                {
-                                                    "$gte": new Date(date),
-                                                    "$lt": new Date(referenceDate)
-                                                }
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                    }
+                                }
                             }
-                        }}
                         ]
                     }
                 ]
@@ -2309,13 +2344,15 @@ module.exports.filterByDirectorateValue = (directorate, value, year) => {
         {
             "$and":
                 [
-                    { "releases.parties": {
-                        "$elemMatch": {
+                    {
+                        "releases.parties": {
+                            "$elemMatch": {
                                 "name": {
-                                        "$in": queryArray
-                                    }
+                                    "$in": queryArray
+                                }
                             }
-                    }},
+                        }
+                    },
                     {
                         "$or": [
                             { "contract.predictedValueSlug": { "$regex": value } },
@@ -2419,13 +2456,15 @@ module.exports.filterByDirectorateValueCount = (directorate, value, year) => {
         {
             "$and":
                 [
-                    { "releases.parties": {
-                        "$elemMatch": {
+                    {
+                        "releases.parties": {
+                            "$elemMatch": {
                                 "name": {
-                                        "$in": queryArray
-                                    }
+                                    "$in": queryArray
+                                }
                             }
-                    }},
+                        }
+                    },
                     {
                         "$or": [
                             { "contract.predictedValueSlug": { "$regex": value } },
@@ -2443,7 +2482,7 @@ module.exports.filterByDirectorateValueCount = (directorate, value, year) => {
 // Filter by date and value
 module.exports.filterByDateValue = (date, referenceDate, value, year) => {
     let filter = [];
-    
+
     if (year !== 'any') {
         filter.push({ "$match": { "year": year } })
     }
@@ -2483,14 +2522,15 @@ module.exports.filterByDateValue = (date, referenceDate, value, year) => {
                             },
                             {
                                 "releases.tender.milestones": {
-                                    "$elemMatch": { 
+                                    "$elemMatch": {
                                         "dateMet":
-                                                {
-                                                    "$gte": new Date(date),
-                                                    "$lt": new Date(referenceDate)
-                                                }
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                    }
+                                }
                             }
-                        }}
                         ]
                     }
                 ]
@@ -2540,14 +2580,15 @@ module.exports.filterByDateValueCount = (date, referenceDate, value, year) => {
                             },
                             {
                                 "releases.tender.milestones": {
-                                    "$elemMatch": { 
+                                    "$elemMatch": {
                                         "dateMet":
-                                                {
-                                                    "$gte": new Date(date),
-                                                    "$lt": new Date(referenceDate)
-                                                }
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                    }
+                                }
                             }
-                        }}
                         ]
                     }
                 ]
@@ -2652,13 +2693,15 @@ module.exports.filterByDirectorateDateValue = (directorate, date, referenceDate,
         {
             "$and":
                 [
-                    { "releases.parties": {
-                        "$elemMatch": {
+                    {
+                        "releases.parties": {
+                            "$elemMatch": {
                                 "name": {
-                                        "$in": queryArray
-                                    }
+                                    "$in": queryArray
+                                }
                             }
-                    } },
+                        }
+                    },
                     {
                         "$or": [
                             { "contract.predictedValueSlug": { "$regex": value } },
@@ -2690,14 +2733,15 @@ module.exports.filterByDirectorateDateValue = (directorate, date, referenceDate,
                             },
                             {
                                 "releases.tender.milestones": {
-                                    "$elemMatch": { 
+                                    "$elemMatch": {
                                         "dateMet":
-                                                {
-                                                    "$gte": new Date(date),
-                                                    "$lt": new Date(referenceDate)
-                                                }
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                    }
+                                }
                             }
-                        }}
                         ]
                     }
                 ]
@@ -2798,13 +2842,15 @@ module.exports.filterByDirectorateDateValueCount = (directorate, date, reference
         {
             "$and":
                 [
-                    {"releases.parties": {
-                        "$elemMatch": {
+                    {
+                        "releases.parties": {
+                            "$elemMatch": {
                                 "name": {
-                                        "$in": queryArray
-                                    }
+                                    "$in": queryArray
+                                }
                             }
-                    }},
+                        }
+                    },
                     {
                         "$or": [
                             { "contract.predictedValueSlug": { "$regex": value } },
@@ -2836,14 +2882,15 @@ module.exports.filterByDirectorateDateValueCount = (directorate, date, reference
                             },
                             {
                                 "releases.tender.milestones": {
-                                    "$elemMatch": { 
+                                    "$elemMatch": {
                                         "dateMet":
-                                                {
-                                                    "$gte": new Date(date),
-                                                    "$lt": new Date(referenceDate)
-                                                }
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                    }
+                                }
                             }
-                        }}
                         ]
                     }
                 ]
@@ -2947,13 +2994,15 @@ module.exports.filterByStringDirectorateValue = (text, directorate, value, year)
         {
             "$and":
                 [
-                    { "releases.parties": {
-                        "$elemMatch": {
+                    {
+                        "releases.parties": {
+                            "$elemMatch": {
                                 "name": {
-                                        "$in": queryArray
-                                    }
+                                    "$in": queryArray
+                                }
                             }
-                    } },
+                        }
+                    },
                     {
                         "$or": [
                             { "contract.predictedValueSlug": { "$regex": value } },
@@ -3055,7 +3104,7 @@ module.exports.filterByStringDirectorateValueCount = (text, directorate, value, 
             queryArray.push(element);
         });
     }
-    
+
     if (year !== 'any') {
         filter.push({ "$match": { "year": year } })
     }
@@ -3064,13 +3113,15 @@ module.exports.filterByStringDirectorateValueCount = (text, directorate, value, 
         {
             "$and":
                 [
-                    {"releases.parties": {
-                        "$elemMatch": {
+                    {
+                        "releases.parties": {
+                            "$elemMatch": {
                                 "name": {
-                                        "$in": queryArray
-                                    }
+                                    "$in": queryArray
+                                }
                             }
-                    } },
+                        }
+                    },
                     {
                         "$or": [
                             { "contract.predictedValueSlug": { "$regex": value } },
@@ -3096,7 +3147,7 @@ module.exports.filterByStringDirectorateValueCount = (text, directorate, value, 
 
 module.exports.filterByStringDateValue = (text, date, referenceDate, value, year) => {
     let filter = [];
-    
+
     if (year !== 'any') {
         filter.push({ "$match": { "year": year } })
     }
@@ -3143,14 +3194,15 @@ module.exports.filterByStringDateValue = (text, date, referenceDate, value, year
                             },
                             {
                                 "releases.tender.milestones": {
-                                    "$elemMatch": { 
+                                    "$elemMatch": {
                                         "dateMet":
-                                                {
-                                                    "$gte": new Date(date),
-                                                    "$lt": new Date(referenceDate)
-                                                }
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                    }
+                                }
                             }
-                        }}
                         ]
                     }
                 ]
@@ -3160,7 +3212,7 @@ module.exports.filterByStringDateValue = (text, date, referenceDate, value, year
 }
 module.exports.filterByStringDateValueCount = (text, date, referenceDate, value, year) => {
     let filter = [];
-    
+
     if (year !== 'any') {
         filter.push({ "$match": { "year": year } })
     }
@@ -3207,14 +3259,15 @@ module.exports.filterByStringDateValueCount = (text, date, referenceDate, value,
                             },
                             {
                                 "releases.tender.milestones": {
-                                    "$elemMatch": { 
+                                    "$elemMatch": {
                                         "dateMet":
-                                                {
-                                                    "$gte": new Date(date),
-                                                    "$lt": new Date(referenceDate)
-                                                }
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                    }
+                                }
                             }
-                        }}
                         ]
                     }
                 ]
@@ -3405,13 +3458,15 @@ module.exports.filterByProcurementNoDirectorate = (procurementNo, directorate, y
                 [{
                     "releases.tender.id": procurementNo
                 },
-                { "releases.parties": {
-                    "$elemMatch": {
+                {
+                    "releases.parties": {
+                        "$elemMatch": {
                             "name": {
-                                    "$in": queryArray
-                                }
+                                "$in": queryArray
+                            }
                         }
-                } },
+                    }
+                },
                 ]
         }
 
@@ -3510,16 +3565,18 @@ module.exports.filterByProcurementNoDirectorateCount = (procurementNo, directora
         "$match":
         {
             "$and":
-                [{ 
+                [{
                     "releases.tender.id": procurementNo
                 },
-                { "releases.parties": {
-                    "$elemMatch": {
+                {
+                    "releases.parties": {
+                        "$elemMatch": {
                             "name": {
-                                    "$in": queryArray
-                                }
+                                "$in": queryArray
+                            }
                         }
-                } },
+                    }
+                },
                 ]
         }
 
@@ -3622,13 +3679,15 @@ module.exports.filterByProcurementNoDirectorateString = (procurementNo, text, di
                 [{
                     "releases.tender.id": procurementNo
                 },
-                { "releases.parties": {
-                    "$elemMatch": {
+                {
+                    "releases.parties": {
+                        "$elemMatch": {
                             "name": {
-                                    "$in": queryArray
-                                }
+                                "$in": queryArray
+                            }
                         }
-                } },
+                    }
+                },
                 {
                     "$or": [
                         { "activityTitleSlug": { "$regex": text, "$options": 'i' } },
@@ -3736,13 +3795,15 @@ module.exports.filterByProcurementNoDirectorateStringCount = (procurementNo, tex
                 [{
                     "releases.tender.id": procurementNo
                 },
-                { "releases.parties": {
-                    "$elemMatch": {
+                {
+                    "releases.parties": {
+                        "$elemMatch": {
                             "name": {
-                                    "$in": queryArray
-                                }
+                                "$in": queryArray
+                            }
                         }
-                } },
+                    }
+                },
                 {
                     "$or": [
                         { "activityTitleSlug": { "$regex": text, "$options": 'i' } },
@@ -3968,13 +4029,15 @@ module.exports.filterByProcurementNoDirectorateValue = (procurementNo, directora
         {
             "$and":
                 [
-                    { "releases.parties": {
-                        "$elemMatch": {
+                    {
+                        "releases.parties": {
+                            "$elemMatch": {
                                 "name": {
-                                        "$in": queryArray
-                                    }
+                                    "$in": queryArray
+                                }
                             }
-                    } },
+                        }
+                    },
                     {
                         "$or": [
                             { "contract.predictedValueSlug": { "$regex": value } },
@@ -4080,13 +4143,15 @@ module.exports.filterByProcurementNoDirectorateValueCount = (procurementNo, dire
         {
             "$and":
                 [
-                    { "releases.parties": {
-                        "$elemMatch": {
+                    {
+                        "releases.parties": {
+                            "$elemMatch": {
                                 "name": {
-                                        "$in": queryArray
-                                    }
+                                    "$in": queryArray
+                                }
                             }
-                    } },
+                        }
+                    },
                     {
                         "$or": [
                             { "contract.predictedValueSlug": { "$regex": value } },
@@ -4195,13 +4260,15 @@ module.exports.filterByProcurementNoStringDirectorateValue = (procurementNo, tex
         {
             "$and":
                 [
-                    { "releases.parties": {
-                        "$elemMatch": {
+                    {
+                        "releases.parties": {
+                            "$elemMatch": {
                                 "name": {
-                                        "$in": queryArray
-                                    }
+                                    "$in": queryArray
+                                }
                             }
-                    }},
+                        }
+                    },
                     {
                         "$or": [
                             { "contract.predictedValueSlug": { "$regex": value } },
@@ -4313,13 +4380,15 @@ module.exports.filterByProcurementNoStringDirectorateValueCount = (procurementNo
         {
             "$and":
                 [
-                    { "releases.parties": {
-                        "$elemMatch": {
+                    {
+                        "releases.parties": {
+                            "$elemMatch": {
                                 "name": {
-                                        "$in": queryArray
-                                    }
+                                    "$in": queryArray
+                                }
                             }
-                    }},
+                        }
+                    },
                     {
                         "$or": [
                             { "contract.predictedValueSlug": { "$regex": value } },
@@ -4380,14 +4449,15 @@ module.exports.filterByProcurementNoDate = (procurementNo, date, referenceDate, 
                             },
                             {
                                 "releases.tender.milestones": {
-                                    "$elemMatch": { 
+                                    "$elemMatch": {
                                         "dateMet":
-                                                {
-                                                    "$gte": new Date(date),
-                                                    "$lt": new Date(referenceDate)
-                                                }
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                    }
+                                }
                             }
-                        }}
                         ]
                     }
                 ]
@@ -4434,14 +4504,15 @@ module.exports.filterByProcurementNoDateCount = (procurementNo, date, referenceD
                             },
                             {
                                 "releases.tender.milestones": {
-                                    "$elemMatch": { 
+                                    "$elemMatch": {
                                         "dateMet":
-                                                {
-                                                    "$gte": new Date(date),
-                                                    "$lt": new Date(referenceDate)
-                                                }
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                    }
+                                }
                             }
-                        }}
                         ]
                     }
                 ]
@@ -4497,14 +4568,15 @@ module.exports.filterByProcurementNoStringDate = (procurementNo, text, date, ref
                             },
                             {
                                 "releases.tender.milestones": {
-                                    "$elemMatch": { 
+                                    "$elemMatch": {
                                         "dateMet":
-                                                {
-                                                    "$gte": new Date(date),
-                                                    "$lt": new Date(referenceDate)
-                                                }
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                    }
+                                }
                             }
-                        }}
                         ]
                     }
                 ]
@@ -4557,14 +4629,15 @@ module.exports.filterByProcurementNoStringDateCount = (procurementNo, text, date
                         },
                         {
                             "releases.tender.milestones": {
-                                "$elemMatch": { 
+                                "$elemMatch": {
                                     "dateMet":
-                                            {
-                                                "$gte": new Date(date),
-                                                "$lt": new Date(referenceDate)
-                                            }
+                                    {
+                                        "$gte": new Date(date),
+                                        "$lt": new Date(referenceDate)
+                                    }
+                                }
+                            }
                         }
-                    }}
                     ]
                 }
                 ]
@@ -4667,13 +4740,15 @@ module.exports.filterByProcurementNoDirectorateDate = (procurementNo, directorat
         {
             "$and":
                 [
-                    { "releases.parties": {
-                        "$elemMatch": {
+                    {
+                        "releases.parties": {
+                            "$elemMatch": {
                                 "name": {
-                                        "$in": queryArray
-                                    }
+                                    "$in": queryArray
+                                }
                             }
-                    } },
+                        }
+                    },
                     {
                         "$or": [
                             {
@@ -4699,14 +4774,15 @@ module.exports.filterByProcurementNoDirectorateDate = (procurementNo, directorat
                             },
                             {
                                 "releases.tender.milestones": {
-                                    "$elemMatch": { 
+                                    "$elemMatch": {
                                         "dateMet":
-                                                {
-                                                    "$gte": new Date(date),
-                                                    "$lt": new Date(referenceDate)
-                                                }
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                    }
+                                }
                             }
-                        }}
                         ]
                     }, {
                         "releases.tender.id": procurementNo
@@ -4808,13 +4884,15 @@ module.exports.filterByProcurementNoDirectorateDateCount = (procurementNo, direc
         {
             "$and":
                 [
-                    { "releases.parties": {
-                        "$elemMatch": {
+                    {
+                        "releases.parties": {
+                            "$elemMatch": {
                                 "name": {
-                                        "$in": queryArray
-                                    }
+                                    "$in": queryArray
+                                }
                             }
-                    } },
+                        }
+                    },
                     {
                         "$or": [
                             {
@@ -4840,14 +4918,15 @@ module.exports.filterByProcurementNoDirectorateDateCount = (procurementNo, direc
                             },
                             {
                                 "releases.tender.milestones": {
-                                    "$elemMatch": { 
+                                    "$elemMatch": {
                                         "dateMet":
-                                                {
-                                                    "$gte": new Date(date),
-                                                    "$lt": new Date(referenceDate)
-                                                }
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                    }
+                                }
                             }
-                        }}
                         ]
                     }, {
                         "releases.tender.id": procurementNo
@@ -4952,13 +5031,15 @@ module.exports.filterByProcurementNoStringDirectorateDate = (procurementNo, text
         {
             "$and":
                 [
-                    { "releases.parties": {
-                        "$elemMatch": {
+                    {
+                        "releases.parties": {
+                            "$elemMatch": {
                                 "name": {
-                                        "$in": queryArray
-                                    }
+                                    "$in": queryArray
+                                }
                             }
-                    } },
+                        }
+                    },
                     {
                         "$or": [
                             {
@@ -4984,14 +5065,15 @@ module.exports.filterByProcurementNoStringDirectorateDate = (procurementNo, text
                             },
                             {
                                 "releases.tender.milestones": {
-                                    "$elemMatch": { 
+                                    "$elemMatch": {
                                         "dateMet":
-                                                {
-                                                    "$gte": new Date(date),
-                                                    "$lt": new Date(referenceDate)
-                                                }
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                    }
+                                }
                             }
-                        }}
                         ]
                     },
                     {
@@ -5100,13 +5182,15 @@ module.exports.filterByProcurementNoStringDirectorateDateCount = (procurementNo,
         {
             "$and":
                 [
-                    { "releases.parties": {
-                        "$elemMatch": {
+                    {
+                        "releases.parties": {
+                            "$elemMatch": {
                                 "name": {
-                                        "$in": queryArray
-                                    }
+                                    "$in": queryArray
+                                }
                             }
-                    }},
+                        }
+                    },
                     {
                         "$or": [
                             {
@@ -5132,14 +5216,15 @@ module.exports.filterByProcurementNoStringDirectorateDateCount = (procurementNo,
                             },
                             {
                                 "releases.tender.milestones": {
-                                    "$elemMatch": { 
+                                    "$elemMatch": {
                                         "dateMet":
-                                                {
-                                                    "$gte": new Date(date),
-                                                    "$lt": new Date(referenceDate)
-                                                }
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                    }
+                                }
                             }
-                        }}
                         ]
                     },
                     {
@@ -5203,14 +5288,15 @@ module.exports.filterByProcurementNoDateValue = (procurementNo, value, date, ref
                             },
                             {
                                 "releases.tender.milestones": {
-                                    "$elemMatch": { 
+                                    "$elemMatch": {
                                         "dateMet":
-                                                {
-                                                    "$gte": new Date(date),
-                                                    "$lt": new Date(referenceDate)
-                                                }
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                    }
+                                }
                             }
-                        }}
                         ]
                     }
                 ]
@@ -5263,14 +5349,15 @@ module.exports.filterByProcurementNoDateValueCount = (procurementNo, value, date
                             },
                             {
                                 "releases.tender.milestones": {
-                                    "$elemMatch": { 
+                                    "$elemMatch": {
                                         "dateMet":
-                                                {
-                                                    "$gte": new Date(date),
-                                                    "$lt": new Date(referenceDate)
-                                                }
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                    }
+                                }
                             }
-                        }}
                         ]
                     }
                 ]
@@ -5332,14 +5419,15 @@ module.exports.filterByProcurementNoStringDateValue = (procurementNo, text, valu
                             },
                             {
                                 "releases.tender.milestones": {
-                                    "$elemMatch": { 
+                                    "$elemMatch": {
                                         "dateMet":
-                                                {
-                                                    "$gte": new Date(date),
-                                                    "$lt": new Date(referenceDate)
-                                                }
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                    }
+                                }
                             }
-                        }}
                         ]
                     }
                 ]
@@ -5398,14 +5486,15 @@ module.exports.filterByProcurementNoStringDateValueCount = (procurementNo, text,
                             },
                             {
                                 "releases.tender.milestones": {
-                                    "$elemMatch": { 
+                                    "$elemMatch": {
                                         "dateMet":
-                                                {
-                                                    "$gte": new Date(date),
-                                                    "$lt": new Date(referenceDate)
-                                                }
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                    }
+                                }
                             }
-                        }}
                         ]
                     }
                 ]
@@ -5507,13 +5596,15 @@ module.exports.filterbyProcurementNoDirectorateValueDate = (procurementNo, direc
         {
             "$and":
                 [
-                    { "releases.parties": {
-                        "$elemMatch": {
+                    {
+                        "releases.parties": {
+                            "$elemMatch": {
                                 "name": {
-                                        "$in": queryArray
-                                    }
+                                    "$in": queryArray
+                                }
                             }
-                    } },
+                        }
+                    },
                     {
                         "releases.tender.id": procurementNo
                     },
@@ -5548,14 +5639,15 @@ module.exports.filterbyProcurementNoDirectorateValueDate = (procurementNo, direc
                             },
                             {
                                 "releases.tender.milestones": {
-                                    "$elemMatch": { 
+                                    "$elemMatch": {
                                         "dateMet":
-                                                {
-                                                    "$gte": new Date(date),
-                                                    "$lt": new Date(referenceDate)
-                                                }
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                    }
+                                }
                             }
-                        }}
                         ]
                     }
                 ]
@@ -5654,13 +5746,15 @@ module.exports.filterbyProcurementNoDirectorateValueDateCount = (procurementNo, 
         {
             "$and":
                 [
-                    { "releases.parties": {
-                        "$elemMatch": {
+                    {
+                        "releases.parties": {
+                            "$elemMatch": {
                                 "name": {
-                                        "$in": queryArray
-                                    }
+                                    "$in": queryArray
+                                }
                             }
-                    } },
+                        }
+                    },
                     {
                         "releases.tender.id": procurementNo
                     },
@@ -5695,14 +5789,15 @@ module.exports.filterbyProcurementNoDirectorateValueDateCount = (procurementNo, 
                             },
                             {
                                 "releases.tender.milestones": {
-                                    "$elemMatch": { 
+                                    "$elemMatch": {
                                         "dateMet":
-                                                {
-                                                    "$gte": new Date(date),
-                                                    "$lt": new Date(referenceDate)
-                                                }
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                    }
+                                }
                             }
-                        }}
                         ]
                     }
                 ]
@@ -5804,13 +5899,15 @@ module.exports.filterbyProcurementNoStringDirectorateValueDate = (procurementNo,
         {
             "$and":
                 [
-                    { "releases.parties": {
-                        "$elemMatch": {
+                    {
+                        "releases.parties": {
+                            "$elemMatch": {
                                 "name": {
-                                        "$in": queryArray
-                                    }
+                                    "$in": queryArray
+                                }
                             }
-                    } },
+                        }
+                    },
                     {
                         "releases.tender.id": procurementNo
                     },
@@ -5852,14 +5949,15 @@ module.exports.filterbyProcurementNoStringDirectorateValueDate = (procurementNo,
                             },
                             {
                                 "releases.tender.milestones": {
-                                    "$elemMatch": { 
+                                    "$elemMatch": {
                                         "dateMet":
-                                                {
-                                                    "$gte": new Date(date),
-                                                    "$lt": new Date(referenceDate)
-                                                }
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                    }
+                                }
                             }
-                        }}
                         ]
                     }
                 ]
@@ -5959,13 +6057,15 @@ module.exports.filterbyProcurementNoStringDirectorateValueDateCount = (procureme
         {
             "$and":
                 [
-                    { "releases.parties": {
-                        "$elemMatch": {
+                    {
+                        "releases.parties": {
+                            "$elemMatch": {
                                 "name": {
-                                        "$in": queryArray
-                                    }
+                                    "$in": queryArray
+                                }
                             }
-                    } },
+                        }
+                    },
                     {
                         "releases.tender.id": procurementNo
                     },
@@ -6007,14 +6107,15 @@ module.exports.filterbyProcurementNoStringDirectorateValueDateCount = (procureme
                             },
                             {
                                 "releases.tender.milestones": {
-                                    "$elemMatch": { 
+                                    "$elemMatch": {
                                         "dateMet":
-                                                {
-                                                    "$gte": new Date(date),
-                                                    "$lt": new Date(referenceDate)
-                                                }
+                                        {
+                                            "$gte": new Date(date),
+                                            "$lt": new Date(referenceDate)
+                                        }
+                                    }
+                                }
                             }
-                        }}
                         ]
                     }
                 ]

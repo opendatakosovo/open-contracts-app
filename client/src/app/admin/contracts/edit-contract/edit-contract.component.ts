@@ -14,8 +14,7 @@ import { Router } from '@angular/router';
 import { User } from '../../../models/user';
 import { CustomValidator } from '../../../validators/custom-validator';
 import { DatasetService } from '../../../service/dataset.service';
-import { TreeNode } from '@angular/router/src/utils/tree';
-import { DateParsingFlags } from 'ngx-bootstrap/chronos/create/parsing.types';
+import { Lot } from '../../../models/lot';
 @Component({
   selector: 'app-edit-contract',
   templateUrl: './edit-contract.component.html',
@@ -39,10 +38,12 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
   message: string;
   formArrayAnnexes: FormArray;
   formArrayInstallments: FormArray;
+  formArrayLots: FormArray;
   total: Number;
   totalInstallments: Number;
   @ViewChild('fileInput') fileInput;
   implementationDeadline = [];
+  implementationDeadlineLot = [];
   currentUser: User;
   documents: FormArray;
   contractDocsNames = [];
@@ -78,12 +79,15 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
   cancellationNoticeDateUpdated: Date;
   noOfCompaniesWhoDownloadedTenderDocUpdated: number;
   noOfRefusedBidsUpdated: number;
+  implementationDeadlineDurationLot: string;
+  implementationDeadlineNumberLot: number;
 
   constructor(public contractsService: ContractsService, private router: ActivatedRoute, public directorateService: DirectorateService, private _fb: FormBuilder, private route: Router, public datasetService: DatasetService) {
     this.directorates = [];
     this.contract = new Contract();
     this.formArrayAnnexes = new FormArray([]);
     this.formArrayInstallments = new FormArray([]);
+    this.formArrayLots = new FormArray([]);
     this.id = this.router.snapshot.paramMap.get('id');
     this.contractsService.getContractByID(this.id)
       .takeUntil(this.unsubscribeAll)
@@ -105,8 +109,22 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
         this.formatDates(this.contract);
         this.initAnnexes();
         this.initInstallments();
+        this.initLots();
         if (this.contract.releases[0].contracts[0].period.durationInDays !== undefined && this.contract.releases[0].contracts[0].period.durationInDays !== '') {
           this.implementationDeadline = this.contract.releases[0].contracts[0].period.durationInDays.split(' ');
+          this.implementationDeadlineNumberLot = this.implementationDeadline[0];
+        }
+        if (this.implementationDeadline[1] === 'muaj') {
+          this.implementationDeadline[1] = 'Muaj';
+        } else if (this.implementationDeadline[1] === 'ditë' || this.implementationDeadline[1] === 'dite' || this.implementationDeadline[1] === 'Dite') {
+          this.implementationDeadline[1] = 'Ditë';
+        } else if (this.implementationDeadline[1] === 'vite') {
+          this.implementationDeadline[1] = 'Vite';
+        }
+        if (this.contract.releases[0].tender.lots.length > 0) {
+          for (const lot of this.contract.releases[0].tender.lots) {
+            this.implementationDeadlineLot = lot.description.split(' ');
+          }
         }
         // Check the planning documents to check the planning radiobutton
         if (this.contract.releases[0].planning.documents[0] && this.contract.releases[0].planning.documents[0].documentType === 'procurementPlan') {
@@ -190,6 +208,9 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
       signingDate: null,
       implementationDeadlineNumber: null,
       implementationDeadlineDuration: '',
+      implementationDeadlineNumberLot: null,
+      implementationDeadlineDurationLot: '',
+      valueOfLot: null,
       closingDate: null,
       noOfPaymentInstallments: null,
       totalAmountOfContractsIncludingTaxes: '',
@@ -205,6 +226,7 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
       nameOfProcurementOffical: '',
       annexes: this.formArrayAnnexes,
       installments: this.formArrayInstallments,
+      lots: this.formArrayLots,
       documents: _fb.array([])
     });
     this.directorateService.getAllDirectorates()
@@ -237,6 +259,14 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
       payeeId: installment.payee.id,
       payeeName: installment.payee.name,
       currency: installment.value.currency
+    });
+  }
+
+  addLot(lot: Lot) {
+    return this._fb.group({
+      id: lot.id,
+      description: lot.description,
+      value: lot.value.amount
     });
   }
 
@@ -276,9 +306,35 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
     }));
   }
 
+  addNewLot() {
+    this.contract.releases[0].tender.lots.push({
+      id: '',
+      description: '',
+      value: {
+        amount: 0,
+        currency: 'EUR'
+      }
+    });
+    const arrControl = this.formArrayLots;
+    arrControl.push(this.addLot({
+      id: '',
+      description: '',
+      value: {
+        amount: 0,
+        currency: 'EUR'
+      }
+    }));
+  }
+
   removeInstallment(i) {
     this.contract.releases[0].contracts[0].implementation.transactions.splice(i, 1);
     const arrControl = this.formArrayInstallments;
+    arrControl.removeAt(i);
+  }
+
+  removeLot(i) {
+    this.contract.releases[0].tender.lots.splice(i, 1);
+    const arrControl = this.formArrayLots;
     arrControl.removeAt(i);
   }
 
@@ -286,6 +342,13 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
     const arrControl = this.formArrayInstallments;
     this.contract.releases[0].contracts[0].implementation.transactions.map(installment => {
       arrControl.push(this.addInstallment(installment));
+    });
+  }
+
+  initLots() {
+    const arrControl = this.formArrayLots;
+    this.contract.releases[0].tender.lots.map(lot => {
+      arrControl.push(this.addLot(lot));
     });
   }
 
@@ -593,7 +656,7 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
         id: Math.random().toString(36).substr(2, 9) + '-procurementPlan',
         documentType: 'procurementPlan'
       });
-    } else if (this.planned === 'jo' && this.contract.releases[0].planning.documents[0].documentType && this.contract.releases[0].planning.documents[0].documentType === 'procurementPlan') {
+    } else if (this.planned === 'jo' && this.contract.releases[0].planning.documents[0] && this.contract.releases[0].planning.documents[0].documentType && this.contract.releases[0].planning.documents[0].documentType === 'procurementPlan') {
       this.contract.releases[0].planning.documents = [];
     }
     // Push planning milestones

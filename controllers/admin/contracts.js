@@ -1035,7 +1035,8 @@ router.put('/update-all', (req, res) => {
                             },
                             "procedure": {
                                 "isAcceleratedProcedure": acceleratedProcedure()
-                            }
+                            },
+                            "lots": []
                         },
                         "awards": [
                             {

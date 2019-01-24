@@ -69,7 +69,7 @@ export class ContractInformationComponent implements OnInit {
             this.contract.releases[0].contracts[0].period.durationInDays = this.contract.releases[0].contracts[0].period.durationInDays.replace(' undefined', '');
           }
         }
-        if (this.contract.releases[0].planning.documents[0].documentType && this.contract.releases[0].planning.documents[0].documentType === 'procurementPlan') {
+        if (this.contract.releases[0].planning.documents[0] && this.contract.releases[0].planning.documents[0].documentType && this.contract.releases[0].planning.documents[0].documentType === 'procurementPlan') {
           this.planned = 'Po';
         } else {
           this.planned = 'Jo';

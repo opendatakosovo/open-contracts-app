@@ -118,7 +118,7 @@
         <br>
         <div class="col-md-4">
           <label>Klasifikimi (2 shifrat e para të FPP)</label>
-          <div *ngIf="!contract.releases[0].tender.items[0]">
+          <div *ngIf="!contract.releases[0].tender.items[0] || contract.releases[0].tender.items[0].quantity === null">
             <p>-</p>
           </div>
           <div *ngIf="contract.releases[0].tender.items[0]">
@@ -504,6 +504,29 @@
           </div>
         </div>
       </div>
+      <hr>
+      <h4 class="title-lots">Llotet</h4>
+      <div *ngFor="let lot of contract.releases[0].tender.lots; let i = index" class="row">
+        <br>
+        <div class="col-md-6">
+          <label>Vlera totale e llotit ({{i+1}})</label>
+          <div *ngIf="lot.value.amount == 0 || lot.value.amount == null || lot.value.amount == undefined">
+            <p>-</p>
+          </div>
+          <div *ngIf="lot.value.amount != 0 && lot.value.amount != undefined && lot.value.amount != null">
+            <p>{{ lot.value.amount }} &euro;</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label>Afati i implementimit te llotit ({{i+1}})</label>
+          <div *ngIf="lot.description == '' || lot.description == null">
+            <p>-</p>
+          </div>
+          <div *ngIf="lot.description != null || lot.description != ''">
+            <p>{{ lot.description }}</p>
+          </div>
+        </div>
+      </div>
       <div *ngFor="let annex of contract.releases[0].contracts[0].amendments; let i = index" class="row">
         <br>
         <div class="col-md-6">
@@ -528,25 +551,25 @@
       <hr>
       <h4 class="title-situations">Situacionet</h4>
       <div *ngIf="contract.releases[0].contracts[0].implementation.transactions.length > 0">
-        <div *ngFor="let installment of contract.releases[0].contracts[0].implementation.transactions; let i = index"
+        <div *ngFor="let transaction of contract.releases[0].contracts[0].implementation.transactions; let i = index"
           class="row">
           <br>
           <div class="col-md-6">
             <label>Data e pagesës së situacionit ({{i+1}})</label>
-            <div *ngIf="installment.date == null">
+            <div *ngIf="transaction.date == null">
               <p>-</p>
             </div>
-            <div *ngIf="installment.date != null">
-              <p>{{ installment.date | date: 'dd/MM/yyyy' }}</p>
+            <div *ngIf="transaction.date != null">
+              <p>{{ transaction.date | date: 'dd/MM/yyyy' }}</p>
             </div>
           </div>
           <div class="col-md-6">
             <label>Shuma e pagesës së situacionit ({{i+1}})</label>
-            <div *ngIf="installment.value.amount == null">
+            <div *ngIf="transaction.value.amount == null">
               <p>-</p>
             </div>
-            <div *ngIf="installment.value.amount != null">
-              <p>{{ installment.value.amount }} &euro;</p>
+            <div *ngIf="transaction.value.amount != null">
+              <p>{{ transaction.value.amount }} &euro;</p>
             </div>
           </div>
         </div>
