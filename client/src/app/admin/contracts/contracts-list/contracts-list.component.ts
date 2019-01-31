@@ -234,7 +234,6 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
               this.page = pagedData.page;
               this.rows = pagedData.data;
             });
-          console.log(this.contract);
           Swal('Sukses!', 'Kontrata u fshi me sukses.', 'success');
           this.datasetService.updateCsv(this.contract.year, this.contract)
             .takeUntil(this.unsubscribeAll)
@@ -248,7 +247,6 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
     this.contractsService.filterContractDashboard(this.search, this.currentUser.role, this.currentUser.directorateName)
       .takeUntil(this.unsubscribeAll)
       .subscribe(data => {
-        console.log(1);
         this.page = data.page;
         this.rows = data.data;
         if (data.data.length === 0) {

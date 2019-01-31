@@ -63,7 +63,7 @@ export class HomeComponent implements OnInit {
       if (elemA === 'json') {
         window.location.href = '/datasets/json/' + elemB.replace('.csv', '');
       } else if (elemA === 'csv') {
-        if (elemB === '2018.csv' || elemB === '2017.csv') {
+        if (elemB === '2018.csv' || elemB === '2017.csv' || elemB === '2019.csv') {
           window.location.href = '/datasets/new/' + elemB;
         } else {
           window.location.href = '/datasets/old/' + elemB;
