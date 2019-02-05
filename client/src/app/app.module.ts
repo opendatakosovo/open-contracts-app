@@ -67,7 +67,7 @@ import { CheckIfUserIsActive } from './utils/CheckIfUserIsActive';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http);
+  return new TranslateHttpLoader(http, './assets/i18n/');
 }
 const appRoutes: Routes = [
   // Main page layouts routes
