@@ -2,13 +2,13 @@
 <nav class="navbar sticky-top navbar-expand-lg navbar-light" id="navbar-1" (window:resize)="onResize()">
   <a class="navbar-brand logo-image" (click)="clickHome()">
     <div *ngIf="this.language === 'sq'">
-      <img src="../../../../assets/images/kontratat-e-hapura-logo.png">
+      <img [src]="'assets/images/kontratat-e-hapura-logo.png'">
     </div>
     <div *ngIf="this.language === 'sr'">
-      <img src="../../../../assets/images/otvoreni-ugovori--logo.png">
+      <img [src]="'assets/images/otvoreni-ugovori--logo.png'">
     </div>
     <div *ngIf="this.language === 'en'">
-      <img src="../../../../assets/images/open-contracts---logo.png">
+      <img [src]="'assets/images/open-contracts---logo.png'">
     </div>
   </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNav" aria-controls="mainNav"
