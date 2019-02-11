@@ -398,7 +398,7 @@ export class AddContractComponent implements OnInit {
   changeValues() {
     this.payeeId = Math.random().toString(36).substr(2, 9) + '-payee';
     this.payerId = Math.random().toString(36).substr(2, 9) + '-payer';
-    if (this.form.value.implementationDeadlineNumber !== null && this.form.value.implementationDeadlineDuration !== '') {
+    if (this.form.value.implementationDeadlineNumber !== null && this.form.value.implementationDeadlineDuration !== '' && this.form.value.implementationDeadlineNumber !== undefined && this.form.value.implementationDeadlineDuration !== undefined) {
       this.contract.releases[0].tender.contractPeriod.durationInDays = this.form.value.implementationDeadlineNumber + ' ' + this.form.value.implementationDeadlineDuration;
 
       this.contract.releases[0].awards[0].contractPeriod.durationInDays = this.form.value.implementationDeadlineNumber + ' ' + this.form.value.implementationDeadlineDuration;
@@ -470,7 +470,7 @@ export class AddContractComponent implements OnInit {
       this.contract.releases[0].tender.procurementMethod = 'selective';
     }
     // Fill the item tender with the fppClassification number
-    if (this.fppClassification !== 0 && this.fppClassification !== null) {
+    if (this.fppClassification !== 0 && this.fppClassification !== null && this.fppClassification !== undefined) {
       this.contract.releases[0].tender.items.push({
         id: Math.random().toString(36).substr(2, 9) + '-CPV' + '-' + this.fppClassification,
         description: 'The CPV number for the services provided',
@@ -756,10 +756,10 @@ export class AddContractComponent implements OnInit {
                 });
             } else {
               Swal('Sukses!', 'Kontrata u shtua me sukses.', 'success').then((result) => {
-                // this.datasetService.updateCsv(this.contract.year, this.contract)
-                //   .takeUntil(this.unsubscribeAll)
-                //   .subscribe(data => {
-                //   });
+                this.datasetService.updateCsv(this.contract.year, this.contract)
+                  .takeUntil(this.unsubscribeAll)
+                  .subscribe(data => {
+                  });
                 if (result.value) {
                   this.router.navigate(['/dashboard/contracts']);
                 }
@@ -788,10 +788,10 @@ export class AddContractComponent implements OnInit {
               Swal('Gabim!', 'Kontrata nuk u shtua.', 'error');
             } else {
               Swal('Sukses!', 'Kontrata u shtua me sukses.', 'success').then((result) => {
-                // this.datasetService.updateCsv(this.contract.year, this.contract)
-                //   .takeUntil(this.unsubscribeAll)
-                //   .subscribe(data => {
-                //   });
+                this.datasetService.updateCsv(this.contract.year, this.contract)
+                  .takeUntil(this.unsubscribeAll)
+                  .subscribe(data => {
+                  });
                 if (result.value) {
                   this.router.navigate(['/dashboard/contracts']);
                 }

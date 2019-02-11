@@ -113,13 +113,16 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
         if (this.contract.releases[0].contracts[0].period.durationInDays !== undefined && this.contract.releases[0].contracts[0].period.durationInDays !== '') {
           this.implementationDeadline = this.contract.releases[0].contracts[0].period.durationInDays.split(' ');
           this.implementationDeadlineNumberLot = this.implementationDeadline[0];
-        }
-        if (this.implementationDeadline[1] === 'muaj') {
-          this.implementationDeadline[1] = 'Muaj';
-        } else if (this.implementationDeadline[1] === 'ditë' || this.implementationDeadline[1] === 'dite' || this.implementationDeadline[1] === 'Dite') {
-          this.implementationDeadline[1] = 'Ditë';
-        } else if (this.implementationDeadline[1] === 'vite') {
-          this.implementationDeadline[1] = 'Vite';
+          if (this.implementationDeadline[1] === 'muaj') {
+            this.implementationDeadline[1] = 'Muaj';
+          } else if (this.implementationDeadline[1] === 'ditë' || this.implementationDeadline[1] === 'dite' || this.implementationDeadline[1] === 'Dite') {
+            this.implementationDeadline[1] = 'Ditë';
+          } else if (this.implementationDeadline[1] === 'vite') {
+            this.implementationDeadline[1] = 'Vite';
+          }
+        } else {
+          this.implementationDeadline[0] = null;
+          this.implementationDeadline[1] = '';
         }
         if (this.contract.releases[0].tender.lots.length > 0) {
           for (const lot of this.contract.releases[0].tender.lots) {
@@ -149,11 +152,13 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
           this.tenderStatus = 'contracted';
         }
         // Check tender items to fill the fppClassification field
-        this.contract.releases[0].tender.items.map(item => {
-          if (item.classification.id === 'CPV') {
-            this.fppClassification = Number(item.quantity);
-          }
-        });
+        if (this.contract.releases[0].tender.items && this.contract.releases[0].tender.items !== []) {
+          this.contract.releases[0].tender.items.map(item => {
+            if (item.classification.id === 'CPV') {
+              this.fppClassification = Number(item.quantity);
+            }
+          });
+        }
         // Map the parties to fill the parties names
         this.contract.releases[0].parties.map(party => {
           if (party.details && party.details.local !== null) {
@@ -638,7 +643,7 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
       this.contract.releases[0].tender.procurementMethod = 'selective';
     }
     // Fill the item tender with the fppClassification number
-    if (this.fppClassification !== 0 && this.fppClassification !== null) {
+    if (this.fppClassification !== 0 && this.fppClassification !== null && this.fppClassification !== undefined) {
       this.contract.releases[0].tender.items.push({
         id: Math.random().toString(36).substr(2, 9) + '-CPV' + '-' + this.fppClassification,
         description: 'The CPV number for the services provided',
@@ -700,14 +705,14 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
       this.contract.releases[0].bids.statistics[1].notes = 'Numri i ofertave të refuzuara';
     }
     // Fill tender milestones
-    if (this.contract.releases[0].tender.milestones[0].dateMet !== null || this.contract.releases[0].tender.milestones[0].id === '') {
+    if (this.contract.releases[0].tender.milestones[0].dateMet !== null && this.contract.releases[0].tender.milestones[0].id === '') {
       this.contract.releases[0].tender.milestones[0].id = this.milestoneId('standardDocuments');
       this.contract.releases[0].tender.milestones[0].title = 'Letrat Standarde për OE';
       this.contract.releases[0].tender.milestones[0].type = 'engagement';
       this.contract.releases[0].tender.milestones[0].code = 'standardDocuments';
       this.contract.releases[0].tender.milestones[0].status = 'met';
     }
-    if (this.contract.releases[0].tender.milestones[1].dateMet !== null || this.contract.releases[0].tender.milestones[1].id === '') {
+    if (this.contract.releases[0].tender.milestones[1].dateMet !== null && this.contract.releases[0].tender.milestones[1].id === '') {
       this.contract.releases[0].tender.milestones[1].id = this.milestoneId('cancellationNoticeDate');
       this.contract.releases[0].tender.milestones[1].title = 'Data e publikimit të anulimit të njoftimit';
       this.contract.releases[0].tender.milestones[1].type = 'approval';
@@ -1005,8 +1010,6 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
                             confirmButtonText: 'Kthehu te forma'
                           });
                         } else if (res.err) {
-                          console.log(res);
-
                           Swal('Gabim!', 'Kontrata nuk u ndryshua.', 'error');
                         } else {
                           Swal('Sukses!', 'Kontrata u ndryshua me sukses.', 'success').then((result) => {

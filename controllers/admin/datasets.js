@@ -26,7 +26,9 @@ router.get("/", (req, res) => {
     });
 });
 
-router.post("/", passport.authenticate('jwt', { session: false }), authorize('superadmin', 'admin'), upload.single('datasetFile'), (req, res) => {
+router.post("/", passport.authenticate('jwt', {
+    session: false
+}), authorize('superadmin', 'admin'), upload.single('datasetFile'), (req, res) => {
     if (req.typeValidation) {
         res.json({
             "typeValidation": "Dataset type is wrong",
@@ -157,7 +159,9 @@ router.get("/:name", (req, res) => {
 
 function importCsv(csv, cb) {
     shell.cd("prishtina-contracts-importer");
-    shell.exec(`bash run-with-args.sh ${csv}`, { async: true }, cb);
+    shell.exec(`bash run-with-args.sh ${csv}`, {
+        async: true
+    }, cb);
     shell.cd("..");
 };
 
@@ -191,7 +195,9 @@ router.get('/json/:year', (req, res) => {
         });
 });
 
-router.put('/update', passport.authenticate('jwt', { session: false }), authorize('superadmin', 'admin'), reupload.single('datasetFile'), (req, res) => {
+router.put('/update', passport.authenticate('jwt', {
+    session: false
+}), authorize('superadmin', 'admin'), reupload.single('datasetFile'), (req, res) => {
     if (req.typeValidation) {
         res.json({
             "typeValidation": "Dataset type is wrong",
@@ -265,9 +271,9 @@ router.put('/update-csv/:year', (req, res) => {
         }
     }
     let formatPlanned = (planned) => {
-        if (planned[0].documentType && planned[0].documentType === 'procurementPlan') {
+        if (planned[0] && planned[0].documentType === 'procurementPlan') {
             return '1';
-        } else if (!planned[0].documentType && planned[0].documentType !== 'procurementPlan') {
+        } else if (!planned[0] || planned[0].documentType !== 'procurementPlan') {
             return '2';
         } else {
             return '';
@@ -365,9 +371,9 @@ router.put('/update-csv/:year', (req, res) => {
     }
     let formatCompanyType = (type) => {
         if (type) {
-            if (type === true) {
+            if (type.local === true) {
                 return 1;
-            } else if (type === false) {
+            } else if (type.local === false) {
                 return 2;
             } else {
                 return '';
@@ -411,14 +417,14 @@ router.put('/update-csv/:year', (req, res) => {
         }
     }
     let fppClassification = (fppNumber) => {
-        if (fppNumber && fppNumber.quantity !== null) {
+        if (fppNumber && fppNumber.quantity) {
             return fppNumber.quantity;
         } else {
             return '';
         }
     }
     let retenderChecker = (retender) => {
-        if (retender && retender === 'unsuccessfulProcess') {
+        if (retender && retender.relationship === 'unsuccessfulProcess') {
             return 'Po';
         } else {
             return 'Jo';
@@ -433,9 +439,12 @@ router.put('/update-csv/:year', (req, res) => {
             'Data e publikimit të njoftimit për dhënie të kontratës', 'Data e publikimit të anulimit të njoftimit', 'Letrat Standarde për OE', 'Ankesat në autoritet', 'Ankesat në OSHP',
             'Vlera e parashikuar e kontratës', 'OE', 'Afati kohor për pranimin e tenderëve', 'Kriteret për dhënie të kontratës', 'Re-tenderimi', 'Statusi', 'Emri i OE të cilit i është dhënë kontrata',
             'Data e nënshkrimit të kontratës', 'Afati për implementimin e kontratës', 'Data e mbylljes së kontratës', 'Vlera totale e kontratës, duke përfshirë të gjitha taksat',
-            'Numri i përgjithshëm i situacioneve për pagesë, sipas kontratës'];
+            'Numri i përgjithshëm i situacioneve për pagesë, sipas kontratës'
+        ];
         if (data.length !== 0) {
-            let fast_csv = csv.createWriteStream({ headers: true });
+            let fast_csv = csv.createWriteStream({
+                headers: true
+            });
             let writeStream = fs.createWriteStream(`./prishtina-contracts-importer/data/procurements/${folder}/${year + '.csv'}`);
             fast_csv.pipe(writeStream);
             let largestInstallment = 0;
@@ -462,18 +471,19 @@ router.put('/update-csv/:year', (req, res) => {
                 headerArray.push('Shuma e pagesës së situacionit(' + i + ')');
             }
             headerArray.push('Shuma e zbritjes nga kontrata për shkaqe të ndalesave', 'Data e pagesës së situacionit të fundit', 'Shuma e pagesës së situacionit të fundit',
-                'Çmimi total i paguar për kontratën', 'Drejtoria', 'Emri i zyrtarit të prokurimit')
+                'Çmimi total i paguar për kontratën', 'Drejtoria', 'Emri i zyrtarit të prokurimit');
 
-            for (let i = 0; i < data.length; i++) {
+            for (let i = -1; i < data.length; i++) {
                 function mapRowsData() {
                     var finalDataArr = [];
-                    if (i === 0) {
-                        for (let i = 0; i < headerArray.length; i++) {
-                            finalDataArr.push(headerArray[i]);
-
-                        }
+                    if (i === -1) {
+                        finalDataArr = headerArray;
                     } else {
-                        finalDataArr.push([formatPlanned(data[i].releases[0].planning.documents)]);
+                        if (data[i].releases[0].planning.documents[0]) {
+                            finalDataArr.push([formatPlanned(data[i].releases[0].planning.documents)]);
+                        } else {
+                            finalDataArr.push('');
+                        }
                         finalDataArr.push([formatBudget(data[i].releases[0].planning.budget.description)]);
                         finalDataArr.push([data[i].releases[0].tender.id]);
                         finalDataArr.push([formatProcurementType(data[i].releases[0].tender.additionalProcurementCategories)]);
@@ -487,7 +497,7 @@ router.put('/update-csv/:year', (req, res) => {
                         finalDataArr.push([formatDate(data[i].releases[0].tender.date)]);
                         finalDataArr.push([formatComplaints(data[i].releases[0].tender.hasEnquiries)]);
                         finalDataArr.push([formatComplaints(data[i].releases[0].tender.hasComplaints)]);
-                        finalDataArr.push([formatDate(data[i].releases[0].tender.tenderPeriod)]);
+                        finalDataArr.push([formatDate(data[i].releases[0].tender.tenderPeriod.startDate)]);
                         finalDataArr.push([data[i].releases[0].bids.statistics[0].value]);
                         finalDataArr.push([data[i].releases[0].tender.numberOfTenderers]);
                         finalDataArr.push([formatDate(data[i].releases[0].tender.awardPeriod.durationInDays)]);
@@ -499,10 +509,10 @@ router.put('/update-csv/:year', (req, res) => {
                         finalDataArr.push([formatComplaintsSecond(data[i].releases[0].awards[0].enquiryType)]);
                         finalDataArr.push([formatComplaintsSecond(data[i].releases[0].awards[0].complaintType)]);
                         finalDataArr.push([data[i].releases[0].planning.budget.amount.amount]);
-                        finalDataArr.push([formatCompanyType(data[i].releases[0].parties[0].details.local)]);
+                        finalDataArr.push([formatCompanyType(data[i].releases[0].parties[0].details)]);
                         finalDataArr.push([formatApplicationDeadlineType(data[i].releases[0].tender.procedure.isAcceleratedProcedure)]);
                         finalDataArr.push([formatCriteriaType(data[i].releases[0].tender.awardCriteria)]);
-                        finalDataArr.push([retenderChecker(data[i].releases[0].relatedProcesses[0].relationship)]);
+                        finalDataArr.push([retenderChecker(data[i].releases[0].relatedProcesses[0])]);
                         finalDataArr.push([formatStatus(data[i].releases[0].tender.status, data[i].releases[0].tender.awardPeriod.startDate, data[i].releases[0].tender.awardPeriod.endDate)]);
                         finalDataArr.push([data[i].releases[0].tender.tenderers[0].name]);
                         finalDataArr.push([formatDate(data[i].releases[0].contracts[0].period.startDate)]);
@@ -517,51 +527,57 @@ router.put('/update-csv/:year', (req, res) => {
                             } else if (data[i].releases[0].contracts[0].implementation.transactions[k] === undefined || data[i].contract.annexes[k] === [] || data[i].releases[0].contracts[0].implementation.transactions[k] === null) {
                                 data[i].releases[0].contracts[0].implementation.transactions[k] = [
                                     date = '',
-                                    value.amount = ''
+                                    value.amount = 0
                                 ];
                                 finalDataArr.push([formatDate(data[i].releases[0].contracts[0].implementation.transactions[k].date)]);
                                 finalDataArr.push([data[i].releases[0].contracts[0].implementation.transactions[k].value.amount]);
                             } else {
                                 if (k < data[i].contract.annexes.length) {
-                                    finalDataArr.push([formatDate(data[i].contract.annexes[k].annexContractSigningDate1)]);
-                                    finalDataArr.push([data[i].contract.annexes[k].totalValueOfAnnexContract1]);
+                                    finalDataArr.push([formatDate(data[i].releases[0].contracts[0].amendments[k].date)]);
+                                    finalDataArr.push([data[i].releases[0].contracts[0].amendments[k].description]);
                                 } else {
-                                    data[i].contract.annexes[k].annexContractSigningDate1 = '';
-                                    data[i].contract.annexes[k].totalValueOfAnnexContract1 = '';
-                                    finalDataArr.push([formatDate(data[i].contract.annexes[k].annexContractSigningDate1)]);
-                                    finalDataArr.push([data[i].contract.annexes[k].totalValueOfAnnexContract1]);
+                                    data[i].releases[0].contracts[0].amendments[k].date = '';
+                                    data[i].releases[0].contracts[0].amendments[k].description = '';
+                                    finalDataArr.push([formatDate(data[i].releases[0].contracts[0].amendments[k].date)]);
+                                    finalDataArr.push([data[i].releases[0].contracts[0].amendments[k].description]);
                                 }
                             }
                         }
                         for (let k = 0; k < largestInstallment; k++) {
-                            if (data[i].installments.length === largestInstallment) {
-                                finalDataArr.push([formatDate(data[i].installments[k].installmentPayDate1)]);
-                                finalDataArr.push([data[i].installments[k].installmentAmount1]);
-                            } else if (data[i].installments[k] === undefined || data[i].installments[k] === [] || data[i].installments[k] === '') {
-                                data[i].installments[k] = [
-                                    installmentPayDate1 = '',
-                                    installmentAmount1 = ''
+                            if (data[i].releases[0].contracts[0].implementation.transactions.length === largestInstallment) {
+                                finalDataArr.push([formatDate(data[i].releases[0].contracts[0].implementation.transactions[k].date)]);
+                                finalDataArr.push([data[i].releases[0].contracts[0].implementation.transactions[k].value.amount]);
+                            } else if (data[i].releases[0].contracts[0].implementation.transactions[k] === undefined || data[i].releases[0].contracts[0].implementation.transactions[k] === [] || data[i].releases[0].contracts[0].implementation.transactions[k] === '') {
+                                data[i].releases[0].contracts[0].implementation.transactions[k] = [
+                                    date = '',
+                                    value.amount = 0
                                 ];
-                                finalDataArr.push([formatDate(data[i].installments[k].installmentPayDate1)]);
-                                finalDataArr.push([data[i].installments[k].installmentAmount1]);
+                                finalDataArr.push([formatDate(data[i].releases[0].contracts[0].implementation.transactions[k].date)]);
+                                finalDataArr.push([data[i].releases[0].contracts[0].implementation.transactions[k].value.amount]);
                             } else {
-                                if (k < data[i].installments.length) {
-                                    finalDataArr.push([formatDate(data[i].installments[k].installmentPayDate1)]);
-                                    finalDataArr.push([data[i].installments[k].installmentAmount1]);
+                                if (k < data[i].releases[0].contracts[0].implementation.transactions.length) {
+                                    finalDataArr.push([formatDate(data[i].releases[0].contracts[0].implementation.transactions[k].date)]);
+                                    finalDataArr.push([data[i].releases[0].contracts[0].implementation.transactions[k].value.amount]);
                                 } else {
-                                    data[i].installments[k].installmentPayDate1 = '';
-                                    data[i].installments[k].installmentAmount1 = '';
-                                    finalDataArr.push([formatDate(data[i].installments[k].installmentPayDate1)]);
-                                    finalDataArr.push([data[i].installments[k].installmentAmount1]);
+                                    data[i].releases[0].contracts[0].implementation.transactions[k].date = '';
+                                    data[i].releases[0].contracts[0].implementation.transactions[k].value.amount = 0;
+                                    finalDataArr.push([formatDate(data[i].releases[0].contracts[0].implementation.transactions[k].date)]);
+                                    finalDataArr.push([data[i].releases[0].contracts[0].implementation.transactions[k].value.amount]);
                                 }
                             }
                         }
-                        finalDataArr.push([data[i].contract.discountAmountFromContract]);
-                        finalDataArr.push([formatDate(data[i].lastInstallmentPayDate)]);
-                        finalDataArr.push([data[i].lastInstallmentAmount]);
-                        finalDataArr.push([data[i].contract.totalPayedPriceForContract]);
-                        finalDataArr.push([data[i].directorates]);
-                        finalDataArr.push([data[i].nameOfProcurementOffical]);
+                        finalDataArr.push([data[i].releases[0].contracts[0].deductionAmountFromContract.value.amount]);
+                        if (largestInstallment > 0) {
+                            finalDataArr.push([formatDate(data[i].releases[0].contracts[0].implementation.transactions[largestInstallment - 1].date)]);
+                            finalDataArr.push([data[i].releases[0].contracts[0].implementation.transactions[largestInstallment - 1].value.amount]);
+
+                        } else {
+                            finalDataArr.push('');
+                            finalDataArr.push('');
+                        }
+                        finalDataArr.push([data[i].releases[0].contracts[0].implementation.finalValue.amount]);
+                        finalDataArr.push([data[i].releases[0].buyer.name]);
+                        finalDataArr.push([data[i].releases[0].parties[1].contactPoint.name]);
                     }
                     return finalDataArr;
                 }
