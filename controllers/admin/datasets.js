@@ -272,99 +272,99 @@ router.put('/update-csv/:year', (req, res) => {
     }
     let formatPlanned = (planned) => {
         if (planned[0] && planned[0].documentType === 'procurementPlan') {
-            return '1';
+            return 'Po';
         } else if (!planned[0] || planned[0].documentType !== 'procurementPlan') {
-            return '2';
+            return 'Jo';
         } else {
             return '';
         }
     }
     let formatBudget = (budget) => {
         if (budget.includes('Të hyra vetanake') && !budget.includes('Buxheti i Kosovës') && !budget.includes('Donacion')) {
-            return '1';
+            return 'Të hyra vetanake';
         } else if (budget.includes('Të hyra vetanake') && budget.includes('Buxheti i Kosovës') && !budget.includes('Donacion')) {
-            return '1+2';
+            return 'Të hyra vetanake Buxheti i Kosovës';
         } else if (budget.includes('Të hyra vetanake') && budget.includes('Buxheti i Kosovës') && budget.includes('Donacion')) {
-            return '1+2+3';
+            return 'Të hyra vetanake Buxheti i Kosovës Donacion';
         } else if (budget.includes('Të hyra vetanake') && !budget.includes('Buxheti i Kosovës') && budget.includes('Donacion')) {
-            return '1+3';
+            return 'Të hyra vetanake Donacion';
         } else if (!budget.includes('Të hyra vetanake') && budget.includes('Buxheti i Kosovës') && budget.includes('Donacion')) {
-            return '2+3';
+            return 'Buxheti i Kosovës Donacion';
         } else if (!budget.includes('Të hyra vetanake') && budget.includes('Buxheti i Kosovës') && !budget.includes('Donacion')) {
-            return '2';
+            return 'Buxheti i Kosovës';
         } else if (!budget.includes('Të hyra vetanake') && !budget.includes('Buxheti i Kosovës') && budget.includes('Donacion')) {
-            return '3';
+            return 'Donacion';
         } else {
             return '';
         }
     }
     let formatProcurementType = (type) => {
         if (type === "goods") {
-            return 1;
+            return 'Furnizim';
         } else if (type === "services") {
-            return 2;
+            return 'Shërbime';
         } else if (type === "consultingServices") {
-            return 3;
+            return 'Shërbime këshillimi';
         } else if (type === "designContest") {
-            return 4;
+            return 'Konkurs projektimi';
         } else if (type === "works") {
-            return 5;
+            return 'Punë';
         } else if (type === "concessionWorks") {
-            return 6;
+            return 'Punë me koncesion';
         } else if (type === "immovableProperty") {
-            return 7;
+            return 'Pronë e palujtshme';
         } else {
             return "";
         }
     }
     let formatProcurementValue = (value) => {
         if (value === "bigValue") {
-            return 1;
+            return 'Vlerë e madhe';
         } else if (value === "mediumValue") {
-            return 2;
+            return 'Vlerë e mesme';
         } else if (value === "smallValue") {
-            return 3;
+            return 'Vlerë e vogël';
         } else if (value === "minimalValue") {
-            return 4;
+            return 'Vlerë minimale';
         } else {
             return "";
         }
     }
     let formatProcurementProcedure = (procedure) => {
         if (procedure === "openProcedure") {
-            return 1;
+            return 'Procedura e hapur';
         } else if (procedure === "limitedProcedure") {
-            return 2;
+            return 'Procedura e kufizuar';
         } else if (procedure === "designContest") {
-            return 3;
+            return 'Konkurs projektimi';
         } else if (procedure === "negociatedProcedureAfterAwardNotice") {
-            return 4;
+            return 'Procedura e negociuar pas publikimit të njoftimit të kontratës';
         } else if (procedure === "negociatedProcedureWithoutAwardNotice") {
-            return 5;
+            return 'Procedura e negociuar pa publikim të njoftimit të kontratës';
         } else if (procedure === "quotationValueProcedure") {
-            return 6;
+            return 'Procedura e kuotimit të Çmimeve';
         } else if (procedure === "minimalValueProcedure") {
-            return 7;
+            return 'Procedura e vlerës minimale';
         } else {
             return "";
         }
     }
     let formatComplaints = (complaint) => {
         if (complaint === false) {
-            return 1;
+            return 'Negative';
         } else if (complaint === true) {
-            return 2;
+            return 'Pozitive';
         } else {
             return "";
         }
     }
     let formatComplaintsSecond = (complaint) => {
         if (complaint === "none") {
-            return 0;
+            return 'Nuk ka';
         } else if (complaint === "negative") {
-            return 1;
+            return 'Negative';
         } else if (complaint === "positive") {
-            return 2;
+            return 'Pozitive';
         } else {
             return "";
         }
@@ -372,9 +372,9 @@ router.put('/update-csv/:year', (req, res) => {
     let formatCompanyType = (type) => {
         if (type) {
             if (type.local === true) {
-                return 1;
+                return 'Vendore';
             } else if (type.local === false) {
-                return 2;
+                return 'Jo vendore';
             } else {
                 return '';
             }
@@ -385,40 +385,40 @@ router.put('/update-csv/:year', (req, res) => {
     }
     let formatApplicationDeadlineType = (type) => {
         if (type === true) {
-            return 1;
+            return 'Afati kohor normal';
         } else if (type === false) {
-            return 2;
+            return 'Afati kohor i shkurtuar';
         } else {
             return "";
         }
     }
     let formatCriteriaType = (criteria) => {
         if (criteria === "priceOnly") {
-            return 1;
+            return 'Çmimi më i ulët';
         } else if (criteria === "costOnly") {
-            return 2;
+            return 'Tenderi ekonomikisht më i favorshëm';
         } else if (criteria === "ratedCriteria") {
-            return 3;
+            return 'Çmimi më i ulët me poentim';
         } else {
             return "";
         }
     }
     let formatStatus = (status, starting, ending) => {
         if (status === "active" && starting && ending) {
-            return 2;
+            return 'Vlerësim';
         } else if (status === "active") {
-            return 1;
+            return 'Publikuar';
         } else if (status === "cancelled") {
-            return 3;
+            return 'Anuluar';
         } else if (status === "complete") {
-            return 4;
+            return 'Kontraktuar';
         } else {
             return "";
         }
     }
     let fppClassification = (fppNumber) => {
-        if (fppNumber && fppNumber.quantity) {
-            return fppNumber.quantity;
+        if (fppNumber[0] && fppNumber[0].quantity) {
+            return fppNumber[0].quantity;
         } else {
             return '';
         }
@@ -463,8 +463,8 @@ router.put('/update-csv/:year', (req, res) => {
             }
             for (let i = 1; i <= largestAnnex; i++) {
 
-                headerArray.push('Vlera totale e Aneks kontratës duke përfshirë të gjitha taksat(' + i + ')');
                 headerArray.push('Data e nënshkrimit të Aneks kontratës(' + i + ')');
+                headerArray.push('Vlera totale e Aneks kontratës duke përfshirë të gjitha taksat(' + i + ')');
             }
             for (let i = 1; i <= largestInstallment; i++) {
                 headerArray.push('Data e pagesës së situacionit(' + i + ')');
@@ -472,7 +472,6 @@ router.put('/update-csv/:year', (req, res) => {
             }
             headerArray.push('Shuma e zbritjes nga kontrata për shkaqe të ndalesave', 'Data e pagesës së situacionit të fundit', 'Shuma e pagesës së situacionit të fundit',
                 'Çmimi total i paguar për kontratën', 'Drejtoria', 'Emri i zyrtarit të prokurimit');
-
             for (let i = -1; i < data.length; i++) {
                 function mapRowsData() {
                     var finalDataArr = [];
@@ -521,18 +520,18 @@ router.put('/update-csv/:year', (req, res) => {
                         finalDataArr.push([data[i].releases[0].tender.value.amount]);
                         finalDataArr.push([data[i].releases[0].contracts[0].expectedNumberOfTransactions]);
                         for (let k = 0; k < largestAnnex; k++) {
-                            if (data[i].releases[0].contracts[0].implementation.transactions.length === largestAnnex) {
-                                finalDataArr.push([formatDate(data[i].releases[0].contracts[0].implementation.transactions[k].date)]);
-                                finalDataArr.push([data[i].releases[0].contracts[0].implementation.transactions[k].value.amount]);
-                            } else if (data[i].releases[0].contracts[0].implementation.transactions[k] === undefined || data[i].contract.annexes[k] === [] || data[i].releases[0].contracts[0].implementation.transactions[k] === null) {
-                                data[i].releases[0].contracts[0].implementation.transactions[k] = [
+                            if (data[i].releases[0].contracts[0].amendments.length === largestAnnex) {
+                                finalDataArr.push([formatDate(data[i].releases[0].contracts[0].amendments[k].date)]);
+                                finalDataArr.push([data[i].releases[0].contracts[0].amendments[k].description]);
+                            } else if (data[i].releases[0].contracts[0].amendments[k] === undefined || data[i].releases[0].contracts[0].amendments[k] === [] || data[i].releases[0].contracts[0].amendments[k] === null) {
+                                data[i].releases[0].contracts[0].amendments[k] = [
                                     date = '',
-                                    value.amount = 0
+                                    description = ''
                                 ];
-                                finalDataArr.push([formatDate(data[i].releases[0].contracts[0].implementation.transactions[k].date)]);
-                                finalDataArr.push([data[i].releases[0].contracts[0].implementation.transactions[k].value.amount]);
+                                finalDataArr.push([formatDate(data[i].releases[0].contracts[0].amendments[k].date)]);
+                                finalDataArr.push([data[i].releases[0].contracts[0].amendments[k].description]);
                             } else {
-                                if (k < data[i].contract.annexes.length) {
+                                if (k < data[i].releases[0].contracts[0].amendments.length) {
                                     finalDataArr.push([formatDate(data[i].releases[0].contracts[0].amendments[k].date)]);
                                     finalDataArr.push([data[i].releases[0].contracts[0].amendments[k].description]);
                                 } else {
@@ -547,13 +546,13 @@ router.put('/update-csv/:year', (req, res) => {
                             if (data[i].releases[0].contracts[0].implementation.transactions.length === largestInstallment) {
                                 finalDataArr.push([formatDate(data[i].releases[0].contracts[0].implementation.transactions[k].date)]);
                                 finalDataArr.push([data[i].releases[0].contracts[0].implementation.transactions[k].value.amount]);
-                            } else if (data[i].releases[0].contracts[0].implementation.transactions[k] === undefined || data[i].releases[0].contracts[0].implementation.transactions[k] === [] || data[i].releases[0].contracts[0].implementation.transactions[k] === '') {
+                            } else if (data[i].releases[0].contracts[0].implementation.transactions[k] === undefined || data[i].releases[0].contracts[0].implementation.transactions[k] === [] || data[i].releases[0].contracts[0].implementation.transactions[k] === null) {
                                 data[i].releases[0].contracts[0].implementation.transactions[k] = [
                                     date = '',
-                                    value.amount = 0
+                                    value = ''
                                 ];
-                                finalDataArr.push([formatDate(data[i].releases[0].contracts[0].implementation.transactions[k].date)]);
-                                finalDataArr.push([data[i].releases[0].contracts[0].implementation.transactions[k].value.amount]);
+                                finalDataArr.push([data[i].releases[0].contracts[0].implementation.transactions[k].date]);
+                                finalDataArr.push([data[i].releases[0].contracts[0].implementation.transactions[k].value]);
                             } else {
                                 if (k < data[i].releases[0].contracts[0].implementation.transactions.length) {
                                     finalDataArr.push([formatDate(data[i].releases[0].contracts[0].implementation.transactions[k].date)]);
@@ -567,7 +566,7 @@ router.put('/update-csv/:year', (req, res) => {
                             }
                         }
                         finalDataArr.push([data[i].releases[0].contracts[0].deductionAmountFromContract.value.amount]);
-                        if (largestInstallment > 0) {
+                        if (data[i].releases[0].contracts[0].implementation.transactions.length > 0 && data[i].releases[0].contracts[0].implementation.transactions[largestInstallment - 1].date) {
                             finalDataArr.push([formatDate(data[i].releases[0].contracts[0].implementation.transactions[largestInstallment - 1].date)]);
                             finalDataArr.push([data[i].releases[0].contracts[0].implementation.transactions[largestInstallment - 1].value.amount]);
 
@@ -578,6 +577,7 @@ router.put('/update-csv/:year', (req, res) => {
                         finalDataArr.push([data[i].releases[0].contracts[0].implementation.finalValue.amount]);
                         finalDataArr.push([data[i].releases[0].buyer.name]);
                         finalDataArr.push([data[i].releases[0].parties[1].contactPoint.name]);
+
                     }
                     return finalDataArr;
                 }

@@ -63,9 +63,7 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
   reapprovalDate: Date;
   standardDocuments: Date;
   cancellationNoticeDate: Date;
-  companyType: Boolean;
-  headquartersName: string;
-  directorateName: string;
+  directorateName;
   nameOfProcurementOffical: string;
   fppClassification: number;
   noOfCompaniesWhoDownloadedTenderDoc: number;
@@ -114,11 +112,11 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
           this.implementationDeadline = this.contract.releases[0].contracts[0].period.durationInDays.split(' ');
           this.implementationDeadlineNumberLot = this.implementationDeadline[0];
           if (this.implementationDeadline[1] === 'muaj') {
-            this.implementationDeadline[1] = 'Muaj';
+            this.implementationDeadline[1] = 'muaj';
           } else if (this.implementationDeadline[1] === 'ditë' || this.implementationDeadline[1] === 'dite' || this.implementationDeadline[1] === 'Dite') {
-            this.implementationDeadline[1] = 'Ditë';
+            this.implementationDeadline[1] = 'ditë';
           } else if (this.implementationDeadline[1] === 'vite') {
-            this.implementationDeadline[1] = 'Vite';
+            this.implementationDeadline[1] = 'vite';
           }
         } else {
           this.implementationDeadline[0] = null;
@@ -160,15 +158,7 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
           });
         }
         // Map the parties to fill the parties names
-        this.contract.releases[0].parties.map(party => {
-          if (party.details && party.details.local !== null) {
-            this.companyType = party.details.local;
-            this.headquartersName = party.address.region.toString();
-          } else {
-            this.nameOfProcurementOffical = party.contactPoint.name.toString();
-            this.directorateName = party.name.toString();
-          }
-        });
+        this.directorateName = this.contract.releases[0].parties[1].name;
         // Check contracts documents
         if (this.contract.releases[0].contracts[0].documents) {
           this.contract.releases[0].contracts[0].documents.map(document => {
@@ -643,27 +633,26 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
       this.contract.releases[0].tender.procurementMethod = 'selective';
     }
     // Fill the item tender with the fppClassification number
-    if (this.fppClassification !== 0 && this.fppClassification !== null && this.fppClassification !== undefined) {
-      this.contract.releases[0].tender.items.push({
-        id: Math.random().toString(36).substr(2, 9) + '-CPV' + '-' + this.fppClassification,
-        description: 'The CPV number for the services provided',
-        classification: {
-          scheme: 'CPV',
-          id: 'CPV',
-          description: 'The common procurement vocabulary number'
-        },
-        quantity: this.fppClassification
-      });
+    if (this.fppClassification !== null && this.fppClassification !== undefined && this.contract.releases[0].tender.items[0] && this.contract.releases[0].tender.items[0].quantity !== this.fppClassification) {
+      this.contract.releases[0].tender.items[0].id = Math.random().toString(36).substr(2, 9) + '-CPV' + '-' + this.fppClassification;
+      this.contract.releases[0].tender.items[0].description = 'The CPV number for the services provided';
+      this.contract.releases[0].tender.items[0].classification.scheme = 'CPV';
+      this.contract.releases[0].tender.items[0].classification.id = 'CPV';
+      this.contract.releases[0].tender.items[0].classification.description = 'The common procurement vocabulary number';
+      this.contract.releases[0].tender.items[0].quantity = this.fppClassification;
     }
     // Check if it is planned or not to fill the planning documents
-    if (this.planned === 'po' && (this.contract.releases[0].planning.documents || this.contract.releases[0].planning.documents[0].documentType !== 'procurementPlan')) {
+    if (this.planned === 'po' && this.contract.releases[0].planning.documents && this.contract.releases[0].planning.documents.length === 0) {
       this.contract.releases[0].planning.documents.push({
         id: Math.random().toString(36).substr(2, 9) + '-procurementPlan',
         documentType: 'procurementPlan'
       });
+    } else if (this.planned === 'po' && this.contract.releases[0].planning.documents[0] && this.contract.releases[0].planning.documents[0].documentType && this.contract.releases[0].planning.documents[0].documentType === 'procurementPlan') {
+      this.planned = 'po';
     } else if (this.planned === 'jo' && this.contract.releases[0].planning.documents[0] && this.contract.releases[0].planning.documents[0].documentType && this.contract.releases[0].planning.documents[0].documentType === 'procurementPlan') {
       this.contract.releases[0].planning.documents = [];
     }
+
     // Push planning milestones
     if (this.contract.releases[0].planning.milestones[0].dateMet !== null && this.contract.releases[0].planning.milestones[0].id === '') {
       this.contract.releases[0].planning.milestones[0].id = this.milestoneId('initiationDate');
@@ -736,43 +725,13 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
       }
     }
     // Fill the company party
-    if (this.contract.releases[0].tender.tenderers[0].name) {
-      this.contract.releases[0].parties.push({
-        name: this.contract.releases[0].tender.tenderers[0].name,
-        roles: [
-          'supplier',
-          'tenderer',
-          'payee'
-        ],
-        id: this.payeeId,
-        address: {
-          region: this.headquartersName
-        },
-        details: {
-          local: this.companyType
-        }
-      });
+    this.contract.releases[0].parties[0].name = this.contract.releases[0].tender.tenderers[0].name;
+    if (this.contract.releases[0].parties[0].id === '') {
+      this.contract.releases[0].parties[0].id = this.payeeId;
     }
     // Fill the payer party
-    if (this.directorateName) {
-      this.contract.releases[0].parties.push({
-        address: {
-          region: 'Prishtinë',
-          postalCode: '10000',
-          countryName: 'Kosovë'
-        },
-        contactPoint: {
-          url: 'https://kk.rks-gov.net/prishtine/',
-          name: this.nameOfProcurementOffical
-        },
-        roles: [
-          'buyer',
-          'payer',
-          'procuringEntity'
-        ],
-        name: this.directorateName,
-        id: this.payerId
-      });
+    if (this.contract.releases[0].parties[1].id === '') {
+      this.contract.releases[0].parties[1].id = this.payerId;
     }
     // Check retender value to fill related process
     if ((this.retender === 'po' || this.retender === 'Po') && this.contract.releases[0].relatedProcesses[0].relationship !== 'unsuccessfulProcess') {

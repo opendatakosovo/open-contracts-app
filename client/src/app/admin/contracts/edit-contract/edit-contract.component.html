@@ -372,14 +372,14 @@
               <label class="radioButtonLabel">OE:</label>
               <br>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="type" formControlName="type" [(ngModel)]="companyType"
+                <input class="form-check-input" type="radio" name="type" formControlName="type" [(ngModel)]="contract.releases[0].parties[0].details.local"
                   id="local" [value]="true" checked>
                 <label class="form-check-label" for="local">
                   Vendore
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="type" formControlName="type" [(ngModel)]="companyType"
+                <input class="form-check-input" type="radio" name="type" formControlName="type" [(ngModel)]="contract.releases[0].parties[0].details.local"
                   id="notLocal" [value]="false">
                 <label class="form-check-label" for="notLocal">
                   Jo vendore
@@ -502,7 +502,7 @@
           <div class="col-6 form-group">
             <label for="headquartersName">Selia e OE</label>
             <input type="text" name="headquartersName" id="headquartersName" formControlName='headquartersName'
-              [(ngModel)]="headquartersName" class="form-control">
+              [(ngModel)]="contract.releases[0].parties[0].address.region" class="form-control">
           </div>
         </div>
         <div class="row">
@@ -709,7 +709,7 @@
             <div class="form-group">
               <label for="directorates">Drejtoritë</label>
               <select name="directorates" id="directorates" placeholder="Zgjedh" class="form-control" formControlName="directorate"
-                [(ngModel)]="directorateName">
+                [(ngModel)]="contract.releases[0].parties[1].name">
                 <option value="" selected>Zgjedh drejtorinë</option>
                 <option *ngFor="let directorate of directorates" value="{{directorate.directorateName}}">
                   {{directorate.directorateName}}</option>
@@ -777,7 +777,7 @@
           <div class="col-md-12">
             <label for="nameOfProcurementOffical">Emri i zyrtarit të prokurimit</label>
             <input type="text" name="nameOfProcurementOffical" id="nameOfProcurementOffical" formControlName="nameOfProcurementOffical"
-              [(ngModel)]="nameOfProcurementOffical" class="form-control">
+              [(ngModel)]="contract.releases[0].parties[1].contactPoint.name" class="form-control">
           </div>
         </div>
       </div>
