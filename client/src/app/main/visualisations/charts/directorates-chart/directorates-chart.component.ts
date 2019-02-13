@@ -27,7 +27,15 @@ export class DirectoratesChartComponent implements OnInit {
   ];
   colorIterator = 0;
   lang: string;
+  years;
+  year: string;
   constructor(public dataService: DataService, public translate: TranslateService) {
+    this.year = 'any';
+    this.dataService.getContractYears(2009)
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(res => {
+        this.years = res;
+      });
   }
 
   ngOnInit() {
@@ -41,8 +49,19 @@ export class DirectoratesChartComponent implements OnInit {
     this.render();
   }
 
+  onChange(event) {
+    this.year = event.target.value;
+    this.translate.onLangChange
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(langObj => {
+        this.lang = langObj.lang;
+        this.render();
+      });
+    this.render();
+  }
+
   render() {
-    this.dataService.getDirectoratesWithMostContracts()
+    this.dataService.getDirectoratesWithMostContracts(this.year)
       .takeUntil(this.unsubscribeAll)
       .subscribe(res => {
         // Translation of data in res

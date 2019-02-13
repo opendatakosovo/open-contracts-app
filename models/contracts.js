@@ -486,8 +486,14 @@ module.exports.getContractsByYears = year => {
     return Contract.find({ year: Number(year) });
 }
 
-module.exports.getDirectoratesInContracts = () => {
+module.exports.getDirectoratesInContracts = year => {
     return Contract.aggregate([
+        {
+            $match: year == "any" ? { "releases.buyer.name": { $ne: '' } } : {
+                year: parseInt(year),
+                "releases.buyer.name": { $ne: '' },
+            }
+        },
         { $group: { _id: "$releases.buyer.name", count: { $sum: 1 } } },
         { $sort: { _id: 1 } },
         { $project: { _id: 0, name: "$_id", y: "$count" } }

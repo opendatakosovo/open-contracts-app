@@ -1,11 +1,12 @@
 <div class="row">
-    <div id="year-input" class="offset-md-10 offset-4 mb-3 float-right">
-        <div class="form-group">
-            <label for="yearInput">{{ 'dataset.year' | translate }}:</label>
-            <select id="yearInput" (change)="onChange($event)" class="form-control my-form-control">
-                <option *ngFor="let year of years" value="{{year.year}}">{{year.year}}</option>
-            </select>
-        </div>
+  <div id="year-input" class="offset-md-10 offset-4 mb-3 float-right">
+    <div class="form-group">
+      <label for="yearInput">{{ 'dataset.year' | translate }}:</label>
+      <select (change)="onChange($event)" class="form-control my-form-control">
+        <option value="any">{{ 'visualisations.allYears' | translate }}</option>
+        <option id="year" *ngFor="let year of years" value="{{year.year}}">{{year.year}}</option>
+      </select>
     </div>
+  </div>
 </div>
 <div [chart]="chart"></div>

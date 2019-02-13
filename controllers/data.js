@@ -59,26 +59,74 @@ router.get('/get-contracts-by-contractor/:companyName', (req, res) => {
 });
 
 // Get the directorates of contracts
-router.get('/get-directorates-of-contracts', (req, res) => {
-    Contract.getDirectoratesInContracts()
+router.get('/get-directorates-of-contracts/:year', (req, res) => {
+    Contract.getDirectoratesInContracts(req.params.year)
         .then(data => {
             let d = {
-                adminObj: { name: 'Administratë', y: 0 },
-                eduObj: { name: 'Arsim', y: 0 },
-                infrastructureObj: { name: 'Infrastrukturë', y: 0 },
-                investmentsObj: { name: 'Investime', y: 0 },
-                culturObj: { name: 'Kulturë', y: 0 },
-                publicServicesObj: { name: 'Shërbime Publike', y: 0 },
-                healthObj: { name: 'Shëndetësi', y: 0 },
-                cadasObj: { name: 'Kadastrës', y: 0 },
-                socWelObj: { name: 'Mirëqenia Sociale', y: 0 },
-                agriObj: { name: 'Bujqësisë', y: 0 },
-                finaObj: { name: 'Financave', y: 0 },
-                propObj: { name: 'Prona', y: 0 },
-                urbanObj: { name: 'Urbanizmi', y: 0 },
-                inspeObj: { name: 'Inspekcioni', y: 0 },
-                planObj: { name: 'Planifikimi', y: 0 },
-                parkObj: { name: 'Parqeve', y: 0 },
+                adminObj: {
+                    name: 'Administratë',
+                    y: 0
+                },
+                eduObj: {
+                    name: 'Arsim',
+                    y: 0
+                },
+                infrastructureObj: {
+                    name: 'Infrastrukturë',
+                    y: 0
+                },
+                investmentsObj: {
+                    name: 'Investime',
+                    y: 0
+                },
+                culturObj: {
+                    name: 'Kulturë',
+                    y: 0
+                },
+                publicServicesObj: {
+                    name: 'Shërbime Publike',
+                    y: 0
+                },
+                healthObj: {
+                    name: 'Shëndetësi',
+                    y: 0
+                },
+                cadasObj: {
+                    name: 'Kadastrës',
+                    y: 0
+                },
+                socWelObj: {
+                    name: 'Mirëqenia Sociale',
+                    y: 0
+                },
+                agriObj: {
+                    name: 'Bujqësisë',
+                    y: 0
+                },
+                finaObj: {
+                    name: 'Financave',
+                    y: 0
+                },
+                propObj: {
+                    name: 'Prona',
+                    y: 0
+                },
+                urbanObj: {
+                    name: 'Urbanizmi',
+                    y: 0
+                },
+                inspeObj: {
+                    name: 'Inspekcioni',
+                    y: 0
+                },
+                planObj: {
+                    name: 'Planifikimi',
+                    y: 0
+                },
+                parkObj: {
+                    name: 'Parqeve',
+                    y: 0
+                },
             }
             let toBeRemoved = [];
             // Process some data
@@ -522,7 +570,9 @@ router.get('/contracts-count-by-procurement-category-and-year/:category/:year', 
 /*** Admin Dashboard ***/
 
 // Users
-router.get('/user', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.get('/user', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
     let obj = {};
     User.totalUsers()
         .then(tu => {
@@ -572,7 +622,9 @@ router.get('/user', passport.authenticate('jwt', { session: false }), (req, res)
 });
 
 // Directorates
-router.get('/directorates', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.get('/directorates', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
     let obj = {};
     Directorate.totalDirectorates()
         .then(td => {
