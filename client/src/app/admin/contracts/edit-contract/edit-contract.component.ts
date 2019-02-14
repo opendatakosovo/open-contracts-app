@@ -919,10 +919,6 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
                           Swal('Gabim!', 'Kontrata nuk u ndryshua.', 'error');
                         } else {
                           Swal('Sukses!', 'Kontrata u ndryshua me sukses.', 'success').then((result) => {
-                            this.datasetService.updateCsv(this.contract.year, this.contract)
-                              .takeUntil(this.unsubscribeAll)
-                              .subscribe(data => {
-                              });
                             if (result.value) {
                               this.route.navigate(['/dashboard/contracts']);
                             }
@@ -972,10 +968,6 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
                           Swal('Gabim!', 'Kontrata nuk u ndryshua.', 'error');
                         } else {
                           Swal('Sukses!', 'Kontrata u ndryshua me sukses.', 'success').then((result) => {
-                            this.datasetService.updateCsv(this.contract.year, this.contract)
-                              .takeUntil(this.unsubscribeAll)
-                              .subscribe(data => {
-                              });
                             if (result.value) {
                               this.route.navigate(['/dashboard/contracts']);
                             }

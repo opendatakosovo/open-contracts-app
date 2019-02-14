@@ -40,15 +40,33 @@
           <div class="data-set-form">
             <form action="" id="download-data-set" novalidate #downloadForm="ngForm" class="form-inline form-group"
               (submit)="downloadDataSet(downloadForm.valid)">
+              <!-- Field option -->
+              <select name="" id="field" name="field" class="form-control form-select" [(ngModel)]="field" #fieldDS="ngModel"
+                (change)="onChange($event)" required [style.border-color]="fieldDS.errors?.required && downloadForm.submitted ? 'red' : '#ced4da'">
+                <option [value]="undefined" disabled>{{ 'dataset.field' | translate }}</option>
+                <option value="year">{{ 'dataset.year' | translate }}</option>
+                <option value="directorate">{{ 'dataset.directorate' | translate }}</option>
+                <option value="companyName">{{ 'dataset.companyName' | translate }}</option>
+              </select>
+              <div class="col-6 validation-text" [hidden]="!fieldDS.errors?.required || !downloadForm.submitted">
+                <small class="text-danger">{{ 'dataset.yearValidation' | translate }}</small>
+              </div>
+              <!-- Value option -->
               <select name="" id="data" name="data" class="form-control form-select" [(ngModel)]="data" #dataSet="ngModel"
                 required [style.border-color]="dataSet.errors?.required && downloadForm.submitted ? 'red' : '#ced4da'">
-                <option [value]="undefined" disabled>{{ 'dataset.year' | translate }}</option>
-                <option *ngFor="let dataSet of dataSets" [value]="dataSet.datasetFilePath">{{
+                <option id="test" [value]="undefined" disabled>{{ 'dataset.value' | translate }}</option>
+                <option [hidden]="value == 'directorate' || value == 'companyName' || value == undefined" *ngFor="let dataSet of dataSets"
+                  [value]="dataSet.datasetFilePath">{{
                   dataSet.datasetFilePath.replace('.csv', '') }}</option>
+                <option [hidden]="value == 'year' || value == 'companyName' || value == undefined" *ngFor="let directorate of directorates"
+                  [value]="directorate.directorateName">{{ directorate.directorateName }}</option>
+                <option [hidden]="value == 'directorate' || value == 'year' || value == undefined" *ngFor="let companyName of topTenContractors"
+                  [value]="companyName.name">{{ companyName.name }}</option>
               </select>
               <div class="col-6 validation-text" [hidden]="!dataSet.errors?.required || !downloadForm.submitted">
                 <small class="text-danger">{{ 'dataset.yearValidation' | translate }}</small>
               </div>
+              <!-- Format option -->
               <select name="" id="format" name="format" class="form-control form-select" [(ngModel)]="format" #formatDS="ngModel"
                 required [style.border-color]="formatDS.errors?.required && downloadForm.submitted
               ? 'red' : '#ced4da'">

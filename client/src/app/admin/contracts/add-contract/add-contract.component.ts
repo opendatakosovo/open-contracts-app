@@ -744,10 +744,6 @@ export class AddContractComponent implements OnInit {
                     Swal('Gabim!', 'Kontrata nuk u shtua.', 'error');
                   } else {
                     Swal('Sukses!', 'Kontrata u shtua me sukses.', 'success').then((result) => {
-                      this.datasetService.updateCsv(this.contract.year, this.contract)
-                        .takeUntil(this.unsubscribeAll)
-                        .subscribe(data => {
-                        });
                       if (result.value) {
                         this.router.navigate(['/dashboard/contracts']);
                       }
@@ -756,10 +752,6 @@ export class AddContractComponent implements OnInit {
                 });
             } else {
               Swal('Sukses!', 'Kontrata u shtua me sukses.', 'success').then((result) => {
-                this.datasetService.updateCsv(this.contract.year, this.contract)
-                  .takeUntil(this.unsubscribeAll)
-                  .subscribe(data => {
-                  });
                 if (result.value) {
                   this.router.navigate(['/dashboard/contracts']);
                 }
@@ -788,10 +780,6 @@ export class AddContractComponent implements OnInit {
               Swal('Gabim!', 'Kontrata nuk u shtua.', 'error');
             } else {
               Swal('Sukses!', 'Kontrata u shtua me sukses.', 'success').then((result) => {
-                this.datasetService.updateCsv(this.contract.year, this.contract)
-                  .takeUntil(this.unsubscribeAll)
-                  .subscribe(data => {
-                  });
                 if (result.value) {
                   this.router.navigate(['/dashboard/contracts']);
                 }

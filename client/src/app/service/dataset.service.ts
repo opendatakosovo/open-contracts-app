@@ -26,8 +26,4 @@ export class DatasetService {
     return this.http.putWithAuth(`${this.APIUrl}/datasets/update/`, formData, 'multipart').map(res => res.json());
   }
 
-  updateCsv(datasetFilePath, dataset) {
-    return this.http.putWithAuth(`${this.APIUrl}/datasets/update-csv/${datasetFilePath}`, dataset).map(res => res.json().dataset);
-  }
-
 }

@@ -234,10 +234,6 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
               this.rows = pagedData.data;
             });
           Swal('Sukses!', 'Kontrata u fshi me sukses.', 'success');
-          this.datasetService.updateCsv(this.contract.year, this.contract)
-            .takeUntil(this.unsubscribeAll)
-            .subscribe(data => {
-            });
         }
       });
   }

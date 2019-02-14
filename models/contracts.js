@@ -361,7 +361,9 @@ module.exports.countContracts = (role, directorateName) => {
     return Contract.count();
 }
 
-
+module.exports.getContractsByDirectorate = directorateName => {
+    return Contract.find({"releases.buyer.name": directorateName});
+}
 
 
 // Data Visualizations
@@ -425,6 +427,7 @@ module.exports.getTopTenContractors = () => {
         {
             $group: { _id: "$releases.tender.tenderers.name", count: { $sum: 1 } }
         },
+        { $unwind: "$_id" },
         { $unwind: "$_id" },
         { $sort: { count: -1 } },
         { $limit: 10 },

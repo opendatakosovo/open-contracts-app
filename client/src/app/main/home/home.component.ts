@@ -6,8 +6,9 @@ import { Dataset } from '../../models/dataset';
 import { ContractsService } from '../../service/contracts.service';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { Meta } from '@angular/platform-browser';
-declare var require: any;
-const translateVis = require('../../utils/socialMediaTranslation.json');
+import { DirectorateService } from '../../service/directorate.service';
+import { Directorate } from '../../models/directorates';
+import { DataService } from '../../service/data.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -19,14 +20,28 @@ export class HomeComponent implements OnInit {
   dataSets: Dataset[];
   data: string;
   format: string;
+  field: string;
   language = 'sq';
+  value: string;
+  directorates: Directorate[];
+  topTenContractors;
   constructor(private translate: TranslateService, public datasetService: DatasetService,
-    public contractService: ContractsService, public router: Router, public rout: ActivatedRoute, private meta: Meta) {
+    public contractService: ContractsService, public router: Router, public rout: ActivatedRoute, private meta: Meta, public directorateService: DirectorateService, public dataService: DataService) {
     translate.setDefaultLang('sq');
     this.datasetService.getDatasets()
       .takeUntil(this.unsubscribeAll)
       .subscribe(data => {
         this.dataSets = data;
+      });
+    this.directorateService.getAllPublicDirectorates()
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(data => {
+        this.directorates = data;
+      });
+    this.dataService.getTopTenContractors()
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(data => {
+        this.topTenContractors = data;
       });
     window.scroll(0, 0);
   }
@@ -57,18 +72,21 @@ export class HomeComponent implements OnInit {
     dataSet.setAttribute('class', 'data-set-link');
   }
   downloadDataSet(isValid) {
-    const elemA = (<HTMLInputElement>document.getElementById('format')).value;
-    const elemB = (<HTMLInputElement>document.getElementById('data')).value;
+    const format = (<HTMLInputElement>document.getElementById('format')).value;
+    const value = (<HTMLInputElement>document.getElementById('data')).value;
+    const field = (<HTMLInputElement>document.getElementById('field')).value;
     if (isValid === true) {
-      if (elemA === 'json') {
-        window.location.href = '/datasets/json/' + elemB.replace('.csv', '');
-      } else if (elemA === 'csv') {
-        if (elemB === '2018.csv' || elemB === '2017.csv') {
-          window.location.href = '/datasets/new/' + elemB;
-        } else {
-          window.location.href = '/datasets/old/' + elemB;
-        }
+      if (format === 'json') {
+        window.location.href = '/datasets/json/' + field + '/' + value.replace('.csv', '');
+      } else if (format === 'csv') {
+        window.location.href = '/datasets/csv/' + field + '/' + value;
       }
     }
+  }
+  onChange(event) {
+    const elemB = (<HTMLInputElement>document.getElementById('field')).value;
+    this.value = elemB;
+    const elements = (<HTMLInputElement>document.getElementById('data'));
+    elements.value = 'undefined';
   }
 }
