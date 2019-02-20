@@ -37,6 +37,10 @@
           [bsConfig]="bsConfig" name="date" id="date" class="form-control form-select" [(ngModel)]="search.date">
         <input type="text" (keyup)="onType()" [(ngModel)]="search.value" name="value" class="form-control form-input"
           placeholder="{{ 'datatable.value' | translate }}">
+        <select (change)="onChangeYear($event)" class="form-control form-select">
+          <option value="any">Te gjitha vitet</option>
+          <option *ngFor="let year of years" value="{{year.year}}">{{year.year}}</option>
+        </select>
       </form>
     </div>
   </div>
@@ -322,7 +326,7 @@
           <div *ngIf="row.releases[0].contracts[0].documents[0] && row.releases[0].contracts[0].documents[0].title !== ''">
             <a class="view-icon" [attr.data-id]="row._id" href="/uploads/{{row.releases[0].contracts[0].documents[0].title}}"
               target="_blank">
-              <i class="fa fa-file-pdf-o" style="margin-top: 1.5px; font-size: 20px" aria-hidden="true"></i>
+              <i class="fa fa-file-text-o" style="margin-top: 1.5px; font-size: 20px" aria-hidden="true"></i>
             </a>
           </div>
         </span>
