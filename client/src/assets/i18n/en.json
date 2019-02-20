@@ -60,7 +60,8 @@
     "procurementPlans": "Procurement plans",
     "designAwardNotification": "Notification for design vacancy",
     "priorNotification": "Prior Notification",
-    "procurementReview": "Procurement review body's decisions"
+    "procurementReview": "Procurement review body's decisions",
+    "municipalDecisions": "Municipal decisions on requests for reconsideration"
   },
   "aboutUs": {
     "title": "About Us",
@@ -94,6 +95,8 @@
     "description": "Here you can find various forms of visualisations that show about contracts that have been connected by the Municipality of Prishtina with different economic operators over the years. Learning top ten companies with most contracts. Compare the dates of the contract award with the dates of their signature. Find out which are the most contingent directories and the highest value contracts.",
     "allYears": "All",
     "notification": "Notice: Click on the company shown in the visualisation to see all the contracts it has with the municipality",
-    "allContractsOfOE": "All company contracts"
+    "allContractsOfOE": "All company contracts",
+    "directorateNotification": "Notice: Click on the directory shown in the visualization to see all the contracts that that directory",
+    "allContractsOfDirectorates": "All the contracts of the directorate"
   }
 }

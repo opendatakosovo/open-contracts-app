@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Contract } from '../../../models/contract';
 import { ContractsService } from '../../../service/contracts.service';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { CheckIfServerDown } from '../../../utils/CheckIfServerDown';
 import { CheckIfUserIsActive } from '../../../utils/CheckIfUserIsActive';
 import { User } from '../../../models/user';

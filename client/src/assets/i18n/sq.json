@@ -60,7 +60,8 @@
     "procurementPlans": "Planet e prokurimit",
     "designAwardNotification": "Njoftim për konkurs të projektimit",
     "priorNotification": "Njoftim paraprak",
-    "procurementReview": "Vendimet e Organit shqyrtues të prokurimit"
+    "procurementReview": "Vendimet e Organit shqyrtues të prokurimit",
+    "municipalDecisions": "Vendimet e komunës ndaj kërkesave për rishqyrtim"
   },
   "aboutUs": {
     "title": "Pse kontratat e nënshkruara publike?",
@@ -94,6 +95,8 @@
     "description": "Këtu mund të gjeni forma të ndryshme të vizualizimeve që tregojnë rreth kontratave që ka lidhur Komuna e Prishtinës me operatorë të ndryshëm ekonomik ndër vite. Mësoni top dhjetë kompanitë me më së shumti kontrata. Krahasoni datat e publikimit të dhënjes së kontratave me datat e nënshkrimit të tyre. Gjeni cilat janë drejtoritë me më së shumti kontrata si dhe kontratat me vleren më të madhe.",
     "allYears": "Të gjitha",
     "notification": "Njoftim: Klikoni mbi kompaninë e paraqitur në vizualizim, që t’i shihni të gjitha kontratat që ajo ka me komunën",
-    "allContractsOfOE": "Të gjitha kontratat e kompanisë"
+    "allContractsOfOE": "Të gjitha kontratat e kompanisë",
+    "directorateNotification": "Njoftim: Klikoni mbi drejtorinë e paraqitur në vizualizim, që t’i shihni të gjitha kontratat që atë drejtori",
+    "allContractsOfDirectorates": "Të gjitha kontratat e drejtorisë"
   }
 }

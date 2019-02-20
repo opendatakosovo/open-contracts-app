@@ -58,6 +58,16 @@ router.get('/get-contracts-by-contractor/:companyName', (req, res) => {
         })
 });
 
+// Get Contracts by directorate name
+router.get('/get-contracts-by-directorate/:directorate', (req, res) => {
+    Contract.getContractsByDirectorate(req.params.directorate)
+        .then(data => {
+            res.json(data);
+        }).catch(err => {
+            res.json(err);
+        })
+});
+
 // Get the directorates of contracts
 router.get('/get-directorates-of-contracts/:year', (req, res) => {
     Contract.getDirectoratesInContracts(req.params.year)

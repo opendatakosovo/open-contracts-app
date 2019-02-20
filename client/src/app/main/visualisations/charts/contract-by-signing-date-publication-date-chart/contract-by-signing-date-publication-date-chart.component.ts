@@ -19,11 +19,22 @@ export class ContractBySigningDatePublicationDateChartComponent implements OnIni
   lang: string;
   constructor(public dataService: DataService, public translate: TranslateService) {
     this.year = 'any';
-    this.dataService.getContractYears(2017)
+    this.dataService.getContractYears(2009)
       .takeUntil(this.unsubscribeAll)
       .subscribe(res => {
         this.years = res;
       });
+  }
+
+  onChange(event) {
+    this.year = event.target.value;
+    this.translate.onLangChange
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(langObj => {
+        this.lang = langObj.lang;
+        this.render();
+      });
+    this.render();
   }
 
   ngOnInit() {
