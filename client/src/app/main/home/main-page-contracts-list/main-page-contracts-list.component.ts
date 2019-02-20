@@ -11,6 +11,8 @@ import { Page } from '../../../models/page';
 import { TranslateService } from '@ngx-translate/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable/src/components/datatable.component';
 import { Router, ActivatedRoute } from '@angular/router';
+import { DataService } from '../../../service/data.service';
+
 @Component({
   selector: 'app-main-page-contracts-list',
   templateUrl: './main-page-contracts-list.component.html',
@@ -26,10 +28,10 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
   modalRef: BsModalRef;
   page = new Page();
   rows = new Array<Contract>();
+  years;
   totalContracts: Number;
   isSortedAsc: Boolean;
   isSortedDesc: Boolean;
-  private ref: ChangeDetectorRef;
   private datatableBodyElement: Element;
   search = {
     string: '',
@@ -37,7 +39,7 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
     date: new Date(),
     referenceDate: new Date(),
     value: '',
-    year: null,
+    year: '',
     procurementNo: '',
     pageInfo: new Page()
   };
@@ -47,7 +49,7 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
   @ViewChild('table') table: DatatableComponent;
 
   constructor(public contractsService: ContractsService, private modalService: BsModalService, private translate: TranslateService,
-    public directorateService: DirectorateService, public route: Router, public activatedRoute: ActivatedRoute) {
+    public directorateService: DirectorateService, public route: Router, public activatedRoute: ActivatedRoute, public dataService: DataService) {
     translate.setDefaultLang('sq');
     this.page.pageNumber = 0;
     this.page.size = 10;
@@ -66,7 +68,7 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
       date: null,
       referenceDate: null,
       value: '',
-      year: 2018,
+      year: '',
       procurementNo: '',
       pageInfo: {
         pageNumber: 0,
@@ -76,6 +78,11 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
         column: ''
       }
     };
+    this.dataService.getContractYears(2017)
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(res => {
+        this.years = res;
+      });
   }
 
   messages = {
@@ -238,7 +245,7 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
       this.contractsService.serverSortLatestContractsDescending(this.page)
         .takeUntil(this.unsubscribeAll)
         .subscribe(pagedData => {
-            const descClass = document.getElementById('sort');
+          const descClass = document.getElementById('sort');
           descClass.classList.remove('asc');
           descClass.classList.add('desc');
           this.page = pagedData.page;
@@ -394,4 +401,23 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
     });
   }
 
+  onChangeYear(event) {
+    this.search.year = event.target.value;
+    this.contractsService.filterContract(this.search)
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(data => {
+        this.page = data.page;
+        this.rows = data.data;
+        if (data.data.length === 0) {
+          this.messages = {
+            emptyMessage: `
+          <div>
+              <p>Asnjë kontratë nuk përputhet me të dhënat e shtypura</p>
+          </div>
+        `
+          };
+        }
+      });
+    this.table.offset = 0;
+  }
 }

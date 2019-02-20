@@ -50,7 +50,7 @@
             margin-right: 20px;
             border: 1px #32a6bd solid;
             border-radius: 25px;
-            width: 22%;
+            width: 18%;
             font-family: 'Roboto', sans-serif;
             font-size: 20px;
             font-weight: 100;
@@ -75,7 +75,7 @@
             -webkit-appearance: none;
             -moz-appearance: none;
             border-radius: 25px ;
-            width: 23%;
+            width: 18%;
             font-family: 'Roboto', sans-serif;
             font-size: 20px;
             font-weight: 100;
@@ -98,66 +98,75 @@
             margin-bottom: 350px;
         }
             /*--------------Responsiveness--------------*/
-          @media(max-width: 860px) {
-            .contracts-filter-form .form-input {
-                width: 80%;
-                height: 45px;
-                margin-top: 10px;
-                
+            @media(max-width: 1130px) {
+                .contracts-filter-form .form-input {
+                    width: 27%;
+                    height: 45px;
+                    margin-top: 10px;
+
+                }
+                .contracts-filter-form .form-select {
+                    width: 27%; 
+                    margin-top: 10px;
+                    height: 45px;
+                }
             }
-            .contracts-filter-form .form-select {
-                width: 80%; 
-                margin-top: 10px;
-                height: 45px;
+
+            @media(max-width: 860px) {
+                .contracts-filter-form .form-input {
+                    width: 80%;
+                }
+                .contracts-filter-form .form-select {
+                    width: 80%; 
+                }
+                .contracts-filter-form {
+                    padding-left: 200px;
+                    padding-right: 95px;
+                }
+                .public-contracts .title {
+                    font-size: 27px;
+                }
+            } 
+            @media(max-width: 750px) {
+                .contracts-filter-form {
+                    padding-left: 170px;
+                }
             }
-            .contracts-filter-form {
-                padding-left: 200px;
-                padding-right: 95px;
+            @media(max-width: 600px) {
+                .contracts-filter-form {
+                    padding-left: 135px;
+                    padding-right: 45px;
+                }
+                .public-contracts .title {
+                    font-size: 25px;    
+                }
+                .contracts-filter-form .form-select, .contracts-filter-form .form-input{
+                    height: 40px;
+                    margin-right: 0px;
+                }
             }
-            .public-contracts .title {
-                font-size: 27px;
+            @media(max-width: 500px) {
+                .contracts-filter-form {
+                    padding-left: 95px;
+                }
             }
-          }
-          @media(max-width: 750px) {
-              .contracts-filter-form {
-                  padding-left: 170px;
-              }
-          }
-          @media(max-width: 600px) {
-            .contracts-filter-form {
-                padding-left: 135px;
-                padding-right: 45px;
+            @media(max-width: 450px) { 
+                .contracts-filter-form {
+                    padding-left: 45px;
+                    padding-right: 0px;
+                }
+                .contracts-filter-form .form-select, .contracts-filter-form .form-input{
+                    width: 90%;
+                }
+                .public-contracts .title {
+                    font-size: 22px;
+                }
             }
-            .public-contracts .title {
-                font-size: 25px;    
+            @media(max-width: 360px) {
+                .contracts-filter-form {
+                    padding-left: 25px;
+                }
             }
-            .contracts-filter-form .form-select, .contracts-filter-form .form-input{
-                height: 40px;
-                margin-right: 0px;
-            }
-          }
-          @media(max-width: 500px) {
-            .contracts-filter-form {
-                padding-left: 95px;
-            }
-          }
-          @media(max-width: 450px) { 
-            .contracts-filter-form {
-                padding-left: 45px;
-                padding-right: 0px;
-            }
-            .contracts-filter-form .form-select, .contracts-filter-form .form-input{
-                width: 90%;
-            }
-            .public-contracts .title {
-                font-size: 22px;
-            }
-          }
-          @media(max-width: 360px) {
-              .contracts-filter-form {
-                  padding-left: 25px;
-              }
-          }
         
     /* -------- /Public contracts form ------*/
 /* ------- /Public contrats ------- */
