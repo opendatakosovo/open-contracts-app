@@ -35,7 +35,10 @@
     "procurementNumber": "Nr. i prokurimit",
     "amountOfDifferenceBetweenTheEstimatedValueAndtotalWithContractTax": "Shuma e diferencës në mes vlerës parashikuar dhe totale me taksa të kontratës",
     "visualisationsTitle": "Top dhjetë kontratat me vlerën më të madhe",
-    "chooseDate": "Zgjedhni datën"
+    "chooseDate": "Zgjedhni datën",
+    "tenderDoc": "Shiko dosjen e tenderit",
+    "contractDoc": "Shiko kontratën e plotë",
+    "jsonDoc": "Shkarko kontratën JSON"
   },
   "dataset": {
     "title": "SETI I TË DHËNAVE",

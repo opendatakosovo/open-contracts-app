@@ -27,6 +27,10 @@ export class ContractsService {
     return this.http.getWithAuth(`${this.APIUrl}/contracts/${id}`).map(res => res.json().data);
   }
 
+  getContractByOcid(ocid) {
+    return this.http.getWithAuth(`${this.APIUrl}/contracts/json/${ocid}`).map(res => res.json().data);
+  }
+
   deleteContractByID(id) {
     return this.http.deleteWithAuth(`${this.APIUrl}/contracts/${id}`).map(res => res.json().contract);
   }

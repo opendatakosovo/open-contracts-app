@@ -35,7 +35,10 @@
     "procurementNumber": "Br. nabavke",
     "amountOfDifferenceBetweenTheEstimatedValueAndtotalWithContractTax": "Iznos razlike između procenjene vrednosti i ukupnog poreza na ugovor",
     "visualisationsTitle": "Top deset ugovora sa najvišom vrednošću",
-    "chooseDate": "Izaberite datum"
+    "chooseDate": "Izaberite datum",
+    "tenderDoc": "Pogledajte dosije tendera",
+    "contractDoc": "Vidi pun ugovor",
+    "jsonDoc": "Preuzmite ugovor kao JSON"
   },
   "dataset": {
     "title": "SET PODATAKA",

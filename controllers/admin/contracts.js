@@ -52,7 +52,11 @@ router.post("/latest-contracts/page/ascending", (req, res) => {
             return page;
         })
         .then(page => {
-            Contract.find({ "year": { "$gte": 2018 } }).then(data => {
+            Contract.find({
+                "year": {
+                    "$gte": 2018
+                }
+            }).then(data => {
                 const returnData = [];
                 for (row of data) {
                     row = row.toObject();
@@ -116,7 +120,11 @@ router.post("/latest-contracts/page/descending", (req, res) => {
             page.skipPages = page.size * page.pageNumber
             return page;
         }).then(page => {
-            Contract.find({ "year": { "$gte": 2018 } }).then(data => {
+            Contract.find({
+                "year": {
+                    "$gte": 2018
+                }
+            }).then(data => {
                 const returnData = [];
                 for (row of data) {
                     row = row.toObject();
@@ -179,7 +187,13 @@ router.post("/latest-contracts/page", (req, res) => {
             return page;
         })
         .then(page => {
-            return Contract.find({ "year": { "$gte": 2018 } }).sort({ "createdAt": -1 }).skip(page.skipPages).limit(page.size).then(result => {
+            return Contract.find({
+                "year": {
+                    "$gte": 2018
+                }
+            }).sort({
+                "createdAt": -1
+            }).skip(page.skipPages).limit(page.size).then(result => {
                 delete page.skipPages;
                 response.page = page;
                 response.data = result;
@@ -192,7 +206,9 @@ router.post("/latest-contracts/page", (req, res) => {
 });
 
 // Sort contracts ascending
-router.post("/page/ascending", passport.authenticate('jwt', { session: false }), authorize("superadmin", "admin", "user"), (req, res) => {
+router.post("/page/ascending", passport.authenticate('jwt', {
+    session: false
+}), authorize("superadmin", "admin", "user"), (req, res) => {
     let page = {
         size: req.body.size,
         totalElements: req.body.totalElements,
@@ -260,7 +276,9 @@ router.post("/page/ascending", passport.authenticate('jwt', { session: false }),
 });
 
 // Sort contracts descending
-router.post("/page/descending", passport.authenticate('jwt', { session: false }), authorize("superadmin", "admin", "user"), (req, res) => {
+router.post("/page/descending", passport.authenticate('jwt', {
+    session: false
+}), authorize("superadmin", "admin", "user"), (req, res) => {
     let page = {
         size: req.body.size,
         totalElements: req.body.totalElements,
@@ -326,7 +344,9 @@ router.post("/page/descending", passport.authenticate('jwt', { session: false })
         });
 });
 
-router.post("/page", passport.authenticate('jwt', { session: false }), authorize("superadmin", "admin", "user"), (req, res) => {
+router.post("/page", passport.authenticate('jwt', {
+    session: false
+}), authorize("superadmin", "admin", "user"), (req, res) => {
     let page = {
         size: req.body.size,
         totalElements: req.body.totalElements,
@@ -348,7 +368,9 @@ router.post("/page", passport.authenticate('jwt', { session: false }), authorize
             return page;
         })
         .then(page => {
-            return Contract.find().sort({ "createdAt": -1 }).skip(page.skipPages).limit(page.size).then(result => {
+            return Contract.find().sort({
+                "createdAt": -1
+            }).skip(page.skipPages).limit(page.size).then(result => {
                 delete page.skipPages;
                 response.page = page;
                 response.data = result;
@@ -360,7 +382,9 @@ router.post("/page", passport.authenticate('jwt', { session: false }), authorize
         });
 });
 
-router.post("/", passport.authenticate('jwt', { session: false }), authorize("superadmin", "admin"), uploadFile, (req, res) => {
+router.post("/", passport.authenticate('jwt', {
+    session: false
+}), authorize("superadmin", "admin"), uploadFile, (req, res) => {
     if (req.fileExist) {
         res.json({
             "existErr": "File exist",
@@ -434,7 +458,9 @@ router.get("/latest-contracts", (req, res) => {
     });
 });
 
-router.get("/:id", passport.authenticate('jwt', { session: false }), (req, res) => {
+router.get("/:id", passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
     Contract.getContractById(req.params.id, (err, contract) => {
         if (err) {
             res.json({
@@ -452,7 +478,9 @@ router.get("/:id", passport.authenticate('jwt', { session: false }), (req, res) 
 
 
 // Route for deleting a contract by id
-router.delete('/:id', passport.authenticate('jwt', { session: false }), authorize('superadmin', 'admin'), (req, res) => {
+router.delete('/:id', passport.authenticate('jwt', {
+    session: false
+}), authorize('superadmin', 'admin'), (req, res) => {
     Contract.deleteContractById(req.params.id, (err, contract) => {
         if (!err) {
             res.json({
@@ -472,8 +500,8 @@ router.delete('/:id', passport.authenticate('jwt', { session: false }), authoriz
 // Get contract by id and send as JSON file response
 router.get('/json/:ocid', (req, res) => {
     Contract.getContractByOcidJson(req.params.ocid, (err, contract) => {
-        if (contract.length !== 0) {
-            let fileName = `${req.params.id}.json`;
+        if (contract.length > 0) {
+            let fileName = `${req.params.ocid}.json`;
             let mimeType = 'application/json';
             res.setHeader('Content-Type', mimeType);
             res.setHeader('Content-disposition', 'attachment; filename=' + fileName);
@@ -524,27 +552,44 @@ router.put('/update-all', (req, res) => {
             let transactions = () => {
                 if (row.installments.length > 0) {
                     for (installment of row.installments) {
-                        transactionsArray.push(
-                            {
-                                "id": Math.random().toString(36).substr(2, 9) + "-transaction",
-                                "date": installment.installmentPayDate1,
-                                "payer": {
-                                    "id": buyerId,
-                                    "name": row.directorates
-                                },
-                                "payee": {
-                                    "id": payerId,
-                                    "name": row.company.name
-                                },
-                                "value": {
-                                    "amount": installment.installmentAmount1,
-                                    "currency": "EUR"
-                                }
+                        transactionsArray.push({
+                            "id": Math.random().toString(36).substr(2, 9) + "-transaction",
+                            "date": installment.installmentPayDate1,
+                            "payer": {
+                                "id": buyerId,
+                                "name": row.directorates
+                            },
+                            "payee": {
+                                "id": payerId,
+                                "name": row.company.name
+                            },
+                            "value": {
+                                "amount": installment.installmentAmount1,
+                                "currency": "EUR"
                             }
-                        )
+                        })
                     }
-                    transactionsArray.push(
-                        {
+                    transactionsArray.push({
+                        "id": Math.random().toString(36).substr(2, 9) + "-last-transaction",
+                        "date": row.lastInstallmentPayDate,
+                        "payer": {
+                            "id": buyerId,
+                            "name": row.directorates
+                        },
+                        "payee": {
+                            "id": payerId,
+                            "name": row.company.name
+                        },
+                        "value": {
+                            "amount": row.lastInstallmentAmount,
+                            "currency": "EUR"
+                        }
+                    })
+                    return transactionsArray;
+
+                } else {
+                    if (row.lastInstallmentPayDate !== null && row.lastInstallmentAmount !== null) {
+                        transactionsArray = [{
                             "id": Math.random().toString(36).substr(2, 9) + "-last-transaction",
                             "date": row.lastInstallmentPayDate,
                             "payer": {
@@ -559,30 +604,7 @@ router.put('/update-all', (req, res) => {
                                 "amount": row.lastInstallmentAmount,
                                 "currency": "EUR"
                             }
-                        }
-                    )
-                    return transactionsArray;
-
-                } else {
-                    if (row.lastInstallmentPayDate !== null && row.lastInstallmentAmount !== null) {
-                        transactionsArray = [
-                            {
-                                "id": Math.random().toString(36).substr(2, 9) + "-last-transaction",
-                                "date": row.lastInstallmentPayDate,
-                                "payer": {
-                                    "id": buyerId,
-                                    "name": row.directorates
-                                },
-                                "payee": {
-                                    "id": payerId,
-                                    "name": row.company.name
-                                },
-                                "value": {
-                                    "amount": row.lastInstallmentAmount,
-                                    "currency": "EUR"
-                                }
-                            }
-                        ]
+                        }]
                     }
                     return transactionsArray;
                 }
@@ -591,12 +613,10 @@ router.put('/update-all', (req, res) => {
                 if (row.contract.annexes.length > 0) {
                     for (annex of row.contract.annexes) {
                         annex.totalValueOfAnnexContract1 = Number(annex.totalValueOfAnnexContract1.replace(/[^0-9\.-]+/g, ""));
-                        annexesArray.push(
-                            {
-                                "date": annex.annexContractSigningDate1,
-                                "description": annex.totalValueOfAnnexContract1
-                            }
-                        )
+                        annexesArray.push({
+                            "date": annex.annexContractSigningDate1,
+                            "description": annex.totalValueOfAnnexContract1
+                        })
                     }
                     return annexesArray;
                 }
@@ -863,252 +883,240 @@ router.put('/update-all', (req, res) => {
                     "https://raw.githubusercontent.com/open-contracting-extensions/ocds_contract_completion_extension/master/extension.json",
                     "https://raw.githubusercontent.com/leobaz/ocds_deductionAmountFromContract_extension/master/extension.json"
                 ],
-                "releases": [
-                    {
-                        "language": "sq",
-                        "date": row.createdAt,
-                        "id": ocidMaker("-contract"),
-                        "initiationType": "tender",
-                        "ocid": ocidMaker(""),
-                        "tag": [
-                            "contract"
-                        ],
-                        "relatedProcesses": relatedProcesses(),
-                        "parties": [
-                            {
-                                "name": row.company.name,
-                                "address": {
-                                    "region": row.company.headquarters.name
-                                },
-                                "roles": [
-                                    "supplier",
-                                    "tenderer",
-                                    "payee"
-                                ],
-                                "id": payerId,
-                                "details": {
-                                    "local": partyDetails()
-                                }
+                "releases": [{
+                    "language": "sq",
+                    "date": row.createdAt,
+                    "id": ocidMaker("-contract"),
+                    "initiationType": "tender",
+                    "ocid": ocidMaker(""),
+                    "tag": [
+                        "contract"
+                    ],
+                    "relatedProcesses": relatedProcesses(),
+                    "parties": [{
+                            "name": row.company.name,
+                            "address": {
+                                "region": row.company.headquarters.name
+                            },
+                            "roles": [
+                                "supplier",
+                                "tenderer",
+                                "payee"
+                            ],
+                            "id": payerId,
+                            "details": {
+                                "local": partyDetails()
+                            }
+                        },
+                        {
+                            "identifier": {
+                                "legalName": 'Komuna e Prishtinës'
+                            },
+                            "name": row.directorates,
+                            "address": {
+                                "region": "Prishtinë",
+                                "postalCode": "10000",
+                                "countryName": "Kosovë"
+                            },
+                            "contactPoint": {
+                                "name": row.nameOfProcurementOffical,
+                                "url": "https://kk.rks-gov.net/prishtine/"
+                            },
+                            "roles": [
+                                "buyer",
+                                "payer",
+                                "procuringEntity"
+                            ],
+                            "id": buyerId
+                        }
+                    ],
+                    "buyer": {
+                        "id": buyerId,
+                        "name": row.directorates
+                    },
+                    "planning": {
+                        "budget": {
+                            "id": ocidMaker("-planning"),
+                            "description": row.budget,
+                            "amount": {
+                                "amount": row.contract.predictedValue,
+                                "currency": "EUR"
+                            }
+                        },
+                        "documents": plannedDocument(),
+                        "milestones": [{
+                                "id": milestoneId('initiationDate'),
+                                "title": "Data e inicimit të aktivitetit të prokurimit (data e pranimit të kërkesës)",
+                                "type": "preProcurement",
+                                "code": "initiationDate",
+                                "dateMet": row.initiationDate,
+                                "status": "met"
                             },
                             {
-                                "identifier": {
-                                    "legalName": 'Komuna e Prishtinës'
-                                },
-                                "name": row.directorates,
-                                "address": {
-                                    "region": "Prishtinë",
-                                    "postalCode": "10000",
-                                    "countryName": "Kosovë"
-                                },
-                                "contactPoint": {
-                                    "name": row.nameOfProcurementOffical,
-                                    "url": "https://kk.rks-gov.net/prishtine/"
-                                },
-                                "roles": [
-                                    "buyer",
-                                    "payer",
-                                    "procuringEntity"
-                                ],
-                                "id": buyerId
+                                "id": milestoneId('approvalDateOfFunds'),
+                                "title": "Data e aprovimit të deklaratës së nevojave dhe disponueshmërisë së mjeteve",
+                                "type": "approval",
+                                "code": "approvalDateOfFunds",
+                                "dateMet": row.approvalDateOfFunds,
+                                "status": "met"
+                            },
+                            {
+                                "id": milestoneId('torDate'),
+                                "title": "Data e pranimit të specifikimit teknik (TOR)",
+                                "type": "assessment",
+                                "code": "torDate",
+                                "dateMet": row.torDate,
+                                "status": "met"
+                            },
+                            {
+                                "id": milestoneId('reapprovalDate'),
+                                "title": "Data e aprovimit të Deklaratës së nevojave dhe disponueshmërisë së mjeteve - rikonfirmimi",
+                                "type": "approval",
+                                "code": "reapprovalDate",
+                                "dateMet": row.reapprovalDate,
+                                "status": "met"
                             }
-                        ],
-                        "buyer": {
+                        ]
+                    },
+                    "tender": {
+                        "id": row.procurementNo,
+                        "title": row.activityTitle,
+                        "date": row.contract.publicationDate,
+                        "status": tendersStatus(),
+                        "items": [{
+                            "id": itemsId,
+                            "description": "The CPV number for the services provided",
+                            "classification": {
+                                "scheme": "CPV",
+                                "id": "CPV",
+                                "description": "The common procurement vocabulary number"
+                            },
+                            "quantity": row.fppClassification
+                        }],
+                        "numberOfTenderers": row.noOfCompaniesWhoSubmited,
+                        "tenderers": [{
+                            "name": row.company.name,
+                            "id": payerId
+                        }],
+                        "value": {
+                            "amount": row.contract.totalAmountOfContractsIncludingTaxes,
+                            "currency": "EUR"
+                        },
+                        "procurementMethod": procurementMethod(),
+                        "procurementMethodRationale": procurementMethodRationale(),
+                        "mainProcurementCategory": procurementCategory('mainProcurementCategory'),
+                        "additionalProcurementCategories": procurementCategory('additionalProcurementCategories'),
+                        "hasEnquiries": hasEnquiries('complaintsToAuthority1'),
+                        "hasComplaints": hasEnquiries('complaintsToOshp1'),
+                        "tenderPeriod": {
+                            "startDate": row.bidOpeningDate
+                        },
+                        "awardPeriod": {
+                            "startDate": row.startingOfEvaluationDate,
+                            "endDate": row.endingOfEvaluationDate,
+                            "durationInDays": row.startingAndEndingEvaluationDate
+                        },
+                        "contractPeriod": {
+                            "startDate": row.contract.signingDate,
+                            "endDate": row.contract.closingDate,
+                            "durationInDays": row.contract.implementationDeadline
+                        },
+                        "awardCriteria": awardCriteria(),
+                        "procuringEntity": {
                             "id": buyerId,
                             "name": row.directorates
                         },
-                        "planning": {
-                            "budget": {
-                                "id": ocidMaker("-planning"),
-                                "description": row.budget,
-                                "amount": {
-                                    "amount": row.contract.predictedValue,
-                                    "currency": "EUR"
-                                }
+                        "documents": tenderDocuments(),
+                        "milestones": [{
+                                "id": milestoneId('standardDocuments'),
+                                "title": "Letrat Standarde për OE",
+                                "type": "engagement",
+                                "code": "standardDocuments",
+                                "dateMet": row.company.standardDocuments,
+                                "status": "met"
                             },
-                            "documents": plannedDocument(),
-                            "milestones": [
-                                {
-                                    "id": milestoneId('initiationDate'),
-                                    "title": "Data e inicimit të aktivitetit të prokurimit (data e pranimit të kërkesës)",
-                                    "type": "preProcurement",
-                                    "code": "initiationDate",
-                                    "dateMet": row.initiationDate,
-                                    "status": "met"
-                                },
-                                {
-                                    "id": milestoneId('approvalDateOfFunds'),
-                                    "title": "Data e aprovimit të deklaratës së nevojave dhe disponueshmërisë së mjeteve",
-                                    "type": "approval",
-                                    "code": "approvalDateOfFunds",
-                                    "dateMet": row.approvalDateOfFunds,
-                                    "status": "met"
-                                },
-                                {
-                                    "id": milestoneId('torDate'),
-                                    "title": "Data e pranimit të specifikimit teknik (TOR)",
-                                    "type": "assessment",
-                                    "code": "torDate",
-                                    "dateMet": row.torDate,
-                                    "status": "met"
-                                },
-                                {
-                                    "id": milestoneId('reapprovalDate'),
-                                    "title": "Data e aprovimit të Deklaratës së nevojave dhe disponueshmërisë së mjeteve - rikonfirmimi",
-                                    "type": "approval",
-                                    "code": "reapprovalDate",
-                                    "dateMet": row.reapprovalDate,
-                                    "status": "met"
-                                }
-                            ]
+                            {
+                                "id": milestoneId('cancellationNoticeDate'),
+                                "title": "Data e publikimit të anulimit të njoftimit",
+                                "type": "approval",
+                                "code": "cancellationNoticeDate",
+                                "dateMet": row.cancellationNoticeDate,
+                                "status": "met"
+                            }
+                        ],
+                        "estimatedSizeOfProcurementValue": {
+                            "estimatedValue": estimatedValue()
                         },
-                        "tender": {
-                            "id": row.procurementNo,
-                            "title": row.activityTitle,
-                            "date": row.contract.publicationDate,
-                            "status": tendersStatus(),
-                            "items": [
-                                {
-                                    "id": itemsId,
-                                    "description": "The CPV number for the services provided",
-                                    "classification": {
-                                        "scheme": "CPV",
-                                        "id": "CPV",
-                                        "description": "The common procurement vocabulary number"
-                                    },
-                                    "quantity": row.fppClassification
-                                }
-                            ],
-                            "numberOfTenderers": row.noOfCompaniesWhoSubmited,
-                            "tenderers": [{
-                                "name": row.company.name,
-                                "id": payerId
-                            }],
-                            "value": {
-                                "amount": row.contract.totalAmountOfContractsIncludingTaxes,
+                        "procedure": {
+                            "isAcceleratedProcedure": acceleratedProcedure()
+                        },
+                        "lots": []
+                    },
+                    "awards": [{
+                        "id": ocidMaker("-award"),
+                        "date": row.contract.publicationDateOfGivenContract,
+                        "suppliers": [{
+                            "id": payerId,
+                            "name": row.company.name
+                        }],
+                        "contractPeriod": {
+                            "startDate": row.contract.signingDate,
+                            "endDate": row.contract.closingDate,
+                            "durationInDays": row.contract.implementationDeadline
+                        },
+                        "hasEnquiries": hasEnquiries('complaintsToAuthority2'),
+                        "hasComplaints": hasEnquiries('complaintsToOshp2'),
+                        "complaintType": hasEnquiries('type'),
+                        "enquiryType": hasEnquiries('enquiryType')
+                    }],
+                    "contracts": [{
+                        "id": ocidMaker("-contract"),
+                        "awardID": ocidMaker("-award"),
+                        "status": contractStatus(),
+                        "period": {
+                            "startDate": row.contract.signingDate,
+                            "endDate": row.contract.closingDate,
+                            "durationInDays": row.contract.implementationDeadline
+                        },
+                        "value": {
+                            "amount": row.contract.totalAmountOfAllAnnexContractsIncludingTaxes,
+                            "currency": "EUR"
+                        },
+                        "dateSigned": row.contract.signingDate,
+                        "documents": contractDocument(),
+                        "implementation": {
+                            "transactions": transactions(),
+                            "finalValue": {
+                                "amount": row.contract.totalPayedPriceForContract,
                                 "currency": "EUR"
                             },
-                            "procurementMethod": procurementMethod(),
-                            "procurementMethodRationale": procurementMethodRationale(),
-                            "mainProcurementCategory": procurementCategory('mainProcurementCategory'),
-                            "additionalProcurementCategories": procurementCategory('additionalProcurementCategories'),
-                            "hasEnquiries": hasEnquiries('complaintsToAuthority1'),
-                            "hasComplaints": hasEnquiries('complaintsToOshp1'),
-                            "tenderPeriod": {
-                                "startDate": row.bidOpeningDate
-                            },
-                            "awardPeriod": {
-                                "startDate": row.startingOfEvaluationDate,
-                                "endDate": row.endingOfEvaluationDate,
-                                "durationInDays": row.startingAndEndingEvaluationDate
-                            },
-                            "contractPeriod": {
-                                "startDate": row.contract.signingDate,
-                                "endDate": row.contract.closingDate,
-                                "durationInDays": row.contract.implementationDeadline
-                            },
-                            "awardCriteria": awardCriteria(),
-                            "procuringEntity": {
-                                "id": buyerId,
-                                "name": row.directorates
-                            },
-                            "documents": tenderDocuments(),
-                            "milestones": [
-                                {
-                                    "id": milestoneId('standardDocuments'),
-                                    "title": "Letrat Standarde për OE",
-                                    "type": "engagement",
-                                    "code": "standardDocuments",
-                                    "dateMet": row.company.standardDocuments,
-                                    "status": "met"
-                                },
-                                {
-                                    "id": milestoneId('cancellationNoticeDate'),
-                                    "title": "Data e publikimit të anulimit të njoftimit",
-                                    "type": "approval",
-                                    "code": "cancellationNoticeDate",
-                                    "dateMet": row.cancellationNoticeDate,
-                                    "status": "met"
-                                }
-                            ],
-                            "estimatedSizeOfProcurementValue": {
-                                "estimatedValue": estimatedValue()
-                            },
-                            "procedure": {
-                                "isAcceleratedProcedure": acceleratedProcedure()
-                            },
-                            "lots": []
+                            "finalValueDetails": "The total amount of the contract payed"
                         },
-                        "awards": [
-                            {
-                                "id": ocidMaker("-award"),
-                                "date": row.contract.publicationDateOfGivenContract,
-                                "suppliers": [{
-                                    "id": payerId,
-                                    "name": row.company.name
-                                }],
-                                "contractPeriod": {
-                                    "startDate": row.contract.signingDate,
-                                    "endDate": row.contract.closingDate,
-                                    "durationInDays": row.contract.implementationDeadline
-                                },
-                                "hasEnquiries": hasEnquiries('complaintsToAuthority2'),
-                                "hasComplaints": hasEnquiries('complaintsToOshp2'),
-                                "complaintType": hasEnquiries('type'),
-                                "enquiryType": hasEnquiries('enquiryType')
+                        "amendments": amendments(),
+                        "expectedNumberOfTransactions": row.noOfPaymentInstallments,
+                        "deductionAmountFromContract": {
+                            "value": {
+                                "amount": row.contract.discountAmountFromContract,
+                                "currency": "EUR"
                             }
-                        ],
-                        "contracts": [
-                            {
-                                "id": ocidMaker("-contract"),
-                                "awardID": ocidMaker("-award"),
-                                "status": contractStatus(),
-                                "period": {
-                                    "startDate": row.contract.signingDate,
-                                    "endDate": row.contract.closingDate,
-                                    "durationInDays": row.contract.implementationDeadline
-                                },
-                                "value": {
-                                    "amount": row.contract.totalAmountOfAllAnnexContractsIncludingTaxes,
-                                    "currency": "EUR"
-                                },
-                                "dateSigned": row.contract.signingDate,
-                                "documents": contractDocument(),
-                                "implementation": {
-                                    "transactions": transactions(),
-                                    "finalValue": {
-                                        "amount": row.contract.totalPayedPriceForContract,
-                                        "currency": "EUR"
-                                    },
-                                    "finalValueDetails": "The total amount of the contract payed"
-                                },
-                                "amendments": amendments(),
-                                "expectedNumberOfTransactions": row.noOfPaymentInstallments,
-                                "deductionAmountFromContract": {
-                                    "value": {
-                                        "amount": row.contract.discountAmountFromContract,
-                                        "currency": "EUR"
-                                    }
-                                }
-                            }
-                        ],
-                        "bids": {
-                            "statistics": [
-                                {
-                                    "id": "0001",
-                                    "measure": "numberOfDownloads",
-                                    "value": row.noOfCompaniesWhoDownloadedTenderDoc,
-                                    "notes": "Number of the companies who downloaded the tender document"
-                                },
-                                {
-                                    "id": "0002",
-                                    "measure": "numberOfRefusedBids",
-                                    "value": row.noOfRefusedBids,
-                                    "notes": "Number of the refused bids"
-                                }
-                            ]
                         }
+                    }],
+                    "bids": {
+                        "statistics": [{
+                                "id": "0001",
+                                "measure": "numberOfDownloads",
+                                "value": row.noOfCompaniesWhoDownloadedTenderDoc,
+                                "notes": "Number of the companies who downloaded the tender document"
+                            },
+                            {
+                                "id": "0002",
+                                "measure": "numberOfRefusedBids",
+                                "value": row.noOfRefusedBids,
+                                "notes": "Number of the refused bids"
+                            }
+                        ]
                     }
-                ],
+                }],
                 "publisher": {
                     "name": "Open Data Kosovo",
                     "uid": "5200316-4",
@@ -1160,7 +1168,9 @@ router.put('/update-all', (req, res) => {
 })
 
 // Router for updating a contract by id
-router.put('/update-contract/:id', passport.authenticate('jwt', { session: false }), authorize('superadmin', 'admin'), uploadFile, (req, res) => {
+router.put('/update-contract/:id', passport.authenticate('jwt', {
+    session: false
+}), authorize('superadmin', 'admin'), uploadFile, (req, res) => {
     if (req.fileExist) {
         res.json({
             "existErr": "File exist",
@@ -1290,13 +1300,15 @@ router.post('/filter', (req, res) => {
                 return page;
             })
             .then(page => {
-                return Contract.filterStringFieldsInContracts(string, year).sort({ "createdAt": -1 }).skip(page.skipPages).limit(page.size).
-                    then(result => {
-                        delete page.skipPages;
-                        response.page = page;
-                        response.data = result;
-                        return response;
-                    });
+                return Contract.filterStringFieldsInContracts(string, year).sort({
+                    "createdAt": -1
+                }).skip(page.skipPages).limit(page.size).
+                then(result => {
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = result;
+                    return response;
+                });
             }).then(response => {
                 res.json(response);
             })
@@ -1318,12 +1330,12 @@ router.post('/filter', (req, res) => {
             })
             .then(page => {
                 return Contract.filterByDirectorate(directorate, year).skip(page.skipPages).
-                    limit(page.size).then(result => {
-                        delete page.skipPages;
-                        response.page = page;
-                        response.data = result;
-                        return response;
-                    });
+                limit(page.size).then(result => {
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = result;
+                    return response;
+                });
             }).then(response => {
                 res.json(response);
             })
@@ -1345,12 +1357,12 @@ router.post('/filter', (req, res) => {
             })
             .then(page => {
                 return Contract.filterByDate(date, referenceDate, year).skip(page.skipPages).
-                    limit(page.size).then(result => {
-                        delete page.skipPages;
-                        response.page = page;
-                        response.data = result;
-                        return response;
-                    });
+                limit(page.size).then(result => {
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = result;
+                    return response;
+                });
             }).then(response => {
                 res.json(response);
             })
@@ -1372,12 +1384,12 @@ router.post('/filter', (req, res) => {
             })
             .then(page => {
                 return Contract.filterByValue(value, year).skip(page.skipPages).
-                    limit(page.size).then(result => {
-                        delete page.skipPages;
-                        response.page = page;
-                        response.data = result;
-                        return response;
-                    });
+                limit(page.size).then(result => {
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = result;
+                    return response;
+                });
             }).then(response => {
                 res.json(response);
             })
@@ -1399,12 +1411,12 @@ router.post('/filter', (req, res) => {
             })
             .then(page => {
                 return Contract.filterByStringAndDirectorate(string, directorate, year).skip(page.skipPages).
-                    limit(page.size).then(result => {
-                        delete page.skipPages;
-                        response.page = page;
-                        response.data = result;
-                        return response;
-                    });
+                limit(page.size).then(result => {
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = result;
+                    return response;
+                });
             }).then(response => {
                 res.json(response);
             })
@@ -1426,12 +1438,12 @@ router.post('/filter', (req, res) => {
             })
             .then(page => {
                 return Contract.filterbyStringDirectorateDate(string, directorate, date, referenceDate, year).skip(page.skipPages).
-                    limit(page.size).then(result => {
-                        delete page.skipPages;
-                        response.page = page;
-                        response.data = result;
-                        return response;
-                    });
+                limit(page.size).then(result => {
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = result;
+                    return response;
+                });
             }).then(response => {
                 res.json(response);
             })
@@ -1453,12 +1465,12 @@ router.post('/filter', (req, res) => {
             })
             .then(page => {
                 return Contract.filterByStringDirectorateDateValue(string, directorate, date, referenceDate, value, year).skip(page.skipPages).
-                    limit(page.size).then(result => {
-                        delete page.skipPages;
-                        response.page = page;
-                        response.data = result;
-                        return response;
-                    });
+                limit(page.size).then(result => {
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = result;
+                    return response;
+                });
             }).then(response => {
                 res.json(response);
             })
@@ -1480,12 +1492,12 @@ router.post('/filter', (req, res) => {
             })
             .then(page => {
                 return Contract.filterByStringDate(string, date, referenceDate, year).skip(page.skipPages).
-                    limit(page.size).then(result => {
-                        delete page.skipPages;
-                        response.page = page;
-                        response.data = result;
-                        return response;
-                    });
+                limit(page.size).then(result => {
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = result;
+                    return response;
+                });
             }).then(response => {
                 res.json(response);
             })
@@ -1507,12 +1519,12 @@ router.post('/filter', (req, res) => {
             })
             .then(page => {
                 return Contract.filterByStringValue(string, value, year).skip(page.skipPages).
-                    limit(page.size).then(result => {
-                        delete page.skipPages;
-                        response.page = page;
-                        response.data = result;
-                        return response;
-                    });
+                limit(page.size).then(result => {
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = result;
+                    return response;
+                });
             }).then(response => {
                 res.json(response);
             })
@@ -1534,12 +1546,12 @@ router.post('/filter', (req, res) => {
             })
             .then(page => {
                 return Contract.filterbyDirectorateDate(directorate, date, referenceDate, year).skip(page.skipPages).
-                    limit(page.size).then(result => {
-                        delete page.skipPages;
-                        response.page = page;
-                        response.data = result;
-                        return response;
-                    });
+                limit(page.size).then(result => {
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = result;
+                    return response;
+                });
             }).then(response => {
                 res.json(response);
             })
@@ -1561,12 +1573,12 @@ router.post('/filter', (req, res) => {
             })
             .then(page => {
                 return Contract.filterByDirectorateValue(directorate, value, year).skip(page.skipPages).
-                    limit(page.size).then(result => {
-                        delete page.skipPages;
-                        response.page = page;
-                        response.data = result;
-                        return response;
-                    });
+                limit(page.size).then(result => {
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = result;
+                    return response;
+                });
             }).then(response => {
                 res.json(response);
             })
@@ -1588,12 +1600,12 @@ router.post('/filter', (req, res) => {
             })
             .then(page => {
                 return Contract.filterByDateValue(date, referenceDate, value, year).skip(page.skipPages).
-                    limit(page.size).then(result => {
-                        delete page.skipPages;
-                        response.page = page;
-                        response.data = result;
-                        return response;
-                    });
+                limit(page.size).then(result => {
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = result;
+                    return response;
+                });
             }).then(response => {
                 res.json(response);
             })
@@ -1615,12 +1627,12 @@ router.post('/filter', (req, res) => {
             })
             .then(page => {
                 return Contract.filterByDirectorateDateValue(directorate, date, referenceDate, value, year).skip(page.skipPages).
-                    limit(page.size).then(result => {
-                        delete page.skipPages;
-                        response.page = page;
-                        response.data = result;
-                        return response;
-                    });
+                limit(page.size).then(result => {
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = result;
+                    return response;
+                });
             }).then(response => {
                 res.json(response);
             })
@@ -1642,12 +1654,12 @@ router.post('/filter', (req, res) => {
             })
             .then(page => {
                 return Contract.filterByStringDirectorateValue(string, directorate, value, year).skip(page.skipPages).
-                    limit(page.size).then(result => {
-                        delete page.skipPages;
-                        response.page = page;
-                        response.data = result;
-                        return response;
-                    });
+                limit(page.size).then(result => {
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = result;
+                    return response;
+                });
             }).then(response => {
                 res.json(response);
             })
@@ -1669,12 +1681,12 @@ router.post('/filter', (req, res) => {
             })
             .then(page => {
                 return Contract.filterByStringDateValue(string, date, referenceDate, value).skip(page.skipPages).
-                    limit(page.size).then(result => {
-                        delete page.skipPages;
-                        response.page = page;
-                        response.data = result;
-                        return response;
-                    });
+                limit(page.size).then(result => {
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = result;
+                    return response;
+                });
             }).then(response => {
                 res.json(response);
             })
@@ -1696,12 +1708,12 @@ router.post('/filter', (req, res) => {
             })
             .then(page => {
                 return Contract.filterByProcurementNo(procurementNo, year).skip(page.skipPages).
-                    limit(page.size).then(result => {
-                        delete page.skipPages;
-                        response.page = page;
-                        response.data = result;
-                        return response;
-                    });
+                limit(page.size).then(result => {
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = result;
+                    return response;
+                });
             }).then(response => {
                 res.json(response);
             })
@@ -1723,12 +1735,12 @@ router.post('/filter', (req, res) => {
             })
             .then(page => {
                 return Contract.filterByProcurementNoString(procurementNo, string, year).skip(page.skipPages).
-                    limit(page.size).then(result => {
-                        delete page.skipPages;
-                        response.page = page;
-                        response.data = result;
-                        return response;
-                    });
+                limit(page.size).then(result => {
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = result;
+                    return response;
+                });
             }).then(response => {
                 res.json(response);
             })
@@ -1750,12 +1762,12 @@ router.post('/filter', (req, res) => {
             })
             .then(page => {
                 return Contract.filterByProcurementNoDirectorate(procurementNo, directorate, year).skip(page.skipPages).
-                    limit(page.size).then(result => {
-                        delete page.skipPages;
-                        response.page = page;
-                        response.data = result;
-                        return response;
-                    });
+                limit(page.size).then(result => {
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = result;
+                    return response;
+                });
             }).then(response => {
                 res.json(response);
             })
@@ -1777,12 +1789,12 @@ router.post('/filter', (req, res) => {
             })
             .then(page => {
                 return Contract.filterByProcurementNoDirectorateString(procurementNo, string, directorate, year).skip(page.skipPages).
-                    limit(page.size).then(result => {
-                        delete page.skipPages;
-                        response.page = page;
-                        response.data = result;
-                        return response;
-                    });
+                limit(page.size).then(result => {
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = result;
+                    return response;
+                });
             }).then(response => {
                 res.json(response);
             })
@@ -1804,12 +1816,12 @@ router.post('/filter', (req, res) => {
             })
             .then(page => {
                 return Contract.filterByProcurementNoValue(procurementNo, value, year).skip(page.skipPages).
-                    limit(page.size).then(result => {
-                        delete page.skipPages;
-                        response.page = page;
-                        response.data = result;
-                        return response;
-                    });
+                limit(page.size).then(result => {
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = result;
+                    return response;
+                });
             }).then(response => {
                 res.json(response);
             })
@@ -1831,12 +1843,12 @@ router.post('/filter', (req, res) => {
             })
             .then(page => {
                 return Contract.filterByProcurementNoValueString(procurementNo, string, value, year).skip(page.skipPages).
-                    limit(page.size).then(result => {
-                        delete page.skipPages;
-                        response.page = page;
-                        response.data = result;
-                        return response;
-                    });
+                limit(page.size).then(result => {
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = result;
+                    return response;
+                });
             }).then(response => {
                 res.json(response);
             })
@@ -1858,12 +1870,12 @@ router.post('/filter', (req, res) => {
             })
             .then(page => {
                 return Contract.filterByProcurementNoDirectorateValue(procurementNo, directorate, value, year).skip(page.skipPages).
-                    limit(page.size).then(result => {
-                        delete page.skipPages;
-                        response.page = page;
-                        response.data = result;
-                        return response;
-                    });
+                limit(page.size).then(result => {
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = result;
+                    return response;
+                });
             }).then(response => {
                 res.json(response);
             })
@@ -1885,12 +1897,12 @@ router.post('/filter', (req, res) => {
             })
             .then(page => {
                 return Contract.filterByProcurementNoStringDirectorateValue(procurementNo, string, directorate, value, year).skip(page.skipPages).
-                    limit(page.size).then(result => {
-                        delete page.skipPages;
-                        response.page = page;
-                        response.data = result;
-                        return response;
-                    });
+                limit(page.size).then(result => {
+                    delete page.skipPages;
+                    response.page = page;
+                    response.data = result;
+                    return response;
+                });
             }).then(response => {
                 res.json(response);
             })
@@ -2117,7 +2129,13 @@ router.post('/filter', (req, res) => {
                 return page;
             })
             .then(page => {
-                return Contract.find({ "year": { "$gte": 2018 } }).sort({ "createdAt": -1 }).skip(page.skipPages).limit(page.size).then(result => {
+                return Contract.find({
+                    "year": {
+                        "$gte": 2018
+                    }
+                }).sort({
+                    "createdAt": -1
+                }).skip(page.skipPages).limit(page.size).then(result => {
                     delete page.skipPages;
                     response.page = page;
                     response.data = result;
@@ -2142,7 +2160,9 @@ router.post('/filter', (req, res) => {
                 return page;
             })
             .then(page => {
-                return Contract.find().sort({ "createdAt": -1 }).skip(page.skipPages).limit(page.size).then(result => {
+                return Contract.find().sort({
+                    "createdAt": -1
+                }).skip(page.skipPages).limit(page.size).then(result => {
                     delete page.skipPages;
                     response.page = page;
                     response.data = result;
@@ -2198,7 +2218,9 @@ const storage = multer.diskStorage({
     }
 })
 
-const upload1 = multer({ storage: storage }).array('file', 10);
+const upload1 = multer({
+    storage: storage
+}).array('file', 10);
 
 router.post('/upload/documents', (req, res) => {
     upload1(req, res, function (err) {

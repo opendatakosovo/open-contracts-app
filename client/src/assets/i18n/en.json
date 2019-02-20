@@ -35,7 +35,10 @@
     "procurementNumber": "Nr. of procurement",
     "amountOfDifferenceBetweenTheEstimatedValueAndtotalWithContractTax": "Amount of difference between the estimated value and total with contract tax",
     "visualisationsTitle": "Top ten contracts with the highest value",
-    "chooseDate": "Choose Date"
+    "chooseDate": "Choose Date",
+    "tenderDoc": "Watch tender document",
+    "contractDoc": "Watch contract document",
+    "jsonDoc": "Download the contract as JSON"
   },
   "dataset": {
     "title": "DATA SET",
