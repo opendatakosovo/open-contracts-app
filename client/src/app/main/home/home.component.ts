@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { DatasetService } from '../../service/dataset.service';
 import { Dataset } from '../../models/dataset';
 import { ContractsService } from '../../service/contracts.service';
-import { Router, ActivatedRoute, RouterLink } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Meta } from '@angular/platform-browser';
 import { DirectorateService } from '../../service/directorate.service';
 import { Directorate } from '../../models/directorates';
@@ -65,12 +65,14 @@ export class HomeComponent implements OnInit {
     home.setAttribute('class', 'inactive');
     dataSet.setAttribute('class', 'data-set-link-active');
   }
+
   mouseLeave() {
     const dataSet = document.querySelector('.data-set-link-active');
     const home = document.querySelector('.inactive');
     home.setAttribute('class', 'active');
     dataSet.setAttribute('class', 'data-set-link');
   }
+
   downloadDataSet(isValid) {
     const format = (<HTMLInputElement>document.getElementById('format')).value;
     const value = (<HTMLInputElement>document.getElementById('data')).value;
@@ -83,6 +85,7 @@ export class HomeComponent implements OnInit {
       }
     }
   }
+
   onChange(event) {
     const elemB = (<HTMLInputElement>document.getElementById('field')).value;
     this.value = elemB;

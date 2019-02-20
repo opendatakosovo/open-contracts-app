@@ -349,7 +349,6 @@ function writeCsv(value, folder, field, res) {
             headers: headerArray,
             objectMode: true
         });
-        // let writeStream = fs.createWriteStream(`./prishtina-contracts-importer/data/procurements/${folder}/${value + '.csv'}`);
         fast_csv.pipe(res);
         if (data.length > 0) {
             let largestInstallment = 0;
@@ -504,6 +503,7 @@ function writeCsv(value, folder, field, res) {
     });
 }
 
+// Get all contracts by year, directorate, company name and send back a csv file
 router.get("/csv/:field/:value", (req, res) => {
     let value = req.params.value.replace('.csv', '');;
     let folder;
@@ -537,7 +537,7 @@ function importBackup(csv, cb) {
     fs.rename(`./prishtina-contracts-importer/data/procurements/new/${filename.name}-backup.${filename.type}`, `./prishtina-contracts-importer/data/procurements/new/${csv}`, cb);
 }
 
-// Get all contracts by years and send as JSON file response
+// Get all contracts by year, directorate, company name and send back as JSON file response
 router.get('/json/:field/:value', (req, res) => {
     let field = req.params.field;
     let value = req.params.value;

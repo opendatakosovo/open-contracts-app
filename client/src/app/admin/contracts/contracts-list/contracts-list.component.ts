@@ -9,7 +9,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import Swal from 'sweetalert2';
 import { Page } from '../../../models/page';
 import { DatatableComponent } from '@swimlane/ngx-datatable/src/components/datatable.component';
-import { BsDatepickerConfig, BsLocaleService } from 'ngx-bootstrap/datepicker';
+import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { User } from '../../../models/user';
 import { CheckIfServerDown } from '../../../utils/CheckIfServerDown';
 import { CheckIfUserIsActive } from '../../../utils/CheckIfUserIsActive';

@@ -1,14 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { DataService } from '../../../../service/data.service';
 import { Chart } from 'angular-highcharts';
+import { trigger, animate, transition, style, state } from '@angular/animations';
+import { DOCUMENT } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 declare var require: any;
 const translateVis = require('../../../../utils/visualisationTranslation.json');
+import { PageScrollConfig, PageScrollInstance, PageScrollService, EasingLogic } from 'ngx-page-scroll';
 @Component({
   selector: 'app-directorates-chart',
   templateUrl: './directorates-chart.component.html',
-  styleUrls: ['./directorates-chart.component.css']
+  styleUrls: ['./directorates-chart.component.css'],
+  animations: [
+    trigger('visibilityChanged', [
+      state('shown', style({ opacity: 1, display: 'block' })),
+      state('hidden', style({ opacity: 0, display: 'none' })),
+      transition('hidden => shown', animate('100ms ease-in')),
+      transition('shown => hidden', animate('100ms ease-out'))
+    ])
+  ]
 })
 export class DirectoratesChartComponent implements OnInit {
   private unsubscribeAll: Subject<any> = new Subject<any>();
@@ -29,7 +40,21 @@ export class DirectoratesChartComponent implements OnInit {
   lang: string;
   years;
   year: string;
-  constructor(public dataService: DataService, public translate: TranslateService) {
+  visibilityState = 'hidden';
+  clicked = false;
+  button = false;
+  oeName = '';
+  rows;
+  messages = {
+    emptyMessage: `
+    <div>
+        <i class="fa fa-spinner fa-spin"></i>
+        <p>Duke shfaqur kontratat</p>
+    </div>
+  `
+  };
+  constructor(public dataService: DataService, public translate: TranslateService, private pageScrollService: PageScrollService, @Inject(DOCUMENT) private document: any) {
+    PageScrollConfig.defaultScrollOffset = 115;
     this.year = 'any';
     this.dataService.getContractYears(2009)
       .takeUntil(this.unsubscribeAll)
@@ -58,6 +83,18 @@ export class DirectoratesChartComponent implements OnInit {
         this.render();
       });
     this.render();
+  }
+
+  toggle(event) {
+    if (this.visibilityState === 'hidden') {
+      this.button = false;
+      this.visibilityState = 'shown';
+
+    } else {
+      event.target.html = '';
+      this.visibilityState = 'hidden';
+      this.button = true;
+    }
   }
 
   render() {
@@ -96,6 +133,26 @@ export class DirectoratesChartComponent implements OnInit {
           },
           colors: this.colors,
           plotOptions: {
+            series: {
+              cursor: 'pointer',
+              events: {
+                click: e => {
+                  this.visibilityState = 'shown';
+                  this.clicked = true;
+                  this.button = false;
+                  const name = e.point.name;
+                  this.oeName = e.point.name;
+                  this.rows = [];
+                  this.dataService.getContractsByDirectorate(name)
+                    .takeUntil(this.unsubscribeAll)
+                    .subscribe(contract => {
+                      this.rows = contract;
+                      const pageScrollInstance: PageScrollInstance = PageScrollInstance.simpleInstance(this.document, '#directorateTable');
+                      this.pageScrollService.start(pageScrollInstance);
+                    });
+                }
+              }
+            },
             bar: {
               colorByPoint: true,
               pointWidth: 15,

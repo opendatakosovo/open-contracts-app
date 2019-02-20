@@ -60,7 +60,8 @@
     "procurementPlans": "Planovi javne nabavke",
     "designAwardNotification": "Obaveštenje o konkursu projektovanja",
     "priorNotification": "Prethodno obaveštenje",
-    "procurementReview": "Odluke organa za razmatranje nabavki"
+    "procurementReview": "Odluke organa za razmatranje nabavki",
+    "municipalDecisions": "Opštinske odluke o zahtevima za ponovno razmatranje"
   },
   "aboutUs": {
     "title": "O Stranici",
@@ -94,6 +95,8 @@
     "description": "Ovdje možete pronaći različite oblike vizualizacije koje pokazuju ugovore koje je povezala Opština Priština sa različitim ekonomskim operaterima tokom godina. Učenje deset najvećih kompanija sa većinom ugovora. Uporedite datume dodele ugovora sa datumom njihovog potpisivanja. Saznajte koji su najnapredniji direktorijumi i ugovora najviše vrijednosti.",
     "allYears": "Sve",
     "notification": "Napomena: Kliknite na kompaniju prikazanu u vizuelizaciji da biste videli sve ugovore koje ima sa opštinom",
-    "allContractsOfOE": "Svi ugovori kompanije"
+    "allContractsOfOE": "Svi ugovori kompanije",
+    "directorateNotification": "Napomena: Kliknite na direktorijum koji je prikazan u vizualizaciji da biste videli sve ugovore koje taj direktorijum",
+    "allContractsOfDirectorates": "Svi ugovori direkcije"
   }
 }
