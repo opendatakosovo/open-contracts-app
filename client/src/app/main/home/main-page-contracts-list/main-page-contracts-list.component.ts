@@ -68,7 +68,7 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
       date: null,
       referenceDate: null,
       value: '',
-      year: '',
+      year: 'any',
       procurementNo: '',
       pageInfo: {
         pageNumber: 0,
