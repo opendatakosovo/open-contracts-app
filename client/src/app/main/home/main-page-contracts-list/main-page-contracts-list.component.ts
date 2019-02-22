@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, TemplateRef } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { ContractsService } from '../../../service/contracts.service';
 import { Contract } from '../../../models/contract';
@@ -6,7 +6,7 @@ import { Directorate } from '../../../models/directorates';
 import { DirectorateService } from '../../../service/directorate.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import { BsDatepickerConfig, BsLocaleService } from 'ngx-bootstrap/datepicker';
+import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { Page } from '../../../models/page';
 import { TranslateService } from '@ngx-translate/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable/src/components/datatable.component';
@@ -141,6 +141,17 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
       this.setPage({ offset: 0 });
       this.totalContracts = this.page.totalElements;
     }
+  }
+
+  // Function to open view modal
+  viewModal(template: TemplateRef<any>, event) {
+    // const id = event.target.dataset.id;
+    // this.contractsService.getContractByID(id)
+    //   .takeUntil(this.unsubscribeAll)
+    //   .subscribe(contract => {
+    //     this.contract = contract;
+    //   });
+    this.modalRef = this.modalService.show(template);
   }
 
   ngAfterViewInit() {

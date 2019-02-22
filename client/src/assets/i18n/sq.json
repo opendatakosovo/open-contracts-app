@@ -38,7 +38,9 @@
     "chooseDate": "Zgjedhni datën",
     "tenderDoc": "Shiko dosjen e tenderit",
     "contractDoc": "Shiko kontratën e plotë",
-    "jsonDoc": "Shkarko kontratën JSON"
+    "jsonDoc": "Shkarko kontratën JSON",
+    "contractModal": "Shiko kontratën",
+    "displayTable": "Shfaq tabelën"
   },
   "dataset": {
     "title": "SETI I TË DHËNAVE",
@@ -99,7 +101,13 @@
     "allYears": "Të gjitha",
     "notification": "Njoftim: Klikoni mbi kompaninë e paraqitur në vizualizim, që t’i shihni të gjitha kontratat që ajo ka me komunën",
     "allContractsOfOE": "Të gjitha kontratat e kompanisë",
-    "directorateNotification": "Njoftim: Klikoni mbi drejtorinë e paraqitur në vizualizim, që t’i shihni të gjitha kontratat që atë drejtori",
-    "allContractsOfDirectorates": "Të gjitha kontratat e drejtorisë"
+    "directorateNotification": "Njoftim: Klikoni mbi drejtorinë e paraqitur në vizualizim, që t’i shihni të gjitha kontratat me atë drejtori",
+    "allContractsOfDirectorates": "Të gjitha kontratat e drejtorisë",
+    "allContractsByProcurementCategory": "Të gjitha kontratat me procedurën e prokurimit",
+    "procurementCategoruNotification": "Njoftim: Klikoni mbi kategorinë e paraqitur në vizualizim, që t’i shihni të gjitha kontratat me atë kategori",
+    "allContractsByProcurementType": "Të gjitha kontratat me tipin e prokurimit",
+    "procurementTypeNotification": "Njoftim: Klikoni mbi tipin e paraqitur në vizualizim, që t’i shihni të gjitha kontratat me atë tip",
+    "allContractsByProcurementValue": "Të gjitha kontratat me vlerën e prokurimit",
+    "procurementValueNotification": "Njoftim: Klikoni mbi vlerën e paraqitur në vizualizim, që t’i shihni të gjitha kontratat me atë vlerë"
   }
 }

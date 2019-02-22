@@ -7,7 +7,7 @@ import { DOCUMENT } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 declare var require: any;
 const translateVis = require('../../../../utils/visualisationTranslation.json');
-import { PageScrollConfig, PageScrollInstance, PageScrollService, EasingLogic } from 'ngx-page-scroll';
+import { PageScrollConfig, PageScrollInstance, PageScrollService } from 'ngx-page-scroll';
 @Component({
   selector: 'app-directorates-chart',
   templateUrl: './directorates-chart.component.html',
@@ -140,9 +140,47 @@ export class DirectoratesChartComponent implements OnInit {
                   this.visibilityState = 'shown';
                   this.clicked = true;
                   this.button = false;
-                  const name = e.point.name;
+                  let name = e.point.name;
                   this.oeName = e.point.name;
                   this.rows = [];
+                  if (name === 'Administracija' || name === 'Administration') {
+                    name = 'Administratë';
+                  } else if (name === 'Education' || name === 'Obrazovanje') {
+                    name = 'Arsim';
+                  } else if (name === 'Infrastruktura' || name === 'Infrastructure') {
+                    name = 'Infrastrukturë';
+                  } else if (name === 'Investment' || name === 'Investicije') {
+                    name = 'Investime';
+                  } else if (name === 'Kultura' || name === 'Culture') {
+                    name = 'Kulturë';
+                  } else if (name === 'Javne Službe' || name === 'Public Services') {
+                    name = 'Shërbime Publike';
+                  } else if (name === 'Health' || name === 'Zdravlje') {
+                    name = 'Shëndetësi';
+                  } else if (name === 'Katastar' || name === 'Cadastre') {
+                    name = 'Kadastrës';
+                  } else if (name === 'Social Welfare' || name === 'Socijalna Zaštita') {
+                    name = 'Mirëqenia Sociale';
+                  } else if (name === 'Poljoprivreda' || name === 'Agriculture') {
+                    name = 'Bujqësisë';
+                  } else if (name === 'Finances' || name === 'Finansije') {
+                    name = 'Financave';
+                  } else if (name === 'Imovina' || name === 'Property') {
+                    name = 'Prona';
+                  } else if (name === 'Urbanism' || name === 'Urbanizam') {
+                    name = 'Urbanizmi';
+                  } else if (name === 'Inspection' || name === 'Inspekcija') {
+                    name = 'Inspeksioni';
+                  } else if (name === 'Planiranje' || name === 'Planning') {
+                    name = 'Planifikimi';
+                  } else if (name === 'Parks' || name === 'Parkovi') {
+                    name = 'Parqeve';
+                  } else if (name === 'Ekonomija' || name === 'Economics') {
+                    name = 'Ekonomia';
+                  } else if (name === 'Undefined' || name === 'Nedefinisan') {
+                    name = 'E pacaktuar';
+                  }
+
                   this.dataService.getContractsByDirectorate(name)
                     .takeUntil(this.unsubscribeAll)
                     .subscribe(contract => {

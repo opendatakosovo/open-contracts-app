@@ -68,6 +68,36 @@ router.get('/get-contracts-by-directorate/:directorate', (req, res) => {
         })
 });
 
+// Get Contracts by procurement category
+router.get('/get-contracts-by-procurement-category/:category', (req, res) => {
+    Contract.getContractsByProcurementCategory(req.params.category)
+        .then(data => {
+            res.json(data);
+        }).catch(err => {
+            res.json(err);
+        })
+});
+
+// Get Contracts by procurement category
+router.get('/get-contracts-by-procurement-type/:type', (req, res) => {
+    Contract.getContractsByProcurementType(req.params.type)
+        .then(data => {
+            res.json(data);
+        }).catch(err => {
+            res.json(err);
+        })
+});
+
+// Get Contracts by procurement value
+router.get('/get-contracts-by-procurement-value/:value', (req, res) => {
+    Contract.getContractsByProcurementValue(req.params.value)
+        .then(data => {
+            res.json(data);
+        }).catch(err => {
+            res.json(err);
+        })
+});
+
 // Get the directorates of contracts
 router.get('/get-directorates-of-contracts/:year', (req, res) => {
     Contract.getDirectoratesInContracts(req.params.year)

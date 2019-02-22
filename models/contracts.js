@@ -489,6 +489,18 @@ module.exports.getContractsByYears = year => {
     return Contract.find({ year: Number(year) });
 }
 
+module.exports.getContractsByProcurementCategory = category => {
+    return Contract.find({"releases.tender.procurementMethodRationale": category});
+}
+
+module.exports.getContractsByProcurementType = type => {
+    return Contract.find({"releases.tender.additionalProcurementCategories": type});
+}
+
+module.exports.getContractsByProcurementValue = value => {
+    return Contract.find({"releases.tender.estimatedSizeOfProcurementValue.estimatedValue": value});
+}
+
 module.exports.getDirectoratesInContracts = year => {
     return Contract.aggregate([
         {

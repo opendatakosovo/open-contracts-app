@@ -2,16 +2,25 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Chart } from 'angular-highcharts';
 import { DataService } from '../../../../service/data.service';
-import { DatatableComponent } from '@swimlane/ngx-datatable/src/components/datatable.component';
 import { TranslateService } from '@ngx-translate/core';
 import { compareValues } from '../../../../utils/sortArrayByValues';
-import { lang } from 'moment';
+import { trigger, animate, transition, style, state } from '@angular/animations';
+import { DOCUMENT } from '@angular/common';
+import { PageScrollConfig, PageScrollInstance, PageScrollService } from 'ngx-page-scroll';
 declare var require: any;
 const translateVis = require('../../../../utils/visualisationTranslation.json');
 @Component({
   selector: 'app-contracts-count-by-procurement-procedure-and-year',
   templateUrl: './contracts-count-by-procurement-procedure-and-year.component.html',
-  styleUrls: ['./contracts-count-by-procurement-procedure-and-year.component.css']
+  styleUrls: ['./contracts-count-by-procurement-procedure-and-year.component.css'],
+  animations: [
+    trigger('visibilityChanged', [
+      state('shown', style({ opacity: 1, display: 'block' })),
+      state('hidden', style({ opacity: 0, display: 'none' })),
+      transition('hidden => shown', animate('100ms ease-in')),
+      transition('shown => hidden', animate('100ms ease-out'))
+    ])
+  ]
 })
 export class ContractsCountByProcurementProcedureAndYearComponent implements OnInit {
   private unsubscribeAll: Subject<any> = new Subject<any>();
@@ -21,7 +30,21 @@ export class ContractsCountByProcurementProcedureAndYearComponent implements OnI
   colors: string[];
   year: string;
   lang: string;
-  constructor(public dataService: DataService, public translate: TranslateService) {
+  visibilityState = 'hidden';
+  clicked = false;
+  button = false;
+  oeName = '';
+  rows;
+  messages = {
+    emptyMessage: `
+    <div>
+        <i class="fa fa-spinner fa-spin"></i>
+        <p>Duke shfaqur kontratat</p>
+    </div>
+  `
+  };
+  constructor(public dataService: DataService, public translate: TranslateService, private pageScrollService: PageScrollService, @Inject(DOCUMENT) private document: any) {
+    PageScrollConfig.defaultScrollOffset = 115;
     this.colors = ['#5e9ebd', '#6ea7c3', '#7eb1ca', '#8ebbd0', '#9ec4d7', '#aecede'];
     this.year = 'any';
     this.dataService.getContractYears(2009)
@@ -51,6 +74,18 @@ export class ContractsCountByProcurementProcedureAndYearComponent implements OnI
         this.render();
       });
     this.render();
+  }
+
+  toggle(event) {
+    if (this.visibilityState === 'hidden') {
+      this.button = false;
+      this.visibilityState = 'shown';
+
+    } else {
+      event.target.html = '';
+      this.visibilityState = 'hidden';
+      this.button = true;
+    }
   }
 
   render() {
@@ -136,6 +171,35 @@ export class ContractsCountByProcurementProcedureAndYearComponent implements OnI
           },
           colors: this.colors,
           plotOptions: {
+            series: {
+              cursor: 'pointer',
+              events: {
+                click: e => {
+                  this.visibilityState = 'shown';
+                  this.clicked = true;
+                  this.button = false;
+                  let name = e.point.name;
+                  this.oeName = e.point.name;
+                  this.rows = [];
+                  if (name === 'Vlerë e madhe' || name === 'Big value' || name === 'Velika vrednost') {
+                    name = 'bigValue';
+                  } else if (name === 'Vlerë e mesme' || name === 'Medium value' || name === 'Srednja vrednost') {
+                    name = 'mediumValue';
+                  } else if (name === 'Vlerë e vogël' || name === 'Mala vrednost' || name === 'Small value') {
+                    name = 'smallValue';
+                  } else if (name === 'Vlerë minimale' || name === 'Minimum value' || name === 'Minimalna vrednost') {
+                    name = 'minimalValue';
+                  }
+                  this.dataService.getContractsByProcurementValue(name)
+                    .takeUntil(this.unsubscribeAll)
+                    .subscribe(contract => {
+                      this.rows = contract;
+                      const pageScrollInstance: PageScrollInstance = PageScrollInstance.simpleInstance(this.document, '#valueProcurementTable');
+                      this.pageScrollService.start(pageScrollInstance);
+                    });
+                }
+              }
+            },
             column: {
               colorByPoint: true
             }

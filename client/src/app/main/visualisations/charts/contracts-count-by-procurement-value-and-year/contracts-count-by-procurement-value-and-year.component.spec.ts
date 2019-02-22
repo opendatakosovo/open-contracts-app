@@ -8,9 +8,9 @@ describe('ContractsCountByProcurementValueAndYearComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ContractsCountByProcurementValueAndYearComponent ]
+      declarations: [ContractsCountByProcurementValueAndYearComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

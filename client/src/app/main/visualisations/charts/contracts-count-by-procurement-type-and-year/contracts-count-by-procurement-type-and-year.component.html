@@ -1,7 +1,14 @@
 <div class="row">
+  <div class="col-12 mt-5 mb-5">
+    <div class="alert alert-info" role="alert">
+      {{ 'visualisations.procurementTypeNotification' | translate }}
+    </div>
+  </div>
+</div>
+<div class="row">
   <div id="year-input" class="offset-md-10 offset-4 mb-3 float-right">
     <div class="form-group">
-      <label for="yearInput">{{ 'dataset.year' | translate }}:</label>
+      <label for="yearInput">{{ 'dataset.year' | translate }}: </label>
       <select (change)="onChange($event)" class="form-control my-form-control">
         <option value="any">{{ 'visualisations.allYears' | translate }}</option>
         <option *ngFor="let year of years" value="{{year.year}}">{{year.year}}</option>
@@ -10,3 +17,179 @@
   </div>
 </div>
 <div [chart]="chartt" id="target" class="mb-5"></div>
+<div class="row">
+  <div [hidden]="!clicked" class="col-12">
+
+    <button class="my-btn float-right" (click)="toggle($event)">
+      <i class='fa {{button ? "fa-chevron-up" : "fa-chevron-down" }}' aria-hidden='true'></i>
+    </button>
+    <p [hidden]="button != true" class="float-right info-toggle">{{ 'datatable.displayTable' | translate }} </p>
+  </div>
+</div>
+<div id="typeProcurementTable" [@visibilityChanged]="visibilityState" class="mt-10">
+  <div class="row">
+    <div class="col-md-12">
+      <h5>{{ 'visualisations.allContractsByProcurementType' | translate }}: {{oeName}}</h5>
+    </div>
+  </div>
+  <ngx-datatable #table [rows]="rows" class="bootstrap" columnMode="'force'" [headerHeight]="'auto'" [summaryRow]="false"
+    [summaryPosition]="'bottom'" [footerHeight]="50" [rowHeight]="'auto'" [limit]="10" [scrollbarH]="true" [messages]="messages">
+    <ngx-datatable-column>
+      <ng-template let-column="column" ngx-datatable-header-template>
+        <p class="column-header">{{ 'datatable.activityTitle' | translate }}</p>
+      </ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <p *ngIf="row.releases[0].tender.title == ''">
+          -
+        </p>
+        <p *ngIf="row.releases[0].tender.title != ''">
+          {{ row.releases[0].tender.title }}
+        </p>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column>
+      <ng-template let-column="column" ngx-datatable-header-template>
+        <p class="column-header">{{ 'datatable.publicationDate' | translate }}</p>
+      </ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <p *ngIf="row.releases[0].tender.date == null">
+          -
+        </p>
+        <p *ngIf="row.releases[0].tender.date != null">
+          {{ row.releases[0].tender.date | date: 'dd/MM/yyyy' }}
+        </p>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column>
+      <ng-template let-column="column" ngx-datatable-header-template>
+        <p class="column-header">{{ 'datatable.noOfCompaniesWhoDownloadedTenderDoc' | translate }}</p>
+      </ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <p *ngIf="row.releases[0].bids.statistics[0].value == null">
+          -
+        </p>
+        <p *ngIf="row.releases[0].bids.statistics[0].value  != null">
+          {{ row.releases[0].bids.statistics[0].value }}
+        </p>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column>
+      <ng-template let-column="column" ngx-datatable-header-template>
+        <p class="column-header">{{ 'datatable.publicationDateOfGivenContract' | translate }}</p>
+      </ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <p *ngIf="row.releases[0].awards[0].date == null">
+          -
+        </p>
+        <p *ngIf="row.releases[0].awards[0].date != null">
+          {{ row.releases[0].awards[0].date | date: 'dd/MM/yyyy' }}
+        </p>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column>
+      <ng-template let-column="column" ngx-datatable-header-template>
+        <p class="column-header">{{ 'datatable.cancellationNoticeDate' | translate }}</p>
+      </ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <p *ngIf="row.releases[0].tender.milestones[1].date == null">
+          -
+        </p>
+        <p *ngIf="row.releases[0].tender.milestones[1].date != null">
+          {{ row.releases[0].tender.milestones[1].date | date: 'dd/MM/yyyy' }}
+        </p>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column>
+      <ng-template let-column="column" ngx-datatable-header-template>
+        <p class="column-header">{{ 'datatable.predictedValue' | translate }}</p>
+      </ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <p *ngIf="row.releases[0].planning.budget.amount.amount == 0">
+          -
+        </p>
+        <p *ngIf="row.releases[0].planning.budget.amount.amount != 0">
+          {{ row.releases[0].planning.budget.amount.amount }} &euro;
+        </p>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column>
+      <ng-template let-column="column" ngx-datatable-header-template>
+        <p class="column-header">{{ 'datatable.name' | translate }}</p>
+      </ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <p *ngIf="row.releases[0].tender.tenderers[0].name == ''">
+          -
+        </p>
+        <p *ngIf="row.releases[0].tender.tenderers[0].name != ''">
+          {{ row.releases[0].tender.tenderers[0].name }}
+        </p>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column>
+      <ng-template let-column="column" ngx-datatable-header-template>
+        <p class="column-header">{{ 'datatable.signingDate' | translate }}</p>
+      </ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <p *ngIf="row.releases[0].contracts[0].period.startDate == null">
+          -
+        </p>
+        <p *ngIf="row.releases[0].contracts[0].period.startDate != null">
+          {{ row.releases[0].contracts[0].period.startDate | date: 'dd/MM/yyyy' }}
+        </p>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column>
+      <ng-template let-column="column" ngx-datatable-header-template>
+        <p class="column-header">{{ 'datatable.implementationDeadline' | translate }}</p>
+      </ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <p *ngIf="row.releases[0].contracts[0].period.durationInDays === ''">
+          -
+        </p>
+        <p *ngIf="row.releases[0].contracts[0].period.durationInDays !== ''">
+          {{ row.releases[0].contracts[0].period.durationInDays }}
+        </p>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column>
+      <ng-template let-column="column" ngx-datatable-header-template>
+        <p class="column-header">{{ 'datatable.totalAmountOfContractsIncludingTaxes' | translate }}</p>
+      </ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <p *ngIf="row.releases[0].tender.value.amount == 0">
+          -
+        </p>
+        <p *ngIf="row.releases[0].tender.value.amount != 0">
+          {{ row.releases[0].tender.value.amount }} &euro;
+        </p>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column>
+      <ng-template let-column="column" ngx-datatable-header-template>
+        <p class="column-header">{{ 'datatable.directorate' | translate }}</p>
+      </ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <p *ngIf="row.releases[0].buyer.name == null || row.releases[0].buyer.name == ''">
+          -
+        </p>
+        <p *ngIf="row.releases[0].buyer.name != null">
+          {{ row.releases[0].buyer.name }}
+        </p>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-footer>
+      <ng-template ngx-datatable-footer-template let-rowCount="rowCount" let-pageSize="pageSize" let-selectedCount="selectedCount"
+        let-curPage="curPage" let-offset="offset">
+        <div style="padding: 5px 10px;width: 50%;">
+          {{ 'datatable.contracts' | translate }} {{rowCount}} | {{ 'datatable.displayedContracts' |
+          translate }} {{pageSize}} | {{
+          'datatable.page' | translate }} {{curPage}}
+        </div>
+        <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'" [pagerRightArrowIcon]="'datatable-icon-right'"
+          [pagerPreviousIcon]="'datatable-icon-prev'" [pagerNextIcon]="'datatable-icon-skip'" [page]="curPage" [size]="pageSize"
+          [count]="rowCount" [hidden]="!((rowCount / pageSize) > 1)" (change)="table.onFooterPage($event)">
+        </datatable-pager>
+      </ng-template>
+    </ngx-datatable-footer>
+  </ngx-datatable>
+</div>

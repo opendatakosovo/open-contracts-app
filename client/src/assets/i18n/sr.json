@@ -38,7 +38,9 @@
     "chooseDate": "Izaberite datum",
     "tenderDoc": "Pogledajte dosije tendera",
     "contractDoc": "Vidi pun ugovor",
-    "jsonDoc": "Preuzmite ugovor kao JSON"
+    "jsonDoc": "Preuzmite ugovor kao JSON",
+    "contractModal": "Vidi ugovor",
+    "displayTable": "Prikazuje tabelu"
   },
   "dataset": {
     "title": "SET PODATAKA",
@@ -100,6 +102,12 @@
     "notification": "Napomena: Kliknite na kompaniju prikazanu u vizuelizaciji da biste videli sve ugovore koje ima sa opštinom",
     "allContractsOfOE": "Svi ugovori kompanije",
     "directorateNotification": "Napomena: Kliknite na direktorijum koji je prikazan u vizualizaciji da biste videli sve ugovore koje taj direktorijum",
-    "allContractsOfDirectorates": "Svi ugovori direkcije"
+    "allContractsOfDirectorates": "Svi ugovori direkcije",
+    "allContractsByProcurementCategory": "Svi ugovori sa procedurom nabavke",
+    "procurementCategoruNotification": "Napomena: Kliknite na kategoriju prikazanu u vizualizaciji da biste videli sve ugovore sa tom kategorijom",
+    "allContractsByProcurementType": "Svi ugovori sa vrstom nabavke",
+    "procurementTypeNotification": "Napomena: Kliknite na tip koji je prikazan u vizualizaciji da biste videli sve ugovore sa tim tipom",
+    "allContractsByProcurementValue": "Svi ugovori sa vrednošću nabavke",
+    "procurementValueNotification": "Napomena: Kliknite na vrednost prikazanu u vizuelizaciji da biste videli sve ugovore sa tom vrednošću"
   }
 }

@@ -26,6 +26,18 @@ export class DataService {
     return this.http.get(`${this.APIUrl}/data/get-contracts-by-directorate/${name}`).map(res => res.json());
   }
 
+  getContractsByProcurementCategory(category) {
+    return this.http.get(`${this.APIUrl}/data/get-contracts-by-procurement-category/${category}`).map(res => res.json());
+  }
+
+  getContractsByProcurementType(type) {
+    return this.http.get(`${this.APIUrl}/data/get-contracts-by-procurement-type/${type}`).map(res => res.json());
+  }
+
+  getContractsByProcurementValue(value) {
+    return this.http.get(`${this.APIUrl}/data/get-contracts-by-procurement-value/${value}`).map(res => res.json());
+  }
+
   getContractSigningDateAndPublicationDateForChart(year: any) {
     return this.http.get(`${this.APIUrl}/data/contracts-by-years-publication-date-signing-date/${year}`).map(res => res.json());
   }

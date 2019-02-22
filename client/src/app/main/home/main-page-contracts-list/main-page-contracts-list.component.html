@@ -51,6 +51,18 @@
     [summaryPosition]="'bottom'" [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements"
     [offset]="page.pageNumber" [limit]="page.size" [messages]="messages" [scrollbarH]="true" (page)='setPage($event)'
     [externalSorting]="true" (scroll)="onTableScroll($event)">
+    <ngx-datatable-column>
+      <ng-template let-column="column" ngx-datatable-header-template>
+        <p class="column-header">{{ 'datatable.contractModal' | translate }}</p>
+      </ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <span>
+          <a class="view-icon" (click)="viewModal(modalViewContract, $event)" [attr.data-id]="row._id">
+            <i class="fa fa-eye" id="view-contract" style="margin-top: 1.5px; font-size: 20px" aria-hidden="true"></i>
+          </a>
+        </span>
+      </ng-template>
+    </ngx-datatable-column>
     <ngx-datatable-column name="activity-title" prop="activityTitle">
       <ng-template let-column="column" ngx-datatable-header-template>
         <span (click)="sortContracts('activityTitleSlug')">
@@ -361,3 +373,23 @@
     </ngx-datatable-footer>
   </ngx-datatable>
 </div>
+
+<!-- Modal for viewing a contract -->
+<ng-template #modalViewContract>
+  <div id="view-contract-modal">
+    <div class="modal-header view-modal-header">
+      <h4 class="modal-title">Kontrata</h4>
+      <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">&times;</button>
+    </div>
+    <form action="" id="view-contract-form">
+      <div class="modal-body">
+        <div class="modal-body">
+          <p>A jeni i sigurt që dëshironi të fshini kontratën?</p>
+        </div>
+      </div>
+      <div class="modal-footer my-modal-footer">
+        <button type="button" class="btn btn-info" (click)="modalRef.hide()">Mbylle</button>
+      </div>
+    </form>
+  </div>
+</ng-template>

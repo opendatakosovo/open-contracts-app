@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-12 mt-5 mb-5">
     <div class="alert alert-info" role="alert">
-      {{ 'visualisations.notification' | translate }}
+      {{ 'visualisations.directorateNotification' | translate }}
     </div>
   </div>
 </div>
@@ -23,13 +23,13 @@
     <button class="my-btn float-right" (click)="toggle($event)">
       <i class='fa {{button ? "fa-chevron-up" : "fa-chevron-down" }}' aria-hidden='true'></i>
     </button>
-    <p [hidden]="button != true" class="float-right info-toggle">Shfaq tabelën</p>
+    <p [hidden]="button != true" class="float-right info-toggle">{{ 'datatable.displayTable' | translate }}</p>
   </div>
 </div>
 <div id="directorateTable" [@visibilityChanged]="visibilityState" class="mt-10">
   <div class="row">
     <div class="col-md-12">
-      <h5>{{ 'visualisations.allContractsOfOE' | translate }}: {{oeName}}</h5>
+      <h5>{{ 'visualisations.allContractsOfDirectorates' | translate }}: {{oeName}}</h5>
     </div>
   </div>
   <ngx-datatable #table [rows]="rows" class="bootstrap" columnMode="'force'" [headerHeight]="'auto'" [summaryRow]="false"

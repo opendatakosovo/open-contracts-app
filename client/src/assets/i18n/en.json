@@ -36,9 +36,11 @@
     "amountOfDifferenceBetweenTheEstimatedValueAndtotalWithContractTax": "Amount of difference between the estimated value and total with contract tax",
     "visualisationsTitle": "Top ten contracts with the highest value",
     "chooseDate": "Choose Date",
-    "tenderDoc": "Watch tender document",
-    "contractDoc": "Watch contract document",
-    "jsonDoc": "Download the contract as JSON"
+    "tenderDoc": "View tender document",
+    "contractDoc": "View contract document",
+    "jsonDoc": "Download the contract as JSON",
+    "contractModal": "View contract",
+    "displayTable": "Display table"
   },
   "dataset": {
     "title": "DATA SET",
@@ -100,6 +102,12 @@
     "notification": "Notice: Click on the company shown in the visualisation to see all the contracts it has with the municipality",
     "allContractsOfOE": "All company contracts",
     "directorateNotification": "Notice: Click on the directory shown in the visualization to see all the contracts that that directory",
-    "allContractsOfDirectorates": "All the contracts of the directorate"
+    "allContractsOfDirectorates": "All the contracts of the directorate",
+    "allContractsByProcurementCategory": "All contracts with the procurement procedure",
+    "procurementCategoruNotification": "Notice: Click on the category shown in the visualization to see all the contracts with that category",
+    "allContractsByProcurementType": "All contracts with the type of procurement",
+    "procurementTypeNotification": "Notice: Click on the type shown in the visualization to see all the contracts with that type",
+    "allContractsByProcurementValue": "All contracts with the value of the procurement",
+    "procurementValueNotification": "Notice: Click on the value shown in the visualization to see all the contracts with that value"
   }
 }
