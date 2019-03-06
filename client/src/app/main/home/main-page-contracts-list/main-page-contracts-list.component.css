@@ -32,6 +32,58 @@
   font-size: 15px !important;
 }
 
+.modal-title {
+  color: #39a6bd;
+}
+
+.nav-contract {
+  color: #cbcdcf;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  padding-bottom: 5%;
+  padding-top: 5%;
+  border-right: 1px solid #cbcdcf;
+}
+
+.active {
+  color: #39a6bd;
+  border-top: 1px solid #cbcdcf;
+  border-bottom: 1px solid #cbcdcf;
+  border-right: none;
+}
+
+.description {
+  border-top: none;
+}
+
+.implementation {
+  border-bottom: none;
+}
+
+.description-header {
+  background-color: #39a6bd;
+  color: #fff;
+  padding: 10px;
+}
+
+.table {
+  margin-top: 20px !important;
+  margin-bottom: 50px !important;
+}
+
+button:focus {
+  outline: none;
+}
+
+.table-title {
+  color: #39a6bd;
+}
+
+.modal-low {
+  max-width: 80% !important;
+}
 
 /* ------- Public contrats ------- */
 .public-contracts .title {

@@ -121,7 +121,6 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
       this.contractsService.serverPagination(this.page)
         .takeUntil(this.unsubscribeAll)
         .subscribe(pagedData => {
-          console.log(pagedData);
           this.page = pagedData.page;
           this.rows = pagedData.data;
         });

@@ -45,6 +45,8 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
   };
   offsetX: number;
   language = 'sq';
+  viewNavigation: String[];
+  navValue = 'Description';
 
   @ViewChild('table') table: DatatableComponent;
 
@@ -83,6 +85,16 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
       .subscribe(res => {
         this.years = res;
       });
+    this.viewNavigation = [
+      'Description',
+      'Parties',
+      'Planning',
+      'Tender',
+      'Bids',
+      'Awards',
+      'Contract',
+      'Implementation'
+    ];
   }
 
   messages = {
@@ -145,13 +157,17 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
 
   // Function to open view modal
   viewModal(template: TemplateRef<any>, event) {
-    // const id = event.target.dataset.id;
-    // this.contractsService.getContractByID(id)
-    //   .takeUntil(this.unsubscribeAll)
-    //   .subscribe(contract => {
-    //     this.contract = contract;
-    //   });
-    this.modalRef = this.modalService.show(template);
+    const id = event.target.dataset.id;
+    this.contractsService.getContractByID(id)
+      .takeUntil(this.unsubscribeAll)
+      .subscribe(contract => {
+        this.contract = contract;
+      });
+    this.modalRef = this.modalService.show(template, Object.assign({}, { class: 'modal-lg modal-size' }));
+  }
+
+  navChange(event) {
+    this.navValue = event.target.innerHTML;
   }
 
   ngAfterViewInit() {

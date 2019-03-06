@@ -688,7 +688,7 @@ export class AddContractComponent implements OnInit {
       this.contract.releases[0].tender.documents.push(
         {
           documentType: 'tenderNotice',
-          title: this.docsToUpload[i].name.replace('.pdf', ''),
+          title: this.docsToUpload[i].name,
           url: 'https://kontratatehapura.prishtinaonline.com/documents/' + this.docsToUpload[i].name,
           format: 'application/pdf',
           language: 'sq',
@@ -701,7 +701,7 @@ export class AddContractComponent implements OnInit {
         this.changeValues();
         this.contract.releases[0].contracts[0].documents.push({
           documentType: 'contractSigned',
-          title: this.filesToUpload.name.replace('.pdf', ''),
+          title: this.filesToUpload.name,
           url: `https://kontratatehapura.prishtinaonline.com/uploads/${this.filesToUpload.name}`,
           format: 'application/pdf',
           language: 'sq',

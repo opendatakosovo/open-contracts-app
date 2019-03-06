@@ -458,9 +458,7 @@ router.get("/latest-contracts", (req, res) => {
     });
 });
 
-router.get("/:id", passport.authenticate('jwt', {
-    session: false
-}), (req, res) => {
+router.get("/:id", (req, res) => {
     Contract.getContractById(req.params.id, (err, contract) => {
         if (err) {
             res.json({
@@ -985,7 +983,7 @@ router.put('/update-all', (req, res) => {
                         "status": tendersStatus(),
                         "items": [{
                             "id": itemsId,
-                            "description": "The CPV number for the services provided",
+                            "description": "The common procurement vocabulary number for the services provided",
                             "classification": {
                                 "scheme": "CPV",
                                 "id": "CPV",

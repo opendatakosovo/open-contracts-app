@@ -1,85 +1,109 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:100,400,500,700');
+
 /* Style for ngx-datatable */
 .empty-row {
   text-align: center;
   padding: 20px;
 }
+
 .fa-spin {
   font-size: 28px;
 }
+
 .datatable-header {
-    width: 100% !important;
-    color: #fff;
-    background-color: #32a6bd;
-    border-radius: 10px 10px 0px 0px;
+  width: 100% !important;
+  color: #fff;
+  background-color: #32a6bd;
+  border-radius: 10px 10px 0px 0px;
 }
+
 .ngx-datatable.bootstrap .datatable-header .datatable-header-cell {
-    padding-left: 20px;
+  padding-left: 20px;
 }
+
 .ngx-datatable .datatable-body {
-    width: inherit !important;
+  width: inherit !important;
 }
+
 .datatable-body-row {
-    color: #5f5e5e;
-    border: none !important;
+  color: #5f5e5e;
+  border: none !important;
 }
+
 .ngx-datatable.bootstrap .datatable-body .datatable-body-row {
-    width: inherit !important;
+  width: inherit !important;
 }
+
 .ngx-datatable.bootstrap {
-    border-radius: 10px;
+  border-radius: 10px;
 }
+
 .ngx-datatable.bootstrap .datatable-body .datatable-body-row .datatable-body-cell {
-    padding-left: 14px;
+  padding-left: 14px;
 }
+
 .ngx-datatable.bootstrap .datatable-footer {
-    background: #fff !important;
-    color: #c1bbbb;
+  background: #fff !important;
+  color: #c1bbbb;
 }
+
 .ngx-datatable.bootstrap .datatable-footer .datatable-pager a {
-    color: #c1bbbb;
+  color: #c1bbbb;
 }
-.ngx-datatable.bootstrap .datatable-footer .datatable-pager ul li:not(.disabled).active a, .ngx-datatable.bootstrap .datatable-footer .datatable-pager ul li:not(.disabled):hover a {
-    background-color: #fff !important;
-    color: #32a6bd;
+
+.ngx-datatable.bootstrap .datatable-footer .datatable-pager ul li:not(.disabled).active a,
+.ngx-datatable.bootstrap .datatable-footer .datatable-pager ul li:not(.disabled):hover a {
+  background-color: #fff !important;
+  color: #32a6bd;
 }
+
 .ngx-datatable .datatable-body .datatable-row-wrapper {
-    width: inherit !important;
+  width: inherit !important;
 }
+
 .ngx-datatable .datatable-header .datatable-header-cell .datatable-header-cell-template-wrap {
-    cursor: pointer;
-    margin-bottom: 5%;
+  cursor: pointer;
+  margin-bottom: 5%;
 }
+
 .ngx-datatable .datatable-body .datatable-scroll {
-    width: inherit !important;
+  width: inherit !important;
 }
+
 /* Datatable scrollbar style */
 /* width */
 .datatable-body::-webkit-scrollbar {
-    width: 20px;
-    height: 7px;
-    background-color: #d4d6d6;
-    border-radius: 10px;
+  width: 20px;
+  height: 7px;
+  background-color: #d4d6d6;
+  border-radius: 10px;
 }
+
 /* Track */
 .datatable-body::-webkit-scrollbar-track {
-    border-radius: 10px;
+  border-radius: 10px;
 }
+
 /* Handle */
 .datatable-body::-webkit-scrollbar-thumb {
-    background: #32a6bd;
-    border-radius: 10px;
+  background: #32a6bd;
+  border-radius: 10px;
 }
+
 /* Handle on hover */
 .datatable-body::-webkit-scrollbar-thumb:hover {
-    background: #78cfe0;
+  background: #78cfe0;
 }
+
 .vertical-middle-align {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   /* height: 50%; */
   width: 75%;
 }
 
+.modal-size {
+  max-width: 1000px !important;
+}

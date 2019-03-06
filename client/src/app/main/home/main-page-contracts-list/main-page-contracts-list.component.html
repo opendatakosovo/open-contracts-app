@@ -58,7 +58,8 @@
       <ng-template let-row="row" ngx-datatable-cell-template>
         <span>
           <a class="view-icon" (click)="viewModal(modalViewContract, $event)" [attr.data-id]="row._id">
-            <i class="fa fa-eye" id="view-contract" style="margin-top: 1.5px; font-size: 20px" aria-hidden="true"></i>
+            <i class="fa fa-eye" id="view-contract" style="margin-top: 1.5px; font-size: 20px" aria-hidden="true"
+              [attr.data-id]="row._id"></i>
           </a>
         </span>
       </ng-template>
@@ -378,17 +379,603 @@
 <ng-template #modalViewContract>
   <div id="view-contract-modal">
     <div class="modal-header view-modal-header">
-      <h4 class="modal-title">Kontrata</h4>
+      <h4 class="modal-title">{{ contract.releases[0].tender.title }}</h4>
       <button type="button" class="close" (click)="modalRef.hide()" aria-hidden="true">&times;</button>
     </div>
     <form action="" id="view-contract-form">
       <div class="modal-body">
-        <div class="modal-body">
-          <p>A jeni i sigurt që dëshironi të fshini kontratën?</p>
+        <div class="row">
+          <div class="col-md-3">
+            <button class="nav-contract description" (click)="navChange($event)" [ngClass]="{'active': navValue === 'Përshkrim' || navValue === 'Opis' || navValue === 'Description'}">{{
+              'individualContract.description' | translate }}</button>
+            <button class="nav-contract" (click)="navChange($event)" [ngClass]="{'active': navValue === 'Palët' || navValue === 'Stranke' || navValue === 'Parties'}">{{
+              'individualContract.parties' | translate }}</button>
+            <button class="nav-contract" (click)="navChange($event)" [ngClass]="{'active': navValue === 'Planning' || navValue === 'Planifikimi' || navValue === 'Planiranje'}">{{
+              'individualContract.planning' | translate }}</button>
+            <button class="nav-contract" (click)="navChange($event)" [ngClass]="{'active': navValue === 'Tender' || navValue === 'Tenderi'}">{{
+              'individualContract.tender' | translate }}</button>
+            <button class="nav-contract" (click)="navChange($event)" [ngClass]="{'active': navValue === 'Bids' || navValue === 'Ofertat' || navValue === 'Ponude'}">{{
+              'individualContract.bids' | translate }}</button>
+            <button class="nav-contract" (click)="navChange($event)" [ngClass]="{'active': navValue === 'Awards' || navValue === 'Davanje' || navValue === 'Dhënia'}">{{
+              'individualContract.awards' | translate }}</button>
+            <button class="nav-contract" (click)="navChange($event)" [ngClass]="{'active': navValue === 'Contract' || navValue === 'Kontrata' || navValue === 'Ugovori'}">{{
+              'individualContract.contract' | translate }}</button>
+            <button class="nav-contract implementation" (click)="navChange($event)" [ngClass]="{'active': navValue === 'Implementation' || navValue === 'Izvršenje' || navValue === 'Implementimi'}">{{
+              'individualContract.implementation' | translate }}</button>
+          </div>
+          <div class="col-md-9">
+            <ng-template [ngIf]="navValue === 'Përshkrim' || navValue === 'Opis' || navValue === 'Description'">
+              <table class="table table-bordered" id="details-table">
+                <tr>
+                  <th class="description-header">{{ 'individualContract.details' | translate }}</th>
+                </tr>
+                <tr>
+                  <td>
+                    <b>OCID: </b> {{ contract.releases[0].ocid }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <b>{{ 'individualContract.date' | translate }}: </b> {{ contract.releases[0].date | date:
+                    'dd/MM/yyyy' }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <b>{{ 'individualContract.language' | translate }}: </b> {{ contract.releases[0].language }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <b>{{ 'individualContract.tags' | translate }}: </b> {{ contract.releases[0].tag }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <b>{{ 'individualContract.initiationType' | translate }}: </b> {{
+                    contract.releases[0].initiationType }}
+                  </td>
+                </tr>
+              </table>
+            </ng-template>
+            <ng-template [ngIf]="navValue === 'Palët' || navValue === 'Stranke' || navValue === 'Parties'">
+              <h4 class="table-title">{{ contract.releases[0].parties[1].name }}</h4>
+              <table class="table table-bordered">
+                <tr>
+                  <th class="description-header">{{ 'individualContract.party' | translate }}</th>
+                </tr>
+                <tr>
+                  <td>
+                    <b>{{ 'individualContract.roles' | translate }}: </b> {{ contract.releases[0].parties[1].roles }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <b>{{ 'individualContract.address' | translate }}: </b> {{
+                    contract.releases[0].parties[1].address.region }}, {{
+                    contract.releases[0].parties[1].address.postalCode }}, {{
+                    contract.releases[0].parties[1].address.countryName }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <b>{{ 'individualContract.contactPoint' | translate }}: </b> {{
+                    contract.releases[0].parties[1].contactPoint.name }}
+                  </td>
+                </tr>
+              </table>
+              <hr>
+              <h4 class="table-title">{{ contract.releases[0].parties[0].name }}</h4>
+              <table class="table table-bordered">
+                <tr>
+                  <th class="description-header">{{ 'individualContract.party' | translate }}</th>
+                </tr>
+                <tr>
+                  <td>
+                    <b>{{ 'individualContract.roles' | translate }}: </b> {{ contract.releases[0].parties[0].roles }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <b>{{ 'individualContract.address' | translate }}: </b> {{
+                    contract.releases[0].parties[0].address.region }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <b>{{ 'individualContract.details' | translate }}: </b>
+                    <span *ngIf="contract.releases[0].parties[0].details.local === true">{{ 'individualContract.local'
+                      | translate }}</span>
+                    <span *ngIf="contract.releases[0].parties[0].details.local === false">{{
+                      'individualContract.notLocal' | translate }}</span>
+                  </td>
+                </tr>
+              </table>
+            </ng-template>
+            <ng-template [ngIf]="navValue === 'Planning' || navValue === 'Planifikimi' || navValue === 'Planiranje'">
+              <table class="table table-bordered">
+                <tr>
+                  <th class="description-header">{{ 'individualContract.budget' | translate }}</th>
+                </tr>
+                <tr>
+                  <td>
+                    <b>{{ 'individualContract.budgetAmount' | translate }}: </b> {{
+                    contract.releases[0].planning.budget.amount.amount }}
+                    {{contract.releases[0].planning.budget.amount.currency }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <b>{{ 'individualContract.budgetDescription' | translate }}: </b> {{
+                    contract.releases[0].planning.budget.description }}
+                  </td>
+                </tr>
+              </table>
+              <hr>
+              <h4 class="table-title">{{ 'individualContract.milestones' | translate }}</h4>
+              <table class="table table-bordered">
+                <tr class="description-header">
+                  <th>{{ 'individualContract.title' | translate }}</th>
+                  <th>{{ 'individualContract.date' | translate }}</th>
+                  <th>{{ 'individualContract.status' | translate }}</th>
+                  <th>{{ 'individualContract.code' | translate }}</th>
+                  <th>{{ 'individualContract.type' | translate }}</th>
+                </tr>
+                <tr *ngFor="let milestone of contract.releases[0].planning.milestones">
+                  <td>{{ milestone.title }}</td>
+                  <td>{{ milestone.dateMet | date: 'dd/MM/yyyy' }}</td>
+                  <td>{{ milestone.status }}</td>
+                  <td>{{ milestone.code }}</td>
+                  <td>{{ milestone.type }}</td>
+                </tr>
+              </table>
+            </ng-template>
+            <ng-template [ngIf]="navValue === 'Tender' || navValue === 'Tenderi'">
+              <table class="table table-bordered">
+                <tr>
+                  <th class="description-header">{{ 'individualContract.details' | translate }}</th>
+                </tr>
+                <tr>
+                  <td>
+                    <b>{{ 'individualContract.status' | translate }}: </b> {{ contract.releases[0].tender.status }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <b>{{ 'individualContract.criteria' | translate }}: </b> {{
+                    contract.releases[0].tender.awardCriteria}}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <b>Id: </b> {{ contract.releases[0].tender.id }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <b>{{ 'individualContract.value' | translate }}: </b> {{ contract.releases[0].tender.value.amount
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <b>{{ 'individualContract.keyDates' | translate }}: </b>
+                    <br>
+                    {{ 'individualContract.tenderStart' | translate }}: {{
+                    contract.releases[0].tender.tenderPeriod.startDate | date: 'dd/MM/yyyy' }}
+                    <br>
+                    {{ 'individualContract.awardStart' | translate }}: {{
+                    contract.releases[0].tender.awardPeriod.startDate | date: 'dd/MM/yyyy' }} - {{
+                    'individualContract.awardEnd' | translate }}: {{ contract.releases[0].tender.awardPeriod.endDate |
+                    date: 'dd/MM/yyyy' }}
+                    <br>
+                    {{ 'individualContract.contractStart' | translate }}: {{
+                    contract.releases[0].tender.contractPeriod.startDate | date: 'dd/MM/yyyy' }} -
+                    {{ 'individualContract.contractEnd' | translate }}: {{
+                    contract.releases[0].tender.contractPeriod.endDate | date: 'dd/MM/yyyy' }}
+                  </td>
+                </tr>
+              </table>
+              <hr>
+              <h4 class="table-title">{{ 'individualContract.complaints' | translate }}</h4>
+              <br>
+              <p>{{ 'individualContract.complaintsAuthorityTender' | translate }}</p>
+              <table class="table table-bordered">
+                <tr>
+                  <th class="description-header">{{ 'individualContract.complaint' | translate }}</th>
+                </tr>
+                <tr>
+                  <td>
+                    <span *ngIf="contract.releases[0].tender.hasEnquiries === true">{{ 'individualContract.positive' |
+                      translate }}</span>
+                    <span *ngIf="contract.releases[0].tender.hasEnquiries === false">{{ 'individualContract.negative' |
+                      translate }}</span>
+                  </td>
+                </tr>
+              </table>
+              <p>{{ 'individualContract.complaintOshpTender' | translate }}</p>
+              <table class="table table-bordered">
+                <tr>
+                  <th class="description-header">{{ 'individualContract.complaint' | translate }}</th>
+                </tr>
+                <tr>
+                  <td>
+                    <span *ngIf="contract.releases[0].tender.hasComplaints === true">{{ 'individualContract.positive' |
+                      translate }}</span>
+                    <span *ngIf="contract.releases[0].tender.hasComplaints === false">{{ 'individualContract.negative'
+                      | translate }}</span>
+                  </td>
+                </tr>
+              </table>
+              <hr>
+              <h4 class="table-title">{{ 'individualContract.procurementMethod' | translate }}</h4>
+              <table class="table table-bordered">
+                <tr>
+                  <th class="description-header">{{ 'individualContract.method' | translate }}</th>
+                </tr>
+                <tr>
+                  <td>
+                    {{ contract.releases[0].tender.procurementMethod }}
+                  </td>
+                </tr>
+              </table>
+              <table class="table table-bordered">
+                <tr>
+                  <th class="description-header">{{ 'individualContract.methodRationale' | translate }}</th>
+                </tr>
+                <tr>
+                  <td>
+                    <span *ngIf="contract.releases[0].tender.procurementMethodRationale === 'openProcedure'"> <b>openProcedure:</b>
+                      {{ 'individualContract.openProcedure' | translate }}</span>
+                    <span *ngIf="contract.releases[0].tender.procurementMethodRationale === 'negociatedProcedureAfterAwardNotice'">
+                      <b>negociatedProcedureAfterAwardNotice:</b> {{
+                      'individualContract.negociatedProcedureAfterAwardNotice' | translate }}</span>
+                    <span *ngIf="contract.releases[0].tender.procurementMethodRationale === 'limitedProcedure'"> <b>limitedProcedure:</b>
+                      {{ 'individualContract.limitedProcedure' | translate }}</span>
+                    <span *ngIf="contract.releases[0].tender.procurementMethodRationale === 'negociatedProcedureWithoutAwardNotice'">
+                      <b>negociatedProcedureWithoutAwardNotice:</b> {{
+                      'individualContract.negociatedProcedureWithoutAwardNotice' | translate }}</span>
+                    <span *ngIf="contract.releases[0].tender.procurementMethodRationale === 'designContest'"> <b>designContest:</b>
+                      {{ 'individualContract.designContest' | translate }}</span>
+                    <span *ngIf="contract.releases[0].tender.procurementMethodRationale === 'minimalValueProcedure'">
+                      <b>minimalValueProcedure:</b> {{ 'individualContract.minimalValueProcedure' | translate }}</span>
+                    <span *ngIf="contract.releases[0].tender.procurementMethodRationale === 'quotationValueProcedure'">
+                      <b>quotationValueProcedure:</b> {{ 'individualContract.quotationValueProcedure' | translate }}</span>
+                  </td>
+                </tr>
+              </table>
+              <hr>
+              <h4 class="table-title">{{ 'individualContract.procurementCategories' | translate }}</h4>
+              <table class="table table-bordered">
+                <tr>
+                  <th class="description-header">{{ 'individualContract.category' | translate }}</th>
+                </tr>
+                <tr>
+                  <td>
+                    {{ contract.releases[0].tender.mainProcurementCategory }}
+                  </td>
+                </tr>
+              </table>
+              <table class="table table-bordered">
+                <tr>
+                  <th class="description-header">{{ 'individualContract.categoryRationale' | translate }}</th>
+                </tr>
+                <tr>
+                  <td>
+                    <span *ngIf="contract.releases[0].tender.additionalProcurementCategories === 'goods'"> <b>goods:</b>
+                      {{ 'individualContract.goods' | translate }}</span>
+                    <span *ngIf="contract.releases[0].tender.additionalProcurementCategories === 'works'">
+                      <b>works:</b> {{ 'individualContract.works' | translate }}</span>
+                    <span *ngIf="contract.releases[0].tender.additionalProcurementCategories === 'services'"> <b>services:</b>
+                      {{ 'individualContract.services' | translate }}</span>
+                    <span *ngIf="contract.releases[0].tender.additionalProcurementCategories === 'consultingServices'">
+                      <b>consultingServices:</b> {{ 'individualContract.consultingServices' | translate }}</span>
+                    <span *ngIf="contract.releases[0].tender.additionalProcurementCategories === 'concessionWorks'"> <b>concessionWorks:</b>
+                      {{ 'individualContract.concessionWorks' | translate }}</span>
+                    <span *ngIf="contract.releases[0].tender.additionalProcurementCategories === 'designContest'">
+                      <b>designContest:</b> {{ 'individualContract.designContest' | translate }}</span>
+                    <span *ngIf="contract.releases[0].tender.additionalProcurementCategories === 'immovableProperty'">
+                      <b>immovableProperty:</b> {{ 'individualContract.immovableProperty' | translate }}</span>
+                  </td>
+                </tr>
+              </table>
+              <hr>
+              <h4 class="table-title">{{ 'individualContract.awardCriteria' | translate }}</h4>
+              <table class="table table-bordered">
+                <tr>
+                  <th class="description-header">{{ 'individualContract.criteria' | translate }}</th>
+                </tr>
+                <tr>
+                  <td>
+                    <span *ngIf="contract.releases[0].tender.awardCriteria === 'priceOnly'"> <b>{{
+                        contract.releases[0].tender.awardCriteria }}:</b>
+                      {{ 'individualContract.priceOnly' | translate }}</span>
+                    <span *ngIf="contract.releases[0].tender.awardCriteria === 'costOnly'"> <b>{{
+                        contract.releases[0].tender.awardCriteria }}:</b>
+                      {{ 'individualContract.costOnly' | translate }}</span>
+                    <span *ngIf="contract.releases[0].tender.awardCriteria === 'ratedCriteria'"> <b>{{
+                        contract.releases[0].tender.awardCriteria }}:</b>
+                      {{ 'individualContract.ratedCriteria' | translate }}</span>
+                  </td>
+                </tr>
+              </table>
+              <hr>
+              <h4 class="table-title">{{ 'individualContract.items' | translate }}</h4>
+              <table class="table table-bordered">
+                <tr class="description-header">
+                  <th>ID</th>
+                  <th>{{ 'individualContract.description' | translate }}</th>
+                  <th>{{ 'individualContract.classification' | translate }}</th>
+                  <th>{{ 'individualContract.quantity' | translate }}</th>
+                </tr>
+                <tr *ngFor="let item of contract.releases[0].tender.items">
+                  <td>{{ item.id }}</td>
+                  <td>{{ item.description }}</td>
+                  <td>{{ item.classification.id }}</td>
+                  <td>{{ item.quantity }}</td>
+                </tr>
+              </table>
+              <hr>
+              <h4 class="table-title">{{ 'individualContract.documents' | translate }}</h4>
+              <table class="table table-bordered">
+                <tr class="description-header">
+                  <th>{{ 'individualContract.title' | translate }}</th>
+                  <th>{{ 'individualContract.type' | translate }}</th>
+                  <th>{{ 'individualContract.format' | translate }}</th>
+                  <th>{{ 'individualContract.language' | translate }}</th>
+                </tr>
+                <tr *ngFor="let document of contract.releases[0].tender.documents">
+                  <td><a href="./documents/{{document.title}}" target="_blank">{{ document.title }}</a></td>
+                  <td>{{ document.documentType }}</td>
+                  <td>{{ document.format }}</td>
+                  <td>{{ document.language }}</td>
+                </tr>
+              </table>
+              <hr>
+              <h4 class="table-title">{{ 'individualContract.tenderers' | translate }}</h4>
+              <table class="table table-bordered">
+                <tr class="description-header">
+                  <th>{{ 'individualContract.details' | translate }}</th>
+                </tr>
+                <tr>
+                  <td><b>{{ 'individualContract.numberOfTenderers' | translate }}: </b> {{
+                    contract.releases[0].tender.numberOfTenderers }}</td>
+                </tr>
+                <tr>
+                  <td>
+                    <b>{{ 'individualContract.name' | translate }}:</b>
+                    <span *ngFor="let tenderer of contract.releases[0].tender.tenderers">
+                      <br>
+                      {{ tenderer.name }}
+                    </span>
+                  </td>
+                </tr>
+              </table>
+              <hr>
+              <h4 class="table-title">{{ 'individualContract.milestones' | translate }}</h4>
+              <table class="table table-bordered">
+                <tr class="description-header">
+                  <th>{{ 'individualContract.title' | translate }}</th>
+                  <th>{{ 'individualContract.status' | translate }}</th>
+                  <th>{{ 'individualContract.code' | translate }}</th>
+                  <th>{{ 'individualContract.type' | translate }}</th>
+                  <th>{{ 'individualContract.date' | translate }}</th>
+                </tr>
+                <tr *ngFor="let milestone of contract.releases[0].tender.milestones">
+                  <td>{{ milestone.title }}</td>
+                  <td>{{ milestone.status }}</td>
+                  <td>{{ milestone.code }}</td>
+                  <td>{{ milestone.type }}</td>
+                  <td>{{ milestone.dateMet | date: 'dd/MM/yyyy' }}</td>
+                </tr>
+              </table>
+              <hr>
+              <h4 class="table-title">{{ 'individualContract.estimatedValue' | translate }}</h4>
+              <table class="table table-bordered">
+                <tr class="description-header">
+                  <th>{{ 'individualContract.procurementValue' | translate }}</th>
+                </tr>
+                <tr>
+                  <td>{{ contract.releases[0].tender.estimatedSizeOfProcurementValue.estimatedValue }}</td>
+                </tr>
+              </table>
+              <hr>
+              <h4 class="table-title">{{ 'individualContract.applicationProcedure' | translate }}</h4>
+              <table class="table table-bordered">
+                <tr class="description-header">
+                  <th>{{ 'individualContract.type' | translate }}</th>
+                </tr>
+                <tr>
+                  <td>
+                    <span *ngIf="contract.releases[0].tender.procedure.isAcceleratedProcedure === true">{{
+                      'individualContract.normalDeadline' | translate }}</span>
+                    <span *ngIf="contract.releases[0].tender.procedure.isAcceleratedProcedure === false">{{
+                      'individualContract.shortenedDeadline' | translate }}</span>
+                  </td>
+                </tr>
+              </table>
+              <hr>
+              <h4 class="table-title">{{ 'individualContract.lots' | translate }}</h4>
+              <table class="table table-bordered">
+                <tr class="description-header">
+                  <th>{{ 'individualContract.value' | translate }}</th>
+                  <th>{{ 'individualContract.deadline' | translate }}</th>
+                </tr>
+                <tr *ngFor="let lot of contract.releases[0].tender.lots">
+                  <td>{{ lot.value.amount }} {{ lot.value.currency }}</td>
+                  <td>{{ lot.description }}</td>
+                </tr>
+              </table>
+            </ng-template>
+            <ng-template [ngIf]="navValue === 'Bids' || navValue === 'Ofertat' || navValue === 'Ponude'">
+              <h4 class="table-title">{{ 'individualContract.bidStatistics' | translate }}</h4>
+              <table class="table table-bordered">
+                <tr class="description-header">
+                  <th>ID</th>
+                  <th>{{ 'individualContract.notes' | translate }}</th>
+                  <th>{{ 'individualContract.measure' | translate }}</th>
+                  <th>{{ 'individualContract.value' | translate }}</th>
+                </tr>
+                <tr *ngFor="let bid of contract.releases[0].bids.statistics">
+                  <td>{{ bid.id }}</td>
+                  <td>{{ bid.notes }}</td>
+                  <td>{{ bid.measure }}</td>
+                  <td>{{ bid.value }}</td>
+                </tr>
+              </table>
+            </ng-template>
+            <ng-template [ngIf]="navValue === 'Awards' || navValue === 'Davanje' || navValue === 'Dhënia'">
+              <table class="table table-bordered">
+                <tr class="description-header">
+                  <th>{{ 'individualContract.details' | translate }}</th>
+                </tr>
+                <tr>
+                  <td><b>{{ 'individualContract.date' | translate }}: </b> {{ contract.releases[0].awards[0].date |
+                    date: 'dd/MM/yyyy' }}</td>
+                </tr>
+                <tr>
+                  <td><b>{{ 'individualContract.contractPeriod' | translate }}: </b>
+                    <br>
+                    {{ 'individualContract.start' | translate }}: {{
+                    contract.releases[0].awards[0].contractPeriod.startDate | date: 'dd/MM/yyyy' }} - {{
+                    'individualContract.end' | translate }}: {{
+                    contract.releases[0].awards[0].contractPeriod.endDate | date: 'dd/MM/yyyy' }}
+                  </td>
+                </tr>
+              </table>
+              <hr>
+              <h4 class="table-title">{{ 'individualContract.complaints' | translate }}</h4>
+              <p>{{ 'individualContract.complaintsAuthorityAward' | translate }}</p>
+              <table class="table table-bordered">
+                <tr>
+                  <th class="description-header">{{ 'individualContract.complaint' | translate }}</th>
+                </tr>
+                <tr>
+                  <td>
+                    <span *ngIf="contract.releases[0].awards[0].enquiryType === 'positive'">{{
+                      'individualContract.positive' | translate }}</span>
+                    <span *ngIf="contract.releases[0].awards[0].enquiryType === 'negative'">{{
+                      'individualContract.negative' | translate }}</span>
+                    <span *ngIf="contract.releases[0].awards[0].enquiryType === 'none'">{{ 'individualContract.none' |
+                      translate }}</span>
+                  </td>
+                </tr>
+              </table>
+              <p>{{ 'individualContract.complaintOshpAward' | translate }}</p>
+              <table class="table table-bordered">
+                <tr>
+                  <th class="description-header">{{ 'individualContract.complaint' | translate }}</th>
+                </tr>
+                <tr>
+                  <td>
+                    <span *ngIf="contract.releases[0].awards[0].complaintType === 'positive'">{{
+                      'individualContract.positive' | translate }}</span>
+                    <span *ngIf="contract.releases[0].awards[0].complaintType === 'negative'">{{
+                      'individualContract.negative' | translate }}</span>
+                    <span *ngIf="contract.releases[0].awards[0].complaintType === 'none'">{{ 'individualContract.none'
+                      | translate }}</span>
+                  </td>
+                </tr>
+              </table>
+            </ng-template>
+            <ng-template [ngIf]="navValue === 'Contract' || navValue === 'Kontrata' || navValue === 'Ugovori'">
+              <table class="table table-bordered">
+                <tr>
+                  <th class="description-header">{{ 'individualContract.details' | translate }}</th>
+                </tr>
+                <tr>
+                  <td>
+                    <b>{{ 'individualContract.status' | translate }}: </b> {{ contract.releases[0].contracts[0].status
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td><b>{{ 'individualContract.contractPeriod' | translate }}: </b>
+                    <br>
+                    {{ 'individualContract.start' | translate }}: {{ contract.releases[0].contracts[0].period.startDate
+                    | date: 'dd/MM/yyyy' }} - {{ 'individualContract.end' | translate }}: {{
+                    contract.releases[0].contracts[0].period.endDate | date: 'dd/MM/yyyy' }}
+                  </td>
+                </tr>
+                <tr>
+                  <td><b>{{ 'individualContract.value' | translate }}: </b> {{
+                    contract.releases[0].contracts[0].value.amount }} {{
+                    contract.releases[0].contracts[0].value.currency }}</td>
+                </tr>
+                <tr>
+                  <td><b>{{ 'individualContract.dateSigned' | translate }}: </b> {{
+                    contract.releases[0].contracts[0].dateSigned | date: 'dd/MM/yyyy' }}</td>
+                </tr>
+              </table>
+              <hr>
+              <h4 class="table-title">{{ 'individualContract.documents' | translate }}</h4>
+              <table class="table table-bordered">
+                <tr class="description-header">
+                  <th>{{ 'individualContract.title' | translate }}</th>
+                  <th>{{ 'individualContract.type' | translate }}</th>
+                  <th>{{ 'individualContract.format' | translate }}</th>
+                  <th>{{ 'individualContract.language' | translate }}</th>
+                </tr>
+                <tr *ngFor="let document of contract.releases[0].contracts[0].documents">
+                  <td><a href="./uploads/{{document.title}}" target="_blank">{{ document.title }}</a></td>
+                  <td>{{ document.documentType }}</td>
+                  <td>{{ document.format }}</td>
+                  <td>{{ document.language }}</td>
+                </tr>
+              </table>
+              <hr>
+              <h4 class="table-title">{{ 'individualContract.amendments' | translate }}</h4>
+              <table class="table table-bordered">
+                <tr class="description-header">
+                  <th>{{ 'individualContract.date' | translate }}</th>
+                  <th>{{ 'individualContract.value' | translate }}</th>
+                </tr>
+                <tr *ngFor="let amendment of contract.releases[0].contracts[0].amendments">
+                  <td>{{ amendment.date | date: 'dd/MM/yyyy' }}</td>
+                  <td>{{ amendment.description }} EUR</td>
+                </tr>
+              </table>
+              <hr>
+              <h4 class="table-title">{{ 'individualContract.deductionAmount' | translate }}</h4>
+              <table class="table table-bordered">
+                <tr class="description-header">
+                  <th>{{ 'individualContract.amount' | translate }}</th>
+                </tr>
+                <tr>
+                  <td>{{ contract.releases[0].contracts[0].deductionAmountFromContract.value.amount }} {{
+                    contract.releases[0].contracts[0].deductionAmountFromContract.value.currency }}</td>
+                </tr>
+              </table>
+            </ng-template>
+            <ng-template [ngIf]="navValue === 'Implementation' || navValue === 'Izvršenje' || navValue === 'Implementimi'">
+              <h4 class="table-title">{{ 'individualContract.transactions' | translate }}</h4>
+              <table class="table table-bordered">
+                <tr class="description-header">
+                  <th>{{ 'individualContract.expectedTransactions' | translate }}</th>
+                </tr>
+                <tr>
+                  <td>{{ contract.releases[0].contracts[0].expectedNumberOfTransactions}}</td>
+                </tr>
+              </table>
+              <hr>
+              <h4 class="table-title">{{ 'individualContract.transactionDetails' | translate }}</h4>
+              <table class="table table-bordered">
+                <tr class="description-header">
+                  <th>{{ 'individualContract.date' | translate }}</th>
+                  <th>{{ 'individualContract.payerName' | translate }}</th>
+                  <th>{{ 'individualContract.payeeName' | translate }}</th>
+                  <th>{{ 'individualContract.value' | translate }}</th>
+                </tr>
+                <tr *ngFor="let transaction of contract.releases[0].contracts[0].implementation.transactions">
+                  <td>{{ transaction.date | date: 'dd/MM/yyyy' }}</td>
+                  <td>{{ transaction.payer.name }}</td>
+                  <td>{{ transaction.payee.name }}</td>
+                  <td>{{ transaction.value.amount }} {{ transaction.value.currency }}</td>
+                </tr>
+              </table>
+            </ng-template>
+          </div>
         </div>
-      </div>
-      <div class="modal-footer my-modal-footer">
-        <button type="button" class="btn btn-info" (click)="modalRef.hide()">Mbylle</button>
       </div>
     </form>
   </div>
