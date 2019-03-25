@@ -1,70 +1,69 @@
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <h1 class="title">Të dhënat</h1>
-        </div>
+  <div class="row">
+    <div class="col-12">
+      <h1 class="title">Të dhënat</h1>
     </div>
+  </div>
 
-    <div class="row">
-        <div class="col-10">
-            <div class="file-upload">
-                <input type="file" #file style="display: none" (change)="onFileChange($event)">
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Zgjedhni setin e të dhënave" id="name-area"
-                        aria-label="Recipient's username" aria-describedby="basic-addon2" [style.border-color]="!valid && touched ? 'red' : '#ced4da'"
-                        disabled>
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button" (click)="onClick()">Zgjedh</button>
-                    </div>
-                </div>
-                <div *ngIf=" !valid && touched" class="error-msg">{{message}}</div>
+  <div class="row">
+    <div class="col-10">
+      <div class="file-upload">
+        <input type="file" #file style="display: none" (change)="onFileChange($event)">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Zgjedhni setin e të dhënave" id="name-area" aria-label="Recipient's username"
+            aria-describedby="basic-addon2" [style.border-color]="!valid && touched ? 'red' : '#ced4da'" disabled>
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" (click)="onClick()">Zgjedh</button>
+          </div>
+        </div>
+        <div *ngIf=" !valid && touched" class="error-msg">{{message}}</div>
+      </div>
+    </div>
+    <div class="col-1 my-col-2">
+      <button type="button" class="btn btn-primary button-update" (click)="updateDataset(valid)">Përditëso</button>
+    </div>
+    <div class="col-1 my-col-2">
+      <button type="button" class="btn btn-primary button-upload" (click)="uploadDataset(valid)">Importoje</button>
+    </div>
+  </div>
+
+  <!-- Data sets list -->
+  <div class="row col-12" id="table-row">
+    <table class="table">
+      <tbody sorted="1">
+        <tr *ngFor="let dataSet of dataSets">
+          <td class="img-col" id="image-col">
+            <div>
+              <img [src]="'assets/images/excel.png'" class="img-fluid">
             </div>
-        </div>
-        <div class="col-1 my-col-2">
-            <button type="button" class="btn btn-primary button-update" (click)="updateDataset(valid)">Përditëso</button>
-        </div>
-        <div class="col-1 my-col-2">
-            <button type="button" class="btn btn-primary button-upload" (click)="uploadDataset(valid)">Importoje</button>
-        </div>
-    </div>
-
-    <!-- Data sets list -->
-    <div class="row col-12" id="table-row">
-        <table class="table">
-            <tbody sorted="1">
-                <tr *ngFor="let dataSet of dataSets">
-                    <td class="img-col" id="image-col">
-                        <div>
-                            <img src="/assets/images/excel.png" class="img-fluid">
-                        </div>
-                    </td>
-                    <td class="dataset-info">
-                        <div>
-                            <p class="name">
-                                <a>Raporti vjetor për kontratat e nënshkruara {{
-                                    dataSet.datasetFilePath.replace('.csv', '')
-                                    }}
-                                </a>
-                            </p>
-                        </div>
-                        <div>
-                            <p class="information">{{ dataSet.createdAt | date: 'dd/MM/yyyy hh:mm' }}</p>
-                        </div>
-                    </td>
-                    <td>
-                        <select class="custom-select" (click)="onChange($event)" [attr.data-id]="dataSet.datasetFilePath"
-                            [attr.data-folder]="dataSet.folder">
-                            <option>Shkarko</option>
-                            <option value="csv">
-                                CSV
-                            </option>
-                            <option value="json">
-                                JSON
-                            </option>
-                        </select>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+          </td>
+          <td class="dataset-info">
+            <div>
+              <p class="name">
+                <a>Raporti vjetor për kontratat e nënshkruara {{
+                  dataSet.datasetFilePath.replace('.csv', '')
+                  }}
+                </a>
+              </p>
+            </div>
+            <div>
+              <p class="information">{{ dataSet.createdAt | date: 'dd/MM/yyyy hh:mm' }}</p>
+            </div>
+          </td>
+          <td>
+            <select class="custom-select" (click)="onChange($event)" [attr.data-id]="dataSet.datasetFilePath"
+              [attr.data-folder]="dataSet.folder">
+              <option>Shkarko</option>
+              <option value="csv">
+                CSV
+              </option>
+              <option value="json">
+                JSON
+              </option>
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

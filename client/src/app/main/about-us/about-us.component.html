@@ -24,22 +24,24 @@
 <div class="row" id="project-row">
   <div class="col-md-12 row project-details" style="margin-top: 3%">
     <div class="col-md-6">
-      <img id="project-img" src="/assets/images/hands-on-laptop.jpg" class="img-fluid">
+      <img id="project-img" [src]="'assets/images/hands-on-laptop.jpg'" class="img-fluid">
     </div>
     <div class="col-md-6 justify-content-center">
       <p id="project-description">
-        {{ 'aboutUs.projectDescription1' | translate }}<a target="_blank" href="http://techstitution.org/">{{ 'aboutUs.techstitution'
+        {{ 'aboutUs.projectDescription1' | translate }}<a target="_blank" href="http://techstitution.org/">{{
+          'aboutUs.techstitution'
           | translate }}</a>{{ 'aboutUs.projectDescription2' | translate}}<a target="_blank" href="http://opendatakosovo.org/">{{
-          'aboutUs.openDataKosovo' | translate }}</a>{{ 'aboutUs.projectDescription3' | translate}}<a target="_blank" href="http://girlscodingkosova.org/">{{
+          'aboutUs.openDataKosovo' | translate }}</a>{{ 'aboutUs.projectDescription3' | translate}}<a target="_blank"
+          href="http://girlscodingkosova.org/">{{
           'aboutUs.gck' | translate }}</a>{{ 'aboutUs.projectDescription4' | translate}}<a target="_blank" href="http://kosovoinnovations.org/">{{
           'aboutUs.unicef' | translate }}</a>{{ 'aboutUs.projectDescription5' | translate }}
       </p>
       <div class="row">
         <div class="col-md-12">
-          <img class="technologies img-fluid" src="/assets/images/mongo.png">
-          <img class="technologies img-fluid" style="margin-top: 6.5%" src="/assets/images/express.png">
-          <img class="technologies img-fluid" src="/assets/images/node.png">
-          <img class="technologies img-fluid" src="/assets/images/angular.png">
+          <img class="technologies img-fluid" [src]="'assets/images/mongo.png'">
+          <img class="technologies img-fluid" style="margin-top: 6.5%" [src]="'assets/images/express.png'">
+          <img class="technologies img-fluid" [src]="'assets/images/node.png'">
+          <img class="technologies img-fluid" [src]="'assets/images/angular.png'">
         </div>
       </div>
     </div>

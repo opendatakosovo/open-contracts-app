@@ -158,10 +158,8 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
   // Function to sort contracts ascending or descending
   sortContracts(column) {
     this.page.column = column;
-    const asc = document.getElementById('sort').classList.contains('asc');
-    const desc = document.getElementById('sort').classList.contains('desc');
-    this.isSortedAsc = asc;
-    this.isSortedDesc = desc;
+    let asc = document.getElementById('sort').classList.contains('asc');
+    let desc = document.getElementById('sort').classList.contains('desc');
     this.rows = [];
     this.messages = {
       emptyMessage: `
@@ -182,6 +180,8 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
           ascClass.classList.add('asc');
           this.page = pagedData.page;
           this.rows = pagedData.data;
+          asc = document.getElementById('sort').classList.contains('asc');
+          desc = document.getElementById('sort').classList.contains('desc');
           setTimeout(() => {
             this.datatableBodyElement.scrollLeft = this.offsetX;
           }, 1);
@@ -197,6 +197,8 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
           descClass.classList.add('desc');
           this.page = pagedData.page;
           this.rows = pagedData.data;
+          asc = document.getElementById('sort').classList.contains('asc');
+          desc = document.getElementById('sort').classList.contains('desc');
           setTimeout(() => {
             this.datatableBodyElement.scrollLeft = this.offsetX;
           }, 1);
@@ -204,6 +206,8 @@ export class ContractsListComponent implements OnInit, AfterViewInit {
           console.log(err);
         });
     }
+    this.isSortedAsc = asc;
+    this.isSortedDesc = desc;
   }
 
   // Function to open delete modal

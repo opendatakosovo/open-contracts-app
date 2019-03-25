@@ -177,6 +177,7 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
     this.page.pageNumber = pageInfo.offset;
     this.search.pageInfo.pageNumber = pageInfo.offset;
     if (this.page.totalElements === this.totalContracts && (this.isSortedAsc === false && this.isSortedDesc === false)) {
+      // console.log('none');
       this.contractsService.serverPaginationLatestContracts(this.page)
         .takeUntil(this.unsubscribeAll)
         .subscribe(pagedData => {
@@ -213,6 +214,7 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
           }
         });
     } else {
+      // console.log('filter');
       this.contractsService.filterContract(this.search)
         .takeUntil(this.unsubscribeAll)
         .subscribe(data => {
@@ -238,10 +240,8 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
   // Function to sort latest contracts ascending or descending
   sortContracts(column) {
     this.page.column = column;
-    const asc = document.getElementById('sort').classList.contains('asc');
-    const desc = document.getElementById('sort').classList.contains('desc');
-    this.isSortedAsc = asc;
-    this.isSortedDesc = desc;
+    let asc = document.getElementById('sort').classList.contains('asc');
+    let desc = document.getElementById('sort').classList.contains('desc');
     this.rows = [];
     this.messages = {
       emptyMessage: `
@@ -262,6 +262,8 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
           ascClass.classList.add('asc');
           this.page = pagedData.page;
           this.rows = pagedData.data;
+          asc = document.getElementById('sort').classList.contains('asc');
+          desc = document.getElementById('sort').classList.contains('desc');
           setTimeout(() => {
             this.datatableBodyElement.scrollLeft = this.offsetX;
           }, 1);
@@ -277,6 +279,8 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
           descClass.classList.add('desc');
           this.page = pagedData.page;
           this.rows = pagedData.data;
+          asc = document.getElementById('sort').classList.contains('asc');
+          desc = document.getElementById('sort').classList.contains('desc');
           setTimeout(() => {
             this.datatableBodyElement.scrollLeft = this.offsetX;
           }, 1);
@@ -284,6 +288,8 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
           console.log(err);
         });
     }
+    this.isSortedAsc = asc;
+    this.isSortedDesc = desc;
   }
 
   onType() {
