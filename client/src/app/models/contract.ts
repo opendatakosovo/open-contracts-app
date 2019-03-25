@@ -77,6 +77,10 @@ export class Contract {
                     durationInDays?: String
                 },
                 awardCriteria?: String,
+                procuringEntity?: {
+                    id?: String,
+                    name?: String
+                },
                 documents?: Document[],
                 milestones?: Milestone[],
                 estimatedSizeOfProcurementValue?: {
@@ -325,6 +329,10 @@ export class Contract {
                     durationInDays: ''
                 },
                 awardCriteria: '',
+                procuringEntity: {
+                    id: '',
+                    name: ''
+                },
                 documents: [],
                 milestones: [
                     {
@@ -390,7 +398,7 @@ export class Contract {
                         amount: 0,
                         currency: 'EUR'
                     },
-                    finalValueDetails: 'The total amount of the contract payed'
+                    finalValueDetails: 'The total paid value of the contract'
                 },
                 amendments: [],
                 expectedNumberOfTransactions: 0,

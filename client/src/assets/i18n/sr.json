@@ -47,12 +47,13 @@
     "format": "Format",
     "year": "Godina",
     "download": "Preuzmite",
-    "yearValidation": "Morate odabrati godinu",
+    "fieldValidation": "Polje treba izabrati!",
     "formatValidation": "Morate odabrati format!",
     "field": "Fusha",
     "value": "Lloji",
     "directorate": "Drejtoria",
-    "companyName": "Emri i OE"
+    "companyName": "Emri i OE",
+    "typeValidation": "Tip treba izabrati!"
   },
   "announcements": {
     "title": "ONLINE PRIŠTINA",
@@ -207,6 +208,8 @@
     "expectedTransactions": "Očekivani broj transakcija",
     "transactionDetails": "Detalji transakcije",
     "payerName": "Ime platioca",
-    "payeeName": "Ime primaoca uplate"
+    "payeeName": "Ime primaoca uplate",
+    "paidValue": "Ukupna plaćena vrijednost",
+    "paidValueDetails": "Ukupna vrijednost plaćena za ugovor"
   }
 }

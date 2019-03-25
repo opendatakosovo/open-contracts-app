@@ -220,19 +220,19 @@ let formatData = {
         }
     },
     formatProcurementProcedure(procedure) {
-        if (procedure === "openProcedure") {
+        if (procedure === "Open procedure") {
             return 'Procedura e hapur';
-        } else if (procedure === "limitedProcedure") {
+        } else if (procedure === "Limited procedure") {
             return 'Procedura e kufizuar';
-        } else if (procedure === "designContest") {
+        } else if (procedure === "Design contest") {
             return 'Konkurs projektimi';
-        } else if (procedure === "negociatedProcedureAfterAwardNotice") {
+        } else if (procedure === "Negociated procedure after award notice") {
             return 'Procedura e negociuar pas publikimit të njoftimit të kontratës';
-        } else if (procedure === "negociatedProcedureWithoutAwardNotice") {
+        } else if (procedure === "Negociated procedure without award notice") {
             return 'Procedura e negociuar pa publikim të njoftimit të kontratës';
-        } else if (procedure === "quotationValueProcedure") {
+        } else if (procedure === "Quotation value procedure") {
             return 'Procedura e kuotimit të Çmimeve';
-        } else if (procedure === "minimalValueProcedure") {
+        } else if (procedure === "Minimal value procedure") {
             return 'Procedura e vlerës minimale';
         } else {
             return "";

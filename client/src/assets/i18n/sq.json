@@ -47,12 +47,13 @@
     "format": "Formati",
     "year": "Viti",
     "download": "Shkarko",
-    "yearValidation": "Duhet zgjedhur vitin!",
+    "fieldValidation": "Duhet zgjedhur fushën!",
     "formatValidation": "Duhet zgjedhur formatin!",
     "field": "Fusha",
     "value": "Lloji",
     "directorate": "Drejtoria",
-    "companyName": "OE"
+    "companyName": "OE",
+    "typeValidation": "Duhet zgjedhur llojin!"
   },
   "announcements": {
     "title": "PRISHTINA ONLINE",
@@ -207,6 +208,8 @@
     "expectedTransactions": "Numri i pritur i transaksioneve",
     "transactionDetails": "Detajet e transaksioneve",
     "payerName": "Emri i paguesit",
-    "payeeName": "Emri i të paguarit"
+    "payeeName": "Emri i të paguarit",
+    "paidValue": "Vlera totale e paguar",
+    "paidValueDetails": "Vlera totale e paguar për kontratën"
   }
 }

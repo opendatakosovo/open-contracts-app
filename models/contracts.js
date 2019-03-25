@@ -109,6 +109,10 @@ const ContractSchema = mongoose.Schema({
                 durationInDays: { type: String }
             },
             awardCriteria: { type: String },
+            procuringEntity: {
+                id: { type: String},
+                name: {type: String}
+            },
             documents: [{
                 id: { type: String },
                 documentType: { type: String },

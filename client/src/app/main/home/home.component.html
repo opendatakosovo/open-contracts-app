@@ -49,7 +49,7 @@
                 <option value="companyName">{{ 'dataset.companyName' | translate }}</option>
               </select>
               <div class="col-6 validation-text" [hidden]="!fieldDS.errors?.required || !downloadForm.submitted">
-                <small class="text-danger">{{ 'dataset.yearValidation' | translate }}</small>
+                <small class="text-danger">{{ 'dataset.fieldValidation' | translate }}</small>
               </div>
               <!-- Value option -->
               <select name="" id="data" name="data" class="form-control form-select" [(ngModel)]="data" #dataSet="ngModel"
@@ -63,8 +63,8 @@
                 <option [hidden]="value == 'directorate' || value == 'year' || value == undefined" *ngFor="let companyName of topTenContractors"
                   [value]="companyName.name">{{ companyName.name }}</option>
               </select>
-              <div class="col-6 validation-text" [hidden]="!dataSet.errors?.required || !downloadForm.submitted">
-                <small class="text-danger">{{ 'dataset.yearValidation' | translate }}</small>
+              <div class="col-6 validation-text" id="type-text" [hidden]="!dataSet.errors?.required || !downloadForm.submitted">
+                <small class="text-danger">{{ 'dataset.typeValidation' | translate }}</small>
               </div>
               <!-- Format option -->
               <select name="" id="format" name="format" class="form-control form-select" [(ngModel)]="format" #formatDS="ngModel"

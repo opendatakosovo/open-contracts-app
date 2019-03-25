@@ -28,13 +28,15 @@
       <form action="" class="form-inline form-group">
         <input type="text" (keyup)="onType()" [(ngModel)]="search.string" name="string" class="form-control form-input"
           placeholder="{{ 'datatable.searchContract' | translate }}">
-        <select class="form-control form-select" (change)="onChange()" [(ngModel)]="search.directorate" name="directorate">
+        <select class="form-control form-select" (change)="onChange()" [(ngModel)]="search.directorate"
+          name="directorate">
           <option value="">{{ 'visualisations.allYears' | translate }}</option>
           <option *ngFor="let directorate of directorates" value="{{directorate.directorateName}}">
             {{directorate.directorateName}}</option>
         </select>
-        <input (input)="onDateInputChange($event)" (ngModelChange)="onDatePick($event)" bsDatepicker placeholder="MM/DD/YYYY"
-          [bsConfig]="bsConfig" name="date" id="date" class="form-control form-select" [(ngModel)]="search.date">
+        <input (input)="onDateInputChange($event)" (ngModelChange)="onDatePick($event)" bsDatepicker
+          placeholder="MM/DD/YYYY" [bsConfig]="bsConfig" name="date" id="date" class="form-control form-select"
+          [(ngModel)]="search.date">
         <input type="text" (keyup)="onType()" [(ngModel)]="search.value" name="value" class="form-control form-input"
           placeholder="{{ 'datatable.value' | translate }}">
         <select (change)="onChangeYear($event)" class="form-control form-select">
@@ -47,10 +49,10 @@
 </div>
 
 <div id="table1">
-  <ngx-datatable #table class="bootstrap" columnMode="'force'" [rows]="rows" [headerHeight]="'auto'" [summaryRow]="false"
-    [summaryPosition]="'bottom'" [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements"
-    [offset]="page.pageNumber" [limit]="page.size" [messages]="messages" [scrollbarH]="true" (page)='setPage($event)'
-    [externalSorting]="true" (scroll)="onTableScroll($event)">
+  <ngx-datatable #table class="bootstrap" columnMode="'force'" [rows]="rows" [headerHeight]="'auto'"
+    [summaryRow]="false" [summaryPosition]="'bottom'" [footerHeight]="50" [rowHeight]="'auto'" [externalPaging]="true"
+    [count]="page.totalElements" [offset]="page.pageNumber" [limit]="page.size" [messages]="messages"
+    [scrollbarH]="true" (page)='setPage($event)' [externalSorting]="true" (scroll)="onTableScroll($event)">
     <ngx-datatable-column>
       <ng-template let-column="column" ngx-datatable-header-template>
         <p class="column-header">{{ 'datatable.contractModal' | translate }}</p>
@@ -176,7 +178,8 @@
         </div>
       </ng-template>
       <ng-template let-row="row" ngx-datatable-cell-template>
-        <p *ngIf="row.releases[0].tender.milestones[1].dateMet == null" data-toggle="tooltip" title="Data e publikimit të anulimit të njoftimit">
+        <p *ngIf="row.releases[0].tender.milestones[1].dateMet == null" data-toggle="tooltip"
+          title="Data e publikimit të anulimit të njoftimit">
           -
         </p>
         <p *ngIf="row.releases[0].tender.milestones[1].dateMet != null">
@@ -264,7 +267,8 @@
         </p>
       </ng-template>
     </ngx-datatable-column>
-    <ngx-datatable-column name="total-amount-of-contracts-including-taxes" prop="contract.totalAmountOfContractsIncludingTaxes">
+    <ngx-datatable-column name="total-amount-of-contracts-including-taxes"
+      prop="contract.totalAmountOfContractsIncludingTaxes">
       <ng-template let-column="column" ngx-datatable-header-template>
         <span (click)="sortContracts('totalAmountOfContractsIncludingTaxes')">
           <p class="column-header">{{ 'datatable.totalAmountOfContractsIncludingTaxes' | translate }}</p>
@@ -311,14 +315,16 @@
         </span>
       </ng-template>
       <ng-template let-row="row" ngx-datatable-cell-template>
-        <p *ngIf="row.releases[0].tender.documents == null || row.releases[0].tender.documents.length === 0; else showDocs">
+        <p
+          *ngIf="row.releases[0].tender.documents == null || row.releases[0].tender.documents.length === 0; else showDocs">
           -
         </p>
         <ng-template #showDocs>
           <p>
             <span *ngFor="let document of row.releases[0].tender.documents">
               <a class="view-icon" href="./documents/{{document.title}}" target="_blank">
-                <i class="fa fa-file-text-o" style="margin-top: 1.5px; cursor: pointer; font-size: 20px" aria-hidden="true"></i>
+                <i class="fa fa-file-text-o" style="margin-top: 1.5px; cursor: pointer; font-size: 20px"
+                  aria-hidden="true"></i>
               </a>
 
             </span>
@@ -336,9 +342,10 @@
           <div *ngIf="!row.releases[0].contracts[0].documents[0] || !row.releases[0].contracts[0].documents[0].title">
             <p>-</p>
           </div>
-          <div *ngIf="row.releases[0].contracts[0].documents[0] && row.releases[0].contracts[0].documents[0].title !== ''">
-            <a class="view-icon" [attr.data-id]="row._id" href="/uploads/{{row.releases[0].contracts[0].documents[0].title}}"
-              target="_blank">
+          <div
+            *ngIf="row.releases[0].contracts[0].documents[0] && row.releases[0].contracts[0].documents[0].title !== ''">
+            <a class="view-icon" [attr.data-id]="row._id"
+              href="/uploads/{{row.releases[0].contracts[0].documents[0].title}}" target="_blank">
               <i class="fa fa-file-text-o" style="margin-top: 1.5px; font-size: 20px" aria-hidden="true"></i>
             </a>
           </div>
@@ -359,16 +366,17 @@
       </ng-template>
     </ngx-datatable-column>
     <ngx-datatable-footer>
-      <ng-template ngx-datatable-footer-template let-rowCount="rowCount" let-pageSize="pageSize" let-selectedCount="selectedCount"
-        let-curPage="curPage" let-offset="offset">
+      <ng-template ngx-datatable-footer-template let-rowCount="rowCount" let-pageSize="pageSize"
+        let-selectedCount="selectedCount" let-curPage="curPage" let-offset="offset">
         <div style="padding: 5px 10px;width: 50%;">
           {{ 'datatable.contracts' | translate }} {{rowCount}} | {{ 'datatable.displayedContracts' | translate }}
           {{pageSize}} | {{
           'datatable.page' | translate }} {{curPage}}
         </div>
         <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'" [pagerRightArrowIcon]="'datatable-icon-right'"
-          [pagerPreviousIcon]="'datatable-icon-prev'" [pagerNextIcon]="'datatable-icon-skip'" [page]="curPage" [size]="pageSize"
-          [count]="rowCount" [hidden]="!((rowCount / pageSize) > 1)" (change)="table.onFooterPage($event)">
+          [pagerPreviousIcon]="'datatable-icon-prev'" [pagerNextIcon]="'datatable-icon-skip'" [page]="curPage"
+          [size]="pageSize" [count]="rowCount" [hidden]="!((rowCount / pageSize) > 1)"
+          (change)="table.onFooterPage($event)">
         </datatable-pager>
       </ng-template>
     </ngx-datatable-footer>
@@ -386,21 +394,29 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-md-3">
-            <button class="nav-contract description" (click)="navChange($event)" [ngClass]="{'active': navValue === 'Përshkrim' || navValue === 'Opis' || navValue === 'Description'}">{{
+            <button class="nav-contract description" (click)="navChange($event)"
+              [ngClass]="{'active': navValue === 'Përshkrim' || navValue === 'Opis' || navValue === 'Description'}">{{
               'individualContract.description' | translate }}</button>
-            <button class="nav-contract" (click)="navChange($event)" [ngClass]="{'active': navValue === 'Palët' || navValue === 'Stranke' || navValue === 'Parties'}">{{
+            <button class="nav-contract" (click)="navChange($event)"
+              [ngClass]="{'active': navValue === 'Palët' || navValue === 'Stranke' || navValue === 'Parties'}">{{
               'individualContract.parties' | translate }}</button>
-            <button class="nav-contract" (click)="navChange($event)" [ngClass]="{'active': navValue === 'Planning' || navValue === 'Planifikimi' || navValue === 'Planiranje'}">{{
+            <button class="nav-contract" (click)="navChange($event)"
+              [ngClass]="{'active': navValue === 'Planning' || navValue === 'Planifikimi' || navValue === 'Planiranje'}">{{
               'individualContract.planning' | translate }}</button>
-            <button class="nav-contract" (click)="navChange($event)" [ngClass]="{'active': navValue === 'Tender' || navValue === 'Tenderi'}">{{
+            <button class="nav-contract" (click)="navChange($event)"
+              [ngClass]="{'active': navValue === 'Tender' || navValue === 'Tenderi'}">{{
               'individualContract.tender' | translate }}</button>
-            <button class="nav-contract" (click)="navChange($event)" [ngClass]="{'active': navValue === 'Bids' || navValue === 'Ofertat' || navValue === 'Ponude'}">{{
+            <button class="nav-contract" (click)="navChange($event)"
+              [ngClass]="{'active': navValue === 'Bids' || navValue === 'Ofertat' || navValue === 'Ponude'}">{{
               'individualContract.bids' | translate }}</button>
-            <button class="nav-contract" (click)="navChange($event)" [ngClass]="{'active': navValue === 'Awards' || navValue === 'Davanje' || navValue === 'Dhënia'}">{{
+            <button class="nav-contract" (click)="navChange($event)"
+              [ngClass]="{'active': navValue === 'Awards' || navValue === 'Davanje' || navValue === 'Dhënia'}">{{
               'individualContract.awards' | translate }}</button>
-            <button class="nav-contract" (click)="navChange($event)" [ngClass]="{'active': navValue === 'Contract' || navValue === 'Kontrata' || navValue === 'Ugovori'}">{{
+            <button class="nav-contract" (click)="navChange($event)"
+              [ngClass]="{'active': navValue === 'Contract' || navValue === 'Kontrata' || navValue === 'Ugovori'}">{{
               'individualContract.contract' | translate }}</button>
-            <button class="nav-contract implementation" (click)="navChange($event)" [ngClass]="{'active': navValue === 'Implementation' || navValue === 'Izvršenje' || navValue === 'Implementimi'}">{{
+            <button class="nav-contract implementation" (click)="navChange($event)"
+              [ngClass]="{'active': navValue === 'Implementation' || navValue === 'Izvršenje' || navValue === 'Implementimi'}">{{
               'individualContract.implementation' | translate }}</button>
           </div>
           <div class="col-md-9">
@@ -522,11 +538,11 @@
                   <th>{{ 'individualContract.type' | translate }}</th>
                 </tr>
                 <tr *ngFor="let milestone of contract.releases[0].planning.milestones">
-                  <td>{{ milestone.title }}</td>
-                  <td>{{ milestone.dateMet | date: 'dd/MM/yyyy' }}</td>
-                  <td>{{ milestone.status }}</td>
-                  <td>{{ milestone.code }}</td>
-                  <td>{{ milestone.type }}</td>
+                  <td *ngIf="milestone.dateMet">{{ milestone.title }}</td>
+                  <td *ngIf="milestone.dateMet">{{ milestone.dateMet | date: 'dd/MM/yyyy' }}</td>
+                  <td *ngIf="milestone.dateMet">{{ milestone.status }}</td>
+                  <td *ngIf="milestone.dateMet">{{ milestone.code }}</td>
+                  <td *ngIf="milestone.dateMet">{{ milestone.type }}</td>
                 </tr>
               </table>
             </ng-template>
@@ -553,8 +569,12 @@
                 </tr>
                 <tr>
                   <td>
-                    <b>{{ 'individualContract.value' | translate }}: </b> {{ contract.releases[0].tender.value.amount
-                    }}
+                    <b>{{ 'individualContract.value' | translate }}: </b>
+                    <div *ngIf="contract.releases[0].tender.value.amount">
+                      {{ contract.releases[0].tender.value.amount
+                        }} {{ contract.releases[0].tender.value.currency
+                        }}
+                    </div>
                   </td>
                 </tr>
                 <tr>
@@ -625,22 +645,29 @@
                 </tr>
                 <tr>
                   <td>
-                    <span *ngIf="contract.releases[0].tender.procurementMethodRationale === 'openProcedure'"> <b>openProcedure:</b>
+                    <span *ngIf="contract.releases[0].tender.procurementMethodRationale === 'Open procedure'">
+                      <b>openProcedure:</b>
                       {{ 'individualContract.openProcedure' | translate }}</span>
-                    <span *ngIf="contract.releases[0].tender.procurementMethodRationale === 'negociatedProcedureAfterAwardNotice'">
+                    <span
+                      *ngIf="contract.releases[0].tender.procurementMethodRationale === 'Negociated procedure after award notice'">
                       <b>negociatedProcedureAfterAwardNotice:</b> {{
                       'individualContract.negociatedProcedureAfterAwardNotice' | translate }}</span>
-                    <span *ngIf="contract.releases[0].tender.procurementMethodRationale === 'limitedProcedure'"> <b>limitedProcedure:</b>
+                    <span *ngIf="contract.releases[0].tender.procurementMethodRationale === 'Limited procedure'">
+                      <b>limitedProcedure:</b>
                       {{ 'individualContract.limitedProcedure' | translate }}</span>
-                    <span *ngIf="contract.releases[0].tender.procurementMethodRationale === 'negociatedProcedureWithoutAwardNotice'">
+                    <span
+                      *ngIf="contract.releases[0].tender.procurementMethodRationale === 'Negociated procedure without award notice'">
                       <b>negociatedProcedureWithoutAwardNotice:</b> {{
                       'individualContract.negociatedProcedureWithoutAwardNotice' | translate }}</span>
-                    <span *ngIf="contract.releases[0].tender.procurementMethodRationale === 'designContest'"> <b>designContest:</b>
+                    <span *ngIf="contract.releases[0].tender.procurementMethodRationale === 'Design contest'">
+                      <b>designContest:</b>
                       {{ 'individualContract.designContest' | translate }}</span>
-                    <span *ngIf="contract.releases[0].tender.procurementMethodRationale === 'minimalValueProcedure'">
+                    <span *ngIf="contract.releases[0].tender.procurementMethodRationale === 'Minimal value procedure'">
                       <b>minimalValueProcedure:</b> {{ 'individualContract.minimalValueProcedure' | translate }}</span>
-                    <span *ngIf="contract.releases[0].tender.procurementMethodRationale === 'quotationValueProcedure'">
-                      <b>quotationValueProcedure:</b> {{ 'individualContract.quotationValueProcedure' | translate }}</span>
+                    <span
+                      *ngIf="contract.releases[0].tender.procurementMethodRationale === 'Quotation value procedure'">
+                      <b>quotationValueProcedure:</b>
+                      {{ 'individualContract.quotationValueProcedure' | translate }}</span>
                   </td>
                 </tr>
               </table>
@@ -666,11 +693,13 @@
                       {{ 'individualContract.goods' | translate }}</span>
                     <span *ngIf="contract.releases[0].tender.additionalProcurementCategories === 'works'">
                       <b>works:</b> {{ 'individualContract.works' | translate }}</span>
-                    <span *ngIf="contract.releases[0].tender.additionalProcurementCategories === 'services'"> <b>services:</b>
+                    <span *ngIf="contract.releases[0].tender.additionalProcurementCategories === 'services'">
+                      <b>services:</b>
                       {{ 'individualContract.services' | translate }}</span>
                     <span *ngIf="contract.releases[0].tender.additionalProcurementCategories === 'consultingServices'">
                       <b>consultingServices:</b> {{ 'individualContract.consultingServices' | translate }}</span>
-                    <span *ngIf="contract.releases[0].tender.additionalProcurementCategories === 'concessionWorks'"> <b>concessionWorks:</b>
+                    <span *ngIf="contract.releases[0].tender.additionalProcurementCategories === 'concessionWorks'">
+                      <b>concessionWorks:</b>
                       {{ 'individualContract.concessionWorks' | translate }}</span>
                     <span *ngIf="contract.releases[0].tender.additionalProcurementCategories === 'designContest'">
                       <b>designContest:</b> {{ 'individualContract.designContest' | translate }}</span>
@@ -709,10 +738,10 @@
                   <th>{{ 'individualContract.quantity' | translate }}</th>
                 </tr>
                 <tr *ngFor="let item of contract.releases[0].tender.items">
-                  <td>{{ item.id }}</td>
-                  <td>{{ item.description }}</td>
-                  <td>{{ item.classification.id }}</td>
-                  <td>{{ item.quantity }}</td>
+                  <td *ngIf="item.quantity">{{ item.id }}</td>
+                  <td *ngIf="item.quantity">{{ item.description }}</td>
+                  <td *ngIf="item.quantity">{{ item.classification.id }}</td>
+                  <td *ngIf="item.quantity">{{ item.quantity }}</td>
                 </tr>
               </table>
               <hr>
@@ -762,11 +791,11 @@
                   <th>{{ 'individualContract.date' | translate }}</th>
                 </tr>
                 <tr *ngFor="let milestone of contract.releases[0].tender.milestones">
-                  <td>{{ milestone.title }}</td>
-                  <td>{{ milestone.status }}</td>
-                  <td>{{ milestone.code }}</td>
-                  <td>{{ milestone.type }}</td>
-                  <td>{{ milestone.dateMet | date: 'dd/MM/yyyy' }}</td>
+                  <td *ngIf="milestone.dateMet">{{ milestone.title }}</td>
+                  <td *ngIf="milestone.dateMet">{{ milestone.status }}</td>
+                  <td *ngIf="milestone.dateMet">{{ milestone.code }}</td>
+                  <td *ngIf="milestone.dateMet">{{ milestone.type }}</td>
+                  <td *ngIf="milestone.dateMet">{{ milestone.dateMet | date: 'dd/MM/yyyy' }}</td>
                 </tr>
               </table>
               <hr>
@@ -802,8 +831,8 @@
                   <th>{{ 'individualContract.deadline' | translate }}</th>
                 </tr>
                 <tr *ngFor="let lot of contract.releases[0].tender.lots">
-                  <td>{{ lot.value.amount }} {{ lot.value.currency }}</td>
-                  <td>{{ lot.description }}</td>
+                  <td *ngIf="lot.value.amount">{{ lot.value.amount }} {{ lot.value.currency }}</td>
+                  <td *ngIf="lot.value.amount">{{ lot.description }}</td>
                 </tr>
               </table>
             </ng-template>
@@ -817,10 +846,10 @@
                   <th>{{ 'individualContract.value' | translate }}</th>
                 </tr>
                 <tr *ngFor="let bid of contract.releases[0].bids.statistics">
-                  <td>{{ bid.id }}</td>
-                  <td>{{ bid.notes }}</td>
-                  <td>{{ bid.measure }}</td>
-                  <td>{{ bid.value }}</td>
+                  <td *ngIf="bid.value">{{ bid.id }}</td>
+                  <td *ngIf="bid.value">{{ bid.notes }}</td>
+                  <td *ngIf="bid.value">{{ bid.measure }}</td>
+                  <td *ngIf="bid.value">{{ bid.value }} EUR</td>
                 </tr>
               </table>
             </ng-template>
@@ -898,9 +927,14 @@
                   </td>
                 </tr>
                 <tr>
-                  <td><b>{{ 'individualContract.value' | translate }}: </b> {{
-                    contract.releases[0].contracts[0].value.amount }} {{
-                    contract.releases[0].contracts[0].value.currency }}</td>
+                  <td><b>{{ 'individualContract.value' | translate }}: </b>
+                    <div
+                      *ngIf="contract.releases[0].contracts[0].value.amount && contract.releases[0].contracts[0].value.amount !== 0">
+                      {{
+                        contract.releases[0].contracts[0].value.amount }} {{
+                        contract.releases[0].contracts[0].value.currency }}
+                    </div>
+                  </td>
                 </tr>
                 <tr>
                   <td><b>{{ 'individualContract.dateSigned' | translate }}: </b> {{
@@ -931,8 +965,9 @@
                   <th>{{ 'individualContract.value' | translate }}</th>
                 </tr>
                 <tr *ngFor="let amendment of contract.releases[0].contracts[0].amendments">
-                  <td>{{ amendment.date | date: 'dd/MM/yyyy' }}</td>
-                  <td>{{ amendment.description }} EUR</td>
+                  <td *ngIf="amendment.date">{{ amendment.date | date: 'dd/MM/yyyy' }}</td>
+                  <td *ngIf="amendment.description && amendment.description !== '0'">{{ amendment.description }} EUR
+                  </td>
                 </tr>
               </table>
               <hr>
@@ -942,12 +977,14 @@
                   <th>{{ 'individualContract.amount' | translate }}</th>
                 </tr>
                 <tr>
-                  <td>{{ contract.releases[0].contracts[0].deductionAmountFromContract.value.amount }} {{
+                  <td *ngIf="contract.releases[0].contracts[0].deductionAmountFromContract.value.amount">
+                    {{ contract.releases[0].contracts[0].deductionAmountFromContract.value.amount }} {{
                     contract.releases[0].contracts[0].deductionAmountFromContract.value.currency }}</td>
                 </tr>
               </table>
             </ng-template>
-            <ng-template [ngIf]="navValue === 'Implementation' || navValue === 'Izvršenje' || navValue === 'Implementimi'">
+            <ng-template
+              [ngIf]="navValue === 'Implementation' || navValue === 'Izvršenje' || navValue === 'Implementimi'">
               <h4 class="table-title">{{ 'individualContract.transactions' | translate }}</h4>
               <table class="table table-bordered">
                 <tr class="description-header">
@@ -967,10 +1004,24 @@
                   <th>{{ 'individualContract.value' | translate }}</th>
                 </tr>
                 <tr *ngFor="let transaction of contract.releases[0].contracts[0].implementation.transactions">
-                  <td>{{ transaction.date | date: 'dd/MM/yyyy' }}</td>
-                  <td>{{ transaction.payer.name }}</td>
-                  <td>{{ transaction.payee.name }}</td>
-                  <td>{{ transaction.value.amount }} {{ transaction.value.currency }}</td>
+                  <td *ngIf="transaction.value.amount">{{ transaction.date | date: 'dd/MM/yyyy' }}</td>
+                  <td *ngIf="transaction.value.amount">{{ transaction.payer.name }}</td>
+                  <td *ngIf="transaction.value.amount">{{ transaction.payee.name }}</td>
+                  <td *ngIf="transaction.value.amount">{{ transaction.value.amount }} {{ transaction.value.currency }}
+                  </td>
+                </tr>
+              </table>
+              <hr>
+              <h4 class="table-title">{{ 'individualContract.paidValue' | translate }}</h4>
+              <table class="table table-bordered">
+                <tr class="description-header">
+                  <th>{{ 'individualContract.value' | translate }}</th>
+                  <th>{{ 'individualContract.details' | translate }}</th>
+                </tr>
+                <tr *ngIf="contract.releases[0].contracts[0].implementation.finalValue.amount">
+                  <td>{{ contract.releases[0].contracts[0].implementation.finalValue.amount }} {{
+                    contract.releases[0].contracts[0].implementation.finalValue.currency }}</td>
+                  <td>{{ 'individualContract.paidValueDetails' | translate }}</td>
                 </tr>
               </table>
             </ng-template>

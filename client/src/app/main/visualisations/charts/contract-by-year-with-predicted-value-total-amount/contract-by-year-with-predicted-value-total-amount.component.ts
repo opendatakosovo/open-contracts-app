@@ -17,7 +17,7 @@ export class ContractByYearWithPredictedValueTotalAmountComponent implements OnI
   year: string;
   lang: string;
   constructor(public dataService: DataService, public translate: TranslateService) {
-    this.year = '2018';
+    this.year = 'any';
     this.dataService.getContractYears(2009)
       .takeUntil(this.unsubscribeAll)
       .subscribe(res => {

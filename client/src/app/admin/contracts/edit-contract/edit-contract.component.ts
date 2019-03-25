@@ -107,14 +107,13 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
         this.formatDates(this.contract);
         this.initAnnexes();
         this.initInstallments();
-        this.initLots();
         if (this.contract.releases[0].contracts[0].period.durationInDays !== undefined && this.contract.releases[0].contracts[0].period.durationInDays !== '') {
           this.implementationDeadline = this.contract.releases[0].contracts[0].period.durationInDays.split(' ');
           this.implementationDeadlineNumberLot = this.implementationDeadline[0];
           if (this.implementationDeadline[1] === 'muaj') {
             this.implementationDeadline[1] = 'muaj';
           } else if (this.implementationDeadline[1] === 'ditë' || this.implementationDeadline[1] === 'dite' || this.implementationDeadline[1] === 'Dite') {
-            this.implementationDeadline[1] = 'ditë';
+            this.implementationDeadline[1] = 'dite';
           } else if (this.implementationDeadline[1] === 'vite') {
             this.implementationDeadline[1] = 'vite';
           }
@@ -127,6 +126,7 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
             this.implementationDeadlineLot = lot.description.split(' ');
           }
         }
+        this.initLots();
         // Check the planning documents to check the planning radiobutton
         if (this.contract.releases[0].planning.documents[0] && this.contract.releases[0].planning.documents[0].documentType === 'procurementPlan') {
           this.planned = 'po';
@@ -623,13 +623,13 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
       this.contract.releases[0].tender.mainProcurementCategory = 'services';
     }
     // Map the procurement method rationale for procurement method
-    if (this.contract.releases[0].tender.procurementMethodRationale === 'openProcedure' || this.contract.releases[0].tender.procurementMethodRationale === 'negociatedProcedureAfterAwardNotice') {
+    if (this.contract.releases[0].tender.procurementMethodRationale === 'Open procedure' || this.contract.releases[0].tender.procurementMethodRationale === 'Negociated procedure after award notice') {
       this.contract.releases[0].tender.procurementMethod = 'open';
-    } else if (this.contract.releases[0].tender.procurementMethodRationale === 'limitedProcedure' || this.contract.releases[0].tender.procurementMethodRationale === 'quotationValueProcedure') {
+    } else if (this.contract.releases[0].tender.procurementMethodRationale === 'Limited procedure' || this.contract.releases[0].tender.procurementMethodRationale === 'Quotation value procedure') {
       this.contract.releases[0].tender.procurementMethod = 'limited';
-    } else if (this.contract.releases[0].tender.procurementMethodRationale === 'negociatedProcedureWithoutAwardNotice') {
+    } else if (this.contract.releases[0].tender.procurementMethodRationale === 'Negociated procedure without award notice') {
       this.contract.releases[0].tender.procurementMethod = 'direct';
-    } else if (this.contract.releases[0].tender.procurementMethodRationale === 'designContest' || this.contract.releases[0].tender.procurementMethodRationale === 'minimalValueProcedure') {
+    } else if (this.contract.releases[0].tender.procurementMethodRationale === 'Design contest' || this.contract.releases[0].tender.procurementMethodRationale === 'Minimal value procedure') {
       this.contract.releases[0].tender.procurementMethod = 'selective';
     }
     // Fill the item tender with the fppClassification number
@@ -770,6 +770,17 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
         }
       }
     }
+    // Fill the lots
+    if (this.contract.releases[0].tender.lots.length > 0) {
+      for (let i = 0; i < this.form.value.lots.length; i++) {
+        if (this.form.value.lots[i].id !== '' && this.form.value.lots[i].description !== '') {
+          this.contract.releases[0].tender.lots[i].description = this.form.value.lots[i].description + ' ' + this.form.value.lots[i].id;
+          this.contract.releases[0].tender.lots[i].id = 'lot-' + (i + 1);
+        } else {
+          this.contract.releases[0].tender.lots[i].description = '';
+        }
+      }
+    }
     // Check for the last transaction
     const length = this.contract.releases[0].contracts[0].implementation.transactions.length;
     if (this.contract.releases[0].contracts[0].implementation.transactions[length] && this.contract.releases[0].contracts[0].implementation.transactions[length].id === '') {
@@ -818,7 +829,7 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
       const difference_ms = date2_ms - date1_ms;
 
       // Convert back to days and return
-      this.contract.releases[0].tender.awardPeriod.durationInDays = Math.round(difference_ms / one_day) + ' ditë';
+      this.contract.releases[0].tender.awardPeriod.durationInDays = Math.round(difference_ms / one_day) + ' dite';
     }
     // Buyer, supplier id
     if (this.contract.releases[0].buyer.id === '') {
@@ -827,6 +838,11 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
     if (this.contract.releases[0].awards[0].suppliers[0].id === '') {
       this.contract.releases[0].awards[0].suppliers[0].id = this.payeeId;
     }
+    // Procuring entity
+    if (this.contract.releases[0].tender.procuringEntity.id === '') {
+      this.contract.releases[0].tender.procuringEntity.id = this.payerId;
+    }
+    this.contract.releases[0].tender.procuringEntity.name = this.contract.releases[0].parties[1].name;
     // Convert string values to numbers
     this.contract.contract.predictedValueSlug = this.form.value.predictedValue.toString().replace(/[,]+/g, '');
     this.contract.releases[0].planning.budget.amount.amount = Number(this.form.value.predictedValue.toString().replace(/[^0-9\.-]+/g, ''));

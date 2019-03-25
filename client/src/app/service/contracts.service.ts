@@ -76,4 +76,9 @@ export class ContractsService {
   deleteDocuments(data) {
     return this.http.postWithAuth(`${this.APIUrl}/contracts/delete/documents`, data).map(res => res);
   }
+
+  migrateContracts(formData) {
+    return this.http.putWithAuth(`${this.APIUrl}/contracts/update-all`, formData).map(res => res.json());
+
+  }
 }

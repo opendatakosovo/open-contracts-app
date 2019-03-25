@@ -625,8 +625,6 @@ router.put('/update-all', (req, res) => {
                 if (row.year !== null && row.year !== undefined) {
                     let foo = '' + row.year
                     year = foo.slice(2, 4);
-                } else {
-                    year = 0;
                 }
                 ocid = 'ocds-3n5h6d-' + row.procurementNo + '-' + year + value;
                 return ocid;
@@ -646,19 +644,19 @@ router.put('/update-all', (req, res) => {
             }
             let procurementMethodRationale = () => {
                 if (row.procurementProcedure === 'Procedura e hapur') {
-                    method = 'openProcedure';
+                    method = 'Open procedure';
                 } else if (row.procurementProcedure === 'Procedura e negociuar pas publikimit të njoftimit të kontratës') {
-                    method = 'negociatedProcedureAfterAwardNotice';
+                    method = 'Negociated procedure after award notice';
                 } else if (row.procurementProcedure === 'Procedura e kufizuar') {
-                    method = 'limitedProcedure';
+                    method = 'Limited procedure';
                 } else if (row.procurementProcedure === 'Procedura e negociuar pa publikim të njoftimit të kontratës') {
-                    method = 'negociatedProcedureWithoutAwardNotice';
+                    method = 'Negociated procedure without award notice';
                 } else if (row.procurementProcedure === 'Konkurs projektimi') {
-                    method = 'designContest';
+                    method = 'Design contest';
                 } else if (row.procurementProcedure === 'Procedura e vlerës minimale') {
-                    method = 'minimalValueProcedure';
+                    method = 'Minimal value procedure';
                 } else if (row.procurementProcedure === 'Procedura e kuotimit të Çmimeve') {
-                    method = 'quotationValueProcedure';
+                    method = 'Quotation value procedure';
                 }
                 return method;
             }
@@ -688,7 +686,7 @@ router.put('/update-all', (req, res) => {
                         complaint = true;
                     }
                 } else if (enquiry === 'complaintsToAuthority2') {
-                    if (row.complaintsToAuthority2 === '1' || row.complaintsToAuthority2 === 'negative') {
+                    if (row.complaintsToAuthority2 === '1' || row.complaintsToAuthority2 === 'negativ') {
                         complaint = false;
                     } else if (row.complaintsToAuthority2 === '2' || row.complaintsToAuthority2 === 'pozitiv') {
                         complaint = true;
@@ -778,6 +776,10 @@ router.put('/update-all', (req, res) => {
                     process.push({
                         "relationship": "unsuccessfulProcess"
                     });
+                } else {
+                    process.push({
+                        "relationship": ""
+                    });
                 }
                 return process;
             }
@@ -855,8 +857,6 @@ router.put('/update-all', (req, res) => {
                     tenderStatus = 'cancelled';
                 } else if (row.status === '4' || row.status === 'kontraktuar') {
                     tenderStatus = "complete";
-                } else {
-                    tenderStatus = row.status;
                 }
                 return tenderStatus;
             }
@@ -1088,7 +1088,7 @@ router.put('/update-all', (req, res) => {
                                 "amount": row.contract.totalPayedPriceForContract,
                                 "currency": "EUR"
                             },
-                            "finalValueDetails": "The total amount of the contract payed"
+                            "finalValueDetails": "The total paid value of the contract"
                         },
                         "amendments": amendments(),
                         "expectedNumberOfTransactions": row.noOfPaymentInstallments,

@@ -47,12 +47,13 @@
     "format": "Format",
     "year": "Year",
     "download": "Download",
-    "yearValidation": "The year should be chosen!",
+    "fieldValidation": "The field should be chosen!",
     "formatValidation": "The format should be selected!",
     "field": "Field",
     "value": "Type",
     "directorate": "Directorate",
-    "companyName": "EO"
+    "companyName": "EO",
+    "typeValidation": "The type should be chosen!!"
   },
   "announcements": {
     "title": "PRISTINA ONLINE",
@@ -207,6 +208,8 @@
     "expectedTransactions": "Expected number of transactions",
     "transactionDetails": "Transaction details",
     "payerName": "Payer name",
-    "payeeName": "Payee name"
+    "payeeName": "Payee name",
+    "paidValue": "Total value paid",
+    "paidValueDetails": "Total value paid for the contract"
   }
 }

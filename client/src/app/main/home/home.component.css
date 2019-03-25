@@ -56,7 +56,7 @@
 }
 
 #format-text {
-  margin-left: 41%;
+  margin-left: 55%;
 }
 
 .text-danger {
@@ -65,6 +65,10 @@
 
 #format-validation {
   margin-right: 5px;
+}
+
+#type-text {
+  margin-left: 27%
 }
 
 /* ---- Responsiveness ---- */

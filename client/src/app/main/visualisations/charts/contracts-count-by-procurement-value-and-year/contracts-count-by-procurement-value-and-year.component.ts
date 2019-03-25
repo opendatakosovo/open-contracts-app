@@ -124,25 +124,25 @@ export class ContractsCountByProcurementValueAndYearComponent implements OnInit 
             undefinedObj.y += row.y;
             toBeRemoved.push(i);
           }
-          if (row.name === 'openProcedure') {
+          if (row.name === 'Open procedure') {
             row.name = 'Procedura e hapur';
           }
-          if (row.name === 'limitedProcedure') {
+          if (row.name === 'Limited procedure') {
             row.name = 'Procedura e kufizuar';
           }
-          if (row.name === 'designContest') {
+          if (row.name === 'Design contest') {
             row.name = 'Konkurs projektimi';
           }
-          if (row.name === 'negociatedProcedureAfterAwardNotice') {
+          if (row.name === 'Negociated procedure after award notice') {
             row.name = 'Procedura e negociuar pas publikimit të njoftimit të kontratës';
           }
-          if (row.name === 'negociatedProcedureWithoutAwardNotice') {
+          if (row.name === 'Negociated procedure without award notice') {
             row.name = 'Procedura e negociuar pa publikim të njoftimit të kontratës';
           }
-          if (row.name === 'quotationValueProcedure') {
+          if (row.name === 'Quotation value procedure') {
             row.name = 'Procedura e kuotimit të Çmimeve';
           }
-          if (row.name === 'minimalValueProcedure') {
+          if (row.name === 'Minimal value procedure') {
             row.name = 'Procedura e vlerës minimale';
           }
         });
@@ -199,19 +199,19 @@ export class ContractsCountByProcurementValueAndYearComponent implements OnInit 
                   this.oeName = e.point.name;
                   this.rows = [];
                   if (name === 'Procedura e hapur' || name === 'Open procedure' || name === 'Otvorena procedura') {
-                    name = 'openProcedure';
+                    name = 'Open procedure';
                   } else if (name === 'Procedura e kufizuar' || name === 'Restricted procedure' || name === 'Ograničen postupak') {
-                    name = 'limitedProcedure';
+                    name = 'Limited procedure';
                   } else if (name === 'Konkurs projektimi' || name === 'Design contest' || name === 'Konkurs za dizajn') {
-                    name = 'designContest';
+                    name = 'Design contest';
                   } else if (name === 'Procedura e negociuar pas publikimit të njoftimit të kontratës' || name === 'Negotiated procedure after the publication of the contract notice' || name === 'Pregovarački postupak nakon objavljivanja obaveštenja o ugovoru') {
-                    name = 'negociatedProcedureAfterAwardNotice';
+                    name = 'Negociated procedure after award notice';
                   } else if (name === 'Procedura e negociuar pa publikim të njoftimit të kontratës' || name === 'Negotiated procedure without publication of the contract notice' || name === 'Pregovarački postupak bez objavljivanja obaveštenja o ugovoru') {
-                    name = 'negociatedProcedureWithoutAwardNotice';
+                    name = 'Negociated procedure without award notice';
                   } else if (name === 'Procedura e kuotimit të Çmimeve' || name === 'Pricing quotation procedure' || name === 'Procedura kotiranja cena') {
-                    name = 'quotationValueProcedure';
+                    name = 'Quotation value procedure';
                   } else if (name === 'Procedura e vlerës minimale' || name === 'Minimal value procedure' || name === 'Procedura minimalne vrednosti') {
-                    name = 'minimalValueProcedure';
+                    name = 'Minimal value procedure';
                   }
                   this.dataService.getContractsByProcurementCategory(name)
                     .takeUntil(this.unsubscribeAll)
