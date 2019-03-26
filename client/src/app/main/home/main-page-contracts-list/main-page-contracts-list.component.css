@@ -28,6 +28,10 @@
   color: black;
 }
 
+.view-icon i:hover {
+  color: #39a6bd;
+}
+
 #view-contract {
   font-size: 15px !important;
 }

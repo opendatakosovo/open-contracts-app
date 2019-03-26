@@ -19,16 +19,4 @@ export class ContractsComponent implements OnInit {
 
   ngOnInit() {
   }
-
-  updateAllContracts(event) {
-    this.contractsService.migrateContracts(this.currentUser)
-      .takeUntil(this.unsubscribeAll)
-      .subscribe(res => {
-        if (res.err) {
-          console.log(res.err);
-        } else {
-          console.log('Contracts updated');
-        }
-      });
-  }
 }
