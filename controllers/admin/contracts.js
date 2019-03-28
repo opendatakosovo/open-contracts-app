@@ -1137,16 +1137,8 @@ router.put('/update-all', (req, res) => {
                 "year": row.year
             }
             let updatedContract = new Contract(updatedDataObject);
-            Contract.addContract(updatedContract, (err, contract) => {
-                // if (err) {
-                //     res.json(err);
-                // }
-            });
-            Contract.deleteContractById(row._id, (err, contract) => {
-                // if (err) {
-                //     res.json(err);
-                // }
-            })
+            Contract.addContract(updatedContract, (err, contract) => {});
+            Contract.deleteContractById(row._id, (err, contract) => {});
 
         }
         if (!err) {

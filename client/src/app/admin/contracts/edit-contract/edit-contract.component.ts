@@ -489,20 +489,23 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
   }
 
   checkBudget(budgets) {
-    if (budgets.includes('Buxheti i Kosovës')) {
-      const checkButton = <HTMLInputElement>document.getElementById('kosovoBudget');
-      checkButton.checked = true;
+    if (budgets) {
+      if (budgets.includes('Buxheti i Kosovës')) {
+        const checkButton = <HTMLInputElement>document.getElementById('kosovoBudget');
+        checkButton.checked = true;
+      }
+
+      if (budgets.includes('Të hyra vetanake')) {
+        const checkButton = <HTMLInputElement>document.getElementById('ownSources');
+        checkButton.checked = true;
+      }
+
+      if (budgets.includes('Donacion')) {
+        const checkButton = <HTMLInputElement>document.getElementById('donation');
+        checkButton.checked = true;
+      }
     }
 
-    if (budgets.includes('Të hyra vetanake')) {
-      const checkButton = <HTMLInputElement>document.getElementById('ownSources');
-      checkButton.checked = true;
-    }
-
-    if (budgets.includes('Donacion')) {
-      const checkButton = <HTMLInputElement>document.getElementById('donation');
-      checkButton.checked = true;
-    }
   }
 
   addBudgetValue(event) {

@@ -52,6 +52,7 @@ export class ContractBySigningDatePublicationDateChartComponent implements OnIni
     this.dataService.getContractSigningDateAndPublicationDateForChart(this.year)
       .takeUntil(this.unsubscribeAll)
       .subscribe(res => {
+        console.log(res[0]);
         // Translation of data in res
         if (this.lang === 'en' || this.lang === 'sr') {
           res.map((row, i) => {
