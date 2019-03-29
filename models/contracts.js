@@ -515,7 +515,9 @@ module.exports.getDirectoratesInContracts = year => {
         },
         { $group: { _id: "$releases.buyer.name", count: { $sum: 1 } } },
         { $sort: { _id: 1 } },
-        { $project: { _id: 0, name: "$_id", y: "$count" } }
+        { $project: { _id: 0, name: "$_id", y: "$count" } },
+        { $unwind: '$name' }
+
     ]);
 }
 
@@ -527,7 +529,8 @@ module.exports.getContractYears = (year = 2017) => {
     },
     { $sort: { year: 1 } },
     { $group: { _id: { year: '$year' } } },
-    { $project: { _id: 0, year: '$_id.year' } }]);
+    { $project: { _id: 0, year: '$_id.year' } }
+]);
 }
 
 module.exports.getContractsCountByProcurementCategoryAndYear = (y, c) => {

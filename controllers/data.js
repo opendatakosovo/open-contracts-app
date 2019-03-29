@@ -171,7 +171,6 @@ router.get('/get-directorates-of-contracts/:year', (req, res) => {
             let toBeRemoved = [];
             // Process some data
             data.map((row, i) => {
-                row.name = row.name[0];
                 if (row.name == '') {
                     row.name = 'E pacaktuar';
                     toBeRemoved.push(i);

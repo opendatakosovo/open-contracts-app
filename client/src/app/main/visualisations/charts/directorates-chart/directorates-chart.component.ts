@@ -180,7 +180,6 @@ export class DirectoratesChartComponent implements OnInit {
                   } else if (name === 'Undefined' || name === 'Nedefinisan') {
                     name = 'E pacaktuar';
                   }
-
                   this.dataService.getContractsByDirectorate(name)
                     .takeUntil(this.unsubscribeAll)
                     .subscribe(contract => {
