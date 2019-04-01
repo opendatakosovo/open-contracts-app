@@ -362,6 +362,7 @@
         </div>
         <div class="col-md-6">
           <label>OE</label>
+          <div *ngIf="contract.releases[0].parties[0].details">
           <div
             *ngIf="contract.releases[0].parties[0].details.local != true && contract.releases[0].parties[0].details.local != false">
             <p>-</p>
@@ -374,10 +375,12 @@
           </div>
         </div>
       </div>
+      </div>
       <div class="row">
         <br>
         <div class="col-md-6">
           <label>Afati kohor për pranimin e tenderëve</label>
+          <div  *ngIf="contract.releases[0].tender.procedure">
           <div
             *ngIf="contract.releases[0].tender.procedure.isAcceleratedProcedure !== true && contract.releases[0].tender.procedure.isAcceleratedProcedure !== false">
             <p>-</p>
@@ -388,6 +391,7 @@
           <div *ngIf="contract.releases[0].tender.procedure.isAcceleratedProcedure === false">
             <p>Afati kohor i shkurtuar</p>
           </div>
+        </div>
         </div>
         <div class="col-md-6">
           <label>Kriteret për dhënie të kontratës</label>
