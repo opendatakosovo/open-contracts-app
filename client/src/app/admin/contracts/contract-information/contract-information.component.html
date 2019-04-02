@@ -717,7 +717,7 @@
           </div>
           <ng-template #showDocs>
             <div *ngFor="let document of contract.releases[0].tender.documents">
-              <a href="/documents/{{document}}" target="_blank">{{ document }}</a>
+              <a href="/documents/{{document.title}}" target="_blank">{{ document.title }}</a>
             </div>
           </ng-template>
         </div>
