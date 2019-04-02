@@ -91,6 +91,7 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
       .takeUntil(this.unsubscribeAll)
       .subscribe(data => {
         this.contract = data;
+        console.log(this.contract.releases[0].parties[1].contactPoint.name);
         for (let i = 0; i < this.contract.releases[0].tender.documents.length; i++) {
           this.contractDocsNames.push(this.contract.releases[0].tender.documents[i].title);
           this.addDocument();
@@ -102,6 +103,20 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
           const nameArea = <HTMLInputElement>document.getElementById('name-area');
           nameArea.value = this.contract.releases[0].contracts[0].documents[0].title.toString();
           this.hasFileToDelete = true;
+        }
+        if (!this.contract.releases[0].parties[0].details) {
+          const details = {
+            local: null
+          };
+          this.contract.releases[0].parties[0].details = details;
+        }
+        if (!this.contract.releases[0].tender.procedure) {
+          const procedure = {
+            isAcceleratedProcedure: null
+          };
+          this.contract.releases[0].tender.procedure = procedure;
+          console.log(this.contract.releases[0].tender.procedure);
+
         }
         this.checkBudget(this.contract.releases[0].planning.budget.description);
         this.formatDates(this.contract);
