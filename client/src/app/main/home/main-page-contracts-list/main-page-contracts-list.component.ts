@@ -176,13 +176,13 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
   setPage(pageInfo) {
     this.page.pageNumber = pageInfo.offset;
     this.search.pageInfo.pageNumber = pageInfo.offset;
-    if (this.page.totalElements === this.totalContracts && (this.isSortedAsc === false && this.isSortedDesc === false)) {
-      // console.log('none');
-      this.contractsService.serverPaginationLatestContracts(this.page)
+    if (this.activatedRoute.snapshot.queryParamMap.has('string') === true || this.activatedRoute.snapshot.queryParamMap.has('directorate') === true
+      || this.activatedRoute.snapshot.queryParamMap.has('date') === true || this.activatedRoute.snapshot.queryParamMap.has('value') === true) {
+      this.contractsService.filterContract(this.search)
         .takeUntil(this.unsubscribeAll)
-        .subscribe(pagedData => {
-          this.page = pagedData.page;
-          this.rows = pagedData.data;
+        .subscribe(data => {
+          this.page = data.page;
+          this.rows = data.data;
           for (const contract of this.rows) {
             if (contract.releases[0].contracts[0].period.durationInDays === null || contract.releases[0].contracts[0].period.durationInDays === 'undefined' || contract.releases[0].contracts[0].period.durationInDays === 'undefined ' || contract.releases[0].contracts[0].period.durationInDays === 'undefined undefined' || contract.releases[0].contracts[0].period.durationInDays === ' undefined' || contract.releases[0].contracts[0].period.durationInDays === 'n/a') {
               contract.releases[0].contracts[0].period.durationInDays = '';
@@ -214,12 +214,11 @@ export class MainPageContractsListComponent implements OnInit, AfterViewInit {
           }
         });
     } else {
-      // console.log('filter');
-      this.contractsService.filterContract(this.search)
+      this.contractsService.serverPaginationLatestContracts(this.page)
         .takeUntil(this.unsubscribeAll)
-        .subscribe(data => {
-          this.page = data.page;
-          this.rows = data.data;
+        .subscribe(pagedData => {
+          this.page = pagedData.page;
+          this.rows = pagedData.data;
           for (const contract of this.rows) {
             if (contract.releases[0].contracts[0].period.durationInDays === null || contract.releases[0].contracts[0].period.durationInDays === 'undefined' || contract.releases[0].contracts[0].period.durationInDays === 'undefined ' || contract.releases[0].contracts[0].period.durationInDays === 'undefined undefined' || contract.releases[0].contracts[0].period.durationInDays === ' undefined' || contract.releases[0].contracts[0].period.durationInDays === 'n/a') {
               contract.releases[0].contracts[0].period.durationInDays = '';
