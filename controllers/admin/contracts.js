@@ -192,6 +192,7 @@ router.post("/latest-contracts/page", (req, res) => {
                     "$gte": 2018
                 }
             }).sort({
+                "year": -1,
                 "createdAt": -1
             }).skip(page.skipPages).limit(page.size).then(result => {
                 delete page.skipPages;
@@ -199,6 +200,7 @@ router.post("/latest-contracts/page", (req, res) => {
                 response.data = result;
                 return response;
             });
+
         })
         .then(response => {
             res.json(response)
@@ -369,6 +371,7 @@ router.post("/page", passport.authenticate('jwt', {
         })
         .then(page => {
             return Contract.find().sort({
+                "year": -1,
                 "createdAt": -1
             }).skip(page.skipPages).limit(page.size).then(result => {
                 delete page.skipPages;
@@ -1291,6 +1294,7 @@ router.post('/filter', (req, res) => {
             })
             .then(page => {
                 return Contract.filterStringFieldsInContracts(string, year).sort({
+                    "year": -1,
                     "createdAt": -1
                 }).skip(page.skipPages).limit(page.size).
                 then(result => {
@@ -2124,6 +2128,7 @@ router.post('/filter', (req, res) => {
                         "$gte": 2018
                     }
                 }).sort({
+                    "year": -1,
                     "createdAt": -1
                 }).skip(page.skipPages).limit(page.size).then(result => {
                     delete page.skipPages;
@@ -2151,6 +2156,7 @@ router.post('/filter', (req, res) => {
             })
             .then(page => {
                 return Contract.find().sort({
+                    "year": -1,
                     "createdAt": -1
                 }).skip(page.skipPages).limit(page.size).then(result => {
                     delete page.skipPages;
