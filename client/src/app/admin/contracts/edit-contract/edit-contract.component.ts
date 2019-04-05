@@ -91,7 +91,6 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
       .takeUntil(this.unsubscribeAll)
       .subscribe(data => {
         this.contract = data;
-        console.log(this.contract.releases[0].parties[1].contactPoint.name);
         for (let i = 0; i < this.contract.releases[0].tender.documents.length; i++) {
           this.contractDocsNames.push(this.contract.releases[0].tender.documents[i].title);
           this.addDocument();
@@ -911,6 +910,7 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
         });
         const formData = new FormData();
         formData.append('file', this.filesToUpload, this.filesToUpload['name']);
+        console.log(this.contract.releases[0].tender);
         formData.append('contract', JSON.stringify(this.contract));
         if (this.fileToDelete !== '') {
           formData.append('fileToDelete', this.fileToDelete);
@@ -932,6 +932,7 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
                     this.contractsService.updateContract(this.id, formData, 'multipart')
                       .takeUntil(this.unsubscribeAll)
                       .subscribe(res => {
+                        console.log(formData);
                         if (res.existErr) {
                           Swal('Kujdes!', 'Dokumenti Kontratës ekziston!', 'warning');
                         } else if (res.typeValidation) {
@@ -981,10 +982,10 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
               this.contractsService.uploadDocuments(docsFormData)
                 .subscribe(docsUploadRes => {
                   if (docsUploadRes['_body'] === 'Completed') {
-
                     this.contractsService.updateContract(this.id, body)
                       .takeUntil(this.unsubscribeAll)
                       .subscribe(res => {
+                        console.log(body);
                         if (res.errVld) {
                           let errList = '';
                           for (const v of res.errVld) {
@@ -1057,10 +1058,12 @@ export class EditContractComponent implements OnInit, AfterViewChecked {
 
   removeDocument(id) {
     this.documents.removeAt(id);
-    this.docsToDelete.push(this.contract.releases[0].tender.documents[id]);
+    this.docsToDelete.push(this.contract.releases[0].tender.documents[id].title);
     this.contractDocsNames = this.contractDocsNames.filter((doc) => {
-      return doc !== this.contract.releases[0].tender.documents[id];
+      return doc !== this.contract.releases[0].tender.documents[id].title;
     });
+    this.contract.releases[0].tender.documents.splice(id, 1);
+    console.log(this.contract.releases[0].tender.documents);
   }
 
   docsChangeEvent(event, index) {
