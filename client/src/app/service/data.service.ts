@@ -26,6 +26,10 @@ export class DataService {
     return this.http.get(`${this.APIUrl}/data/get-contracts-by-directorate/${name}`).map(res => res.json());
   }
 
+  getContractsByDirectorateVisualizations(name, year) {
+    return this.http.get(`${this.APIUrl}/data/get-contracts-by-directorate-visualizations/${name}/${year}`).map(res => res.json());
+  }
+
   getContractsByProcurementCategory(category) {
     return this.http.get(`${this.APIUrl}/data/get-contracts-by-procurement-category/${category}`).map(res => res.json());
   }
