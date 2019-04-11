@@ -1164,6 +1164,8 @@ router.put('/update-all', (req, res) => {
 router.put('/update-contract/:id', passport.authenticate('jwt', {
     session: false
 }), authorize('superadmin', 'admin'), uploadFile, (req, res) => {
+    console.log(uploadFile);
+    console.log(req.body.requestedContract.releases[0].tender);
     if (req.fileExist) {
         res.json({
             "existErr": "File exist",
