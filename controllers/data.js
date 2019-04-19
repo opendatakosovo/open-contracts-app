@@ -69,8 +69,8 @@ router.get('/get-contracts-by-directorate-visualizations/:directorate/:year', (r
 });
 
 // Get Contracts by procurement category
-router.get('/get-contracts-by-procurement-category/:category', (req, res) => {
-    Contract.getContractsByProcurementCategory(req.params.category)
+router.get('/get-contracts-by-procurement-category/:category/:year', (req, res) => {
+    Contract.getContractsByProcurementCategory(req.params.category, req.params.year)
         .then(data => {
             res.json(data);
         }).catch(err => {
@@ -79,8 +79,8 @@ router.get('/get-contracts-by-procurement-category/:category', (req, res) => {
 });
 
 // Get Contracts by procurement category
-router.get('/get-contracts-by-procurement-type/:type', (req, res) => {
-    Contract.getContractsByProcurementType(req.params.type)
+router.get('/get-contracts-by-procurement-type/:type/:year', (req, res) => {
+    Contract.getContractsByProcurementType(req.params.type, req.params.year)
         .then(data => {
             res.json(data);
         }).catch(err => {
@@ -89,8 +89,8 @@ router.get('/get-contracts-by-procurement-type/:type', (req, res) => {
 });
 
 // Get Contracts by procurement value
-router.get('/get-contracts-by-procurement-value/:value', (req, res) => {
-    Contract.getContractsByProcurementValue(req.params.value)
+router.get('/get-contracts-by-procurement-value/:value/:year', (req, res) => {
+    Contract.getContractsByProcurementValue(req.params.value, req.params.year)
         .then(data => {
             res.json(data);
         }).catch(err => {

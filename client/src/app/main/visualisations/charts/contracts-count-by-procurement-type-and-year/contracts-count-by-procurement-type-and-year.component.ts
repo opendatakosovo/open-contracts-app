@@ -199,7 +199,8 @@ export class ContractsCountByProcurementTypeAndYearComponent implements OnInit {
                   } else if (name === 'Prone e palujtshme' || name === 'Nepokretna imovina' || name === 'Immovable property') {
                     name = 'immovableProperty';
                   }
-                  this.dataService.getContractsByProcurementType(name)
+                  console.log('Type: ' + name);
+                  this.dataService.getContractsByProcurementType(name, this.year)
                     .takeUntil(this.unsubscribeAll)
                     .subscribe(contract => {
                       this.rows = contract;

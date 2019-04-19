@@ -213,7 +213,7 @@ export class ContractsCountByProcurementValueAndYearComponent implements OnInit 
                   } else if (name === 'Procedura e vlerës minimale' || name === 'Minimal value procedure' || name === 'Procedura minimalne vrednosti') {
                     name = 'Minimal value procedure';
                   }
-                  this.dataService.getContractsByProcurementCategory(name)
+                  this.dataService.getContractsByProcurementCategory(name, this.year)
                     .takeUntil(this.unsubscribeAll)
                     .subscribe(contract => {
                       this.rows = contract;

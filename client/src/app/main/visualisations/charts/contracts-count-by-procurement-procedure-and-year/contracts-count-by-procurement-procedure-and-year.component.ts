@@ -190,7 +190,7 @@ export class ContractsCountByProcurementProcedureAndYearComponent implements OnI
                   } else if (name === 'Vlerë minimale' || name === 'Minimum value' || name === 'Minimalna vrednost') {
                     name = 'minimalValue';
                   }
-                  this.dataService.getContractsByProcurementValue(name)
+                  this.dataService.getContractsByProcurementValue(name, this.year)
                     .takeUntil(this.unsubscribeAll)
                     .subscribe(contract => {
                       this.rows = contract;

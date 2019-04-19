@@ -721,27 +721,27 @@ module.exports.getContractByOcidJson = (ocid, cb) => {
     Contract.find({
         "releases.ocid": ocid
     }, {
-        "releases.tender.items._id": 0,
-        "releases._id": 0,
-        "releases.parties._id": 0,
-        "releases.awards._id": 0,
-        "releases.awards.suppliers._id": 0,
-        "releases.awards.items._id": 0,
-        "releases.contracts._id": 0,
-        "releases.contracts.items._id": 0,
-        "releases.contracts.implementation.transactions._id": 0,
-        "releases.planning.documents._id": 0,
-        "releases.planning.milestones._id": 0,
-        "releases.relatedProcesses._id": 0,
-        "releases.contracts.amendments._id": 0,
-        "releases.tender.milestones._id": 0,
-        "releases.bids.statistics._id": 0,
-        "_id": 0,
-        "company": 0,
-        "contract": 0,
-        "budget": 0,
-        "year": 0
-    }, cb);
+            "releases.tender.items._id": 0,
+            "releases._id": 0,
+            "releases.parties._id": 0,
+            "releases.awards._id": 0,
+            "releases.awards.suppliers._id": 0,
+            "releases.awards.items._id": 0,
+            "releases.contracts._id": 0,
+            "releases.contracts.items._id": 0,
+            "releases.contracts.implementation.transactions._id": 0,
+            "releases.planning.documents._id": 0,
+            "releases.planning.milestones._id": 0,
+            "releases.relatedProcesses._id": 0,
+            "releases.contracts.amendments._id": 0,
+            "releases.tender.milestones._id": 0,
+            "releases.bids.statistics._id": 0,
+            "_id": 0,
+            "company": 0,
+            "contract": 0,
+            "budget": 0,
+            "year": 0
+        }, cb);
 }
 
 module.exports.deleteContractById = (id, callback) => {
@@ -758,8 +758,8 @@ module.exports.updateContract = (id, contract, callback) => {
     Contract.findByIdAndUpdate(id, {
         $set: contract
     }, {
-        new: true
-    }, callback);
+            new: true
+        }, callback);
 }
 
 module.exports.updateAllContracts = (updatedContract, callback) => {
@@ -768,10 +768,10 @@ module.exports.updateAllContracts = (updatedContract, callback) => {
             "$gte": 2010
         }
     }, {
-        $set: updatedContract
-    }, {
-        new: true
-    }, callback);
+            $set: updatedContract
+        }, {
+            new: true
+        }, callback);
 }
 
 // Function for finding 2018 contracts
@@ -806,14 +806,14 @@ module.exports.getContractsByDirectorate = directorateName => {
 
 module.exports.getContractsByYearWithPublicationDateAndSigningDate = (year) => {
     return Contract.aggregate([{
-            $match: year == "any" ? {
-                "releases.contracts.period.startDate": {
-                    $ne: null
-                },
-                "releases.awards.date": {
-                    $ne: null
-                }
-            } : {
+        $match: year == "any" ? {
+            "releases.contracts.period.startDate": {
+                $ne: null
+            },
+            "releases.awards.date": {
+                $ne: null
+            }
+        } : {
                 $or: [{
                     year: parseInt(year)
                 }],
@@ -824,80 +824,80 @@ module.exports.getContractsByYearWithPublicationDateAndSigningDate = (year) => {
                     $ne: null
                 },
             }
-        },
-        {
-            $group: {
-                _id: {
-                    publicationDateOfGivenContract: "$releases.awards.date",
-                    signingDate: "$releases.contracts.period.startDate",
-                    activityTitle: '$releases.tender.title'
-                },
-                count: {
-                    $sum: 1
-                }
+    },
+    {
+        $group: {
+            _id: {
+                publicationDateOfGivenContract: "$releases.awards.date",
+                signingDate: "$releases.contracts.period.startDate",
+                activityTitle: '$releases.tender.title'
+            },
+            count: {
+                $sum: 1
             }
-        },
-        {
-            $project: {
-                _id: 0,
-                publicationDateOfGivenContract: "$_id.publicationDateOfGivenContract",
-                signingDate: "$_id.signingDate",
-                totalContracts: "$count",
-                activityTitle: '$_id.activityTitle'
-            }
-        },
-        {
-            $unwind: '$publicationDateOfGivenContract'
-        },
-        {
-            $unwind: '$signingDate'
-        },
-        {
-            $unwind: '$publicationDateOfGivenContract'
-        },
-        {
-            $unwind: '$signingDate'
-        },
-        {
-            $unwind: '$activityTitle'
         }
+    },
+    {
+        $project: {
+            _id: 0,
+            publicationDateOfGivenContract: "$_id.publicationDateOfGivenContract",
+            signingDate: "$_id.signingDate",
+            totalContracts: "$count",
+            activityTitle: '$_id.activityTitle'
+        }
+    },
+    {
+        $unwind: '$publicationDateOfGivenContract'
+    },
+    {
+        $unwind: '$signingDate'
+    },
+    {
+        $unwind: '$publicationDateOfGivenContract'
+    },
+    {
+        $unwind: '$signingDate'
+    },
+    {
+        $unwind: '$activityTitle'
+    }
     ]);
 }
 
 module.exports.getTotalContractsByYears = () => {
     return Contract.aggregate([{
-            $group: {
-                _id: "$year",
-                count: {
-                    $sum: 1
-                }
-            }
-        },
-        {
-            $sort: {
-                _id: 1
-            }
-        },
-        {
-            $project: {
-                _id: 0,
-                name: "$_id",
-                y: "$count"
+        $group: {
+            _id: "$year",
+            count: {
+                $sum: 1
             }
         }
+    },
+    {
+        $sort: {
+            _id: 1
+        }
+    },
+    {
+        $project: {
+            _id: 0,
+            name: "$_id",
+            y: "$count"
+        }
+    }
     ]);
 }
 
 module.exports.getContractsByYearWithPredictedValueAndTotalAmount = (year) => {
     return Contract.aggregate([{
-            $match: year == "any" ? {
-                'releases.planning.budget.amount.amount': {
-                    $ne: ''
-                },
-                'releases.tender.value.amount': {
-                    $ne: ''
-                },
-            } : {
+        $match: year == "any" ? {
+            'releases.planning.budget.amount.amount': {
+                $ne: ''
+            },
+            'releases.tender.value.amount': {
+                $ne: ''
+            },
+        } : {
                 year: parseInt(year),
                 'releases.planning.budget.amount.amount': {
                     $ne: ''
@@ -906,80 +906,80 @@ module.exports.getContractsByYearWithPredictedValueAndTotalAmount = (year) => {
                     $ne: ''
                 },
             }
-        },
-        {
-            $group: {
-                _id: {
-                    id: "$_id",
-                    activityTitle: "$releases.tender.title",
-                    predictedValue: "$releases.planning.budget.amount.amount",
-                    totalAmountOfContractsIncludingTaxes: "$releases.tender.value.amount"
-                }
-            }
-        },
-        {
-            $project: {
-                _id: 0,
-                id: "$_id.id",
-                activityTitle: "$_id.activityTitle",
-                predictedValue: "$_id.predictedValue",
-                totalAmountOfContractsIncludingTaxes: "$_id.totalAmountOfContractsIncludingTaxes"
-            }
-        },
-        {
-            $unwind: '$activityTitle'
-        },
-        {
-            $unwind: '$predictedValue'
-        },
-        {
-            $unwind: '$totalAmountOfContractsIncludingTaxes'
-        },
-        {
-            $sort: {
-                predictedValue: -1
+    },
+    {
+        $group: {
+            _id: {
+                id: "$_id",
+                activityTitle: "$releases.tender.title",
+                predictedValue: "$releases.planning.budget.amount.amount",
+                totalAmountOfContractsIncludingTaxes: "$releases.tender.value.amount"
             }
         }
+    },
+    {
+        $project: {
+            _id: 0,
+            id: "$_id.id",
+            activityTitle: "$_id.activityTitle",
+            predictedValue: "$_id.predictedValue",
+            totalAmountOfContractsIncludingTaxes: "$_id.totalAmountOfContractsIncludingTaxes"
+        }
+    },
+    {
+        $unwind: '$activityTitle'
+    },
+    {
+        $unwind: '$predictedValue'
+    },
+    {
+        $unwind: '$totalAmountOfContractsIncludingTaxes'
+    },
+    {
+        $sort: {
+            predictedValue: -1
+        }
+    }
     ]);
 }
 
 module.exports.getTopTenContractors = () => {
     return Contract.aggregate([{
-            $match: {
-                "releases.tender.tenderers.name": {
-                    "$ne": ""
-                }
-            }
-        },
-        {
-            $group: {
-                _id: "$releases.tender.tenderers.name",
-                count: {
-                    $sum: 1
-                }
-            }
-        },
-        {
-            $unwind: "$_id"
-        },
-        {
-            $unwind: "$_id"
-        },
-        {
-            $sort: {
-                count: -1
-            }
-        },
-        {
-            $limit: 10
-        },
-        {
-            $project: {
-                _id: 0,
-                name: "$_id",
-                y: "$count"
+        $match: {
+            "releases.tender.tenderers.name": {
+                "$ne": ""
             }
         }
+    },
+    {
+        $group: {
+            _id: "$releases.tender.tenderers.name",
+            count: {
+                $sum: 1
+            }
+        }
+    },
+    {
+        $unwind: "$_id"
+    },
+    {
+        $unwind: "$_id"
+    },
+    {
+        $sort: {
+            count: -1
+        }
+    },
+    {
+        $limit: 10
+    },
+    {
+        $project: {
+            _id: 0,
+            name: "$_id",
+            y: "$count"
+        }
+    }
     ]);
 }
 
@@ -992,72 +992,72 @@ module.exports.getContractsByContractorCompany = companyName => {
 
 module.exports.getContractsMostByTotalAmountOfContract = year => {
     return Contract.aggregate([{
-            $match: year == "any" ? {
-                "releases.tender.value.amount": {
-                    $ne: 0
-                }
-            } : {
+        $match: year == "any" ? {
+            "releases.tender.value.amount": {
+                $ne: 0
+            }
+        } : {
                 year: parseInt(year),
                 "releases.tender.value.amount": {
                     $ne: 0
                 },
             }
-        },
-        {
-            $group: {
-                _id: {
-                    procurementNo: '$releases.tender.id',
-                    activityTitle: '$releases.tender.title',
-                    companyName: '$releases.tender.tenderers.name',
-                    publicationDateOfGivenContract: "$releases.awards.date",
-                    signingDate: "$releases.contracts.period.startDate",
-                    totalAmountOfContractsIncludingTaxes: "$releases.tender.value.amount",
-                    predictedValue: "$releases.planning.budget.amount.amount"
-                }
+    },
+    {
+        $group: {
+            _id: {
+                procurementNo: '$releases.tender.id',
+                activityTitle: '$releases.tender.title',
+                companyName: '$releases.tender.tenderers.name',
+                publicationDateOfGivenContract: "$releases.awards.date",
+                signingDate: "$releases.contracts.period.startDate",
+                totalAmountOfContractsIncludingTaxes: "$releases.tender.value.amount",
+                predictedValue: "$releases.planning.budget.amount.amount"
             }
-        },
-        {
-            $project: {
-                _id: 0,
-                activityTitle: '$_id.activityTitle',
-                totalAmountOfContractsIncludingTaxes: "$_id.totalAmountOfContractsIncludingTaxes",
-                predictedValue: "$_id.predictedValue",
-                procurementNo: "$_id.procurementNo",
-                companyName: "$_id.companyName",
-                publicationDateOfGivenContract: "$_id.publicationDateOfGivenContract",
-                signingDate: "$_id.signingDate"
-            }
-        },
-        {
-            $unwind: '$activityTitle'
-        },
-        {
-            $unwind: '$totalAmountOfContractsIncludingTaxes'
-        },
-        {
-            $unwind: '$predictedValue'
-        },
-        {
-            $unwind: '$procurementNo'
-        },
-        {
-            $unwind: '$companyName'
-        },
-        {
-            $unwind: '$companyName'
-        },
-        {
-            $unwind: '$publicationDateOfGivenContract'
-        },
-        {
-            $unwind: '$publicationDateOfGivenContract'
-        },
-        {
-            $unwind: '$signingDate'
-        },
-        {
-            $unwind: '$signingDate'
         }
+    },
+    {
+        $project: {
+            _id: 0,
+            activityTitle: '$_id.activityTitle',
+            totalAmountOfContractsIncludingTaxes: "$_id.totalAmountOfContractsIncludingTaxes",
+            predictedValue: "$_id.predictedValue",
+            procurementNo: "$_id.procurementNo",
+            companyName: "$_id.companyName",
+            publicationDateOfGivenContract: "$_id.publicationDateOfGivenContract",
+            signingDate: "$_id.signingDate"
+        }
+    },
+    {
+        $unwind: '$activityTitle'
+    },
+    {
+        $unwind: '$totalAmountOfContractsIncludingTaxes'
+    },
+    {
+        $unwind: '$predictedValue'
+    },
+    {
+        $unwind: '$procurementNo'
+    },
+    {
+        $unwind: '$companyName'
+    },
+    {
+        $unwind: '$companyName'
+    },
+    {
+        $unwind: '$publicationDateOfGivenContract'
+    },
+    {
+        $unwind: '$publicationDateOfGivenContract'
+    },
+    {
+        $unwind: '$signingDate'
+    },
+    {
+        $unwind: '$signingDate'
+    }
     ]);
 }
 
@@ -1067,90 +1067,111 @@ module.exports.getContractsByYears = year => {
     });
 }
 
-module.exports.getContractsByProcurementCategory = category => {
+module.exports.getContractsByProcurementCategory = (category, year) => {
     return Contract.find({
-        "releases.tender.procurementMethodRationale": category
+        $and: [
+            {
+                "releases.tender.procurementMethodRationale": category
+            },
+            year != "any" ? {
+                "year": Number(year)
+            } : {}
+        ]
     });
 }
 
-module.exports.getContractsByProcurementType = type => {
+module.exports.getContractsByProcurementType = (type, year) => {
     return Contract.find({
-        "releases.tender.additionalProcurementCategories": type
+        $and: [
+            {
+                "releases.tender.additionalProcurementCategories": type
+            },
+            year != "any" ? {
+                "year": Number(year)
+            } : {}
+        ]
     });
 }
 
-module.exports.getContractsByProcurementValue = value => {
+module.exports.getContractsByProcurementValue = (value, year) => {
     return Contract.find({
-        "releases.tender.estimatedSizeOfProcurementValue.estimatedValue": value
+        $and: [
+            {
+                "releases.tender.estimatedSizeOfProcurementValue.estimatedValue": value
+            },
+            year != "any" ? {
+                "year": Number(year)
+            } : {}
+        ]
     });
 }
 
 module.exports.getDirectoratesInContracts = year => {
     return Contract.aggregate([{
-            $match: year == "any" ? {
-                "releases.buyer.name": {
-                    $ne: ''
-                }
-            } : {
+        $match: year == "any" ? {
+            "releases.buyer.name": {
+                $ne: ''
+            }
+        } : {
                 year: parseInt(year),
                 "releases.buyer.name": {
                     $ne: ''
                 },
             }
-        },
-        {
-            $group: {
-                _id: "$releases.buyer.name",
-                count: {
-                    $sum: 1
-                }
+    },
+    {
+        $group: {
+            _id: "$releases.buyer.name",
+            count: {
+                $sum: 1
             }
-        },
-        {
-            $sort: {
-                _id: 1
-            }
-        },
-        {
-            $project: {
-                _id: 0,
-                name: "$_id",
-                y: "$count"
-            }
-        },
-        {
-            $unwind: '$name'
         }
+    },
+    {
+        $sort: {
+            _id: 1
+        }
+    },
+    {
+        $project: {
+            _id: 0,
+            name: "$_id",
+            y: "$count"
+        }
+    },
+    {
+        $unwind: '$name'
+    }
 
     ]);
 }
 
 module.exports.getContractYears = (year = 2017) => {
     return Contract.aggregate([{
-            $match: {
-                year: {
-                    $gt: year == 2017 ? 2017 : year
-                }
-            }
-        },
-        {
-            $sort: {
-                year: 1
-            }
-        },
-        {
-            $group: {
-                _id: {
-                    year: '$year'
-                }
-            }
-        },
-        {
-            $project: {
-                _id: 0,
-                year: '$_id.year'
+        $match: {
+            year: {
+                $gt: year == 2017 ? 2017 : year
             }
         }
+    },
+    {
+        $sort: {
+            year: 1
+        }
+    },
+    {
+        $group: {
+            _id: {
+                year: '$year'
+            }
+        }
+    },
+    {
+        $project: {
+            _id: 0,
+            year: '$_id.year'
+        }
+    }
     ]);
 }
 
@@ -1348,23 +1369,23 @@ module.exports.filterStringFieldsInContracts = (text, year) => {
         "$match": {
             "$and": [{
                 "$or": [{
-                        "activityTitleSlug": {
-                            "$regex": text,
-                            "$options": 'i'
-                        }
-                    },
-                    {
-                        "contract.implementationDeadlineSlug": {
-                            "$regex": text,
-                            "$options": 'i'
-                        }
-                    },
-                    {
-                        "company.slug": {
-                            "$regex": text,
-                            "$options": 'i'
-                        }
+                    "activityTitleSlug": {
+                        "$regex": text,
+                        "$options": 'i'
                     }
+                },
+                {
+                    "contract.implementationDeadlineSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                },
+                {
+                    "company.slug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                }
                 ]
             }]
         }
@@ -1387,29 +1408,29 @@ module.exports.filterStringFieldsInContractsCount = (text, year) => {
         "$match": {
             "$and": [{
                 "$or": [{
-                        "activityTitleSlug": {
-                            "$regex": text,
-                            "$options": 'i'
-                        }
-                    },
-                    {
-                        "contract.implementationDeadlineSlug": {
-                            "$regex": text,
-                            "$options": 'i'
-                        }
-                    },
-                    {
-                        "company.slug": {
-                            "$regex": text,
-                            "$options": 'i'
-                        }
+                    "activityTitleSlug": {
+                        "$regex": text,
+                        "$options": 'i'
                     }
+                },
+                {
+                    "contract.implementationDeadlineSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                },
+                {
+                    "company.slug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                }
                 ]
             }]
         }
     }, {
-        "$count": "total"
-    })
+            "$count": "total"
+        })
 
     return Contract.aggregate(filter);
 }
@@ -1621,8 +1642,8 @@ module.exports.filterByDirectorateCount = (directorate, year) => {
             }
         }
     }, {
-        "$count": "total"
-    })
+            "$count": "total"
+        })
     return Contract.aggregate(filter);
 }
 
@@ -1640,33 +1661,33 @@ module.exports.filterByDate = (date, referenceDate, year) => {
     filter.push({
         "$match": {
             "$or": [{
-                    "releases.tender.date": {
-                        "$gte": new Date(date),
-                        "$lt": new Date(referenceDate)
-                    }
-                },
-                {
-                    "releases.awards.date": {
-                        "$gte": new Date(date),
-                        "$lt": new Date(referenceDate)
-                    }
-                },
-                {
-                    "releases.contracts.period.startDate": {
-                        "$gte": new Date(date),
-                        "$lt": new Date(referenceDate)
-                    }
-                },
-                {
-                    "releases.tender.milestones": {
-                        "$elemMatch": {
-                            "dateMet": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
+                "releases.tender.date": {
+                    "$gte": new Date(date),
+                    "$lt": new Date(referenceDate)
+                }
+            },
+            {
+                "releases.awards.date": {
+                    "$gte": new Date(date),
+                    "$lt": new Date(referenceDate)
+                }
+            },
+            {
+                "releases.contracts.period.startDate": {
+                    "$gte": new Date(date),
+                    "$lt": new Date(referenceDate)
+                }
+            },
+            {
+                "releases.tender.milestones": {
+                    "$elemMatch": {
+                        "dateMet": {
+                            "$gte": new Date(date),
+                            "$lt": new Date(referenceDate)
                         }
                     }
                 }
+            }
             ]
         }
     })
@@ -1685,38 +1706,38 @@ module.exports.filterByDateCount = (date, referenceDate, year) => {
     filter.push({
         "$match": {
             "$or": [{
-                    "releases.tender.date": {
-                        "$gte": new Date(date),
-                        "$lt": new Date(referenceDate)
-                    }
-                },
-                {
-                    "releases.awards.date": {
-                        "$gte": new Date(date),
-                        "$lt": new Date(referenceDate)
-                    }
-                },
-                {
-                    "releases.contracts.period.startDate": {
-                        "$gte": new Date(date),
-                        "$lt": new Date(referenceDate)
-                    }
-                },
-                {
-                    "releases.tender.milestones": {
-                        "$elemMatch": {
-                            "dateMet": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
+                "releases.tender.date": {
+                    "$gte": new Date(date),
+                    "$lt": new Date(referenceDate)
+                }
+            },
+            {
+                "releases.awards.date": {
+                    "$gte": new Date(date),
+                    "$lt": new Date(referenceDate)
+                }
+            },
+            {
+                "releases.contracts.period.startDate": {
+                    "$gte": new Date(date),
+                    "$lt": new Date(referenceDate)
+                }
+            },
+            {
+                "releases.tender.milestones": {
+                    "$elemMatch": {
+                        "dateMet": {
+                            "$gte": new Date(date),
+                            "$lt": new Date(referenceDate)
                         }
                     }
                 }
+            }
             ]
         }
     }, {
-        "$count": "total"
-    })
+            "$count": "total"
+        })
     return Contract.aggregate(filter);
 }
 
@@ -1734,15 +1755,15 @@ module.exports.filterByValue = (value, year) => {
     filter.push({
         "$match": {
             "$or": [{
-                    "contract.predictedValueSlug": {
-                        "$regex": value
-                    }
-                },
-                {
-                    "contract.totalAmountOfContractsIncludingTaxesSlug": {
-                        "$regex": value
-                    }
+                "contract.predictedValueSlug": {
+                    "$regex": value
                 }
+            },
+            {
+                "contract.totalAmountOfContractsIncludingTaxesSlug": {
+                    "$regex": value
+                }
+            }
             ]
         }
 
@@ -1763,21 +1784,21 @@ module.exports.filterByValueCount = (value, year) => {
     filter.push({
         "$match": {
             "$or": [{
-                    "contract.predictedValueSlug": {
-                        "$regex": value
-                    }
-                },
-                {
-                    "contract.totalAmountOfContractsIncludingTaxesSlug": {
-                        "$regex": value
-                    }
+                "contract.predictedValueSlug": {
+                    "$regex": value
                 }
+            },
+            {
+                "contract.totalAmountOfContractsIncludingTaxesSlug": {
+                    "$regex": value
+                }
+            }
             ]
         }
 
     }, {
-        "$count": "total"
-    })
+            "$count": "total"
+        })
     return Contract.aggregate(filter);
 }
 
@@ -1876,35 +1897,35 @@ module.exports.filterByStringAndDirectorate = (text, directorate, year) => {
     filter.push({
         "$match": {
             "$and": [{
-                    "$or": [{
-                            "activityTitleSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "contract.implementationDeadlineSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "company.slug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        }
-                    ]
+                "$or": [{
+                    "activityTitleSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 },
                 {
-                    "releases.parties": {
-                        "$elemMatch": {
-                            "name": {
-                                "$in": queryArray
-                            }
+                    "contract.implementationDeadlineSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                },
+                {
+                    "company.slug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                }
+                ]
+            },
+            {
+                "releases.parties": {
+                    "$elemMatch": {
+                        "name": {
+                            "$in": queryArray
                         }
                     }
                 }
+            }
             ]
         }
 
@@ -2006,41 +2027,41 @@ module.exports.filterByStringAndDirectorateCount = (text, directorate, year) => 
     filter.push({
         "$match": {
             "$and": [{
-                    "$or": [{
-                            "activityTitleSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "contract.implementationDeadlineSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "company.slug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        }
-                    ]
+                "$or": [{
+                    "activityTitleSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 },
                 {
-                    "releases.parties": {
-                        "$elemMatch": {
-                            "name": {
-                                "$in": queryArray
-                            }
+                    "contract.implementationDeadlineSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                },
+                {
+                    "company.slug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                }
+                ]
+            },
+            {
+                "releases.parties": {
+                    "$elemMatch": {
+                        "name": {
+                            "$in": queryArray
                         }
                     }
                 }
+            }
             ]
         }
 
     }, {
-        "$count": "total"
-    })
+            "$count": "total"
+        })
     return Contract.aggregate(filter);
 }
 
@@ -2139,66 +2160,66 @@ module.exports.filterbyStringDirectorateDate = (text, directorate, date, referen
     filter.push({
         "$match": {
             "$and": [{
-                    "$or": [{
-                            "activityTitleSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "contract.implementationDeadlineSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "company.slug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        }
-                    ]
-                },
-                {
-                    "releases.parties": {
-                        "$elemMatch": {
-                            "name": {
-                                "$in": queryArray
-                            }
-                        }
+                "$or": [{
+                    "activityTitleSlug": {
+                        "$regex": text,
+                        "$options": 'i'
                     }
                 },
                 {
-                    "$or": [{
-                            "releases.tender.date": {
+                    "contract.implementationDeadlineSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                },
+                {
+                    "company.slug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                }
+                ]
+            },
+            {
+                "releases.parties": {
+                    "$elemMatch": {
+                        "name": {
+                            "$in": queryArray
+                        }
+                    }
+                }
+            },
+            {
+                "$or": [{
+                    "releases.tender.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.awards.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.contracts.period.startDate": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.tender.milestones": {
+                        "$elemMatch": {
+                            "dateMet": {
                                 "$gte": new Date(date),
                                 "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.awards.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.contracts.period.startDate": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.tender.milestones": {
-                                "$elemMatch": {
-                                    "dateMet": {
-                                        "$gte": new Date(date),
-                                        "$lt": new Date(referenceDate)
-                                    }
-                                }
                             }
                         }
-                    ]
+                    }
                 }
+                ]
+            }
             ]
         }
     })
@@ -2298,71 +2319,71 @@ module.exports.filterbyStringDirectorateDateCount = (text, directorate, date, re
     filter.push({
         "$match": {
             "$and": [{
-                    "$or": [{
-                            "activityTitleSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "contract.implementationDeadlineSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "company.slug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        }
-                    ]
-                },
-                {
-                    "releases.parties": {
-                        "$elemMatch": {
-                            "name": {
-                                "$in": queryArray
-                            }
-                        }
+                "$or": [{
+                    "activityTitleSlug": {
+                        "$regex": text,
+                        "$options": 'i'
                     }
                 },
                 {
-                    "$or": [{
-                            "releases.tender.date": {
+                    "contract.implementationDeadlineSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                },
+                {
+                    "company.slug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                }
+                ]
+            },
+            {
+                "releases.parties": {
+                    "$elemMatch": {
+                        "name": {
+                            "$in": queryArray
+                        }
+                    }
+                }
+            },
+            {
+                "$or": [{
+                    "releases.tender.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.awards.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.contracts.period.startDate": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.tender.milestones": {
+                        "$elemMatch": {
+                            "dateMet": {
                                 "$gte": new Date(date),
                                 "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.awards.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.contracts.period.startDate": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.tender.milestones": {
-                                "$elemMatch": {
-                                    "dateMet": {
-                                        "$gte": new Date(date),
-                                        "$lt": new Date(referenceDate)
-                                    }
-                                }
                             }
                         }
-                    ]
+                    }
                 }
+                ]
+            }
             ]
         }
     }, {
-        "$count": "total"
-    })
+            "$count": "total"
+        })
     return Contract.aggregate(filter);
 }
 
@@ -2462,79 +2483,79 @@ module.exports.filterByStringDirectorateDateValue = (text, directorate, date, re
     filter.push({
         "$match": {
             "$and": [{
-                    "$or": [{
-                            "activityTitleSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "contract.implementationDeadlineSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "company.slug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        }
-                    ]
-                },
-                {
-                    "releases.parties": {
-                        "$elemMatch": {
-                            "name": {
-                                "$in": queryArray
-                            }
-                        }
+                "$or": [{
+                    "activityTitleSlug": {
+                        "$regex": text,
+                        "$options": 'i'
                     }
                 },
                 {
-                    "$or": [{
-                            "releases.tender.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.awards.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.contracts.period.startDate": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.tender.milestones": {
-                                "$elemMatch": {
-                                    "dateMet": {
-                                        "$gte": new Date(date),
-                                        "$lt": new Date(referenceDate)
-                                    }
-                                }
-                            }
-                        }
-                    ]
+                    "contract.implementationDeadlineSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 },
                 {
-                    "$or": [{
-                            "contract.predictedValueSlug": {
-                                "$regex": value
-                            }
-                        },
-                        {
-                            "contract.totalAmountOfContractsIncludingTaxesSlug": {
-                                "$regex": value
+                    "company.slug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                }
+                ]
+            },
+            {
+                "releases.parties": {
+                    "$elemMatch": {
+                        "name": {
+                            "$in": queryArray
+                        }
+                    }
+                }
+            },
+            {
+                "$or": [{
+                    "releases.tender.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.awards.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.contracts.period.startDate": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.tender.milestones": {
+                        "$elemMatch": {
+                            "dateMet": {
+                                "$gte": new Date(date),
+                                "$lt": new Date(referenceDate)
                             }
                         }
-                    ]
+                    }
                 }
+                ]
+            },
+            {
+                "$or": [{
+                    "contract.predictedValueSlug": {
+                        "$regex": value
+                    }
+                },
+                {
+                    "contract.totalAmountOfContractsIncludingTaxesSlug": {
+                        "$regex": value
+                    }
+                }
+                ]
+            }
             ]
         }
     })
@@ -2634,84 +2655,84 @@ module.exports.filterByStringDirectorateDateValueCount = (text, directorate, dat
     filter.push({
         "$match": {
             "$and": [{
-                    "$or": [{
-                            "activityTitleSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "contract.implementationDeadlineSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "company.slug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        }
-                    ]
-                },
-                {
-                    "releases.parties": {
-                        "$elemMatch": {
-                            "name": {
-                                "$in": queryArray
-                            }
-                        }
+                "$or": [{
+                    "activityTitleSlug": {
+                        "$regex": text,
+                        "$options": 'i'
                     }
                 },
                 {
-                    "$or": [{
-                            "releases.tender.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.awards.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.contracts.period.startDate": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.tender.milestones": {
-                                "$elemMatch": {
-                                    "dateMet": {
-                                        "$gte": new Date(date),
-                                        "$lt": new Date(referenceDate)
-                                    }
-                                }
-                            }
-                        }
-                    ]
+                    "contract.implementationDeadlineSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 },
                 {
-                    "$or": [{
-                            "contract.predictedValueSlug": {
-                                "$regex": value
-                            }
-                        },
-                        {
-                            "contract.totalAmountOfContractsIncludingTaxesSlug": {
-                                "$regex": value
+                    "company.slug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                }
+                ]
+            },
+            {
+                "releases.parties": {
+                    "$elemMatch": {
+                        "name": {
+                            "$in": queryArray
+                        }
+                    }
+                }
+            },
+            {
+                "$or": [{
+                    "releases.tender.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.awards.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.contracts.period.startDate": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.tender.milestones": {
+                        "$elemMatch": {
+                            "dateMet": {
+                                "$gte": new Date(date),
+                                "$lt": new Date(referenceDate)
                             }
                         }
-                    ]
+                    }
                 }
+                ]
+            },
+            {
+                "$or": [{
+                    "contract.predictedValueSlug": {
+                        "$regex": value
+                    }
+                },
+                {
+                    "contract.totalAmountOfContractsIncludingTaxesSlug": {
+                        "$regex": value
+                    }
+                }
+                ]
+            }
             ]
         }
     }, {
-        "$count": "total"
-    })
+            "$count": "total"
+        })
     return Contract.aggregate(filter);
 }
 
@@ -2729,57 +2750,57 @@ module.exports.filterByStringDate = (text, date, referenceDate, year) => {
     filter.push({
         "$match": {
             "$and": [{
-                    "$or": [{
-                            "activityTitleSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "contract.implementationDeadlineSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "company.slug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        }
-                    ]
+                "$or": [{
+                    "activityTitleSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 },
                 {
-                    "$or": [{
-                            "releases.tender.date": {
+                    "contract.implementationDeadlineSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                },
+                {
+                    "company.slug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                }
+                ]
+            },
+            {
+                "$or": [{
+                    "releases.tender.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.awards.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.contracts.period.startDate": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.tender.milestones": {
+                        "$elemMatch": {
+                            "dateMet": {
                                 "$gte": new Date(date),
                                 "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.awards.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.contracts.period.startDate": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.tender.milestones": {
-                                "$elemMatch": {
-                                    "dateMet": {
-                                        "$gte": new Date(date),
-                                        "$lt": new Date(referenceDate)
-                                    }
-                                }
                             }
                         }
-                    ]
+                    }
                 }
+                ]
+            }
             ]
         }
     })
@@ -2798,62 +2819,62 @@ module.exports.filterByStringDateCount = (text, date, referenceDate, year) => {
     filter.push({
         "$match": {
             "$and": [{
-                    "$or": [{
-                            "activityTitleSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "contract.implementationDeadlineSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "company.slug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        }
-                    ]
+                "$or": [{
+                    "activityTitleSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 },
                 {
-                    "$or": [{
-                            "releases.tender.date": {
+                    "contract.implementationDeadlineSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                },
+                {
+                    "company.slug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                }
+                ]
+            },
+            {
+                "$or": [{
+                    "releases.tender.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.awards.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.contracts.period.startDate": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.tender.milestones": {
+                        "$elemMatch": {
+                            "dateMet": {
                                 "$gte": new Date(date),
                                 "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.awards.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.contracts.period.startDate": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.tender.milestones": {
-                                "$elemMatch": {
-                                    "dateMet": {
-                                        "$gte": new Date(date),
-                                        "$lt": new Date(referenceDate)
-                                    }
-                                }
                             }
                         }
-                    ]
+                    }
                 }
+                ]
+            }
             ]
         }
     }, {
-        "$count": "total"
-    })
+            "$count": "total"
+        })
     return Contract.aggregate(filter);
 }
 
@@ -2870,39 +2891,39 @@ module.exports.filterByStringValue = (text, value, year) => {
     filter.push({
         "$match": {
             "$and": [{
-                    "$or": [{
-                            "activityTitleSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "contract.implementationDeadlineSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "company.slug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        }
-                    ]
+                "$or": [{
+                    "activityTitleSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 },
                 {
-                    "$or": [{
-                            "contract.predictedValueSlug": {
-                                "$regex": value
-                            }
-                        },
-                        {
-                            "contract.totalAmountOfContractsIncludingTaxesSlug": {
-                                "$regex": value
-                            }
-                        }
-                    ]
+                    "contract.implementationDeadlineSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                },
+                {
+                    "company.slug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 }
+                ]
+            },
+            {
+                "$or": [{
+                    "contract.predictedValueSlug": {
+                        "$regex": value
+                    }
+                },
+                {
+                    "contract.totalAmountOfContractsIncludingTaxesSlug": {
+                        "$regex": value
+                    }
+                }
+                ]
+            }
             ]
         }
     })
@@ -2921,44 +2942,44 @@ module.exports.filterByStringValueCount = (text, value, year) => {
     filter.push({
         "$match": {
             "$and": [{
-                    "$or": [{
-                            "activityTitleSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "contract.implementationDeadlineSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "company.slug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        }
-                    ]
+                "$or": [{
+                    "activityTitleSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 },
                 {
-                    "$or": [{
-                            "contract.predictedValueSlug": {
-                                "$regex": value
-                            }
-                        },
-                        {
-                            "contract.totalAmountOfContractsIncludingTaxesSlug": {
-                                "$regex": value
-                            }
-                        }
-                    ]
+                    "contract.implementationDeadlineSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                },
+                {
+                    "company.slug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 }
+                ]
+            },
+            {
+                "$or": [{
+                    "contract.predictedValueSlug": {
+                        "$regex": value
+                    }
+                },
+                {
+                    "contract.totalAmountOfContractsIncludingTaxesSlug": {
+                        "$regex": value
+                    }
+                }
+                ]
+            }
             ]
         }
     }, {
-        "$count": "total"
-    })
+            "$count": "total"
+        })
     return Contract.aggregate(filter);
 }
 
@@ -3056,45 +3077,45 @@ module.exports.filterbyDirectorateDate = (directorate, date, referenceDate, year
     filter.push({
         "$match": {
             "$and": [{
-                    "releases.parties": {
-                        "$elemMatch": {
-                            "name": {
-                                "$in": queryArray
-                            }
+                "releases.parties": {
+                    "$elemMatch": {
+                        "name": {
+                            "$in": queryArray
                         }
+                    }
+                }
+            },
+            {
+                "$or": [{
+                    "releases.tender.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
                     }
                 },
                 {
-                    "$or": [{
-                            "releases.tender.date": {
+                    "releases.awards.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.contracts.period.startDate": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.tender.milestones": {
+                        "$elemMatch": {
+                            "dateMet": {
                                 "$gte": new Date(date),
                                 "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.awards.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.contracts.period.startDate": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.tender.milestones": {
-                                "$elemMatch": {
-                                    "dateMet": {
-                                        "$gte": new Date(date),
-                                        "$lt": new Date(referenceDate)
-                                    }
-                                }
                             }
                         }
-                    ]
+                    }
                 }
+                ]
+            }
             ]
         }
     })
@@ -3195,50 +3216,50 @@ module.exports.filterbyDirectorateDateCount = (directorate, date, referenceDate,
     filter.push({
         "$match": {
             "$and": [{
-                    "releases.parties": {
-                        "$elemMatch": {
-                            "name": {
-                                "$in": queryArray
-                            }
+                "releases.parties": {
+                    "$elemMatch": {
+                        "name": {
+                            "$in": queryArray
                         }
+                    }
+                }
+            },
+            {
+                "$or": [{
+                    "releases.tender.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
                     }
                 },
                 {
-                    "$or": [{
-                            "releases.tender.date": {
+                    "releases.awards.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.contracts.period.startDate": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.tender.milestones": {
+                        "$elemMatch": {
+                            "dateMet": {
                                 "$gte": new Date(date),
                                 "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.awards.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.contracts.period.startDate": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.tender.milestones": {
-                                "$elemMatch": {
-                                    "dateMet": {
-                                        "$gte": new Date(date),
-                                        "$lt": new Date(referenceDate)
-                                    }
-                                }
                             }
                         }
-                    ]
+                    }
                 }
+                ]
+            }
             ]
         }
     }, {
-        "$count": "total"
-    })
+            "$count": "total"
+        })
     return Contract.aggregate(filter);
 }
 
@@ -3337,27 +3358,27 @@ module.exports.filterByDirectorateValue = (directorate, value, year) => {
     filter.push({
         "$match": {
             "$and": [{
-                    "releases.parties": {
-                        "$elemMatch": {
-                            "name": {
-                                "$in": queryArray
-                            }
+                "releases.parties": {
+                    "$elemMatch": {
+                        "name": {
+                            "$in": queryArray
                         }
+                    }
+                }
+            },
+            {
+                "$or": [{
+                    "contract.predictedValueSlug": {
+                        "$regex": value
                     }
                 },
                 {
-                    "$or": [{
-                            "contract.predictedValueSlug": {
-                                "$regex": value
-                            }
-                        },
-                        {
-                            "contract.totalAmountOfContractsIncludingTaxesSlug": {
-                                "$regex": value
-                            }
-                        }
-                    ]
+                    "contract.totalAmountOfContractsIncludingTaxesSlug": {
+                        "$regex": value
+                    }
                 }
+                ]
+            }
             ]
         }
     })
@@ -3457,32 +3478,32 @@ module.exports.filterByDirectorateValueCount = (directorate, value, year) => {
     filter.push({
         "$match": {
             "$and": [{
-                    "releases.parties": {
-                        "$elemMatch": {
-                            "name": {
-                                "$in": queryArray
-                            }
+                "releases.parties": {
+                    "$elemMatch": {
+                        "name": {
+                            "$in": queryArray
                         }
+                    }
+                }
+            },
+            {
+                "$or": [{
+                    "contract.predictedValueSlug": {
+                        "$regex": value
                     }
                 },
                 {
-                    "$or": [{
-                            "contract.predictedValueSlug": {
-                                "$regex": value
-                            }
-                        },
-                        {
-                            "contract.totalAmountOfContractsIncludingTaxesSlug": {
-                                "$regex": value
-                            }
-                        }
-                    ]
+                    "contract.totalAmountOfContractsIncludingTaxesSlug": {
+                        "$regex": value
+                    }
                 }
+                ]
+            }
             ]
         }
     }, {
-        "$count": "total"
-    })
+            "$count": "total"
+        })
     return Contract.aggregate(filter);
 }
 
@@ -3500,49 +3521,49 @@ module.exports.filterByDateValue = (date, referenceDate, value, year) => {
     filter.push({
         "$match": {
             "$and": [{
-                    "$or": [{
-                            "contract.predictedValueSlug": {
-                                "$regex": value
-                            }
-                        },
-                        {
-                            "contract.totalAmountOfContractsIncludingTaxesSlug": {
-                                "$regex": value
-                            }
-                        }
-                    ]
+                "$or": [{
+                    "contract.predictedValueSlug": {
+                        "$regex": value
+                    }
                 },
                 {
-                    "$or": [{
-                            "releases.tender.date": {
+                    "contract.totalAmountOfContractsIncludingTaxesSlug": {
+                        "$regex": value
+                    }
+                }
+                ]
+            },
+            {
+                "$or": [{
+                    "releases.tender.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.awards.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.contracts.period.startDate": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.tender.milestones": {
+                        "$elemMatch": {
+                            "dateMet": {
                                 "$gte": new Date(date),
                                 "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.awards.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.contracts.period.startDate": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.tender.milestones": {
-                                "$elemMatch": {
-                                    "dateMet": {
-                                        "$gte": new Date(date),
-                                        "$lt": new Date(referenceDate)
-                                    }
-                                }
                             }
                         }
-                    ]
+                    }
                 }
+                ]
+            }
             ]
         }
     })
@@ -3561,54 +3582,54 @@ module.exports.filterByDateValueCount = (date, referenceDate, value, year) => {
     filter.push({
         "$match": {
             "$and": [{
-                    "$or": [{
-                            "contract.predictedValueSlug": {
-                                "$regex": value
-                            }
-                        },
-                        {
-                            "contract.totalAmountOfContractsIncludingTaxesSlug": {
-                                "$regex": value
-                            }
-                        }
-                    ]
+                "$or": [{
+                    "contract.predictedValueSlug": {
+                        "$regex": value
+                    }
                 },
                 {
-                    "$or": [{
-                            "releases.tender.date": {
+                    "contract.totalAmountOfContractsIncludingTaxesSlug": {
+                        "$regex": value
+                    }
+                }
+                ]
+            },
+            {
+                "$or": [{
+                    "releases.tender.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.awards.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.contracts.period.startDate": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.tender.milestones": {
+                        "$elemMatch": {
+                            "dateMet": {
                                 "$gte": new Date(date),
                                 "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.awards.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.contracts.period.startDate": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.tender.milestones": {
-                                "$elemMatch": {
-                                    "dateMet": {
-                                        "$gte": new Date(date),
-                                        "$lt": new Date(referenceDate)
-                                    }
-                                }
                             }
                         }
-                    ]
+                    }
                 }
+                ]
+            }
             ]
         }
     }, {
-        "$count": "total"
-    })
+            "$count": "total"
+        })
     return Contract.aggregate(filter);
 }
 
@@ -3708,58 +3729,58 @@ module.exports.filterByDirectorateDateValue = (directorate, date, referenceDate,
     filter.push({
         "$match": {
             "$and": [{
-                    "releases.parties": {
-                        "$elemMatch": {
-                            "name": {
-                                "$in": queryArray
-                            }
+                "releases.parties": {
+                    "$elemMatch": {
+                        "name": {
+                            "$in": queryArray
                         }
+                    }
+                }
+            },
+            {
+                "$or": [{
+                    "contract.predictedValueSlug": {
+                        "$regex": value
                     }
                 },
                 {
-                    "$or": [{
-                            "contract.predictedValueSlug": {
-                                "$regex": value
-                            }
-                        },
-                        {
-                            "contract.totalAmountOfContractsIncludingTaxesSlug": {
-                                "$regex": value
-                            }
-                        }
-                    ]
+                    "contract.totalAmountOfContractsIncludingTaxesSlug": {
+                        "$regex": value
+                    }
+                }
+                ]
+            },
+            {
+                "$or": [{
+                    "releases.tender.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
                 },
                 {
-                    "$or": [{
-                            "releases.tender.date": {
+                    "releases.awards.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.contracts.period.startDate": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.tender.milestones": {
+                        "$elemMatch": {
+                            "dateMet": {
                                 "$gte": new Date(date),
                                 "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.awards.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.contracts.period.startDate": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.tender.milestones": {
-                                "$elemMatch": {
-                                    "dateMet": {
-                                        "$gte": new Date(date),
-                                        "$lt": new Date(referenceDate)
-                                    }
-                                }
                             }
                         }
-                    ]
+                    }
                 }
+                ]
+            }
             ]
         }
     })
@@ -3860,63 +3881,63 @@ module.exports.filterByDirectorateDateValueCount = (directorate, date, reference
     filter.push({
         "$match": {
             "$and": [{
-                    "releases.parties": {
-                        "$elemMatch": {
-                            "name": {
-                                "$in": queryArray
-                            }
+                "releases.parties": {
+                    "$elemMatch": {
+                        "name": {
+                            "$in": queryArray
                         }
+                    }
+                }
+            },
+            {
+                "$or": [{
+                    "contract.predictedValueSlug": {
+                        "$regex": value
                     }
                 },
                 {
-                    "$or": [{
-                            "contract.predictedValueSlug": {
-                                "$regex": value
-                            }
-                        },
-                        {
-                            "contract.totalAmountOfContractsIncludingTaxesSlug": {
-                                "$regex": value
-                            }
-                        }
-                    ]
+                    "contract.totalAmountOfContractsIncludingTaxesSlug": {
+                        "$regex": value
+                    }
+                }
+                ]
+            },
+            {
+                "$or": [{
+                    "releases.tender.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
                 },
                 {
-                    "$or": [{
-                            "releases.tender.date": {
+                    "releases.awards.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.contracts.period.startDate": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.tender.milestones": {
+                        "$elemMatch": {
+                            "dateMet": {
                                 "$gte": new Date(date),
                                 "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.awards.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.contracts.period.startDate": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.tender.milestones": {
-                                "$elemMatch": {
-                                    "dateMet": {
-                                        "$gte": new Date(date),
-                                        "$lt": new Date(referenceDate)
-                                    }
-                                }
                             }
                         }
-                    ]
+                    }
                 }
+                ]
+            }
             ]
         }
     }, {
-        "$count": "total"
-    })
+            "$count": "total"
+        })
     return Contract.aggregate(filter);
 }
 
@@ -4015,48 +4036,48 @@ module.exports.filterByStringDirectorateValue = (text, directorate, value, year)
     filter.push({
         "$match": {
             "$and": [{
-                    "releases.parties": {
-                        "$elemMatch": {
-                            "name": {
-                                "$in": queryArray
-                            }
+                "releases.parties": {
+                    "$elemMatch": {
+                        "name": {
+                            "$in": queryArray
                         }
+                    }
+                }
+            },
+            {
+                "$or": [{
+                    "contract.predictedValueSlug": {
+                        "$regex": value
                     }
                 },
                 {
-                    "$or": [{
-                            "contract.predictedValueSlug": {
-                                "$regex": value
-                            }
-                        },
-                        {
-                            "contract.totalAmountOfContractsIncludingTaxesSlug": {
-                                "$regex": value
-                            }
-                        }
-                    ]
+                    "contract.totalAmountOfContractsIncludingTaxesSlug": {
+                        "$regex": value
+                    }
+                }
+                ]
+            },
+            {
+                "$or": [{
+                    "activityTitleSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 },
                 {
-                    "$or": [{
-                            "activityTitleSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "contract.implementationDeadlineSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "company.slug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        }
-                    ]
+                    "contract.implementationDeadlineSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                },
+                {
+                    "company.slug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 }
+                ]
+            }
             ]
         }
     })
@@ -4156,53 +4177,53 @@ module.exports.filterByStringDirectorateValueCount = (text, directorate, value, 
     filter.push({
         "$match": {
             "$and": [{
-                    "releases.parties": {
-                        "$elemMatch": {
-                            "name": {
-                                "$in": queryArray
-                            }
+                "releases.parties": {
+                    "$elemMatch": {
+                        "name": {
+                            "$in": queryArray
                         }
+                    }
+                }
+            },
+            {
+                "$or": [{
+                    "contract.predictedValueSlug": {
+                        "$regex": value
                     }
                 },
                 {
-                    "$or": [{
-                            "contract.predictedValueSlug": {
-                                "$regex": value
-                            }
-                        },
-                        {
-                            "contract.totalAmountOfContractsIncludingTaxesSlug": {
-                                "$regex": value
-                            }
-                        }
-                    ]
+                    "contract.totalAmountOfContractsIncludingTaxesSlug": {
+                        "$regex": value
+                    }
+                }
+                ]
+            },
+            {
+                "$or": [{
+                    "activityTitleSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 },
                 {
-                    "$or": [{
-                            "activityTitleSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "contract.implementationDeadlineSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "company.slug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        }
-                    ]
+                    "contract.implementationDeadlineSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                },
+                {
+                    "company.slug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 }
+                ]
+            }
             ]
         }
     }, {
-        "$count": "total"
-    })
+            "$count": "total"
+        })
     return Contract.aggregate(filter);
 }
 
@@ -4221,70 +4242,70 @@ module.exports.filterByStringDateValue = (text, date, referenceDate, value, year
     filter.push({
         "$match": {
             "$and": [{
-                    "$or": [{
-                            "activityTitleSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "contract.implementationDeadlineSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "company.slug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        }
-                    ]
+                "$or": [{
+                    "activityTitleSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 },
                 {
-                    "$or": [{
-                            "contract.predictedValueSlug": {
-                                "$regex": value
-                            }
-                        },
-                        {
-                            "contract.totalAmountOfContractsIncludingTaxesSlug": {
-                                "$regex": value
-                            }
-                        }
-                    ]
+                    "contract.implementationDeadlineSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 },
                 {
-                    "$or": [{
-                            "releases.tender.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.awards.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.contracts.period.startDate": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.tender.milestones": {
-                                "$elemMatch": {
-                                    "dateMet": {
-                                        "$gte": new Date(date),
-                                        "$lt": new Date(referenceDate)
-                                    }
-                                }
-                            }
-                        }
-                    ]
+                    "company.slug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 }
+                ]
+            },
+            {
+                "$or": [{
+                    "contract.predictedValueSlug": {
+                        "$regex": value
+                    }
+                },
+                {
+                    "contract.totalAmountOfContractsIncludingTaxesSlug": {
+                        "$regex": value
+                    }
+                }
+                ]
+            },
+            {
+                "$or": [{
+                    "releases.tender.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.awards.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.contracts.period.startDate": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.tender.milestones": {
+                        "$elemMatch": {
+                            "dateMet": {
+                                "$gte": new Date(date),
+                                "$lt": new Date(referenceDate)
+                            }
+                        }
+                    }
+                }
+                ]
+            }
             ]
         }
     })
@@ -4303,75 +4324,75 @@ module.exports.filterByStringDateValueCount = (text, date, referenceDate, value,
     filter.push({
         "$match": {
             "$and": [{
-                    "$or": [{
-                            "activityTitleSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "contract.implementationDeadlineSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "company.slug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        }
-                    ]
+                "$or": [{
+                    "activityTitleSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 },
                 {
-                    "$or": [{
-                            "contract.predictedValueSlug": {
-                                "$regex": value
-                            }
-                        },
-                        {
-                            "contract.totalAmountOfContractsIncludingTaxesSlug": {
-                                "$regex": value
-                            }
-                        }
-                    ]
+                    "contract.implementationDeadlineSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 },
                 {
-                    "$or": [{
-                            "releases.tender.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.awards.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.contracts.period.startDate": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.tender.milestones": {
-                                "$elemMatch": {
-                                    "dateMet": {
-                                        "$gte": new Date(date),
-                                        "$lt": new Date(referenceDate)
-                                    }
-                                }
-                            }
-                        }
-                    ]
+                    "company.slug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 }
+                ]
+            },
+            {
+                "$or": [{
+                    "contract.predictedValueSlug": {
+                        "$regex": value
+                    }
+                },
+                {
+                    "contract.totalAmountOfContractsIncludingTaxesSlug": {
+                        "$regex": value
+                    }
+                }
+                ]
+            },
+            {
+                "$or": [{
+                    "releases.tender.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.awards.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.contracts.period.startDate": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.tender.milestones": {
+                        "$elemMatch": {
+                            "dateMet": {
+                                "$gte": new Date(date),
+                                "$lt": new Date(referenceDate)
+                            }
+                        }
+                    }
+                }
+                ]
+            }
             ]
         }
     }, {
-        "$count": "total"
-    })
+            "$count": "total"
+        })
     return Contract.aggregate(filter);
 }
 
@@ -4410,8 +4431,8 @@ module.exports.filterByProcurementNoCount = (procurementNo, year) => {
         }
 
     }, {
-        "$count": "total"
-    })
+            "$count": "total"
+        })
     return Contract.aggregate(filter);
 }
 
@@ -4431,23 +4452,23 @@ module.exports.filterByProcurementNoString = (procurementNo, text, year) => {
                 "releases.tender.id": procurementNo
             }, {
                 "$or": [{
-                        "activityTitleSlug": {
-                            "$regex": text,
-                            "$options": 'i'
-                        }
-                    },
-                    {
-                        "contract.implementationDeadlineSlug": {
-                            "$regex": text,
-                            "$options": 'i'
-                        }
-                    },
-                    {
-                        "company.slug": {
-                            "$regex": text,
-                            "$options": 'i'
-                        }
+                    "activityTitleSlug": {
+                        "$regex": text,
+                        "$options": 'i'
                     }
+                },
+                {
+                    "contract.implementationDeadlineSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                },
+                {
+                    "company.slug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                }
                 ]
             }]
         }
@@ -4471,30 +4492,30 @@ module.exports.filterByProcurementNoStringCount = (procurementNo, text, year) =>
                 "releases.tender.id": procurementNo
             }, {
                 "$or": [{
-                        "activityTitleSlug": {
-                            "$regex": text,
-                            "$options": 'i'
-                        }
-                    },
-                    {
-                        "contract.implementationDeadlineSlug": {
-                            "$regex": text,
-                            "$options": 'i'
-                        }
-                    },
-                    {
-                        "company.slug": {
-                            "$regex": text,
-                            "$options": 'i'
-                        }
+                    "activityTitleSlug": {
+                        "$regex": text,
+                        "$options": 'i'
                     }
+                },
+                {
+                    "contract.implementationDeadlineSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                },
+                {
+                    "company.slug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                }
                 ]
             }]
         }
 
     }, {
-        "$count": "total"
-    })
+            "$count": "total"
+        })
     return Contract.aggregate(filter);
 }
 
@@ -4592,17 +4613,17 @@ module.exports.filterByProcurementNoDirectorate = (procurementNo, directorate, y
     filter.push({
         "$match": {
             "$and": [{
-                    "releases.tender.id": procurementNo
-                },
-                {
-                    "releases.parties": {
-                        "$elemMatch": {
-                            "name": {
-                                "$in": queryArray
-                            }
+                "releases.tender.id": procurementNo
+            },
+            {
+                "releases.parties": {
+                    "$elemMatch": {
+                        "name": {
+                            "$in": queryArray
                         }
                     }
-                },
+                }
+            },
             ]
         }
 
@@ -4704,23 +4725,23 @@ module.exports.filterByProcurementNoDirectorateCount = (procurementNo, directora
     filter.push({
         "$match": {
             "$and": [{
-                    "releases.tender.id": procurementNo
-                },
-                {
-                    "releases.parties": {
-                        "$elemMatch": {
-                            "name": {
-                                "$in": queryArray
-                            }
+                "releases.tender.id": procurementNo
+            },
+            {
+                "releases.parties": {
+                    "$elemMatch": {
+                        "name": {
+                            "$in": queryArray
                         }
                     }
-                },
+                }
+            },
             ]
         }
 
     }, {
-        "$count": "total"
-    })
+            "$count": "total"
+        })
     return Contract.aggregate(filter);
 }
 
@@ -4817,38 +4838,38 @@ module.exports.filterByProcurementNoDirectorateString = (procurementNo, text, di
     filter.push({
         "$match": {
             "$and": [{
-                    "releases.tender.id": procurementNo
-                },
-                {
-                    "releases.parties": {
-                        "$elemMatch": {
-                            "name": {
-                                "$in": queryArray
-                            }
+                "releases.tender.id": procurementNo
+            },
+            {
+                "releases.parties": {
+                    "$elemMatch": {
+                        "name": {
+                            "$in": queryArray
                         }
+                    }
+                }
+            },
+            {
+                "$or": [{
+                    "activityTitleSlug": {
+                        "$regex": text,
+                        "$options": 'i'
                     }
                 },
                 {
-                    "$or": [{
-                            "activityTitleSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "contract.implementationDeadlineSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "company.slug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        }
-                    ]
+                    "contract.implementationDeadlineSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                },
+                {
+                    "company.slug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 }
+                ]
+            }
             ]
         }
     });
@@ -4949,43 +4970,43 @@ module.exports.filterByProcurementNoDirectorateStringCount = (procurementNo, tex
     filter.push({
         "$match": {
             "$and": [{
-                    "releases.tender.id": procurementNo
-                },
-                {
-                    "releases.parties": {
-                        "$elemMatch": {
-                            "name": {
-                                "$in": queryArray
-                            }
+                "releases.tender.id": procurementNo
+            },
+            {
+                "releases.parties": {
+                    "$elemMatch": {
+                        "name": {
+                            "$in": queryArray
                         }
+                    }
+                }
+            },
+            {
+                "$or": [{
+                    "activityTitleSlug": {
+                        "$regex": text,
+                        "$options": 'i'
                     }
                 },
                 {
-                    "$or": [{
-                            "activityTitleSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "contract.implementationDeadlineSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "company.slug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        }
-                    ]
+                    "contract.implementationDeadlineSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                },
+                {
+                    "company.slug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 }
+                ]
+            }
             ]
         }
     }, {
-        "$count": "total"
-    })
+            "$count": "total"
+        })
     return Contract.aggregate(filter);
 }
 
@@ -5002,21 +5023,21 @@ module.exports.filterByProcurementNoValue = (procurementNo, value, year) => {
     filter.push({
         "$match": {
             "$and": [{
-                    "$or": [{
-                            "contract.predictedValueSlug": {
-                                "$regex": value
-                            }
-                        },
-                        {
-                            "contract.totalAmountOfContractsIncludingTaxesSlug": {
-                                "$regex": value
-                            }
-                        }
-                    ]
+                "$or": [{
+                    "contract.predictedValueSlug": {
+                        "$regex": value
+                    }
                 },
                 {
-                    "releases.tender.id": procurementNo
+                    "contract.totalAmountOfContractsIncludingTaxesSlug": {
+                        "$regex": value
+                    }
                 }
+                ]
+            },
+            {
+                "releases.tender.id": procurementNo
+            }
 
             ]
         }
@@ -5037,28 +5058,28 @@ module.exports.filterByProcurementNoValueCount = (procurementNo, value, year) =>
     filter.push({
         "$match": {
             "$and": [{
-                    "$or": [{
-                            "contract.predictedValueSlug": {
-                                "$regex": value
-                            }
-                        },
-                        {
-                            "contract.totalAmountOfContractsIncludingTaxesSlug": {
-                                "$regex": value
-                            }
-                        }
-                    ]
+                "$or": [{
+                    "contract.predictedValueSlug": {
+                        "$regex": value
+                    }
                 },
                 {
-                    "releases.tender.id": procurementNo
+                    "contract.totalAmountOfContractsIncludingTaxesSlug": {
+                        "$regex": value
+                    }
                 }
+                ]
+            },
+            {
+                "releases.tender.id": procurementNo
+            }
 
             ]
         }
 
     }, {
-        "$count": "total"
-    })
+            "$count": "total"
+        })
     return Contract.aggregate(filter);
 }
 module.exports.filterByProcurementNoValueString = (procurementNo, text, value, year) => {
@@ -5073,42 +5094,42 @@ module.exports.filterByProcurementNoValueString = (procurementNo, text, value, y
     filter.push({
         "$match": {
             "$and": [{
-                    "releases.tender.id": procurementNo
+                "releases.tender.id": procurementNo
+            },
+            {
+                "$or": [{
+                    "activityTitleSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 },
                 {
-                    "$or": [{
-                            "activityTitleSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "contract.implementationDeadlineSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "company.slug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        }
-                    ]
+                    "contract.implementationDeadlineSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 },
                 {
-                    "$or": [{
-                            "contract.predictedValueSlug": {
-                                "$regex": value
-                            }
-                        },
-                        {
-                            "contract.totalAmountOfContractsIncludingTaxesSlug": {
-                                "$regex": value
-                            }
-                        }
-                    ]
+                    "company.slug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 }
+                ]
+            },
+            {
+                "$or": [{
+                    "contract.predictedValueSlug": {
+                        "$regex": value
+                    }
+                },
+                {
+                    "contract.totalAmountOfContractsIncludingTaxesSlug": {
+                        "$regex": value
+                    }
+                }
+                ]
+            }
             ]
         }
     });
@@ -5127,47 +5148,47 @@ module.exports.filterByProcurementNoValueStringCount = (procurementNo, text, val
     filter.push({
         "$match": {
             "$and": [{
-                    "releases.tender.id": procurementNo
+                "releases.tender.id": procurementNo
+            },
+            {
+                "$or": [{
+                    "activityTitleSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 },
                 {
-                    "$or": [{
-                            "activityTitleSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "contract.implementationDeadlineSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "company.slug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        }
-                    ]
+                    "contract.implementationDeadlineSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 },
                 {
-                    "$or": [{
-                            "contract.predictedValueSlug": {
-                                "$regex": value
-                            }
-                        },
-                        {
-                            "contract.totalAmountOfContractsIncludingTaxesSlug": {
-                                "$regex": value
-                            }
-                        }
-                    ]
+                    "company.slug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 }
+                ]
+            },
+            {
+                "$or": [{
+                    "contract.predictedValueSlug": {
+                        "$regex": value
+                    }
+                },
+                {
+                    "contract.totalAmountOfContractsIncludingTaxesSlug": {
+                        "$regex": value
+                    }
+                }
+                ]
+            }
             ]
         }
     }, {
-        "$count": "total"
-    })
+            "$count": "total"
+        })
     return Contract.aggregate(filter);
 }
 
@@ -5265,29 +5286,29 @@ module.exports.filterByProcurementNoDirectorateValue = (procurementNo, directora
     filter.push({
         "$match": {
             "$and": [{
-                    "releases.parties": {
-                        "$elemMatch": {
-                            "name": {
-                                "$in": queryArray
-                            }
+                "releases.parties": {
+                    "$elemMatch": {
+                        "name": {
+                            "$in": queryArray
                         }
+                    }
+                }
+            },
+            {
+                "$or": [{
+                    "contract.predictedValueSlug": {
+                        "$regex": value
                     }
                 },
                 {
-                    "$or": [{
-                            "contract.predictedValueSlug": {
-                                "$regex": value
-                            }
-                        },
-                        {
-                            "contract.totalAmountOfContractsIncludingTaxesSlug": {
-                                "$regex": value
-                            }
-                        }
-                    ]
-                }, {
-                    "releases.tender.id": procurementNo
+                    "contract.totalAmountOfContractsIncludingTaxesSlug": {
+                        "$regex": value
+                    }
                 }
+                ]
+            }, {
+                "releases.tender.id": procurementNo
+            }
             ]
         }
     })
@@ -5387,34 +5408,34 @@ module.exports.filterByProcurementNoDirectorateValueCount = (procurementNo, dire
     filter.push({
         "$match": {
             "$and": [{
-                    "releases.parties": {
-                        "$elemMatch": {
-                            "name": {
-                                "$in": queryArray
-                            }
+                "releases.parties": {
+                    "$elemMatch": {
+                        "name": {
+                            "$in": queryArray
                         }
+                    }
+                }
+            },
+            {
+                "$or": [{
+                    "contract.predictedValueSlug": {
+                        "$regex": value
                     }
                 },
                 {
-                    "$or": [{
-                            "contract.predictedValueSlug": {
-                                "$regex": value
-                            }
-                        },
-                        {
-                            "contract.totalAmountOfContractsIncludingTaxesSlug": {
-                                "$regex": value
-                            }
-                        }
-                    ]
-                }, {
-                    "releases.tender.id": procurementNo
+                    "contract.totalAmountOfContractsIncludingTaxesSlug": {
+                        "$regex": value
+                    }
                 }
+                ]
+            }, {
+                "releases.tender.id": procurementNo
+            }
             ]
         }
     }, {
-        "$count": "total"
-    })
+            "$count": "total"
+        })
     return Contract.aggregate(filter);
 }
 
@@ -5512,49 +5533,49 @@ module.exports.filterByProcurementNoStringDirectorateValue = (procurementNo, tex
     filter.push({
         "$match": {
             "$and": [{
-                    "releases.parties": {
-                        "$elemMatch": {
-                            "name": {
-                                "$in": queryArray
-                            }
+                "releases.parties": {
+                    "$elemMatch": {
+                        "name": {
+                            "$in": queryArray
                         }
+                    }
+                }
+            },
+            {
+                "$or": [{
+                    "contract.predictedValueSlug": {
+                        "$regex": value
                     }
                 },
                 {
-                    "$or": [{
-                            "contract.predictedValueSlug": {
-                                "$regex": value
-                            }
-                        },
-                        {
-                            "contract.totalAmountOfContractsIncludingTaxesSlug": {
-                                "$regex": value
-                            }
-                        }
-                    ]
-                }, {
-                    "$or": [{
-                            "activityTitleSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "contract.implementationDeadlineSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "company.slug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        }
-                    ]
-                }, {
-                    "releases.tender.id": procurementNo
+                    "contract.totalAmountOfContractsIncludingTaxesSlug": {
+                        "$regex": value
+                    }
                 }
+                ]
+            }, {
+                "$or": [{
+                    "activityTitleSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                },
+                {
+                    "contract.implementationDeadlineSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                },
+                {
+                    "company.slug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                }
+                ]
+            }, {
+                "releases.tender.id": procurementNo
+            }
             ]
         }
     })
@@ -5654,54 +5675,54 @@ module.exports.filterByProcurementNoStringDirectorateValueCount = (procurementNo
     filter.push({
         "$match": {
             "$and": [{
-                    "releases.parties": {
-                        "$elemMatch": {
-                            "name": {
-                                "$in": queryArray
-                            }
+                "releases.parties": {
+                    "$elemMatch": {
+                        "name": {
+                            "$in": queryArray
                         }
+                    }
+                }
+            },
+            {
+                "$or": [{
+                    "contract.predictedValueSlug": {
+                        "$regex": value
                     }
                 },
                 {
-                    "$or": [{
-                            "contract.predictedValueSlug": {
-                                "$regex": value
-                            }
-                        },
-                        {
-                            "contract.totalAmountOfContractsIncludingTaxesSlug": {
-                                "$regex": value
-                            }
-                        }
-                    ]
-                }, {
-                    "$or": [{
-                            "activityTitleSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "contract.implementationDeadlineSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "company.slug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        }
-                    ]
-                }, {
-                    "releases.tender.id": procurementNo
+                    "contract.totalAmountOfContractsIncludingTaxesSlug": {
+                        "$regex": value
+                    }
                 }
+                ]
+            }, {
+                "$or": [{
+                    "activityTitleSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                },
+                {
+                    "contract.implementationDeadlineSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                },
+                {
+                    "company.slug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                }
+                ]
+            }, {
+                "releases.tender.id": procurementNo
+            }
             ]
         }
     }, {
-        "$count": "total"
-    })
+            "$count": "total"
+        })
     return Contract.aggregate(filter);
 }
 
@@ -5717,39 +5738,39 @@ module.exports.filterByProcurementNoDate = (procurementNo, date, referenceDate, 
     filter.push({
         "$match": {
             "$and": [{
-                    "releases.tender.id": procurementNo
+                "releases.tender.id": procurementNo
+            },
+            {
+                "$or": [{
+                    "releases.tender.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
                 },
                 {
-                    "$or": [{
-                            "releases.tender.date": {
+                    "releases.awards.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.contracts.period.startDate": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.tender.milestones": {
+                        "$elemMatch": {
+                            "dateMet": {
                                 "$gte": new Date(date),
                                 "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.awards.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.contracts.period.startDate": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.tender.milestones": {
-                                "$elemMatch": {
-                                    "dateMet": {
-                                        "$gte": new Date(date),
-                                        "$lt": new Date(referenceDate)
-                                    }
-                                }
                             }
                         }
-                    ]
+                    }
                 }
+                ]
+            }
             ]
         }
     })
@@ -5768,44 +5789,44 @@ module.exports.filterByProcurementNoDateCount = (procurementNo, date, referenceD
     filter.push({
         "$match": {
             "$and": [{
-                    "releases.tender.id": procurementNo
+                "releases.tender.id": procurementNo
+            },
+            {
+                "$or": [{
+                    "releases.tender.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
                 },
                 {
-                    "$or": [{
-                            "releases.tender.date": {
+                    "releases.awards.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.contracts.period.startDate": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.tender.milestones": {
+                        "$elemMatch": {
+                            "dateMet": {
                                 "$gte": new Date(date),
                                 "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.awards.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.contracts.period.startDate": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.tender.milestones": {
-                                "$elemMatch": {
-                                    "dateMet": {
-                                        "$gte": new Date(date),
-                                        "$lt": new Date(referenceDate)
-                                    }
-                                }
                             }
                         }
-                    ]
+                    }
                 }
+                ]
+            }
             ]
         }
     }, {
-        "$count": "total"
-    })
+            "$count": "total"
+        })
     return Contract.aggregate(filter);
 }
 
@@ -5821,60 +5842,60 @@ module.exports.filterByProcurementNoStringDate = (procurementNo, text, date, ref
     filter.push({
         "$match": {
             "$and": [{
-                    "$or": [{
-                            "activityTitleSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "contract.implementationDeadlineSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "company.slug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        }
-                    ]
+                "$or": [{
+                    "activityTitleSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 },
                 {
-                    "releases.tender.id": procurementNo
+                    "contract.implementationDeadlineSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 },
                 {
-                    "$or": [{
-                            "releases.tender.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.awards.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.contracts.period.startDate": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.tender.milestones": {
-                                "$elemMatch": {
-                                    "dateMet": {
-                                        "$gte": new Date(date),
-                                        "$lt": new Date(referenceDate)
-                                    }
-                                }
-                            }
-                        }
-                    ]
+                    "company.slug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 }
+                ]
+            },
+            {
+                "releases.tender.id": procurementNo
+            },
+            {
+                "$or": [{
+                    "releases.tender.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.awards.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.contracts.period.startDate": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.tender.milestones": {
+                        "$elemMatch": {
+                            "dateMet": {
+                                "$gte": new Date(date),
+                                "$lt": new Date(referenceDate)
+                            }
+                        }
+                    }
+                }
+                ]
+            }
             ]
         }
     })
@@ -5893,65 +5914,65 @@ module.exports.filterByProcurementNoStringDateCount = (procurementNo, text, date
     filter.push({
         "$match": {
             "$and": [{
-                    "$or": [{
-                            "activityTitleSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "contract.implementationDeadlineSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "company.slug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        }
-                    ]
+                "$or": [{
+                    "activityTitleSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 },
                 {
-                    "releases.tender.id": procurementNo
+                    "contract.implementationDeadlineSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 },
                 {
-                    "$or": [{
-                            "releases.tender.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.awards.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.contracts.period.startDate": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.tender.milestones": {
-                                "$elemMatch": {
-                                    "dateMet": {
-                                        "$gte": new Date(date),
-                                        "$lt": new Date(referenceDate)
-                                    }
-                                }
-                            }
-                        }
-                    ]
+                    "company.slug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 }
+                ]
+            },
+            {
+                "releases.tender.id": procurementNo
+            },
+            {
+                "$or": [{
+                    "releases.tender.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.awards.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.contracts.period.startDate": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.tender.milestones": {
+                        "$elemMatch": {
+                            "dateMet": {
+                                "$gte": new Date(date),
+                                "$lt": new Date(referenceDate)
+                            }
+                        }
+                    }
+                }
+                ]
+            }
             ]
         }
     }, {
-        "$count": "total"
-    })
+            "$count": "total"
+        })
     return Contract.aggregate(filter);
 }
 
@@ -6049,47 +6070,47 @@ module.exports.filterByProcurementNoDirectorateDate = (procurementNo, directorat
     filter.push({
         "$match": {
             "$and": [{
-                    "releases.parties": {
-                        "$elemMatch": {
-                            "name": {
-                                "$in": queryArray
-                            }
+                "releases.parties": {
+                    "$elemMatch": {
+                        "name": {
+                            "$in": queryArray
                         }
+                    }
+                }
+            },
+            {
+                "$or": [{
+                    "releases.tender.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
                     }
                 },
                 {
-                    "$or": [{
-                            "releases.tender.date": {
+                    "releases.awards.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.contracts.period.startDate": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.tender.milestones": {
+                        "$elemMatch": {
+                            "dateMet": {
                                 "$gte": new Date(date),
                                 "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.awards.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.contracts.period.startDate": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.tender.milestones": {
-                                "$elemMatch": {
-                                    "dateMet": {
-                                        "$gte": new Date(date),
-                                        "$lt": new Date(referenceDate)
-                                    }
-                                }
                             }
                         }
-                    ]
-                }, {
-                    "releases.tender.id": procurementNo
+                    }
                 }
+                ]
+            }, {
+                "releases.tender.id": procurementNo
+            }
             ]
         }
     })
@@ -6189,52 +6210,52 @@ module.exports.filterByProcurementNoDirectorateDateCount = (procurementNo, direc
     filter.push({
         "$match": {
             "$and": [{
-                    "releases.parties": {
-                        "$elemMatch": {
-                            "name": {
-                                "$in": queryArray
-                            }
+                "releases.parties": {
+                    "$elemMatch": {
+                        "name": {
+                            "$in": queryArray
                         }
+                    }
+                }
+            },
+            {
+                "$or": [{
+                    "releases.tender.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
                     }
                 },
                 {
-                    "$or": [{
-                            "releases.tender.date": {
+                    "releases.awards.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.contracts.period.startDate": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.tender.milestones": {
+                        "$elemMatch": {
+                            "dateMet": {
                                 "$gte": new Date(date),
                                 "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.awards.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.contracts.period.startDate": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.tender.milestones": {
-                                "$elemMatch": {
-                                    "dateMet": {
-                                        "$gte": new Date(date),
-                                        "$lt": new Date(referenceDate)
-                                    }
-                                }
                             }
                         }
-                    ]
-                }, {
-                    "releases.tender.id": procurementNo
+                    }
                 }
+                ]
+            }, {
+                "releases.tender.id": procurementNo
+            }
             ]
         }
     }, {
-        "$count": "total"
-    })
+            "$count": "total"
+        })
     return Contract.aggregate(filter);
 }
 
@@ -6332,68 +6353,68 @@ module.exports.filterByProcurementNoStringDirectorateDate = (procurementNo, text
     filter.push({
         "$match": {
             "$and": [{
-                    "releases.parties": {
-                        "$elemMatch": {
-                            "name": {
-                                "$in": queryArray
-                            }
+                "releases.parties": {
+                    "$elemMatch": {
+                        "name": {
+                            "$in": queryArray
                         }
+                    }
+                }
+            },
+            {
+                "$or": [{
+                    "releases.tender.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
                     }
                 },
                 {
-                    "$or": [{
-                            "releases.tender.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.awards.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.contracts.period.startDate": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.tender.milestones": {
-                                "$elemMatch": {
-                                    "dateMet": {
-                                        "$gte": new Date(date),
-                                        "$lt": new Date(referenceDate)
-                                    }
-                                }
-                            }
-                        }
-                    ]
+                    "releases.awards.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
                 },
                 {
-                    "$or": [{
-                            "activityTitleSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "contract.implementationDeadlineSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "company.slug": {
-                                "$regex": text,
-                                "$options": 'i'
+                    "releases.contracts.period.startDate": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.tender.milestones": {
+                        "$elemMatch": {
+                            "dateMet": {
+                                "$gte": new Date(date),
+                                "$lt": new Date(referenceDate)
                             }
                         }
-                    ]
-                }, {
-                    "releases.tender.id": procurementNo
+                    }
                 }
+                ]
+            },
+            {
+                "$or": [{
+                    "activityTitleSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                },
+                {
+                    "contract.implementationDeadlineSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                },
+                {
+                    "company.slug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                }
+                ]
+            }, {
+                "releases.tender.id": procurementNo
+            }
             ]
         }
     })
@@ -6493,73 +6514,73 @@ module.exports.filterByProcurementNoStringDirectorateDateCount = (procurementNo,
     filter.push({
         "$match": {
             "$and": [{
-                    "releases.parties": {
-                        "$elemMatch": {
-                            "name": {
-                                "$in": queryArray
-                            }
+                "releases.parties": {
+                    "$elemMatch": {
+                        "name": {
+                            "$in": queryArray
                         }
+                    }
+                }
+            },
+            {
+                "$or": [{
+                    "releases.tender.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
                     }
                 },
                 {
-                    "$or": [{
-                            "releases.tender.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.awards.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.contracts.period.startDate": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.tender.milestones": {
-                                "$elemMatch": {
-                                    "dateMet": {
-                                        "$gte": new Date(date),
-                                        "$lt": new Date(referenceDate)
-                                    }
-                                }
-                            }
-                        }
-                    ]
+                    "releases.awards.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
                 },
                 {
-                    "$or": [{
-                            "activityTitleSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "contract.implementationDeadlineSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "company.slug": {
-                                "$regex": text,
-                                "$options": 'i'
+                    "releases.contracts.period.startDate": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.tender.milestones": {
+                        "$elemMatch": {
+                            "dateMet": {
+                                "$gte": new Date(date),
+                                "$lt": new Date(referenceDate)
                             }
                         }
-                    ]
-                }, {
-                    "releases.tender.id": procurementNo
+                    }
                 }
+                ]
+            },
+            {
+                "$or": [{
+                    "activityTitleSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                },
+                {
+                    "contract.implementationDeadlineSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                },
+                {
+                    "company.slug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                }
+                ]
+            }, {
+                "releases.tender.id": procurementNo
+            }
             ]
         }
     }, {
-        "$count": "total"
-    })
+            "$count": "total"
+        })
     return Contract.aggregate(filter);
 }
 
@@ -6575,52 +6596,52 @@ module.exports.filterByProcurementNoDateValue = (procurementNo, value, date, ref
     filter.push({
         "$match": {
             "$and": [{
-                    "releases.tender.id": procurementNo
+                "releases.tender.id": procurementNo
+            },
+            {
+                "$or": [{
+                    "contract.predictedValueSlug": {
+                        "$regex": value
+                    }
                 },
                 {
-                    "$or": [{
-                            "contract.predictedValueSlug": {
-                                "$regex": value
-                            }
-                        },
-                        {
-                            "contract.totalAmountOfContractsIncludingTaxesSlug": {
-                                "$regex": value
-                            }
-                        }
-                    ]
-                },
-                {
-                    "$or": [{
-                            "releases.tender.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.awards.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.contracts.period.startDate": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.tender.milestones": {
-                                "$elemMatch": {
-                                    "dateMet": {
-                                        "$gte": new Date(date),
-                                        "$lt": new Date(referenceDate)
-                                    }
-                                }
-                            }
-                        }
-                    ]
+                    "contract.totalAmountOfContractsIncludingTaxesSlug": {
+                        "$regex": value
+                    }
                 }
+                ]
+            },
+            {
+                "$or": [{
+                    "releases.tender.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.awards.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.contracts.period.startDate": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.tender.milestones": {
+                        "$elemMatch": {
+                            "dateMet": {
+                                "$gte": new Date(date),
+                                "$lt": new Date(referenceDate)
+                            }
+                        }
+                    }
+                }
+                ]
+            }
             ]
         }
     })
@@ -6639,57 +6660,57 @@ module.exports.filterByProcurementNoDateValueCount = (procurementNo, value, date
     filter.push({
         "$match": {
             "$and": [{
-                    "releases.tender.id": procurementNo
+                "releases.tender.id": procurementNo
+            },
+            {
+                "$or": [{
+                    "contract.predictedValueSlug": {
+                        "$regex": value
+                    }
                 },
                 {
-                    "$or": [{
-                            "contract.predictedValueSlug": {
-                                "$regex": value
-                            }
-                        },
-                        {
-                            "contract.totalAmountOfContractsIncludingTaxesSlug": {
-                                "$regex": value
-                            }
-                        }
-                    ]
-                },
-                {
-                    "$or": [{
-                            "releases.tender.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.awards.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.contracts.period.startDate": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.tender.milestones": {
-                                "$elemMatch": {
-                                    "dateMet": {
-                                        "$gte": new Date(date),
-                                        "$lt": new Date(referenceDate)
-                                    }
-                                }
-                            }
-                        }
-                    ]
+                    "contract.totalAmountOfContractsIncludingTaxesSlug": {
+                        "$regex": value
+                    }
                 }
+                ]
+            },
+            {
+                "$or": [{
+                    "releases.tender.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.awards.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.contracts.period.startDate": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.tender.milestones": {
+                        "$elemMatch": {
+                            "dateMet": {
+                                "$gte": new Date(date),
+                                "$lt": new Date(referenceDate)
+                            }
+                        }
+                    }
+                }
+                ]
+            }
             ]
         }
     }, {
-        "$count": "total"
-    })
+            "$count": "total"
+        })
     return Contract.aggregate(filter);
 }
 
@@ -6705,73 +6726,73 @@ module.exports.filterByProcurementNoStringDateValue = (procurementNo, text, valu
     filter.push({
         "$match": {
             "$and": [{
-                    "$or": [{
-                            "activityTitleSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "contract.implementationDeadlineSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "company.slug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        }
-                    ]
+                "$or": [{
+                    "activityTitleSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 },
                 {
-                    "releases.tender.id": procurementNo
+                    "contract.implementationDeadlineSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 },
                 {
-                    "$or": [{
-                            "contract.predictedValueSlug": {
-                                "$regex": value
-                            }
-                        },
-                        {
-                            "contract.totalAmountOfContractsIncludingTaxesSlug": {
-                                "$regex": value
-                            }
-                        }
-                    ]
-                },
-                {
-                    "$or": [{
-                            "releases.tender.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.awards.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.contracts.period.startDate": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.tender.milestones": {
-                                "$elemMatch": {
-                                    "dateMet": {
-                                        "$gte": new Date(date),
-                                        "$lt": new Date(referenceDate)
-                                    }
-                                }
-                            }
-                        }
-                    ]
+                    "company.slug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 }
+                ]
+            },
+            {
+                "releases.tender.id": procurementNo
+            },
+            {
+                "$or": [{
+                    "contract.predictedValueSlug": {
+                        "$regex": value
+                    }
+                },
+                {
+                    "contract.totalAmountOfContractsIncludingTaxesSlug": {
+                        "$regex": value
+                    }
+                }
+                ]
+            },
+            {
+                "$or": [{
+                    "releases.tender.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.awards.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.contracts.period.startDate": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.tender.milestones": {
+                        "$elemMatch": {
+                            "dateMet": {
+                                "$gte": new Date(date),
+                                "$lt": new Date(referenceDate)
+                            }
+                        }
+                    }
+                }
+                ]
+            }
             ]
         }
     })
@@ -6789,78 +6810,78 @@ module.exports.filterByProcurementNoStringDateValueCount = (procurementNo, text,
     filter.push({
         "$match": {
             "$and": [{
-                    "$or": [{
-                            "activityTitleSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "contract.implementationDeadlineSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "company.slug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        }
-                    ]
+                "$or": [{
+                    "activityTitleSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 },
                 {
-                    "releases.tender.id": procurementNo
+                    "contract.implementationDeadlineSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 },
                 {
-                    "$or": [{
-                            "contract.predictedValueSlug": {
-                                "$regex": value
-                            }
-                        },
-                        {
-                            "contract.totalAmountOfContractsIncludingTaxesSlug": {
-                                "$regex": value
-                            }
-                        }
-                    ]
-                },
-                {
-                    "$or": [{
-                            "releases.tender.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.awards.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.contracts.period.startDate": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.tender.milestones": {
-                                "$elemMatch": {
-                                    "dateMet": {
-                                        "$gte": new Date(date),
-                                        "$lt": new Date(referenceDate)
-                                    }
-                                }
-                            }
-                        }
-                    ]
+                    "company.slug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 }
+                ]
+            },
+            {
+                "releases.tender.id": procurementNo
+            },
+            {
+                "$or": [{
+                    "contract.predictedValueSlug": {
+                        "$regex": value
+                    }
+                },
+                {
+                    "contract.totalAmountOfContractsIncludingTaxesSlug": {
+                        "$regex": value
+                    }
+                }
+                ]
+            },
+            {
+                "$or": [{
+                    "releases.tender.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.awards.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.contracts.period.startDate": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.tender.milestones": {
+                        "$elemMatch": {
+                            "dateMet": {
+                                "$gte": new Date(date),
+                                "$lt": new Date(referenceDate)
+                            }
+                        }
+                    }
+                }
+                ]
+            }
             ]
         }
     }, {
-        "$count": "total"
-    })
+            "$count": "total"
+        })
     return Contract.aggregate(filter);
 }
 
@@ -6957,61 +6978,61 @@ module.exports.filterbyProcurementNoDirectorateValueDate = (procurementNo, direc
     filter.push({
         "$match": {
             "$and": [{
-                    "releases.parties": {
-                        "$elemMatch": {
-                            "name": {
-                                "$in": queryArray
-                            }
+                "releases.parties": {
+                    "$elemMatch": {
+                        "name": {
+                            "$in": queryArray
                         }
+                    }
+                }
+            },
+            {
+                "releases.tender.id": procurementNo
+            },
+            {
+                "$or": [{
+                    "contract.predictedValueSlug": {
+                        "$regex": value
                     }
                 },
                 {
-                    "releases.tender.id": procurementNo
-                },
-                {
-                    "$or": [{
-                            "contract.predictedValueSlug": {
-                                "$regex": value
-                            }
-                        },
-                        {
-                            "contract.totalAmountOfContractsIncludingTaxesSlug": {
-                                "$regex": value
-                            }
-                        }
-                    ]
-                },
-                {
-                    "$or": [{
-                            "releases.tender.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.awards.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.contracts.period.startDate": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.tender.milestones": {
-                                "$elemMatch": {
-                                    "dateMet": {
-                                        "$gte": new Date(date),
-                                        "$lt": new Date(referenceDate)
-                                    }
-                                }
-                            }
-                        }
-                    ]
+                    "contract.totalAmountOfContractsIncludingTaxesSlug": {
+                        "$regex": value
+                    }
                 }
+                ]
+            },
+            {
+                "$or": [{
+                    "releases.tender.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.awards.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.contracts.period.startDate": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.tender.milestones": {
+                        "$elemMatch": {
+                            "dateMet": {
+                                "$gte": new Date(date),
+                                "$lt": new Date(referenceDate)
+                            }
+                        }
+                    }
+                }
+                ]
+            }
             ]
         }
     })
@@ -7110,66 +7131,66 @@ module.exports.filterbyProcurementNoDirectorateValueDateCount = (procurementNo, 
     filter.push({
         "$match": {
             "$and": [{
-                    "releases.parties": {
-                        "$elemMatch": {
-                            "name": {
-                                "$in": queryArray
-                            }
+                "releases.parties": {
+                    "$elemMatch": {
+                        "name": {
+                            "$in": queryArray
                         }
+                    }
+                }
+            },
+            {
+                "releases.tender.id": procurementNo
+            },
+            {
+                "$or": [{
+                    "contract.predictedValueSlug": {
+                        "$regex": value
                     }
                 },
                 {
-                    "releases.tender.id": procurementNo
-                },
-                {
-                    "$or": [{
-                            "contract.predictedValueSlug": {
-                                "$regex": value
-                            }
-                        },
-                        {
-                            "contract.totalAmountOfContractsIncludingTaxesSlug": {
-                                "$regex": value
-                            }
-                        }
-                    ]
-                },
-                {
-                    "$or": [{
-                            "releases.tender.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.awards.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.contracts.period.startDate": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.tender.milestones": {
-                                "$elemMatch": {
-                                    "dateMet": {
-                                        "$gte": new Date(date),
-                                        "$lt": new Date(referenceDate)
-                                    }
-                                }
-                            }
-                        }
-                    ]
+                    "contract.totalAmountOfContractsIncludingTaxesSlug": {
+                        "$regex": value
+                    }
                 }
+                ]
+            },
+            {
+                "$or": [{
+                    "releases.tender.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.awards.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.contracts.period.startDate": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.tender.milestones": {
+                        "$elemMatch": {
+                            "dateMet": {
+                                "$gte": new Date(date),
+                                "$lt": new Date(referenceDate)
+                            }
+                        }
+                    }
+                }
+                ]
+            }
             ]
         }
     }, {
-        "$count": "total"
-    })
+            "$count": "total"
+        })
     return Contract.aggregate(filter);
 }
 
@@ -7266,82 +7287,82 @@ module.exports.filterbyProcurementNoStringDirectorateValueDate = (procurementNo,
     filter.push({
         "$match": {
             "$and": [{
-                    "releases.parties": {
-                        "$elemMatch": {
-                            "name": {
-                                "$in": queryArray
-                            }
+                "releases.parties": {
+                    "$elemMatch": {
+                        "name": {
+                            "$in": queryArray
                         }
+                    }
+                }
+            },
+            {
+                "releases.tender.id": procurementNo
+            },
+            {
+                "$or": [{
+                    "contract.predictedValueSlug": {
+                        "$regex": value
                     }
                 },
                 {
-                    "releases.tender.id": procurementNo
-                },
-                {
-                    "$or": [{
-                            "contract.predictedValueSlug": {
-                                "$regex": value
-                            }
-                        },
-                        {
-                            "contract.totalAmountOfContractsIncludingTaxesSlug": {
-                                "$regex": value
-                            }
-                        }
-                    ]
-                },
-                {
-                    "$or": [{
-                            "activityTitleSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "contract.implementationDeadlineSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "company.slug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        }
-                    ]
-                },
-                {
-                    "$or": [{
-                            "releases.tender.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.awards.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.contracts.period.startDate": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.tender.milestones": {
-                                "$elemMatch": {
-                                    "dateMet": {
-                                        "$gte": new Date(date),
-                                        "$lt": new Date(referenceDate)
-                                    }
-                                }
-                            }
-                        }
-                    ]
+                    "contract.totalAmountOfContractsIncludingTaxesSlug": {
+                        "$regex": value
+                    }
                 }
+                ]
+            },
+            {
+                "$or": [{
+                    "activityTitleSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                },
+                {
+                    "contract.implementationDeadlineSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                },
+                {
+                    "company.slug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
+                }
+                ]
+            },
+            {
+                "$or": [{
+                    "releases.tender.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.awards.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.contracts.period.startDate": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.tender.milestones": {
+                        "$elemMatch": {
+                            "dateMet": {
+                                "$gte": new Date(date),
+                                "$lt": new Date(referenceDate)
+                            }
+                        }
+                    }
+                }
+                ]
+            }
             ]
         }
     })
@@ -7441,87 +7462,87 @@ module.exports.filterbyProcurementNoStringDirectorateValueDateCount = (procureme
     filter.push({
         "$match": {
             "$and": [{
-                    "releases.parties": {
-                        "$elemMatch": {
-                            "name": {
-                                "$in": queryArray
-                            }
+                "releases.parties": {
+                    "$elemMatch": {
+                        "name": {
+                            "$in": queryArray
                         }
+                    }
+                }
+            },
+            {
+                "releases.tender.id": procurementNo
+            },
+            {
+                "$or": [{
+                    "activityTitleSlug": {
+                        "$regex": text,
+                        "$options": 'i'
                     }
                 },
                 {
-                    "releases.tender.id": procurementNo
+                    "contract.implementationDeadlineSlug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 },
                 {
-                    "$or": [{
-                            "activityTitleSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "contract.implementationDeadlineSlug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        },
-                        {
-                            "company.slug": {
-                                "$regex": text,
-                                "$options": 'i'
-                            }
-                        }
-                    ]
-                },
-                {
-                    "$or": [{
-                            "contract.predictedValueSlug": {
-                                "$regex": value
-                            }
-                        },
-                        {
-                            "contract.totalAmountOfContractsIncludingTaxesSlug": {
-                                "$regex": value
-                            }
-                        }
-                    ]
-                },
-                {
-                    "$or": [{
-                            "releases.tender.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.awards.date": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.contracts.period.startDate": {
-                                "$gte": new Date(date),
-                                "$lt": new Date(referenceDate)
-                            }
-                        },
-                        {
-                            "releases.tender.milestones": {
-                                "$elemMatch": {
-                                    "dateMet": {
-                                        "$gte": new Date(date),
-                                        "$lt": new Date(referenceDate)
-                                    }
-                                }
-                            }
-                        }
-                    ]
+                    "company.slug": {
+                        "$regex": text,
+                        "$options": 'i'
+                    }
                 }
+                ]
+            },
+            {
+                "$or": [{
+                    "contract.predictedValueSlug": {
+                        "$regex": value
+                    }
+                },
+                {
+                    "contract.totalAmountOfContractsIncludingTaxesSlug": {
+                        "$regex": value
+                    }
+                }
+                ]
+            },
+            {
+                "$or": [{
+                    "releases.tender.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.awards.date": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.contracts.period.startDate": {
+                        "$gte": new Date(date),
+                        "$lt": new Date(referenceDate)
+                    }
+                },
+                {
+                    "releases.tender.milestones": {
+                        "$elemMatch": {
+                            "dateMet": {
+                                "$gte": new Date(date),
+                                "$lt": new Date(referenceDate)
+                            }
+                        }
+                    }
+                }
+                ]
+            }
             ]
         }
     }, {
-        "$count": "total"
-    })
+            "$count": "total"
+        })
     return Contract.aggregate(filter);
 }
 
@@ -7545,8 +7566,8 @@ module.exports.filterContractsbyYearCount = (year) => {
                 "year": year
             }
         }, {
-            "$count": "total"
-        })
+                "$count": "total"
+            })
     }
     return Contract.aggregate(filter);
 }

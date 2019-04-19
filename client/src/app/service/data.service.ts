@@ -30,16 +30,16 @@ export class DataService {
     return this.http.get(`${this.APIUrl}/data/get-contracts-by-directorate-visualizations/${name}/${year}`).map(res => res.json());
   }
 
-  getContractsByProcurementCategory(category) {
-    return this.http.get(`${this.APIUrl}/data/get-contracts-by-procurement-category/${category}`).map(res => res.json());
+  getContractsByProcurementCategory(category, year) {
+    return this.http.get(`${this.APIUrl}/data/get-contracts-by-procurement-category/${category}/${year}`).map(res => res.json());
   }
 
-  getContractsByProcurementType(type) {
-    return this.http.get(`${this.APIUrl}/data/get-contracts-by-procurement-type/${type}`).map(res => res.json());
+  getContractsByProcurementType(type, year) {
+    return this.http.get(`${this.APIUrl}/data/get-contracts-by-procurement-type/${type}/${year}`).map(res => res.json());
   }
 
-  getContractsByProcurementValue(value) {
-    return this.http.get(`${this.APIUrl}/data/get-contracts-by-procurement-value/${value}`).map(res => res.json());
+  getContractsByProcurementValue(value, year) {
+    return this.http.get(`${this.APIUrl}/data/get-contracts-by-procurement-value/${value}/${year}`).map(res => res.json());
   }
 
   getContractSigningDateAndPublicationDateForChart(year: any) {
